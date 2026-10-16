@@ -1,9 +1,6 @@
 name: cognition-task-source-gate
 
 on:
-  push:
-    branches:
-      - integration/cognition-task-source-gate-v1-20261016
   pull_request:
   workflow_dispatch:
 
@@ -29,6 +26,13 @@ jobs:
           ref: dec5c029e51c4fd436435cbda7e02e501822ee85
           path: vera-mono
           persist-credentials: false
+      - name: Checkout exact PORTAL advisory contracts
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: thebrazenbeard/portal
+          ref: 36fa04da4e5eb383fecf463c72a43b94ca47d7e5
+          path: portal
+          persist-credentials: false
       - name: Checkout exact Training peer contract
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -46,15 +50,17 @@ jobs:
         shell: bash
         run: |
           test "$(git -C vera-mono rev-parse HEAD)" = "dec5c029e51c4fd436435cbda7e02e501822ee85"
+          test "$(git -C portal rev-parse HEAD)" = "36fa04da4e5eb383fecf463c72a43b94ca47d7e5"
           test "$(git -C model-training rev-parse HEAD)" = "93e302c4efabec270a8baa53d4ab62d66a77b964"
           test "$(git -C model-training rev-parse HEAD:participating_cognition_v1.py)" = "dec14d11ef77930e3cc5f857a3242b651f920055"
-      - name: Real Training/Mono cognition task journal tests
+      - name: Full Integration source and task-journal tests
         working-directory: v-e-r-a
         env:
           VERA_MONO_SOURCE_ROOT: ${{ github.workspace }}/vera-mono
           VERA_TRAINING_SOURCE_ROOT: ${{ github.workspace }}/model-training
+          PORTAL_SOURCE_ROOT: ${{ github.workspace }}/portal
           PYTHONDONTWRITEBYTECODE: '1'
-        run: python -m unittest discover -s tests -p test_cognition_task_gate.py -v
+        run: python -m unittest discover -s tests -v
       - name: Compile Integration sources
         working-directory: v-e-r-a
         run: python -m compileall -q integration tests

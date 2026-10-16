@@ -239,3 +239,53 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         self.assertEqual(outcome["classification"], "IDENTITY_COLLISION")
         with self.assertRaisesRegex(ProvenanceBridgeError, "receiver"):
             self.evaluate()
+
+
+    def test_current_training_development_cut_cannot_admit_diagnostic_model(self):
+        from dataclasses import replace
+        from veraos_development_evidence_v1 import (
+            DevelopmentInventory, DevelopmentCut, evaluate_development_cut,
+            bind_participation_development_cut, DEV_OS_HEAD, DEV_MODEL,
+            DEV_OLLAMA_REPORTED_DIGEST, DEV_MODEL_BYTES,
+        )
+        inventory = DevelopmentInventory(
+            source_head=DEV_OS_HEAD, model=DEV_MODEL,
+            reported_ollama_digest=DEV_OLLAMA_REPORTED_DIGEST,
+            reported_ollama_size_bytes=DEV_MODEL_BYTES,
+            quantization="Q4_K_M",
+        )
+        common = dict(node_id="Lappy", generation=6,
+                      session="session:6", nonce="a"*32)
+        cut = DevelopmentCut(**{
+            **{prefix+"_"+key: value
+               for prefix in ("registry", "telemetry", "inventory", "artifact")
+               for key, value in common.items()},
+            "observed_at_epoch_s": 1800000000,
+            "cpu_threads": 8, "ram_available_mib": 8192,
+            "gpu_free_vram_mib": None, "artifact_bytes_sha256": None,
+            "descriptor_status": "PASS", "route": "DIAGNOSTIC_QEMU_ONLY",
+        })
+        opts = dict(expected_node_id="Lappy", expected_generation=6,
+                    expected_session="session:6", expected_nonce="a"*32,
+                    now_epoch_s=1800000001)
+        reviewed = evaluate_development_cut(cut, inventory, **opts)
+        self.assertEqual(reviewed.status, "DEVELOPMENT_METADATA_ONLY")
+        self.assertIn("DIAGNOSTIC_PASS_IS_SELF_DECLARED", reviewed.holds)
+        joined = bind_participation_development_cut(
+            self.episode, reviewed, expected_task_id=self.task_id,
+        )
+        self.assertEqual(joined["status"], "HELD_NORMAL_RESIDENT")
+        self.assertFalse(joined["model_identity_authenticated"])
+        self.assertFalse(joined["accepted_as_task_result"])
+        self.assertFalse(joined["effect_authority"])
+        source = self.evaluate(coverage={
+            "coverage_complete": True,
+            "coverage_status": "COMPLETE_SCANNED_WINDOW",
+        })
+        self.assertEqual(source["verdict"], "HOLD_UNATTESTED_SENDER_AND_PROVIDER")
+        self.assertFalse(source["normal_resident_route_admitted"])
+        conflicted = evaluate_development_cut(
+            replace(cut, telemetry_nonce="b"*32), inventory, **opts,
+        )
+        self.assertEqual(conflicted.status, "HELD_SOURCE_PROVENANCE")
+        self.assertIn("JOINT_SESSION_PROVENANCE_MISMATCH", conflicted.holds)

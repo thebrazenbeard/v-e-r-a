@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: thebrazenbeard/model-training
-          ref: e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8
+          ref: 1390fbebbc5d1685a80610796e7ad8c2b955dac1
           path: model-training
           persist-credentials: false
       - name: Checkout exact Intranel L1 receiver
@@ -58,10 +58,11 @@ jobs:
         run: |
           test "$(git -C vera-mono rev-parse HEAD)" = "dec5c029e51c4fd436435cbda7e02e501822ee85"
           test "$(git -C portal rev-parse HEAD)" = "36fa04da4e5eb383fecf463c72a43b94ca47d7e5"
-          test "$(git -C model-training rev-parse HEAD)" = "e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8"
+          test "$(git -C model-training rev-parse HEAD)" = "1390fbebbc5d1685a80610796e7ad8c2b955dac1"
           test "$(git -C intranel rev-parse HEAD)" = "fb314b5e30f1ae0279e61e2c821306c3e77199a4"
           test "$(git -C intranel rev-parse HEAD:src/intranel/four_role_receiver.py)" = "31e199c1f6e77d42dc0ad013ef00a8c7fa9556fc"
           test "$(git -C model-training rev-parse HEAD:participating_cognition_v1.py)" = "3adf446e166a6574a5f389c074f86ba10a4483d5"
+          test "$(git -C model-training rev-parse HEAD:veraos_development_evidence_v1.py)" = "3c8495f75e591b489bf6c8f54e85ecee34654c5f"
       - name: Full Integration source and task-journal tests
         working-directory: v-e-r-a
         env:

@@ -10,7 +10,7 @@ import json
 import re
 from typing import Any, Mapping
 
-TRAINING_HEAD = "e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8"
+TRAINING_HEAD = "1390fbebbc5d1685a80610796e7ad8c2b955dac1"
 TRAINING_SUBJECT = f"git:thebrazenbeard/model-training@{TRAINING_HEAD}"
 _SCHEMA = "VERA_COGNITION_TASK_SOURCE_BINDING_V1"
 _SHA = re.compile(r"^[0-9a-f]{64}$")

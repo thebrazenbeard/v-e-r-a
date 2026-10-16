@@ -1,0 +1,223 @@
+"""Real pinned source: receiver packet -> Vera Mono task -> VeraOS PR32 route intent.
+
+All tests are offline. No network, QEMU, model inference or route admission.
+"""
+from __future__ import annotations
+from copy import deepcopy
+import ast
+import gc
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+from tempfile import TemporaryDirectory
+import unittest
+
+from integration.cognition_task_gate import bind_episode
+from integration.veraos_evidence_bridge import (
+    evaluate_source_route_evidence, ProvenanceBridgeError,
+    VERAOS_HEAD, NATIVE_ROUTE_BLOB, GUEST_PROBE_BLOB,
+)
+
+ROOT = Path(__file__).resolve().parents[1]
+MONO = os.environ.get("VERA_MONO_SOURCE_ROOT")
+TRAINING = os.environ.get("VERA_TRAINING_SOURCE_ROOT")
+INTRANEL = os.environ.get("INTRANEL_SOURCE_ROOT")
+VERAOS = os.environ.get("VERAOS_SOURCE_ROOT")
+
+
+def git(root, *args):
+    return subprocess.run(
+        ["git", "-C", str(root), *args], capture_output=True, text=True,
+        timeout=15, check=True,
+    ).stdout.strip()
+
+
+@unittest.skipUnless(all((MONO, TRAINING, INTRANEL, VERAOS)),
+                     "Requires four exact independent source checkouts")
+class VeraOSProvenanceBridgeTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.mono, cls.training = Path(MONO), Path(TRAINING)
+        cls.intranel, cls.veraos = Path(INTRANEL), Path(VERAOS)
+        expected = (
+            (cls.mono, "dec5c029e51c4fd436435cbda7e02e501822ee85"),
+            (cls.training, "e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8"),
+            (cls.intranel, "6a66c2e813bcbefa6eff61f99777a8f6fc986ef3"),
+            (cls.veraos, VERAOS_HEAD),
+        )
+        for root, commit in expected:
+            if git(root, "rev-parse", "HEAD") != commit:
+                raise AssertionError("wrong exact dependency Git subject")
+        for file, blob in (
+            ("src/veraos/native_cognition.py", NATIVE_ROUTE_BLOB),
+            ("src/veraos/virtio_guest_probe.py", GUEST_PROBE_BLOB),
+        ):
+            if git(cls.veraos, "rev-parse", "HEAD:" + file) != blob:
+                raise AssertionError("VeraOS route source blob does not match pin")
+            if git(cls.veraos, "hash-object", str(cls.veraos / file)) != blob:
+                raise AssertionError("VeraOS route file changed on disk")
+        module = ast.parse((cls.veraos / "src/veraos/native_cognition.py").read_text("utf8"))
+        functions = {x.name for x in module.body if isinstance(x, (ast.FunctionDef, ast.AsyncFunctionDef))}
+        if not {"admit_local_text_route", "execute_text_request"} <= functions:
+            raise AssertionError("PR31 native route API contract changed")
+        guest = (cls.veraos / "src/veraos/virtio_guest_probe.py").read_text("utf8")
+        if "TEST-ONLY record" not in guest or '"/sbin/vera-init"' in guest:
+            raise AssertionError("diagnostic/native boundary source changed")
+        sys.path.insert(0, str(cls.intranel / "src"))
+        sys.path.insert(0, str(cls.intranel / "tests"))
+        sys.path.insert(0, str(cls.training))
+        sys.path.insert(0, str(cls.training / "tests"))
+        sys.path[:0] = [str(p) for p in (cls.mono / "packages").glob("*/src")]
+        from intranel.four_role_receiver import AtomicRoleReceiver
+        from intranel.coordination import wrap
+        from intranel.message import parse_message
+        from test_four_role_ledger import request, reply
+        from test_participating_cognition_v1 import compose
+        from vera_core.task_execution import TaskExecutionLedger, TaskPacket
+        cls.Receiver, cls.wrap, cls.parse = AtomicRoleReceiver, staticmethod(wrap), staticmethod(parse_message)
+        cls.request, cls.reply = staticmethod(request), staticmethod(reply)
+        cls.Ledger, cls.Packet, cls.compose = TaskExecutionLedger, TaskPacket, staticmethod(compose)
+
+    def setUp(self):
+        self.temp = TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.addCleanup(gc.collect)
+        self.task_id = "task:one"
+        self.ledger = self.Ledger(Path(self.temp.name) / "tasks.sqlite3")
+        packet_data = json.loads((ROOT / "integration" / "example_readonly_task_packet.json").read_text("utf8"))
+        task_packet = self.Packet(**{
+            k: tuple(v) if isinstance(v, list) else v for k, v in packet_data.items()
+        })
+        self.ledger.open_task(self.task_id, task_packet, lifecycle_evidence_digest="a" * 64)
+        self.episode = self.compose().as_dict()
+        self.binding = bind_episode(self.ledger, self.task_id, self.episode)
+        self.receiver = self.Receiver(Path(self.temp.name) / "receiver.sqlite3", expected_target="vera:portal")
+        req = self.request()
+        child = self.reply(req)
+        self.receiver.observe_outbound_request(req, "local:outbound")
+        self.receiver.receive(
+            self.wrap(self.parse(child)),
+            "github:thebrazenbeard/intranel#9/comment/81",
+            comment_id=81,
+        )
+        self.intent = {
+            "schema": "VERAOS_NATIVE_ROUTE_INTENT_SOURCE_V1",
+            "os_source": "git:thebrazenbeard/vera-os@" + VERAOS_HEAD,
+            "module": "veraos.native_cognition",
+            "admit_callable": "admit_local_text_route",
+            "execute_callable": "execute_text_request",
+            "provider_id": "dev:virtio-qwen4b",
+            "model": "qwen3:4b-instruct",
+            "port_name": "org.veraos.model.v1",
+            "route_class": "COGNITION_ONLY",
+        }
+        self.provider = {
+            "schema": "VERA_OS_COGNITION_PROVIDER_V1",
+            "provider_id": "dev:virtio-qwen4b",
+            "provider_kind": "LOCAL_MODEL",
+            "capabilities": ["text"],
+            "transport": {"kind": "OPENAI_COMPATIBLE_HTTP",
+                          "attachment": "http://127.0.0.1:18766/v1"},
+            "qualification": {
+                "status": "PASS", "issuer": "thebrazenbeard/vera-os",
+                "subject_sha256": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0",
+                "suite_sha256": "0" * 64,
+            },
+            "authority": {
+                "identity_authority": False, "canonical_memory_write_authority": False,
+                "protected_effect_authority": False, "browser_authority": False,
+            },
+            "admission": {
+                "status": "VERAOS_ROUTE_ELIGIBLE", "route_class": "COGNITION_ONLY",
+                "selector_owner": "thebrazenbeard/portal",
+            },
+        }
+        self.coverage = {
+            "coverage_complete": False,
+            "coverage_status": "HOLD_PRECEDING_PAGES_UNVERIFIED",
+        }
+
+    def evaluate(self, **changes):
+        args = dict(
+            receiver=self.receiver, task_ledger=self.ledger, task_id=self.task_id,
+            episode=self.episode, binding=self.binding, comment_id=81,
+            message_id="reply-1", coverage=self.coverage,
+            provider=self.provider, route_intent=self.intent,
+        )
+        args.update(changes)
+        return evaluate_source_route_evidence(**args)
+
+    def test_real_local_packet_and_task_produce_only_explicit_hold(self):
+        result = self.evaluate()
+        self.assertEqual(result["schema"], "VERAOS_SOURCE_PROVENANCE_BRIDGE_V1")
+        self.assertEqual(result["verdict"], "HOLD_INCOMPLETE_COMMENT_COVERAGE")
+        self.assertEqual(result["message"]["comment_id"], 81)
+        self.assertEqual(result["message"]["local_pair_verified"], True)
+        self.assertEqual(result["task"]["task_journal_head"], self.binding["task_journal_head"])
+        self.assertEqual(result["native_route"]["module"], "veraos.native_cognition")
+        for field in ("origin_authenticated", "provider_authenticated", "normal_resident_route_admitted",
+                      "accepted_as_task_result", "executed", "protected_effect_authority"):
+            self.assertIs(result[field], False)
+
+    def test_forged_sender_attestation_is_rejected_not_promoted(self):
+        class ForgedReceiver:
+            def __init__(self, real):
+                self.real = real
+            def read_comment_packet_evidence(self, comment_id, message_id):
+                row = self.real.read_comment_packet_evidence(comment_id, message_id)
+                return {**row, "origin_authenticated": True}
+        with self.assertRaisesRegex(ProvenanceBridgeError, "sender"):
+            self.evaluate(receiver=ForgedReceiver(self.receiver))
+
+    def test_unknown_comment_and_partial_coverage_cannot_claim_delivery(self):
+        with self.assertRaises(ProvenanceBridgeError):
+            self.evaluate(comment_id=999)
+        completed = {"coverage_complete": True, "coverage_status": "COMPLETE_SCANNED_WINDOW"}
+        result = self.evaluate(coverage=completed)
+        self.assertEqual(result["verdict"], "HOLD_UNATTESTED_SENDER_AND_PROVIDER")
+        self.assertFalse(result["normal_resident_route_admitted"])
+        self.assertFalse(result["origin_authenticated"])
+
+    def test_stale_task_journal_head_must_fail(self):
+        self.ledger.bind_dependency(self.task_id, "dependency:changed",
+                                    kind="COORDINATION_COMMAND", target_id="command:changed")
+        with self.assertRaisesRegex(ProvenanceBridgeError, "task"):
+            self.evaluate()
+
+    def test_mid_binding_task_journal_advance_must_fail(self):
+        class RacingLedger:
+            def __init__(self, real):
+                self.real = real
+                self.changed = False
+            def verify_chain(self):
+                return self.real.verify_chain()
+            def read(self, task_id):
+                state = self.real.read(task_id)
+                if not self.changed:
+                    self.real.bind_dependency(task_id, "dependency:raced",
+                                              kind="COORDINATION_COMMAND", target_id="command:raced")
+                    self.changed = True
+                return state
+        racing = RacingLedger(self.ledger)
+        with self.assertRaisesRegex(ProvenanceBridgeError, "task"):
+            self.evaluate(task_ledger=racing)
+        self.assertTrue(racing.changed)
+
+    def test_diagnostic_provider_pass_is_not_normal_resident_admission(self):
+        result = self.evaluate(coverage={
+            "coverage_complete": True, "coverage_status": "COMPLETE_SCANNED_WINDOW"})
+        self.assertEqual(result["provider"]["claimed_qualification"], "PASS")
+        self.assertEqual(result["provider"]["qualification_provenance"], "TEST_ONLY_SELF_DECLARED")
+        self.assertEqual(result["native_route"]["execute_callable"], "execute_text_request")
+        self.assertFalse(result["provider_authenticated"])
+        self.assertFalse(result["normal_resident_route_admitted"])
+        corrupted = deepcopy(self.provider)
+        corrupted["authority"]["protected_effect_authority"] = True
+        with self.assertRaisesRegex(ProvenanceBridgeError, "provider"):
+            self.evaluate(provider=corrupted)
+        wrong = deepcopy(self.intent)
+        wrong["module"] = "veraos.resident"
+        with self.assertRaisesRegex(ProvenanceBridgeError, "native route"):
+            self.evaluate(route_intent=wrong)

@@ -118,6 +118,41 @@ class SafeComponentExportTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "root automation configuration"):
                 v.assert_no_new_root_automation(repo, baseline, "HEAD")
 
+
+    def test_unknown_root_ci_family_is_rejected(self):
+        import subprocess
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            def g(*args):
+                return subprocess.run(["git", "-C", str(repo), *args],
+                                      capture_output=True, text=True, check=True).stdout.strip()
+            g("init", "-q")
+            (repo / "README.md").write_text("fixture\n", encoding="utf8")
+            g("add", ".")
+            g("-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+              "commit", "-qm", "baseline")
+            baseline = g("rev-parse", "HEAD")
+            nested = repo / "components" / "Attune" / ".buildkite"
+            nested.mkdir(parents=True)
+            (nested / "pipeline.yml").write_text("steps: []\n", encoding="utf8")
+            g("add", ".")
+            g("-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+              "commit", "-qm", "nested preview")
+            self.assertEqual(v.changed_root_automation(repo, baseline, "HEAD"), [])
+            (repo / ".drone.yml").write_text("kind: pipeline\n", encoding="utf8")
+            active = repo / ".buildkite"
+            active.mkdir()
+            (active / "pipeline.yml").write_text("steps: []\n", encoding="utf8")
+            g("add", ".")
+            g("-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+              "commit", "-qm", "unexpected root ci")
+            changed = v.changed_root_automation(repo, baseline, "HEAD")
+            self.assertIn(".drone.yml", changed)
+            self.assertIn(".buildkite/pipeline.yml", changed)
+            with self.assertRaisesRegex(ValueError, "root automation configuration"):
+                v.assert_no_new_root_automation(repo, baseline, "HEAD")
+
     def test_manifest_base_pin_cannot_hide_root_config_change(self):
         commit = os.environ.get("VERA_SAFE_EXPORT_TEST_COMMIT")
         repo = os.environ.get("VERA_SAFE_EXPORT_TEST_REPO")

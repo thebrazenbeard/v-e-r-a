@@ -55,19 +55,19 @@ def tree_entries(repo: Path, subject: str) -> dict[str, tuple[str, str]]:
         rows[path.decode("utf8")] = (mode, oid)
     return rows
 
-ROOT_AUTOMATION_DIRS = (".github/", ".vscode/", ".husky/", ".devcontainer/", ".circleci/")
-ROOT_AUTOMATION_FILES = {
-    ".gitattributes", ".gitmodules", ".gitlab-ci.yml", ".pre-commit-config.yaml",
-    ".travis.yml", "azure-pipelines.yml", "jenkinsfile", "package.json",
-    "dockerfile", "makefile", "renovate.json",
-}
+# PR-specific allowlist of reviewed source-preview paths. Unknown root paths
+# fail closed even when the CI provider is not in a finite name enumeration.
+# This is a root *path* gate, not a code-safety or side-effect proof.
+REVIEWED_ROOT_FILES = {".gitignore", "README.md", "components.json",
+                       "component-exports.json"}
+REVIEWED_SOURCE_DIRS = ("components/", "docs/", "scripts/", "tests/")
 
 def is_root_automation_config(path: str) -> bool:
-    # Component-internal metadata is reviewable source, not root GitHub configuration.
-    lower = path.replace("\\", "/").casefold()
-    return lower in ROOT_AUTOMATION_FILES or any(
-        lower.startswith(prefix) for prefix in ROOT_AUTOMATION_DIRS
-    )
+    # Preserve exact casing; nested component metadata is source, not root config.
+    # Explicitly review any newly introduced root path before allowing it.
+    normalized = path.replace("\\", "/")
+    return (normalized not in REVIEWED_ROOT_FILES
+            and not any(normalized.startswith(prefix) for prefix in REVIEWED_SOURCE_DIRS))
 
 def changed_root_automation(repo: Path, baseline: str, candidate: str) -> list[str]:
     if not isinstance(baseline, str) or SHA.fullmatch(baseline) is None:

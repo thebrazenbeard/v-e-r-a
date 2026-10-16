@@ -4,7 +4,7 @@
 **Integration owner:** this branch; **Training reviewer:** model-training PR #104.
 **Base:** V-E-R-A Integration draft PR #3 at db6c1fee06bf011f66b5ba9b490fc2f9e42cbdfb;
 stacked on PORTAL runtime PR #1 at 7a9ebf5724dff962f5ffbd994678370c00592835.
-**Training subject:** model-training@9c976fcb1b522b0f1c7fd31db6f5552b16b9ef89.
+**Training subject:** model-training@a271bf25bdbcd3731ac17588ef475ba1bf74f96f.
 **Vera Mono source:** PR #76 at dec5c029e51c4fd436435cbda7e02e501822ee85.
 
 ## Executable, limited behavior

@@ -1,0 +1,13 @@
+{
+  "purpose": "Verify that Vera Mono and PORTAL agree on a safe repository-read advisory route",
+  "subject": "thebrazenbeard/portal@main",
+  "completion_state": "An operator separately verifies currentness and records an authorized execution receipt",
+  "evidence_requirements": ["task packet digest", "route evidence"],
+  "writable_scope": [],
+  "non_targets": ["no external execution", "no repository writes"],
+  "forbidden_shortcuts_or_effects": ["no protected effects", "no self-assigned authority"],
+  "priority_order": ["correctness", "recoverability"],
+  "unknowns": ["live route currentness has not been independently attested"],
+  "return_shape": ["advisory route proposal or held status"],
+  "relevant_surfaces": ["current route", "workspace/coordination"]
+}

@@ -51,6 +51,15 @@ def source_check(root: Path, expected: str, label: str) -> None:
         raise RuntimeError(f"{label} is not at the exact source-bound head")
     if _git(root, "status", "--porcelain", "--untracked-files=no"):
         raise RuntimeError(f"{label} has tracked modifications")
+    # Git HEAD does not cover untracked files or ignored Python import shadows.
+    # The exact source root must not admit extra executable packages, including
+    # ignored ones, from any directory later added to sys.path.
+    import_scopes = {"Vera Mono": ("packages",), "PORTAL": ("portal",)}
+    if label not in import_scopes:
+        raise RuntimeError("unrecognized component import scope")
+    if _git(root, "status", "--porcelain", "--untracked-files=all",
+            "--ignored=matching", "--", *import_scopes[label]):
+        raise RuntimeError(f"{label} import roots contain untracked or ignored files")
 
 
 def components(mono: Path, portal: Path) -> tuple[Any, ...]:

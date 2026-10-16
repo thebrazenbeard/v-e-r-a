@@ -1,4 +1,4 @@
-﻿# PR #1 independent cross-repository CLI qualification
+# PR #1 independent cross-repository CLI qualification
 
 Review role: **Integration**, under PORTAL build-lead ownership. This branch adds
 regression tests to `v-e-r-a` PR #1, not a competing execution system.
@@ -74,3 +74,29 @@ deployment, autonomous ongoing runtime and protected effects.
 PORTAL owns PR #1 and any source integration. This subordinate review PR
 is offered for cherry-pick/acceptance; it must not be merged independently
 without lead review.
+
+## Training cross-lane objection: clean tracked HEAD can still execute unpinned code
+
+Training independently reproduced that `source_check` ignored untracked
+files while the CLI subsequently inserted `packages/*/src` into
+`sys.path`. An untracked `vera_core` package from a lexically later
+directory can shadow the pinned source, even when HEAD and tracked status
+are clean. An ignored package can do the same.
+
+The Integration review branch now adds
+`tests/test_source_binding_integrity.py`: a clean control, an untracked
+shadow, and an ignored shadow. Both hostile cases FAILED against the
+original PR #1 `source_check`, then PASSED after the candidate patch.
+
+The narrow patch rejects any untracked or Git-ignored content under the
+actual import scopes (`Vera Mono: packages/`; `PORTAL: portal/`), in
+addition to its existing exact HEAD and tracked-clean checks. This
+provides deterministic fail-closed protection for those roots without
+assuming that a git clean-tracked tree is a fully sterile import path.
+It does not authenticate external dependencies, Python site-packages,
+symlinks/junctions, native extensions or arbitrary process import hooks;
+a fully isolated installed artifact and module-origin verification
+remain future production admission gates.
+
+PORTAL leads acceptance, review and adoption of this candidate repair;
+the independent Integration branch changes no PORTAL-owned PR #1 head.

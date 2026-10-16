@@ -1,0 +1,28 @@
+{
+  "adapter_id":"massive-v1-intent-ordered-slot-types-to-utterance-v1",
+  "checked_out_sha":"65e46eda379d7470acfe755aff79dbdd5431c382",
+  "construction_gate":{"min_positive_per_source":1,"min_sources":2},
+  "github_event_name":"pull_request",
+  "github_ref":"refs/pull/20/merge",
+  "holdout_selection":{"algorithm":"lowest SHA256(locale + ':' + id)","records_per_locale":200},
+  "lineage":{
+    "multilingual_qualification_pr19_head":"cc72e50dced024a33731a690ca1225e6d9a5fe76",
+    "target_construction_pr18_head":"3a378d02e534d739bfeb3be64fed76dd4976b1b0",
+    "target_grounding_pr17_head":"897362fea8c8ccf6483e8594f581019e4b47a90d"
+  },
+  "pr_head_sha":"b938d13c7293f72c6b769b95934b124d9c2901aa",
+  "qualification_thresholds":{
+    "frozen_before_execution":true,
+    "interpretation":"Exploratory preregistered gate for the first MASSIVE 1.0 target-construction run. These values are not universal or project-canonical scientific thresholds.",
+    "max_ambiguity_rate":0.25,
+    "min_corpora":1,
+    "min_coverage":0.1,
+    "min_exact_match":0.05,
+    "min_languages":5,
+    "min_records_per_slice":200,
+    "min_token_similarity":0.1,
+    "name":"FIRST_REAL_CORPUS_EXPLORATORY_GATE_V1",
+    "regime":"HELD_OUT_CONTENT"
+  },
+  "run_id":"MASSIVE_V1_FIRST_REAL_CORPUS_20260922"
+}

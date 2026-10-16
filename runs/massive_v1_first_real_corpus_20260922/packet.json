@@ -1,0 +1,60 @@
+{
+  "schema": "UNVTRSLR_REAL_CORPUS_RUN_PACKET_V1",
+  "run_id": "MASSIVE_V1_FIRST_REAL_CORPUS_20260922",
+  "status_before_execution": "PREREGISTERED_NOT_YET_EXECUTED",
+  "dataset": {
+    "name": "MASSIVE",
+    "version": "1.0",
+    "canonical_repository": "alexa/massive",
+    "canonical_url": "https://amazon-massive-nlu-dataset.s3.amazonaws.com/amazon-massive-dataset-1.0.tar.gz",
+    "license": "CC-BY-4.0",
+    "expected_locale_count": 51,
+    "expected_train_records_per_locale": 11514,
+    "expected_dev_records_per_locale": 2033,
+    "expected_test_records_per_locale": 2974,
+    "dataset_sha256": "COMPUTE_FROM_DOWNLOADED_BYTES_AT_RUN_TIME"
+  },
+  "unvtrslr_lineage": {
+    "target_grounding_pr17_head": "897362fea8c8ccf6483e8594f581019e4b47a90d",
+    "target_construction_pr18_head": "3a378d02e534d739bfeb3be64fed76dd4976b1b0",
+    "multilingual_qualification_pr19_head": "cc72e50dced024a33731a690ca1225e6d9a5fe76",
+    "run_packet_base_head": "cc72e50dced024a33731a690ca1225e6d9a5fe76",
+    "executed_commit": "CAPTURE_GITHUB_SHA_AT_RUN_TIME"
+  },
+  "locales": ["en-US", "fr-FR", "de-DE", "sw-KE", "tr-TR"],
+  "training": {
+    "partition": "train",
+    "records": "all records in selected locale train partitions",
+    "source_identity": "locale-scoped worker_id",
+    "semantic_adapter": "intent label followed by ordered slot-type labels extracted from annot_utt",
+    "target_adapter": "Unicode NFC then whitespace tokenization of utt",
+    "construction_min_sources": 2,
+    "construction_min_positive_per_source": 1
+  },
+  "holdout": {
+    "partition": "test",
+    "selection": "lowest 200 SHA256(locale + ':' + id) values per locale",
+    "records_per_locale": 200,
+    "regime": "HELD_OUT_CONTENT"
+  },
+  "qualification_gate": {
+    "name": "FIRST_REAL_CORPUS_EXPLORATORY_GATE_V1",
+    "preregistered": true,
+    "min_corpora": 1,
+    "min_languages": 5,
+    "min_records_per_slice": 200,
+    "min_coverage": 0.10,
+    "min_exact_match": 0.05,
+    "min_token_similarity": 0.10,
+    "max_ambiguity_rate": 0.25
+  },
+  "claim_ceiling": "MASSIVE_V1_TARGET_CONSTRUCTION_GENERALIZATION_WITHIN_DECLARED_OPERATIONAL_ADAPTER",
+  "explicit_nonclaims": [
+    "not universal semantics",
+    "not unseen-language speech translation",
+    "not human-level translation quality",
+    "not grammar induction",
+    "not evidence independent of evaluator-authored MASSIVE intent/slot labels",
+    "not a production-readiness result"
+  ]
+}

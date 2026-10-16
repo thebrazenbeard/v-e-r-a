@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unvtrslr"
+version = "0.1.0"
+description = "Reference implementation for measurable cross-system acoustic fingerprints"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=2.0",
+  "scipy>=1.14",
+]
+
+[project.scripts]
+unvtrslr-fingerprint = "unvtrslr.cli:main"
+unvtrslr-register-units = "unvtrslr.registry_cli:main"
+unvtrslr-unit-model = "unvtrslr.unit_model_cli:main"
+unvtrslr-translate = "unvtrslr.translator_cli:main"
+unvtrslr-qualify-calibration = "unvtrslr.calibration_qualification_cli:main"
+unvtrslr-order = "unvtrslr.ordered_relations_cli:main"
+unvtrslr-target = "unvtrslr.target_grounding_cli:main"
+unvtrslr-construct = "unvtrslr.target_constructions_cli:main"
+unvtrslr-qualify-multilingual = "unvtrslr.multilingual_qualification_cli:main"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

@@ -1,0 +1,13 @@
+{
+  "construction_stats.json":{"bytes":3005,"sha256":"abf63726761e177325c1bca84d33bbc59d499f825c4646df33c2ef5a0c25cbc1"},
+  "dataset_counts.json":{"bytes":363,"sha256":"dfd3b03dd0ef6b3baf20a4a5c0405ee69ae5d3075c10091e967b660f9626c5c4"},
+  "dataset_provenance.json":{"bytes":422,"sha256":"ca9110dd28e10ca8992cbe22c8a55f4cae3b9e737c2a8d7fe98fa4df85ebb058"},
+  "environment.txt":{"bytes":175,"sha256":"08d67525eacc28f14d4adfa48ef03c849cdd9293a3b4bbca60c5728efc39692f"},
+  "holdout_predictions.jsonl":{"bytes":335066,"sha256":"9028e4735c93424eca1528fe42c82276d2f5c941b575ac38528103dd245766b4"},
+  "holdout_predictions.jsonl.gz":{"bytes":35574,"sha256":"23647b9dc44962bdba21001c5ee5006619b71986d62280d6c058bfe54c6f111f"},
+  "model_manifest.json":{"bytes":1336,"sha256":"f3c98d2892d322e3eb3a09b3ca55cba820ad3811275a128e49836e982ffa4312"},
+  "multilingual_report.json":{"bytes":2395,"sha256":"4b89f8326459c16f281e0a4e1b42d9d19bef91a635f0ca01fb1d09ebe3b2fb63"},
+  "run_receipt.json":{"bytes":717,"sha256":"94852cf3a38bd6ac1a4cecd3b6003bb627373c4f47d5aefa03171256b9d88149"},
+  "training_exposure.jsonl":{"bytes":8667346,"sha256":"6229733a9fe2cf65eac6d099bc6e07b2b74bfd7a2711608777d2d6673ef6d241"},
+  "training_exposure.jsonl.gz":{"bytes":388382,"sha256":"b6b5213f45ac47945e0537e49127f948cad8ddad54199701fd7f5b942537e3e4"}
+}

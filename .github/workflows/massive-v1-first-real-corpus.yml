@@ -1,0 +1,76 @@
+name: MASSIVE v1 first real-corpus run
+
+on:
+  pull_request:
+    branches:
+      - work/multilingual-heldout-qualification-v1-20260922
+    paths:
+      - "runs/massive_v1_first_real_corpus_20260922/**"
+      - ".github/workflows/massive-v1-first-real-corpus.yml"
+      - "src/unvtrslr/**"
+      - "pyproject.toml"
+
+permissions:
+  contents: read
+
+jobs:
+  massive-v1-first-real-corpus:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out exact pull-request commit
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install exact checkout
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .
+          python -m pip freeze > runs/massive_v1_first_real_corpus_20260922/pip-freeze.txt
+
+      - name: Download canonical MASSIVE 1.0 bytes
+        run: |
+          mkdir -p .run-data
+          curl --fail --location --retry 4 --retry-all-errors \
+            "https://amazon-massive-nlu-dataset.s3.amazonaws.com/amazon-massive-dataset-1.0.tar.gz" \
+            --output .run-data/amazon-massive-dataset-1.0.tar.gz
+          sha256sum .run-data/amazon-massive-dataset-1.0.tar.gz
+
+      - name: Execute preregistered real-corpus packet
+        env:
+          PYTHONPATH: src
+          UNVTRSLR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          rm -rf runs/massive_v1_first_real_corpus_20260922/generated
+          python runs/massive_v1_first_real_corpus_20260922/run.py \
+            --dataset-tar .run-data/amazon-massive-dataset-1.0.tar.gz \
+            --thresholds runs/massive_v1_first_real_corpus_20260922/thresholds.json \
+            --out runs/massive_v1_first_real_corpus_20260922/generated
+          cp runs/massive_v1_first_real_corpus_20260922/pip-freeze.txt \
+            runs/massive_v1_first_real_corpus_20260922/generated/pip-freeze.txt
+
+      - name: Display resulting report
+        if: always()
+        run: |
+          if [ -f runs/massive_v1_first_real_corpus_20260922/generated/multilingual_report.json ]; then
+            cat runs/massive_v1_first_real_corpus_20260922/generated/multilingual_report.json
+          fi
+
+      - name: Upload immutable run outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: massive-v1-first-real-corpus-${{ github.event.pull_request.head.sha }}
+          path: |
+            runs/massive_v1_first_real_corpus_20260922/packet.json
+            runs/massive_v1_first_real_corpus_20260922/thresholds.json
+            runs/massive_v1_first_real_corpus_20260922/README.md
+            runs/massive_v1_first_real_corpus_20260922/run.py
+            runs/massive_v1_first_real_corpus_20260922/generated/
+          if-no-files-found: warn
+          retention-days: 30

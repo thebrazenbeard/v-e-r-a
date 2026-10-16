@@ -1,0 +1,9 @@
+{
+  "canonical_url":"https://amazon-massive-nlu-dataset.s3.amazonaws.com/amazon-massive-dataset-1.0.tar.gz",
+  "dataset_bytes":39500415,
+  "dataset_name":"MASSIVE",
+  "dataset_sha256":"7df623fd2d300a4d235d6ee5bd396c9a28258d3a0ccb29abdb054506eba153f8",
+  "dataset_version":"1.0",
+  "locales":["en-US","fr-FR","de-DE","sw-KE","tr-TR"],
+  "run_id":"MASSIVE_V1_FIRST_REAL_CORPUS_20260922"
+}

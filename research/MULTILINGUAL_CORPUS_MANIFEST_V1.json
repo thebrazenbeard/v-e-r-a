@@ -1,0 +1,106 @@
+{
+  "schema": "UNVTRSLR_MULTILINGUAL_CORPUS_MANIFEST_V1",
+  "verified_on": "2026-09-22",
+  "claim_ceiling": "CORPUS_SELECTION_AND_QUALIFICATION_PLAN_ONLY",
+  "corpora": [
+    {
+      "corpus_id": "fleurs",
+      "recommended_version": "published FLEURS benchmark",
+      "role": [
+        "PARALLEL_MULTILINGUAL_SPEECH",
+        "HELD_OUT_LANGUAGE",
+        "PARALLEL_LANGUAGE_TRANSFER",
+        "SPEECH_RETRIEVAL_AND_TRANSLATION_STRESS"
+      ],
+      "coverage_note": "102 languages; n-way parallel speech; approximately 12 hours per language.",
+      "strength": "Controls semantic content while language changes, making it unusually useful for language-transfer tests.",
+      "limitation": "Benchmark speech does not by itself establish arbitrary real-world interaction grounding.",
+      "source": "https://arxiv.org/abs/2205.12446"
+    },
+    {
+      "corpus_id": "covost2",
+      "recommended_version": "CoVoST 2",
+      "role": [
+        "SPEECH_TO_TEXT_TRANSLATION",
+        "HELD_OUT_LANGUAGE",
+        "HELD_OUT_SOURCE",
+        "TARGET_SEQUENCE_QUALIFICATION"
+      ],
+      "coverage_note": "Speech translations from 21 languages into English and from English into 15 languages.",
+      "strength": "Direct speech-translation benchmark with multilingual source audio and target text.",
+      "limitation": "Language coverage is much narrower than modern speech collections.",
+      "source": "https://arxiv.org/abs/2007.10310"
+    },
+    {
+      "corpus_id": "massive",
+      "recommended_version": "MASSIVE public release",
+      "role": [
+        "PARALLEL_LABELED_SEMANTICS",
+        "HELD_OUT_LANGUAGE",
+        "HELD_OUT_CONTENT",
+        "TARGET_CONSTRUCTION_QUALIFICATION"
+      ],
+      "coverage_note": "Approximately 1M examples across 51 languages, 18 domains, 60 intents, and 55 slots.",
+      "strength": "Parallel multilingual utterances plus intent/slot labels provide an operational semantic control surface.",
+      "limitation": "Virtual-assistant intent/slot semantics are evaluator-authored task labels, not universal ontology evidence.",
+      "source": "https://arxiv.org/abs/2204.08582"
+    },
+    {
+      "corpus_id": "flores200",
+      "recommended_version": "FLORES-200 / maintained successor where license and provenance are recorded",
+      "role": [
+        "PARALLEL_MULTILINGUAL_TEXT",
+        "HELD_OUT_LANGUAGE",
+        "PARALLEL_LANGUAGE_TRANSFER",
+        "TARGET_SEQUENCE_QUALIFICATION"
+      ],
+      "coverage_note": "FLORES-200 contains 3001 sentences drawn from 842 web articles with dev, devtest, and hidden test splits.",
+      "strength": "Broad parallel text coverage for controlled cross-language transfer.",
+      "limitation": "The original repository is archived, and later research has reported quality/domain/cultural-bias weaknesses; results must not stand alone.",
+      "source": "https://github.com/facebookresearch/flores/blob/main/flores200/README.md"
+    },
+    {
+      "corpus_id": "common_voice_scripted_27",
+      "recommended_version": "Common Voice Scripted Speech 27.0",
+      "role": [
+        "SPEAKER_VARIATION",
+        "CHANNEL_VARIATION",
+        "HELD_OUT_SOURCE",
+        "ACOUSTIC_STRESS_ONLY"
+      ],
+      "coverage_note": "Released 2026-09-18 with 295 languages, 32,349,999 clips, and approximately 42,593 hours.",
+      "strength": "Very broad current multilingual speaker/channel stress corpus.",
+      "limitation": "It is not a parallel translation benchmark and cannot independently establish semantic translation accuracy.",
+      "source": "https://discourse.mozilla.org/t/common-voice-scripted-speech-v27-0-and-spontaneous-speech-v5-0-released/149490"
+    },
+    {
+      "corpus_id": "nllb_multidomain",
+      "recommended_version": "NLLB Multi Domain",
+      "role": [
+        "DOMAIN_SHIFT",
+        "HELD_OUT_CONTENT",
+        "CROSS_DOMAIN_TRANSLATION"
+      ],
+      "coverage_note": "Professionally translated News, Unscripted informal speech, and Health domains; approximately 3000 sentences per domain for six listed languages.",
+      "strength": "Provides a deliberate domain-shift stress test rather than another IID split.",
+      "limitation": "Small language set; should complement, not replace, broader multilingual evaluation.",
+      "source": "https://github.com/facebookresearch/flores/blob/main/nllb_md/README.md"
+    }
+  ],
+  "minimum_program": {
+    "text_semantic_control": [
+      "massive",
+      "flores200"
+    ],
+    "speech_translation": [
+      "fleurs",
+      "covost2"
+    ],
+    "speaker_channel_stress": [
+      "common_voice_scripted_27"
+    ],
+    "domain_shift": [
+      "nllb_multidomain"
+    ]
+  }
+}

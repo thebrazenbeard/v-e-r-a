@@ -1,0 +1,207 @@
+schema_version: UNVTRSLR_R1R2_EVALUATION_CONTRACT_V1
+status: SPECIFIED_NOT_IMPLEMENTED
+
+scope:
+  r1: minimal_semantic_substrate_competition
+  r2: adversarial_semantic_grounding_evaluator
+
+substrates:
+  - id: TPH
+    name: Typed Probabilistic Hypergraph
+    commitment: explicit_structured_relational_hypotheses
+    ontology_prior: high_relative_to_rivals
+    native_grounding: evidence_linked_claims
+  - id: DCA
+    name: Denotational Constraint Algebra
+    commitment: executable_constraints_over_compatible_situations_or_trajectories
+    ontology_prior: medium_relative_to_rivals
+    native_grounding: extensional_denotation_under_context_and_intervention
+  - id: PIS
+    name: Predictive-Intervention State
+    commitment: action_conditioned_predictions_and_signal_induced_predictive_change
+    ontology_prior: low_relative_to_rivals
+    native_grounding: observable_predictive_and_interventional_consequences
+
+common_candidate_contract:
+  required:
+    - ingest_observation_by_opaque_reference
+    - update_semantic_state
+    - preserve_competing_interpretations
+    - explicit_uncertainty
+    - explicit_provenance
+    - condition_on_candidate_signal
+    - predict_under_action_or_intervention
+    - scoped_equivalence_or_non_equivalence
+    - expose_support_and_contradiction
+    - evaluator_query_adapter_without_truth_labels
+    - conservation_ledger_support
+    - UNKNOWN_outcome
+    - NO_FAITHFUL_EQUIVALENT_outcome
+  prohibited_inputs:
+    - evaluator_variable_names
+    - evaluator_semantic_labels
+    - hidden_shared_object_ids
+    - shared_latent_vectors
+    - synchronized_episode_identity_side_channels
+    - other_agent_internal_state
+    - hidden_holdout_configuration
+
+complexity_accounting:
+  required_fields:
+    - serialized_representation_bytes
+    - fixed_primitive_count
+    - learned_primitive_count
+    - candidate_specific_trainable_parameters
+    - peak_memory_bytes
+    - compute_per_interaction
+    - interactions_to_qualification
+    - adapter_complexity
+    - human_authored_ontology_bytes
+
+trust_zones:
+  E0:
+    name: evaluator_hidden_truth
+    learner_access: forbidden
+  E1:
+    name: sensor_renderers
+    evaluator_ids_stripped: true
+  E2:
+    name: learner_interaction
+    evaluator_truth: forbidden
+  E3:
+    name: blind_semantic_adjudication
+    candidate_training_access: forbidden
+
+harness_sequence:
+  - deterministic_generator_and_replay
+  - positive_oracle_controls
+  - required_negative_controls
+  - control_acceptance_matrix_check
+  - candidate_independent_threshold_calibration
+  - freeze_qualification_profile
+  - candidate_hidden_evaluation
+
+critical_tests:
+  E01: communication_necessity
+  E02: causal_listening
+  E03: world_factor_sensitivity
+  E04: nuisance_invariance
+  E05: novel_instance_grounding
+  E06: compositional_recombination
+  E07: role_reversal
+  E08: cross_task_transfer
+  E09: partner_swap_and_third_party_acquisition
+  E10: sensor_or_representation_shift
+  E11: counterfactual_and_absent_referent
+  E12: ontology_mismatch_and_non_equivalence
+  E13: independent_semantic_reconstruction
+  E14: provenance_and_conservation_audit
+  E15: automated_shortcut_search
+
+negative_controls:
+  - N00_random_communicator
+  - N01_silent_competent_receiver
+  - N02_correlated_noncausal_signaler
+  - N03_episode_id_code
+  - N04_shared_latent_leak
+  - N05_lookup_memorizer
+  - N06_private_pair_codebook
+  - N07_action_plan_code
+  - N08_receiver_policy_index
+  - N09_reward_side_channel
+  - N10_serialization_artifact_code
+  - N11_coordinate_frame_shortcut
+  - N12_message_length_or_timing_leak
+  - N13_forced_translator
+  - N14_english_concept_probe_leak
+  - N15_shared_pretrained_ontology
+  - N16_context_shuffler
+  - N17_correlation_as_causation
+  - N18_overfit_denotation_table
+  - N19_opaque_predictive_task_specialist
+  - N20_sender_only_labeler
+  - N21_receiver_hallucinated_semantics
+  - N22_identity_specific_convention
+  - N23_evaluation_language_mimic
+  - N24_conservation_liar
+
+positive_controls:
+  - P00_evaluator_oracle
+  - P01_grounded_arbitrary_convention_oracle
+  - P02_partial_equivalence_oracle
+  - P03_calibrated_uncertain_oracle
+
+operational_grounding_vector:
+  - COMMUNICATION_CAUSALITY
+  - WORLD_GROUNDING
+  - NUISANCE_INVARIANCE
+  - NOVEL_INSTANCE_GENERALIZATION
+  - COMPOSITION
+  - ROLE_SYMMETRY
+  - CROSS_TASK_TRANSFER
+  - PARTNER_TRANSFER
+  - SENSOR_SHIFT_TRANSFER
+  - COUNTERFACTUAL_VALIDITY
+  - NON_EQUIVALENCE_CALIBRATION
+  - UNCERTAINTY_CALIBRATION
+  - PROVENANCE_INTEGRITY
+  - SEMANTIC_CONSERVATION
+  - SHORTCUT_RESISTANCE
+
+threshold_policy:
+  candidate_hidden_results_may_set_thresholds: false
+  calibration_sources:
+    - chance_or_null_controls
+    - positive_oracles
+    - negative_controls
+    - harness_only_pilot_worlds
+  freeze_before_candidate_hidden_evaluation: true
+  normalized_metric: "(candidate - null) / (oracle - null), direction-adjusted for losses"
+  each_critical_metric_requires:
+    - preregistered_minimum_oracle_headroom
+    - preregistered_margin_over_strongest_applicable_negative_control
+    - preregistered_confidence_interval_method
+    - preregistered_minimum_episode_count
+  aggregate_score_can_override_critical_failure: false
+
+certificate:
+  schema_version: OPERATIONAL_GROUNDING_CERTIFICATE_V1
+  allowed_statuses:
+    - FAIL
+    - HARNESS_INVALID
+    - GROUNDED_WITHIN_TESTED_SCOPE
+    - PARTIALLY_GROUNDED
+    - INDETERMINATE
+  forbidden_statuses:
+    - UNIVERSALLY_GROUNDED
+  required_bindings:
+    - candidate_substrate_version
+    - learner_code_digest
+    - evaluator_code_digest
+    - world_generator_digest
+    - qualification_profile_digest
+    - training_configuration_digest
+    - sensor_renderer_digests
+    - channel_configuration_digest
+    - negative_control_suite_version
+    - hidden_holdout_generation_rule_digest
+    - seed_or_seed_rule_commitment
+    - metric_vector_with_confidence_intervals
+    - critical_test_results
+    - surviving_alternative_explanations
+    - scope_limitations
+
+r1_decision_rule:
+  winner_required: false
+  pareto_nondominated_candidates_may_survive: true
+  richer_candidate_must_earn_complexity: true
+  dominated_if:
+    - rival_passes_all_critical_tests_candidate_passes
+    - rival_is_noninferior_on_preregistered_semantic_metrics
+    - rival_is_strictly_simpler_on_at_least_one_material_dimension_without_material_regression
+
+claims_boundary:
+  arbitrary_symbol_permutation_is_failure: false
+  task_bound_private_shortcut_is_failure: true
+  passing_r2_is_metaphysical_proof_of_meaning: false
+  passing_r2_is_scoped_operational_grounding_evidence: true

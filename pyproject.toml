@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pre-active"
+version = "0.1.0"
+description = "Continuous resident runtime for self-initiating language models with user-defined local model targets"
+requires-python = ">=3.11"
+authors = [{name = "Patrick Sims"}]
+license = {text = "Source-available proprietary; see LICENSE"}
+readme = "README.md"
+
+[project.optional-dependencies]
+volition = [
+    "volition @ git+https://github.com/thebrazenbeard/volition.git@dbc628d376515a0a523b1eecdf62129cca5d6b08",
+]
+dev = [
+    "pytest>=8,<10",
+    "volition @ git+https://github.com/thebrazenbeard/volition.git@dbc628d376515a0a523b1eecdf62129cca5d6b08",
+]
+
+[project.scripts]
+pre-active = "pre_active.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"

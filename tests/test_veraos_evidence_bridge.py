@@ -44,7 +44,7 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         cls.veraos = Path(VERAOS) if VERAOS else None
         expected = (
             (cls.mono, "dec5c029e51c4fd436435cbda7e02e501822ee85"),
-            (cls.training, "e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8"),
+            (cls.training, "1390fbebbc5d1685a80610796e7ad8c2b955dac1"),
             (cls.intranel, "fb314b5e30f1ae0279e61e2c821306c3e77199a4"),
         )
         for root, commit in expected:

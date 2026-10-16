@@ -53,11 +53,18 @@ def read_registry(path: Path) -> list[dict[str, Any]]:
         if type(name) is not str or not _NAME.fullmatch(name) or name in seen:
             raise SnapshotError("Invalid or duplicate component name")
         seen.add(name)
-        if item["upstream"] != "thebrazenbeard/" + name or item["upstream_branch"] != "main":
+        if item["state"] == "PROJECT_SNAPSHOT":
+            if name != "vera-supabase" or item["upstream"] != "supabase://klmbpaigzeguvnpccqzz" or item["upstream_branch"] != "LIVE":
+                raise SnapshotError("Incorrect Supabase provider binding")
+        elif item["upstream"] != "thebrazenbeard/" + name or item["upstream_branch"] != "main":
             raise SnapshotError("Incorrect upstream source identity")
-        if item["state"] == "MIRRORED":
-            if type(sha) is not str or not _HEX.fullmatch(sha) or item["reason"] is not None:
-                raise SnapshotError("Invalid pinned mirrored commit")
+        if item["state"] in ("MIRRORED", "SANITIZED", "PROJECT_SNAPSHOT"):
+            if type(sha) is not str or not _HEX.fullmatch(sha):
+                raise SnapshotError("Invalid pinned snapshot commit")
+            if item["state"] == "MIRRORED" and item["reason"] is not None:
+                raise SnapshotError("Exact mirror must not have exclusions")
+            if item["state"] != "MIRRORED" and (type(item["reason"]) is not str or not item["reason"]):
+                raise SnapshotError("Sanitized/provider snapshot must disclose limitations")
         elif item["state"] == "HELD":
             if sha is not None or type(item["reason"]) is not str or not item["reason"]:
                 raise SnapshotError("Held component must explain absent snapshot")
@@ -70,13 +77,13 @@ def select(components: list[dict[str, Any]], selected: list[str]) -> list[dict[s
     by_name = {row["name"]: row for row in components}
     if selected and len(selected) != len(set(selected)):
         raise SnapshotError("Duplicate --only selection")
-    names = selected or [row["name"] for row in components if row["state"] == "MIRRORED"]
+    names = selected or [row["name"] for row in components if row["state"] != "HELD"]
     result = []
     for name in names:
         if name not in by_name:
             raise SnapshotError(f"Unknown component: {name}")
         row = by_name[name]
-        if row["state"] != "MIRRORED":
+        if row["state"] == "HELD":
             raise SnapshotError(f"Component is held; no public snapshot available: {name}")
         result.append(row)
     return result
@@ -123,7 +130,29 @@ def verify_one(destination: Path, component: dict[str, Any]) -> dict[str, str]:
         raise SnapshotError(f"Worktree commit drift: {component['name']}")
     if git(target, "status", "--porcelain"):
         raise SnapshotError(f"Worktree has changes: {component['name']}")
-    return {"component": component["name"], "status": "VERIFIED_EXACT"}
+    kind = component["state"]
+    if kind == "SANITIZED":
+        note = target / "MIRROR_SOURCE_PROVENANCE.json"
+        if not note.is_file():
+            raise SnapshotError("Sanitized snapshot missing source/exclusion provenance")
+        data = json.loads(note.read_text(encoding="utf-8"))
+        if (data.get("schema") != "VERA_PUBLIC_SANITIZED_MIRROR_PROVENANCE_V1"
+            or data.get("source_repository") != component["upstream"]
+            or data.get("security_status") != "SOURCE_SNAPSHOT_WITH_EXCLUSIONS_NOT_EXACT"
+            or not isinstance(data.get("excluded_files"), list)
+            or not data["excluded_files"]):
+            raise SnapshotError("Sanitized source provenance does not match registry")
+    elif kind == "PROJECT_SNAPSHOT":
+        binding = target / "supabase" / "project.json"
+        if not binding.is_file():
+            raise SnapshotError("Supabase source snapshot missing live project binding")
+        data = json.loads(binding.read_text(encoding="utf-8"))
+        if (data.get("schema") != "VERA_SUPABASE_SOURCE_SNAPSHOT_V1"
+            or data.get("project_ref") != "klmbpaigzeguvnpccqzz"
+            or data.get("contains_live_row_data") is not False):
+            raise SnapshotError("Supabase source binding is invalid")
+    return {"component": component["name"], "status":
+            "VERIFIED_EXACT" if kind == "MIRRORED" else "VERIFIED_PINNED_NONEXACT_SNAPSHOT"}
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -138,7 +167,10 @@ def main(argv: list[str] | None = None) -> int:
         registry = read_registry(repo / "components.json")
         held = [x for x in registry if x["state"] == "HELD"]
         if args.command == "list":
-            print(json.dumps({"mirrored": len(registry) - len(held), "held": len(held), "components": registry}, indent=2))
+            counts = {kind: sum(x["state"] == kind for x in registry)
+                      for kind in ("MIRRORED", "SANITIZED", "PROJECT_SNAPSHOT", "HELD")}
+            print(json.dumps({"populated": len(registry) - len(held), "states": counts,
+                              "components": registry}, indent=2))
             return 0
         selected = select(registry, args.only)
         destination = (args.destination if args.destination is not None else repo / "components").absolute()

@@ -11,6 +11,8 @@ import re
 import subprocess
 
 SCHEMA = "V_E_R_A_SAFE_COMPONENT_EXPORTS_V1"
+# Exact base of this candidate preview; rebase requires explicit renewed policy review.
+PINNED_BASE_MAIN = "a1bbb9259ce7f3ce7ff18895257a0a7e162d228e"
 SHA = re.compile(r"^[0-9a-f]{40}$")
 AUTOMATION_DIRS = {".vscode", ".husky", ".devcontainer", ".idea"}
 FONT_EXTENSIONS = {".woff", ".woff2", ".ttf", ".otf", ".eot"}
@@ -53,11 +55,42 @@ def tree_entries(repo: Path, subject: str) -> dict[str, tuple[str, str]]:
         rows[path.decode("utf8")] = (mode, oid)
     return rows
 
+# PR-specific allowlist of reviewed source-preview paths. Unknown root paths
+# fail closed even when the CI provider is not in a finite name enumeration.
+# This is a root *path* gate, not a code-safety or side-effect proof.
+REVIEWED_ROOT_FILES = {".gitignore", "README.md", "components.json",
+                       "component-exports.json"}
+REVIEWED_SOURCE_DIRS = ("components/", "docs/", "scripts/", "tests/")
+
+def is_root_automation_config(path: str) -> bool:
+    # Preserve exact casing; nested component metadata is source, not root config.
+    # Explicitly review any newly introduced root path before allowing it.
+    normalized = path.replace("\\", "/")
+    return (normalized not in REVIEWED_ROOT_FILES
+            and not any(normalized.startswith(prefix) for prefix in REVIEWED_SOURCE_DIRS))
+
+def changed_root_automation(repo: Path, baseline: str, candidate: str) -> list[str]:
+    if not isinstance(baseline, str) or SHA.fullmatch(baseline) is None:
+        raise ValueError("invalid pinned base for root policy")
+    before = tree_entries(repo, baseline)
+    after = tree_entries(repo, candidate)
+    return sorted(path for path in before.keys() | after.keys()
+                  if is_root_automation_config(path) and before.get(path) != after.get(path))
+
+def assert_no_new_root_automation(repo: Path, baseline: str, candidate: str) -> None:
+    changes = changed_root_automation(repo, baseline, candidate)
+    if changes:
+        raise ValueError("root automation configuration changed: " + ", ".join(changes[:10]))
+
 def inspect(repo: Path, tree: str = "HEAD", verify_source_objects: bool = False) -> dict:
     entries = json.loads(git(repo, "show", f"{tree}:components.json"))
     manifest = json.loads(git(repo, "show", f"{tree}:component-exports.json"))
     if manifest.get("schema") != SCHEMA:
         raise ValueError("wrong export manifest schema")
+    if manifest.get("base_main") != PINNED_BASE_MAIN:
+        raise ValueError("unexpected source-preview base; fresh policy review required")
+    # Root configs can activate host automation; nested component configs remain source previews.
+    assert_no_new_root_automation(repo, manifest.get("base_main"), tree)
     registry = entries.get("components")
     exports = manifest.get("components")
     if not isinstance(registry, list) or not isinstance(exports, list) or len(registry) != 44 or len(exports) != 44:

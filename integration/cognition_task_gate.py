@@ -72,6 +72,8 @@ def _episode_dict(episode: Any) -> dict:
     seen = set()
     runtimes = set()
     correlated_runtime = False
+    evidence_groups = set()
+    correlated_evidence_group = False
     digests = []
     for c in contributions:
         if type(c) is not dict or set(c) != {
@@ -96,6 +98,12 @@ def _episode_dict(episode: Any) -> dict:
         if runtime_id in runtimes:
             correlated_runtime = True
         runtimes.add(runtime_id)
+        evidence_group = claim.get("evidence_group")
+        if type(evidence_group) is not str or not evidence_group:
+            raise CognitionBindingError("missing attributed evidence group")
+        if evidence_group in evidence_groups:
+            correlated_evidence_group = True
+        evidence_groups.add(evidence_group)
         digest = sha256(_canonical(claim)).hexdigest()
         if c["claim_sha256"] != digest:
             raise CognitionBindingError("attributed claim digest mismatch")
@@ -117,8 +125,11 @@ def _episode_dict(episode: Any) -> dict:
                 dissent_class == "EVIDENCE_CONFLICT_FOR_REVIEW"
             )):
         raise CognitionBindingError("dissent review classification/flag contradiction")
-    if correlated_runtime and dissent_class == "EVIDENCE_CONFLICT_FOR_REVIEW":
-        raise CognitionBindingError("correlated runtime cannot supply independent evidence")
+    if dissent_class == "EVIDENCE_CONFLICT_FOR_REVIEW" and (
+            correlated_runtime or correlated_evidence_group):
+        raise CognitionBindingError(
+            "correlated evidence group or runtime cannot supply independent review"
+        )
     semantic = candidate["core_semantic_plan"]
     if (type(semantic) is not dict
             or semantic.get("authorization_effect") != "NONE"

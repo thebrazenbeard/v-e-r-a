@@ -1,0 +1,30 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0004",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:22:55Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0003",
+  "idempotency_key": "first-dollar:opp:0001:discovered",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {
+    "title": "Remote Geopolitical Researcher",
+    "buyer_handle": "u/SmartFelix",
+    "channel": "Reddit r/B2BForHire",
+    "source_url": "https://www.reddit.com/r/B2BForHire/comments/1vgzcqr/hiring_remote_geopolitical_researchers/",
+    "freshness_observed": "2026-08-29: post displayed as 6 hours old",
+    "work_requested": "Research international relations, politics, economics, regional security, and technology policy; prepare policy briefs and background reports.",
+    "compensation": "USD 100-300 per article or report depending on assignment.",
+    "startup_cost_usd": "0",
+    "application_fee": "None stated.",
+    "application_requirements": ["position", "country and time zone", "brief introduction", "resume or LinkedIn profile", "availability and expected compensation", "writing sample"],
+    "deadline": "Not stated.",
+    "payment_terms": "Not stated.",
+    "external_effect_required_next": "Reddit direct-message application."
+  },
+  "external_effect": false
+}

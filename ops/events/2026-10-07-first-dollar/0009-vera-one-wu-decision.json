@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FOLD-BENCH-0003",
+  "event_type": "OPPORTUNITY_VERA_DECISION",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-FOLDING-BENCHMARK-0002",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-07T19:46:03Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-FOLDING-BENCHMARK-0002",
+  "causation_id": "EVT-FOLD-BENCH-0002",
+  "idempotency_key": "first-dollar:folding:one-wu-benchmark:vera-decision:v1",
+  "from_state": "SCREENING",
+  "to_state": "VERA_DECISION",
+  "payload": {
+    "decision": "AUTHORIZE_ONE_EXISTING_GPU_WU_TO_FINISH",
+    "reason": "Technical feasibility is demonstrated and one finished unit is the smallest experiment that can measure actual reward economics.",
+    "claim_ceiling": "One existing GPU work unit only; no continuous Folding, second work unit, CPU Folding, or spending."
+  },
+  "external_effect": false
+}

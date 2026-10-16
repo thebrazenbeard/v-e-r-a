@@ -1,0 +1,25 @@
+{
+    "external_effect":  false,
+    "recorded_at":  "2026-10-08T12:48:00Z",
+    "subject_id":  "OPP-FIRST-DOLLAR-STREAMR8-BOUNTY-0001",
+    "schema_version":  "event-v1",
+    "causation_id":  "EVT-FIRST-DOLLAR-EXPAND-0002",
+    "to_state":  "DISCOVERED",
+    "event_type":  "OPPORTUNITY_DISCOVERED",
+    "from_state":  null,
+    "payload":  {
+                    "observed_assignees":  0,
+                    "upfront_capital_required":  false,
+                    "source":  "https://github.com/streamr-labs/streamr/issues/8",
+                    "advertised_reward_usd":  "85",
+                    "customer_required":  false,
+                    "objective":  "Earn the Streamr #8 cash bounty by adding deterministic tests for stream accrual math.",
+                    "observed_state":  "OPEN",
+                    "observed_comments":  0
+                },
+    "idempotency_key":  "first-dollar:github-bounty:streamr8:discovered:v1",
+    "event_id":  "EVT-BOUNTY-STREAMR8-0001",
+    "subject_type":  "opportunity",
+    "correlation_id":  "CORR-FIRST-DOLLAR-STREAMR8-BOUNTY-0001",
+    "actor":  "vera:principal"
+}

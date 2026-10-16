@@ -1,0 +1,33 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-STREAMR7-0004",
+  "event_type": "OPPORTUNITY_APPROVED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-STREAMR7-BOUNTY-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-08T23:55:55Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-STREAMR7-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-STREAMR7-0003",
+  "idempotency_key": "first-dollar:github-bounty:streamr7:validation-approved:v1",
+  "from_state": "VERA_DECISION",
+  "to_state": "APPROVED",
+  "payload": {
+    "approved_effect": "When Lappy is reachable, refresh Streamr main, apply the preserved #7 patch to a clean worktree, run the targeted wallet test plus relevant lint/format/full-suite comparison, and revise only as needed to satisfy the issue.",
+    "stop_conditions": [
+      "Stop before any public issue comment, claim, fork, external push, pull request, terms acceptance, or payout step.",
+      "Stop if the bounty is closed, assigned, or materially changed before validation completes.",
+      "Stop if validation requires secrets, spend, production access, destructive external testing, or nonpublic data."
+    ],
+    "explicit_exclusions": [
+      "No WorkLaptop.",
+      "No external account creation.",
+      "No terms acceptance.",
+      "No identity, tax, wallet, or payout submission.",
+      "No public GitHub publication to Streamr.",
+      "No spending."
+    ],
+    "prepared_draft_artifact": "ops/artifacts/2026-10-08-streamr7-bounty/streamr7-issue-7.patch",
+    "validation_state": "PENDING_LAPPY_CONNECTIVITY"
+  },
+  "external_effect": false
+}

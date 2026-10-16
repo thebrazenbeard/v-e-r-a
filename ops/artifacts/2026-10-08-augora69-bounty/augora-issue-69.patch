@@ -1,0 +1,16 @@
+diff --git a/frontend/wallet.js b/frontend/wallet.js
+--- a/frontend/wallet.js
++++ b/frontend/wallet.js
+@@ -103,8 +103,13 @@ async function validateNetwork() {
+   if (result.error) throw new Error(errorMessage(result.error));
+   state.network = result.network;
+-  if (result.networkPassphrase !== TESTNET_PASSPHRASE && result.network !== "TESTNET") {
++
++  if (result.networkPassphrase != null) {
++    if (result.networkPassphrase !== TESTNET_PASSPHRASE) {
++      throw new Error("Switch Freighter to Testnet, then connect again.");
++    }
++  } else if (result.network !== "TESTNET") {
+     throw new Error("Switch Freighter to Testnet, then connect again.");
+   }
+ }

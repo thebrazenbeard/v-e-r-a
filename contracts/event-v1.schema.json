@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "event-v1.schema.json",
+  "title": "Vera Works Event V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "event_id", "event_type", "subject_type", "subject_id", "actor", "recorded_at", "correlation_id", "causation_id", "idempotency_key", "from_state", "to_state", "payload", "external_effect"],
+  "properties": {
+    "schema_version": {"const": "event-v1"},
+    "event_id": {"type": "string", "minLength": 1},
+    "event_type": {"type": "string", "minLength": 1},
+    "subject_type": {"type": "string", "minLength": 1},
+    "subject_id": {"type": "string", "minLength": 1},
+    "actor": {"type": "string", "minLength": 1},
+    "recorded_at": {"type": "string", "minLength": 20},
+    "correlation_id": {"type": "string", "minLength": 1},
+    "causation_id": {"type": ["string", "null"]},
+    "idempotency_key": {"type": "string", "minLength": 1},
+    "from_state": {"type": ["string", "null"]},
+    "to_state": {"type": "string", "minLength": 1},
+    "payload": {"type": "object"},
+    "external_effect": {"type": "boolean"}
+  }
+}

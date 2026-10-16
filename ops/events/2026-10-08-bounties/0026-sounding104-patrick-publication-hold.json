@@ -1,0 +1,52 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "HOLD-BOUNTY-SOUNDING104-0001",
+  "event_type": "PATRICK_DECISION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-BOUNTY-SOUNDING104-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-08T20:48:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SOUNDING104-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-SOUNDING104-0004",
+  "idempotency_key": "first-dollar:github-bounty:sounding104:patrick-publication-decision:v1",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "PATRICK_DECISION_REQUIRED",
+    "problem": "The local Sounding #104 bounty patch is complete and validated, but claiming the bounty and publishing the contribution require public actions through Patrick's GitHub identity. CONTRIBUTING.md states that by contributing, the contribution is licensed under Apache-2.0. Current canonical authorization stops before issue comments, claims, forks, upstream pushes, pull requests, contribution-license assent, terms, or payout steps.",
+    "held_subject_type": "opportunity",
+    "held_subject_id": "OPP-FIRST-DOLLAR-SOUNDING104-BOUNTY-0001",
+    "held_state": "APPROVED",
+    "required_from": "patrick",
+    "recommendation": "Authorize this exact instance: use Patrick's GitHub identity to comment on Sounding-Labs/sounding issue #104 requesting assignment/claim, create or use a fork only if required, publish the prepared commit as a narrowly scoped branch, and open one PR referencing Closes #104, with Patrick explicitly accepting submission of this contribution under the repository's stated Apache-2.0 contribution terms. Do not accept any additional bounty-platform terms, submit tax/identity/payment information, or configure payout rails without a separate Patrick-owned decision.",
+    "alternatives": [
+      "Decline publication and keep the patch archived internally; no public GitHub action occurs.",
+      "Authorize only the issue claim comment, then hold again before fork/push/PR.",
+      "Wait, accepting the risk another contributor takes the USD 65 bounty."
+    ],
+    "consequences": [
+      "Patrick's GitHub account will make a public commercial contribution and may be associated with a bounty claim.",
+      "The advertised reward is USD 65 but payment is not guaranteed until maintainers accept/merge under their bounty process.",
+      "CONTRIBUTING.md states that by contributing, the contribution is licensed under Apache-2.0.",
+      "Fresh check immediately before preservation found issue #104 open with zero comments and no assignee.",
+      "Positive proof: go mod tidy leaves canonical go.mod and go.sum Git blob hashes byte-identical to HEAD.",
+      "Negative proof: an intentionally untidy committed go.mod is corrected by go mod tidy and git diff --exit-code returns 1 while printing the cleanup diff.",
+      "The prepared commit changes only .github/workflows/ci.yml by 10 inserted lines and passes git show --check.",
+      "No spend, secrets, production access, payout setup, or customer data are required to publish the contribution itself."
+    ],
+    "inaction_effect": "The validated patch remains preserved in Vera Works and locally, but Sounding #104 stays unclaimed by Vera Works and another contributor may claim or complete the USD 65 bounty.",
+    "resume_event_type": "PATRICK_SOUNDING104_PUBLICATION_DECISION_RECORDED",
+    "completion_evidence_requested": "Patrick records AUTHORIZE or DECLINE for public GitHub claim/fork/push/PR actions for Sounding-Labs/sounding issue #104 and, if authorizing publication, explicitly accepts submission of this contribution under the repository's stated Apache-2.0 contribution terms. No GitHub credential, password, token, wallet, tax identifier, or payout account detail belongs in the event store.",
+    "prepared_deliverable": {
+      "upstream_repository": "Sounding-Labs/sounding",
+      "upstream_issue": 104,
+      "advertised_reward_usd": "65",
+      "upstream_base_sha": "53e9196215aac94e4d02218759f501b70e137d37",
+      "local_commit_sha": "bff1a0a0480bd3b3f6d2720dc725b39bcffa2b79",
+      "durable_patch": "ops/artifacts/2026-10-08-sounding104-bounty/sounding-issue-104.patch",
+      "positive_result": "go mod tidy + git diff --exit-code go.mod go.sum: exit 0; go.mod and go.sum worktree blob hashes equal HEAD blobs",
+      "negative_result": "temporary committed // indirect drift -> go mod tidy -> git diff --exit-code: exit 1 with cleanup diff"
+    }
+  },
+  "external_effect": false
+}

@@ -1,0 +1,40 @@
+diff --git a/frontend/script.js b/frontend/script.js
+--- a/frontend/script.js
++++ b/frontend/script.js
+@@ -1,7 +1,11 @@
+ import { placeBet, reducePosition, checkTransactionStatus } from "./soroban.js";
+ 
+-const HORIZON_URL = "https://horizon.stellar.org";
++const STELLAR_NETWORK = Object.freeze({
++  name: "Stellar Testnet",
++  horizonUrl: "https://horizon-testnet.stellar.org",
++});
++const HORIZON_URL = STELLAR_NETWORK.horizonUrl;
+ const COINGECKO_URL = "https://api.coingecko.com/api/v3";
+ const POSITION_STORAGE_KEY = "stellartrade:session-positions";
+ const TESTNET_EXPLORER_PREFIX = "https://stellar.expert/explorer/testnet/tx/";
+@@ -82,7 +86,8 @@ async function updateNetwork() {
+     $("#operation-count").textContent = formatNumber(ledger.operation_count);
+     $("#network-state").textContent = "Live";
+     $("#network-state").classList.add("online");
+-    $("#connection-label").textContent = "Live on Stellar mainnet";
++    $("#network-title").textContent = `${STELLAR_NETWORK.name}, right now`;
++    $("#connection-label").textContent = `Live on ${STELLAR_NETWORK.name}`;
+     setUpdated();
+   } catch (error) {
+     $("#network-state").textContent = "Unavailable";
+diff --git a/frontend/index.html b/frontend/index.html
+--- a/frontend/index.html
++++ b/frontend/index.html
+@@ -77,9 +77,9 @@
+         <section class="network-strip" aria-labelledby="network-title">
+           <div class="strip-heading"><div><span class="eyebrow">The network behind every trade</span><h2 id="network-title">Stellar, right now</h2></div><span id="network-state" class="status-pill">Connecting</span></div>
+           <div class="network-metrics">
+-            <article><svg><use href="#i-layers" /></svg><div><span>Latest ledger</span><strong id="latest-ledger">—</strong></div></article>
+-            <article><svg><use href="#i-clock" /></svg><div><span>Ledger age</span><strong id="ledger-age">—</strong></div></article>
+-            <article><svg><use href="#i-chart" /></svg><div><span>Operations / ledger</span><strong id="operation-count">—</strong></div></article>
++            <article><svg><use href="#i-layers" /></svg><div><span>Latest Testnet ledger</span><strong id="latest-ledger">—</strong></div></article>
++            <article><svg><use href="#i-clock" /></svg><div><span>Testnet ledger age</span><strong id="ledger-age">—</strong></div></article>
++            <article><svg><use href="#i-chart" /></svg><div><span>Operations / Testnet ledger</span><strong id="operation-count">—</strong></div></article>
+           </div>
+         </section>

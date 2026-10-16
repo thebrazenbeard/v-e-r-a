@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0014",
+  "event_type": "DELIVERABLE_APPROVED",
+  "subject_type": "deliverable",
+  "subject_id": "DLV-FD-APP-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:34:54Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0013",
+  "idempotency_key": "first-dollar:deliverable:application:0001:approved",
+  "from_state": "VERA_REVIEW",
+  "to_state": "APPROVED",
+  "payload": {
+    "decision": "APPROVE_FOR_MANUAL_SEND",
+    "review_summary": "The package is truthful, identifies Vera Works as newly launched, discloses AI-assisted production, avoids fabricated credentials, stays within the buyer's posted compensation range, and includes an original current-policy sample grounded in official European Commission sources.",
+    "external_effect_gate": "Patrick must manually send the approved application from the specifically authorized eligible Reddit account."
+  },
+  "external_effect": false
+}

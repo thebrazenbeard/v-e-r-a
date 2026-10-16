@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-DRY-0004",
+  "event_type": "VERA_DECISION_RECORDED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-DRY-0001",
+  "actor": "vera",
+  "recorded_at": "2026-08-29T13:03:00Z",
+  "correlation_id": "CORR-DRY-0001",
+  "causation_id": "EVT-DRY-0003",
+  "idempotency_key": "dry:hold:0001:resolved",
+  "from_state": "OPEN",
+  "to_state": "RESOLVED",
+  "payload": {
+    "resolution_of": "EVT-DRY-0003",
+    "decision": "PURSUE",
+    "resume_event_type": "OPPORTUNITY_DECISION_RECORDED"
+  },
+  "external_effect": false
+}

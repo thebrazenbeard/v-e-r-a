@@ -1,0 +1,27 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-STREAMR92-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-STREAMR92-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T20:17:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-STREAMR92-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-STREAMR92-0001",
+  "idempotency_key": "first-dollar:github-bounty:streamr-92:screening:v1",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "evidence_summary": [
+      "Issue observed open with zero comments and no assignee.",
+      "shortenContractId is exported only from src/util/contract.ts and has no consumer.",
+      "labPrefix, horizonUrl, network, and defaultStreamPeriodSeconds are exported from src/contracts/util.ts; the 30-day duration is separately hardcoded in both creation forms."
+    ],
+    "recommended_test": "Delete the dead helper/export surface, keep one exported month-duration constant, consume it from both form pages, and validate affected tests/build against current baseline.",
+    "alternatives": [
+      "Streamr #90 USD 65 debug-log cleanup.",
+      "Streamr #91 USD 90 repo-wide type cleanup."
+    ]
+  },
+  "external_effect": false
+}

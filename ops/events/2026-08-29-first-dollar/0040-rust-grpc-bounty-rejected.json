@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0040",
+  "event_type": "OPPORTUNITY_REJECTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0006",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T22:33:03Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0039",
+  "idempotency_key": "first-dollar:opp:0006:rejected:crowded-rewarded",
+  "from_state": "DISCOVERED",
+  "to_state": "REJECTED",
+  "payload": {
+    "disposition": "REJECT_CROWDED_OR_ALREADY_REWARDED",
+    "reasoning": "The Algora bot record shows multiple prior attempts and reward-linked solutions on this $50 bounty while the source issue remains open. The process also requires an attempt comment, a claim PR, and a short demo video, and explicitly warns that low-quality AI PRs will not be reviewed. The open issue is therefore not reliable evidence of an attractive unclaimed payout, and the expected value is too low for a first-dollar lane.",
+    "patrick_action_required": false
+  },
+  "external_effect": false
+}

@@ -1,0 +1,84 @@
+{
+  "schema_version": "yield-repo-intake-v1",
+  "observed_at": "2026-10-05T17:55:00Z",
+  "purpose": "Classify repositories supplied by Patrick by whether they create, discover, validate, or merely execute a revenue mechanism. No installation, trading, mining, account creation, key use, or spend is authorized.",
+  "repositories": [
+    {
+      "repository": "bitcoin/bitcoin",
+      "role": "PROTOCOL_CLIENT",
+      "current_value_to_first_dollar": "LOW",
+      "disposition": "PARK",
+      "reason": "Bitcoin Core validates the Bitcoin network and provides wallet functionality, but this repository alone does not create revenue. Economically competitive Bitcoin mining is ASIC-dominated, so the current consumer hardware lane should not spend time here."
+    },
+    {
+      "repository": "monero-project/monero",
+      "role": "PROTOCOL_CLIENT_AND_CPU_MINING_BASE",
+      "current_value_to_first_dollar": "MEDIUM",
+      "disposition": "PROMOTE_TO_BENCHMARK_CANDIDATE",
+      "reason": "Monero is explicitly designed for participation on consumer-grade commodity hardware. It belongs in the owned-CPU mining benchmark lane, but profitability and payout threshold must be measured before any workload is authorized."
+    },
+    {
+      "repository": "AnthonyTechhh/ZephyrWallet",
+      "role": "MONERO_DERIVED_PROTOCOL_CLIENT_WITH_RANDOMX_MINING",
+      "current_value_to_first_dollar": "MEDIUM_UNVERIFIED",
+      "disposition": "RESEARCH_ONLY_UNTIL_UPSTREAM_AND_LIQUIDITY_VERIFIED",
+      "reason": "The supplied source contains RandomX mining and block-reward machinery and describes Zephyr's stable/reserve system. The repository provenance is not sufficient by itself to prove current official upstream status, liquidity, payout rail, or profitability."
+    },
+    {
+      "repository": "ccxt/ccxt",
+      "role": "MARKET_DATA_AND_EXCHANGE_ABSTRACTION",
+      "current_value_to_first_dollar": "HIGH_AS_SCANNER_LOW_AS_PAYER",
+      "disposition": "PROMOTE_AS_READ_ONLY_ADAPTER",
+      "reason": "CCXT is not a payer. Its public APIs can normalize prices, fees, markets, and liquidity across many venues, which is useful for converting protocol rewards into realistic withdrawable-dollar estimates and later detecting arbitrage without placing orders."
+    },
+    {
+      "repository": "hummingbot/hummingbot",
+      "role": "AUTOMATED_TRADING_EXECUTION_AND_PAPER_TESTING",
+      "current_value_to_first_dollar": "LOW_AT_ZERO_CAPITAL",
+      "disposition": "PARK_FOR_LATER_CAPITAL_STAGE",
+      "reason": "Hummingbot is strong execution infrastructure for market making and arbitrage, but live strategies require funded exchange/DEX positions, credentials, and risk. Paper trading may later validate strategies without capital."
+    },
+    {
+      "repository": "Superalgos/Superalgos",
+      "role": "TRADING_PLATFORM_AND_TOKEN_INCENTIVIZED_CONTRIBUTOR_NETWORK",
+      "current_value_to_first_dollar": "MEDIUM_FOR_POSTED_CONTRIBUTION_REWARDS_LOW_FOR_PASSIVE_TRADING",
+      "disposition": "SCOUT_CONTRIBUTOR_REWARD_ONLY",
+      "reason": "The repository documents SA-token rewards for real project/community contributions. That is customerless but not passive and may involve governance/interaction. Trading use still requires capital. Only the contribution-reward path merits a bounded source check."
+    },
+    {
+      "repository": "HelloZeroNet/ZeroNet",
+      "role": "DECENTRALIZED_HOSTING_TRANSPORT",
+      "current_value_to_first_dollar": "LOW",
+      "disposition": "PARK",
+      "reason": "ZeroNet provides decentralized site distribution via peers. The supplied project does not expose a built-in payment or reward mechanism for serving content, so it is infrastructure rather than a yield source."
+    },
+    {
+      "repository": "0xakk0r0kamui/constant-chain",
+      "role": "STALE_PROTOCOL_IMPLEMENTATION",
+      "current_value_to_first_dollar": "VERY_LOW",
+      "disposition": "REJECT_CURRENT_FRONTIER",
+      "reason": "The repository was last pushed in 2019 and its README points to historical Constant tooling. No current reward, liquidity, or maintained-network evidence is established, so it should not consume first-dollar effort."
+    },
+    {
+      "repository": "MelisaPeteRs2006/Silent-Crypto-Miner",
+      "role": "STEALTH_MINER_BUILDER_AND_REMOTE_NATIVE_PAYLOAD_LOADER",
+      "current_value_to_first_dollar": "REJECT",
+      "disposition": "REJECT_SUPPLY_CHAIN_AND_CONCEALMENT_RISK",
+      "reason": "Source inspection shows process-disguise and registry-autostart features plus an obfuscated remote endpoint/auth token. The runtime fetches encrypted native PE bytes, manually maps them into process memory with VirtualAlloc/VirtualProtect and executes them with CreateThread. One transport path disables TLS hostname/certificate verification when using a fallback address. The visible builder simulates a build failure rather than providing auditable miner binaries. Do not install or execute this repository on Vera Works hardware."
+    }
+  ],
+  "promoted_components": [
+    "Monero exact-resource CPU benchmark lane",
+    "CCXT public read-only market/liquidity adapter",
+    "Zephyr RandomX research-only comparison until provenance and payout are verified",
+    "Superalgos contribution-reward source check only"
+  ],
+  "parked_components": [
+    "Bitcoin Core as revenue source",
+    "Hummingbot live execution until Vera Fund has risk capital",
+    "ZeroNet as revenue source",
+    "Constant Chain",
+    "Silent-Crypto-Miner: reject; do not install or execute"
+  ],
+  "effect_boundary": "READ_ONLY_RESEARCH_ONLY"
+}

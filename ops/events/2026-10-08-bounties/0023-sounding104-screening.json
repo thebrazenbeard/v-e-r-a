@@ -1,0 +1,27 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-SOUNDING104-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-SOUNDING104-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-08T20:36:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SOUNDING104-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-SOUNDING104-0001",
+  "idempotency_key": "first-dollar:github-bounty:sounding104:screening:v1",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "evidence_summary": [
+      "Direct GitHub issue observed open with zero comments and no assignee.",
+      "Advertised bounty is USD 65 with ETA 24 hours.",
+      "Acceptance surface is bounded to proving the current module files are tidy and adding an early CI guard that fails with a diff when they are not."
+    ],
+    "recommended_test": "On an isolated clean Sounding worktree, prove go mod tidy leaves current go.mod and go.sum byte-identical, then add the smallest CI step before go test and verify both clean and intentionally untidy cases.",
+    "alternatives": [
+      "Sottara #103 USD 80 KV mailbox tests.",
+      "Sounding #108 USD 75 documentation correction."
+    ]
+  },
+  "external_effect": false
+}

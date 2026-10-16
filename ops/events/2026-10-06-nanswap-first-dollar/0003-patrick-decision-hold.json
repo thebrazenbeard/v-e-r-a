@@ -1,0 +1,38 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "HOLD-NANSWAP-0001",
+  "event_type": "PATRICK_DECISION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-NANSWAP-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-06T09:26:02Z",
+  "correlation_id": "CORR-NANSWAP-RANDOMX-0001",
+  "causation_id": "EVT-NANSWAP-0002",
+  "idempotency_key": "nanswap-randomx:v1:patrick-terms-decision",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "PATRICK_DECISION_REQUIRED",
+    "problem": "Connecting XMRig to the Nanswap mining pool would use a new third-party financial/crypto service governed by Nanswap's current Terms of Service. Vera Works cannot silently accept that Patrick-owned legal boundary.",
+    "held_subject_type": "opportunity",
+    "held_subject_id": "OPP-NANSWAP-RANDOMX-0001",
+    "held_state": "SCREENING",
+    "required_from": "patrick",
+    "recommendation": "Authorize this exact bounded instance: use official checksum-verified XMRig v6.26.0 on Lappy, connect to xmrig.nanswap.com:3333 under Nanswap's current Terms of Service, use the existing vera-banano-receiving-v1 public address, run 4 CPU threads on AC power, and stop after the first confirmed BANANO payout or 30 minutes if no payout occurs. Do not use WorkLaptop and do not disable Windows security or apply unsafe MSR changes.",
+    "alternatives": [
+      "Decline Nanswap and wait for Folding@Home's transfer path to recover.",
+      "Create/provide a Monero receiving wallet later and use permissionless Monero P2Pool instead of a third-party conversion pool.",
+      "Keep all revenue workloads stopped and continue read-only scouting."
+    ],
+    "consequences": [
+      "Nanswap will receive the source IP and mining shares and may apply its current service terms and risk policies.",
+      "The CPU will consume electricity and generate heat during the bounded test.",
+      "BANANO payout amounts vary with RandomX difficulty, Monero economics, BANANO conversion rate, and Nanswap's payout formula.",
+      "The current exact-resource benchmark is preliminary and does not prove positive net electricity-adjusted profit.",
+      "No account, email, seed phrase, private key, or wallet password is supplied to Nanswap."
+    ],
+    "inaction_effect": "No Nanswap pool connection or mining share will be submitted. Verified XMRig remains installed only as a local portable benchmark tool.",
+    "resume_event_type": "PATRICK_DECISION_RECORDED"
+  },
+  "external_effect": false
+}

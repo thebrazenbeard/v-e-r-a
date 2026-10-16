@@ -1,0 +1,51 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "HOLD-BOUNTY-AUGORA69-0001",
+  "event_type": "PATRICK_DECISION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-BOUNTY-AUGORA69-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T15:37:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-AUGORA69-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-AUGORA69-0004",
+  "idempotency_key": "first-dollar:github-bounty:augora69:patrick-publication-decision:v1",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "PATRICK_DECISION_REQUIRED",
+    "problem": "The Augora #69 security patch has been rebuilt against fresh upstream main and validated on Lappy, but claiming the bounty and publishing the contribution require public actions through Patrick's GitHub identity. Current canonical authorization stops before public claim or contribution.",
+    "held_subject_type": "opportunity",
+    "held_subject_id": "OPP-FIRST-DOLLAR-AUGORA69-BOUNTY-0001",
+    "held_state": "APPROVED",
+    "required_from": "patrick",
+    "recommendation": "Authorize this exact instance: use Patrick's GitHub identity to comment on Augora-Labs/augora issue #69 requesting assignment/claim, create or use a fork only if required, publish the prepared commit as a narrowly scoped branch, and open one PR referencing Closes #69. Do not accept new bounty-platform terms, submit tax/identity/payment information, or configure payout rails without a separate Patrick-owned decision.",
+    "alternatives": [
+      "Decline publication and keep the validated patch archived internally.",
+      "Authorize only the issue claim comment, then hold again before fork/push/PR.",
+      "Wait, accepting the risk another contributor takes the USD 95 bounty."
+    ],
+    "consequences": [
+      "The GitHub account will make a public commercial contribution and may be associated with a bounty claim.",
+      "The advertised reward is USD 95 but payment is not guaranteed until maintainers accept/merge under their bounty process.",
+      "Fresh checks found issue #69 open with zero comments and no assignee before this hold was created.",
+      "The guard now treats a present passphrase as authoritative and falls back to network name only when the passphrase is absent.",
+      "A four-case local behavior exercise passes: contradictory passphrase rejects, matching passphrase accepts, omitted-passphrase TESTNET fallback accepts, and omitted-passphrase non-Testnet fallback rejects.",
+      "node scripts/validate-frontend.mjs and git diff --check both complete successfully on the fresh checkout.",
+      "The older cloud-prepared draft patch was syntactically corrupt and was not used; the durable final patch was regenerated from the validated local commit.",
+      "No spend, credentials, secrets, production access, payout setup, or customer data are required to publish the contribution."
+    ],
+    "inaction_effect": "The validated patch remains preserved in Vera Works and locally, but Augora #69 stays unclaimed by Vera Works and another contributor may claim or complete the USD 95 bounty.",
+    "resume_event_type": "PATRICK_AUGORA69_PUBLICATION_DECISION_RECORDED",
+    "completion_evidence_requested": "Patrick records AUTHORIZE or DECLINE for public GitHub claim/fork/push/PR actions for Augora-Labs/augora issue #69. No GitHub credential, password, token, wallet, tax identifier, or payout account detail belongs in the event store.",
+    "prepared_deliverable": {
+      "upstream_repository": "Augora-Labs/augora",
+      "upstream_issue": 69,
+      "upstream_base_sha": "714a27ffcdd7efc2d3e76faa678a989e52a9b693",
+      "local_commit_sha": "350a2ff61e53e69319e56556c1589f586e4dcce4",
+      "durable_patch": "ops/artifacts/2026-10-09-augora69-bounty/augora-issue-69.patch",
+      "validation_command": "node scripts/validate-frontend.mjs",
+      "validation_result": "exit 0"
+    }
+  },
+  "external_effect": false
+}

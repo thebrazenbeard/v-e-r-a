@@ -1,0 +1,28 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-STREAMR94-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-STREAMR94-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T20:05:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-STREAMR94-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-STREAMR94-0001",
+  "idempotency_key": "first-dollar:github-bounty:streamr-94:screening:v1",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "evidence_summary": [
+      "Direct GitHub issue observed open with zero comments and no assignee.",
+      "Advertised bounty is USD 75 and asks for focusability, Enter/Space activation, an accessible name, and nested-action isolation.",
+      "Patch surface is a single primary component plus deterministic component tests; no chain/testnet or production access is required."
+    ],
+    "recommended_test": "Prepare the smallest local accessibility patch and component tests from current public main.",
+    "alternatives": [
+      "Streamr #91 USD 90 repo-wide TypeScript cleanup.",
+      "Streamr #90 USD 65 debug-log cleanup.",
+      "Streamr #92 USD 55 unused-export cleanup."
+    ]
+  },
+  "external_effect": false
+}

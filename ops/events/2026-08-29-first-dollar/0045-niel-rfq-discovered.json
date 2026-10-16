@@ -1,0 +1,25 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0045",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0009",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T22:40:00Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0026",
+  "idempotency_key": "first-dollar:opp:0009:discovered",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {
+    "title": "CHANGE Project Case Study Development RFQ",
+    "buyer": "Northern Ireland Environment Link",
+    "channel": "Direct public RFQ",
+    "source_url": "https://www.nienvironmentlink.org/opportunities/niel-peaceplus-change-project-request-for-quotation-case-study-development-effective-cross-jurisdictional-co-operation/",
+    "work_requested": "Research, comparative analysis, development and professional illustration of three case-study briefs on effective cross-jurisdictional environmental cooperation: one Great Britain, one EU, and one wider international example.",
+    "maximum_contract_value": "EUR 44,000 inclusive of VAT",
+    "submission_deadline": "2026-09-04 12:00 local procurement time",
+    "startup_cost_usd": "0"
+  },
+  "external_effect": false
+}

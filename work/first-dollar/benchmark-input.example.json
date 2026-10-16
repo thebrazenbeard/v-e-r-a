@@ -1,0 +1,32 @@
+{
+  "schema_version": "first-dollar-benchmark-v1",
+  "observations": [
+    {
+      "mechanism_id": "synthetic-useful-compute",
+      "resource_alias": "owned-compute",
+      "evidence_quality": "SOURCE_ESTIMATE",
+      "source_uri": "https://example.invalid/reward-estimate",
+      "quote_observed_at": "2026-10-05T18:00:00Z",
+      "max_quote_age_seconds": 86400,
+      "benchmark_duration_hours": "0",
+      "hours_per_day": "8",
+      "baseline_watts": "20",
+      "workload_watts": "100",
+      "performance_metric_name": "points_per_day",
+      "performance_metric_value": "1000000",
+      "performance_metric_unit": "PPD",
+      "reward_units_per_day": "10",
+      "reward_unit_symbol": "UNIT",
+      "reward_unit_usd": "0.05",
+      "minimum_payout_units": "10",
+      "payout_fee_units": "0",
+      "liquidity_ratio": "1",
+      "platform_fee_usd_per_day": "0",
+      "other_cost_usd_per_day": "0",
+      "electricity_usd_per_kwh": "0.16",
+      "warmup_days": "0",
+      "payout_lag_days": "0",
+      "evidence_refs": ["estimate:synthetic-only"]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FOLD-BENCH-0005",
+  "event_type": "OPPORTUNITY_CLOSED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-FOLDING-BENCHMARK-0002",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-08T01:58:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-FOLDING-BENCHMARK-0002",
+  "causation_id": "EVT-FOLD-BENCH-0004",
+  "idempotency_key": "first-dollar:folding:one-wu-benchmark:closed-credited-bad-wu:v1",
+  "from_state": "APPROVED",
+  "to_state": "CLOSED",
+  "payload": {
+    "outcome": "FAH_CREDITED_AFTER_BAD_WORK_UNIT_NO_BANANO_SETTLEMENT_OBSERVED",
+    "target": "Lappy",
+    "bound_work_unit": {
+      "number": 3,
+      "id": "tEIDEFxCdWPZtsBdUgnK-HilttbF6lDlexHBIhzJBjw",
+      "project": 15506,
+      "run": 6,
+      "clone": 28,
+      "gen": 9,
+      "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+      "cpus": 0
+    },
+    "observed_execution": {
+      "maximum_progress_percent": 71,
+      "first_error": "bad allocation",
+      "first_error_step": 1788058,
+      "restart_from_checkpoint_attempted": true,
+      "restart_result": "BAD_WORK_UNIT",
+      "core_return_code": 114,
+      "result_upload_http": 200,
+      "fah_result": "Credited",
+      "client_terminal_state": "pause",
+      "active_units_afterward": 0,
+      "failed_wus": 1,
+      "lost_wus": 1,
+      "free_system_memory_at_restart_gib": "1.20"
+    },
+    "settlement_evidence": {
+      "fah_public_stats_earned": 0,
+      "fah_public_stats_contributed": 0,
+      "fah_public_uid": 796616582,
+      "fah_uid_score": null,
+      "fah_uid_wus": null,
+      "bananominer_payout_observed": false,
+      "financial_event_created": false
+    },
+    "conclusion": "The single-WU authorization is consumed. The workload made real progress and Folding@home returned Credited after a BAD_WORK_UNIT, but no BananoMiner settlement is yet evidenced. Do not retry or restart Folding from this event. The bad-allocation cause is not uniquely established; low free system memory was observed and is evidence, not proof of cause.",
+    "continuous_folding_authorized": false
+  },
+  "external_effect": false
+}

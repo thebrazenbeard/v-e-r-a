@@ -1,0 +1,22 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0010",
+  "event_type": "PATRICK_REDDIT_ACCOUNT_DECISION_RECORDED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-FD-0001",
+  "actor": "patrick",
+  "recorded_at": "2026-08-29T16:34:50Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0008",
+  "idempotency_key": "first-dollar:hold:0001:resolved:authorize",
+  "from_state": "OPEN",
+  "to_state": "RESOLVED",
+  "payload": {
+    "resolution_of": "EVT-FD-0008",
+    "decision": "AUTHORIZE",
+    "account_eligibility_confirmed": true,
+    "authorization_scope": "One specific Reddit application for OPP-FD-0001 only. No standing authorization for any other Reddit application or account action.",
+    "resume_event_type": "ASSIGNMENT_RESUMED"
+  },
+  "external_effect": false
+}

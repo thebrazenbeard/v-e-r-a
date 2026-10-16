@@ -1,0 +1,53 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "HOLD-BOUNTY-SOUNDING103-0001",
+  "event_type": "PATRICK_DECISION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-BOUNTY-SOUNDING103-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-08T20:30:45Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SOUNDING103-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-SOUNDING103-0004",
+  "idempotency_key": "first-dollar:github-bounty:sounding103:patrick-publication-decision:v1",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "PATRICK_DECISION_REQUIRED",
+    "problem": "The local Sounding #103 bounty patch is complete and validated, but claiming the bounty and publishing the contribution require public actions through Patrick's GitHub identity. The repository's CONTRIBUTING.md also states that by contributing, the contribution is licensed under Apache-2.0. Current canonical authorization stops before issue comments, claims, forks, upstream pushes, pull requests, contribution-license assent, terms, or payout steps.",
+    "held_subject_type": "opportunity",
+    "held_subject_id": "OPP-FIRST-DOLLAR-SOUNDING103-BOUNTY-0001",
+    "held_state": "APPROVED",
+    "required_from": "patrick",
+    "recommendation": "Authorize this exact instance: use Patrick's GitHub identity to comment on Sounding-Labs/sounding issue #103 requesting assignment/claim, create or use a fork only if required, publish the prepared commit as a narrowly scoped branch, and open one PR referencing Closes #103, with Patrick explicitly accepting that this contribution will be submitted under the repository's stated Apache-2.0 contribution terms. Do not accept any additional bounty-platform terms, submit tax/identity/payment information, or configure payout rails without a separate Patrick-owned decision.",
+    "alternatives": [
+      "Decline publication and keep the patch archived internally; no public GitHub action occurs.",
+      "Authorize only the issue claim comment, then hold again before fork/push/PR.",
+      "Wait, accepting the risk another contributor takes the USD 80 bounty."
+    ],
+    "consequences": [
+      "Patrick's GitHub account will make a public commercial contribution and may be associated with a bounty claim.",
+      "The advertised reward is USD 80 but payment is not guaranteed until maintainers accept/merge under their bounty process.",
+      "CONTRIBUTING.md states that by contributing, the contribution is licensed under Apache-2.0; Patrick must explicitly accept that publication consequence for this contribution.",
+      "Fresh check immediately before local freeze found issue #103 open with zero comments and no assignee.",
+      "The checker self-tests pass 2 of 2; a pre-fix repository run failed with six named broken relative links; the post-fix repository run reports all relative Markdown links resolve.",
+      "Python compilation and git diff checks pass.",
+      "A full Windows go test run is not green on the current tree; failures are outside the changed files, including an automerge /bin/bash environment dependency and existing server/UI assertions. Full-suite green is not claimed.",
+      "No spend, secrets, production access, payout setup, or customer data are required to publish the code contribution itself."
+    ],
+    "inaction_effect": "The validated patch remains preserved in Vera Works and locally, but Sounding #103 stays unclaimed by Vera Works and another contributor may claim or complete the USD 80 bounty.",
+    "resume_event_type": "PATRICK_SOUNDING103_PUBLICATION_DECISION_RECORDED",
+    "completion_evidence_requested": "Patrick records AUTHORIZE or DECLINE for public GitHub claim/fork/push/PR actions for Sounding-Labs/sounding issue #103 and, if authorizing publication, explicitly accepts submission of this contribution under the repository's stated Apache-2.0 contribution terms. No GitHub credential, password, token, wallet, tax identifier, or payout account detail belongs in the event store.",
+    "prepared_deliverable": {
+      "upstream_repository": "Sounding-Labs/sounding",
+      "upstream_issue": 103,
+      "upstream_base_sha": "53e9196215aac94e4d02218759f501b70e137d37",
+      "local_commit_sha": "0fb3405e7d7a3b97fc85b6d0f71f4e906ef40da5",
+      "durable_patch": "ops/artifacts/2026-10-08-sounding103-bounty/sounding-issue-103.patch",
+      "checker_test": "python scripts/check_markdown_links_test.py",
+      "checker_test_result": "2 passed, 0 failed",
+      "repository_check": "python scripts/check_markdown_links.py .",
+      "repository_check_result": "All repository-relative Markdown links resolve."
+    }
+  },
+  "external_effect": false
+}

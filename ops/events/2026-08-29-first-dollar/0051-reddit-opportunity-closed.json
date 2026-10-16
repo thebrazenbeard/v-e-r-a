@@ -1,0 +1,22 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0051",
+  "event_type": "OPPORTUNITY_CLOSED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-30T00:29:32Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0050",
+  "idempotency_key": "first-dollar:opp:0001:closed:patrick-channel-boundary",
+  "from_state": "APPROVED",
+  "to_state": "CLOSED",
+  "payload": {
+    "outcome": "DECLINED_NOT_SENT",
+    "reasoning": "Close the Reddit geopolitical-researcher opportunity. The sourcing/application model itself conflicts with Patrick's willingness boundary and produces the wrong Vera Works architecture: routine human-front-end labor, speculative job applications, and repeated proxy asks.",
+    "external_contact_occurred": false,
+    "patrick_action_required": false,
+    "future_rule": "Do not revive this opportunity or substitute a different Reddit job application. Future sourcing must follow the updated low-Patrick-touch supplier/output model."
+  },
+  "external_effect": false
+}

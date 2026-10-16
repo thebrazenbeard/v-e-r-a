@@ -1,0 +1,114 @@
+{
+  "excluded_files": [
+    {
+      "path": ".vscode/tasks.json",
+      "reason": "Microsoft Defender quarantined Trojan:Script/MalTask.A"
+    },
+    {
+      "path": "ops/artifacts/2026-10-08-streamr10-bounty/README.md",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-08-streamr10-bounty/streamr10-issue-10.patch",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-08-streamr27-bounty/README.md",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-08-streamr27-bounty/streamr27-issue-27.patch",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-08-streamr7-bounty/README.md",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-08-streamr7-bounty/streamr7-issue-7.patch",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-08-streamr8-bounty/README.md",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-08-streamr8-bounty/streamr8-issue-8.patch",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-09-streamr7-bounty/README.md",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-09-streamr7-bounty/streamr7-issue-7.patch",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-09-streamr89-bounty/README.md",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-09-streamr89-bounty/streamr89-issue-89.patch",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-09-streamr94-bounty/README.md",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-09-streamr94-bounty/streamr94-issue-94.patch",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-09-streamr97-bounty/README.md",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-09-streamr97-bounty/streamr97-issue-97.patch",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-09-streamr99-bounty/README.md",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/artifacts/2026-10-09-streamr99-bounty/streamr99-issue-99.patch",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/events/2026-10-05-first-dollar-wallet/0001-assignment-created.json",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/events/2026-10-05-first-dollar-wallet/0002-assignment-claimed.json",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/events/2026-10-05-first-dollar-wallet/0003-assignment-started.json",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "ops/events/2026-10-05-first-dollar-wallet/0004-assignment-completed.json",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    },
+    {
+      "path": "public/fonts/fa-solid-500.woff2",
+      "reason": "Defender previously flagged this shared font asset"
+    },
+    {
+      "path": "work/claim-harvester/observations/2026-10-05-wallet-baseline.json",
+      "reason": "Private wallet/operational evidence or active external security quarantine"
+    }
+  ],
+  "limitation": "This public snapshot intentionally differs from source; omitted content remains in original upstream private repo subject to its access permissions.",
+  "mirror_tree_before_notice": "1a707842568497ecb16b029d37be6045fb6e93fd",
+  "no_source_history_imported": true,
+  "schema": "VERA_PUBLIC_SANITIZED_MIRROR_PROVENANCE_V1",
+  "security_status": "SOURCE_SNAPSHOT_WITH_EXCLUSIONS_NOT_EXACT",
+  "source_authoritative": true,
+  "source_commit": "2e5ef56d8f1b1a6150fd52ab8d5115e223e588d0",
+  "source_ref": "main",
+  "source_repository": "thebrazenbeard/vera-works",
+  "source_tree_sha": "a79c489846ecc3251bd10525779e6c748d73fe77"
+}

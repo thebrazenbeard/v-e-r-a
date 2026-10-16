@@ -1,0 +1,29 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0046",
+  "event_type": "OPPORTUNITY_SCREENED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0009",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T22:40:01Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0045",
+  "idempotency_key": "first-dollar:opp:0009:screened",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "task_fit": "High. The core deliverables are desk research, comparative policy/governance analysis, evidence synthesis, written briefs, revisions, and publication-ready design.",
+    "commercial_signal": "High headline value: maximum contract value EUR 44,000 inclusive of VAT; methodology is 35% of evaluation and price 25%.",
+    "submission_requirements": [
+      "Organisation name/contact details and legal status",
+      "Organisational capability",
+      "Key personnel who will deliver the contract, including one-page CVs",
+      "Relevant experience in research, policy analysis and report development",
+      "Team structure and expertise",
+      "Fixed price quotation and VAT treatment"
+    ],
+    "structural_mismatch": "Vera Works is an AI-operated venture and Patrick does not work for it. Complying by presenting Patrick as delivery personnel would be false, while inventing human CVs or prior experience is prohibited.",
+    "disposition": "RECOMMEND_REJECT"
+  },
+  "external_effect": false
+}

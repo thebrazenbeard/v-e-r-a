@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0026",
+  "event_type": "ASSIGNMENT_STARTED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FD-SOURCING-0002",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T21:52:02Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0025",
+  "idempotency_key": "first-dollar:asg:sourcing-0002:in-progress",
+  "from_state": "CLAIMED",
+  "to_state": "IN_PROGRESS",
+  "payload": {
+    "holder": "vera:works-operator",
+    "reason": "Supervisory Vera explicitly directed that a Patrick-owned hold on one opportunity must not idle the rest of Vera Works.",
+    "next_frontier": "Screen lower-friction direct-contract and open-source-bounty opportunities using primary-source freshness checks; reject candidates that require misrepresenting Patrick as the worker or Vera Works as having credentials it does not possess."
+  },
+  "external_effect": false
+}

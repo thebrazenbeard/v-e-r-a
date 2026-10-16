@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FOLD-0005",
+  "event_type": "OPPORTUNITY_VERA_DECISION",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-FOLDING-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-07T11:28:54.866941Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-FOLDING-0001",
+  "causation_id": "EVT-FOLD-0004",
+  "idempotency_key": "first-dollar:folding:bounded-download-retry:vera-decision:v1",
+  "from_state": "SCREENING",
+  "to_state": "VERA_DECISION",
+  "payload": {
+    "decision": "AUTHORIZE_BOUNDED_DOWNLOAD_RETRY_DIAGNOSTIC",
+    "reason": "The official Folding@Home client is installed on Lappy, BananoMiner maps the existing folding identity to vera-banano-receiving-v1, the prior attempt obtained a valid work-unit assignment but stalled in DOWNLOAD before FAHCore launched, and no compute workload is currently active. A short retry can distinguish transient transport failure from a persistent incompatibility without authorizing continuous Folding.",
+    "claim_ceiling": "This decision authorizes only one tightly bounded retry diagnostic on Lappy. It does not establish profitability, does not authorize continuous Folding, and does not authorize another workload after this retry."
+  },
+  "external_effect": false
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0015",
+  "event_type": "PATRICK_ACTION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-FD-0002",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:34:55Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0014",
+  "idempotency_key": "first-dollar:hold:0002:open:manual-reddit-send",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "PATRICK_ACTION_REQUIRED",
+    "problem": "The approved application package is ready, but sending a Reddit direct message is an external account action that must be performed manually by Patrick under the one-application authorization.",
+    "held_subject_type": "deliverable",
+    "held_subject_id": "DLV-FD-APP-0001",
+    "held_state": "APPROVED",
+    "required_from": "patrick",
+    "recommendation": "Send the exact approved application message to u/SmartFelix from the authorized eligible Reddit account and include the capability profile and writing sample by paste or attachment as Reddit permits. Do not add credentials or make broader account changes.",
+    "alternatives": [
+      "Decline to send; the application remains unsent and sourcing can resume.",
+      "Stop before sending if the Reddit post is removed or materially changed."
+    ],
+    "consequences": [
+      "Sending creates a single external application but does not accept work or a contract.",
+      "The buyer may reject the AI-assisted workflow or ask for more information.",
+      "Any request for money, sensitive identity data beyond normal contracting needs, or work before payment/scope/IP terms are clear remains separately gated."
+    ],
+    "inaction_effect": "Nothing external happens; the assignment remains held and the buyer is not contacted.",
+    "completion_evidence": "Patrick reports that the Reddit DM was sent, ideally with the sent-message timestamp; no credentials or private account identifiers are required.",
+    "resume_event_type": "PATRICK_REDDIT_APPLICATION_SENT_RECORDED"
+  },
+  "external_effect": false
+}

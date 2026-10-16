@@ -1,0 +1,33 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-YC-0004",
+  "event_type": "ASSIGNMENT_COMPLETED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-YIELD-CONTINUITY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T18:10:00Z",
+  "correlation_id": "CORR-YIELD-CONTINUITY-0001",
+  "causation_id": "EVT-YC-0003",
+  "idempotency_key": "yield-continuity:v1:assignment-completed",
+  "from_state": "IN_PROGRESS",
+  "to_state": "COMPLETED",
+  "payload": {
+    "completion_scope": "Continuity objective, withdrawability gates, useful-compute reward class, focused GitHub/live-source scout, and repository intake. No revenue workload was started.",
+    "evidence": [
+      "Continuity controller treats first realized dollar, self-supporting operation, household relief, reserve, and surplus as distinct stages.",
+      "Payout gate rejects nominal balances that are below minimum, unavailable, illiquid, or behind unverified payout rails.",
+      "Yield Harvester models USEFUL_COMPUTE_REWARD separately from ordinary mining and marketplace demand.",
+      "Gridcoin current documentation confirms zero-capital pool crunching is possible and research rewards exist for BOINC/Folding work.",
+      "BananoMiner is currently active and displayed recent September 2026 Folding@Home payouts.",
+      "Gridcoin documentation explicitly states Curecoin can be earned at the same time as Gridcoin for Folding@Home; Curecoin Research Core currently reports Folding Rewards ACTIVE.",
+      "XMRig plus Monero P2Pool remains the strongest pure-mining baseline for owned consumer CPU hardware.",
+      "Unsafe Silent-Crypto-Miner was rejected after source inspection showed concealment/persistence and a remote encrypted native payload loader.",
+      "DesKaOne/Crypto-Cloud-Mining currently contains persistence design notes, not an executable cloud-mining revenue runtime.",
+      "Capital-heavy trading, Akash provider infrastructure, bandwidth exposure, and human-interaction bounties remain secondary or blocked."
+    ],
+    "recommended_first_effect": "Run a bounded Folding@Home revenue benchmark on explicitly owned hardware after Patrick supplies/creates the required public receiving wallet and explicitly authorizes official Folding@Home installation/configuration. Compare realized withdrawable rewards and measured power cost before allowing unattended operation.",
+    "claim_ceiling": "No wallet was created, no account or terms were accepted, no software was installed, no mining/folding/provider workload was started, no transaction was signed, no capital was deployed, and no reward is receivable or received.",
+    "next_frontier": "Prepare exact Patrick action/decision packet for the first bounded owned-hardware revenue experiment."
+  },
+  "external_effect": false
+}

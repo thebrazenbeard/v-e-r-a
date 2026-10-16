@@ -1,0 +1,30 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FOLD-0006",
+  "event_type": "OPPORTUNITY_APPROVED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-FOLDING-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-07T11:28:55.866941Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-FOLDING-0001",
+  "causation_id": "EVT-FOLD-0005",
+  "idempotency_key": "first-dollar:folding:bounded-download-retry:approved:v1",
+  "from_state": "VERA_DECISION",
+  "to_state": "APPROVED",
+  "payload": {
+    "approved_effect": "Perform exactly one bounded Folding@Home retry diagnostic on Lappy using the already-installed official client and existing BananoMiner identity mapped to vera-banano-receiving-v1. The purpose is only to test whether the assigned work unit/core can progress past the prior DOWNLOAD stall.",
+    "execution_bounds": [
+      "WorkLaptop remains excluded.",
+      "No wallet seed or private key may be read or used.",
+      "No software installation or account creation.",
+      "No second retry or new workload after this bounded diagnostic.",
+      "Observe FAHClient/FAHCore state and logs during the retry.",
+      "If FAHCore launches, record that download/core acquisition succeeded and stop the Folding workload promptly; do not intentionally complete a work unit.",
+      "Stop after 5 minutes if download/core acquisition has not succeeded.",
+      "Stop immediately on unexpected state, credential request, or materially different external effect."
+    ],
+    "postcondition": "Record the observed outcome and return the opportunity to screening/decision as required before any further Folding action.",
+    "external_effect_not_yet_performed_by_this_event": true
+  },
+  "external_effect": false
+}

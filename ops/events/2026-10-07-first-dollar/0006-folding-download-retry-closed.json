@@ -1,0 +1,31 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FOLD-0007",
+  "event_type": "OPPORTUNITY_CLOSED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-FOLDING-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-07T19:46:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-FOLDING-0001",
+  "causation_id": "EVT-FOLD-0006",
+  "idempotency_key": "first-dollar:folding:download-retry:closed-success:v1",
+  "from_state": "APPROVED",
+  "to_state": "CLOSED",
+  "payload": {
+    "outcome": "TECHNICAL_DOWNLOAD_BLOCKER_CLEARED",
+    "target": "Lappy",
+    "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "work_unit_id": "tEIDEFxCdWPZtsBdUgnK-HilttbF6lDlexHBIhzJBjw",
+    "project": 15506,
+    "assigned_credit": 42602,
+    "client_estimated_ppd": 316986,
+    "client_eta": "7h 12m",
+    "core_type": "0x28",
+    "core_version": "8.3.1",
+    "core_downloaded": true,
+    "client_paused": true,
+    "fahcore_running": false,
+    "claim_ceiling": "Technical readiness only; no revenue or profitability claim and no continuous authorization."
+  },
+  "external_effect": false
+}

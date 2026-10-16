@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-SIGNPOSTAPI118-0003",
+  "event_type": "OPPORTUNITY_VERA_DECISION",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-SIGNPOSTAPI118-BOUNTY-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-08T21:10:02Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SIGNPOSTAPI118-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-SIGNPOSTAPI118-0002",
+  "idempotency_key": "first-dollar:github-bounty:signpost-api-118:vera-decision:v1",
+  "from_state": "SCREENING",
+  "to_state": "VERA_DECISION",
+  "payload": {
+    "decision": "AUTHORIZE_LOCAL_PATCH_PREPARATION_ONLY",
+    "reason": "This is an uncontested zero-capital USD 85 bounty with a narrow duplicate-code surface and strong local testability.",
+    "claim_ceiling": "Clone/read public source, implement and validate locally on Lappy only; no claim comment, fork, upstream push, pull request, terms acceptance, payout setup, or other consequential external effect."
+  },
+  "external_effect": false
+}

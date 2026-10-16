@@ -1,0 +1,34 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0005",
+  "event_type": "OPPORTUNITY_SCREENED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:22:56Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0004",
+  "idempotency_key": "first-dollar:opp:0001:screened",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "gross_revenue_range_usd_per_report": ["100", "300"],
+    "likely_net_revenue": "Unknown until payment rail/fees are specified; no application fee is stated.",
+    "estimated_effort": "Approximately 3-6 Vera/worker hours for a bounded report, highly scope-dependent.",
+    "patrick_effort": "Account/privacy decision and manual external application; later legal/payment steps if selected.",
+    "startup_cost_usd": "0",
+    "time_to_possible_first_payment": "Unknown; post is currently recruiting and gives no delivery/payment schedule.",
+    "platform_rules": {
+      "b2b_status": "r/B2BForHire requires posts to be business-to-business.",
+      "account_age": "Published subreddit rules state accounts under two months are not permitted.",
+      "ai_assistance": "No explicit subreddit rule prohibiting AI-assisted production was found in the published rules reviewed; buyer-specific permission remains unknown and must be confirmed before substantive work."
+    },
+    "ip_license": "Not stated; must be clarified before accepting an assignment.",
+    "privacy": "Application asks for country/time zone and a resume or LinkedIn profile.",
+    "payment_likelihood": "Unverified. Poster identity and payment history were not independently verified.",
+    "risk_controls": ["Do not pay any application/linking fee.", "Clarify scope, rights, payment method, and payment timing before work.", "Disclose that Vera Works is AI-assisted and obtain buyer acceptance before substantive production.", "Do not fabricate employment history, credentials, or a LinkedIn profile."],
+    "disposition": "PURSUE_CONDITIONALLY",
+    "reasoning": "Fresh, zero-upfront, B2B-compatible demand is directly aligned with Vera Works research/writing capability and has materially better first-dollar economics than bid-credit marketplaces."
+  },
+  "external_effect": false
+}

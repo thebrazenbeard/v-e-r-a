@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0016",
+  "event_type": "ASSIGNMENT_HELD",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FIRST-DOLLAR-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:34:56Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0015",
+  "idempotency_key": "first-dollar:asg:0001:held-for-manual-reddit-send",
+  "from_state": "IN_PROGRESS",
+  "to_state": "HELD",
+  "payload": {
+    "holder": "vera:works-operator",
+    "hold_event_id": "EVT-FD-0015",
+    "held_reason": "Awaiting the single authorized manual Reddit application send by Patrick.",
+    "resume_condition": "HOLD-FD-0002 is resolved by PATRICK_REDDIT_APPLICATION_SENT_RECORDED or explicitly cancelled/declined."
+  },
+  "external_effect": false
+}

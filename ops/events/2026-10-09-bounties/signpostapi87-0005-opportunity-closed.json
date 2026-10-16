@@ -1,0 +1,32 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-SIGNPOSTAPI87-0005",
+  "event_type": "OPPORTUNITY_CLOSED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-SIGNPOSTAPI87-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T18:44:30Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SIGNPOSTAPI87-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-SIGNPOSTAPI87-0004",
+  "idempotency_key": "first-dollar:github-bounty:signpost-api-87:closed-external-claim:v1",
+  "from_state": "APPROVED",
+  "to_state": "CLOSED",
+  "payload": {
+    "outcome": "EXTERNALLY_CLAIMED_AND_CLOSED_BEFORE_VERA_WORKS_PUBLICATION",
+    "source": "https://github.com/Signpost-Labs/signpost-api/issues/87",
+    "advertised_reward_usd": "85",
+    "fresh_issue_state": "CLOSED",
+    "fresh_comment_count": 1,
+    "fresh_assignee_count": 0,
+    "claim_evidence": "A public issue comment supplied a proposed fix and explicitly requested payment of the USD 85 bounty before Vera Works publication.",
+    "claim_evidence_url": "https://github.com/Signpost-Labs/signpost-api/issues/87#issuecomment-6086450238",
+    "issue_updated_at": "2026-10-09T18:25:21Z",
+    "stop_condition_triggered": "Upstream bounty closed after a competing public claim before Vera Works publication.",
+    "local_ready_pr": 58,
+    "local_ready_pr_disposition": "CLOSED_UNMERGED",
+    "publication_hold_created_in_canonical_state": false,
+    "publication_authorized": false,
+    "recommendation": "Do not publish or claim against issue #87. Preserve the prepared branch as noncanonical reusable engineering evidence and redirect effort to a still-open uncontested opportunity."
+  },
+  "external_effect": false
+}

@@ -1,0 +1,30 @@
+{
+  "candidates": [
+    {
+      "claim_id": "synthetic-wallet-entitlement",
+      "title": "Synthetic wallet entitlement fixture",
+      "source_id": "synthetic-official-source",
+      "source_uri": "https://official.example/claim",
+      "source_class": "FIRST_PARTY_PROTOCOL",
+      "source_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "observed_at": "2026-10-05T15:00:00Z",
+      "eligibility_class": "ENTITLED",
+      "beneficiary_type": "WALLET",
+      "beneficiary_locator": "0x1111111111111111111111111111111111111111",
+      "beneficiary_match": "VERIFIED",
+      "opens_at": "2026-10-01T00:00:00Z",
+      "closes_at": "2027-01-01T00:00:00Z",
+      "gross_amount": "25",
+      "currency": "USD",
+      "fee_estimate": "1",
+      "tax_reserve_estimate": "4",
+      "requires_wallet_signature": false,
+      "requires_identity_verification": false,
+      "requires_account_creation": false,
+      "requires_terms_acceptance": false,
+      "human_communication_required": false,
+      "evidence_refs": ["synthetic:test-only"],
+      "notes": "Fixture only. This is not a real claim."
+    }
+  ]
+}

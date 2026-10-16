@@ -1,0 +1,27 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0012",
+  "event_type": "DELIVERABLE_DRAFTING_STARTED",
+  "subject_type": "deliverable",
+  "subject_id": "DLV-FD-APP-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:34:52Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0011",
+  "idempotency_key": "first-dollar:deliverable:application:0001:drafting",
+  "from_state": null,
+  "to_state": "DRAFTING",
+  "payload": {
+    "deliverable_kind": "external application package",
+    "opportunity_id": "OPP-FD-0001",
+    "acceptance_criteria": [
+      "Truthful and non-deceptive application message",
+      "Explicit disclosure of AI-assisted Vera Works production",
+      "No fabricated credentials, client history, portfolio, or LinkedIn profile",
+      "Current sourced writing sample",
+      "Exact compensation stance within the buyer's posted range",
+      "No external submission until Patrick performs the separately authorized manual action"
+    ]
+  },
+  "external_effect": false
+}

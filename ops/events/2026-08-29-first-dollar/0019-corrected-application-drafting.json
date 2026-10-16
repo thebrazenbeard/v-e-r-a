@@ -1,0 +1,27 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0019",
+  "event_type": "DELIVERABLE_DRAFTING_STARTED",
+  "subject_type": "deliverable",
+  "subject_id": "DLV-FD-APP-0002",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:39:12Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0018",
+  "idempotency_key": "first-dollar:deliverable:application:0002:drafting",
+  "from_state": null,
+  "to_state": "DRAFTING",
+  "payload": {
+    "supersedes_deliverable_id": "DLV-FD-APP-0001",
+    "reason": "Correct external representation of Patrick's role.",
+    "acceptance_criteria": [
+      "Patrick is explicitly described only as the human account/legal contact and not as worker, operator, researcher, or service provider.",
+      "Vera Works is described as an AI-operated research venture without representing Vera as a legal person.",
+      "The buyer is told plainly that there is no conventional human researcher resume or LinkedIn profile.",
+      "AI-assisted production is disclosed.",
+      "No fabricated credentials or client history.",
+      "No external submission until the corrected manual-send packet is issued."
+    ]
+  },
+  "external_effect": false
+}

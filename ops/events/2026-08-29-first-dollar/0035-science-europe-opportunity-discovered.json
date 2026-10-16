@@ -1,0 +1,25 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0035",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0005",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T21:52:11Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0026",
+  "idempotency_key": "first-dollar:opp:0005:discovered",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {
+    "title": "Tender for Study on Combating Sexual and Gender-based Violence in Research and Innovation",
+    "buyer": "Science Europe",
+    "channel": "Direct tender",
+    "source_url": "https://www.scienceeurope.org/news/tender-for-study-on-combating-sexual-gender-based-violence-in-research-innovation/",
+    "work_requested": "Comprehensive desk study synthesizing scholarly literature and reviewing research, data, reports, tools, and instruments related to sexual and gender-based violence in research and innovation.",
+    "deadline": "2026-09-30",
+    "startup_cost_usd": "0",
+    "external_route": "Direct consultant tender."
+  },
+  "external_effect": false
+}

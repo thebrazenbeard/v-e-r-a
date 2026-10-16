@@ -1,0 +1,32 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-SOUNDING103-0004",
+  "event_type": "OPPORTUNITY_APPROVED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-SOUNDING103-BOUNTY-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-08T20:15:19Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SOUNDING103-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-SOUNDING103-0003",
+  "idempotency_key": "first-dollar:github-bounty:sounding103:local-prep-approved:v1",
+  "from_state": "VERA_DECISION",
+  "to_state": "APPROVED",
+  "payload": {
+    "approved_effect": "On Lappy, clone the public Sounding repository, implement the smallest correct offline Markdown relative-link checker, wire it into CI, fix the four known broken links, and run local validation.",
+    "stop_conditions": [
+      "Stop before any public issue comment, claim, fork, upstream push, pull request, terms, or payout step.",
+      "Stop if implementation requires secrets, spend, production access, destructive external testing, or nonpublic data.",
+      "Stop if fresh issue state shows the bounty closed or claimed before local preparation completes."
+    ],
+    "explicit_exclusions": [
+      "No WorkLaptop.",
+      "No external account creation.",
+      "No terms acceptance.",
+      "No identity, tax, wallet, or payout submission.",
+      "No public upstream GitHub publication.",
+      "No spending."
+    ],
+    "external_effect_not_yet_performed_by_this_event": true
+  },
+  "external_effect": false
+}

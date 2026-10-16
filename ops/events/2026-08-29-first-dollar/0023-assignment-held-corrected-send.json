@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0023",
+  "event_type": "ASSIGNMENT_HELD",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FIRST-DOLLAR-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:39:16Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0022",
+  "idempotency_key": "first-dollar:asg:0001:held-for-corrected-manual-send",
+  "from_state": "IN_PROGRESS",
+  "to_state": "HELD",
+  "payload": {
+    "holder": "vera:works-operator",
+    "hold_event_id": "EVT-FD-0022",
+    "held_reason": "Awaiting Patrick's bounded decision/action on the corrected one-application Reddit message.",
+    "resume_condition": "HOLD-FD-0003 resolves by PATRICK_REDDIT_APPLICATION_SENT_RECORDED or cancellation/decline."
+  },
+  "external_effect": false
+}

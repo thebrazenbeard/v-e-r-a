@@ -1,0 +1,29 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-STREAMR89-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-STREAMR89-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T19:31:56Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-STREAMR89-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-STREAMR89-0001",
+  "idempotency_key": "first-dollar:github-bounty:streamr-89:screening:v1",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "evidence_summary": [
+      "Issue #89 is open with zero comments and no assignee.",
+      "Advertised bounty is USD 85.",
+      "The issue identifies duplicated toBigInt/toTimestamp/fmt logic across four dashboard files and asks for a single shared module plus unit tests.",
+      "Acceptance requires all four dashboard files to import shared helpers and tests covering signed-negative, hi/lo, string, and empty inputs."
+    ],
+    "recommended_test": "Extract a narrow shared ScVal/amount utility preserving current semantics, replace the four duplicate helper blocks, add deterministic unit tests, and compare the full-suite failure set to current upstream baseline.",
+    "alternatives": [
+      "Streamr #94 USD 75 keyboard/ARIA card accessibility.",
+      "Streamr #95 USD 80 RPC polling reduction with higher behavioral risk.",
+      "Streamr #98 USD 85 contract error-code conversion spanning Rust and frontend."
+    ]
+  },
+  "external_effect": false
+}

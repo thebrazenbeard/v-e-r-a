@@ -1,0 +1,41 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FOLD-BENCH-0004",
+  "event_type": "OPPORTUNITY_APPROVED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-FOLDING-BENCHMARK-0002",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-07T19:46:04Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-FOLDING-BENCHMARK-0002",
+  "causation_id": "EVT-FOLD-BENCH-0003",
+  "idempotency_key": "first-dollar:folding:one-wu-benchmark:approved:v1",
+  "from_state": "VERA_DECISION",
+  "to_state": "APPROVED",
+  "payload": {
+    "approved_effect": "On Lappy, resume the currently assigned GPU-only work unit in finish mode so it may complete without accepting a replacement.",
+    "bound_work_unit": {
+      "number": 3,
+      "id": "tEIDEFxCdWPZtsBdUgnK-HilttbF6lDlexHBIhzJBjw",
+      "project": 15506,
+      "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU",
+      "cpus": 0
+    },
+    "stop_conditions": [
+      "Finish bound WU then stop.",
+      "Pause at 9 hours if incomplete.",
+      "Pause immediately on unexpected unit/CPU work/client failure."
+    ],
+    "postcondition": "Verify BananoMiner/provider and BANANO chain reward before recording revenue.",
+    "explicit_exclusions": [
+      "No continuous Folding.",
+      "No second work unit.",
+      "No CPU Folding.",
+      "No WorkLaptop.",
+      "No seed/private-key use.",
+      "No install/account creation.",
+      "No spending."
+    ],
+    "external_effect_not_yet_performed_by_this_event": true
+  },
+  "external_effect": false
+}

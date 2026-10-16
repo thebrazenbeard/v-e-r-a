@@ -1,0 +1,30 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0008",
+  "event_type": "PATRICK_DECISION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-FD-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:22:59Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0007",
+  "idempotency_key": "first-dollar:hold:0001:open",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "PATRICK_DECISION_REQUIRED",
+    "problem": "The approved opportunity requires use of a human Reddit account and disclosure of account/profile information in an external application. Whether Patrick is willing to use an eligible account for this purpose is his privacy/property/willingness decision.",
+    "held_subject_type": "opportunity",
+    "held_subject_id": "OPP-FD-0001",
+    "held_state": "APPROVED",
+    "required_from": "patrick",
+    "recommendation": "Authorize use of a qualifying Reddit account (at least two months old under the published subreddit rule) for a single transparent application. If authorized, Vera Works will first prepare a truthful application package and original writing sample; Patrick will then receive a bounded PATRICK_ACTION_REQUIRED request to manually send the message. The application will disclose AI-assisted Vera Works production and will ask the buyer to confirm that arrangement before substantive work.",
+    "alternatives": ["Decline use of a Reddit account and return the first-dollar assignment to sourcing.", "Authorize a different zero-upfront channel if Patrick prefers not to use Reddit.", "Do nothing; no application will be sent and no external effect will occur."],
+    "consequences": ["Authorization creates no spend or contract by itself, but it permits preparation of a customer-facing application for Patrick to send manually.", "The buyer may reject AI-assisted production or the application.", "The poster and payment terms are not independently verified, so acceptance of any work remains separately gated after due diligence.", "Declining has no financial cost; it only sends the workflow back to sourcing."],
+    "inaction_effect": "The first-dollar assignment remains held. No Reddit message, account action, customer communication, spend, or contract occurs.",
+    "resume_event_type": "PATRICK_REDDIT_ACCOUNT_DECISION_RECORDED",
+    "evidence": ["https://www.reddit.com/r/B2BForHire/comments/1vgzcqr/hiring_remote_geopolitical_researchers/", "https://www.reddit.com/r/B2BForHire/"],
+    "completion_evidence_requested": "Patrick records AUTHORIZE or DECLINE. If AUTHORIZE, identify only whether an account meeting the subreddit age rule is available; no password, credential, or private account identifier belongs in GitHub."
+  },
+  "external_effect": false
+}

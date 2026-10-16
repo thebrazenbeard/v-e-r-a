@@ -1,0 +1,23 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-STREAMR27-0006",
+  "event_type": "HOLD_CANCELLED_EXTERNAL_INVALIDATION",
+  "subject_type": "hold",
+  "subject_id": "HOLD-BOUNTY-STREAMR27-0001",
+  "actor": "automation",
+  "recorded_at": "2026-10-08T23:50:14Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-STREAMR27-BOUNTY-0001",
+  "causation_id": "HOLD-BOUNTY-STREAMR27-0001",
+  "idempotency_key": "first-dollar:github-bounty:streamr27:publication-hold:external-invalidation-cancel:v2",
+  "from_state": "OPEN",
+  "to_state": "CANCELLED",
+  "payload": {
+    "resolution_of": "HOLD-BOUNTY-STREAMR27-0001",
+    "cancellation_reason": "HELD_SUBJECT_NO_LONGER_ACTIONABLE",
+    "evidence": "After the validated local patch and OPPORTUNITY_CLOSED event were recorded, fresh GitHub checks still showed streamr-labs/streamr public and healthy while issue #27 returned HTTP 404 and gh issue view could not resolve it.",
+    "authority_effect": "No Patrick decision is inferred or granted. The prior Patrick publication hold is cancelled only because its external subject no longer exists; publication remains unauthorized.",
+    "related_opportunity_close_event": "EVT-BOUNTY-STREAMR27-0005",
+    "public_effect_performed": false
+  },
+  "external_effect": false
+}

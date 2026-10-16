@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-YC-0003",
+  "event_type": "ASSIGNMENT_STARTED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-YIELD-CONTINUITY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T17:58:02Z",
+  "correlation_id": "CORR-YIELD-CONTINUITY-0001",
+  "causation_id": "EVT-YC-0002",
+  "idempotency_key": "yield-continuity:v1:assignment-in-progress",
+  "from_state": "CLAIMED",
+  "to_state": "IN_PROGRESS",
+  "payload": {
+    "holder": "vera:works-operator",
+    "reason": "Patrick asked Vera Works to build the revenue system around first-dollar success, continuity, and household relief, and authorized broad multi-lane research while keeping execution bounded.",
+    "next_frontier": "Qualify live customerless mechanisms and the exact owned hardware before any revenue workload effect."
+  },
+  "external_effect": false
+}

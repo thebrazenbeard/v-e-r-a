@@ -1,0 +1,49 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "HOLD-BOUNTY-STREAMR8-0001",
+  "event_type": "PATRICK_DECISION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-BOUNTY-STREAMR8-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-08T16:09:14Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-STREAMR8-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-STREAMR8-0004",
+  "idempotency_key": "first-dollar:github-bounty:streamr8:patrick-publication-decision:v1",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "PATRICK_DECISION_REQUIRED",
+    "problem": "The local Streamr #8 bounty patch is complete and validated, but claiming the bounty and publishing the contribution require public actions through Patrick's GitHub identity. The current canonical authorization explicitly stops before issue comments, claims, forks, pushes, pull requests, terms, or payout steps.",
+    "held_subject_type": "opportunity",
+    "held_subject_id": "OPP-FIRST-DOLLAR-STREAMR8-BOUNTY-0001",
+    "held_state": "APPROVED",
+    "required_from": "patrick",
+    "recommendation": "Authorize this exact instance: use Patrick's GitHub identity to comment on streamr-labs/streamr issue #8 requesting assignment/claim, create or use a fork only if required, publish the prepared commit as a narrowly scoped branch, and open one PR referencing Closes #8. Do not accept new bounty-platform terms, submit tax/identity/payment information, or configure payout rails without a separate Patrick-owned decision.",
+    "alternatives": [
+      "Decline publication and keep the patch archived internally; no public GitHub action occurs.",
+      "Authorize only the issue claim comment, then hold again before fork/push/PR.",
+      "Wait for upstream baseline CI/install repairs before claiming, accepting the risk another contributor takes the bounty."
+    ],
+    "consequences": [
+      "The GitHub account will make a public commercial contribution and may be associated with a bounty claim.",
+      "The advertised reward is USD 85 but payment is not guaranteed until maintainers accept/merge under their bounty process.",
+      "Fresh checks found the issue open with zero comments and no assignee before this hold was created.",
+      "The prepared targeted test suite passes 6 of 6 and new files pass ESLint, Prettier, and git diff checks.",
+      "Current upstream main independently has npm-ci lock/dependency problems, two pre-existing failing test suites, and unrelated TypeScript build errors; these are documented rather than hidden.",
+      "No spend, credentials, secrets, production access, payout setup, or customer data are required to publish the code contribution itself."
+    ],
+    "inaction_effect": "The patch remains preserved in Vera Works and locally, but Streamr #8 stays unclaimed by Vera Works and another contributor may claim or complete the USD 85 bounty.",
+    "resume_event_type": "PATRICK_STREAMR8_PUBLICATION_DECISION_RECORDED",
+    "completion_evidence_requested": "Patrick records AUTHORIZE or DECLINE for public GitHub claim/fork/push/PR actions for streamr-labs/streamr issue #8. No GitHub credential, password, token, wallet, tax identifier, or payout account detail belongs in the event store.",
+    "prepared_deliverable": {
+      "upstream_repository": "streamr-labs/streamr",
+      "upstream_issue": 8,
+      "upstream_base_sha": "6683ceb98abbb9e0fc4eb43ecace6da5aacc1983",
+      "local_commit_sha": "53b49176fdf2bf8db1e701f04454004adacf4e8f",
+      "durable_patch": "ops/artifacts/2026-10-08-streamr8-bounty/streamr8-issue-8.patch",
+      "targeted_test": "npx vitest run src/hooks/streamMath.test.ts",
+      "targeted_result": "6 passed, 0 failed"
+    }
+  },
+  "external_effect": false
+}

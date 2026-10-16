@@ -1,0 +1,24 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0039",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0006",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T22:33:02Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0026",
+  "idempotency_key": "first-dollar:opp:0006:discovered",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {
+    "title": "Update all outdated dependencies",
+    "buyer": "tailcallhq/rust-grpc / Algora bounty",
+    "channel": "GitHub issue with Algora bounty",
+    "source_url": "https://github.com/tailcallhq/rust-grpc/issues/44",
+    "compensation": "USD 50 bounty",
+    "source_state": "GitHub issue remains open and was updated in August 2026.",
+    "startup_cost_usd": "0"
+  },
+  "external_effect": false
+}

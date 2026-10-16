@@ -1,0 +1,23 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-STREAMR89-0005",
+  "event_type": "OPPORTUNITY_CLOSED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-STREAMR89-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T19:56:03Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-STREAMR89-BOUNTY-0001",
+  "causation_id": "HOLD-SECURITY-STREAMR-20261009-0001",
+  "idempotency_key": "security:streamr:streamr89:closed-local-compromise:20261009:v1",
+  "from_state": "APPROVED",
+  "to_state": "CLOSED",
+  "payload": {
+    "outcome": "SOURCE_EXECUTION_QUARANTINED_AFTER_LOCAL_SECURITY_COMPROMISE",
+    "security_exception": "HOLD-SECURITY-STREAMR-20261009-0001",
+    "publication_performed": false,
+    "upstream_issue": 89,
+    "reason": "Prepared or planned work depends on a local Streamr execution environment that is no longer trusted after observed malicious remote-code execution. Preserve artifacts for evidence only; do not publish or execute them.",
+    "resume_policy": "A future opportunity requires a fresh live issue check, clean-room source/dependency verification, fresh local validation in a trusted environment, and new explicit authorization."
+  },
+  "external_effect": false
+}

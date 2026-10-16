@@ -1,0 +1,29 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-YH-0001",
+  "event_type": "ASSIGNMENT_CREATED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-YIELD-HARVESTER-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T16:45:00Z",
+  "correlation_id": "CORR-YIELD-HARVESTER-0001",
+  "causation_id": null,
+  "idempotency_key": "yield-harvester:v1:assignment-created",
+  "from_state": null,
+  "to_state": "CREATED",
+  "payload": {
+    "objective": "Build a customerless Yield Harvester that continuously compares protocol, network, pool, staking, and aggregate marketplace rewards for authorized idle resources.",
+    "scope": "Source implementation, candidate/resource contracts, deterministic permission/economics/freshness gates, resource broker, tests, documentation, and effect packets. No mining, installation, account creation, terms acceptance, identity submission, wallet signing, network exposure, spend, staking, deployment, or reward claim is authorized by this assignment.",
+    "acceptance_criteria": [
+      "Customer acquisition and person-to-person communication are excluded from the current lane.",
+      "Employer resources and terms-prohibited resources fail closed.",
+      "Cloud access does not imply workload permission.",
+      "Generic profitability estimates cannot become executable without an exact-resource benchmark by default.",
+      "Net yield includes incremental electricity and other explicit costs.",
+      "Profitability evidence expires deterministically.",
+      "At most one ready workload is selected per resource.",
+      "Positive candidates stop at exact effect authorization and do not auto-start."
+    ]
+  },
+  "external_effect": false
+}

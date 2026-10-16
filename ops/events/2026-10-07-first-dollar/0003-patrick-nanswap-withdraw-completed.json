@@ -1,0 +1,32 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-NANSWAP-0013",
+  "event_type": "PATRICK_ACTION_COMPLETED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-NANSWAP-WITHDRAW-ACTION-0001",
+  "actor": "patrick",
+  "recorded_at": "2026-10-07T18:50:00Z",
+  "correlation_id": "CORR-NANSWAP-RANDOMX-0001",
+  "causation_id": "HOLD-NANSWAP-WITHDRAW-ACTION-0001",
+  "idempotency_key": "nanswap-randomx:v1:patrick-withdraw-completed-chain-verified",
+  "from_state": "OPEN",
+  "to_state": "RESOLVED",
+  "payload": {
+    "resolution_of": "HOLD-NANSWAP-WITHDRAW-ACTION-0001",
+    "outcome": "AUTHORIZED_WITHDRAWAL_SUBMITTED_AND_INDEPENDENTLY_VERIFIED",
+    "provider": "Nanswap",
+    "asset": "BAN",
+    "amount": "1.7368",
+    "destination_alias": "vera-banano-receiving-v1",
+    "provider_withdrawal_hash": "3C8D006AADFC17598EE18417739F9EB030C42B912448498E7A0253B37F11DD93",
+    "provider_date_withdrawn": "2026-10-07T18:40:47.519Z",
+    "provider_history_is_withdrawn": true,
+    "chain_receipt_observed": true,
+    "chain_balance_raw": "173680000000000000000000000000",
+    "chain_receivable_raw": "0",
+    "verification_observed_at": "2026-10-07T18:44:06.670022Z",
+    "verification_evidence": "Fresh Nanswap withdrawal history plus independent BANANO RPC balance/receivable read agreed; user screenshot corroborated receipt.",
+    "resume_event_type": "PATRICK_ACTION_COMPLETED"
+  },
+  "external_effect": false
+}

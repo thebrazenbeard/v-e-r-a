@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-STREAMR7-0003",
+  "event_type": "OPPORTUNITY_VERA_DECISION",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-STREAMR7-BOUNTY-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-08T23:55:54Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-STREAMR7-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-STREAMR7-0002",
+  "idempotency_key": "first-dollar:github-bounty:streamr7:vera-decision:v1",
+  "from_state": "SCREENING",
+  "to_state": "VERA_DECISION",
+  "payload": {
+    "decision": "AUTHORIZE_PATCH_VALIDATION_ONLY",
+    "reason": "This is a live, uncontested, zero-capital bounty with a small deterministic test surface and strong setup reuse from prior Streamr work.",
+    "claim_ceiling": "Prepare/apply/revise and test the patch using public source only. Do not claim the issue, fork, push to Streamr, open an external PR, accept terms, configure payout, submit identity/tax/payment data, or spend."
+  },
+  "external_effect": false
+}

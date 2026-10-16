@@ -1,0 +1,36 @@
+{
+  "schema_version": "first-dollar-benchmark-v1",
+  "observations": [
+    {
+      "mechanism_id": "nanswap-randomx-banano",
+      "resource_alias": "lappy",
+      "evidence_quality": "REALIZED_REWARD",
+      "source_uri": "https://rx.nanswap.com/get-mining-stats",
+      "quote_observed_at": "2026-10-06T11:48:43.340016Z",
+      "max_quote_age_seconds": 3600,
+      "benchmark_duration_hours": "0.5007748392",
+      "hours_per_day": "24",
+      "baseline_watts": "UNKNOWN",
+      "workload_watts": "UNKNOWN",
+      "performance_metric_name": "terminal_15m_hashrate",
+      "performance_metric_value": "1632.1",
+      "performance_metric_unit": "H/s",
+      "reward_units_per_day": "83.23740879107366361675582518",
+      "reward_unit_symbol": "BAN",
+      "reward_unit_usd": "0.00055071576",
+      "minimum_payout_units": "UNKNOWN",
+      "payout_fee_units": "UNKNOWN",
+      "liquidity_ratio": "UNKNOWN",
+      "platform_fee_usd_per_day": "UNKNOWN",
+      "other_cost_usd_per_day": "0",
+      "electricity_usd_per_kwh": "UNKNOWN",
+      "warmup_days": "UNKNOWN",
+      "payout_lag_days": "UNKNOWN",
+      "evidence_refs": [
+        "benchmark:work/first-dollar/nanswap-randomx-0001/run-evidence.json",
+        "receipt:work/first-dollar/nanswap-randomx-0001/pool-reward-evidence.json",
+        "chain:no-onchain-receipt-at-reward-snapshot"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-STREAMR10-0005",
+  "event_type": "OPPORTUNITY_CLOSED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-STREAMR10-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T19:27:37Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-STREAMR10-BOUNTY-0001",
+  "causation_id": "HOLD-BOUNTY-STREAMR10-0001",
+  "idempotency_key": "first-dollar:github-bounty:streamr10:closed-source-closed:20261009:v1",
+  "from_state": "APPROVED",
+  "to_state": "CLOSED",
+  "payload": {
+    "outcome": "SOURCE_BOUNTY_CLOSED_BEFORE_PUBLICATION",
+    "source_repository": "streamr-labs/streamr",
+    "source_issue_number": 10,
+    "issue_state_observed": "CLOSED",
+    "issue_updated_at_observed": "2026-10-09T17:10:45Z",
+    "issue_comment_count_observed": 0,
+    "publication_performed": false,
+    "local_patch_commit_sha": "47c599ada524792d13941afa972ba807e155ffcd",
+    "durable_patch": "ops/artifacts/2026-10-08-streamr10-bounty/streamr10-issue-10.patch",
+    "validation_result": "4 passed, 0 failed",
+    "publication_hold": "HOLD-BOUNTY-STREAMR10-0001",
+    "hold_disposition": "CANCELLED_BY_EVT-BOUNTY-STREAMR10-0006; underlying opportunity is CLOSED and no publication may occur without a fresh live opportunity and new authorization.",
+    "claim_ceiling": "No bounty claim, fork, upstream push, pull request, terms acceptance, payout setup, identity submission, or spend occurred."
+  },
+  "external_effect": false
+}

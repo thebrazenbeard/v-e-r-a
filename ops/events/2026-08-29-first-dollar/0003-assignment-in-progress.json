@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0003",
+  "event_type": "ASSIGNMENT_STARTED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FIRST-DOLLAR-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:15:56Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0002",
+  "idempotency_key": "first-dollar:asg:0001:in-progress",
+  "from_state": "CLAIMED",
+  "to_state": "IN_PROGRESS",
+  "payload": {
+    "holder": "vera:works-operator",
+    "evidence_summary": "Initial screening rejected stale, inaccessible, already-hired, policy-conflicting, or poor-economics candidates. Upwork is deprioritized under the $0 seed-capital objective where bid credits may create friction; zero-upfront channels remain preferred. Reddit r/forhire currently enforces a $15/hour minimum and requires a rate/budget; freelancer posts also require a portfolio or resume and prohibit team/agency representation.",
+    "next_frontier": "Identify and screen a concrete current buyer or an evidence-backed zero-upfront outbound channel that can be pursued without misrepresentation or prohibited external effects."
+  },
+  "external_effect": false
+}

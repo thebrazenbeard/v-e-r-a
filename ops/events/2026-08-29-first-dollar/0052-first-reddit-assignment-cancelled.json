@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0052",
+  "event_type": "ASSIGNMENT_CANCELLED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FIRST-DOLLAR-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-30T00:29:33Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0051",
+  "idempotency_key": "first-dollar:asg:0001:cancelled:reddit-channel-rejected",
+  "from_state": "IN_PROGRESS",
+  "to_state": "CANCELLED",
+  "payload": {
+    "holder": "vera:works-operator",
+    "reason": "The assignment existed to pursue OPP-FD-0001. That opportunity is closed after Patrick rejected the Reddit/job-application operating pattern. Parallel sourcing ASG-FD-SOURCING-0002 remains active and is governed by the new low-Patrick-touch sourcing boundary.",
+    "external_effect_occurred": false,
+    "patrick_action_required": false
+  },
+  "external_effect": false
+}

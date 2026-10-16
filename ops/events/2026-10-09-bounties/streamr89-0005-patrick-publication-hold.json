@@ -1,0 +1,51 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "HOLD-BOUNTY-STREAMR89-0001",
+  "event_type": "PATRICK_DECISION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-BOUNTY-STREAMR89-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T19:42:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-STREAMR89-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-STREAMR89-0004",
+  "idempotency_key": "first-dollar:github-bounty:streamr-89:patrick-publication-decision:v1",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "PATRICK_DECISION_REQUIRED",
+    "problem": "The local Streamr #89 bounty patch is complete and validated within the current upstream baseline, but claiming the bounty and publishing the contribution require public actions through Patrick's GitHub identity. Current authorization stops before issue comments, claims, forks, upstream pushes, pull requests, terms, or payout steps.",
+    "held_subject_type": "opportunity",
+    "held_subject_id": "OPP-FIRST-DOLLAR-STREAMR89-BOUNTY-0001",
+    "held_state": "APPROVED",
+    "required_from": "patrick",
+    "recommendation": "Authorize this exact instance: use Patrick's GitHub identity to comment on streamr-labs/streamr issue #89 requesting assignment/claim, create or use a fork only if required, publish the prepared commit as a narrowly scoped branch, and open one PR referencing Closes #89. Do not accept new bounty-platform terms, submit tax/identity/payment information, configure payout rails, or spend money without a separate Patrick-owned decision.",
+    "alternatives": [
+      "Decline publication and keep the patch archived internally.",
+      "Authorize only the issue claim comment, then hold again before fork/push/PR.",
+      "Wait for upstream baseline test/build repairs, accepting the risk another contributor claims or closes the USD 85 bounty."
+    ],
+    "consequences": [
+      "The GitHub account will make a public commercial contribution and may be associated with a bounty claim.",
+      "The advertised reward is USD 85 but payment is not guaranteed until maintainers accept/merge under their bounty process.",
+      "Fresh checks found issue #89 open with zero comments and no assignee immediately before the local commit.",
+      "The patch centralizes toBigInt, toTimestamp, timestamp formatting, and token formatting in src/util/scval.ts and removes the duplicate conversion implementations from all four dashboard files named by the issue.",
+      "The shared helper tests cover signed negative values, signed hi/lo words, alternate hi/lo aliases, integer and decimal strings, wrapper values, empty inputs, timestamps, and token-format precision.",
+      "Targeted helper validation passed 5 tests, 0 failed. In the full suite, all 25 collected tests passed; two unrelated pre-existing suites failed to load because of the Freighter export mismatch and Stellar Design System SCSS resolution.",
+      "npm run build reaches only the two pre-existing useSubscription.ts TypeScript errors already observed on the upstream baseline; no #89 file adds a build error.",
+      "No spend, secrets, production access, payout setup, or customer data are required to publish the contribution."
+    ],
+    "inaction_effect": "The patch remains preserved in Vera Works and locally, but Streamr #89 stays unclaimed by Vera Works and another contributor may claim or complete the USD 85 bounty.",
+    "resume_event_type": "PATRICK_STREAMR89_PUBLICATION_DECISION_RECORDED",
+    "completion_evidence_requested": "Patrick records AUTHORIZE or DECLINE for public GitHub claim/fork/push/PR actions for streamr-labs/streamr issue #89. No GitHub credential, password, token, wallet, tax identifier, or payout account detail belongs in the event store.",
+    "prepared_deliverable": {
+      "upstream_repository": "streamr-labs/streamr",
+      "upstream_issue": 89,
+      "upstream_base_sha": "3208aacbe3f5ef9f01b07b24623cf4b819fd3aa6",
+      "local_commit_sha": "d23632dd04d9cfbf013a6ac12c778830b21c75d1",
+      "durable_patch": "ops/artifacts/2026-10-09-streamr89-bounty/streamr89-issue-89.patch",
+      "targeted_test": "npx vitest run src/util/scval.test.ts",
+      "targeted_result": "5 passed, 0 failed"
+    }
+  },
+  "external_effect": false
+}

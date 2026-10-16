@@ -1,0 +1,21 @@
+{
+  "schema_version": "claim-harvester-config-v1",
+  "wallets": [
+    {
+      "alias": "vera-fund-btc",
+      "chain": "bitcoin",
+      "address_env": "VERA_WORKS_BTC_ADDRESS"
+    },
+    {
+      "alias": "vera-fund-evm",
+      "chain": "evm",
+      "address_env": "VERA_WORKS_EVM_ADDRESS"
+    }
+  ],
+  "policy": {
+    "human_communication_allowed": false,
+    "automatic_external_claims_allowed": false,
+    "require_authoritative_source": true,
+    "require_exact_beneficiary_match": true
+  }
+}

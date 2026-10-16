@@ -1,0 +1,27 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FDBENCH-0001",
+  "event_type": "ASSIGNMENT_CREATED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FIRST-DOLLAR-BENCH-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T18:18:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-BENCH-0001",
+  "causation_id": null,
+  "idempotency_key": "first-dollar-benchmark:v1:created",
+  "from_state": null,
+  "to_state": "CREATED",
+  "payload": {
+    "objective": "Build a deterministic economics harness for bounded first-dollar hardware experiments without starting any workload.",
+    "scope": "Compare measured or source-estimated reward rates against incremental electricity, payout thresholds, fees, liquidity and payout lag. Produce ranking evidence only; no install/start/sign/account/network/spend effect.",
+    "acceptance_criteria": [
+      "Exact-resource measured observations are distinguished from source estimates.",
+      "Stale or malformed reward quotes fail closed.",
+      "Payout threshold and lag are represented explicitly.",
+      "Incremental wall-power cost and electricity break-even are calculated with Decimal arithmetic.",
+      "Estimated results cannot become workload authorization.",
+      "The harness can compare useful-compute and mining lanes on the same dollar basis."
+    ]
+  },
+  "external_effect": false
+}

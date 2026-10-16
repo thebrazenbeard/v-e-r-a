@@ -1,0 +1,119 @@
+{
+  "schema_version": "yield-live-scout-v1",
+  "observed_at": "2026-10-05T17:58:00Z",
+  "effect_boundary": "READ_ONLY_RESEARCH_ONLY",
+  "mechanisms": [
+    {
+      "mechanism_id": "monero-p2pool-cpu",
+      "class": "POOL_REWARD",
+      "source_uri": "https://web.getmonero.org/get-started/mining/",
+      "source_checked": "2026-10-05",
+      "verified": [
+        "Monero documents CPU mining and states GPUs are much less efficient.",
+        "P2Pool is permissionless and non-custodial.",
+        "Monero documents P2Pool at 0% pool fee, 0 XMR payout fee, and a very small minimum payout."
+      ],
+      "customer_acquisition_required": false,
+      "human_communication_required": false,
+      "capital_required": "ELECTRICITY_AND_OWNED_HARDWARE_ONLY",
+      "current_state": "NEEDS_EXACT_OWNED_CPU_BENCHMARK",
+      "next_action": "Benchmark an explicitly owned CPU, measure wall-power delta, then calculate time to first withdrawable payout. Do not install or mine on employer or ownership-uncertain hardware."
+    },
+    {
+      "mechanism_id": "beefy-permissionless-harvest",
+      "class": "PROTOCOL_EMISSION",
+      "source_uri": "https://docs.beefy.finance/developer-documentation/strategy-contract",
+      "source_checked": "2026-10-05",
+      "verified": [
+        "Beefy documents callReward() for determining native-token rewards available to harvest callers.",
+        "Beefy documents harvest() as callable by anyone.",
+        "The documentation states a caller can earn approximately 0.05%-0.5% of harvested yield."
+      ],
+      "customer_acquisition_required": false,
+      "human_communication_required": false,
+      "capital_required": "NATIVE_CHAIN_GAS",
+      "current_state": "READ_ONLY_SCANNER_WORTH_BUILDING_BUT_ZERO_FUND_BLOCKS_EXECUTION",
+      "next_action": "Build a read-only scanner that compares callable reward to gas and ignores strategies without a verified profitable margin. Never submit a harvest transaction without exact authorization."
+    },
+    {
+      "mechanism_id": "google-oss-patch-rewards",
+      "class": "POSTED_REWARD",
+      "source_uri": "https://bughunters.google.com/open-source-security/patch-rewards",
+      "source_checked": "2026-10-05",
+      "verified": [
+        "Google's Patch Rewards program is active.",
+        "Published tier-1 examples currently span $500, $2,000, $7,500 and $15,000 categories.",
+        "Qualifying work is normally a security-improving patch, typically a merged pull request.",
+        "Google's 2026 OSS VRP changes emphasize validated high-impact work over low-quality AI-generated reports."
+      ],
+      "customer_acquisition_required": false,
+      "human_communication_required": true,
+      "capital_required": "NONE",
+      "current_state": "PARKED_BY_NO_HUMAN_COMMUNICATION_PREFERENCE",
+      "next_action": "Keep in reserve for a future policy relaxation; do not divert first-dollar effort now."
+    },
+    {
+      "mechanism_id": "ccxt-read-only-market-layer",
+      "class": "SUPPORT_INFRASTRUCTURE",
+      "source_uri": "https://github.com/ccxt/ccxt",
+      "source_checked": "2026-10-05",
+      "verified": [
+        "CCXT exposes normalized public market data across more than 100 exchanges and prediction markets.",
+        "Its own documentation positions public data for market analysis and arbitrage detection."
+      ],
+      "customer_acquisition_required": false,
+      "human_communication_required": false,
+      "capital_required": "NONE_FOR_PUBLIC_DATA",
+      "current_state": "PROMOTED_AS_PRICING_LIQUIDITY_ADAPTER_NOT_AS_PAYER",
+      "next_action": "Use public market data to value crypto rewards and detect apparent spreads; keep order placement and credentials outside the zero-capital lane."
+    },
+    {
+      "mechanism_id": "gridcoin-boinc-pool",
+      "class": "USEFUL_COMPUTE_REWARD",
+      "source_uri": "https://gridcoin.us/wiki/pools",
+      "source_checked": "2026-10-05",
+      "verified": [
+        "Gridcoin rewards BOINC scientific-compute participation.",
+        "Current Gridcoin pool documentation says pools exist specifically so users do not need any Gridcoin to earn BOINC rewards.",
+        "Pool operators stake and distribute rewards according to contributed work."
+      ],
+      "customer_acquisition_required": false,
+      "human_communication_required": false,
+      "capital_required": "OWNED_COMPUTE_AND_ELECTRICITY_ONLY_FOR_POOL_ROUTE",
+      "current_state": "NEEDS_EXACT_RESOURCE_BENCHMARK_AND_POOL_PAYOUT_VERIFICATION",
+      "next_action": "Benchmark an explicitly owned device on a whitelisted BOINC workload, then compare realized reward rate and payout threshold against Monero and Folding lanes."
+    },
+    {
+      "mechanism_id": "bananominer-folding-at-home",
+      "class": "USEFUL_COMPUTE_REWARD",
+      "source_uri": "https://bananominer.com/",
+      "source_checked": "2026-10-05",
+      "verified": [
+        "BananoMiner is active and currently advertises BANANO rewards for Folding@Home work.",
+        "The service displayed September 2026 contribution statistics and recent sent payouts.",
+        "BANANO's official site currently links BananoMiner as a way to earn BANANO by contributing CPU/GPU power to medical research."
+      ],
+      "customer_acquisition_required": false,
+      "human_communication_required": false,
+      "capital_required": "OWNED_COMPUTE_AND_ELECTRICITY_ONLY",
+      "current_state": "NEEDS_BANANO_WALLET_AND_EXACT_FOLDING_BENCHMARK",
+      "next_action": "Do not create a wallet or install Folding@Home automatically. First estimate expected BAN/day on the exact owned hardware and compare net electricity-adjusted value with other lanes."
+    },
+    {
+      "mechanism_id": "gridcoin-plus-curecoin-folding-stack",
+      "class": "USEFUL_COMPUTE_REWARD",
+      "source_uri": "https://gridcoin.us/wiki/advantages-and-features.html",
+      "source_checked": "2026-10-05",
+      "verified": [
+        "Gridcoin's current documentation explicitly states Curecoin can be earned at the same time as Gridcoin for Folding@Home.",
+        "Curecoin Research Core currently reports Folding Rewards ACTIVE on mainnet.",
+        "Curecoin's current registration page accepts a Folding@Home username and Curecoin wallet address for reward participation."
+      ],
+      "customer_acquisition_required": false,
+      "human_communication_required": false,
+      "capital_required": "OWNED_COMPUTE_AND_ELECTRICITY; WALLET/REGISTRATION ACTIONS REQUIRED",
+      "current_state": "MOST_INTERESTING_DOUBLE_REWARD_FOLDING_LANE_NEEDS_EXACT_BENCHMARK",
+      "next_action": "Model one Folding@Home workload producing both GRC and CURE. Verify current payout formulas, liquidity and identity/team configuration before requesting installation or wallet/account actions."
+    }
+  ]
+}

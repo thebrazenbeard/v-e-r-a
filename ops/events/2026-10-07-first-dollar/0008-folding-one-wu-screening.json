@@ -1,0 +1,29 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FOLD-BENCH-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-FOLDING-BENCHMARK-0002",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-07T19:46:02Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-FOLDING-BENCHMARK-0002",
+  "causation_id": "EVT-FOLD-BENCH-0001",
+  "idempotency_key": "first-dollar:folding:one-wu-benchmark:screening:v1",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "evidence_summary": [
+      "RTX 3050 is supported and current unit is GPU-only.",
+      "Current unit project 15506: credit 42602, estimated 316986 PPD, ETA about 7h12m.",
+      "FAHCore 28 v8.3.1 is now fully downloaded.",
+      "Official BananoMiner remains active with recent BAN payouts.",
+      "Actual payout and marginal power cost remain unmeasured."
+    ],
+    "recommended_test": "Finish only the already-assigned GPU unit, then measure provider/chain reward and stop.",
+    "alternatives": [
+      "Read-only scouting.",
+      "Evaluate other zero-capital compute routes."
+    ]
+  },
+  "external_effect": false
+}

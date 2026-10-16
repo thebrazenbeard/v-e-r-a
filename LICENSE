@@ -1,0 +1,40 @@
+SOURCE-AVAILABLE PROPRIETARY LICENSE — PROSPECTIVE CHANGES
+Version 1.0 — 2026-09-23
+
+Copyright (c) 2026 Patrick Sims. All rights reserved.
+
+IMPORTANT LEGACY LICENSE NOTICE
+
+Material already present in this repository at commit c82162bb306e89b3aabe29f09f8b782ebe3b317e was previously distributed under the Apache License 2.0. Those previously granted rights are not revoked. The preserved Apache license is in LICENSE-APACHE-2.0, and LEGACY_LICENSE_NOTICE.md identifies the cutoff.
+
+This license governs original copyrightable material first added after the cutoff commit, and post-cutoff modifications to the extent those modifications are owned by the copyright holder and are not governed by another license (“Licensed Material”).
+
+1. LIMITED NONCOMMERCIAL PERMISSION
+You may access, read, and make copies of the Licensed Material reasonably necessary for private evaluation, security review, interoperability assessment, education, research, or preparation of a proposed contribution, provided that you do not use the Licensed Material for a Commercial Purpose and do not remove copyright, attribution, provenance, or license notices.
+
+2. COMMERCIAL USE REQUIRES A SEPARATE LICENSE
+No commercial rights are granted for the Licensed Material. Without prior written permission from the copyright holder, you may not use it to generate revenue or commercial advantage; sell, license, sublicense, rent, or monetize it; operate it as or within a paid or commercially supported product or service; provide it as a hosted or managed service; or incorporate it into a commercial product, service, platform, dataset, or offering.
+
+3. REDISTRIBUTION AND DERIVATIVE WORKS
+Except for rights independently available under the preserved Apache-2.0 grant for legacy material, this license does not grant permission to publish, redistribute, sublicense, or publicly provide copies or derivative works of the Licensed Material. Private modifications for the noncommercial purposes allowed above are permitted.
+
+4. MACHINE LEARNING AND DATASET USE
+You may not use the Licensed Material as training data, fine-tuning data, evaluation data intended to improve a commercial model or service, or as part of a commercially exploited code or content dataset without prior written permission.
+
+5. CONTRIBUTIONS
+Contributions are accepted only under CONTRIBUTING.md and CLA.md. Submission does not change the repository license except as expressly agreed by the copyright holder.
+
+6. THIRD-PARTY AND LEGACY MATERIAL
+Third-party material and legacy material covered by Apache-2.0 remain governed by their applicable licenses. If this license conflicts with a valid third-party or legacy license for particular material, that other license controls for that material.
+
+7. NO PATENT OR TRADEMARK LICENSE
+No patent, trademark, trade-name, logo, or branding rights are granted except to the minimum extent expressly required by applicable law or a separate written agreement.
+
+8. TERMINATION
+Any rights granted by this license terminate automatically upon material breach. Termination does not alter rights that arise independently under Apache-2.0 or another applicable license.
+
+9. DISCLAIMER
+THE LICENSED MATERIAL IS PROVIDED “AS IS,” WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT. TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE COPYRIGHT HOLDER WILL NOT BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM THE LICENSED MATERIAL OR ITS USE.
+
+10. PRIOR GRANTS
+Nothing in this license revokes or narrows permissions validly granted before the cutoff commit. In particular, Apache-2.0 rights for material present at c82162bb306e89b3aabe29f09f8b782ebe3b317e remain available under that license.

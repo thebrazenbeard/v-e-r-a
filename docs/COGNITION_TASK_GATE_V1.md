@@ -4,7 +4,7 @@
 **Integration owner:** this branch; **Training reviewer:** model-training PR #106 (stacked on #104).
 **Base:** V-E-R-A Integration draft PR #3 at db6c1fee06bf011f66b5ba9b490fc2f9e42cbdfb;
 stacked on PORTAL runtime PR #1 at 7a9ebf5724dff962f5ffbd994678370c00592835.
-**Training subject:** model-training@1390fbebbc5d1685a80610796e7ad8c2b955dac1.
+**Training subject:** model-training@06995fd7c43230e1ccc33cab196dcd55ffc363d9.
 **Vera Mono source:** PR #76 at dec5c029e51c4fd436435cbda7e02e501822ee85.
 
 ## Executable, limited behavior
@@ -45,7 +45,7 @@ consumption, schedules, merges and deployment all remain unqualified.
 
 ## Exact Training #106 successor compatibility
 
-Training #106 at `1390fbebbc5d1685a80610796e7ad8c2b955dac1` preserves Cricket BLOCK precedence over
+Training #106 at `06995fd7c43230e1ccc33cab196dcd55ffc363d9` preserves Cricket BLOCK precedence over
 semantic unrepresentability and exposes correlated runtime identity claims.
 The consumer retains this BLOCK, forbids a correlated-runtime dissent from
 being treated as an independent evidence conflict, and keeps duplicate-runtime
@@ -69,7 +69,7 @@ can become an accepted task result or effect.
 
 ## Upstream Cricket exact-precedence correction
 
-Training PR #106 at `1390fbebbc5d1685a80610796e7ad8c2b955dac1` now rejects claimed PASS,
+Training PR #106 at `06995fd7c43230e1ccc33cab196dcd55ffc363d9` now rejects claimed PASS,
 CHALLENGE or BLOCK dispositions that disagree with the strongest nested
 finding, and uses a real BLOCK finding in its unrepresentable Core fixture.
 This closes Integration's upstream challenge #6221273923 at the source
@@ -92,7 +92,7 @@ journal head. No authorized task-result transition is added here.
 
 ## Semantic plan inventory / newest Training cut
 
-Training `1390fbebbc5d1685a80610796e7ad8c2b955dac1` requires all missing source capabilities to be
+Training `06995fd7c43230e1ccc33cab196dcd55ffc363d9` requires all missing source capabilities to be
 accounted for by exactly one typed rewrite or unresolved capability, and
 the fidelity label to equal the worst applied rewrite severity.
 Integration independently rejects forged EXACT receipts hiding missing
@@ -161,7 +161,7 @@ link; `message_task_causal_link_attested=false` remains explicit.
 
 ## Training development-source cross-check
 
-Training PR106 `1390fbebbc5d1685a80610796e7ad8c2b955dac1` adds
+Training PR106 `06995fd7c43230e1ccc33cab196dcd55ffc363d9` adds
 `veraos_development_evidence_v1.py` (Git blob
 `3c8495f75e591b489bf6c8f54e85ecee34654c5f`).
 The new pinned-source Integration test checks joint node/session/nonce
@@ -186,3 +186,18 @@ content and staged envelope in the same local read transaction,
 rejecting either mismatch. The L2 bridge now includes a real SQLite
 staged-envelope tamper negative. No remote attestation, sender verification,
 global snapshot, atomic task acceptance, or route admission results.
+
+## Training PR106 per-component VeraOS source observation freshness
+
+Training's current source `06995fd7c43230e1ccc33cab196dcd55ffc363d9` updates
+`veraos_development_evidence_v1.py` to Git blob
+`bde78d71972f26c6e896b621fe1cd467d59e55ee`.
+Integration now constructs four distinct self-declared
+`SourceObservationStamp` fixtures in the source-only compatibility
+test and asserts that missing artifact sample, stale telemetry timestamp,
+or reused sample ID force `HELD_SOURCE_PROVENANCE`. An otherwise
+coherent source tuple remains `DEVELOPMENT_METADATA_ONLY` rather
+than normal resident admission. The four local sample labels are
+NOT signer attestations, anti-replay protection or raw model artifact
+authentication. Training's normal-resident requirements remain
+source requirements owned by Training and PORTAL, not an installed grant.

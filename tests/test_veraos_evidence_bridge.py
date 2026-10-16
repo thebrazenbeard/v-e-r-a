@@ -44,7 +44,7 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         cls.veraos = Path(VERAOS) if VERAOS else None
         expected = (
             (cls.mono, "dec5c029e51c4fd436435cbda7e02e501822ee85"),
-            (cls.training, "1390fbebbc5d1685a80610796e7ad8c2b955dac1"),
+            (cls.training, "06995fd7c43230e1ccc33cab196dcd55ffc363d9"),
             (cls.intranel, "58714f5f6561b5e44e42dcdbca67e2cb59bfb87b"),
         )
         for root, commit in expected:
@@ -247,6 +247,7 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
             DevelopmentInventory, DevelopmentCut, evaluate_development_cut,
             bind_participation_development_cut, DEV_OS_HEAD, DEV_MODEL,
             DEV_OLLAMA_REPORTED_DIGEST, DEV_MODEL_BYTES,
+            SourceObservationStamp,
         )
         inventory = DevelopmentInventory(
             source_head=DEV_OS_HEAD, model=DEV_MODEL,
@@ -264,6 +265,10 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
             "cpu_threads": 8, "ram_available_mib": 8192,
             "gpu_free_vram_mib": None, "artifact_bytes_sha256": None,
             "descriptor_status": "PASS", "route": "DIAGNOSTIC_QEMU_ONLY",
+            "registry_stamp": SourceObservationStamp(1800000000, "sample:registry"),
+            "telemetry_stamp": SourceObservationStamp(1800000000, "sample:telemetry"),
+            "inventory_stamp": SourceObservationStamp(1800000000, "sample:inventory"),
+            "artifact_stamp": SourceObservationStamp(1800000000, "sample:artifact"),
         })
         opts = dict(expected_node_id="Lappy", expected_generation=6,
                     expected_session="session:6", expected_nonce="a"*32,
@@ -289,6 +294,23 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         )
         self.assertEqual(conflicted.status, "HELD_SOURCE_PROVENANCE")
         self.assertIn("JOINT_SESSION_PROVENANCE_MISMATCH", conflicted.holds)
+        missing_stamp = evaluate_development_cut(
+            replace(cut, artifact_stamp=None), inventory, **opts,
+        )
+        self.assertEqual(missing_stamp.status, "HELD_SOURCE_PROVENANCE")
+        self.assertIn("COMPONENT_OBSERVATION_MISSING", missing_stamp.holds)
+        stale_stamp = evaluate_development_cut(
+            replace(cut, telemetry_stamp=SourceObservationStamp(
+                1799999600, "sample:telemetry",
+            )), inventory, **opts,
+        )
+        self.assertIn("COMPONENT_OBSERVATION_OUTSIDE_WINDOW", stale_stamp.holds)
+        reused_sample = evaluate_development_cut(
+            replace(cut, artifact_stamp=SourceObservationStamp(
+                1800000000, "sample:registry",
+            )), inventory, **opts,
+        )
+        self.assertIn("REUSED_SOURCE_OBSERVATION_ID", reused_sample.holds)
 
     def test_mutated_receiver_stage_bytes_cannot_cross_bridge(self):
         import sqlite3

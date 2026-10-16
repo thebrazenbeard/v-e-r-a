@@ -1,0 +1,248 @@
+{
+  "schema": "DISCOVERY_PUBLIC_TREE_BINDING_REPAIR_V1",
+  "status": "LIVE_SOURCE_REFRESH_PUBLIC_SET_AND_HEADS_UPDATED",
+  "observed_date": "2026-09-29",
+  "prior_subject": "vera/discovery-live-census-public-intake-v1-20260921@56822c92c4cb3709bf742032f539206a0e398024",
+  "live_inventory": {
+    "total": 74,
+    "public": 55,
+    "private": 19,
+    "public_set_changed": true
+  },
+  "finding": {
+    "id": "TREE-BINDING-001",
+    "severity": "HIGH",
+    "defect": "PUBLIC_BLOB_INDEX_TREE_SHA_FIELDS_ALIASED_HEAD_COMMIT_SHA",
+    "consequence": "The artifact claimed exact Git tree identity while the stored field carried commit identity. Existing overlap calculations used blob lists, so this defect does not by itself invalidate byte-overlap counts, but it invalidates any claim that the old tree_sha field was an exact tree binding.",
+    "root_cause_class": "SHAPE_VALIDATED_SEMANTICS_UNVERIFIED"
+  },
+  "repair": {
+    "public_default_heads_changed_since_prior_scan": true,
+    "repaired_repository_count": 55,
+    "bindings": {
+      "Attune": {
+        "head": "46461057e4d9ea25ec91a051fc17020e1113329a",
+        "tree": "5022090121690791d0155dbff98161ee70956c93"
+      },
+      "RepairTracker": {
+        "head": "cd7c6f27d27a03130d6e793d69634005a130dc3a",
+        "tree": "6c2f65ec074e3f78d3e2f7d9c8b582f1af02ba85"
+      },
+      "WorkBridgeMCP": {
+        "head": "f51a75d927346a172bb7cc3e4e3f18cd3f52d701",
+        "tree": "ccb78abbdccc650b0f047a443e3205e5a915c548"
+      },
+      "abil": {
+        "head": "a93e345da27028df77e8c9047d1d32780038550b",
+        "tree": "7073b19c886495c5dd9d83d5a3f03ff845b3ec4c"
+      },
+      "axle": {
+        "head": "d470544fb64875cb4789472ad4ef1b30f1fa65ee",
+        "tree": "9eee0973563ccc3d4ab9c7b68a8881dc5d90a0bb"
+      },
+      "bt2": {
+        "head": "66ecc19b60036c14f6c0327787bddf9e2cb6b132",
+        "tree": "aff3241c1add467c673c08101131a75aeebfcadd"
+      },
+      "bugops": {
+        "head": "1d35bcbd16da24c7635a004845de1390de850b4e",
+        "tree": "e1daaa49f89135c9e1d11134b7a840bfa2745e36"
+      },
+      "build-team-2.0": {
+        "head": "950112a697550b689049da807f2d8176a507c38f",
+        "tree": "2f1040c8352a132f7a1c3db8435b349fbc894fa6"
+      },
+      "ccb-core": {
+        "head": "273c93bc46683580024c1521fd2c523a8a6593bd",
+        "tree": "6594f71965e3e1a504f2265363b75b43f5fbd3de"
+      },
+      "conations": {
+        "head": "51948aac796936f0e7c437722e6f52c883e544e9",
+        "tree": "8850a9c1697ef6e9c950520591aab89ed3e4f5e7"
+      },
+      "deepmemorystorage": {
+        "head": "fe73b7eee2e8b2498ff994c57e46080de329a0ef",
+        "tree": "25675a0594e087f4c274ae2601eb4a5e3ef637a7"
+      },
+      "discovery": {
+        "head": "34b9d49ff4be7eedd6104cbfa5501549e468eccd",
+        "tree": "f604fbf501150065e8e4345df432cc99fa8d9796"
+      },
+      "driftguard": {
+        "head": "52fa829c629fa0f3e729204912db9f9f783f322a",
+        "tree": "82a204f42c86bb7ff49f814c6b2cc7ac654ab394"
+      },
+      "empathy": {
+        "head": "76ebb492827a79b20b3be76fe9f9f48ab860ef1d",
+        "tree": "45d314a6af73ecc6d5e6d16613ea9a383c162ec0"
+      },
+      "freerowcochkar": {
+        "head": "9ea4eaefe5229ca90d7ae6099dbf30d9e13b64b2",
+        "tree": "7bf7e104d9ae39e9242da223d76762de231b4bc5"
+      },
+      "fuckup": {
+        "head": "a87dea38a58c4cff75bc7d123d87f63a5e110895",
+        "tree": "fcd2ffdb81b20f020e6020e01558b2febf742e65"
+      },
+      "god-brain": {
+        "head": "47ced181ef46e4481b875d9279d21dcd540f795e",
+        "tree": "06a0ddc9089a5fdc3f907f692b91e65ea394e447"
+      },
+      "hc-brain": {
+        "head": "80a55949b0bb7549b7f678fba8ecedce854e3c0e",
+        "tree": "c99b90a67a1e3864ecdde943fd8455f84246f487"
+      },
+      "hephaestus": {
+        "head": "030494fa2cc4c875013a9a4842abe60588c9c709",
+        "tree": "61f0da9a5088920a6d7b70ed8d1183769de4191d"
+      },
+      "ingest": {
+        "head": "9c1a514f5140c89c0eb5c3c6fda5f9744436b25f",
+        "tree": "a3f171b6c3f415d067f69f27e517a33f47f8fb94"
+      },
+      "intranel": {
+        "head": "677a1612e8a956760a40b942650b01cf0b22dd33",
+        "tree": "8f847a1f946006d62e2451da8d54571b02646564"
+      },
+      "lgcm": {
+        "head": "0043c60419de9ef0b52363b62aed8c0a52ef63f5",
+        "tree": "6e3bf7650a4a1874920756272a7311fea9ec5e77"
+      },
+      "masamune": {
+        "head": "9cffd4dc1f4c7765b0f15664a9202248a2027a24",
+        "tree": "b804655725a9d65eea6fe21407d993bf2b509804"
+      },
+      "meso-crct": {
+        "head": "060d0feeb9dc9eb23801082bd8f1c4a7cb06184d",
+        "tree": "4aa4170ede4927c2b45149612a40299ea7d09d58"
+      },
+      "mosaic": {
+        "head": "3a442e94b4f5b8fa365e2206c40405df6961e18d",
+        "tree": "d5ef0ed5c6b849e970770fd14247c6035855d0ce"
+      },
+      "noema": {
+        "head": "697d1fac6f9fea158994888a861e651ac8fac282",
+        "tree": "e26e3df944c8dc344846d0664623ece69667aee8"
+      },
+      "on-theo": {
+        "head": "2fdc9614fa4f45eb038772d736b146809e10a7f1",
+        "tree": "c4421ba99649529f984c49da5440f7cf364855ec"
+      },
+      "personification": {
+        "head": "8c6cf04c45c83447801db997eac843968c0991c6",
+        "tree": "8c72f54d2c74da109d94b1579961eb1e574b8a5c"
+      },
+      "pro-run": {
+        "head": "5bbbfe4a88402fc582ad923d5800ab52e7469e83",
+        "tree": "5a2fb66a887aca61f4dbc64f1d4ce83d7c2ab0ea"
+      },
+      "project-achilles": {
+        "head": "6776d8c059e3f9ad791a47a0b62bb56588332968",
+        "tree": "979060c62b5fb3c730c50aaed31200b45dba7f6f"
+      },
+      "project-lantern": {
+        "head": "c6d5e54bfbace7b5cf16cbd061a5556516941e5e",
+        "tree": "e41b04236ebd9c195bc3a71d8c2f663931c1efd0"
+      },
+      "project-runner": {
+        "head": "2d7a0db547a001a228dc55c77689c4d8d0e621a3",
+        "tree": "80a611311692e204b9c5d4c182b5f3735321cfad"
+      },
+      "rezon": {
+        "head": "d429426fe41a76bd27c98fc8a6cc38cef16fddb1",
+        "tree": "8e1977f3d05816c0db13b1335cd7ce9f19527ae7"
+      },
+      "roots": {
+        "head": "2c591176279d83ce6cc0d8dcf8e6062431913ea7",
+        "tree": "2f075135cde9fd2024b366b53e27fdda933b90f3"
+      },
+      "semanticatlas": {
+        "head": "beaecc6c64a6a8f90e7b47d4739296a3870b627c",
+        "tree": "fd95ccb14dc386bf207367b922f0992917b72dca"
+      },
+      "semiotics": {
+        "head": "37117a2097f7f2aa35968fc9db24eacf7240826e",
+        "tree": "dbdc41da48d1212bc091de0cbb97db3bf3c00314"
+      },
+      "spm": {
+        "head": "d9ea72798ac892ac75f858177b6ed0c5a6b4c37c",
+        "tree": "2956ba41618c4643fa956f8e2652fabafc1d728e"
+      },
+      "sql-connectome": {
+        "head": "f81ff43e5358f798f23bab8a718bda743c93e930",
+        "tree": "ff52320cf076fcdc76ce27a6608aae4ecc772078"
+      },
+      "temporal": {
+        "head": "0fc7071a6b01e609fb2cdc76a32c73276ab27094",
+        "tree": "b90617aec4f82ca76802b3fd334ed6c4505bb4ce"
+      },
+      "testament": {
+        "head": "20517788763e76863a35e02ba3cc9051d0a227bb",
+        "tree": "e06f0e117d6fa7b029dc5032febee73315fc96ff"
+      },
+      "transcendence": {
+        "head": "69dacb467e94fb73ce106cd5176c39800c64e195",
+        "tree": "df64b95eb115abf30564bb4f5981308d7d7d3bcd"
+      },
+      "unbound-sol": {
+        "head": "d4284dd1f044e506bb85554856c00497d6790d44",
+        "tree": "3db1cc7564f72fb6e909e281873464bad2f57d4b"
+      },
+      "unvtrslr": {
+        "head": "33edef682181e1bea6b36c5afc588d261f0c1289",
+        "tree": "7ad66a704cc9df816c4d723f81a34917a39d4ab5"
+      },
+      "vera": {
+        "head": "a267e7d555e2c15e51a2e578c1e08095091552f0",
+        "tree": "85931ed543c634a388995161976f63b107350641"
+      },
+      "vera-R9A0": {
+        "head": "287a85cb5f2f6f553cfbb336cb2e03aa7b1c8d01",
+        "tree": "50342647b4d84ccb9e9fd1ea165d68219b9409a4"
+      },
+      "vera-control-plane": {
+        "head": "3916aaa7ae2825020c07057968c7a151d92d53de",
+        "tree": "ba211b900231a59456355dbee12cac45050b4fdf"
+      },
+      "vera-habitat": {
+        "head": "6ae63ffa05c37711f34328ebd6a9500fe66a08e9",
+        "tree": "f30241fbdaf6f837532daf433085b09f4a613d1f"
+      },
+      "vera-mesh": {
+        "head": "98b74ff77981a5478e20a748bbb94565ad9140c8",
+        "tree": "4c126ab6fc29b09ea2204f1a216d7a94c907784f"
+      },
+      "vera-mono": {
+        "head": "88d58f95216b6d76556040011b2931f894a109b5",
+        "tree": "6ef1cd0785f465d3cd5ac0d225c22d8e571df94f"
+      },
+      "vera-synology": {
+        "head": "d13cdefbf817aeba60c673fa4a517575c311da2c",
+        "tree": "6c95d20224551d6002450c309a1e65ec2baa4d02"
+      },
+      "vera_model_training": {
+        "head": "3ea9b345988201d78ad9c073254d9d3df15c9ed9",
+        "tree": "e508543a27de10c43846263ad3fb06597a348126"
+      },
+      "voss": {
+        "head": "36a623d3a158e5aef521d42e378bafacd67d3de5",
+        "tree": "b237fff7b2eb1f85eecf60b4d41a0fa193d91711"
+      },
+      "wip": {
+        "head": "3ced0899202374aa408756b04b0ee81ba13d0c16",
+        "tree": "497446f80303be694edbcef19713ba159471d743"
+      },
+      "workbridgecommander": {
+        "head": "fe347db4a3a555bfc250ee2c61a64aabe9c8e553",
+        "tree": "259a5321542f168d65c8533d94ddc305de6b79d3"
+      },
+      "world-zero": {
+        "head": "9f4fb033b212e99e034c4f6fa0c3ef7eea7f9f8b",
+        "tree": "6c36ec5ceb97b062595241bcbf8b9e4ace626111"
+      }
+    },
+    "validator_guard": "REJECT_TREE_SHA_EQUAL_TO_HEAD_COMMIT_SHA_AND_BIND_CURRENT_SHARDS_EXACTLY",
+    "regression_test": "tests/test_public_blob_tree_binding_integrity.py"
+  },
+  "claim_ceiling": "CURRENT_PUBLIC_TREE_BINDINGS_AND_BLOB_EVIDENCE_REFRESHED_FROM_EXACT_GITHUB_SUBJECTS_NO_LINEAGE_OR_RUNTIME_AUTHORITY_PROMOTION"
+}

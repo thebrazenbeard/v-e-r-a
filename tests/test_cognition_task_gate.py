@@ -1,0 +1,140 @@
+"""Actual-source Integration ↔ Training ↔ Vera Mono journal negative tests.
+
+No external transport or model runtime; requires exact sibling source roots.
+"""
+from __future__ import annotations
+
+from copy import deepcopy
+import gc
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+from tempfile import TemporaryDirectory
+import unittest
+
+from integration.cognition_task_gate import (
+    CognitionBindingError, TRAINING_HEAD, TRAINING_SUBJECT,
+    bind_episode, verify_episode_binding,
+)
+
+MONO = os.environ.get("VERA_MONO_SOURCE_ROOT")
+TRAINING = os.environ.get("VERA_TRAINING_SOURCE_ROOT")
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def git(root, *argv):
+    outcome = subprocess.run(
+        ["git", "-C", str(root), *argv],
+        capture_output=True, text=True, timeout=15, check=True,
+    )
+    return outcome.stdout.strip()
+
+
+@unittest.skipUnless(MONO and TRAINING,
+                     "Needs exact separate Vera Mono and Training sources")
+class RealCognitionTaskGateTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.mono = Path(MONO)
+        cls.training = Path(TRAINING)
+        cls.mono_head = "dec5c029e51c4fd436435cbda7e02e501822ee85"
+        if git(cls.training, "rev-parse", "HEAD") != TRAINING_HEAD:
+            raise AssertionError("wrong Training source HEAD")
+        if git(cls.mono, "rev-parse", "HEAD") != cls.mono_head:
+            raise AssertionError("wrong Vera Mono source HEAD")
+        for root, path in (
+            (cls.training, "participating_cognition_v1.py"),
+            (cls.training, "independent_challenge_eval_v1.py"),
+            (cls.mono, "packages/vera_core/src/vera_core/task_execution.py"),
+        ):
+            if git(root, "rev-parse", "HEAD:" + path) != git(root, "hash-object", str(root / path)):
+                raise AssertionError("source file not pinned to exact Git blob")
+        if git(cls.training, "status", "--porcelain", "--untracked-files=all",
+               "--", "participating_cognition_v1.py", "independent_challenge_eval_v1.py"):
+            raise AssertionError("untrusted Training source changes")
+        sys.path[:0] = [str(cls.training), str(cls.training / "tests")]
+        sys.path[:0] = [str(p) for p in (cls.mono / "packages").glob("*/src")]
+        from vera_core.task_execution import TaskExecutionLedger, TaskPacket
+        from test_participating_cognition_v1 import compose, cricket
+        cls.Ledger, cls.Packet = TaskExecutionLedger, TaskPacket
+        cls.compose, cls.cricket = staticmethod(compose), staticmethod(cricket)
+
+    def setUp(self):
+        self.tmp = TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.addCleanup(gc.collect)
+        self.file = Path(self.tmp.name) / "vera-tasks.sqlite"
+        self.task_id = "task:one"
+        self.ledger = self.Ledger(self.file)
+        raw = json.loads((ROOT / "integration" /
+                          "example_readonly_task_packet.json").read_text("utf8"))
+        packet = self.Packet(**{
+            k: tuple(v) if isinstance(v, list) else v for k, v in raw.items()
+        })
+        self.ledger.open_task(
+            self.task_id, packet, lifecycle_evidence_digest="a" * 64
+        )
+        self.episode = self.compose().as_dict()
+
+    def test_cold_reopen_binds_current_task_and_preserves_untrusted_status(self):
+        bound = bind_episode(self.ledger, self.task_id, self.episode)
+        observed = verify_episode_binding(self.Ledger(self.file), self.task_id,
+                                           self.episode, deepcopy(bound))
+        self.assertEqual(observed["binding_digest"], bound["binding_digest"])
+        self.assertEqual(observed["training_source_subject"], TRAINING_SUBJECT)
+        for key in ("effect_authority", "executed", "accepted_as_task_result",
+                    "independent_source_attestation"):
+            self.assertIs(observed[key], False)
+        self.assertEqual(observed["status"], "OBSERVED_UNATTESTED")
+
+    def test_real_task_journal_advance_invalidates_previous_cognition_receipt(self):
+        original = bind_episode(self.ledger, self.task_id, self.episode)
+        self.ledger.bind_dependency(
+            self.task_id, "dependency:changed", kind="COORDINATION_COMMAND",
+            target_id="command:changed",
+        )
+        with self.assertRaisesRegex(CognitionBindingError, "stale"):
+            verify_episode_binding(self.Ledger(self.file),
+                                   self.task_id, self.episode, original)
+
+    def test_claim_mutation_and_disguised_new_task_fail_closed(self):
+        original = bind_episode(self.ledger, self.task_id, self.episode)
+        tampered = deepcopy(self.episode)
+        tampered["contributions"][0]["claim"]["value"] = "INJECTED"
+        with self.assertRaisesRegex(CognitionBindingError, "digest"):
+            verify_episode_binding(self.ledger, self.task_id, tampered, original)
+        tampered = deepcopy(self.episode)
+        tampered["task_id"] = "task:other"
+        with self.assertRaises(CognitionBindingError):
+            bind_episode(self.ledger, self.task_id, tampered)
+
+    def test_training_cricket_block_remains_held_and_forged_pass_block_rejected(self):
+        block = deepcopy(self.episode)
+        block["cricket_review"]["disposition"] = "BLOCK"
+        held = bind_episode(self.ledger, self.task_id, block)
+        self.assertEqual(held["status"], "HELD_SOURCE_REVIEW")
+        self.assertFalse(held["effect_authority"])
+        conflicting = deepcopy(self.episode)
+        conflicting["cricket_review"] = {
+            "disposition": "PASS",
+            "findings": [dict(
+                rule_id="effect", severity="BLOCK", title="No authorization",
+                rationale="No grant", evidence="synthetic fixture",
+                recommendation="Hold", source="Cricket",
+            )],
+        }
+        # Training PR104 currently accepts this contradictory tuple. The
+        # Integration task-consumer must reject it regardless of upstream shape.
+        with self.assertRaisesRegex(CognitionBindingError, "contradicts"):
+            bind_episode(self.ledger, self.task_id, conflicting)
+
+    def test_source_head_substitution_and_binding_mutation_fail_closed(self):
+        with self.assertRaisesRegex(CognitionBindingError, "source"):
+            bind_episode(self.ledger, self.task_id, self.episode,
+                         training_subject="git:thebrazenbeard/model-training@" + "b"*40)
+        bound = bind_episode(self.ledger, self.task_id, self.episode)
+        bound["effect_authority"] = True
+        with self.assertRaises(CognitionBindingError):
+            verify_episode_binding(self.ledger, self.task_id, self.episode, bound)

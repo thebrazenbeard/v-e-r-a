@@ -255,6 +255,39 @@ class RealCognitionTaskGateTests(unittest.TestCase):
 
 
 
+    def test_shared_claim_evidence_group_cannot_be_relabelled_independent(self):
+        # Actual Training producer, distinct logical agents and runtime IDs,
+        # same evidence_group. A post-serialization label edit must not
+        # counterfeit independent review without changing source digests.
+        from dataclasses import replace
+        from test_participating_cognition_v1 import source
+        one = source()
+        two = source(model="c" * 64, node="Lappy",
+                     agent="agent:lappy", inst="runtime:two", value=False)
+        two = replace(two, claim=replace(
+            two.claim, evidence_group=one.claim.evidence_group
+        ))
+        episode = self.compose(one, two).as_dict()
+        self.assertNotEqual(
+            episode["contributions"][0]["participant"]["runtime_instance_id"],
+            episode["contributions"][1]["participant"]["runtime_instance_id"],
+        )
+        self.assertEqual(
+            episode["contributions"][0]["claim"]["evidence_group"],
+            episode["contributions"][1]["claim"]["evidence_group"],
+        )
+        self.assertEqual(episode["dissent"]["classification"],
+                         "SELF_OR_CORRELATED_CLAIMS")
+        forged = deepcopy(episode)
+        forged["dissent"]["classification"] = "EVIDENCE_CONFLICT_FOR_REVIEW"
+        forged["dissent"]["challenge_for_review"] = True
+        self.assertEqual(
+            forged["dissent"]["source_digests"],
+            episode["dissent"]["source_digests"],
+        )
+        with self.assertRaisesRegex(CognitionBindingError, "correlated evidence"):
+            bind_episode(self.ledger, self.task_id, forged)
+
     def test_task_journal_advance_during_binding_fails_closed(self):
         # Inject a REAL Vera Mono journal advancement just after the first
         # read returns a stable old snapshot, not a forged packet.

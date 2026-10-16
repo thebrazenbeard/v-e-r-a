@@ -1,2 +1,2 @@
-# v-e-r-a
-The virtual environment for reciprocal agency
+# ears
+lets machines hear phonetically rather than speech-to-text

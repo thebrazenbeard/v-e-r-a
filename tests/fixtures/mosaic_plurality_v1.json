@@ -1,0 +1,59 @@
+{
+  "mosaic_source_commit": "afd5e7ab598bfbf3cf0c5685611f9fe399de101e",
+  "participants": {
+    "core": {
+      "local_state_ref": "participant:core:private-local-state",
+      "participant_id": "core",
+      "role": "CORE",
+      "source_ref": "thebrazenbeard/mosaic@afd5e7ab598bfbf3cf0c5685611f9fe399de101e::Core",
+      "source_sha256": "3b18491110a8e81d3be46bfbdf56e43f4747d10133862048178cd604c2431822"
+    },
+    "critic": {
+      "local_state_ref": "participant:critic:private-local-state",
+      "participant_id": "critic",
+      "role": "SPECIALIST",
+      "source_ref": "v-e-r-a:tests/test_plural_cognition.py::Critic",
+      "source_sha256": "4046a977e88806dce508e124883477bb5ae4724ea5f16ff5cd3231b4f2c28116"
+    }
+  },
+  "receipt": {
+    "claim_ceiling": "MECHANICAL_DECISION_PROTOCOL_ONLY_NOT_NEURAL_QUALIFICATION: receipt records a Core position, not proof of model reasoning; verifier provenance must be assessed separately; no effects executed",
+    "claim_verified": false,
+    "core_final": {
+      "acknowledged_objections": [
+        "critic"
+      ],
+      "proposition_id": "claim-A",
+      "reasoning": "Core retained its view while acknowledging the challenge",
+      "supports": true
+    },
+    "core_initial": {
+      "acknowledged_objections": [],
+      "proposition_id": "claim-A",
+      "reasoning": "Initial conservative Core answer",
+      "supports": true
+    },
+    "effect_executed": false,
+    "evidence": null,
+    "objections": [
+      {
+        "proposition_id": "claim-A",
+        "rationale": "Counterexample challenges the Core",
+        "specialist_id": "critic",
+        "supports": false
+      }
+    ],
+    "receipt_sha256": "34f9abe31240ab0ff2fedbfee19e5bd7ed9e636f66ce394a39062f98fd2aaa3a",
+    "status": "CONTESTED_ADVISORY",
+    "task": {
+      "case_id": "case-independent-1",
+      "consequential": false,
+      "proposition_id": "claim-A",
+      "protected_effect": false,
+      "question": "Does evidence justify claim A?"
+    },
+    "verified_proposition_is_false": false
+  },
+  "schema": "VERA_MOSAIC_PLURALITY_TEST_VECTOR_V1",
+  "subject": "Mosaic CoreDeliberationEngine v1 real source, fake injected Core and Critic"
+}

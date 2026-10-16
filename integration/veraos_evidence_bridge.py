@@ -173,3 +173,158 @@ def evaluate_source_route_evidence(
         "executed": False,
         "protected_effect_authority": False,
     }
+
+
+# This is deliberately in the existing integration bridge, NOT a new
+# task ledger, API service, scheduler, resident route, or effect dispatcher.
+def prepare_source_linked_veraos_route(
+    *, receiver: Any, task_ledger: Any, task_id: str, episode: Any,
+    binding: Mapping[str, Any], comment_id: int, message_id: str,
+    coverage: Mapping[str, Any], provider: Mapping[str, Any],
+    route_intent: Mapping[str, Any], advertisements: tuple[Any, ...],
+    receipt_path: Any = None,
+) -> dict:
+    """Make a durable no-effect *proposal* from real Mono/PORTAL source.
+
+    A short SQLite BEGIN IMMEDIATE serializes proposal construction with
+    ALL TaskExecutionLedger.append() writers to the SAME ledger file. The
+    transaction does not commit acceptance, atomically bind another database,
+    attest GitHub authorship, or protect a future dispatch after release.
+    """
+    import hashlib
+    import json
+    import sqlite3
+    from .vera_portal_runtime import save_receipt
+    from vera_core.portal_task_handoff import (
+        export_portal_route_request, verify_portal_route_assessment,
+    )
+    from portal.vera_task_handoff import assess_vera_task_route
+    from .cognition_task_gate import CognitionBindingError
+
+    if type(advertisements) is not tuple:
+        raise ProvenanceBridgeError("caller advertisements must be a typed tuple")
+    try:
+        # Uses Mono's existing SQLite journal, not a sibling state store.
+        # BEGIN IMMEDIATE is a bounded SOURCE cut, NOT a write-CAS or permit.
+        with sqlite3.connect(task_ledger.path, timeout=10) as transaction:
+            transaction.execute("BEGIN IMMEDIATE")
+            evidence = evaluate_source_route_evidence(
+                receiver=receiver, task_ledger=task_ledger,
+                task_id=task_id, episode=episode, binding=binding,
+                comment_id=comment_id, message_id=message_id,
+                coverage=coverage, provider=provider, route_intent=route_intent,
+            )
+            current = task_ledger.read(task_id)
+            if current.closed or (
+                current.opened_lifecycle_evidence_digest !=
+                evidence["message"]["semantic_sha256"]
+            ):
+                raise ProvenanceBridgeError(
+                    "task opening did not declare this local source packet digest"
+                )
+            if current.journal_head_digest != binding["task_journal_head"]:
+                raise ProvenanceBridgeError("task journal advanced during route proposal")
+
+            # Reuse Mono and PORTAL's actual exact-source contract. The
+            # NO_PROTECTED_EFFECT resolver is advisory, not the VeraOS
+            # COGNITION_TURN route admission and NOT a model permit.
+            request = export_portal_route_request(
+                task_ledger, task_id, node_id="veraos",
+                target_kind="MODEL", target_id="qwen3:4b-instruct",
+                required_capabilities=("text",),
+            )
+            assessment = assess_vera_task_route(request, advertisements)
+            checked = verify_portal_route_assessment(
+                task_ledger, request, assessment,
+            )
+            selected = checked["state"] == "ROUTE_PROPOSED" and checked["route"] == {
+                "adapter_id": "pre-active-openai-compatible",
+                "route_id": "dev:virtio-qwen4b",
+            }
+            task_text = current.packet.subject
+            if type(task_text) is not str or not task_text.strip() or len(task_text) > 2048:
+                raise ProvenanceBridgeError("task text violates VeraOS native request size")
+            stable_seed = json.dumps(
+                {
+                    "request_digest": request["request_digest"],
+                    "packet_sha256": evidence["message"]["semantic_sha256"],
+                    "task_id": task_id,
+                    "model": route_intent["model"],
+                }, sort_keys=True, ensure_ascii=False, separators=(",", ":"),
+            )
+            request_id = "mono-" + hashlib.sha256(stable_seed.encode("utf-8")).hexdigest()
+            native_call = ({
+                "module": "veraos.native_cognition",
+                "callable": "execute_text_request",
+                "task": task_text.strip(),
+                "request_id": request_id,
+                "admitted_route_required": True,
+                "called": False,
+            } if selected else None)
+            status = ("ROUTE_PROPOSED_UNATTESTED"
+                      if selected else "HELD_UNQUALIFIED_ROUTE")
+            body = {
+                "schema": "VERAOS_MONO_PORTAL_SOURCE_PROPOSAL_V1",
+                "status": status,
+                "source_evidence": evidence,
+                "portal_request": request,
+                "portal_assessment": checked,
+                "native_call": native_call,
+                "task_opening_digest_matches_local_packet": True,
+                "causal_origin_authenticated": False,
+                "advertisements_authenticated": False,
+                "coverage": dict(coverage),
+                "origin_authenticated": False,
+                "normal_resident_route_admitted": False,
+                "accepted_as_task_result": False,
+                "protected_effect_authority": False,
+                "executed": False,
+            }
+            canonical = json.dumps(
+                body, ensure_ascii=False, sort_keys=True,
+                separators=(",", ":"), allow_nan=False,
+            )
+            result = {
+                **body,
+                "receipt_sha256": hashlib.sha256(canonical.encode("utf-8")).hexdigest(),
+            }
+            if receipt_path is not None:
+                try:
+                    save_receipt(receipt_path, result)
+                except (OSError, ValueError) as exc:
+                    raise ProvenanceBridgeError(
+                        "receipt cannot be durably created without overwrite"
+                    ) from exc
+            # Releasing the reservation leaves the proposal revocable by ANY
+            # later task append. An execution call would require a new,
+            # authorized, atomic head-CAS inside Mono's ownership boundary.
+            return result
+    except (sqlite3.Error, CognitionBindingError, KeyError) as exc:
+        raise ProvenanceBridgeError("task journal source proposal unavailable") from exc
+
+
+def verify_source_linked_veraos_route(
+    receipt_path: Any, *, receiver: Any, task_ledger: Any,
+    task_id: str, episode: Any, binding: Mapping[str, Any],
+    comment_id: int, message_id: str, coverage: Mapping[str, Any],
+    provider: Mapping[str, Any], route_intent: Mapping[str, Any],
+    advertisements: tuple[Any, ...],
+) -> dict:
+    """Revalidate an existing local proposal; NEVER approve actual dispatch."""
+    from .vera_portal_runtime import load_json
+    try:
+        stored = load_json(receipt_path, 32768)
+    except (OSError, ValueError) as exc:
+        raise ProvenanceBridgeError("receipt absent, invalid or oversized") from exc
+    if type(stored) is not dict:
+        raise ProvenanceBridgeError("receipt payload must be object")
+    current = prepare_source_linked_veraos_route(
+        receiver=receiver, task_ledger=task_ledger,
+        task_id=task_id, episode=episode, binding=binding,
+        comment_id=comment_id, message_id=message_id,
+        coverage=coverage, provider=provider, route_intent=route_intent,
+        advertisements=advertisements,
+    )
+    if stored != current:
+        raise ProvenanceBridgeError("receipt tampered, stale or substituted")
+    return current

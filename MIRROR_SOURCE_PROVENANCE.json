@@ -1,0 +1,22 @@
+{
+  "excluded_files": [
+    {
+      "path": ".vscode/tasks.json",
+      "reason": "Microsoft Defender quarantined Trojan:Script/MalTask.A"
+    },
+    {
+      "path": "public/fonts/fa-solid-500.woff2",
+      "reason": "Defender previously flagged this shared font asset"
+    }
+  ],
+  "limitation": "This public snapshot intentionally differs from source; omitted content remains in original upstream private repo subject to its access permissions.",
+  "mirror_tree_before_notice": "46df5e259bd6c2e95dd8759559241e34eedb6a31",
+  "no_source_history_imported": true,
+  "schema": "VERA_PUBLIC_SANITIZED_MIRROR_PROVENANCE_V1",
+  "security_status": "SOURCE_SNAPSHOT_WITH_EXCLUSIONS_NOT_EXACT",
+  "source_authoritative": true,
+  "source_commit": "c87f93dc40f3009807b7964ec845048f6af06d49",
+  "source_ref": "main",
+  "source_repository": "thebrazenbeard/redworm",
+  "source_tree_sha": "a96f2697b9453830c0d078f25ee25120af2edff7"
+}

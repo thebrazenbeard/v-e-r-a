@@ -1,0 +1,11 @@
+{
+  "schema":"redworm.event.v1",
+  "producer":{"identity":"Vera","worm":"WHITE","designation":"W/W 3","episode_id":"synthetic-ww3-001"},
+  "occurred_at":"2026-08-10T10:00:00-04:00",
+  "recorded_at":"2026-08-10T10:05:00-04:00",
+  "source":{"locator":"synthetic://example/1","sha256":"3c754e154784227f8703d8fbf881d3b920a6d35df44ffec67141c4ae1485b3db","observed_by":"synthetic-example","verification":"UNVERIFIED"},
+  "evidence_kind":"DERIVED",
+  "memory_class":"WORKING_PROJECT",
+  "privacy":"INTERNAL",
+  "claim":{"text":"Fictional White Worm review found a contradiction.","type":"EVENT","modality":"REPORTED","subject":"synthetic-demo","valid_at":"2026-08-10"}
+}

@@ -249,3 +249,34 @@ class RealCognitionTaskGateTests(unittest.TestCase):
                 "HELD_SOURCE_REVIEW",
             )
 
+
+
+    def test_task_journal_advance_during_binding_fails_closed(self):
+        # Inject a REAL Vera Mono journal advancement just after the first
+        # read returns a stable old snapshot, not a forged packet.
+        class AdvanceAfterRead:
+            def __init__(self, delegate):
+                self.delegate = delegate
+                self.advanced = False
+            def verify_chain(self):
+                return self.delegate.verify_chain()
+            def read(self, task_id):
+                snapshot = self.delegate.read(task_id)
+                if not self.advanced:
+                    self.delegate.bind_dependency(
+                        task_id, "dependency:mid-binding",
+                        kind="COORDINATION_COMMAND",
+                        target_id="command:mid-binding",
+                    )
+                    self.advanced = True
+                return snapshot
+        racing = AdvanceAfterRead(self.ledger)
+        with self.assertRaisesRegex(
+            CognitionBindingError, "journal advanced during binding"
+        ):
+            bind_episode(racing, self.task_id, self.episode)
+        self.assertTrue(racing.advanced)
+        self.assertNotEqual(
+            self.ledger.read(self.task_id).journal_head_digest,
+            self.ledger.events(self.task_id)[0].event_digest,
+        )

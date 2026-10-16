@@ -1,0 +1,76 @@
+schema_version: nature-of-existence.repo-registry.v1
+workspace: THE_NATURE_OF_EXISTENCE
+
+primary:
+  on_theo:
+    repository: thebrazenbeard/on-theo
+    role: CANONICAL_RESEARCH_AND_EVIDENCE
+    direction: UPSTREAM
+    exports:
+      - bounded_claims
+      - evidence_packets
+      - historical_reconstructions
+      - comparative_models
+      - speculative_models_with_classification
+
+  testament:
+    repository: thebrazenbeard/testament
+    role: DOWNSTREAM_LITERARY_AND_CREATIVE
+    direction: DOWNSTREAM
+    consumes:
+      - on_theo
+    prohibited_authority:
+      - historical_fact
+      - theological_fact
+      - archaeological_fact
+      - textual_fact
+      - empirical_fact
+
+adjacent:
+  voss:
+    repository: thebrazenbeard/voss
+    role: INDEPENDENT_FORENSIC_ANALYST_AND_REVIEWER
+    authority: ANALYSIS_ONLY
+    may_inform:
+      - audit_method
+      - adversarial_review
+      - synthetic_benchmarking
+    may_not_establish:
+      - source_fact
+      - historical_fact
+      - theology_fact
+
+  god_brain:
+    repository: thebrazenbeard/god-brain
+    role: ADJACENT_SPECULATIVE_ENGINEERING_MODEL
+    authority: SPECULATIVE_MODEL_ONLY
+    may_inform:
+      - systems_models
+      - simulation_hypotheses
+      - controller_architecture
+    may_not_establish:
+      - religious_history
+      - textual_transmission
+      - empirical_reality
+
+dynamic_portfolio:
+  policy: >
+    All other Patrick-owned GitHub repositories are discoverable and may be
+    inspected when relevant, but are UNCLASSIFIED until fresh-read and assigned
+    a bounded role. Ownership alone never grants evidentiary authority.
+  examples_seen_in_portfolio:
+    - discovery
+    - transcendence
+    - roots
+    - world-zero
+    - project-runner
+    - semanticatlas
+    - self
+    - temporal
+    - noema
+    - hc-brain
+
+guards:
+  - PORTFOLIO_AWARE_NE_PORTFOLIO_COUPLED
+  - ADJACENT_ENGINEERING_NE_RESEARCH_EVIDENCE
+  - FICTION_NE_RESEARCH_EVIDENCE

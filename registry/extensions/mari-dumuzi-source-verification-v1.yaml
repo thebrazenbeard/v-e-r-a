@@ -1,0 +1,207 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-MARI-DUMUZI-SOURCE-VERIFICATION-V1
+base_registry_head: 0c217af3dc4ddad5f9c0738f8306080defb0e1c4
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-MARELLO-1992-A1146
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: primary_text_edition
+    author_or_tradition: Pierre Marello
+    title: Vie nomade
+    container: Florilegium marianum I / Mélanges M. Fleury
+    composition_date: {start: "1992", end: "1992", precision: publication-year}
+    access_mode: original-publication-and-current-bibliographic-control
+    locators:
+      - pages: "115-126"
+        url: "https://sepoa.fr/wp/wp-content/uploads/2021/06/fm-1-entier.pdf"
+      - identifier: "ARCHIBAB T1011"
+        url: "https://www.archibab.fr/T1011"
+    limitations:
+      - "The original publication identity is secure; the crucial Dumuzi passage remains damaged and philologically reconstruction-dependent."
+
+  - id: SCH-JACQUET-2011-FM12
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: primary_text_edition_monograph
+    author_or_tradition: Antoine Jacquet
+    title: Florilegium Marianum XII. Documents relatifs aux dépenses pour le culte
+    composition_date: {start: "2011", end: "2011", precision: publication-year}
+    access_mode: institutional-bibliographic-control
+    locators:
+      - url: "https://www.college-de-france.fr/en/person/antoine-jacquet"
+      - url: "https://sepoa.fr/memoires-de-nabu/"
+    limitations:
+      - "Current V1 independently controls A.4540 line 4 through the electronic Akkadian dictionary supplement rather than a full direct collation of the monograph."
+
+  - id: SCH-ESAD-2024-TIMRU-BURIAL
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: akkadian_lexical_database_supplement
+    author_or_tradition: Electronic Supplement to the Akkadian Dictionaries
+    title: "timru II / temru — burial"
+    composition_date: {start: "2024", end: "2024", precision: last-updated-year}
+    access_mode: institutional-open-lexical-reference
+    locators:
+      - url: "https://www.gkr.uni-leipzig.de/fileadmin/Fakult%C3%A4t_GKR/Altorientalisches_Institut/Dokumente/Forschung/Supplement_Dateien/T_01.pdf"
+    limitations:
+      - "Lexical control confirms the burial reading at A.4540:4; it does not establish a return/resurrection event."
+
+  - id: SCH-BOU-2023-A1146-CONTEXT
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_article
+    author_or_tradition: scholarly study of Mari masculinity and warfare
+    title: ORIENT 58 study citing A.1146 / LAPO 16 38 / ARCHIBAB T1011
+    composition_date: {start: "2023", end: "2023", precision: publication-year}
+    access_mode: open-access-scholarly-article
+    locators:
+      - url: "https://www.jstage.jst.go.jp/article/orient/58/0/58_137/_pdf/-char/en"
+    limitations:
+      - "Used here for epistolary/social context and independent bibliographic control, not for reconstructing the damaged Dumuzi lines."
+
+claim_additions:
+  - id: CLM-MARI-A1146-PUBLICATION-PROVENANCE
+    proposition: "A.1146 is securely identified as the Mari letter published by Pierre Marello in Florilegium marianum I (1992), pp. 115-126, with current ARCHIBAB bibliographic identifier T1011."
+    claim_type: SOURCE_PROVENANCE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-MARELLO-1992-A1146
+        locator: "A.1146 publication"
+        relation: ORIGINAL_EDITION_PROVENANCE
+        access_mode: ORIGINAL_PUBLICATION
+      - source_id: SCH-BOU-2023-A1146-CONTEXT
+        locator: "citation note identifying A.1146 / LAPO 16 38 / Marello 1992 / ARCHIBAB T1011"
+        relation: INDEPENDENT_BIBLIOGRAPHIC_CONTROL
+        access_mode: SCHOLARLY_ARTICLE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-MARI-A1146-DUMUZI-PASSAGE-RECONSTRUCTION-CEILING
+    proposition: "The famous A.1146 Dumuzi death/return passage is damaged and linguistically difficult; its widely cited translation is a scholarly reconstruction, and bracketed elements such as a spring restoration must not be treated as preserved tablet wording."
+    claim_type: TEXTUAL_RECONSTRUCTION_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-MARELLO-1992-A1146
+        locator: "A.1146, especially damaged later lines"
+        relation: PRIMARY_EDITION_CEILING
+        access_mode: ORIGINAL_PUBLICATION
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "Chapter 2.A"
+        relation: CURRENT_PHILOLOGICAL_SYNTHESIS
+        access_mode: SCHOLARLY_MONOGRAPH
+    opposing_sources: []
+    confidence: high-for-reconstruction-ceiling
+    contested: false
+
+  - id: CLM-MARI-A1146-EPISTOLARY-METAPHOR-CONTEXT
+    proposition: "A.1146 is an elite Yaminite/Amorite letter using the speaker's dangerous experiences and escapes from death in moralizing comparison; Dumuzi therefore appears in an epistolary metaphor rather than a standalone mythological composition."
+    claim_type: SOURCE_GENRE_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [mari, amorite]
+    supporting_sources:
+      - source_id: SCH-BOU-2023-A1146-CONTEXT
+        locator: "discussion and translation of A.1146 lines 16, 32-40"
+        relation: EPISTOLARY_CONTEXT
+        access_mode: SCHOLARLY_ARTICLE
+      - source_id: SCH-MARELLO-1992-A1146
+        locator: "letter A.1146"
+        relation: ORIGINAL_TEXT_EDITION
+        access_mode: ORIGINAL_PUBLICATION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-MARI-A1146-STATUE-RITUAL-SECONDARY
+    proposition: "Interpreting A.1146's Dumuzi return language as a cult-statue journey or seasonal ritual is a scholarly historical reconstruction, not explicit primary-text wording of the letter."
+    claim_type: INTERPRETATION_SCOPE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, HISTORICAL_RECONSTRUCTION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "Chapter 2.A and conclusions"
+        relation: CURRENT_SCHOLARLY_CONTROL
+        access_mode: SCHOLARLY_MONOGRAPH
+      - source_id: SCH-MARELLO-1992-A1146
+        locator: "A.1146"
+        relation: PRIMARY_TEXT_BOUNDARY
+        access_mode: ORIGINAL_PUBLICATION
+    opposing_sources: []
+    confidence: high-as-scope-control
+    contested: false
+
+  - id: CLM-MARI-A4540-BURIAL-LINE-CONTROL
+    proposition: "A.4540 line 4 contains ana temrim sha Dumuzi, currently lexically analyzed as 'for the burial of Dumuzi'; this is direct burial evidence and must not be silently promoted to return/resurrection evidence."
+    claim_type: LINE_LEVEL_LEXICAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-ESAD-2024-TIMRU-BURIAL
+        locator: "timru II / temru, A.4540:4"
+        relation: CURRENT_LEXICAL_CONTROL
+        access_mode: AKKADIAN_DICTIONARY_SUPPLEMENT
+      - source_id: SCH-JACQUET-2011-FM12
+        locator: "FM XII p. 139, A.4540"
+        relation: PRIMARY_EDITION_PROVENANCE
+        access_mode: SCHOLARLY_EDITION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-MARI-1987-14-SYNTHESIS-ONLY-CEILING
+    proposition: "MARI 5 (1987) 14 remains classified in V1 as current-scholarly-synthesis evidence for a Dumuzi return rite because the original publication identity and exact line-level wording were not independently recovered in this pass."
+    claim_type: SOURCE_CURRENTNESS_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "Chapter 2.C and Chapter 7 synthesis"
+        relation: CURRENT_SCHOLARLY_SYNTHESIS
+        access_mode: SCHOLARLY_MONOGRAPH
+    opposing_sources: []
+    confidence: high-for-current-v1-ceiling
+    contested: false
+
+  - id: CLM-MARI-THREE-DOCUMENTS-ASYMMETRIC
+    proposition: "The three Mari Dumuzi records do not have equal evidentiary control: A.1146 has secure publication provenance but a reconstruction-dependent death/return passage, A.4540 has a strongly controlled burial line, and MARI 5 (1987) 14 remains synthesis-level in V1."
+    claim_type: SOURCE_COMPARATIVE_PROVENANCE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-MARELLO-1992-A1146
+        locator: "A.1146 edition"
+        relation: SOURCE_A_CONTROL
+        access_mode: ORIGINAL_PUBLICATION
+      - source_id: SCH-ESAD-2024-TIMRU-BURIAL
+        locator: "A.4540:4"
+        relation: SOURCE_B_CONTROL
+        access_mode: LEXICAL_REFERENCE
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "Chapter 2.C"
+        relation: SOURCE_C_CONTROL
+        access_mode: CURRENT_SCHOLARSHIP
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-MARI-CONTACT-FIELD-RETAIN-NARROWED
+    proposition: "Mari remains a valid Old Babylonian contact field for Dumuzi death, burial, and reported return traditions, but the contact-field claim must not imply that all three Mari records independently and directly attest the full death-and-return sequence."
+    claim_type: CONTACT_FIELD_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian, west_semitic]
+    supporting_sources:
+      - source_id: SRC-MARI-A1146-DUMUZI
+        locator: "death/return comparison under reconstruction controls"
+        relation: DEATH_RETURN_EVIDENCE
+        access_mode: PUBLICATION_PLUS_SCHOLARLY_RECONSTRUCTION
+      - source_id: SRC-MARI-A4540-DUMUZI
+        locator: "line 4 burial"
+        relation: BURIAL_EVIDENCE
+        access_mode: CURRENT_LEXICAL_CONTROL
+      - source_id: SRC-MARI-1987-14-DUMUZI
+        locator: "return rite as reported by Ayali-Darshan"
+        relation: SYNTHESIS_LEVEL_RETURN_EVIDENCE
+        access_mode: CURRENT_SCHOLARLY_SYNTHESIS
+    opposing_sources: []
+    confidence: high-for-contact-field-bounded-for-three-source-equivalence
+    contested: false

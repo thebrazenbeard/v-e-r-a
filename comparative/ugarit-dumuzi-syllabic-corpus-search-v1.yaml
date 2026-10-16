@@ -1,0 +1,51 @@
+schema_version: on-theo.ugarit-dumuzi-syllabic-corpus-search.v1
+status: ONE_CONTROLLED_POSITIVE_WITNESS_NO_SECOND_HIT_TARGETED_SEARCH
+subject:
+  predecessor_pr: 71
+  predecessor_head: 89920c8e281b97a2806708a21c16e0115f884f64
+
+search:
+  target: DUMUZI_DIVINE_NAME_IN_UGARIT_SYLLABIC_CORPUS
+  variants:
+    - DUMU.ZI
+    - dumu-zi
+    - dumu-zid
+    - du-mu-zi
+    - Dumuzi
+    - Tammuz
+  surfaces:
+    - ORACC_AEMW_UGARIT
+    - ORACC_DCCLT_UGARIT
+    - CDLI_UGARIT_RAS_SHAMRA
+    - WEB_PUBLICATION_INDEX_SEARCH
+
+controlled_positive_witnesses:
+  - WIT-UGARIT-WEIDNER-P332950
+
+controlled_positive_count: 1
+second_controlled_positive_recovered: false
+
+false_positive_controls:
+  - candidate: DADMIS_TADMIS
+    disposition: SEPARATE_LEXICAL_ROW_NOT_DUMUZI
+    p332950_rows:
+      dumuzi: "reverse ii 7"
+      dadmis: "column iii 15'"
+
+month_name_search:
+  target: TAMMUZ_DUUZU_MONTH_AT_UGARIT
+  controlled_hit_recovered: false
+  evidence_ceiling: BOUNDED_SEARCH_NONHIT_ONLY
+
+states:
+  dumuzi_specific_scholastic_exposure: SUPPORTED
+  breadth_of_controlled_ugarit_dumuzi_witnesses: ONE_IN_CURRENT_V1
+  second_syllabic_dumuzi_witness: NOT_FOUND_IN_TARGETED_V1_SEARCH
+  dumuzi_narrative_at_ugarit: NOT_ESTABLISHED
+  historical_uniqueness_of_p332950: NOT_PROVEN
+
+guards:
+  - "one recovered witness != historical uniqueness"
+  - "search non-hit != historical absence"
+  - "Dadmis/Tadmis != second Dumuzi occurrence"
+  - "divine-name lexical occurrence != death-return narrative transmission"

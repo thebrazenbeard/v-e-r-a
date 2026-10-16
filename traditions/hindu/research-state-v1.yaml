@@ -1,0 +1,34 @@
+schema_version: on-theo.hindu-research-state.v1
+status: FOUNDATION_RESEARCH_ACTIVE
+
+textual_strata:
+  - VEDIC_SAMHITA
+  - BRAHMANA
+  - ARANYAKA
+  - UPANISHAD
+  - EPIC
+  - GITA
+  - PURANA
+  - AGAMA_TANTRA
+  - PHILOSOPHICAL_SCHOOL
+  - DEVOTIONAL_TRADITION
+
+priority_semantics:
+  - RTA
+  - DHARMA
+  - ATMAN
+  - BRAHMAN
+  - KARMA
+  - REBIRTH
+  - MOKSHA
+  - YAJNA
+  - MAYA
+  - AVATARA
+
+guards:
+  - "Vedic religion != all later Hinduism"
+  - "one Upanishad != one universal Upanishadic doctrine"
+  - "Harappan iconography != later deity identification"
+  - "Brahman != automatically personal creator God"
+  - "maya != simulation theory"
+  - "textual layer must be explicit before comparison"

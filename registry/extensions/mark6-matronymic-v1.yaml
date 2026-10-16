@@ -1,0 +1,287 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-MARK6-MATRONYMIC-V1
+base_registry_head: 389c1e6e2c8affafae165fd34ca091618043b11e
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-GOSPEL-MARK
+    source_roles: [PRIMARY_TEXT]
+    source_kind: canonical_gospel_text
+    author_or_tradition: Gospel according to Mark
+    title: Gospel according to Mark
+    composition_date: {start: null, end: null, precision: unresolved-in-v1}
+    physical_witness_date: {start: null, end: null, precision: witness-specific-see-witness-records}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Greek
+    access_mode: modern-critical-text-and-translation
+    locators:
+      - passage: "Mark 6:3"
+        url: "https://classic.net.bible.org/passage.php?passage=Mar+6%3A3"
+    limitations:
+      - "A modern critical text is an editorial reconstruction from manuscript evidence; variant claims must remain distinct from claims about a single physical witness."
+      - "This source record does not assign a composition date in V1."
+
+  - id: SRC-GOSPEL-MATTHEW
+    source_roles: [PRIMARY_TEXT]
+    source_kind: canonical_gospel_text
+    author_or_tradition: Gospel according to Matthew
+    title: Gospel according to Matthew
+    composition_date: {start: null, end: null, precision: unresolved-in-v1}
+    physical_witness_date: {start: null, end: null, precision: witness-specific-unresolved-in-v1}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Greek
+    access_mode: modern-greek-text
+    locators:
+      - passage: "Matthew 13:55"
+        url: "https://biblehub.com/text/matthew/13-55.htm"
+    limitations:
+      - "Used here for literary comparison only; V1 does not infer a redactional motive from wording difference alone."
+
+  - id: SRC-GOSPEL-LUKE
+    source_roles: [PRIMARY_TEXT]
+    source_kind: canonical_gospel_text
+    author_or_tradition: Gospel according to Luke
+    title: Gospel according to Luke
+    composition_date: {start: null, end: null, precision: unresolved-in-v1}
+    physical_witness_date: {start: null, end: null, precision: witness-specific-unresolved-in-v1}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Greek
+    access_mode: modern-greek-text
+    locators:
+      - passage: "Luke 4:22"
+        url: "https://www.greeklab.org/interlinear.php?book=Luke&cap=4&verse=22"
+    limitations:
+      - "Used here for literary comparison only; V1 does not infer a redactional motive from wording difference alone."
+
+witness_additions:
+  - id: WIT-P45-MARK-6-3
+    witness_of: SRC-GOSPEL-MARK
+    witness_kind: papyrus_manuscript
+    common_name: Chester Beatty Papyrus I / P45
+    shelfmark: "P45"
+    witness_date: {start: "0200", end: "0299", precision: broad-third-century-range}
+    provenance_note: "V1 relies on published textual-apparatus discussion for the fragmentary Mark 6:3 reading, not an independent autoptic reconstruction."
+    access_mode: scholarly-apparatus-summary
+    locators:
+      - passage: "Mark 6:3 variation unit"
+        url: "https://www.cambridge.org/core/journals/new-testament-studies/article/marks-mothers-and-the-matronymic-linking-the-son-of-mary-mk-63-to-the-daughter-of-herodias-mk-622/C789C196C3EE0F16BCDB5A2C726302ED"
+      - passage: "NET textual note on Mark 6:3"
+        url: "https://classic.net.bible.org/passage.php?passage=Mar+6%3A3"
+    limitations:
+      - "P45 is fragmentary at this locus. V1 records the published apparatus-level reconstruction only."
+      - "A witness reading is not automatically the original wording of the work."
+
+scholarly_context_additions:
+  - id: SCH-NORMAN-2025-MARK-MATRONYMIC
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_article
+    author_or_tradition: Dawn LaValle Norman
+    title: "Mark's Mothers and the Matronymic: Linking 'The Son of Mary' (Mk 6.3) to 'The Daughter of Herodias' (Mk 6.22)"
+    container: New Testament Studies 71
+    composition_date: {start: "2025", end: "2025", precision: publication-year}
+    access_mode: open-access-publisher-full-text
+    locators:
+      - doi: "10.1017/S0028688524000262"
+        url: "https://www.cambridge.org/core/journals/new-testament-studies/article/marks-mothers-and-the-matronymic-linking-the-son-of-mary-mk-63-to-the-daughter-of-herodias-mk-622/C789C196C3EE0F16BCDB5A2C726302ED"
+    limitations:
+      - "Offers a Greek-literary/women's-speech explanation of the matronymic and surveys earlier interpretations; this is scholarly interpretation, not direct evidence of what the Nazareth crowd historically meant."
+
+  - id: SCH-MCARTHUR-1973-SON-OF-MARY
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_article
+    author_or_tradition: Harvey K. McArthur
+    title: "Son of Mary"
+    container: Novum Testamentum 15.1
+    composition_date: {start: "1973", end: "1973", precision: publication-year}
+    access_mode: publisher-metadata-plus-scholarly-summary
+    locators:
+      - doi: "10.1163/156853673X00169"
+        url: "https://brill.com/view/journals/nt/15/1/article-p38_2.pdf"
+    limitations:
+      - "V1 did not independently read the complete article through the available workflow. Its position is represented only to the extent supported by accessible publisher metadata and Norman 2025's scholarly survey."
+
+  - id: SCH-ILAN-1992-METRONYMES
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_article
+    author_or_tradition: Tal Ilan
+    title: "'Man Born of Woman...' (Job 14:1) the Phenomenon of Men Bearing Metronymes at the Time of Jesus"
+    container: Novum Testamentum 34.1
+    composition_date: {start: "1992", end: "1992", precision: publication-year}
+    access_mode: bibliographic-record-plus-scholarly-summary
+    locators:
+      - doi: "10.2307/1561094"
+        url: "https://www.jstor.org/stable/1561094"
+    limitations:
+      - "V1 did not independently read the complete article through the available workflow. Norman 2025 is used for the bounded summary that matronymics need not encode illegitimacy."
+
+  - id: SCH-CROY-2022-ESCAPING-SHAME
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: N. Clayton Croy
+    title: "Escaping Shame: Mary's Dilemma and the Birthplace of Jesus"
+    container: Supplements to Novum Testamentum 187
+    composition_date: {start: "2022", end: "2022", precision: publication-year}
+    access_mode: publisher-book-metadata-plus-scholarly-summary
+    locators:
+      - url: "https://books.google.com/books/about/Escaping_Shame_Mary_s_Dilemma_and_the_Bi.html?id=7Sd_EAAAQBAJ"
+      - secondary_locator: "Norman 2025 discussion of Croy pp. 99-107"
+        url: "https://www.cambridge.org/core/journals/new-testament-studies/article/marks-mothers-and-the-matronymic-linking-the-son-of-mary-mk-63-to-the-daughter-of-herodias-mk-622/C789C196C3EE0F16BCDB5A2C726302ED"
+    limitations:
+      - "Croy argues for a slur reading in the hostile Mark 6 context; V1 has not independently rechecked every ancient comparator used in his monograph."
+
+claim_additions:
+  - id: CLM-MARK-6-3-MATRONYMIC-CRITICAL-TEXT
+    proposition: "The mainstream critical text of Mark 6:3 identifies Jesus as 'the carpenter, the son of Mary' without a corresponding patronymic in the clause."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [christianity]
+    supporting_sources:
+      - source_id: SRC-GOSPEL-MARK
+        locator: "Mark 6:3"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: MODERN_CRITICAL_TEXT
+      - source_id: SCH-NORMAN-2025-MARK-MATRONYMIC
+        locator: "Part I: Jesus 'the Son of Mary' in Mk 6.3"
+        relation: CRITICAL_TEXT_AND_VARIANT_DISCUSSION
+        access_mode: OPEN_ACCESS_PUBLISHER_FULL_TEXT
+    opposing_sources: []
+    confidence: high-at-critical-text-level
+    contested: false
+    notes:
+      - "The confidence applies to the mainstream critical-text reading, not to the claim that no early alternative existed."
+
+  - id: CLM-MARK-6-3-EARLY-CARPENTERS-SON-VARIANT
+    proposition: "An early textual variant of Mark 6:3 reads toward 'the son of the carpenter and of Mary'; P45 is commonly reconstructed as belonging to this variant family."
+    claim_type: TEXTUAL_VARIANT_REPORT
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [christianity]
+    supporting_sources:
+      - source_id: SRC-GOSPEL-MARK
+        witness_id: WIT-P45-MARK-6-3
+        locator: "Mark 6:3 variation unit"
+        relation: PUBLISHED_APPARATUS_RECONSTRUCTION
+        access_mode: SCHOLARLY_APPARATUS_SUMMARY
+      - source_id: SCH-NORMAN-2025-MARK-MATRONYMIC
+        locator: "textual discussion of Mark 6:3"
+        relation: SCHOLARLY_TEXTUAL_CRITICISM
+        access_mode: OPEN_ACCESS_PUBLISHER_FULL_TEXT
+    opposing_sources: []
+    confidence: high-for-existence-of-variant-moderate-for-fragmentary-p45-reconstruction
+    contested: false
+    notes:
+      - "The variant's existence and P45's fragmentary state are distinct from deciding the original reading."
+
+  - id: CLM-SYNOPTIC-HOMETOWN-PATERNITY-LABELS-DIFFER
+    proposition: "In the compared hometown passages, Mark 6:3 uses 'son of Mary', Matthew 13:55 uses 'the carpenter's son' and names Mary separately, and Luke 4:22 uses 'Joseph's son'."
+    claim_type: TEXTUAL_COMPARISON
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [christianity]
+    supporting_sources:
+      - source_id: SRC-GOSPEL-MARK
+        locator: "Mark 6:3"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: MODERN_CRITICAL_TEXT
+      - source_id: SRC-GOSPEL-MATTHEW
+        locator: "Matthew 13:55"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: MODERN_GREEK_TEXT
+      - source_id: SRC-GOSPEL-LUKE
+        locator: "Luke 4:22"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: MODERN_GREEK_TEXT
+    opposing_sources: []
+    confidence: high
+    contested: false
+    notes:
+      - "The wording difference is direct textual evidence; the motive for the difference is a separate interpretive question."
+
+  - id: CLM-MARK-6-3-MATRONYMIC-IS-ILLEGITIMACY-SLUR
+    proposition: "The phrase 'son of Mary' in Mark 6:3 specifically functions as a paternity/illegitimacy slur in the Nazareth scene."
+    claim_type: SEMANTIC_SOCIAL_INFERENCE
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [christianity, historical-jesus]
+    supporting_sources:
+      - source_id: SCH-CROY-2022-ESCAPING-SHAME
+        locator: "pp. 99-107 as identified in Norman 2025"
+        relation: ARGUES_FOR_CONTEXTUAL_SLUR_READING
+        access_mode: SCHOLARLY_SUMMARY_AND_BOOK_METADATA
+    opposing_sources:
+      - source_id: SCH-MCARTHUR-1973-SON-OF-MARY
+        locator: "conclusion summarized by Norman 2025"
+        relation: ARGUES_INFORMAL_IDENTIFICATION_NEED_NOT_CARRY_SPECIAL_STIGMA
+        access_mode: SCHOLARLY_SUMMARY
+      - source_id: SCH-ILAN-1992-METRONYMES
+        locator: "position summarized by Norman 2025"
+        relation: MATRONYMICS_DO_NOT_ENCODE_SINGLE_ILLEGITIMACY_RULE
+        access_mode: SCHOLARLY_SUMMARY
+      - source_id: SCH-NORMAN-2025-MARK-MATRONYMIC
+        locator: "Part I and new solution"
+        relation: OFFERS_ALTERNATIVE_GREEK_LITERARY_WOMENS_SPEECH_MODEL
+        access_mode: OPEN_ACCESS_PUBLISHER_FULL_TEXT
+    confidence: unresolved
+    contested: true
+    notes:
+      - "Narrative hostility increases plausibility of a disparaging reading but does not independently identify the semantic target of the insult."
+
+  - id: CLM-MARK-6-3-PROVES-FIRST-CENTURY-PATERNITY-RUMOR
+    proposition: "Mark 6:3 by itself establishes that a first-century Nazareth rumor questioned Jesus's biological paternity."
+    claim_type: HISTORICAL_RECONSTRUCTION
+    evidence_class: [UNKNOWN]
+    traditions: [comparative]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SCH-NORMAN-2025-MARK-MATRONYMIC
+        locator: "survey of multiple explanations"
+        relation: MULTIPLE_LIVE_INTERPRETATIONS_PREVENT_UNIQUE_HISTORICAL_INFERENCE
+        access_mode: OPEN_ACCESS_PUBLISHER_FULL_TEXT
+    confidence: unresolved
+    contested: true
+    notes:
+      - "A possible slur reading is not equivalent to evidence that the crowd's exact historical wording or a specific paternity rumor has been recovered."
+
+  - id: CLM-MARK-6-3-SUPPORTS-PANTHERA-BIOLOGICAL-PATERNITY
+    proposition: "Mark 6:3 independently supports Panthera/Pandera as the biological father of the historical Jesus/Yeshua."
+    claim_type: HISTORICAL_BIOGRAPHY
+    evidence_class: [UNKNOWN]
+    traditions: [comparative]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SRC-GOSPEL-MARK
+        locator: "Mark 6:3"
+        relation: TEXT_DOES_NOT_NAME_PANTHERA_OR_AN_ALTERNATIVE_FATHER
+        access_mode: MODERN_CRITICAL_TEXT
+    confidence: unresolved
+    contested: true
+    notes:
+      - "Using later Panthera traditions to fix the meaning of Mark 6:3 and then counting Mark as independent confirmation would be circular."
+
+transmission_additions:
+  - id: TR-MARK-MATTHEW-LUKE-HOMETOWN-FAMILY-LABELS
+    from_source: SRC-GOSPEL-MARK
+    to_source: SRC-GOSPEL-MATTHEW
+    relation: SHARED_LITERARY_TRADITION
+    confidence: high-for-parallel-unresolved-for-direction-in-v1
+    evidence:
+      - source_id: SRC-GOSPEL-MARK
+        locator: "Mark 6:1-6"
+      - source_id: SRC-GOSPEL-MATTHEW
+        locator: "Matthew 13:53-58"
+      - source_id: SRC-GOSPEL-LUKE
+        locator: "Luke 4:16-30"
+    limitation: "The passages are literary parallels, but V1 does not use this edge to settle the Synoptic Problem or assign a motive for each wording difference."
+
+  - id: TR-MARK6-CELSUS-PANTHERA
+    from_source: SRC-GOSPEL-MARK
+    to_source: SRC-CELSUS-TRUE-DOCTRINE
+    relation: NONE_ESTABLISHED
+    confidence: unresolved
+    evidence: []
+    limitation: "Mark 6:3 does not name Panthera and V1 has not established a transmission chain from the Markan matronymic to Celsus's later paternity counter-story."
+
+  - id: TR-MARK6-RABBINIC-PANDERA
+    from_source: SRC-GOSPEL-MARK
+    to_source: SRC-TOSEFTA-CHULLIN-2-6
+    relation: NONE_ESTABLISHED
+    confidence: unresolved
+    evidence: []
+    limitation: "The existence of a Markan matronymic and later rabbinic Pandera/Panteira material is insufficient to establish direct lineage or a common source."

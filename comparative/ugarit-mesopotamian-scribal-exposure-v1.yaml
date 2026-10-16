@@ -1,0 +1,55 @@
+schema_version: on-theo.scribal-exposure-control.v1
+status: GENERAL_CONTACT_CAPACITY_SUPPORTED_SPECIFIC_DUMUZID_CARRIER_NOT_ESTABLISHED
+subject:
+  predecessor_pr: 54
+  predecessor_head: c5879edfedb5108916bd9f97d5c5e45a5a83b703
+  target_site: Ugarit_Ras_Shamra
+
+material_evidence:
+  - id: UGARIT-GILGAMESH-P500683
+    artifact: P500683
+    museum_number: RS_94_2066
+    language: Akkadian
+    period: Middle_Babylonian
+    genre: Literary_Gilgamesh
+    provenience: Ugarit
+
+  - id: UGARIT-GILGAMESH-P500685
+    artifact: P500685
+    museum_number: RS_94_2082
+    language: Akkadian
+    period: Middle_Babylonian
+    genre: Literary_Gilgamesh
+    provenience: Ugarit
+
+  - id: UGARIT-GILGAMESH-P500686
+    artifact: P500686
+    museum_number: RS_94_2083
+    language: Akkadian
+    period: Middle_Babylonian
+    genre: Literary_Gilgamesh
+    provenience: Ugarit
+
+  - id: UGARIT-LEXICAL-P347890
+    artifact: P347890
+    language: Akkadian_cuneiform
+    genre: Lexical_school_text
+    provenience: Ugarit
+
+controls:
+  general_mesopotamian_literary_exposure: SUPPORTED
+  cuneiform_scribal_training: SUPPORTED
+  dumuzid_text_at_ugarit: NOT_ESTABLISHED
+  ilimilku_specific_dumuzid_access: NOT_ESTABLISHED
+  direct_dumuzid_baal_dependence: NONE_ESTABLISHED
+
+carrier_model:
+  institution_level: PLAUSIBLE_AND_MATERIALLY_GROUNDED
+  named_carrier_ilimilku: POSSIBLE_BUT_UNPROVEN
+  specific_source_chain: NOT_FOUND
+
+guards:
+  - "Gilgamesh at Ugarit != Dumuzid at Ugarit"
+  - "general scribal capacity != named-carrier proof"
+  - "multilingual schooling != direct dependence"
+  - "plausible contact mechanism != demonstrated transmission"

@@ -1,0 +1,41 @@
+schema_version: on-theo.ugarit-dumuzi-direct-attestation.v1
+status: PASS_DUMUZI_SPECIFIC_SCRIBAL_EXPOSURE_NO_PASS_NARRATIVE_OR_CULT
+subject:
+  predecessor_pr: 55
+  predecessor_head: 118bd970361f0fa47290f979341f3092722b011e
+
+artifact:
+  artifact_id: P332950
+  designation: Ugaritica_5_137
+  excavation_id: RS_20_123_plus
+  museum_id: NMSD_05294
+  provenience: Ugarit_Ras_Shamra
+  period: Middle_Babylonian
+  genre: Lexical
+  tradition: Weidner_God_List
+
+dumuzi_occurrence:
+  locator: "reverse ii 7"
+  mesopotamian_column: "dDUMU-[ZI]"
+  hurrian_column: "du-mu-zi"
+  ugaritic_column: LOST_OR_BROKEN
+  evidence_state: DIRECT_TEXTUAL_ATTESTATION
+
+carrier_states:
+  general_mesopotamian_contact_at_ugarit: SUPPORTED
+  dumuzi_specific_scholastic_exposure: SUPPORTED
+  dumuzi_death_return_narrative_at_ugarit: NOT_ESTABLISHED
+  local_ugaritic_dumuzi_cult: NOT_ESTABLISHED
+  ilimilku_specific_dumuzi_access: NOT_ESTABLISHED
+  direct_dumuzid_baal_dependence: NONE_ESTABLISHED
+
+correction:
+  supersedes: "PR55 claim that no Dumuzi/Tammuz source had been identified at Ugarit"
+  replacement: "Dumuzi-specific scholastic exposure is directly attested; narrative/cult transmission remains unestablished."
+
+guards:
+  - "divine-name attestation != narrative transmission"
+  - "lexical-school text != cult text"
+  - "lost Ugaritic equivalent != Baal equivalence"
+  - "targeted search non-hit != historical absence"
+  - "Dumuzi-specific contact != direct Dumuzid-to-Baal dependence"

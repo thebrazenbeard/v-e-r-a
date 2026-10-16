@@ -1,0 +1,39 @@
+schema_version: on-theo.concept-registry.v1
+status: PROPOSED_CANONICAL_CONTRACT
+coverage:
+  state: INITIAL_EMPTY_CONTRACT
+  complete: false
+  meaning: "The registry contract exists, but V1 concept/form population is intentionally incomplete. An empty concepts list must not be interpreted as evidence that no relevant concepts or linguistic forms exist."
+relation_types:
+  - VARIANT_FORM
+  - TRANSLATION
+  - BROADER_THAN
+  - NARROWER_THAN
+  - RELATED_BUT_NOT_EQUIVALENT
+  - POSSIBLE_WORDPLAY
+  - DERIVATION_HYPOTHESIS
+  - NONE_ESTABLISHED
+  - STRUCTURAL_PARALLEL_NO_LINEAGE_ESTABLISHED
+  - POSSIBLE_DIACHRONIC_LEXICAL_RELATION
+  - MEMBER_OF_EXPLICIT_TEXTUAL
+relation_type_guards:
+  STRUCTURAL_PARALLEL_NO_LINEAGE_ESTABLISHED: "Records a structural parallel while explicitly denying that lineage has been established."
+  POSSIBLE_DIACHRONIC_LEXICAL_RELATION: "Marks a possible lexical relationship across time; it does not establish derivation or direct transmission."
+  MEMBER_OF_EXPLICIT_TEXTUAL: "Marks explicit membership/grouping asserted by the text or research record; it does not imply historical descent."
+concept_record_contract:
+  required_fields:
+    - id
+    - canonical_label
+    - kind
+    - forms
+    - semantic_guard
+  optional_fields:
+    - linked_claims
+    - relations
+    - source_refs
+    - notes
+concepts: []
+notes:
+  - "Similarity may discover a candidate relationship but does not establish semantic identity or derivation."
+  - "Linguistic forms and theological concepts must retain source, language, period, and tradition context when populated."
+  - "Coverage state must be checked before interpreting absence of a concept record as negative evidence."

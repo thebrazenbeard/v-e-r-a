@@ -1,0 +1,167 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SUMERIAN-DUMUZID-SEASONAL-HYPOTHESIS-V1
+base_registry_head: b0873f7840e1d336bc63570e017a5de45b0e6fe4
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-MANDER-2005-DUMUZI
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: reference_work_entry
+    author_or_tradition: Pietro Mander
+    title: Dumuzi
+    composition_date: {start: "2005", end: "2005", precision: publication-year}
+    access_mode: encyclopedia-of-religion-web-reprint
+    locators:
+      - url: "https://www.encyclopedia.com/environment/encyclopedias-almanacs-transcripts-and-maps/dumuzi"
+    limitations:
+      - "Synthesizes earlier scholarship; individual underlying works remain independently citable for stronger claim-level review."
+
+  - id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_monograph
+    author_or_tradition: Noga Ayali-Darshan
+    title: 'Dying and Rising Gods: The History of a Mythologem in West Asia of the Second Millennium BCE'
+    composition_date: {start: "2024", end: "2024", precision: publication-year}
+    access_mode: publisher-summary-and-table-of-contents
+    locators:
+      - url: "https://www.zaphon.de/dying-and-rising-gods/en"
+    limitations:
+      - "Current pass uses publisher-level summary for the monograph's stated thesis; full argument requires direct book access."
+
+  - id: SCH-ALSTER-2006-DUMUZI-DREAM
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: critical_text_article
+    author_or_tradition: Bendt Alster
+    title: New Sources for Dumuzi's Dream
+    composition_date: {start: "2006", end: "2006", precision: publication-year}
+    access_mode: publisher-abstract-and-bibliographic-record
+    locators:
+      - url: "https://doi.org/10.1515/ZA.2006.001"
+    limitations:
+      - "Abstract establishes added manuscripts and improved reconstruction; full article is required for line-by-line philological claims."
+
+claim_additions:
+  - id: CLM-DUMUZID-HALF-YEAR-PRIMARY-TEXT
+    proposition: "Inana's Descent explicitly gives Dumuzid and his sister alternating half-year terms, with one staying when demanded and the other released."
+    claim_type: PRIMARY_TEXT_TEMPORAL_STRUCTURE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-INANA-DESCENT
+        locator: "c.1.4.1 lines 404-410"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: ETCSL_TRANSLATION_AND_GLOSSING
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZID-HALF-YEAR-NOT-EXPLICIT-VEGETATION
+    proposition: "The half-year passage does not itself state that Dumuzid's alternation causes crop death, crop revival, pasture renewal, or a vegetation cycle; those are interpretive bridges."
+    claim_type: TEXTUAL_SCOPE_CONTROL
+    evidence_class: [PRIMARY_TEXT, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-INANA-DESCENT
+        locator: "c.1.4.1 lines 404-410"
+        relation: TEXTUAL_SCOPE_READBACK
+        access_mode: ETCSL_TRANSLATION_AND_GLOSSING
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZID-VEGETATION-DEITY-CONTESTED
+    proposition: "The model of Dumuzid as fundamentally a vegetation deity is contested in modern scholarship; shepherding, kingship, netherworld office, and distinction from Damu/Ningishzida must remain available alternatives."
+    claim_type: SCHOLARLY_MODEL_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-MANDER-2005-DUMUZI
+        locator: "discussion of Alster, Fritz, shepherding/kingship, and Damu/Ningishzida distinction"
+        relation: SCHOLARLY_SYNTHESIS
+        access_mode: REFERENCE_WORK
+    opposing_sources: []
+    confidence: high-for-contestation
+    contested: true
+    alternatives:
+      - SHEPHERD_DEITY
+      - ROYAL_KINGSHIP_FIGURE
+      - NETHERWORLD_OFFICER
+      - SYNCRETIC_VEGETATION_ASSOCIATION
+
+  - id: CLM-DUMUZID-RISING-GOD-MODEL-CONTESTED
+    proposition: "Treating Dumuzid as the dominant Mesopotamian dying-and-rising god prototype is contested by current scholarship; Ayali-Darshan 2024 argues that revival is scarcely attested in the Mesopotamian evidence and rejects a simple Dumuzi-prototype model for later West Asian traditions."
+    claim_type: SCHOLARLY_MODEL_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "publisher summary, findings, chapter 1"
+        relation: CURRENT_SCHOLARLY_CHALLENGE
+        access_mode: PUBLISHER_SUMMARY
+    opposing_sources: []
+    confidence: high-for-author-stated-thesis
+    contested: true
+
+  - id: CLM-DUMUZID-TEMPORARY-RELEASE-NOT-AUTOMATIC-RESURRECTION
+    proposition: "A half-year release/alternation from the netherworld should not be normalized automatically as annual resurrection; periodic release, substitution, return, ritual movement, and resurrection are distinct semantic models."
+    claim_type: SEMANTIC_MODEL_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-INANA-DESCENT
+        locator: "c.1.4.1 lines 404-410"
+        relation: PRIMARY_TEXT_BOUNDARY
+        access_mode: ETCSL
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "discussion of limited revival evidence"
+        relation: SCHOLARLY_MODEL_BOUNDARY
+        access_mode: PUBLISHER_SUMMARY
+    opposing_sources: []
+    confidence: high-as-methodological-control
+    contested: false
+
+  - id: CLM-DUMUZID-SEASONAL-CORRELATION-PLAUSIBLE-NONEXPLICIT
+    proposition: "Correlating Dumuzid's half-year alternation with seasonal or pastoral cycles remains a plausible scholarly interpretation, but it is not explicitly stated as the vegetation-cycle explanation in the half-year passage."
+    claim_type: BOUNDED_SCHOLARLY_INTERPRETATION
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-INANA-DESCENT
+        locator: "c.1.4.1 lines 404-410"
+        relation: HALF_YEAR_PRIMARY_BASE
+        access_mode: ETCSL
+      - source_id: SCH-MANDER-2005-DUMUZI
+        locator: "historiography of vegetation-cycle interpretations and alternatives"
+        relation: HISTORIOGRAPHIC_CONTROL
+        access_mode: REFERENCE_WORK
+    opposing_sources: []
+    confidence: medium-high
+    contested: true
+
+  - id: CLM-DUMUZID-MANUSCRIPT-CURRENTNESS-BLOCKS-FIXED-ALLEGORY
+    proposition: "Because Dumuzi's Dream continued to gain manuscripts and revised reconstruction after the 1972 edition, fixed allegorical readings must remain subordinate to manuscript-level textual currentness."
+    claim_type: EDITION_CURRENTNESS_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-ALSTER-2006-DUMUZI-DREAM
+        locator: "abstract: newly published Susa, Los Angeles, and Schoyen sources; improved reconstruction"
+        relation: MANUSCRIPT_CURRENTNESS
+        access_mode: PUBLISHER_ABSTRACT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZID-DAMU-NINGISHZIDA-NOT-IDENTICAL
+    proposition: "Dumuzid, Damu, and Ningishzida must not be treated as originally identical deities merely because later traditions or scholarship associate them; vegetation traits require source-specific attribution."
+    claim_type: DEITY_IDENTITY_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-MANDER-2005-DUMUZI
+        locator: "summary of Fritz 2003 and Dumuzi/Damu/Ningishzida distinction"
+        relation: SCHOLARLY_IDENTITY_CONTROL
+        access_mode: REFERENCE_WORK
+    opposing_sources: []
+    confidence: high-for-control
+    contested: false

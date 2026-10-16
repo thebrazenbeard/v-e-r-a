@@ -1,0 +1,58 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-DEUT32-WITNESS-CONTROL-V1
+base_registry_head: d364a124523b8d06542f8631a05227268b14de10
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+witness_additions:
+  - id: WIT-4Q37-DEUT32-8
+    witness_of: SRC-DEUTERONOMY-32
+    witness_kind: manuscript_fragment
+    common_name: 4QDeutj / 4Q37
+    shelfmark: "4Q37"
+    witness_date: {start: null, end: null, precision: second-temple-palaeographic-range-not-fixed-in-v1}
+    access_mode: scholarly-witness-report
+    locators:
+      - passage: "Deuteronomy 32:8"
+        url: "https://www.thetorah.com/article/the-sons-of-israel-or-god-deuteronomy-32-8"
+    limitations:
+      - "V1 relies on Emanuel Tov's published witness comparison rather than autoptic reading of the fragment."
+
+  - id: WIT-PFOUAD266B-RAHLFS848-DEUT32-8
+    witness_of: SRC-DEUTERONOMY-32
+    witness_kind: papyrus_manuscript
+    common_name: P. Fouad Inv. 266B / Rahlfs 848
+    shelfmark: "P. Fouad Inv. 266B / Rahlfs 848"
+    witness_date: {start: null, end: null, precision: mid-first-century-bce-scholarly-dating}
+    access_mode: scholarly-witness-report
+    locators:
+      - passage: "Deuteronomy 32:8"
+        url: "https://www.thetorah.com/article/the-sons-of-israel-or-god-deuteronomy-32-8"
+    limitations:
+      - "Tov identifies MS 848 as an early papyrus with the Greek 'sons of God' reading; V1 has not independently collated the papyrus image."
+
+claim_additions:
+  - id: CLM-DEUT32-DIVINE-BEINGS-WITNESS-SPECIFIC
+    proposition: "At Deuteronomy 32:8, 4QDeutj/4Q37 reads a Hebrew 'sons of God' form, while P. Fouad 266B/Rahlfs 848 preserves a Greek 'sons of God' form; these are witness-specific readings and do not inherit the date of the underlying work."
+    claim_type: TEXTUAL_VARIANT_REPORT
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [ancient-israelite, biblical, second-temple]
+    supporting_sources:
+      - source_id: SRC-DEUTERONOMY-32
+        witness_id: WIT-4Q37-DEUT32-8
+        locator: "Deuteronomy 32:8"
+        relation: SCHOLARLY_WITNESS_REPORT
+        access_mode: WITNESS_SPECIFIC_REPORT
+      - source_id: SRC-DEUTERONOMY-32
+        witness_id: WIT-PFOUAD266B-RAHLFS848-DEUT32-8
+        locator: "Deuteronomy 32:8"
+        relation: SCHOLARLY_WITNESS_REPORT
+        access_mode: WITNESS_SPECIFIC_REPORT
+      - source_id: SCH-TOV-2023-DEUT32
+        locator: "variant table and notes"
+        relation: SCHOLARLY_TEXTUAL_CRITICISM
+        access_mode: SCHOLARLY_FULL_TEXT
+    opposing_sources: []
+    confidence: high-for-reported-witness-readings
+    contested: false
+    notes:
+      - "The historical reconstruction of the oldest recoverable reading remains a separate textual-critical inference."

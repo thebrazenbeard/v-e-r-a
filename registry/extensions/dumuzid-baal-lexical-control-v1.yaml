@@ -1,0 +1,176 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-DUMUZID-BAAL-LEXICAL-CONTROL-V1
+base_registry_head: 8aabf5571246ca772ef6954c2470ee9d6f33e208
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-ORACC-AKK-DAKU
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: digital_akkadian_lexicon
+    author_or_tradition: ORACC
+    title: daku [KILL] Akkadian lexical entries
+    composition_date: {start: "2024", end: "2026", precision: current-digital-lexicon}
+    access_mode: institutional-digital-lexicon
+    locators:
+      - url: "https://oracc.museum.upenn.edu/asbp/ninmed/cbd/akk/x0001121.html"
+      - url: "https://oracc.museum.upenn.edu/ccpo/cbd/akk-x-stdbab/x00000600.html"
+    limitations:
+      - "Corpus-specific lexical entries establish semantic range, not the exact damaged A.1146 reading."
+
+  - id: SCH-ORACC-AKK-TARU
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: digital_akkadian_lexicon
+    author_or_tradition: ORACC
+    title: taru [TURN/RETURN] Akkadian lexical entries
+    composition_date: {start: "2024", end: "2026", precision: current-digital-lexicon}
+    access_mode: institutional-digital-lexicon
+    locators:
+      - url: "https://oracc.museum.upenn.edu/armep/cbd/akk-x-stdbab/x000011720.html"
+    limitations:
+      - "Attested iterative forms and return senses control lexical semantics; A.1146's exact form remains reconstruction-dependent."
+
+  - id: SCH-ORACC-UGARIT-DEATH-LEXEMES
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: digital_ugaritic_lexicon
+    author_or_tradition: ORACC Ancient Egyptian and Mesopotamian World / Ugarit
+    title: Ugaritic mt / hlq lexical entries
+    composition_date: {start: "2024", end: "2024", precision: current-digital-lexicon-build}
+    access_mode: institutional-digital-lexicon
+    locators:
+      - url: "https://oracc.museum.upenn.edu/aemw/ugarit/cbd/uga/onebigfile.html"
+    limitations:
+      - "The searchable glossary independently controls mt 'die/death' and hlq 'perish'; line-level Baal morphology remains edition-controlled."
+
+  - id: SCH-SMITH-1998-BAAL-DYING-RISING
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_journal_article
+    author_or_tradition: Mark S. Smith
+    title: 'The death of "dying and rising gods" in the biblical world: An update, with special reference to Baal in the Baal cycle'
+    composition_date: {start: "1998", end: "1998", precision: publication-year}
+    access_mode: publisher-abstract-and-article-text
+    locators:
+      - doi: "10.1080/09018329808585140"
+        url: "https://www.tandfonline.com/doi/abs/10.1080/09018329808585140"
+    limitations:
+      - "Used for Baal Cycle death/alive wording and category critique; modern interpretation remains distinct from primary Ugaritic text."
+
+claim_additions:
+  - id: CLM-A1146-DAKU-AGENTIVE-KILLING
+    proposition: "The reconstructed A.1146 form idakkushu belongs to Akkadian daku 'kill' and expresses an agentive killing construction ('they kill him'), rather than merely stating that Dumuzi is dead."
+    claim_type: CROSS_LANGUAGE_LEXICAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SRC-MARI-A1146-DUMUZI
+        locator: "reconstructed lines 39-44"
+        relation: DAMAGED_PRIMARY_TEXT
+        access_mode: SCHOLARLY_RECONSTRUCTION
+      - source_id: SCH-ORACC-AKK-DAKU
+        locator: "daku KILL lexical range"
+        relation: AKKADIAN_LEXICAL_CONTROL
+        access_mode: ORACC
+    opposing_sources: []
+    confidence: high-for-lemma-medium-high-for-damaged-form
+    contested: false
+
+  - id: CLM-A1146-TARU-ITERATIVE-RETURN
+    proposition: "The reconstructed A.1146 ittanar form belongs to Akkadian taru 'turn/return'; current lexical evidence supports iterative values such as repeatedly coming back, not a lexical verb whose inherent meaning is 'resurrect.'"
+    claim_type: CROSS_LANGUAGE_LEXICAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SRC-MARI-A1146-DUMUZI
+        locator: "reconstructed lines 39-44"
+        relation: DAMAGED_PRIMARY_TEXT
+        access_mode: SCHOLARLY_RECONSTRUCTION
+      - source_id: SCH-ORACC-AKK-TARU
+        locator: "ittanar / iterative return forms and senses"
+        relation: AKKADIAN_LEXICAL_CONTROL
+        access_mode: ORACC
+    opposing_sources: []
+    confidence: high-for-lemma-and-semantic-range-medium-high-for-damaged-form
+    contested: false
+
+  - id: CLM-BAAL-DEATH-MT-HLQ
+    proposition: "The Baal Cycle reports Baal's death with Ugaritic mt 'die/death' and hlq 'perish' language, lexically distinct from A.1146's agentive Akkadian daku 'kill' reconstruction."
+    claim_type: CROSS_LANGUAGE_LEXICAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SRC-UGARIT-BAAL-CYCLE
+        locator: "KTU 1.5 VI 8-10 and parallels"
+        relation: PRIMARY_TEXT_SUPPORT
+        access_mode: SCHOLARLY_CRITICAL_EDITION
+      - source_id: SCH-ORACC-UGARIT-DEATH-LEXEMES
+        locator: "mt DIE/DEATH; hlq PERISH"
+        relation: UGARITIC_LEXICAL_CONTROL
+        access_mode: ORACC
+      - source_id: SCH-SMITH-1998-BAAL-DYING-RISING
+        locator: "Baal death discussion"
+        relation: SCHOLARLY_LINE_CONTROL
+        access_mode: PEER_REVIEWED_ARTICLE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-BAAL-REVIVAL-HY-ALIVE
+    proposition: "KTU 1.6 III recognizes Baal with hy 'alive/lives' and a parallel existence statement; this is life/existence language rather than a lexical Ugaritic equivalent of A.1146's iterative taru 'return.'"
+    claim_type: CROSS_LANGUAGE_LEXICAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SRC-UGARIT-BAAL-CYCLE
+        locator: "KTU 1.6 III"
+        relation: PRIMARY_TEXT_SUPPORT
+        access_mode: SCHOLARLY_CRITICAL_EDITION
+      - source_id: SCH-SMITH-1998-BAAL-DYING-RISING
+        locator: "hy 'alive' and Baal's return-to-life discussion"
+        relation: SCHOLARLY_MORPHOSEMANTIC_CONTROL
+        access_mode: PEER_REVIEWED_ARTICLE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZID-BAAL-SHARED-LEXICAL-FORMULA-NOT-FOUND
+    proposition: "The surviving Mari and Ugaritic formulations support a high-level death/renewed-presence semantic parallel but do not preserve a shared death-return lexical formula: A.1146 uses agentive kill plus iterative return, while the Baal Cycle uses dead/perish plus alive/exist language."
+    claim_type: TRANSMISSION_LEXICAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-ORACC-AKK-DAKU
+        locator: "daku"
+        relation: SOURCE_LANGUAGE_A_CONTROL
+        access_mode: ORACC
+      - source_id: SCH-ORACC-AKK-TARU
+        locator: "taru / ittanar"
+        relation: SOURCE_LANGUAGE_A_CONTROL
+        access_mode: ORACC
+      - source_id: SCH-ORACC-UGARIT-DEATH-LEXEMES
+        locator: "mt / hlq"
+        relation: SOURCE_LANGUAGE_B_CONTROL
+        access_mode: ORACC
+      - source_id: SCH-SMITH-1998-BAAL-DYING-RISING
+        locator: "hy alive / Baal reappearance"
+        relation: SOURCE_LANGUAGE_B_CONTROL
+        access_mode: PEER_REVIEWED_ARTICLE
+    opposing_sources: []
+    confidence: high-for-v1-comparison
+    contested: false
+
+  - id: CLM-DUMUZID-BAAL-NO-DIRECT-CALQUE-EVIDENCE
+    proposition: "V1 contains no lexical evidence for a direct translation-calque relationship between A.1146's Dumuzi death/return wording and the Baal Cycle's death/alive wording; broader oral, ritual, or adapted influence remains logically possible."
+    claim_type: TRANSMISSION_LEXICAL_CONTROL
+    evidence_class: [PROJECT_INFERENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [mari, mesopotamian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-SMITH-1998-BAAL-DYING-RISING
+        locator: "Baal language/category discussion"
+        relation: TARGET_TRADITION_CONTROL
+        access_mode: PEER_REVIEWED_ARTICLE
+      - source_id: SCH-ORACC-AKK-TARU
+        locator: "return semantic range"
+        relation: SOURCE_TRADITION_CONTROL
+        access_mode: ORACC
+    opposing_sources: []
+    confidence: high-for-v1-search-state
+    contested: false

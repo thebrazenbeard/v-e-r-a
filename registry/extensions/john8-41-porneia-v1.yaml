@@ -1,0 +1,193 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-JOHN8-41-PORNEIA-V1
+base_registry_head: d772dc41ca19f2b1c1bb12839ced88e100ee9e09
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-GOSPEL-JOHN
+    source_roles: [PRIMARY_TEXT]
+    source_kind: canonical_gospel_text
+    author_or_tradition: Gospel according to John
+    title: Gospel according to John
+    composition_date: {start: null, end: null, precision: unresolved-in-v1}
+    physical_witness_date: {start: null, end: null, precision: witness-specific-unresolved-in-v1}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Greek
+    access_mode: modern-critical-text-and-translation
+    locators:
+      - passage: "John 8:31-48; focal verse 8:41"
+        url: "https://classic.net.bible.org/verse.php?book=Joh&chapter=8&theme=false&verse=41"
+      - passage: "John 8:41 translation comparison"
+        url: "https://www.biblegateway.com/verse/en/John%208%3A41"
+    limitations:
+      - "The text states that the interlocutors were not born from porneia and claim God as Father; it does not explicitly name Mary, Panthera, or an alternative biological father for Jesus."
+      - "V1 leaves composition chronology unresolved rather than using a conventional date as if independently established here."
+
+  - id: SRC-ORIGEN-COMMENTARY-JOHN
+    source_roles: [PRIMARY_TEXT, LATER_TRADITION]
+    source_kind: patristic_commentary
+    author_or_tradition: Origen of Alexandria
+    title: Commentary on the Gospel of John
+    composition_date: {start: "0231", end: "0249", precision: broad-working-range-from-scholarly-context}
+    physical_witness_date: {start: null, end: null, precision: unresolved-in-v1}
+    extant_status: partially-extant-through-manuscript-tradition
+    original_language: Greek
+    access_mode: exact-locator-through-modern-scholarly-quotation-in-v1
+    locators:
+      - passage: "Commentary on John 20.128-130; exposition of John 8:41bc"
+        secondary_url: "https://studylib.net/doc/14405707/born-of-fornication--the-jewish-charge-of-jesus%E2%80%99-illegiti..."
+      - edition: "Ronald E. Heine, Origen: Commentary on the Gospel according to John, Books 13-32, Fathers of the Church 89 (1993), p. 233"
+    limitations:
+      - "Harlow 2012 supplies the exact locator and quotes Heine's English translation; V1 has not yet independently collated Heine against the surviving Greek text."
+      - "Origen's interpretation is third-century reception evidence and must not be backdated into the first century."
+
+scholarly_context_additions:
+  - id: SCH-HARLOW-2012-BORN-FORNICATION
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_book_chapter
+    author_or_tradition: Daniel C. Harlow
+    title: "Born of Fornication: The Jewish Charge of Jesus' Illegitimacy in John, Celsus, and Origen"
+    container: "Portraits of Jesus: Studies in Christology"
+    editor: Susan E. Myers
+    publisher: Mohr Siebeck
+    composition_date: {start: "2012", end: "2012", precision: publication-year}
+    pages: "335-354"
+    access_mode: publisher-metadata-plus-accessible-chapter-copy
+    locators:
+      - url: "https://www.mohrsiebeck.com/buch/portraits-of-jesus-9783161517952/"
+      - url: "https://studylib.net/doc/14405707/born-of-fornication--the-jewish-charge-of-jesus%E2%80%99-illegiti..."
+    limitations:
+      - "Modern scholarly interpretation. Used here because it directly compares John 8:41, Celsus/Origen, and Origen's Commentary on John while distinguishing explicit from inferred illegitimacy claims."
+
+claim_additions:
+  - id: CLM-JOHN-8-41-PORNEIA-ONE-FATHER
+    proposition: "John 8:41 has Jesus's interlocutors deny that they were born from porneia and claim one Father, God, within an extended dispute about Abrahamic and divine paternity."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [christianity]
+    supporting_sources:
+      - source_id: SRC-GOSPEL-JOHN
+        locator: "John 8:31-47; focal verse 8:41"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: MODERN_CRITICAL_TEXT_AND_TRANSLATION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-JOHN-8-41-IMPLIED-PERSONAL-TAUNT
+    proposition: "The emphatic denial 'we were not born from porneia' in John 8:41 carries an implied contrast directed at Jesus, approximately 'we were not, unlike you'."
+    claim_type: RHETORICAL_INFERENCE
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [christianity, historical-jesus]
+    supporting_sources:
+      - source_id: SCH-HARLOW-2012-BORN-FORNICATION
+        locator: "John 8:41 discussion"
+        relation: ALLOWS_RHETORICAL_SUBTEXT_WITHOUT_FIXING_TYPE_OF_PORNEIA
+        access_mode: ACCESSIBLE_CHAPTER_COPY
+    opposing_sources: []
+    confidence: plausible-but-underdetermined
+    contested: true
+    notes:
+      - "Even on Harlow's analysis, the rhetorical subtext does not establish that literal sexual immorality rather than spiritual/covenantal infidelity is intended."
+
+  - id: CLM-JOHN-8-41-SPIRITUAL-PATERNITY-READING
+    proposition: "John 8:41 is best explained in its immediate literary context as a claim of spiritual/covenantal legitimacy rather than a literal accusation about Jesus's biological conception."
+    claim_type: LITERARY_SEMANTIC_INTERPRETATION
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [christianity]
+    supporting_sources:
+      - source_id: SCH-HARLOW-2012-BORN-FORNICATION
+        locator: "John 8:41 analysis and conclusion"
+        relation: ARGUES_FOR_SPIRITUAL_LEGITIMACY_READING
+        access_mode: ACCESSIBLE_CHAPTER_COPY
+      - source_id: SRC-GOSPEL-JOHN
+        locator: "John 8:39-47"
+        relation: IMMEDIATE_CONTEXT_SPIRITUALIZES_PATERNITY_AND_CULMINATES_IN_FATHER_THE_DEVIL
+        access_mode: MODERN_CRITICAL_TEXT_AND_TRANSLATION
+    opposing_sources: []
+    confidence: strong-scholarly-case-not-project-fact
+    contested: true
+
+  - id: CLM-ORIGEN-COMMENTARY-JOHN-READS-8-41-AS-BIRTH-SLUR
+    proposition: "Origen's Commentary on John 20.128-130 interprets John 8:41 as a veiled slur concerning Jesus's virgin birth; Harlow identifies it as the earliest surviving commentary to do so."
+    claim_type: RECEPTION_HISTORY
+    evidence_class: [LATER_TRADITION, SCHOLARLY_INTERPRETATION]
+    traditions: [christianity, jewish-christian-relations]
+    supporting_sources:
+      - source_id: SRC-ORIGEN-COMMENTARY-JOHN
+        locator: "Commentary on John 20.128-130"
+        relation: PRIMARY_RECEPTION_TEXT_EXACT_LOCATOR_REPORTED_BY_SCHOLARSHIP
+        access_mode: EXACT_LOCATOR_THROUGH_HARLOW_QUOTING_HEINE
+      - source_id: SCH-HARLOW-2012-BORN-FORNICATION
+        locator: "discussion of Commentary on John 20.128-130"
+        relation: SCHOLARLY_SOURCE_IDENTIFICATION_AND_ANALYSIS
+        access_mode: ACCESSIBLE_CHAPTER_COPY
+    opposing_sources: []
+    confidence: high-for-locator-and-harlows-report-greek-collation-pending
+    contested: false
+    notes:
+      - "This is reception-history evidence. It is not evidence that the same reading was present in the first-century Johannine setting."
+      - "Harlow notes that Origen himself says a literal reading of the phrase fits neither the preceding nor following context cleanly before proposing the veiled insult."
+
+  - id: CLM-JOHN-8-41-PROVES-FIRST-CENTURY-ILLEGITIMACY-RUMOR
+    proposition: "John 8:41 independently establishes that first-century Jews knew and circulated a literal sexual-illegitimacy claim about Jesus's birth."
+    claim_type: HISTORICAL_RECONSTRUCTION
+    evidence_class: [UNKNOWN]
+    traditions: [comparative]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SCH-HARLOW-2012-BORN-FORNICATION
+        locator: "John 8:41 conclusion"
+        relation: ARGUES_VERSE_IS_NOT_SOLID_EVIDENCE_FOR_FIRST_CENTURY_REJECTION_OF_VIRGIN_BIRTH
+        access_mode: ACCESSIBLE_CHAPTER_COPY
+      - source_id: SRC-GOSPEL-JOHN
+        locator: "John 8:31-47"
+        relation: IMMEDIATE_CONTEXT_SUPPORTS_NONBIOLOGICAL_PATERNITY_ARGUMENT
+        access_mode: MODERN_CRITICAL_TEXT_AND_TRANSLATION
+    confidence: unresolved
+    contested: true
+
+  - id: CLM-JOHN-8-41-SUPPORTS-PANTHERA-BIOLOGICAL-PATERNITY
+    proposition: "John 8:41 independently supports Panthera/Pandera as the biological father of the historical Jesus/Yeshua."
+    claim_type: HISTORICAL_BIOGRAPHY
+    evidence_class: [UNKNOWN]
+    traditions: [comparative]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SRC-GOSPEL-JOHN
+        locator: "John 8:41"
+        relation: TEXT_DOES_NOT_NAME_MARY_PANTHERA_OR_ALTERNATIVE_FATHER
+        access_mode: MODERN_CRITICAL_TEXT_AND_TRANSLATION
+    confidence: unresolved
+    contested: true
+    notes:
+      - "The later explicit Panthera accusation cannot be imported into John's ambiguous wording and then counted as independent corroboration."
+
+transmission_additions:
+  - id: TR-JOHN8-ORIGEN-COMMENTARY-RECEPTION
+    from_source: SRC-GOSPEL-JOHN
+    to_source: SRC-ORIGEN-COMMENTARY-JOHN
+    relation: RECEPTION_INTERPRETATION
+    confidence: high
+    evidence:
+      - source_id: SRC-ORIGEN-COMMENTARY-JOHN
+        locator: "Commentary on John 20.128-130"
+      - source_id: SCH-HARLOW-2012-BORN-FORNICATION
+        locator: "discussion of Commentary on John 20.128-130"
+    limitation: "The edge establishes later interpretation of John, not continuity of a first-century historical rumor."
+
+  - id: TR-JOHN8-CELSUS-PANTHERA
+    from_source: SRC-GOSPEL-JOHN
+    to_source: SRC-CELSUS-TRUE-DOCTRINE
+    relation: NONE_ESTABLISHED
+    confidence: unresolved
+    evidence: []
+    limitation: "V1 has not established literary dependence, a common source, or a direct transmission path from John 8:41 to Celsus's explicit Panthera counter-story."
+
+  - id: TR-JOHN8-RABBINIC-PANDERA
+    from_source: SRC-GOSPEL-JOHN
+    to_source: SRC-TOSEFTA-CHULLIN-2-6
+    relation: NONE_ESTABLISHED
+    confidence: unresolved
+    evidence: []
+    limitation: "Semantic resemblance around contested paternity is not sufficient to establish lineage between John 8:41 and later rabbinic Pandera/Panteira material."

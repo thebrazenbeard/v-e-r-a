@@ -1,0 +1,162 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-EARLY-BUDDHIST-V1
+base_registry_head: d9cd25ddc1c0cf6d2cbeda0c4d13674a64ae657d
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-BUDDHIST-SN-56-11
+    source_roles: [PRIMARY_TEXT]
+    source_kind: early_buddhist_discourse_tradition
+    author_or_tradition: Samyutta Nikaya / early Buddhist tradition
+    title: Dhammacakkappavattana Sutta / SN 56.11
+    composition_date: {start: null, end: null, precision: oral-and-redaction-history-not-equated-with-narrated-setting}
+    physical_witness_date: {start: null, end: null, precision: witness-specific-not-modeled-v1}
+    extant_status: extant-through-canonical-manuscript-traditions
+    original_language: Pali textual tradition
+    access_mode: SuttaCentral-digital-edition-translation
+    locators:
+      - {url: "https://suttacentral.net/sn56.11/en/sujato", passage: "SN 56.11"}
+    limitations:
+      - "Primary evidence for the received early-Buddhist textual tradition; not a stenographic witness to the historical Buddha's exact words."
+
+  - id: SRC-BUDDHIST-SN-22-59
+    source_roles: [PRIMARY_TEXT]
+    source_kind: early_buddhist_discourse_tradition
+    author_or_tradition: Samyutta Nikaya / early Buddhist tradition
+    title: Anattalakkhana Sutta / SN 22.59
+    composition_date: {start: null, end: null, precision: oral-and-redaction-history-not-equated-with-narrated-setting}
+    physical_witness_date: {start: null, end: null, precision: witness-specific-not-modeled-v1}
+    extant_status: extant-through-canonical-manuscript-traditions
+    original_language: Pali textual tradition
+    access_mode: SuttaCentral-digital-edition-translation
+    locators:
+      - {url: "https://suttacentral.net/sn22.59/en/bodhi", passage: "SN 22.59"}
+    limitations:
+      - "Translation/editing is a modern access surface; historical dating of the formulation requires comparative textual work."
+
+  - id: SRC-BUDDHIST-SN-12-20
+    source_roles: [PRIMARY_TEXT]
+    source_kind: early_buddhist_discourse_tradition
+    author_or_tradition: Samyutta Nikaya / early Buddhist tradition
+    title: Paccaya Sutta / SN 12.20
+    composition_date: {start: null, end: null, precision: oral-and-redaction-history-not-equated-with-narrated-setting}
+    physical_witness_date: {start: null, end: null, precision: witness-specific-not-modeled-v1}
+    extant_status: extant-through-canonical-manuscript-traditions
+    original_language: Pali textual tradition
+    access_mode: SuttaCentral-digital-edition-translation
+    locators:
+      - {url: "https://suttacentral.net/sn12.20/en/bodhi", passage: "SN 12.20"}
+    limitations:
+      - "One textual witness-family to dependent-origination tradition; later exegetical temporal models remain distinct."
+
+scholarly_context_additions:
+  - id: SCH-BUCKNELL-2022-RECONSTRUCTING-EARLY-BUDDHISM
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Roderick S. Bucknell
+    title: Reconstructing Early Buddhism
+    publisher: Cambridge University Press
+    composition_date: {start: "2022", end: "2022", precision: publication-year}
+    access_mode: publisher-book-and-chapter-summaries
+    locators:
+      - {doi: "10.1017/9781009236539", url: "https://www.cambridge.org/core/books/reconstructing-early-buddhism/97CF4E8093E4D3328355EB8885E2D2B1"}
+    limitations:
+      - "Bucknell offers a specific reconstruction of early Buddhist practice using comparative textual analysis; conclusions remain scholarly reconstruction."
+
+  - id: SCH-MCGOVERN-2022-BRAHMANICAL-AVANT-GARDE
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_book_chapter
+    author_or_tradition: Nathan McGovern
+    title: Buddhism, Samkhya and the Brahmanical Avant-Garde
+    composition_date: {start: "2022", end: "2022", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - {doi: "10.5871/bacad/9780197266991.003.0002", url: "https://academic.oup.com/british-academy-scholarship-online/book/44098/chapter-abstract/372225491"}
+    limitations:
+      - "The Brahmanical-avant-garde origin model is attributed scholarship and is not treated as settled lineage fact."
+
+concept_additions:
+  - id: CON-BUDDHIST-ANATTA
+    canonical_label: anatta / anatman
+    kind: early-buddhist-self-analysis-concept
+    forms: [anatta, anatman, nonself, not-self]
+    semantic_guard: "Do not equate automatically with nihilism, materialism, or an unspoken permanent self."
+    relations: []
+
+  - id: CON-BUDDHIST-DEPENDENT-ORIGINATION
+    canonical_label: dependent origination
+    kind: conditional-causality-concept
+    forms: [paticca-samuppada, pratityasamutpada, dependent-origination]
+    semantic_guard: "Do not collapse into a creator-cosmogony or one later three-lifetimes commentarial interpretation."
+    relations: []
+
+claim_additions:
+  - id: CLM-SN56-11-FOURFOLD-SUFFERING-PATH
+    proposition: "SN 56.11 presents suffering, its origin in craving, cessation, and the path to cessation, including the Noble Eightfold Path."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [early-buddhist]
+    supporting_sources:
+      - {source_id: SRC-BUDDHIST-SN-56-11, locator: "SN 56.11", relation: DIRECT_TEXTUAL_SUPPORT, access_mode: DIGITAL_EDITION_TRANSLATION}
+    opposing_sources: []
+    confidence: high-at-received-text-level
+    contested: false
+
+  - id: CLM-SN22-59-AGGREGATES-NOT-SELF
+    proposition: "SN 22.59 applies not-self analysis to form, feeling, perception, formations and consciousness and links that analysis to dispassion and liberation."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [early-buddhist]
+    supporting_sources:
+      - {source_id: SRC-BUDDHIST-SN-22-59, locator: "SN 22.59", relation: DIRECT_TEXTUAL_SUPPORT, access_mode: DIGITAL_EDITION_TRANSLATION}
+    opposing_sources: []
+    confidence: high-at-received-text-level
+    contested: false
+
+  - id: CLM-SN12-20-DEPENDENT-ORIGINATION-CONDITIONALITY
+    proposition: "SN 12.20 presents dependent origination as a stable conditional pattern involving birth, becoming, clinging, craving and preceding conditions rather than as creation by a first cause."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [early-buddhist]
+    supporting_sources:
+      - {source_id: SRC-BUDDHIST-SN-12-20, locator: "SN 12.20", relation: DIRECT_TEXTUAL_SUPPORT, access_mode: DIGITAL_EDITION_TRANSLATION}
+    opposing_sources: []
+    confidence: high-at-received-text-level
+    contested: false
+
+  - id: CLM-EARLY-BUDDHIST-TEXTS-SCHOOL-TRANSMISSION
+    proposition: "The earliest recoverable Buddhist teachings are preserved through multiple school-specific textual traditions whose discrepancies and parallels are themselves evidence for reconstruction rather than direct access to one pristine transcript."
+    claim_type: SOURCE_HISTORY
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [early-buddhist]
+    supporting_sources:
+      - {source_id: SCH-BUCKNELL-2022-RECONSTRUCTING-EARLY-BUDDHISM, locator: "Chapter 1 and book description", relation: COMPARATIVE_TEXTUAL_RECONSTRUCTION, access_mode: PUBLISHER_SUMMARY}
+    opposing_sources: []
+    confidence: high-for-multiple-traditions
+    contested: false
+
+  - id: CLM-BUDDHISM-BRAHMANICAL-AVANT-GARDE-MODEL
+    proposition: "Early Buddhism may be best located within fluid fifth-century BCE Brahmanical and renunciant intellectual currents rather than as an external reaction to one monolithic finished Brahmanism."
+    claim_type: HISTORICAL_ORIGIN_MODEL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [early-buddhist, brahmanical]
+    supporting_sources:
+      - {source_id: SCH-MCGOVERN-2022-BRAHMANICAL-AVANT-GARDE, locator: "abstract", relation: DIRECT_AUTHOR_MODEL, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: plausible-unresolved
+    contested: true
+
+  - id: CLM-BUDDHIST-BRAHMANICAL-SHARED-VOCAB-DIVERGENT-SEMANTICS
+    proposition: "Early Buddhist and Brahmanical traditions share an evolving Indian karma/rebirth and liberation problem-space while developing materially different models of self, causality, ritual authority and liberation."
+    claim_type: COMPARATIVE_HISTORICAL_RECONSTRUCTION
+    evidence_class: [PROJECT_INFERENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [early-buddhist, brahmanical, comparative]
+    supporting_sources:
+      - {source_id: SCH-MCGOVERN-2022-BRAHMANICAL-AVANT-GARDE, locator: "abstract", relation: CONTACT_FIELD_MODEL, access_mode: PUBLISHER_ABSTRACT}
+      - {source_id: SCH-BUCKNELL-2022-RECONSTRUCTING-EARLY-BUDDHISM, locator: "book structure", relation: EARLY_BUDDHIST_CONTROL, access_mode: PUBLISHER_SUMMARY}
+      - {source_id: SCH-OLIVELLE-UPANISADS-1998, locator: "Introduction", relation: BRAHMANICAL_UPANISHADIC_CONTROL, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: high-for-shared-field-moderate-for-specific-historical-relations
+    contested: true
+
+transmission_additions: []

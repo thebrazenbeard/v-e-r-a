@@ -1,0 +1,72 @@
+schema_version: on-theo.rebase-precondition-audit.v2
+status: PASS_MECHANICAL_EVIDENCE_PENDING_INDEPENDENT_REVIEW
+recorded_at: '2026-09-19'
+subject:
+  repository: thebrazenbeard/on-theo
+  branch: work/source-integration-v2-promotion-hardening-20260919
+  payload_head: 8231cc87129e309156eedaa1e39176189cf3ea23
+  payload_tree: 31563780a699ac7899d01cc377f3d32865a9c565
+  predecessor_source_head: 7c1e57f05957d01838845956857376dc603ca433
+  receipt_scope: PAYLOAD_COMMIT
+manifest:
+  path: registry/extension-manifest.yaml
+  git_blob: 38b74d9a10f96ff6bf7267e3bcf959e6c4665379
+  sha256: d644db68c9e061185533b1b9863cbbde51582bf77bdd10592eba7c3c0c58d258
+  extension_count: 50
+  dependency_correction:
+    extension_id: EXT-DUMUZID-BAAL-TRANSMISSION-V1
+    added_dependency: EXT-BROAD-MYTHOS-FOUNDATION-V1
+    reason: SRC-UGARIT-BAAL-CYCLE is owned by EXT-BROAD-MYTHOS-FOUNDATION-V1 and is referenced by this extension lineage.
+rebase_preconditions:
+  method: PASS means only that every referenced stable ID not owned by an extension has an identical canonical record at the
+    declared base and frozen subject. It is referential-precondition equivalence, not a complete proof of historical or philosophical
+    semantic equivalence.
+  ancestor_extension_count: 11
+  divergent_extension_count: 39
+  divergent_unique_base_count: 36
+  referential_precondition_mismatch_count: 0
+  referential_preconditions_equivalent: true
+  divergent_with_external_preexisting_refs: 1
+  external_preexisting_references:
+  - extension_id: EXT-YESHUA-HYPOTHESIS-MAP-V1
+    stable_ids:
+    - SRC-CELSUS-TRUE-DOCTRINE
+dependency_closure:
+  test: tests/test_registry_extension_dependency_closure.py
+  result: PASS
+  hidden_cross_extension_reference_violations: 0
+idempotence:
+  first_applied_extension_count: 50
+  second_applied_extension_count: 0
+  second_already_materialized_input: true
+  output_registry_digests_equal: true
+  applied_extension_ids_preserved: true
+  preserved_applied_extension_id_count: 50
+  output_registry_sha256:
+    registry/claims.yaml: 0859014cd301f9387923bdb5eb0d383af272fee603224fa5694259662a764ea9
+    registry/concepts.yaml: a8a7354ccd1bbf0aae0ee0f6fdda8545098027297bbde004c57ee8a895f44b97
+    registry/extension-manifest.yaml: e350da5d9a48ba3227a0557f03824e909f43baf8de3290d047ff32d286137083
+    registry/reviews.yaml: 0f7ed711f8d089a778526bf5a042e708f10cd05de39edbebfc3bb096f3cc1a72
+    registry/source-access.yaml: 6c97263769c615ac5863ed879da857f58ebfda2031c799d50ef683623efc0d5a
+    registry/sources.yaml: b807877f5561c6002afb3ebf369ef3022f75b2201182f9eba7c7c14baef3f8e9
+    registry/transmissions.yaml: c571d1fcf1b6b78414b02d7dc0f077828c0644ccfa7ca56a3353cc479856233c
+    registry/witnesses.yaml: d90db93560e50817541fb61458eeb01bb80ef14502cc1b30137dfe222260f627
+local_gate:
+  pytest_passed: 56
+  pytest_failed: 0
+  registry_validator:
+    ok: true
+    errors: 0
+    findings: 0
+    warnings: 0
+  rebase_audit: PASS
+  first_materialization: PASS
+  second_materialization: PASS_BYTE_IDENTICAL_REGISTRIES
+independent_review:
+  state: PENDING_EXACT_HEAD_REVIEW
+  note: This receipt records mechanical evidence and is not self-validating approval.
+effect_boundary:
+  main_modified: false
+  merged: false
+  canonical_materialized: false
+  canonical_promotion_authority_exercised: false

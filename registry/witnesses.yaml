@@ -1,0 +1,55 @@
+schema_version: on-theo.witness-registry.v1
+status: PROPOSED_CANONICAL_CONTRACT
+materialization_state: EXTENSIONS_PENDING
+notes:
+  - "A work/source and a physical witness are distinct identities."
+  - "Witness date must never be promoted to work composition date or claimed-event date."
+  - "A witness-specific reading must never be promoted to all witnesses or to the reconstructed work without an explicit textual-critical inference."
+  - "Digital edition, apparatus, image, transcription, and autoptic readback are distinct access modes."
+required_fields:
+  - id
+  - witness_of
+  - witness_kind
+  - witness_date
+  - access_mode
+  - locators
+optional_fields:
+  - common_name
+  - shelfmark
+  - provenance_note
+  - custody
+  - language
+  - limitations
+  - source_extension
+claim_edge_contract:
+  required:
+    - source_id
+  optional:
+    - witness_id
+  invariant: "When a proposition depends on a witness-specific reading, witness_id is required."
+materialization_rules:
+  - "Witness additions originate in reviewed registry extensions and become canonical only through a reviewed materialization cut."
+  - "Duplicate witness IDs are a collision and must stop materialization unless the records are byte/semantic-equivalent under an explicit supersession rule."
+  - "A later witness may preserve older wording, but age of wording is a separate inference and is not derived from witness date alone."
+witnesses: []
+pending_extension_records:
+  - id: WIT-TOSEFTA-VIENNA-COD-HEBR-20
+    declared_in: EXT-PANTHERA-RABBINIC-PARALLELS-V1
+  - id: WIT-P45-MARK-6-3
+    declared_in: EXT-MARK6-MATRONYMIC-V1
+  - id: WIT-4Q37-DEUT32-8
+    declared_in: EXT-DEUT32-WITNESS-CONTROL-V1
+  - id: WIT-PFOUAD266B-RAHLFS848-DEUT32-8
+    declared_in: EXT-DEUT32-WITNESS-CONTROL-V1
+  - id: WIT-UGARIT-GILGAMESH-P500683
+    declared_in: EXT-UGARIT-MESOPOTAMIAN-SCRIBAL-EXPOSURE-V1
+  - id: WIT-UGARIT-GILGAMESH-P500685
+    declared_in: EXT-UGARIT-MESOPOTAMIAN-SCRIBAL-EXPOSURE-V1
+  - id: WIT-UGARIT-GILGAMESH-P500686
+    declared_in: EXT-UGARIT-MESOPOTAMIAN-SCRIBAL-EXPOSURE-V1
+  - id: WIT-UGARIT-KTU15-AO16641-16642
+    declared_in: EXT-BAAL-DEATH-LIFE-WITNESS-CONTROL-V1
+  - id: WIT-UGARIT-KTU16-AO16636
+    declared_in: EXT-BAAL-DEATH-LIFE-WITNESS-CONTROL-V1
+  - id: WIT-UGARIT-WEIDNER-P332950
+    declared_in: EXT-UGARIT-DUMUZI-DIRECT-ATTESTATION-V1

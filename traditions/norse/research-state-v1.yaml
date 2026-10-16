@@ -1,0 +1,38 @@
+schema_version: on-theo.norse-research-state.v1
+status: FOUNDATION_RESEARCH_ACTIVE
+
+domains:
+  historical_norse_religion:
+    status: ACTIVE
+  modern_asatru:
+    status: ACTIVE_SEPARATE_LANE
+
+primary_controls:
+  poetic_edda_codex_regius:
+    witness_date: circa_1270
+    type: MEDIEVAL_MANUSCRIPT
+  snorra_edda:
+    type: LATER_MEDIEVAL_PRESERVATION_AND_SYSTEMATIZATION
+  archaeology:
+    type: MATERIAL_EVIDENCE
+  inscriptions:
+    type: EPIGRAPHIC_EVIDENCE
+
+guards:
+  - "modern Asatru != unbroken direct survival of Viking-Age religion"
+  - "medieval manuscript date != composition date"
+  - "Snorri != transparent pagan-era transcript"
+  - "Icelandic evidence != automatically pan-Scandinavian"
+  - "motif similarity != transmission"
+
+priority_topics:
+  - ODIN
+  - THOR
+  - FREYR_FREYJA
+  - BALDR
+  - LOKI
+  - BLOT
+  - SEIDR
+  - NORNS_FATE
+  - AFTERLIFE
+  - RAGNAROK

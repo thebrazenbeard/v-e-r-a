@@ -1,0 +1,185 @@
+schema_version: 1
+entries:
+  - id: second-temple-completed
+    title: Second Temple completed
+    classification: [POLITICAL_HISTORY]
+    traditions: [judaism]
+    claimed_event_date: {start: "-0516", end: "-0516", precision: approximate}
+    source_date: {start: null, end: null, precision: unknown}
+    confidence: high
+    contested: false
+    notes: "Conventional chronological anchor for Second Temple period."
+
+  - id: pompey-jerusalem-63-bce
+    title: Pompey takes Jerusalem
+    classification: [POLITICAL_HISTORY]
+    traditions: [judaism, greco-roman]
+    claimed_event_date: {start: "-0063", end: "-0063", precision: exact-year}
+    source_date: {start: null, end: null, precision: unknown}
+    confidence: high
+    contested: false
+    notes: "Roman domination becomes decisive background for first-century Judea."
+
+  - id: yeshua-birth-window
+    title: Broad historical birth window for Yeshua
+    classification: [HISTORICAL_RECONSTRUCTION]
+    traditions: [judaism, jesus-movement, christianity]
+    claimed_event_date: {start: "-0006", end: "0001", precision: range}
+    source_date: {start: "0065", end: "0095", precision: range}
+    confidence: low
+    contested: true
+    alternatives:
+      - "Matthew ties infancy to Herod the Great, who died 4 BCE."
+      - "Luke also invokes the Quirinius census, normally associated with 6 CE."
+    notes: "Do not present an exact birth year as established."
+
+  - id: pantera-inscription-person
+    title: Tiberius Julius Abdes Pantera inscription / military service
+    classification: [MATERIAL_EVIDENCE]
+    traditions: [greco-roman, comparative]
+    claimed_event_date: {start: "-0022", end: "0040", precision: approximate-life-range}
+    source_date: {start: "0001", end: "0100", precision: approximate-inscription-era}
+    confidence: high
+    contested: false
+    notes: "Confirms Pantera was a real name in relevant era. No evidence identifies this soldier as Yeshua's father."
+
+  - id: pilate-prefecture
+    title: Pontius Pilate governs Judea
+    classification: [POLITICAL_HISTORY]
+    traditions: [greco-roman, judaism, jesus-movement]
+    claimed_event_date: {start: "0026", end: "0036", precision: range}
+    source_date: {start: null, end: null, precision: unknown}
+    confidence: high
+    contested: false
+
+  - id: yeshua-crucifixion
+    title: Yeshua executed by Roman crucifixion under Pilate
+    classification: [HISTORICAL_RECONSTRUCTION]
+    traditions: [judaism, jesus-movement, christianity, greco-roman]
+    claimed_event_date: {start: "0029", end: "0034", precision: range}
+    source_date: {start: "0050", end: "0100", precision: range-earliest-surviving-christian}
+    confidence: high
+    contested: false
+    notes: "Exact year debated; execution under Pilate near Passover is historically strong. Qur'an later disputes the crucifixion/death claim at the theological narrative level."
+
+  - id: pauline-letters
+    title: Major undisputed Pauline letters
+    classification: [TEXT_COMPOSITION]
+    traditions: [jesus-movement, christianity]
+    claimed_event_date: {start: "0050", end: "0060", precision: range}
+    source_date: {start: "0050", end: "0060", precision: range}
+    confidence: high
+    contested: false
+    notes: "Earliest surviving Christian corpus; lacks Matthew/Luke-style infancy narrative."
+
+  - id: temple-destruction-70
+    title: Roman destruction of Jerusalem Temple
+    classification: [POLITICAL_HISTORY]
+    traditions: [judaism, jesus-movement, christianity, greco-roman]
+    claimed_event_date: {start: "0070", end: "0070", precision: exact-year}
+    source_date: {start: null, end: null, precision: unknown}
+    confidence: high
+    contested: false
+
+  - id: gospel-mark
+    title: Gospel of Mark composed
+    classification: [TEXT_COMPOSITION]
+    traditions: [christianity]
+    claimed_event_date: {start: "0065", end: "0075", precision: approximate-range}
+    source_date: {start: "0065", end: "0075", precision: approximate-range}
+    confidence: medium
+    contested: true
+    notes: "Conventional scholarly range, not manuscript timestamp. No infancy narrative."
+
+  - id: matthew-luke
+    title: Matthew and Luke composed
+    classification: [TEXT_COMPOSITION]
+    traditions: [christianity]
+    claimed_event_date: {start: "0080", end: "0095", precision: approximate-range}
+    source_date: {start: "0080", end: "0095", precision: approximate-range}
+    confidence: medium
+    contested: true
+    notes: "Both contain miraculous conception/infancy narratives with substantial differences."
+
+  - id: gospel-john
+    title: Gospel of John composed
+    classification: [TEXT_COMPOSITION]
+    traditions: [christianity]
+    claimed_event_date: {start: "0090", end: "0105", precision: approximate-range}
+    source_date: {start: "0090", end: "0105", precision: approximate-range}
+    confidence: medium
+    contested: true
+    notes: "Logos/pre-existence theology central."
+
+  - id: celsus-panthera
+    title: Celsus transmits Panthera paternity counter-story
+    classification: [PRIMARY_TEXT, LATER_TRADITION]
+    traditions: [greco-roman, judaism, christianity]
+    claimed_event_date: {start: "-0006", end: "0001", precision: approximate-event-target}
+    source_date: {start: "0170", end: "0185", precision: approximate-range}
+    confidence: high
+    contested: true
+    alternatives:
+      - "Genuine Jewish anti-Christian counter-tradition used by Celsus."
+      - "Celsus substantially constructs the Jewish speaker/tradition."
+    notes: "Textual existence of claim is secure enough; biological paternity claim is not verified."
+
+  - id: origen-contra-celsum
+    title: Origen writes Contra Celsum
+    classification: [TEXT_COMPOSITION]
+    traditions: [christianity, greco-roman]
+    claimed_event_date: {start: "0248", end: "0248", precision: approximate-year}
+    source_date: {start: "0248", end: "0248", precision: approximate-year}
+    confidence: high
+    contested: false
+    notes: "Preserves substantial quotations from otherwise lost Celsus."
+
+  - id: nicaea-325
+    title: Council of Nicaea
+    classification: [DOCTRINAL_FORMULATION]
+    traditions: [christianity]
+    claimed_event_date: {start: "0325", end: "0325", precision: exact-year}
+    source_date: {start: "0325", end: "0325", precision: exact-year}
+    confidence: high
+    contested: false
+    notes: "Major Christological/Trinitarian formulation stage; not historical Yeshua vocabulary."
+
+  - id: gregory-magdalene-591
+    title: Gregory the Great consolidates composite Magdalene in Western preaching
+    classification: [RECEPTION_HISTORY]
+    traditions: [christianity]
+    claimed_event_date: {start: "0591", end: "0591", precision: exact-year}
+    source_date: {start: "0591", end: "0591", precision: exact-year}
+    confidence: high
+    contested: false
+    notes: "Canonical Gospels do not identify Mary Magdalene as a prostitute. Motive for conflation remains a separate question."
+
+  - id: quran-proclamation
+    title: Qur'anic proclamation period in traditional chronology
+    classification: [TEXTUAL_TRANSMISSION]
+    traditions: [islam]
+    claimed_event_date: {start: "0610", end: "0632", precision: traditional-range}
+    source_date: {start: "0610", end: "0650", precision: broad-early-range}
+    confidence: medium
+    contested: true
+    notes: "Historical-critical scholarship distinguishes proclamation, collection/redaction and surviving manuscript evidence."
+
+  - id: quran-jesus-retelling
+    title: Qur'an reinterprets Mary and Jesus traditions
+    classification: [LATER_TRADITION, PRIMARY_TEXT]
+    traditions: [islam, christianity, comparative]
+    claimed_event_date: {start: "-0006", end: "0034", precision: first-century-target-range}
+    source_date: {start: "0610", end: "0632", precision: proclamation-range}
+    confidence: high
+    contested: false
+    notes: "High confidence that Qur'an contains the claims; not a contemporary first-century witness."
+
+  - id: god-simulation-model
+    title: GOD computational analogy articulated
+    classification: [SPECULATIVE_MODEL, PROJECT_INFERENCE]
+    traditions: [comparative]
+    claimed_event_date: {start: null, end: null, precision: unknown}
+    source_date: {start: "2026-09-17", end: "2026-09-17", precision: exact-date}
+    confidence: high
+    contested: false
+    notes: "Project-originating modern thought experiment; no claim of ancient technical knowledge."

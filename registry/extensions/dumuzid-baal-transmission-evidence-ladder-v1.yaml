@@ -1,0 +1,106 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-DUMUZID-BAAL-TRANSMISSION-EVIDENCE-LADDER-V1
+base_registry_head: 3ba41fe0cec4b4a8ba84d4ef90c4c71471637445
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+claim_additions:
+  - id: CLM-DUMUZID-BAAL-CONTACT-CAPACITY-MATERIALLY-GROUNDED
+    proposition: "Chronology, Mari contact evidence, Mesopotamian literature at Ugarit, and direct Dumuzi-specific scholastic exposure at Ugarit jointly establish materially grounded contact capacity between the source and target cultural environments."
+    claim_type: TRANSMISSION_GATE_SYNTHESIS
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, HISTORICAL_RECONSTRUCTION, PROJECT_INFERENCE]
+    traditions: [mesopotamian, mari, ugaritic]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "Dumuzi row and Ugarit artifact provenance"
+        relation: SPECIFIC_DUMUZI_TARGET_EXPOSURE
+        access_mode: CDLI
+      - source_id: SCH-CDLI-UGARIT-GILGAMESH-CORPUS
+        locator: "Akkadian Gilgamesh witnesses from Ugarit"
+        relation: GENERAL_MESOPOTAMIAN_LITERARY_CONTACT
+        access_mode: CDLI
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "Mari Dumuzi evidence and West Asian comparative discussion"
+        relation: REGIONAL_CONTACT_AND_CURRENT_SYNTHESIS
+        access_mode: SCHOLARLY_MONOGRAPH
+    opposing_sources: []
+    confidence: high-for-contact-capacity
+    contested: false
+
+  - id: CLM-DUMUZID-BAAL-NAMED-CARRIER-NOT-ESTABLISHED
+    proposition: "Despite materially grounded Ugaritic scribal contact capacity, no named carrier or documented transfer chain has been established linking a Dumuzi death-return source to Ilimilku or the Baal Cycle."
+    claim_type: TRANSMISSION_GATE_SYNTHESIS
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mesopotamian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-EUPT-ILIMILKU-COLOPHON
+        locator: "Ilimilku scribal identity and KTU 1.6 colophon"
+        relation: NAMED_TARGET_SCRIBE_CONTROL
+        access_mode: CRITICAL_EDITION_PROJECT
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "separate Dumuzi scholastic witness"
+        relation: SOURCE_EXPOSURE_CONTROL
+        access_mode: CDLI
+    opposing_sources: []
+    confidence: high-for-current-research-state
+    contested: false
+
+  - id: CLM-DUMUZID-BAAL-NARRATIVE-SOURCE-EXPOSURE-NOT-ESTABLISHED
+    proposition: "Direct Dumuzi-name exposure at Ugarit is scholastic and does not establish that a Dumuzi death-return narrative, lament, or ritual composition was present in the Ugaritic target environment."
+    claim_type: TRANSMISSION_GATE_SYNTHESIS
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, PROJECT_INFERENCE]
+    traditions: [mesopotamian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "lexical genre / Dumuzi row"
+        relation: POSITIVE_NAME_EXPOSURE_WITH_GENRE_CEILING
+        access_mode: CDLI
+      - source_id: SCH-AEMW-UGARIT-DIVINE-NAME-INDEX
+        locator: "bounded alphabetic/divine-name search surface"
+        relation: TARGETED_SEARCH_CONTROL
+        access_mode: ORACC_AEMW
+    opposing_sources: []
+    confidence: high-for-v1-state
+    contested: false
+
+  - id: CLM-DUMUZID-BAAL-DIRECT-TRANSMISSION-NONE-ESTABLISHED
+    proposition: "The current Dumuzid-to-Baal evidence ladder supports plausible influence within a materially connected cultural zone but does not establish direct transmission because named carrier, relevant narrative-source contact, source-specific borrowing signal, lexical dependence, and directional evidence remain unresolved or unestablished."
+    claim_type: TRANSMISSION_GATE_SYNTHESIS
+    evidence_class: [SCHOLARLY_INTERPRETATION, HISTORICAL_RECONSTRUCTION, PROJECT_INFERENCE]
+    traditions: [mesopotamian, mari, ugaritic]
+    supporting_sources:
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "current challenge to simple Dumuzi-prototype direction"
+        relation: DIRECTION_AND_COMPARATIVE_CONTROL
+        access_mode: SCHOLARLY_MONOGRAPH
+      - source_id: SCH-SMITH-1998-BAAL-DYING-RISING
+        locator: "Baal death/alive source-language and category control"
+        relation: TARGET_NARRATIVE_CONTROL
+        access_mode: PEER_REVIEWED_ARTICLE
+      - source_id: SCH-TUGENDHAFT-2016-GODS-ON-CLAY
+        locator: "multilingual god-list scholarly practice"
+        relation: EQUIVALENCE_SEMANTIC_CONTROL
+        access_mode: SCHOLARLY_BOOK_CHAPTER
+    opposing_sources: []
+    confidence: high-for-current-project-state
+    contested: false
+
+  - id: CLM-DUMUZID-BAAL-SUPERSESSION-CONTROL
+    proposition: "Current transmission synthesis must apply later corrections over older snapshots: P332950 supersedes the earlier no-Dumuzi-at-Ugarit state, and the A.1146 morphology correction supersedes the earlier high-confidence daku analysis."
+    claim_type: PROVENANCE_SUPERSESSION_CONTROL
+    evidence_class: [PROJECT_INFERENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [mesopotamian, mari, ugaritic]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        locator: "direct Dumuzi row"
+        relation: DUMUZI_UGARIT_SUPERSESSION
+        access_mode: CDLI
+      - source_id: SCH-MARELLO-1992-A1146
+        locator: "damaged A.1146 Dumuzi passage"
+        relation: ORIGINAL_EDITION_BOUNDARY
+        access_mode: ORIGINAL_PUBLICATION
+    opposing_sources: []
+    confidence: high
+    contested: false

@@ -1,0 +1,206 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-CELSUS-JEW-SOURCE-PROVENANCE-V1
+base_registry_head: 1ecfc6ca9e76b4c8ed165828316b50d882b6e4ff
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-HARGIS-1999-ANTI-CHRISTIAN-POLEMIC
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Jeffrey W. Hargis
+    title: "Against the Christians: The Rise of Early Anti-Christian Polemic"
+    publisher: Peter Lang
+    composition_date: {start: "1999", end: "1999", precision: publication-year}
+    access_mode: publisher-metadata-plus-secondary-report-through-blumell
+    locators:
+      - url: "https://www.peterlang.com/document/1054395"
+      - secondary_locator: "Blumell 2007 cites Hargis pp. 36-39 among recent challenges to authenticity of Celsus's Jewish arguments"
+        url: "https://journals.sagepub.com/doi/10.1177/000842980703600206"
+    limitations:
+      - "V1 has not independently read Hargis pp. 36-39 through a reliable full-text scholarly access path. The skeptical direction is registered because Blumell explicitly identifies those pages as challenging authenticity."
+
+  - id: SCH-TRIGG-1998-ORIGEN
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Joseph W. Trigg
+    title: "Origen"
+    publisher: Routledge
+    composition_date: {start: "1998", end: "1998", precision: publication-year}
+    access_mode: publisher-metadata-plus-secondary-report-through-blumell
+    locators:
+      - url: "https://www.routledge.com/Origen/Trigg/p/book/9780415118354"
+      - secondary_locator: "Blumell 2007 cites Trigg p. 58 among recent challenges to authenticity of Celsus's Jewish arguments"
+        url: "https://journals.sagepub.com/doi/10.1177/000842980703600206"
+    limitations:
+      - "V1 has not independently read Trigg p. 58 through a reliable full-text scholarly access path. The skeptical direction is registered through Blumell's explicit literature review."
+
+  - id: SCH-PAGET-2017-CELSUS-JEW
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_article
+    author_or_tradition: James Carleton Paget
+    title: "The Jew of Celsus and adversus Judaeos literature"
+    container: Zeitschrift für Antikes Christentum / Journal of Ancient Christianity
+    composition_date: {start: "2017", end: "2017", precision: publication-year}
+    access_mode: publisher-abstract-plus-institutional-record
+    locators:
+      - doi: "10.1515/zac-2017-0015"
+        url: "https://www.degruyter.com/document/doi/10.1515/zac-2017-0015/html"
+    limitations:
+      - "Paget discusses the genuineness/authenticity problem and argues that several features can support authentic Jewish input. V1 has not promoted the abstract-level representation into a complete article readback."
+
+claim_additions:
+  - id: CLM-ORIGEN-CELSUS-JEW-LITERARY-INAPPROPRIATENESS
+    proposition: "Origen explicitly criticizes at least some arguments or staging assigned by Celsus to his Jewish speaker as inappropriate or unnatural for a Jew."
+    claim_type: SOURCE_CRITICISM_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [christianity, greco-roman, jewish-christian-relations]
+    supporting_sources:
+      - source_id: SRC-ORIGEN-CONTRA-CELSUM
+        locator: "Book II, chapter 1"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: MODERN_TRANSLATION_OF_EXTANT_ORIGEN
+      - source_id: SRC-ORIGEN-CONTRA-CELSUM
+        locator: "Book II, chapter 28"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: MODERN_TRANSLATION_OF_EXTANT_ORIGEN
+    opposing_sources: []
+    confidence: high-at-textual-occurrence-level
+    contested: false
+    notes:
+      - "Origen's criticism does not prove that Celsus fabricated the entire persona or that no authentic Jewish material lies behind it."
+
+  - id: CLM-CELSUS-JEW-CONTAINS-AUTHENTIC-JEWISH-ARGUMENTS
+    proposition: "At least some material assigned by Celsus to his Jewish speaker reflects authentic second-century Jewish anti-Christian arguments rather than being wholly invented by Celsus."
+    claim_type: SOURCE_PROVENANCE
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [greco-roman, judaism, christianity]
+    supporting_sources:
+      - source_id: SCH-BLUMELL-2007-CELSUS-JEW
+        locator: "article argument"
+        relation: ARGUES_FOR_AUTHENTIC_JEWISH_INPUT
+        access_mode: PUBLISHER_ABSTRACT_AND_BIBLIOGRAPHIC_RECORD
+      - source_id: SCH-NIEHOFF-2013-CELSUS-JEW
+        locator: "article argument"
+        relation: ARGUES_FOR_WRITTEN_ALEXANDRIAN_JEWISH_SOURCE
+        access_mode: INSTITUTIONAL_ABSTRACT_AND_BIBLIOGRAPHIC_RECORD
+      - source_id: SCH-PAGET-2017-CELSUS-JEW
+        locator: "article argument / abstract-level readback"
+        relation: ARGUES_AUTHENTICITY_IS_SUPPORTED_BY_MULTIPLE_FEATURES
+        access_mode: PUBLISHER_ABSTRACT_PLUS_INSTITUTIONAL_RECORD
+    opposing_sources:
+      - source_id: SCH-HARGIS-1999-ANTI-CHRISTIAN-POLEMIC
+        locator: "pp. 36-39 as identified by Blumell 2007"
+        relation: REPORTED_SCHOLARLY_CHALLENGE_TO_AUTHENTICITY
+        access_mode: SECONDARY_REPORT_PLUS_PUBLISHER_METADATA
+      - source_id: SCH-TRIGG-1998-ORIGEN
+        locator: "p. 58 as identified by Blumell 2007"
+        relation: REPORTED_SCHOLARLY_CHALLENGE_TO_AUTHENTICITY
+        access_mode: SECONDARY_REPORT_PLUS_PUBLISHER_METADATA
+      - source_id: SRC-ORIGEN-CONTRA-CELSUM
+        locator: "Book II, chapters 1 and 28"
+        relation: EXTANT_AUTHOR_NOTES_PERSONA_ARGUMENT_TENSION
+        access_mode: MODERN_TRANSLATION_OF_EXTANT_ORIGEN
+    confidence: unresolved
+    contested: true
+    notes:
+      - "Authentic Jewish input is a weaker proposition than a single recoverable written Jewish source."
+
+  - id: CLM-CELSUS-JEW-SINGLE-INDEPENDENT-WRITTEN-SOURCE
+    proposition: "The material assigned to Celsus's Jewish speaker derives substantially from one independent written Jewish source that can be reconstructed behind Celsus."
+    claim_type: SOURCE_PROVENANCE
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [greco-roman, judaism, christianity]
+    supporting_sources:
+      - source_id: SCH-NIEHOFF-2013-CELSUS-JEW
+        locator: "article argument"
+        relation: ARGUES_FOR_SINGLE_WRITTEN_ALEXANDRIAN_SOURCE
+        access_mode: INSTITUTIONAL_ABSTRACT_AND_BIBLIOGRAPHIC_RECORD
+    opposing_sources:
+      - source_id: SCH-HARGIS-1999-ANTI-CHRISTIAN-POLEMIC
+        locator: "pp. 36-39 as identified by Blumell 2007"
+        relation: REPORTED_CHALLENGE_TO_AUTHENTICITY_MODEL
+        access_mode: SECONDARY_REPORT_PLUS_PUBLISHER_METADATA
+      - source_id: SCH-TRIGG-1998-ORIGEN
+        locator: "p. 58 as identified by Blumell 2007"
+        relation: REPORTED_CHALLENGE_TO_AUTHENTICITY_MODEL
+        access_mode: SECONDARY_REPORT_PLUS_PUBLISHER_METADATA
+      - source_id: SRC-ORIGEN-CONTRA-CELSUM
+        locator: "Book II, chapters 1 and 28"
+        relation: PERSONA_CONSTRUCTION_TENSION
+        access_mode: MODERN_TRANSLATION_OF_EXTANT_ORIGEN
+    confidence: unresolved
+    contested: true
+    alternatives:
+      - "Celsus constructed a literary Jewish persona while drawing selectively on Jewish arguments or interlocutors."
+      - "Celsus drew on multiple Jewish oral/written traditions rather than one recoverable source."
+      - "The persona combines Jewish material with Celsus's own Greek philosophical and polemical framing."
+
+  - id: CLM-CELSUS-JEW-ENTIRELY-CELSIAN-LITERARY-INVENTION
+    proposition: "Celsus's Jewish speaker and the material assigned to him are wholly Celsian literary invention with no authentic Jewish argumentative substrate."
+    claim_type: SOURCE_PROVENANCE
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [greco-roman, judaism, christianity]
+    supporting_sources:
+      - source_id: SCH-HARGIS-1999-ANTI-CHRISTIAN-POLEMIC
+        locator: "skeptical model, pp. 36-39 as reported by Blumell"
+        relation: REPORTED_SCHOLARLY_SUPPORT_FOR_SKEPTICISM
+        access_mode: SECONDARY_REPORT_PLUS_PUBLISHER_METADATA
+      - source_id: SCH-TRIGG-1998-ORIGEN
+        locator: "skeptical model, p. 58 as reported by Blumell"
+        relation: REPORTED_SCHOLARLY_SUPPORT_FOR_SKEPTICISM
+        access_mode: SECONDARY_REPORT_PLUS_PUBLISHER_METADATA
+      - source_id: SRC-ORIGEN-CONTRA-CELSUM
+        locator: "Book II, chapters 1 and 28"
+        relation: TEXTUAL_EVIDENCE_OF_PERSONA_TENSION
+        access_mode: MODERN_TRANSLATION_OF_EXTANT_ORIGEN
+    opposing_sources:
+      - source_id: SCH-BLUMELL-2007-CELSUS-JEW
+        locator: "article argument"
+        relation: ARGUES_AGAINST_WHOLESALE_INVENTION
+        access_mode: PUBLISHER_ABSTRACT_AND_BIBLIOGRAPHIC_RECORD
+      - source_id: SCH-NIEHOFF-2013-CELSUS-JEW
+        locator: "article argument"
+        relation: ARGUES_FOR_WRITTEN_JEWISH_SOURCE
+        access_mode: INSTITUTIONAL_ABSTRACT_AND_BIBLIOGRAPHIC_RECORD
+      - source_id: SCH-PAGET-2017-CELSUS-JEW
+        locator: "article argument / abstract-level readback"
+        relation: ARGUES_FOR_AUTHENTIC_JEWISH_FEATURES
+        access_mode: PUBLISHER_ABSTRACT_PLUS_INSTITUTIONAL_RECORD
+    confidence: unresolved
+    contested: true
+    notes:
+      - "The project does not force a binary real-Jew/fake-Jew model; mixed-source literary construction remains a live alternative."
+
+  - id: CLM-PANTHERA-ACCUSATION-DERIVES-PREEXISTING-JEWISH-SOURCE
+    proposition: "The specific Panthera paternity accusation reported by Origen from Celsus's Jewish speaker derives from a preexisting Jewish oral or written tradition independent of Celsus."
+    claim_type: SOURCE_PROVENANCE
+    evidence_class: [UNKNOWN, SCHOLARLY_INTERPRETATION]
+    traditions: [judaism, christianity, greco-roman]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SRC-ORIGEN-CONTRA-CELSUM
+        locator: "Book I, chapter 32"
+        relation: ESTABLISHES_CELSUS_ORIGEN_PRESERVATION_LAYER_NOT_PRECELSIAN_PROVENANCE
+        access_mode: MODERN_TRANSLATION_OF_EXTANT_ORIGEN
+    confidence: unresolved
+    contested: true
+    notes:
+      - "Generic arguments for authentic Jewish material behind Celsus do not by themselves establish the provenance of this specific accusation."
+
+  - id: CLM-CELSUS-JEW-PROVES-FIRST-CENTURY-PATERNITY-RUMOR
+    proposition: "The material assigned to Celsus's Jewish speaker establishes that a Panthera/illegitimacy rumor about Jesus circulated in first-century Nazareth or during Jesus's lifetime."
+    claim_type: HISTORICAL_RECONSTRUCTION
+    evidence_class: [UNKNOWN]
+    traditions: [comparative]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SRC-CELSUS-TRUE-DOCTRINE
+        locator: "composition range registered in V1"
+        relation: LATER_SOURCE_DOES_NOT_ESTABLISH_FIRST_CENTURY_EVENT_PROVENANCE
+        access_mode: INDIRECT_THROUGH_ORIGEN
+      - source_id: SCH-NIEHOFF-2013-CELSUS-JEW
+        locator: "mid-second-century Alexandrian source thesis"
+        relation: EVEN_STRONG_AUTHENTICITY_MODEL_REMAINS_LATER_THAN_FIRST_CENTURY
+        access_mode: INSTITUTIONAL_ABSTRACT_AND_BIBLIOGRAPHIC_RECORD
+    confidence: unresolved
+    contested: true

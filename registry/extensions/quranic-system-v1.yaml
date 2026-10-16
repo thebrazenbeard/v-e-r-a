@@ -1,0 +1,226 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-QURANIC-SYSTEM-V1
+base_registry_head: 22d4a193ada3b63591dcdc41c975739ceba20b54
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-QURAN-RECEIVED-TEXT
+    source_roles: [PRIMARY_TEXT]
+    source_kind: sacred_scripture_received_text
+    author_or_tradition: Qur'anic proclamation / received consonantal-text and reading tradition
+    title: Qur'an
+    composition_date: {start: null, end: null, precision: seventh-century-proclamation-corpus-inner-chronology-contested}
+    physical_witness_date: {start: null, end: null, precision: manuscript-specific-records-required}
+    extant_status: extant-through-manuscript-and-recitation-traditions
+    original_language: Arabic
+    access_mode: digital-arabic-text-multiple-translations
+    locators:
+      - {url: "https://quran.com"}
+      - {url: "https://corpus.quran.com"}
+    limitations:
+      - "The received text is the primary corpus for V1 propositions; manuscript, qira'at and textual-history claims require witness-level records."
+      - "Canonical sura order is not treated as proclamation chronology."
+      - "Translation-level readback does not settle contested Arabic semantics."
+
+scholarly_context_additions:
+  - id: SCH-NEUWIRTH-2012-QURAN-BIBLE
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: handbook_chapter
+    author_or_tradition: Angelika Neuwirth
+    title: The Qur'an and the Bible
+    container: The New Cambridge History of the Bible
+    composition_date: {start: "2012", end: "2012", precision: publication-year}
+    access_mode: publisher-summary
+    locators:
+      - {url: "https://www.cambridge.org/core/books/abs/new-cambridge-history-of-the-bible/quran-and-the-bible/D2B1231685CB811D751DE03A5D090E13"}
+    limitations:
+      - "Used for structural/literary development framing, not as primary evidence for Qur'anic propositions."
+
+  - id: SCH-NEUWIRTH-2019-QURAN-LATE-ANTIQUITY
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Angelika Neuwirth
+    title: "The Qur'an and Late Antiquity: A Shared Heritage"
+    composition_date: {start: "2019", end: "2019", precision: publication-year}
+    access_mode: publisher-abstracts
+    locators:
+      - {url: "https://academic.oup.com/book/11627"}
+    limitations:
+      - "Chronological and communal-formation model is scholarly reconstruction and remains reviewable."
+
+  - id: SCH-SINAI-2020-INNER-QURANIC-CHRONOLOGY
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: handbook_chapter
+    author_or_tradition: Nicolai Sinai
+    title: Inner-Qur'anic Chronology
+    container: The Oxford Handbook of Qur'anic Studies
+    composition_date: {start: "2020", end: "2020", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - {url: "https://academic.oup.com/edited-volume/34388/chapter-abstract/291610806"}
+    limitations:
+      - "Used to establish chronology as a historical-critical problem, not to treat any proposed sequence as primary-text fact."
+
+  - id: SCH-GUNTHER-2020-QURAN-ESCHATOLOGY
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: handbook_chapter
+    author_or_tradition: Sebastian Gunther
+    title: Eschatology and the Qur'an
+    container: The Oxford Handbook of Qur'anic Studies
+    composition_date: {start: "2020", end: "2020", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - {url: "https://academic.oup.com/edited-volume/34388/chapter-abstract/291614203"}
+    limitations:
+      - "Used for thematic synthesis; exact Qur'anic propositions remain bound to primary verses."
+
+concept_additions:
+  - id: CON-QURAN-DIVINE-UNIQUENESS
+    label: Qur'anic divine uniqueness and incomparability
+    canonical_label: Qur'anic divine uniqueness and incomparability
+    kind: theological-proposition-cluster
+    forms: [Qur'anic divine uniqueness and incomparability]
+    semantic_guard: "Records a Qur'anic proposition cluster; do not collapse it into every other monotheist formulation of divine unity or incomparability."
+    traditions: [quranic]
+    definition: "Qur'anic proposition cluster presenting Allah as uniquely worthy of worship, unbegotten/unbegetting and without comparable equal."
+    linked_claims: [CLM-QURAN-DIVINE-UNIQUENESS]
+    relations: []
+
+  - id: CON-QURAN-JINN
+    label: Qur'anic jinn
+    canonical_label: Qur'anic jinn
+    kind: nonhuman-being-class
+    forms: [jinn]
+    semantic_guard: "Do not collapse the Qur'anic jinn class into angels, demons, or a morally uniform category."
+    traditions: [quranic]
+    definition: "Qur'anic class of nonhuman beings including morally/religiously diverse members capable of hearing and responding to revelation."
+    linked_claims: [CLM-QURAN-JINN-MORAL-DIVERSITY, CLM-QURAN-IBLIS-OF-JINN]
+    relations: []
+
+  - id: CON-QURAN-IBLIS
+    label: Qur'anic Iblis
+    canonical_label: Qur'anic Iblis
+    kind: named-religious-figure
+    forms: [Iblis]
+    semantic_guard: "Do not equate the entire jinn class with Iblis or import later demonological categories into the Qur'anic concept without separate evidence."
+    traditions: [quranic]
+    definition: "Named rebel in Qur'anic Adam-prostration narratives, explicitly identified as being of the jinn in Q 18:50."
+    linked_claims: [CLM-QURAN-IBLIS-OF-JINN]
+    relations:
+      - {relation: MEMBER_OF_EXPLICIT_TEXTUAL, target_concept_id: CON-QURAN-JINN, confidence: high, guard: "Do not equate the entire jinn class with Iblis or later demon categories."}
+
+  - id: CON-QURAN-PROPHETIC-REVELATION-CONTINUUM
+    label: Qur'anic prophetic revelation continuum
+    canonical_label: Qur'anic prophetic revelation continuum
+    kind: revelation-history-concept
+    forms: [Qur'anic prophetic revelation continuum]
+    semantic_guard: "The Qur'an's placement of itself within a wider prophetic history does not by itself establish direct textual dependence or uninterrupted institutional continuity."
+    traditions: [quranic]
+    definition: "Qur'anic presentation of its revelation within a wider history of messages/scriptures associated with Abrahamic and other prophetic figures."
+    linked_claims: [CLM-QURAN-PROPHETIC-CONTINUUM, CLM-QURAN-CONFIRMS-CRITERION-PRIOR-SCRIPTURE]
+    relations: []
+
+  - id: CON-QURAN-RESURRECTION-JUDGMENT
+    label: Qur'anic resurrection and judgment
+    canonical_label: Qur'anic resurrection and judgment
+    kind: eschatological-concept
+    forms: [Qur'anic resurrection and judgment]
+    semantic_guard: "Do not treat this Qur'anic eschatological cluster as identical to Jewish or Christian resurrection/judgment models without feature-level comparison."
+    traditions: [quranic]
+    definition: "Qur'anic eschatological cluster involving bodily restoration/resurrection, divine judgment and reward/punishment."
+    linked_claims: [CLM-QURAN-BODILY-RESURRECTION]
+    relations: []
+
+claim_additions:
+  - id: CLM-QURAN-DIVINE-UNIQUENESS
+    proposition: "The Qur'an explicitly presents Allah as one, neither begetting nor begotten, without comparable equal, and as uniquely sovereign over creation."
+    claim_type: TEXTUAL_OCCURRENCE_CLUSTER
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [quranic]
+    supporting_sources:
+      - {source_id: SRC-QURAN-RECEIVED-TEXT, locator: "Q 112:1-4; Q 2:255; Q 42:11", relation: DIRECT_TEXTUAL_SUPPORT, access_mode: DIGITAL_ARABIC_AND_TRANSLATION}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-QURAN-IBLIS-OF-JINN
+    proposition: "Q 18:50 explicitly identifies Iblis as being of the jinn within the angelic-prostration narrative."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [quranic]
+    supporting_sources:
+      - {source_id: SRC-QURAN-RECEIVED-TEXT, locator: "Q 18:50", relation: DIRECT_TEXTUAL_SUPPORT, access_mode: DIGITAL_ARABIC_AND_TRANSLATION}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-QURAN-JINN-MORAL-DIVERSITY
+    proposition: "The Qur'an depicts jinn as morally/religiously diverse beings, including jinn who hear the Qur'an and respond with belief."
+    claim_type: TEXTUAL_OCCURRENCE_CLUSTER
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [quranic]
+    supporting_sources:
+      - {source_id: SRC-QURAN-RECEIVED-TEXT, locator: "Q 72:1-15", relation: DIRECT_TEXTUAL_SUPPORT, access_mode: DIGITAL_ARABIC_AND_TRANSLATION}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-QURAN-PROPHETIC-CONTINUUM
+    proposition: "The Qur'an places its believing community's revelation within a wider sequence including Abraham, Ishmael, Isaac, Jacob, Moses, Jesus and other prophets, and generalizes messenger-sending across communities."
+    claim_type: TEXTUAL_OCCURRENCE_CLUSTER
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [quranic]
+    supporting_sources:
+      - {source_id: SRC-QURAN-RECEIVED-TEXT, locator: "Q 2:136; Q 3:84; Q 16:36", relation: DIRECT_TEXTUAL_SUPPORT, access_mode: DIGITAL_ARABIC_AND_TRANSLATION}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-QURAN-CONFIRMS-CRITERION-PRIOR-SCRIPTURE
+    proposition: "Q 5:48 presents the Qur'anic Book as revealed in truth, confirming preceding scripture and functioning as a criterion/guardian in relation to it while acknowledging differentiated law/path among communities."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [quranic]
+    supporting_sources:
+      - {source_id: SRC-QURAN-RECEIVED-TEXT, locator: "Q 5:48", relation: DIRECT_TEXTUAL_SUPPORT, access_mode: DIGITAL_ARABIC_AND_TRANSLATION}
+    opposing_sources: []
+    confidence: high-at-text-level
+    contested: true
+    notes:
+      - "Precise semantics of muhaymin and implications for prior-scripture textual status require lexical and reception-history analysis."
+
+  - id: CLM-QURAN-BODILY-RESURRECTION
+    proposition: "The Qur'an explicitly argues that God can reassemble human bones and restore the dead for judgment; resurrection is not reducible to an immortal-soul metaphor in the textual argument."
+    claim_type: TEXTUAL_OCCURRENCE_CLUSTER
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [quranic]
+    supporting_sources:
+      - {source_id: SRC-QURAN-RECEIVED-TEXT, locator: "Q 75:3-4 and related resurrection passages", relation: DIRECT_TEXTUAL_SUPPORT, access_mode: DIGITAL_ARABIC_AND_TRANSLATION}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-QURAN-FASTING-PRESCRIBED-WITH-PREDECESSOR-FRAME
+    proposition: "Q 2:183 prescribes fasting for the believing community and explicitly frames fasting as also prescribed for those before them."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [quranic]
+    supporting_sources:
+      - {source_id: SRC-QURAN-RECEIVED-TEXT, locator: "Q 2:183-187", relation: DIRECT_TEXTUAL_SUPPORT, access_mode: DIGITAL_ARABIC_AND_TRANSLATION}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-QURAN-CANONICAL-ORDER-NOT-PROCLAMATION-CHRONOLOGY
+    proposition: "The received canonical sura order should not be treated as a simple chronological sequence of proclamation; proposed inner-Qur'anic chronological sequences are scholarly reconstructions."
+    claim_type: TEXTUAL_HISTORY_RECONSTRUCTION
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [quranic-studies]
+    supporting_sources:
+      - {source_id: SCH-NEUWIRTH-2019-QURAN-LATE-ANTIQUITY, locator: "Sura Structures and Chronology", relation: SCHOLARLY_CHRONOLOGY_MODEL, access_mode: PUBLISHER_ABSTRACTS}
+      - {source_id: SCH-SINAI-2020-INNER-QURANIC-CHRONOLOGY, locator: "chapter abstract", relation: HISTORICAL_CRITICAL_METHOD, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: high-for-nonidentity-of-canonical-and-proclamation-order
+    contested: true
+
+transmission_additions: []

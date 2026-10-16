@@ -1,0 +1,71 @@
+schema_version: on-theo.line-revalidation-research.v1
+status: PARTIAL_PASS_WITH_INTERNAL_POLYSEMY_CONFIRMED
+subject:
+  predecessor_pr: 42
+  predecessor_head: 9ca2b40378a7ae22e3f10f392cb26cd62be1b9c8
+  composition_id: c.2.4.1.1
+  cdli_composite: Q000386
+  cdli_artifact: P469688
+  cdli_witness_count: 11
+  witness_alignment_readback: unavailable_in_runtime
+
+records:
+  - occurrence_group: URNAMMA-L62-ARALI
+    line_ref: "62"
+    lexeme: arali
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    local_function: NAMED_DEATH_REALM_LOCATION
+
+  - occurrence_group: URNAMMA-L65-KUR-GEOGRAPHIC
+    line_ref: "65"
+    lexeme: kur
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED_GEOGRAPHIC
+    local_function: FOREIGN_OR_UNKNOWN_LAND
+    note: "Dilmun comparison demonstrates non-underworld local sense."
+
+  - occurrence_group: URNAMMA-L73-KUR-DEATH-ROUTE
+    line_ref: "73"
+    lexeme: kur
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED_DEATH_REALM
+    local_function: DEATH_REALM_ROUTE
+
+  - occurrence_group: URNAMMA-L76-86-KUR-INSTITUTIONS
+    line_ref: "76-86"
+    lexeme: kur
+    evidence_state: CURRENT_COMPOSITE_REPEATED_DOMAIN_CONFIRMED
+    local_function: "GATES + POPULATION + FOOD_WATER + RITES + OFFERINGS"
+
+  - occurrence_group: URNAMMA-L84-GARZA-KUR
+    line_ref: "84"
+    lexeme: "garza kur"
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    local_function: RITUAL_PROCEDURE
+
+  - occurrence_group: URNAMMA-L90-NERGAL-KUR
+    line_ref: "90"
+    lexeme: kur
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    local_function: ROYAL_DIVINE_OFFICE
+
+  - occurrence_group: URNAMMA-L95-GILGAMESH-KUR
+    line_ref: "95"
+    lexeme: kur
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    local_function: ROYAL_UNDERWORLD_OFFICE
+
+  - occurrence_group: URNAMMA-L99-ME-KUR
+    line_ref: "99"
+    lexeme: "me kur"
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    local_function: DIVINE_POWER_CONSTRUCTION
+
+  - occurrence_group: URNAMMA-L132-144-KUR-SETTLEMENT-JUDGMENT
+    line_ref: "132-144"
+    lexeme: kur
+    evidence_state: CURRENT_COMPOSITE_REPEATED_DOMAIN_CONFIRMED
+    local_function: "OFFERINGS + DAIS + DWELLING + JUDGMENT"
+
+freshness:
+  latest_visible_transliteration_revision: "2026-08-18"
+  current_surface_role: CURRENT_DIGITAL_COMPOSITE_READBACK
+  critical_edition_role: FLUCKIGER_HAWKER_1999_SCORE_CONTROL

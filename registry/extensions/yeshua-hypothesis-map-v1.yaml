@@ -1,0 +1,155 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-YESHUA-HYPOTHESIS-MAP-V1
+base_registry_head: 5a45ef5cdadc1f1f3a21e769e2d613c4ed945d8d
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-JOSEPHUS-ANTIQUITIES-20-200
+    source_roles: [PRIMARY_TEXT]
+    source_kind: ancient_historiography
+    author_or_tradition: Flavius Josephus
+    title: Jewish Antiquities 20.200
+    composition_date: {start: "0093", end: "0094", precision: conventional-publication-range}
+    physical_witness_date: {start: null, end: null, precision: later-manuscript-tradition}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Greek
+    access_mode: scholarly-edition-and-translation
+    locators:
+      - passage: "Antiquities 20.200"
+        url: "https://penelope.uchicago.edu/josephus/ant-20.html"
+    limitations:
+      - "The passage identifies James in relation to Jesus called Christ; its authenticity remains a scholarly question although current scholarship is strongly favorable."
+
+scholarly_context_additions:
+  - id: SCH-ALLISON-2025-INTERPRETING-JESUS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Dale C. Allison Jr.
+    title: Interpreting Jesus
+    composition_date: {start: "2025", end: "2025", precision: publication-year}
+    access_mode: publisher-description-plus-review-summary
+    locators:
+      - url: "https://www.eerdmans.com/9781467460972/interpreting-jesus/"
+    limitations:
+      - "V1 uses publisher description and published review-level summaries for the contingent-eschatology and Moses/self-conception arguments; chapter-level direct readback remains desirable."
+
+  - id: SCH-FERDA-2024-PROMISED-SECOND-COMING
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Tucker S. Ferda
+    title: "Jesus and His Promised Second Coming: Jewish Eschatology and Christian Origins"
+    composition_date: {start: "2024", end: "2024", precision: publication-year}
+    access_mode: publisher-table-of-contents-and-scholarly-review
+    locators:
+      - url: "https://www.eerdmans.com/9781467463614/jesus-and-his-promised-second-coming/"
+    limitations:
+      - "Ferda's historical reconstruction of Jesus' future role is an attributed scholarly argument, not established project fact."
+
+  - id: SCH-ANDRADE-2025-KILLING-MESSIAH
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Nathanael J. Andrade
+    title: "Killing the Messiah: The Trial and Crucifixion of Jesus of Nazareth"
+    composition_date: {start: "2025", end: "2025", precision: publication-year}
+    access_mode: publisher-chapter-abstracts
+    locators:
+      - url: "https://academic.oup.com/book/59249"
+    limitations:
+      - "V1 uses publisher chapter abstracts for Andrade's Roman-sedition reconstruction; full chapter readback is required before narrower legal-detail claims are promoted."
+
+  - id: SCH-JOSEPH-2023-REJECTED-JESUS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Simon J. Joseph
+    title: "A Social History of Christian Origins: The Rejected Jesus"
+    composition_date: {start: "2023", end: "2023", precision: publication-year}
+    access_mode: scholarly-review-summary
+    locators:
+      - url: "https://academic.oup.com/jts/article-abstract/77/1/402/8350992"
+    limitations:
+      - "Current V1 access is through a detailed scholarly review; the project's use is limited to Joseph's broad social-memory/rejection thesis as reported there."
+
+  - id: SCH-SCHMIDT-2025-JOSEPHUS-JAMES
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph_appendix
+    author_or_tradition: T. C. Schmidt
+    title: "James the Brother of Jesus: Antiquities 20.200"
+    container: "Josephus and Jesus: New Evidence for the One Called Christ"
+    composition_date: {start: "2025", end: "2025", precision: publication-year}
+    access_mode: publisher-extract
+    locators:
+      - url: "https://academic.oup.com/book/60034/chapter/513641505"
+    limitations:
+      - "Used for the current scholarly case that Antiquities 20.200 is authentic and for reception-history cautions; the appendix's broader argument remains attributed scholarship."
+
+claim_additions:
+  - id: CLM-YESHUA-PATERNITY-POLEMIC-CRYSTALLIZATION
+    proposition: "The current evidence is better explained by a process in which ambiguous or underdetermined early family/paternity traditions became increasingly specific under later Christian and anti-Christian polemic than by treating the named Panthera accusation as independently verified first-century biography."
+    claim_type: HISTORICAL_TRADITION_FORMATION_HYPOTHESIS
+    evidence_class: [PROJECT_INFERENCE, SPECULATIVE_MODEL]
+    traditions: [historical-jesus, early-christianity, jewish-christian-polemic]
+    supporting_sources:
+      - {source_id: SRC-GOSPEL-MARK, locator: "Mark 6:3", relation: EARLY_UNDERDETERMINED_FAMILY_LABEL, access_mode: MODERN_CRITICAL_TEXT}
+      - {source_id: SCH-NORMAN-2025-MARK-MATRONYMIC, locator: "Mark 6:3 analysis", relation: NON_ILLEGITIMACY_ALTERNATIVE, access_mode: OPEN_ACCESS_PUBLISHER_FULL_TEXT}
+      - {source_id: SRC-CELSUS-TRUE-DOCTRINE, locator: "Panthera accusation preserved through Contra Celsum I.32", relation: LATER_EXPLICIT_NAMED_COUNTER_NARRATIVE, access_mode: INDIRECT_THROUGH_ORIGEN}
+    opposing_sources:
+      - {source_id: SCH-CROY-2022-ESCAPING-SHAME, locator: "Mark 6:3 contextual slur reading", relation: EARLIER_ILLEGITIMACY_READING_POSSIBLE, access_mode: SCHOLARLY_SUMMARY_AND_BOOK_METADATA}
+    confidence: provisional
+    contested: true
+    notes:
+      - "This claim does not establish the virgin conception, deny non-marital paternity, or identify a biological father. It models the development of the surviving polemical tradition."
+
+  - id: CLM-YESHUA-CONTINGENT-VINDICATION-MODEL
+    proposition: "A historically plausible model is that Jesus combined imminent kingdom expectation with an increasing expectation of opposition/death, divine vindication, and a continuing personal role in the final consummation."
+    claim_type: HISTORICAL_SELF_CONCEPTION_HYPOTHESIS
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [historical-jesus, second-temple-judaism, early-christianity]
+    supporting_sources:
+      - {source_id: SCH-ALLISON-2025-INTERPRETING-JESUS, locator: "Contingent Eschatology", relation: SCHOLARLY_MODEL, access_mode: PUBLISHER_DESCRIPTION_PLUS_REVIEW}
+      - {source_id: SCH-FERDA-2024-PROMISED-SECOND-COMING, locator: "historical origins of parousia expectation", relation: SCHOLARLY_MODEL, access_mode: PUBLISHER_AND_REVIEW}
+    opposing_sources: []
+    confidence: plausible-not-established
+    contested: true
+    notes:
+      - "The model does not establish later Nicene divinity, pre-existence, or the authenticity of every Gospel future-role saying."
+
+  - id: CLM-YESHUA-ROMAN-EXECUTION-PIVOT
+    proposition: "Jesus' final Jerusalem/Temple activity, kingdom or regal implications, and Passover setting provide a historically plausible Roman political pathway to Pilate's crucifixion order even without an armed-insurrection model."
+    claim_type: HISTORICAL_RECONSTRUCTION
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [historical-jesus, roman-judaea]
+    supporting_sources:
+      - {source_id: SRC-GOSPEL-MARK, locator: "Mark 11-15", relation: GOSPEL_NARRATIVE_EVIDENCE, access_mode: MODERN_CRITICAL_TEXT}
+      - {source_id: SCH-ANDRADE-2025-KILLING-MESSIAH, locator: "Jesus/Temple/Pilate/sedition chapters", relation: ROMAN_LEGAL_POLITICAL_RECONSTRUCTION, access_mode: PUBLISHER_CHAPTER_ABSTRACTS}
+    opposing_sources: []
+    confidence: high-for-Roman-execution-pivot-moderate-for-exact-legal-path
+    contested: true
+
+  - id: CLM-YESHUA-FAMILY-EARLY-PROMINENCE
+    proposition: "Jesus' biological or socially recognized family, especially James, remained institutionally important in the earliest Jesus movement, while later traditions increasingly reinterpreted sibling relations as Marian/perpetual-virginity doctrines developed."
+    claim_type: FAMILY_AND_INSTITUTIONAL_HISTORY
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [historical-jesus, early-christianity]
+    supporting_sources:
+      - {source_id: SRC-GOSPEL-MARK, locator: "Mark 3:31-35; 6:3", relation: FAMILY_ATTESTATION, access_mode: MODERN_CRITICAL_TEXT}
+      - {source_id: SRC-JOSEPHUS-ANTIQUITIES-20-200, locator: "Antiquities 20.200", relation: JAMES_IDENTIFICATION, access_mode: SCHOLARLY_EDITION_AND_TRANSLATION}
+      - {source_id: SCH-SCHMIDT-2025-JOSEPHUS-JAMES, locator: "appendix", relation: AUTHENTICITY_AND_RECEPTION_ANALYSIS, access_mode: PUBLISHER_EXTRACT}
+    opposing_sources: []
+    confidence: high-for-early-family-prominence-unresolved-for-exact-kinship-model
+    contested: true
+    notes:
+      - "This does not decide whether the Gospel siblings are full siblings, half-siblings, step-siblings, or other kin; that question remains separate."
+
+  - id: CLM-YESHUA-REJECTION-MEMORY-REDISTRIBUTES-BLAME
+    proposition: "As Jesus-centered groups differentiated from other Jewish communities, memories of rejection and responsibility for Jesus' death could be reworked in ways that intensified Jewish rejection motifs and deemphasized Roman agency relative to the hard historical fact of crucifixion under Pilate."
+    claim_type: SOCIAL_MEMORY_AND_IDENTITY_HYPOTHESIS
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [early-christianity, jewish-christian-relations]
+    supporting_sources:
+      - {source_id: SCH-JOSEPH-2023-REJECTED-JESUS, locator: "social identity/social memory thesis as reviewed", relation: SOCIAL_MEMORY_MODEL, access_mode: SCHOLARLY_REVIEW_SUMMARY}
+      - {source_id: SCH-ANDRADE-2025-KILLING-MESSIAH, locator: "Gospel treatment of Pilate and Roman execution", relation: ROMAN_EXECUTION_CONTROL, access_mode: PUBLISHER_CHAPTER_ABSTRACTS}
+    opposing_sources: []
+    confidence: plausible-high-level
+    contested: true
+
+transmission_additions: []

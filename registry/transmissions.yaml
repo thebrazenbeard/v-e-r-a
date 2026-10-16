@@ -1,0 +1,49 @@
+schema_version: on-theo.transmission-registry.v1
+relation_types:
+  - PRESERVED_BY
+  - DIRECT_DEPENDENCE_POSSIBLE
+  - SHARED_TRADITION
+  - REINTERPRETATION
+  - POLEMICAL_RESPONSE_POSSIBLE
+  - STRUCTURAL_PARALLEL
+  - PROJECT_ANALOGY
+  - NONE_ESTABLISHED
+  - SHARED_INHERITANCE_NOT_DIRECT_TEXTUAL_DEPENDENCE
+  - RECEPTION_AND_INSTITUTIONAL_DEVELOPMENT_CONTEXT
+  - RECEPTION_INTERPRETATION
+  - SHARED_LITERARY_TRADITION
+  - STRUCTURAL_AND_HISTORICAL_PARALLEL
+  - LEXICAL_CONTACT_ENVIRONMENT
+relation_type_guards:
+  SHARED_INHERITANCE_NOT_DIRECT_TEXTUAL_DEPENDENCE: "Shared inherited material or tradition without a claim of direct textual dependence."
+  RECEPTION_AND_INSTITUTIONAL_DEVELOPMENT_CONTEXT: "Later reception and institutional development context; not a direct source-dependence claim."
+  RECEPTION_INTERPRETATION: "A later interpretive reception relation."
+  SHARED_LITERARY_TRADITION: "Participation in a shared literary tradition; not automatically direct dependence."
+  STRUCTURAL_AND_HISTORICAL_PARALLEL: "A structural parallel situated in historical contact/context; lineage still requires independent evidence."
+  LEXICAL_CONTACT_ENVIRONMENT: "A contact environment relevant to lexical comparison; does not itself prove borrowing or derivation."
+edges:
+  - id: TR-CELSUS-PRESERVED-BY-ORIGEN
+    from_source: SRC-CELSUS-TRUE-DOCTRINE
+    to_source: SRC-ORIGEN-CONTRA-CELSUM
+    relation: PRESERVED_BY
+    confidence: high
+    evidence:
+      - source_id: SRC-ORIGEN-CONTRA-CELSUM
+        locator: "Book I, chapters 28, 32, 69"
+    limitation: "Preservation through a hostile rebuttal does not guarantee access to the exact structure or wording of Celsus's lost complete work."
+
+  - id: TR-ABDES-PANTERA-TO-CELSUS
+    from_source: MAT-ABDES-PANTERA-INSCRIPTION
+    to_source: SRC-CELSUS-TRUE-DOCTRINE
+    relation: NONE_ESTABLISHED
+    confidence: high
+    evidence: []
+    limitation: "The inscription establishes that Pantera was a real name; no transmission or identity link to Celsus's accusation is established."
+
+  - id: TR-CELSUS-PANTHERA-TO-BAVLI-PANDEIRA
+    from_source: SRC-CELSUS-TRUE-DOCTRINE
+    to_source: SRC-BAVLI-SHABBAT-104B
+    relation: NONE_ESTABLISHED
+    confidence: unresolved
+    evidence: []
+    limitation: "Name/motif similarity and chronological order are insufficient to establish direct dependence; intermediate traditions and textual variants must be researched."

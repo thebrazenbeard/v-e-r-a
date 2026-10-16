@@ -1,0 +1,191 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-PANTHERA-PARTHENOS-WORDPLAY-V1
+base_registry_head: e01788d4acafadd9c349b80ee530dda5e6868c2e
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-BOYARIN-1998-PANTHERA-WORDPLAY
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_article
+    author_or_tradition: Daniel Boyarin
+    title: "Martyrdom and the Making of Christianity and Judaism"
+    container: Journal of Early Christian Studies 6.4
+    composition_date: {start: "1998", end: "1998", precision: publication-year}
+    access_mode: author-uploaded-full-text
+    locators:
+      - doi: "10.1353/earl.1998.0053"
+        url: "https://www.researchgate.net/publication/236797425_Martyrdom_and_the_Making_of_Christianity_and_Judaism"
+      - passage: "pp. 599-600, note 69"
+    limitations:
+      - "Boyarin strongly favors intentional distortion of parthenos as a polemical explanation; this is a modern scholarly reconstruction, not an ancient etymological gloss preserved with the name."
+
+  - id: SCH-JAFFE-2008-BEN-PANTERA
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_article
+    author_or_tradition: Dan Jaffé
+    title: "Une ancienne dénomination talmudique de Jésus : Ben Pantera : essai d'analyse philologique et historique"
+    container: Theologische Zeitschrift 64
+    composition_date: {start: "2008", end: "2008", precision: publication-year}
+    pages: "258-270"
+    access_mode: repository-record-and-abstract
+    locators:
+      - doi: "10.5169/seals-877834"
+        url: "https://www.e-periodica.ch/cntmng?pid=thz-001%3A2008%3A64%3A%3A434"
+    limitations:
+      - "Current V1 direct full-text retrieval failed in the web workflow. SciSpace/repository metadata supports the article's focus on Ben Pantera as polemical mockery; exact derivation arguments require full-text readback."
+
+  - id: SCH-MURCIA-2014-PANTHERA-ORIGIN
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_article
+    author_or_tradition: Thierry Murcia
+    title: "Yeshoua ben Panthera: l'origine du nom. Status quaestionis et nouvelles investigations"
+    container: Judaïsme ancien / Ancient Judaism 2
+    composition_date: {start: "2014", end: "2014", precision: publication-year}
+    pages: "157-207"
+    access_mode: publisher-metadata-and-table-of-contents
+    locators:
+      - url: "https://www.brepols.net/products/IS-9782503550763-1"
+    limitations:
+      - "The publisher record establishes a dedicated status-quaestionis study of the name's origin. V1 has not independently read the full article and therefore does not promote secondary descriptions of Murcia's preferred reconstruction into verified article claims."
+
+concept_additions:
+  - id: CON-GRK-PARTHENOS
+    canonical_label: parthenos
+    kind: lexical_form
+    forms:
+      - language: Greek
+        script: Greek
+        form: "παρθένος"
+        transliteration: parthenos
+      - language: Greek
+        script: Greek
+        form: "παρθένου"
+        transliteration: parthenou
+        grammatical_note: "genitive singular form relevant to expressions such as ek parthenou"
+    semantic_guard: "The form denotes a Greek lexical item traditionally rendered maiden/virgin depending context. This concept node does not encode a claim about Mary's historical sexual status or about Jesus's conception."
+    linked_claims:
+      - CLM-PANTHERA-PARTHENOS-POLEMICAL-WORDPLAY
+
+  - id: CON-NAME-PANTHERA-PANDERA
+    canonical_label: Panthera/Pandera name-family
+    kind: name_form_family
+    forms:
+      - language: Greek-Latin-tradition
+        form: Panthera
+      - language: Latin
+        form: Pantera
+      - language: Hebrew-Aramaic-transliteration
+        form: Pandera
+      - language: Hebrew-Aramaic-transliteration
+        form: Panteira
+      - language: Hebrew-Aramaic-transliteration
+        form: Pantiri
+    semantic_guard: "Normalized transliterations are grouped only as a research name-form family. This node does not assert that every form has one origin, that the forms name one historical person, or that the family derives from parthenos."
+    linked_claims:
+      - CLM-PANTHERA-PARTHENOS-POLEMICAL-WORDPLAY
+      - CLM-PANTHERA-PARTHENOS-REGULAR-ETYMOLOGY
+    relations:
+      - target_concept_id: CON-GRK-PARTHENOS
+        relation: POSSIBLE_WORDPLAY
+        confidence: unresolved
+        source_refs:
+          - SCH-BOYARIN-1998-PANTHERA-WORDPLAY
+          - SCH-BLUMELL-2007-CELSUS-JEW
+        semantic_guard: "Possible deliberate polemical echo/distortion; not lexical equivalence, regular phonological derivation, or proven historical transmission."
+
+claim_additions:
+  - id: CLM-PANTHERA-PARTHENOS-POLEMICAL-WORDPLAY
+    proposition: "The Panthera/Pandera name attached to Jesus was deliberately selected or distorted as a polemical echo of Greek parthenos, mocking Christian virgin-birth language."
+    claim_type: LINGUISTIC_SOURCE_PROVENANCE
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [judaism, christianity, greco-roman]
+    supporting_sources:
+      - source_id: SCH-BOYARIN-1998-PANTHERA-WORDPLAY
+        locator: "pp. 599-600, note 69"
+        relation: STRONGLY_ARGUES_INTENTIONAL_DISTORTION_CACOPHEMISM
+        access_mode: AUTHOR_UPLOADED_FULL_TEXT
+      - source_id: SCH-JAFFE-2008-BEN-PANTERA
+        locator: "article-level polemical-function argument"
+        relation: SUPPORTS_MOCKING_POLEMICAL_FUNCTION
+        access_mode: REPOSITORY_RECORD_AND_ABSTRACT
+    opposing_sources:
+      - source_id: SCH-BLUMELL-2007-CELSUS-JEW
+        locator: "note/discussion of Panthera name origin"
+        relation: TREATS_WORDPLAY_VERSUS_ACTUAL_FIGURE_AS_UNCERTAIN
+        access_mode: PUBLISHER_ARTICLE
+      - source_id: SCH-MURCIA-2014-PANTHERA-ORIGIN
+        locator: "status quaestionis on name origin"
+        relation: MULTIPLE_COMPETING_ORIGIN_MODELS_EXIST
+        access_mode: PUBLISHER_METADATA_AND_TABLE_OF_CONTENTS
+    confidence: plausible-unresolved
+    contested: true
+    alternatives:
+      - "Panthera entered the polemic as an independently existing personal name without derivation from parthenos."
+      - "An existing Panthera name was selected precisely because it enabled a parthenos joke."
+      - "The name-family has another polemical, familial, or transmission origin later reinterpreted through parthenos."
+
+  - id: CLM-PANTHERA-PARTHENOS-REGULAR-ETYMOLOGY
+    proposition: "Panthera/Pandera is a regular historical-linguistic derivative of Greek parthenos produced by ordinary sound change."
+    claim_type: ETYMOLOGICAL_DERIVATION
+    evidence_class: [UNKNOWN]
+    traditions: [linguistics]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SCH-BOYARIN-1998-PANTHERA-WORDPLAY
+        locator: "pp. 599-600, note 69"
+        relation: FRAMES_RELATION_AS_INTENTIONAL_DISTORTION_NOT_REGULAR_SOUND_LAW
+        access_mode: AUTHOR_UPLOADED_FULL_TEXT
+      - source_id: MAT-ABDES-PANTERA-INSCRIPTION
+        locator: "CIL XIII 7514 / §400"
+        relation: INDEPENDENT_REAL_NAME_ATTESTATION_REMOVES_NEED_FOR_REGULAR_DERIVATION
+        access_mode: MATERIAL_CONTEXT_ONLY
+    confidence: unsupported
+    contested: false
+    notes:
+      - "Rejecting regular etymology does not reject deliberate wordplay."
+
+  - id: CLM-REAL-PANTERA-NAME-REFUTES-PARTHENOS-WORDPLAY
+    proposition: "Because Pantera/Panthera was a genuinely attested personal name, it could not have been used as a deliberate parody of parthenos."
+    claim_type: LINGUISTIC_INFERENCE
+    evidence_class: [PROJECT_INFERENCE]
+    traditions: [comparative]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SCH-BOYARIN-1998-PANTHERA-WORDPLAY
+        locator: "pp. 599-600, note 69"
+        relation: EXPLICITLY_ARGUES_REAL_NAME_ATTESTATION_DOES_NOT_DISPROVE_POLEMICAL_SELECTION
+        access_mode: AUTHOR_UPLOADED_FULL_TEXT
+    confidence: contradicted-as-logical-necessity
+    contested: false
+
+  - id: CLM-PARTHENOS-WORDPLAY-REFUTES-HISTORICAL-PANTHERA-PERSON
+    proposition: "If Panthera/Pandera was used as a pun on parthenos, that proves no actual person with that name could stand behind any stage of the tradition."
+    claim_type: HISTORICAL_INFERENCE
+    evidence_class: [UNKNOWN]
+    traditions: [comparative]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: MAT-ABDES-PANTERA-INSCRIPTION
+        locator: "CIL XIII 7514 / §400"
+        relation: REAL_NAME_ATTESTATION_SHOWS_PUN_AND_PERSON_EXISTENCE_ARE_NOT_MUTUALLY_EXCLUSIVE_CATEGORIES
+        access_mode: MATERIAL_CONTEXT_ONLY
+    confidence: unsupported
+    contested: false
+
+  - id: CLM-PANTHERA-NAME-SIMILARITY-PROVES-WORDPLAY
+    proposition: "The visual/phonetic similarity between parthenos and Panthera/Pandera by itself proves intentional polemical derivation."
+    claim_type: LINGUISTIC_INFERENCE
+    evidence_class: [UNKNOWN]
+    traditions: [linguistics]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SCH-BLUMELL-2007-CELSUS-JEW
+        locator: "discussion of alternative Panthera explanations"
+        relation: MULTIPLE_ORIGIN_MODELS_REMAIN_POSSIBLE
+        access_mode: PUBLISHER_ARTICLE
+      - source_id: MAT-ABDES-PANTERA-INSCRIPTION
+        locator: "CIL XIII 7514 / §400"
+        relation: INDEPENDENT_NAME_EXISTENCE_CREATES_NONWORDPLAY_ALTERNATIVE
+        access_mode: MATERIAL_CONTEXT_ONLY
+    confidence: unsupported
+    contested: false

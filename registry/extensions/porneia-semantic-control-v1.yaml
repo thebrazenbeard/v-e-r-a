@@ -1,0 +1,253 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-PORNEIA-SEMANTIC-CONTROL-V1
+base_registry_head: 2f11520f2a8809c5e705a42fe707bc1ad05c0e91
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-LXX-HOSEA
+    source_roles: [PRIMARY_TEXT]
+    source_kind: septuagint_book_text
+    author_or_tradition: Septuagint Hosea
+    title: Hosea / Osee
+    composition_date: {start: null, end: null, precision: unresolved-in-v1}
+    physical_witness_date: {start: null, end: null, precision: witness-specific-unresolved-in-v1}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Greek_translation
+    access_mode: modern-digital-critical-text-surface
+    locators:
+      - passage: "Hosea 1:2"
+        url: "https://www.biblindex.org/en/bible/septuaginta/hos-1%3A2"
+    limitations:
+      - "The digital text is an access surface, not a physical manuscript witness."
+      - "This source is used for Greek semantic context, not to settle the historical composition date of Hosea or the Septuagint translation layer."
+
+  - id: SRC-LXX-EZEKIEL
+    source_roles: [PRIMARY_TEXT]
+    source_kind: septuagint_book_text
+    author_or_tradition: Septuagint Ezekiel
+    title: Ezekiel / Ezechiel
+    composition_date: {start: null, end: null, precision: unresolved-in-v1}
+    physical_witness_date: {start: null, end: null, precision: witness-specific-unresolved-in-v1}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Greek_translation
+    access_mode: modern-digital-critical-text-surface
+    locators:
+      - passage: "Ezekiel 16, especially 16:20-26"
+        url: "https://www.die-bibel.de/en/bible/LXX/EZK.16"
+    limitations:
+      - "The digital text is an access surface, not a physical manuscript witness."
+      - "The chapter's sustained sexualized metaphor does not make every porn- word-family occurrence metaphorical in every corpus."
+
+scholarly_context_additions:
+  - id: SCH-MALINA-1972-PORNEIA
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_article
+    author_or_tradition: Bruce J. Malina
+    title: "Does Porneia Mean Fornication?"
+    container: Novum Testamentum 14.1
+    composition_date: {start: "1972", end: "1972", precision: publication-year}
+    access_mode: publisher-metadata-and-preview
+    locators:
+      - doi: "10.1163/156853672X00070"
+        url: "https://brill.com/view/journals/nt/14/1/article-p10_2.xml"
+    limitations:
+      - "Argues against reducing NT porneia to modern premarital 'fornication' and ties the category to Torah-prohibited conduct; registered as scholarship, not lexical fact."
+
+  - id: SCH-JENSEN-1978-PORNEIA
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_article
+    author_or_tradition: Joseph Jensen
+    title: "Does Porneia Mean Fornication? A Critique of Bruce Malina"
+    container: Novum Testamentum 20.3
+    composition_date: {start: "1978", end: "1978", precision: publication-year}
+    access_mode: publisher-preview-plus-bibliographic-record
+    locators:
+      - doi: "10.1163/156853678X00074"
+        url: "https://brill.com/previewpdf/journals/nt/20/3/article-p161_1.xml"
+    limitations:
+      - "Critiques Malina and surveys Old Testament/Jewish/Philonic background; V1 uses it to demonstrate scholarly dispute and semantic breadth, not as a universal definition."
+
+  - id: SCH-HARPER-2012-PORNEIA
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_article
+    author_or_tradition: Kyle Harper
+    title: "Porneia: The Making of a Christian Sexual Norm"
+    container: Journal of Biblical Literature 131.2
+    composition_date: {start: "2012", end: "2012", precision: publication-year}
+    access_mode: abstract-and-bibliographic-record
+    locators:
+      - doi: "10.1353/jbl.2012.0012"
+        url: "https://www.researchgate.net/publication/254947093_Porneia_The_Making_of_a_Christian_Sexual_Norm"
+    limitations:
+      - "Reconstructs development of porneia as a broad sexual-morality category; later scholarship challenges parts of the social-historical scope."
+
+  - id: SCH-GLANCY-2015-PORNEIA
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_article
+    author_or_tradition: Jennifer A. Glancy
+    title: "The Sexual Use of Slaves: A Response to Kyle Harper on Jewish and Christian Porneia"
+    container: Journal of Biblical Literature 134.1
+    composition_date: {start: "2015", end: "2015", precision: publication-year}
+    access_mode: abstract-and-bibliographic-record
+    locators:
+      - doi: "10.1353/jbl.2015.0003"
+        url: "https://www.researchgate.net/publication/276454582_The_Sexual_Use_of_Slaves_A_Response_to_Kyle_Harper_on_Jewish_and_Christian_Porneia"
+    limitations:
+      - "Challenges Harper's claim that first-century Jewish porneia encompassed a male slaveholder's sexual exploitation of enslaved women; useful as evidence that category boundaries remain disputed."
+
+claim_additions:
+  - id: CLM-LXX-HOSEA-PORNEIA-COVENANT-INFIDELITY
+    proposition: "The Septuagint of Hosea 1:2 uses the porneia word-family in a sign-act whose stated referent is the land's departure from the Lord, demonstrating covenant-infidelity metaphorical usage."
+    claim_type: TEXTUAL_SEMANTIC_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [septuagint, judaism]
+    supporting_sources:
+      - source_id: SRC-LXX-HOSEA
+        locator: "Hosea 1:2"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: MODERN_DIGITAL_GREEK_TEXT
+    opposing_sources: []
+    confidence: high
+    contested: false
+    notes:
+      - "This demonstrates a nonexclusive metaphorical semantic use; it does not prove that every later porneia occurrence is metaphorical."
+
+  - id: CLM-LXX-EZEKIEL16-PORNEIA-RELIGIOUS-INFIDELITY
+    proposition: "Septuagint Ezekiel 16 repeatedly uses the porneia word-family in a personification of Jerusalem that intertwines sexualized infidelity imagery with religious/political betrayal and child sacrifice."
+    claim_type: TEXTUAL_SEMANTIC_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [septuagint, judaism]
+    supporting_sources:
+      - source_id: SRC-LXX-EZEKIEL
+        locator: "Ezekiel 16:20-26 and surrounding chapter"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: MODERN_DIGITAL_GREEK_TEXT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-PORNEIA-HAS-SINGLE-FIXED-ILLEGITIMACY-SENSE
+    proposition: "In Jewish/early Christian Greek, porneia has a single fixed lexical meaning of literal biological illegitimacy or conception through illicit sex."
+    claim_type: SEMANTIC_GENERALIZATION
+    evidence_class: [PROJECT_INFERENCE]
+    traditions: [comparative]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SRC-LXX-HOSEA
+        locator: "Hosea 1:2"
+        relation: COVENANT_INFIDELITY_METAPHOR_DEFEATS_EXCLUSIVE_RULE
+        access_mode: MODERN_DIGITAL_GREEK_TEXT
+      - source_id: SRC-LXX-EZEKIEL
+        locator: "Ezekiel 16"
+        relation: RELIGIOUS_CORPORATE_METAPHOR_DEFEATS_EXCLUSIVE_RULE
+        access_mode: MODERN_DIGITAL_GREEK_TEXT
+      - source_id: SCH-JENSEN-1978-PORNEIA
+        locator: "article argument"
+        relation: SCHOLARLY_EVIDENCE_OF_BROADER_CONTESTED_SEMANTIC_RANGE
+        access_mode: PUBLISHER_PREVIEW
+      - source_id: SCH-HARPER-2012-PORNEIA
+        locator: "article argument"
+        relation: SCHOLARLY_RECONSTRUCTION_OF_BROAD_SEXUAL_CATEGORY
+        access_mode: ABSTRACT_AND_BIBLIOGRAPHIC_RECORD
+      - source_id: SCH-GLANCY-2015-PORNEIA
+        locator: "article argument"
+        relation: SCHOLARLY_CHALLENGE_TO_CATEGORY_BOUNDARY
+        access_mode: ABSTRACT_AND_BIBLIOGRAPHIC_RECORD
+    confidence: contradicted-as-exclusive-rule
+    contested: false
+    notes:
+      - "The claim rejected here is exclusivity. This does not deny literal sexual senses of porneia."
+
+  - id: CLM-PORNEIA-FIRST-CENTURY-SEXUAL-CATEGORY-BOUNDARIES-CONTESTED
+    proposition: "Modern scholarship materially disagrees about the boundaries of porneia as a Jewish/early Christian sexual-morality category, so a single historically obvious extension should not be assumed."
+    claim_type: SCHOLARLY_STATE_OF_QUESTION
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [comparative]
+    supporting_sources:
+      - source_id: SCH-MALINA-1972-PORNEIA
+        locator: "article thesis"
+        relation: PROPOSES_TORAH_PROHIBITION_MODEL
+        access_mode: PUBLISHER_METADATA_AND_PREVIEW
+      - source_id: SCH-JENSEN-1978-PORNEIA
+        locator: "critique of Malina"
+        relation: CHALLENGES_AND_REFRAMES_SCOPE
+        access_mode: PUBLISHER_PREVIEW
+      - source_id: SCH-HARPER-2012-PORNEIA
+        locator: "article thesis"
+        relation: PROPOSES_BROAD_CONJUGAL_SEXUAL_NORM_MODEL
+        access_mode: ABSTRACT_AND_BIBLIOGRAPHIC_RECORD
+      - source_id: SCH-GLANCY-2015-PORNEIA
+        locator: "response to Harper"
+        relation: LIMITS_HARPERS_SCOPE_USING_SLAVERY_EVIDENCE
+        access_mode: ABSTRACT_AND_BIBLIOGRAPHIC_RECORD
+    opposing_sources: []
+    confidence: high-for-existence-of-scholarly-disagreement
+    contested: false
+
+  - id: CLM-JOHN8-PORNEIA-FORCES-LITERAL-BIRTH-SLUR
+    proposition: "The lexical meaning of porneia in John 8:41 forces the verse to be read as a literal accusation about Jesus's biological conception."
+    claim_type: LITERARY_SEMANTIC_INTERPRETATION
+    evidence_class: [UNKNOWN]
+    traditions: [christianity, historical-jesus]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SRC-LXX-HOSEA
+        locator: "Hosea 1:2"
+        relation: NONLITERAL_JEWISH_GREEK_SEMANTIC_AVAILABILITY
+        access_mode: MODERN_DIGITAL_GREEK_TEXT
+      - source_id: SRC-LXX-EZEKIEL
+        locator: "Ezekiel 16"
+        relation: NONLITERAL_JEWISH_GREEK_SEMANTIC_AVAILABILITY
+        access_mode: MODERN_DIGITAL_GREEK_TEXT
+      - source_id: SCH-HARLOW-2012-BORN-FORNICATION
+        locator: "John 8:41 analysis"
+        relation: ARGUES_CONTEXT_SUPPORTS_SPIRITUAL_COVENANTAL_READING
+        access_mode: ACCESSIBLE_CHAPTER_COPY
+    confidence: unresolved-but-not-lexically-forced
+    contested: true
+    notes:
+      - "The literal-taunt reading remains possible; this claim rejects only lexical necessity."
+
+  - id: CLM-JOHN8-COVENANT-READING-LEXICALLY-POSSIBLE
+    proposition: "A spiritual/covenantal reading of porneia in John 8:41 is lexically and culturally possible within Jewish Greek usage."
+    claim_type: SEMANTIC_POSSIBILITY
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [christianity, septuagint]
+    supporting_sources:
+      - source_id: SRC-LXX-HOSEA
+        locator: "Hosea 1:2"
+        relation: JEWISH_GREEK_COVENANT_INFIDELITY_PARALLEL
+        access_mode: MODERN_DIGITAL_GREEK_TEXT
+      - source_id: SRC-LXX-EZEKIEL
+        locator: "Ezekiel 16"
+        relation: JEWISH_GREEK_RELIGIOUS_INFIDELITY_PARALLEL
+        access_mode: MODERN_DIGITAL_GREEK_TEXT
+      - source_id: SCH-HARLOW-2012-BORN-FORNICATION
+        locator: "John 8:41 analysis and conclusion"
+        relation: SCHOLARLY_CONTEXTUAL_SUPPORT
+        access_mode: ACCESSIBLE_CHAPTER_COPY
+    opposing_sources: []
+    confidence: high-for-possibility-not-meaning
+    contested: false
+    notes:
+      - "Semantic possibility does not establish that this is the author's intended or historically heard meaning."
+
+  - id: CLM-JOHN8-PORNEIA-SUPPORTS-PANTHERA-PATERNITY
+    proposition: "The word porneia in John 8:41 independently supports Panthera/Pandera as the biological father of the historical Jesus/Yeshua."
+    claim_type: HISTORICAL_BIOGRAPHY
+    evidence_class: [UNKNOWN]
+    traditions: [comparative]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SRC-GOSPEL-JOHN
+        locator: "John 8:41"
+        relation: TEXT_DOES_NOT_NAME_PANTHERA_OR_ALTERNATIVE_FATHER
+        access_mode: MODERN_CRITICAL_TEXT_AND_TRANSLATION
+      - source_id: SRC-LXX-HOSEA
+        locator: "Hosea 1:2"
+        relation: SEMANTIC_NONUNIQUENESS_PREVENTS_WORD_ALONE_FROM_FIXING_PATERNITY_STORY
+        access_mode: MODERN_DIGITAL_GREEK_TEXT
+    confidence: unresolved
+    contested: true
+    notes:
+      - "Importing the later Panthera tradition to fix John's ambiguous wording and then counting John as independent corroboration is circular."

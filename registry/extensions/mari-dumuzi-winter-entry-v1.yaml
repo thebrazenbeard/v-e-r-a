@@ -1,0 +1,256 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-MARI-DUMUZI-WINTER-ENTRY-V1
+base_registry_head: b97d9db58485315e1ba6f31c89cd00f210b93e4d
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-MARI-A512-DUMUZI
+    source_roles: [PRIMARY_TEXT]
+    source_kind: mari_letter
+    author_or_tradition: Mari / Itur-Asdu correspondence
+    title: A.512 — Dumuzi enters the temple of Annunitum of Mari
+    composition_date: {start: null, end: null, precision: old-babylonian-mari}
+    physical_witness_date: {start: null, end: null, precision: old-babylonian-mari}
+    extant_status: cuneiform-tablet
+    original_language: Akkadian
+    access_mode: published-transliteration-through-scholarly-study
+    limitations:
+      - "V1 uses a published transliteration and translation quoted by Yamada; no independent autoptic tablet collation is claimed."
+
+  - id: SRC-MARI-M13167-DUMUZI
+    source_roles: [PRIMARY_TEXT]
+    source_kind: mari_oil_ration_record
+    author_or_tradition: Mari palace/temple administration
+    title: M.13167 — oil ration for Dumuzi upon entering Belet-ekallim temple
+    composition_date: {start: null, end: null, precision: 10-month-X-ZL2}
+    physical_witness_date: {start: null, end: null, precision: old-babylonian-mari}
+    extant_status: cuneiform-tablet
+    original_language: Akkadian
+    access_mode: published-transcription-reported-in-scholarly-monograph
+    limitations:
+      - "A transcription is reported as Duponchel, Gs Barrelet 1997 p. 222; direct collation of that publication remains pending."
+
+  - id: SRC-MARI-M15090-DUMUZI
+    source_roles: [PRIMARY_TEXT]
+    source_kind: mari_oil_ration_parallel
+    author_or_tradition: Mari palace/temple administration
+    title: M.15090 — parallel Dumuzi entry formula
+    composition_date: {start: null, end: null, precision: 6-month-X-ZL5}
+    physical_witness_date: {start: null, end: null, precision: old-babylonian-mari}
+    extant_status: unpublished-parallel-reported
+    original_language: Akkadian
+    access_mode: scholarly-reference-to-unpublished-text
+    limitations:
+      - "Charpin 1987 p. 599 reports this as an unpublished parallel; no direct line text is controlled in V1."
+
+scholarly_context_additions:
+  - id: SCH-CDLI-P497204-MARI5-599-14
+    source_roles: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE]
+    source_kind: digital_catalog_record
+    author_or_tradition: Cuneiform Digital Library Initiative
+    title: MARI 05, 599 no. 14 / P497204
+    composition_date: {start: "2026", end: "2026", precision: current-digital-catalog-surface}
+    access_mode: institutional-digital-catalog
+    locators:
+      - url: "https://cdli.earth/search?limit=500&publication_bibtexkey=Charpin1985archives"
+    limitations:
+      - "Current CDLI record identifies publication, provenience, period, material, and collection but provides no image or transliteration."
+
+  - id: SCH-YAMADA-2011-PUDUM-A512
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_article
+    author_or_tradition: Shigeo Yamada
+    title: A pudum rotation list from Tell Taban and the cultural milieu of Tabatum in the post-Hammurabi period
+    composition_date: {start: "2011", end: "2011", precision: publication-year}
+    access_mode: published-transliteration-and-translation
+    limitations:
+      - "Used for the quoted A.512 transliteration and translation; original tablet collation remains outside V1."
+
+  - id: SCH-DE-CLERCQ-2004-BELET-EKALLIM
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: doctoral_dissertation
+    author_or_tradition: Geeta De Clercq
+    title: Die Göttin Ninegal/Belet-ekallim nach den altorientalischen Quellen des 3. und 2. Jt. v. Chr.
+    composition_date: {start: "2004", end: "2004", precision: dissertation-acceptance-year}
+    access_mode: scholarly-dissertation
+    limitations:
+      - "Used for M.13167, its date, Duponchel transcription reference, and Charpin's M.15090 parallel; V1 does not claim direct collation of Duponchel 1997."
+
+  - id: SCH-CDLI-CHARPIN-1987-MARI5-OIL
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: journal_bibliographic_and_artifact_catalog
+    author_or_tradition: Cuneiform Digital Library Initiative / MARI bibliography
+    title: Charpin 1987 — Nouveaux documents du bureau de l'huile (suite)
+    composition_date: {start: "1987", end: "1987", precision: publication-year}
+    access_mode: institutional-bibliographic-control
+    locators:
+      - url: "https://cdli.earth/journals/75"
+    limitations:
+      - "Used to resolve article title and p. 597-599 publication context."
+
+claim_additions:
+  - id: CLM-MARI5-599-14-P497204-PROVENANCE
+    proposition: "The previously unresolved MARI 5 (1987) no. 14 is bibliographically identified as Charpin 1987, MARI 5 p. 599 no. 14, CDLI artifact P497204, an Old Babylonian clay tablet from Mari in the National Museum of Syria."
+    claim_type: SOURCE_PROVENANCE_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-CDLI-P497204-MARI5-599-14
+        locator: "MARI 05, 599 no. 14 / P497204"
+        relation: DIGITAL_CATALOG_IDENTIFICATION
+        access_mode: CDLI_CATALOG
+      - source_id: SCH-CDLI-CHARPIN-1987-MARI5-OIL
+        locator: "Charpin 1987, pp. 597-599"
+        relation: PUBLICATION_CONTEXT
+        access_mode: CDLI_BIBLIOGRAPHY
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-MARI5-599-14-LINE-TEXT-PENDING
+    proposition: "Although MARI 5 p. 599 no. 14 now has secure publication and artifact identity, its line-level transliteration and translation remain unrecovered in V1 because the current CDLI record exposes no image or text."
+    claim_type: SOURCE_EVIDENCE_CEILING
+    evidence_class: [MATERIAL_EVIDENCE, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-CDLI-P497204-MARI5-599-14
+        locator: "catalog record lacks image/transliteration"
+        relation: ACCESS_SURFACE_CEILING
+        access_mode: CDLI_CATALOG
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-MARI-A512-DUMUZI-TEMPLE-ENTRY
+    proposition: "A.512 directly states, in published transliteration, that the sender caused Dumuzi to enter the temple of Annunitum of Mari."
+    claim_type: DIRECT_RITUAL_MOVEMENT_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SRC-MARI-A512-DUMUZI
+        locator: "lines 10-13"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: PUBLISHED_TRANSLITERATION
+      - source_id: SCH-YAMADA-2011-PUDUM-A512
+        locator: "Text 4, A.512 lines 5-16"
+        relation: SCHOLARLY_TEXT_EDITION
+        access_mode: PUBLISHED_ARTICLE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-MARI-A512-ENTRY-NOT-RESURRECTION
+    proposition: "A.512's direct wording establishes Dumuzi's entry into Annunitum's temple but does not itself state bodily resurrection, emergence from the netherworld, or movement of a cult statue."
+    claim_type: TEXTUAL_SCOPE_CONTROL
+    evidence_class: [PRIMARY_TEXT, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SRC-MARI-A512-DUMUZI
+        locator: "lines 10-13"
+        relation: PRIMARY_TEXT_BOUNDARY
+        access_mode: PUBLISHED_TRANSLITERATION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-MARI-M13167-DUMUZI-BELET-EKALLIM-ENTRY
+    proposition: "M.13167 is reported as an oil-ration record for Dumuzi when entering the temple of Belet-ekallim, dated 10/x/ZL2; the direct transcription is attributed to Duponchel 1997 p. 222 and remains to be collated in V1."
+    claim_type: RITUAL_MOVEMENT_PROVENANCE_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SRC-MARI-M13167-DUMUZI
+        locator: "entry formula and date 10/x/ZL2"
+        relation: REPORTED_PRIMARY_TEXT
+        access_mode: SCHOLARLY_MONOGRAPH
+      - source_id: SCH-DE-CLERCQ-2004-BELET-EKALLIM
+        locator: "M.13167 note; Duponchel 1997 p. 222"
+        relation: PUBLICATION_PROVENANCE
+        access_mode: DISSERTATION
+    opposing_sources: []
+    confidence: high-for-reported-reading
+    contested: false
+
+  - id: CLM-MARI-M15090-UNPUBLISHED-PARALLEL
+    proposition: "M.15090 is reported by Charpin 1987 p. 599 as an unpublished parallel dated 6/x/ZL5 with the same Dumuzi-entry formula; it remains below independently controlled primary-text status."
+    claim_type: UNPUBLISHED_SOURCE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SRC-MARI-M15090-DUMUZI
+        locator: "reported parallel"
+        relation: UNPUBLISHED_PARALLEL
+        access_mode: SCHOLARLY_REFERENCE
+      - source_id: SCH-DE-CLERCQ-2004-BELET-EKALLIM
+        locator: "note citing Charpin MARI 5 p. 599"
+        relation: SCHOLARLY_REPORT
+        access_mode: DISSERTATION
+    opposing_sources: []
+    confidence: high-for-report-low-for-direct-text
+    contested: false
+
+  - id: CLM-MARI-DUMUZI-TEMPLE-ENTRY-NETWORK
+    proposition: "Mari preserves multiple differentiated indications of Dumuzi temple-entry movement, including direct A.512 wording, reported M.13167 administrative entry context, and an unpublished M.15090 parallel; this supports a ritual-movement field without establishing bodily resurrection."
+    claim_type: CROSS_SOURCE_RITUAL_RECONSTRUCTION
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, HISTORICAL_RECONSTRUCTION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SRC-MARI-A512-DUMUZI
+        locator: "Annunitum temple entry"
+        relation: DIRECT_ENTRY_EVIDENCE
+        access_mode: PUBLISHED_TRANSLITERATION
+      - source_id: SRC-MARI-M13167-DUMUZI
+        locator: "Belet-ekallim entry ration"
+        relation: REPORTED_ADMINISTRATIVE_ENTRY_EVIDENCE
+        access_mode: SCHOLARLY_MONOGRAPH
+      - source_id: SRC-MARI-M15090-DUMUZI
+        locator: "parallel entry formula"
+        relation: UNPUBLISHED_PARALLEL
+        access_mode: SCHOLARLY_REPORT
+    opposing_sources: []
+    confidence: high-for-entry-field-bounded-for-ritual-mechanism
+    contested: false
+
+  - id: CLM-MARI-WINTER-ENTRY-INTERPRETATION-BOUNDED
+    proposition: "Month-X dating of Dumuzi entry records makes a winter return/entry interpretation historically plausible, but calendar correlation and temple-entry wording do not constitute explicit primary-text statements of resurrection."
+    claim_type: CALENDAR_INTERPRETATION_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, HISTORICAL_RECONSTRUCTION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SRC-MARI-M13167-DUMUZI
+        locator: "10/x/ZL2"
+        relation: CALENDAR_DATUM
+        access_mode: SCHOLARLY_REPORT
+      - source_id: SRC-MARI-M15090-DUMUZI
+        locator: "6/x/ZL5"
+        relation: CALENDAR_DATUM
+        access_mode: SCHOLARLY_REPORT
+    opposing_sources: []
+    confidence: medium-high
+    contested: true
+
+  - id: CLM-MARI-CONTACT-FIELD-ENTRY-UPGRADE
+    proposition: "The Mari Dumuzi contact field is strengthened by direct or reported temple-entry movement evidence while remaining narrower than a bodily-resurrection model."
+    claim_type: CONTACT_FIELD_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian, west_semitic]
+    supporting_sources:
+      - source_id: SRC-MARI-A512-DUMUZI
+        locator: "temple of Annunitum entry"
+        relation: DIRECT_RITUAL_MOVEMENT
+        access_mode: PUBLISHED_TRANSLITERATION
+      - source_id: SRC-MARI-M13167-DUMUZI
+        locator: "Belet-ekallim entry"
+        relation: REPORTED_RITUAL_MOVEMENT
+        access_mode: SCHOLARLY_MONOGRAPH
+      - source_id: SRC-MARI-A4540-DUMUZI
+        locator: "burial of Dumuzi"
+        relation: BURIAL_CONTROL
+        access_mode: LEXICAL_EDITION_CONTROL
+      - source_id: SRC-MARI-A1146-DUMUZI
+        locator: "death/return comparison under reconstruction control"
+        relation: DEATH_RETURN_CONTROL
+        access_mode: PUBLICATION_PLUS_RECONSTRUCTION
+    opposing_sources: []
+    confidence: high-for-contact-field
+    contested: false

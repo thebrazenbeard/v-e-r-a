@@ -1,0 +1,183 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SUMERIAN-DUMUZID-DEATH-LAMENT-V1
+base_registry_head: 778c19f4cb8c0e8d4dde0b5aebf5689808c2e3a5
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-DUMUZID-DREAM
+    source_roles: [PRIMARY_TEXT]
+    source_kind: sumerian_literary_composition
+    author_or_tradition: Sumerian Dumuzid tradition
+    title: Dumuzid's Dream
+    composition_date: {start: null, end: null, precision: composition-date-reconstructed}
+    physical_witness_date: {start: null, end: null, precision: predominantly-old-babylonian-with-later-witnesses}
+    extant_status: multiple-cuneiform-witnesses
+    original_language: Sumerian
+    access_mode: CDLI-composite-score-and-ETCSL
+    locators:
+      - url: "https://cdli.earth/artifacts/469528"
+      - url: "https://cdli.earth/artifacts/composites-score/Q000347"
+      - url: "https://etcsl.orinst.ox.ac.uk/cgi-bin/etcsl.cgi?text=c.1.4.3"
+    limitations:
+      - "Composition identity is separate from the 89-witness inventory and from the current CDLI composite."
+      - "Only four witnesses are currently aligned to the CDLI composite."
+
+  - id: SRC-INANA-BILULU
+    source_roles: [PRIMARY_TEXT]
+    source_kind: sumerian_literary_lament
+    author_or_tradition: Sumerian Inana-Dumuzid tradition
+    title: Inana and Bilulu
+    composition_date: {start: null, end: null, precision: composition-date-reconstructed}
+    physical_witness_date: {start: null, end: null, precision: old-babylonian-witness}
+    extant_status: single-listed-cuneiform-witness-in-current-cdli
+    original_language: Sumerian
+    access_mode: CDLI-composite-metadata-and-ETCSL
+    locators:
+      - url: "https://cdli.earth/artifacts/469529"
+      - url: "https://cdli.earth/artifacts/composites-score/Q000348"
+      - url: "https://etcsl.orinst.ox.ac.uk/cgi-bin/etcsl.cgi?text=c.1.4.4"
+    limitations:
+      - "Current CDLI metadata lists one Nippur witness; distribution claims must preserve that narrow witness base."
+
+scholarly_context_additions:
+  - id: SCH-CDLI-Q000347-DUMUZID-DREAM
+    source_roles: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE]
+    source_kind: digital_composite_and_witness_score
+    author_or_tradition: Cuneiform Digital Library Initiative
+    title: CDLI Literary 000347 / Q000347 Dumuzid's Dream
+    composition_date: {start: "2026", end: "2026", precision: current-digital-access-surface}
+    access_mode: institutional-digital-composite-and-score
+    locators:
+      - url: "https://cdli.earth/artifacts/composites-score/Q000347"
+    limitations:
+      - "Current score reports 89 witnesses but only 4 aligned to the composite."
+      - "Aligned support is line-specific and must not be generalized to the full composite."
+
+  - id: SCH-CDLI-Q000348-INANA-BILULU
+    source_roles: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE]
+    source_kind: digital_composite_metadata
+    author_or_tradition: Cuneiform Digital Library Initiative
+    title: CDLI Literary 000348 / Q000348 Inana and Bilulu
+    composition_date: {start: "2026", end: "2026", precision: current-digital-access-surface}
+    access_mode: institutional-digital-composite-metadata
+    locators:
+      - url: "https://cdli.earth/artifacts/469529"
+      - url: "https://cdli.earth/artifacts/composites-score/Q000348"
+    limitations:
+      - "Current artifact metadata lists one Old Babylonian Nippur witness."
+      - "This pass does not claim line-level witness alignment from the Q000348 score."
+
+claim_additions:
+  - id: CLM-DUMUZID-DREAM-DEATH-FOREBODING
+    proposition: "Dumuzid's Dream explicitly frames its later pursuit through Dumuzid's anticipation of the day of his death and a request that the landscape and family lament him."
+    claim_type: TEXTUAL_SYSTEM_SUMMARY
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-DUMUZID-DREAM
+        locator: "lines 1-14, especially line 12"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: CDLI_COMPOSITE_AND_ETCSL
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZID-GALLA-CAPTOR-NOT-GIDIM
+    proposition: "Dumuzid's Dream uses gal5-la2/galla for pursuer-captor beings in the death sequence; this entity class must remain distinct from gidim, the deceased-person ghost category."
+    claim_type: LEXICAL_TYPE_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-DUMUZID-DREAM
+        locator: "lines 59-63, 89-90 and repeated pursuit sequence"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: CDLI_COMPOSITE
+      - source_id: SCH-CDLI-Q000347-DUMUZID-DREAM
+        locator: "current Q000347 composite"
+        relation: CURRENT_DIGITAL_READBACK
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZID-DREAM-ARALI-CAPTURE-WITNESS
+    proposition: "Dumuzid's Dream places Arali in the hiding/capture sequence, and the current CDLI score has aligned Ur witness P346104 preserving a damaged a-ra-li line in that sequence."
+    claim_type: LINE_LEVEL_WITNESS_REVALIDATION
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-DUMUZID-DREAM
+        locator: "lines 94, 106, 149-151"
+        relation: COMPOSITION_LEVEL_SUPPORT
+        access_mode: CDLI_COMPOSITE
+      - source_id: SCH-CDLI-Q000347-DUMUZID-DREAM
+        locator: "line 149/150 alignment / P346104"
+        relation: ALIGNED_WITNESS_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high-with-damaged-witness
+    contested: false
+
+  - id: CLM-INANA-BILULU-ARALI-LAMENT
+    proposition: "Inana and Bilulu repeatedly places 'house Arali' within the geography in which lament for the dead/absent Dumuzid is uttered, alongside desert, Bad-tibira, Du-shuba, and shepherding country."
+    claim_type: LAMENT_TOPOGRAPHY
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-INANA-BILULU
+        locator: "lines 1-5 and 166-173"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: ETCSL_TRANSLITERATION_AND_TRANSLATION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-INANA-BILULU-LIBATION-PROVISIONING
+    proposition: "Inana and Bilulu describes a desert rite involving water libation and flour sprinkling for the absent/dead Dumuzid and links it with making him present in the place from which he vanished."
+    claim_type: TEXTUAL_RITUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-INANA-BILULU
+        locator: "lines 98-110"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: ETCSL_TRANSLATION_AND_GLOSSING
+    opposing_sources: []
+    confidence: high-for-literary-depiction
+    contested: false
+
+  - id: CLM-DUMUZID-ARALI-CROSS-GENRE
+    proposition: "Across Dumuzid's Dream and Inana and Bilulu, Arali recurs in Dumuzid-associated death/capture and lament contexts, but the differing genre functions do not justify treating Arali as one universally defined Sumerian underworld location."
+    claim_type: CROSS_COMPOSITION_SEMANTIC_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-DUMUZID-DREAM
+        locator: "Arali capture/hiding passages"
+        relation: DEATH_CAPTURE_CONTEXT
+        access_mode: CDLI_COMPOSITE
+      - source_id: SRC-INANA-BILULU
+        locator: "Arali lament passages"
+        relation: LAMENT_CONTEXT
+        access_mode: ETCSL
+    opposing_sources: []
+    confidence: high-for-recurrence-bounded-for-universal-definition
+    contested: false
+
+  - id: CLM-DUMUZID-WITNESS-ASYMMETRY
+    proposition: "The current digital evidence base for Dumuzid's Dream and Inana and Bilulu is highly asymmetric: Q000347 reports 89 witnesses with 4 aligned, whereas Q000348 currently lists one witness."
+    claim_type: SOURCE_DISTRIBUTION_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000347-DUMUZID-DREAM
+        locator: "score header and witness inventory"
+        relation: CURRENT_WITNESS_COUNT
+        access_mode: CDLI_SCORE
+      - source_id: SCH-CDLI-Q000348-INANA-BILULU
+        locator: "artifact witness list"
+        relation: CURRENT_WITNESS_COUNT
+        access_mode: CDLI_METADATA
+    opposing_sources: []
+    confidence: high-for-current-cdli-state
+    contested: false

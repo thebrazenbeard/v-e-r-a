@@ -1,0 +1,35 @@
+schema_version: nature-of-existence.chatgpt-repo-interface.v1
+repository: thebrazenbeard/on-theo
+role: CANONICAL_RESEARCH_AND_EVIDENCE
+workspace: THE_NATURE_OF_EXISTENCE
+authority:
+  - primary_source_reconstruction
+  - manuscript_and_witness_control
+  - archaeology_and_epigraphy
+  - historical_reconstruction
+  - theology_and_religious_traditions
+  - comparative_models
+  - neutral_comparison_axes
+  - empirical_testing
+  - speculative_system_models
+downstream_consumers:
+  - thebrazenbeard/testament
+adjacent_repositories:
+  - thebrazenbeard/voss
+  - thebrazenbeard/god-brain
+  - dynamic_portfolio_discovery
+canonical_state: github
+project_interface_root: architecture/chatgpt
+protected_effects_require_patrick:
+  - merge
+  - force_push
+  - delete_branch
+  - rewrite_history
+  - deploy
+  - credentials_or_permissions_change
+  - paid_compute
+currentness_rule: FRESH_READ_MUTABLE_STATE
+evidence_contract: architecture/chatgpt/EVIDENCE_CONTRACT.md
+cross_repo_provenance: architecture/chatgpt/CROSS_REPO_PROVENANCE.md
+routing_policy: architecture/chatgpt/ROUTING_POLICY.yaml
+plugin_registry: architecture/chatgpt/PLUGIN_REGISTRY.yaml

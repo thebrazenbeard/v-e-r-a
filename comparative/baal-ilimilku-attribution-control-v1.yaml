@@ -1,0 +1,44 @@
+schema_version: on-theo.baal-ilimilku-attribution-control.v1
+status: PASS_WITH_DIRECT_AND_RECONSTRUCTED_LEVELS_SEPARATED
+subject:
+  predecessor_pr: 53
+  predecessor_head: 700f2b6c3a9975fe11db45e1441b339dd0b917d8
+  work_id: SRC-UGARIT-BAAL-CYCLE
+
+tablet_attribution:
+  - tablet: KTU_1_4
+    ilimilku_status: DIRECT_COLOPHON_OR_EDGE_NOTE
+    confidence: HIGH
+
+  - tablet: KTU_1_6
+    ilimilku_status: DIRECT_FULL_COLOPHON
+    confidence: HIGH
+
+  - tablet: KTU_1_1
+    ilimilku_status: CYCLE_OR_DUCTUS_ATTRIBUTION
+    confidence: SCHOLARLY_RECONSTRUCTION
+
+  - tablet: KTU_1_2
+    ilimilku_status: CYCLE_OR_DUCTUS_ATTRIBUTION
+    confidence: SCHOLARLY_RECONSTRUCTION
+
+  - tablet: KTU_1_3
+    ilimilku_status: CYCLE_OR_DUCTUS_ATTRIBUTION
+    confidence: SCHOLARLY_RECONSTRUCTION
+
+  - tablet: KTU_1_5
+    ilimilku_status: CYCLE_OR_DUCTUS_ATTRIBUTION
+    confidence: SCHOLARLY_RECONSTRUCTION
+
+distinctions:
+  scribe_directly_attested: true
+  every_tablet_directly_colophoned: false
+  six_tablet_cycle_scholarly_unit: true
+  original_authorship_of_all_traditions_established: false
+  direct_dumuzid_transmission_carrier_established: false
+
+guards:
+  - "cycle attribution != six direct colophons"
+  - "scribe != original author of every inherited motif"
+  - "literary unity != one physical artifact"
+  - "named scribe != demonstrated transmission carrier"

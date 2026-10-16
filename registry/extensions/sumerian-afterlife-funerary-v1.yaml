@@ -1,0 +1,251 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SUMERIAN-AFTERLIFE-FUNERARY-V1
+base_registry_head: 7dbc47484e453f2561df1ba04b730d49181e6a39
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-ETCSL-DEATH-UR-NAMMA
+    source_roles: [PRIMARY_TEXT]
+    source_kind: sumerian_literary_composition
+    author_or_tradition: Sumerian literary tradition
+    title: The Death of Ur-Namma (Ur-Namma A)
+    composition_date: {start: null, end: null, precision: composition-date-reconstructed}
+    physical_witness_date: {start: null, end: null, precision: old-babylonian-manuscript-tradition}
+    extant_status: multiple-cuneiform-witnesses
+    original_language: Sumerian
+    access_mode: ETCSL-translation-transliteration-bibliography
+    locators:
+      - url: "https://etcsl.orinst.ox.ac.uk/cgi-bin/etcsl.cgi?text=t.2.4.1.1"
+      - url: "https://etcsl.orinst.ox.ac.uk/section2/b2411.htm"
+    limitations:
+      - "The surviving literary witnesses are later than Ur-Namma's reign and do not constitute a contemporary burial report."
+
+  - id: SRC-ETCSL-DEATH-GILGAMESH
+    source_roles: [PRIMARY_TEXT]
+    source_kind: sumerian_literary_composition
+    author_or_tradition: Sumerian Gilgamesh tradition
+    title: The Death of Gilgamesh
+    composition_date: {start: null, end: null, precision: old-babylonian-literary-tradition}
+    physical_witness_date: {start: null, end: null, precision: old-babylonian-manuscript-tradition}
+    extant_status: fragmentary-multiple-witness-tradition
+    original_language: Sumerian
+    access_mode: ETCSL-translation-transliteration
+    locators:
+      - url: "https://etcsl.orinst.ox.ac.uk/cgi-bin/etcsl.cgi?text=t.1.8.1.3"
+    limitations:
+      - "Royal/heroic literary afterlife cannot be assumed to represent ordinary dead."
+
+  - id: SRC-ETCSL-GILGAMESH-ENKIDU-NETHERWORLD
+    source_roles: [PRIMARY_TEXT]
+    source_kind: sumerian_literary_composition
+    author_or_tradition: Sumerian Gilgamesh tradition
+    title: Gilgamesh, Enkidu and the Netherworld
+    composition_date: {start: null, end: null, precision: old-babylonian-literary-tradition}
+    physical_witness_date: {start: null, end: null, precision: multiple-old-babylonian-witnesses}
+    extant_status: multiple-cuneiform-witnesses
+    original_language: Sumerian
+    access_mode: ETCSL-translation-transliteration
+    locators:
+      - url: "https://etcsl.orinst.ox.ac.uk/cgi-bin/etcsl.cgi?text=t.1.8.1.4"
+    limitations:
+      - "The catalogue of the dead is literary evidence; it is not a statistical census of belief or practice."
+
+  - id: MAT-UR-ROYAL-CEMETERY-HAFFORD-2018
+    source_roles: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    source_kind: archaeological_collection_synthesis
+    author_or_tradition: William B. Hafford / Penn Museum
+    title: "A Spectacular Discovery: Burials Simple and Splendid"
+    composition_date: {start: "2018", end: "2018", precision: publication-year}
+    physical_witness_date: {start: null, end: null, precision: early-dynastic-ur-burial-corpus}
+    extant_status: institutional-synthesis-of-excavated-cemetery
+    original_language: English
+    access_mode: institutional-full-text
+    locators:
+      - url: "https://www.penn.museum/sites/expedition/a-spectacular-discovery/"
+    limitations:
+      - "Modern synthesis of Woolley's excavation record; individual graves require field-record or publication-level readback when consequential."
+
+  - id: SCH-BAADSGAARD-2011-UR-RETAINERS
+    source_roles: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE]
+    source_kind: bioarchaeological_research_article
+    author_or_tradition: Aubrey Baadsgaard; Janet Monge; Samantha Cox; Richard L. Zettler
+    title: Human sacrifice and intentional corpse preservation in the Royal Cemetery of Ur
+    composition_date: {start: "2011", end: "2011", precision: publication-year}
+    access_mode: journal-abstract-and-institutional-summary
+    locators:
+      - url: "https://doi.org/10.1017/S0003598X00067417"
+      - url: "https://almanac.upenn.edu/archive/volumes/v56/n09/zettler.html"
+    limitations:
+      - "CT/pathology conclusions are based on two preserved heads and must not be generalized to every attendant."
+
+  - id: SCH-KATZ-2007-SUMERIAN-FUNERARY-RITUALS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_book_chapter
+    author_or_tradition: Dina Katz
+    title: Sumerian Funerary Rituals in Context
+    container: Performing Death
+    composition_date: {start: "2007", end: "2007", precision: publication-year}
+    access_mode: institutional-open-access-book
+    locators:
+      - url: "https://isac.uchicago.edu/sites/default/files/uploads/shared/docs/ois3.pdf"
+    limitations:
+      - "Synthetic evidence spans periods and genres; claims must remain date- and source-bounded."
+
+  - id: SCH-OXFORD-2024-GHOSTS-MESOPOTAMIA
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_reference_article
+    author_or_tradition: Oxford Research Encyclopedia / Oxford Classical Dictionary
+    title: "ghosts, Mesopotamia"
+    composition_date: {start: "2024", end: "2024", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - url: "https://academic.oup.com/edited-volume/61673/chapter-abstract/550533662"
+    limitations:
+      - "The first-millennium Babylonian and Assyrian ghost corpus is especially rich; later evidence must not be automatically projected into Early Dynastic Sumer."
+
+claim_additions:
+  - id: CLM-UR-MOST-BURIALS-NONROYAL-SIMPLE
+    proposition: "The great majority of excavated graves in Ur's cemetery were materially simpler than the small subset Woolley classified as royal."
+    claim_type: ARCHAEOLOGICAL_RECONSTRUCTION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: MAT-UR-ROYAL-CEMETERY-HAFFORD-2018
+        locator: "Simple and Royal Graves at Ur"
+        relation: ARCHAEOLOGICAL_CORPUS_SYNTHESIS
+        access_mode: INSTITUTIONAL_FULL_TEXT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UR-ROYAL-RETAINER-BURIAL-EXCEPTIONAL
+    proposition: "Ur's elite retainer burials represent an exceptional mortuary subset and cannot be treated as the default Sumerian funeral."
+    claim_type: EVIDENCE_SCOPE_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, PROJECT_INFERENCE]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: MAT-UR-ROYAL-CEMETERY-HAFFORD-2018
+        locator: "16 royal graves among more than 2,000 graves"
+        relation: CORPUS_DISTRIBUTION
+        access_mode: INSTITUTIONAL_FULL_TEXT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UR-RETAINERS-VIOLENT-DEATH-SOME
+    proposition: "At least some examined attendants from the Royal Cemetery at Ur died through violent blunt-force trauma rather than the voluntary-poison mechanism proposed by Woolley."
+    claim_type: BIOARCHAEOLOGICAL_RECONSTRUCTION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-BAADSGAARD-2011-UR-RETAINERS
+        locator: "CT analysis of two preserved heads"
+        relation: BIOARCHAEOLOGICAL_ANALYSIS
+        access_mode: JOURNAL_AND_INSTITUTIONAL_SUMMARY
+    opposing_sources: []
+    confidence: high-for-examined-individuals
+    contested: false
+    notes:
+      - "This claim is deliberately restricted to examined individuals and does not infer one mechanism for all retainers."
+
+  - id: CLM-UR-NAMMA-LITERARY-UNDERWORLD-ITINERARY
+    proposition: "The Death of Ur-Namma depicts a royal underworld itinerary involving offerings to underworld authorities, postmortem status, and a differentiated royal fate."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-DEATH-UR-NAMMA
+        locator: "underworld offerings and settlement passages"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: ETCSL_TRANSLATION
+    opposing_sources: []
+    confidence: high-for-literary-depiction
+    contested: false
+
+  - id: CLM-UR-NAMMA-TEXT-NOT-CONTEMPORARY-BURIAL-REPORT
+    proposition: "The surviving Death of Ur-Namma literary witnesses are later than Ur-Namma's reign, so the composition cannot by itself establish the contents or exact rites of his historical burial."
+    claim_type: SOURCE_HISTORY_CONTROL
+    evidence_class: [PRIMARY_TEXT, HISTORICAL_RECONSTRUCTION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-DEATH-UR-NAMMA
+        locator: "ETCSL bibliography and manuscript list"
+        relation: WITNESS_HISTORY
+        access_mode: ETCSL_BIBLIOGRAPHY
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-GILGAMESH-DEATH-HUMAN-MORTALITY
+    proposition: "The Death of Gilgamesh presents human mortality as unavoidable while assigning Gilgamesh a distinguished postmortem role among the dead."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-DEATH-GILGAMESH
+        locator: "mortality and ghost-governor passages"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: ETCSL_TRANSLATION
+    opposing_sources: []
+    confidence: high-for-literary-depiction
+    contested: false
+
+  - id: CLM-SUMERIAN-NETHERWORLD-DIFFERENTIATED-DEAD
+    proposition: "Gilgamesh, Enkidu and the Netherworld depicts materially different conditions among the dead according to descendants, funerary provisioning, manner of death, and other circumstances."
+    claim_type: TEXTUAL_SYSTEM_SUMMARY
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-GILGAMESH-ENKIDU-NETHERWORLD
+        locator: "questions concerning one to seven sons, no heir, manner of death, and offerings"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: ETCSL_TRANSLATION
+    opposing_sources: []
+    confidence: high-for-literary-model
+    contested: false
+
+  - id: CLM-SUMERIAN-NO-FUNERARY-OFFERINGS-DEPRIVATION
+    proposition: "In Gilgamesh, Enkidu and the Netherworld, a spirit without funerary offerings is represented as subsisting on discarded scraps and crumbs."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-GILGAMESH-ENKIDU-NETHERWORLD
+        locator: "spirit of him who has no funerary offerings"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: ETCSL_TRANSLATION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-MESOPOTAMIAN-DEAD-KIN-OFFERING-PATTERN
+    proposition: "Across broader Mesopotamian evidence, continuing kin care through burial and food/drink offerings is a strong funerary pattern, but its exact form must be period- and source-bounded."
+    claim_type: DIACHRONIC_FUNERARY_RECONSTRUCTION
+    evidence_class: [SCHOLARLY_INTERPRETATION, HISTORICAL_RECONSTRUCTION]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-KATZ-2007-SUMERIAN-FUNERARY-RITUALS
+        locator: "Sumerian Funerary Rituals in Context"
+        relation: SCHOLARLY_SYNTHESIS
+        access_mode: INSTITUTIONAL_OPEN_ACCESS
+      - source_id: SCH-OXFORD-2024-GHOSTS-MESOPOTAMIA
+        locator: "family offerings and ghost care"
+        relation: DIACHRONIC_REFERENCE_SYNTHESIS
+        access_mode: PUBLISHER_ABSTRACT
+    opposing_sources: []
+    confidence: high-for-broad-pattern
+    contested: false
+
+  - id: CLM-LATER-GHOST-EVIDENCE-NOT-EARLY-SUMERIAN-BY-DEFAULT
+    proposition: "The rich first-millennium Babylonian and Assyrian evidence for ghosts and anti-ghost ritual cannot be automatically projected backward as Early Dynastic Sumerian practice."
+    claim_type: EVIDENCE_SCOPE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian, mesopotamian, babylonian, assyrian]
+    supporting_sources:
+      - source_id: SCH-OXFORD-2024-GHOSTS-MESOPOTAMIA
+        locator: "chronological and typological source-distribution discussion"
+        relation: SOURCE_SCOPE_CONTROL
+        access_mode: PUBLISHER_ABSTRACT
+    opposing_sources: []
+    confidence: high
+    contested: false

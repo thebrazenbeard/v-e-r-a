@@ -1,0 +1,171 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-EARLY-CHRISTIAN-RABBINIC-V1
+base_registry_head: f4c4b4e940a8e6c76e9603d298bab819fbcc448d
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-DIDACHE
+    source_roles: [PRIMARY_TEXT]
+    source_kind: early_christian_church_order
+    author_or_tradition: Didache tradition
+    title: Didache / Teaching of the Twelve Apostles
+    composition_date: {start: null, end: null, precision: late-first-to-early-second-century-range-contested}
+    physical_witness_date: {start: null, end: null, precision: later-manuscript-tradition}
+    extant_status: extant-through-later-manuscript
+    original_language: Greek
+    access_mode: public-digital-translation
+    locators:
+      - {url: "https://www.newadvent.org/fathers/0714.htm"}
+    limitations:
+      - "Composition/redaction may be layered; one surviving work does not represent all early Christian communities."
+
+  - id: SRC-IGNATIUS-MAGNESIANS
+    source_roles: [PRIMARY_TEXT]
+    source_kind: early_christian_letter
+    author_or_tradition: Ignatius of Antioch
+    title: Epistle to the Magnesians
+    composition_date: {start: "0100", end: "0135", precision: early-second-century-range}
+    physical_witness_date: {start: null, end: null, precision: later-manuscript-tradition}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Greek
+    access_mode: public-digital-translation
+    locators:
+      - {url: "https://www.newadvent.org/fathers/0105.htm"}
+    limitations:
+      - "Ignatius advocates an ecclesial/identity program; his rhetoric is not evidence that every Christian community already followed it."
+
+  - id: SRC-MISHNAH-SANHEDRIN-10-1
+    source_roles: [PRIMARY_TEXT]
+    source_kind: rabbinic_legal_text
+    author_or_tradition: Mishnah / tannaitic rabbinic tradition
+    title: Mishnah Sanhedrin 10:1
+    composition_date: {start: null, end: "0220", precision: mishnaic-redaction-around-200-ce}
+    physical_witness_date: {start: null, end: null, precision: later-manuscript-tradition}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Mishnaic Hebrew
+    access_mode: digital-edition-translation
+    locators:
+      - {passage: "Sanhedrin 10:1", url: "https://www.sefaria.org/Mishnah_Sanhedrin.10.1"}
+    limitations:
+      - "This passage is evidence for a Mishnah layer; it must not be projected unchanged onto all Second Temple Jewish groups."
+
+scholarly_context_additions:
+  - id: SCH-GOODMAN-2015-MISHNAH
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: reference_article
+    author_or_tradition: Martin Goodman
+    title: Mishnah
+    container: Oxford Classical Dictionary
+    composition_date: {start: "2015", end: "2015", precision: publication-year}
+    access_mode: publisher-extract
+    locators:
+      - {url: "https://academic.oup.com/edited-volume/61673/chapter-abstract/549654572"}
+
+  - id: SCH-HEZSER-2009-RABBINIC-LITERATURE
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: handbook_chapter
+    author_or_tradition: Catherine Hezser
+    title: Classical Rabbinic Literature
+    composition_date: {start: "2009", end: "2009", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - {url: "https://academic.oup.com/edited-volume/38625/chapter-abstract/335225077"}
+
+  - id: SCH-JAFFEE-2001-TORAH-MOUTH
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Martin S. Jaffee
+    title: "Torah in the Mouth: Writing and Oral Tradition in Palestinian Judaism, 200 BCE-400 CE"
+    composition_date: {start: "2001", end: "2001", precision: publication-year}
+    access_mode: publisher-abstracts
+    locators:
+      - {url: "https://academic.oup.com/book/2067"}
+
+  - id: SCH-LAPIN-2012-RABBIS-ROMANS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Hayim Lapin
+    title: "Rabbis as Romans: The Rabbinic Movement in Palestine, 100-400 CE"
+    composition_date: {start: "2012", end: "2012", precision: publication-year}
+    access_mode: publisher-abstracts
+    locators:
+      - {url: "https://academic.oup.com/book/1791/chapter-abstract/141469273"}
+
+claim_additions:
+  - id: CLM-EARLY-CHRISTIANITY-PLURAL-SYSTEMS
+    proposition: "First- and second-century Jesus/Christ-centered communities differed materially in authority structures, ritual, Torah practice, textual corpora, Christology, and eschatology; later catholic orthodoxy must not be projected as the single original configuration."
+    claim_type: HISTORICAL_RECONSTRUCTION
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [early-christianity]
+    supporting_sources:
+      - {source_id: SRC-DIDACHE, locator: "whole work", relation: PRIMARY_TEXT_CONFIGURATION, access_mode: DIGITAL_TRANSLATION}
+      - {source_id: SRC-IGNATIUS-MAGNESIANS, locator: "identity/ecclesiology passages", relation: PRIMARY_TEXT_CONFIGURATION, access_mode: DIGITAL_TRANSLATION}
+    opposing_sources: []
+    confidence: high-for-plurality
+    contested: false
+
+  - id: CLM-RABBINIC-LITERATURE-COLLECTIVE-DIVERGENT
+    proposition: "Classical rabbinic literature is collective literature preserving partly divergent and contradictory views rather than one linear systematic theology."
+    claim_type: LITERARY_HISTORICAL_RECONSTRUCTION
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [rabbinic-judaism]
+    supporting_sources:
+      - {source_id: SCH-HEZSER-2009-RABBINIC-LITERATURE, locator: "abstract", relation: SCHOLARLY_SYNTHESIS, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-MISHNAH-C200-RABBINIC-ANCHOR
+    proposition: "The Mishnah reached a major compilational/redactional form around 200 CE and provides a strong anchor for a recognizable rabbinic textual movement."
+    claim_type: HISTORICAL_RECONSTRUCTION
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [rabbinic-judaism]
+    supporting_sources:
+      - {source_id: SCH-GOODMAN-2015-MISHNAH, locator: "extract", relation: DATE_AND_FORMATION_SYNTHESIS, access_mode: PUBLISHER_EXTRACT}
+      - {source_id: SCH-LAPIN-2012-RABBIS-ROMANS, locator: "chapter abstract", relation: MOVEMENT_FORMATION_SYNTHESIS, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: high-at-broad-level
+    contested: false
+
+  - id: CLM-RABBINIC-ORAL-TORAH-IDEOLOGY-DEVELOPS
+    proposition: "The rabbinic ideology of authoritative Oral Torah has a historical development and should not be projected as a fully articulated timeless system into all Second Temple Judaism."
+    claim_type: DIACHRONIC_AUTHORITY_DEVELOPMENT
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [rabbinic-judaism]
+    supporting_sources:
+      - {source_id: SCH-JAFFEE-2001-TORAH-MOUTH, locator: "book abstract and chapters 4-6", relation: SCHOLARLY_RECONSTRUCTION, access_mode: PUBLISHER_ABSTRACTS}
+    opposing_sources: []
+    confidence: high-for-development-unresolved-for-each-stage
+    contested: true
+
+  - id: CLM-MISHNAH-RESURRECTION-WORLD-TO-COME
+    proposition: "Mishnah Sanhedrin 10:1 treats a share in the World to Come and resurrection from the Torah as important boundary claims."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [rabbinic-judaism]
+    supporting_sources:
+      - {source_id: SRC-MISHNAH-SANHEDRIN-10-1, locator: "10:1", relation: DIRECT_TEXTUAL_SUPPORT, access_mode: DIGITAL_EDITION}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-SINGLE-DATE-PARTING-WAYS-UNSUPPORTED
+    proposition: "A single universal date at which Judaism and Christianity became two cleanly separated religions is not established by the evidence represented in this corpus."
+    claim_type: NEGATIVE_HISTORICAL_RECONSTRUCTION
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [early-christianity, rabbinic-judaism]
+    supporting_sources:
+      - {source_id: SRC-IGNATIUS-MAGNESIANS, locator: "anti-Judaizing boundary rhetoric", relation: BOUNDARY_STILL_CONTESTED, access_mode: DIGITAL_TRANSLATION}
+      - {source_id: SCH-LAPIN-2012-RABBIS-ROMANS, locator: "movement development", relation: RABBINIC_INSTITUTIONALIZATION_PROCESS, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: high-against-single-universal-date
+    contested: false
+
+transmission_additions:
+  - id: TR-EARLY-CHRISTIAN-RABBINIC-SHARED-JEWISH-INHERITANCE
+    from_source: SRC-DIDACHE
+    to_source: SRC-MISHNAH-SANHEDRIN-10-1
+    relation: SHARED_INHERITANCE_NOT_DIRECT_TEXTUAL_DEPENDENCE
+    confidence: high-for-shared-Jewish-context-unresolved-for-direct-lineage
+    evidence: []
+    limitation: "The edge records a comparative shared-inheritance/contact-zone problem, not a claim that the Didache copied the Mishnah or the Mishnah copied the Didache."

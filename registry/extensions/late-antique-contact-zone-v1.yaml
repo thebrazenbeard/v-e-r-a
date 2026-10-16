@@ -1,0 +1,229 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-LATE-ANTIQUE-CONTACT-ZONE-V1
+base_registry_head: 5a45ef5cdadc1f1f3a21e769e2d613c4ed945d8d
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-CHALCEDON-DEFINITION-451
+    source_roles: [PRIMARY_TEXT]
+    source_kind: conciliar_definition
+    author_or_tradition: Council of Chalcedon
+    title: Definition of Faith of the Council of Chalcedon
+    composition_date: {start: "0451", end: "0451", precision: council-year}
+    physical_witness_date: {start: null, end: null, precision: later-manuscript-and-edition-tradition}
+    extant_status: extant-through-conciliar-act-tradition
+    original_language: Greek
+    access_mode: public-scholarly-translation
+    locators:
+      - {url: "https://sourcebooks.web.fordham.edu/basis/chalcedon.asp"}
+      - {url: "https://www.newadvent.org/fathers/3811.htm"}
+    limitations:
+      - "Conciliar definition establishes the council's normative proposition, not universal reception by all Christian communities."
+
+  - id: MAT-HIMYAR-LATE-ANTIQUE-INSCRIPTIONS
+    source_roles: [MATERIAL_EVIDENCE]
+    source_kind: epigraphic_corpus
+    author_or_tradition: Himyarite / South Arabian inscriptional traditions
+    title: Late Antique Himyarite monotheist and royal inscriptions
+    composition_date: {start: "0350", end: "0575", precision: broad-corpus-range}
+    physical_witness_date: {start: "0350", end: "0575", precision: inscription-specific-dates-required}
+    extant_status: material-inscriptions
+    original_language: Ancient South Arabian
+    access_mode: scholarly-epigraphic-editions
+    locators:
+      - {url: "https://academic.oup.com/book/12636/chapter-abstract/162565588"}
+    limitations:
+      - "This is a corpus node; consequential claims must bind individual inscriptions and dates in later packets."
+
+  - id: MAT-KARTIR-SASANIAN-INSCRIPTIONS
+    source_roles: [MATERIAL_EVIDENCE]
+    source_kind: royal_priestly_inscriptional_corpus
+    author_or_tradition: Kirdēr/Kartir and Sasanian royal-priestly context
+    title: Kirdēr inscriptions
+    composition_date: {start: "0240", end: "0295", precision: third-century-sasanian-range}
+    physical_witness_date: {start: "0240", end: "0295", precision: inscription-specific-dates-required}
+    extant_status: rock-inscriptions
+    original_language: Middle Persian
+    access_mode: scholarly-transcription-and-interpretation
+    limitations:
+      - "Priestly self-representation is primary evidence for Kirdēr's claims and ideology, not an unbiased census of empire-wide religious life."
+
+scholarly_context_additions:
+  - id: SCH-ALLEN-2008-ORTHODOXY-ENFORCEMENT
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: handbook_chapter
+    author_or_tradition: Pauline Allen
+    title: The definition and enforcement of orthodoxy
+    composition_date: {start: "2008", end: "2008", precision: publication-year}
+    access_mode: publisher-summary
+    locators:
+      - {url: "https://www.cambridge.org/core/books/abs/cambridge-ancient-history/definition-and-enforcement-of-orthodoxy/389466484AB2A3EC4470C7211E9C1A6D"}
+
+  - id: SCH-MENZE-2025-CHRISTIAN-NEAR-EAST
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: handbook_chapter
+    author_or_tradition: Volker Menze
+    title: The Christian Near East in Late Antiquity
+    composition_date: {start: "2025", end: "2025", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - {url: "https://academic.oup.com/edited-volume/59904/chapter-abstract/512437056"}
+
+  - id: SCH-WALKER-2012-CHURCH-EAST
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: handbook_chapter
+    author_or_tradition: Joel Walker
+    title: "From Nisibis to Xi'an: The Church of the East in Late Antique Eurasia"
+    composition_date: {start: "2012", end: "2012", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - {url: "https://academic.oup.com/edited-volume/28073/chapter-abstract/212145305"}
+
+  - id: SCH-IRANICA-ZORO-HISTORICAL-REVIEW
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: reference_article
+    author_or_tradition: Encyclopaedia Iranica
+    title: Zoroastrianism i. Historical Review up to the Arab Conquest
+    composition_date: {start: null, end: null, precision: modern-reference-article}
+    access_mode: institutional-full-text
+    locators:
+      - {url: "https://www.iranicaonline.org/articles/zoroastrianism-i-historical-review/"}
+
+  - id: SCH-ROBIN-2015-HIMYAR-EPIGRAPHY
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_chapter
+    author_or_tradition: Christian Julien Robin
+    title: "Himyar, Aksum, and Arabia Deserta in Late Antiquity: The Epigraphic Evidence"
+    composition_date: {start: "2015", end: "2015", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - {url: "https://academic.oup.com/book/12636/chapter-abstract/162565588"}
+
+  - id: SCH-GAJDA-2017-SOUTH-ARABIA-MONOTHEISM
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_chapter
+    author_or_tradition: Iwona Gajda
+    title: Remarks on Monotheism in Ancient South Arabia
+    composition_date: {start: "2017", end: "2017", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - {url: "https://academic.oup.com/book/5204/chapter-abstract/147869817"}
+
+  - id: SCH-KJAER-2022-RAHMAN
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: journal_article
+    author_or_tradition: Sigrid K. Kjaer
+    title: "Rahman before Muhammad: A pre-history of the First Peace in Islam"
+    composition_date: {start: "2022", end: "2022", precision: publication-year}
+    access_mode: publisher-full-text
+    locators:
+      - {url: "https://www.cambridge.org/core/journals/modern-asian-studies/article/rahman-before-muhammad-a-prehistory-of-the-first-peace-sulh-in-islam/280B60BFF68749648057202B29C7C8F0"}
+
+concept_additions:
+  - id: CON-CHALCEDON-TWO-NATURES
+    label: Chalcedonian two-natures formula
+    canonical_label: Chalcedonian two-natures formula
+    kind: christological-formula
+    forms: [Chalcedonian two-natures formula]
+    semantic_guard: "Records the conciliar Christological formula; it does not by itself establish earlier Christian consensus or the metaphysical truth of the formula."
+    traditions: [late-antique-christianity, chalcedonian]
+    definition: "Conciliar Christological formula confessing one Christ in two natures without confusion, change, division, or separation."
+    linked_claims: [CLM-CHALCEDON-TWO-NATURES-DEFINITION]
+    relations: []
+
+  - id: CON-SOUTH-ARABIAN-RAHMANAN
+    label: Rahmanan divine epithet in Late Antique South Arabia
+    canonical_label: Rahmanan divine epithet in Late Antique South Arabia
+    kind: divine-epithet-concept
+    forms: [Rahmanan]
+    semantic_guard: "Do not equate every Rahmanan attestation with Qur'anic al-Rahman or assume one unchanged theology across Jewish, monotheist, and Christian South Arabian contexts."
+    traditions: [late-antique-arabia]
+    definition: "Divine title/name attested in South Arabian monotheist contexts whose community-specific theological referent changes across Jewish/monotheist and Christian political phases."
+    linked_claims: [CLM-RAHMANAN-CROSSES-MONOTHEIST-CONTEXTS]
+    relations: []
+
+claim_additions:
+  - id: CLM-CHALCEDON-TWO-NATURES-DEFINITION
+    proposition: "The 451 Council of Chalcedon normatively defines one and the same Christ to be acknowledged in two natures without confusion, change, division, or separation."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [late-antique-christianity, chalcedonian]
+    supporting_sources:
+      - {source_id: SRC-CHALCEDON-DEFINITION-451, locator: "Definition of Faith", relation: DIRECT_TEXTUAL_SUPPORT, access_mode: PUBLIC_TRANSLATION}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-LATE-ANTIQUE-CHRISTIANITY-REMAINS-PLURAL
+    proposition: "Imperial councils and enforcement did not produce uniform Christian acceptance; Chalcedonian, miaphysite, Church-of-the-East and other regional Christian configurations remained institutionally significant."
+    claim_type: HISTORICAL_RECONSTRUCTION
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [late-antique-christianity]
+    supporting_sources:
+      - {source_id: SCH-ALLEN-2008-ORTHODOXY-ENFORCEMENT, locator: "summary", relation: IMPERIAL_ENFORCEMENT_EVIDENCE, access_mode: PUBLISHER_SUMMARY}
+      - {source_id: SCH-MENZE-2025-CHRISTIAN-NEAR-EAST, locator: "abstract", relation: REGIONAL_PLURALITY_SYNTHESIS, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-CHURCH-EAST-SASANIAN-INSTITUTIONAL-PRESENCE
+    proposition: "The Church of the East became a recognized, institutionally significant Christian tradition within the Sasanian world rather than remaining only a marginal persecuted sect."
+    claim_type: HISTORICAL_RECONSTRUCTION
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [church-of-the-east, sasanian-iran]
+    supporting_sources:
+      - {source_id: SCH-WALKER-2012-CHURCH-EAST, locator: "abstract", relation: INSTITUTIONAL_HISTORY_SYNTHESIS, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: high-at-broad-level
+    contested: false
+
+  - id: CLM-SASANIAN-RELIGIOUS-LANDSCAPE-PLURAL
+    proposition: "The Sasanian religious field included organized Zoroastrian institutions together with substantial Christian, Jewish, Manichaean and other communities whose status changed over time."
+    claim_type: HISTORICAL_RECONSTRUCTION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sasanian-iran]
+    supporting_sources:
+      - {source_id: MAT-KARTIR-SASANIAN-INSCRIPTIONS, locator: "third-century priestly inscriptions", relation: ZOROASTRIAN_INSTITUTIONAL_EVIDENCE, access_mode: SCHOLARLY_TRANSCRIPTION}
+      - {source_id: SCH-WALKER-2012-CHURCH-EAST, locator: "abstract", relation: CHRISTIAN_INSTITUTIONAL_EVIDENCE, access_mode: PUBLISHER_ABSTRACT}
+      - {source_id: SCH-IRANICA-ZORO-HISTORICAL-REVIEW, locator: "Sasanian review", relation: ZOROASTRIAN_HISTORY_SYNTHESIS, access_mode: INSTITUTIONAL_FULL_TEXT}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-HIMYAR-MONOTHEISM-LATE-FOURTH-CENTURY
+    proposition: "Himyarite royal inscriptions shift toward monotheist language from the later fourth century, with Jewish-associated and later Christian phases requiring separate reconstruction."
+    claim_type: EPIGRAPHIC_HISTORICAL_RECONSTRUCTION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [late-antique-arabia, himyar]
+    supporting_sources:
+      - {source_id: MAT-HIMYAR-LATE-ANTIQUE-INSCRIPTIONS, locator: "fourth-sixth-century corpus", relation: EPIGRAPHIC_CORPUS, access_mode: SCHOLARLY_EPIGRAPHIC_EDITION}
+      - {source_id: SCH-GAJDA-2017-SOUTH-ARABIA-MONOTHEISM, locator: "abstract", relation: SCHOLARLY_SYNTHESIS, access_mode: PUBLISHER_ABSTRACT}
+      - {source_id: SCH-ROBIN-2015-HIMYAR-EPIGRAPHY, locator: "abstract", relation: EPIGRAPHIC_SYNTHESIS, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: high-at-broad-level
+    contested: true
+
+  - id: CLM-RAHMANAN-CROSSES-MONOTHEIST-CONTEXTS
+    proposition: "Rahmanan is attested in pre-Islamic South Arabian monotheist contexts and is reused across differently identified Jewish/monotheist and Christian political-religious settings; the title therefore cannot be assigned one timeless theology."
+    claim_type: DIACHRONIC_SEMANTIC_RECONSTRUCTION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [late-antique-arabia]
+    supporting_sources:
+      - {source_id: MAT-HIMYAR-LATE-ANTIQUE-INSCRIPTIONS, locator: "Rahmanan inscriptional corpus", relation: EPIGRAPHIC_ATTESTATION, access_mode: SCHOLARLY_EPIGRAPHIC_EDITION}
+      - {source_id: SCH-KJAER-2022-RAHMAN, locator: "article", relation: DIACHRONIC_SEMANTIC_SYNTHESIS, access_mode: PUBLISHER_FULL_TEXT}
+    opposing_sources: []
+    confidence: high-for-cross-context-attestation
+    contested: true
+
+  - id: CLM-PREISLAMIC-ARABIA-NOT-UNIFORM-PAGAN
+    proposition: "The religious landscape of Late Antique Arabia cannot be accurately represented as uniformly pagan immediately before Islam."
+    claim_type: NEGATIVE_HISTORICAL_RECONSTRUCTION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [late-antique-arabia]
+    supporting_sources:
+      - {source_id: MAT-HIMYAR-LATE-ANTIQUE-INSCRIPTIONS, locator: "monotheist inscriptions", relation: COUNTEREXAMPLE_CORPUS, access_mode: SCHOLARLY_EPIGRAPHIC_EDITION}
+      - {source_id: SCH-GAJDA-2017-SOUTH-ARABIA-MONOTHEISM, locator: "abstract", relation: MONOTHEIST_HISTORY_SYNTHESIS, access_mode: PUBLISHER_ABSTRACT}
+      - {source_id: SCH-ROBIN-2015-HIMYAR-EPIGRAPHY, locator: "abstract", relation: JEWISH_CHRISTIAN_EPIGRAPHIC_CONTEXT, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: high
+    contested: false

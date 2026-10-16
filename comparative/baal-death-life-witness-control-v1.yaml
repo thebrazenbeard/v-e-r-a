@@ -1,0 +1,50 @@
+schema_version: on-theo.baal-witness-control.v1
+status: PASS_WITH_CROSS_TABLET_PROVENANCE_CONTROL
+subject:
+  predecessor_pr: 51
+  predecessor_head: 48ca89402a6f685614a1cfd068a278d40c1de0fb
+  work_id: SRC-UGARIT-BAAL-CYCLE
+
+witnesses:
+  - witness_id: WIT-UGARIT-KTU15-AO16641-16642
+    ktu: KTU_1_5
+    rs_ids: ["RS 2.[022]", "RS 3.[565]"]
+    museum_ids: [AO_16641, AO_16642]
+    museum: Louvre
+    date: LATE_BRONZE_II_1400_1200_BCE_BROAD
+    physical_role: BAAL_CYCLE_TABLET_5
+    proposition_role: BAAL_DEATH_ANNOUNCEMENT
+    key_lines: "KTU 1.5 VI 8-10"
+
+  - witness_id: WIT-UGARIT-KTU16-AO16636
+    ktu: KTU_1_6
+    rs_ids: ["RS 2.[009]", "RS 5.155"]
+    museum_ids: [AO_16636]
+    museum: Louvre
+    date: LATE_BRONZE_II_1400_1200_BCE_BROAD
+    physical_role: BAAL_CYCLE_TABLET_6
+    proposition_role: BAAL_RENEWED_LIFE_RECOGNITION
+    key_lines: "KTU 1.6 III"
+
+claims:
+  death:
+    witness: WIT-UGARIT-KTU15-AO16641-16642
+    source_forms: [mt, hlq]
+    semantic_values: [DEAD_OR_DIE, PERISH]
+
+  renewed_life:
+    witness: WIT-UGARIT-KTU16-AO16636
+    source_forms: [hy, "existence parallel"]
+    semantic_values: [ALIVE_OR_LIVES, EXISTS]
+
+relationship:
+  textual_cycle_sequence: true
+  same_physical_tablet: false
+  physical_join_between_ktu15_and_ktu16: false
+  continuity_basis: LITERARY_THEMATIC_SEQUENCE
+
+guards:
+  - "cycle continuity != physical join"
+  - "work identity != witness identity"
+  - "cross-tablet synthesis != one-tablet report"
+  - "museum inventory control != autoptic sign collation"

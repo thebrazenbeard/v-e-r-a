@@ -1,0 +1,207 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SUMERIAN-DEATH-CORPUS-COMPOSITION-LEXICON-V1
+base_registry_head: fdbcb961ba1d32f5442db497f6f61199ccae9605
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-ETCSL-INANA-DESCENT
+    source_roles: [PRIMARY_TEXT]
+    source_kind: sumerian_literary_composition
+    author_or_tradition: Sumerian literary tradition
+    title: Inana's Descent to the Netherworld
+    composition_date: {start: null, end: null, precision: composition-date-reconstructed}
+    physical_witness_date: {start: null, end: null, precision: predominantly-old-babylonian-manuscript-tradition}
+    extant_status: multiple-cuneiform-witnesses
+    original_language: Sumerian
+    access_mode: ETCSL-transliteration-translation-glossing
+    locators:
+      - url: "https://etcsl.orinst.ox.ac.uk/cgi-bin/etcsl.cgi?text=c.1.4.1"
+      - url: "https://etcsl.orinst.ox.ac.uk/cgi-bin/etcsl.cgi?charenc=j&text=t.1.4.1"
+    limitations:
+      - "ETCSL is a modern corpus/access surface and not the final critical edition of every witness."
+      - "English 'underworld' translations can collapse distinct source lexemes such as kur and Ganzer."
+
+claim_additions:
+  - id: CLM-INANA-DESCENT-KUR-GANZER-DISTINCT
+    proposition: "In Inana's Descent, kur functions as the repeated broad death-realm term while Ganzer is a named palace/gateway locus within that realm; the two are compositionally distinct."
+    claim_type: COMPOSITION_LEVEL_LEXICAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-INANA-DESCENT
+        locator: "c.1.4.1 lines 73-75, 98-100, 117-126"
+        relation: DIRECT_COMPOSITIONAL_COOCCURRENCE
+        access_mode: ETCSL_TRANSLITERATION_AND_GLOSSING
+      - source_id: SCH-EPSD2-KUR-MOUNTAIN
+        locator: "kur semantic range"
+        relation: LEXICAL_CONTROL
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+      - source_id: SCH-EPSD2-GANZER-EARTH
+        locator: "ganzer semantic range"
+        relation: LEXICAL_CONTROL
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-GEN-NETHERWORLD-KUR-GANZER-CODOMAIN
+    proposition: "Gilgamesh, Enkidu and the Netherworld uses kur and Ganzer within the same death-realm episode and explicitly pairs them, showing that they participate in one semantic domain without being simple lexical synonyms."
+    claim_type: COMPOSITION_LEVEL_LEXICAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-GILGAMESH-ENKIDU-NETHERWORLD
+        locator: "c.1.8.1.4 lines 166, 175, 178-179, 224-242"
+        relation: DIRECT_COMPOSITIONAL_COOCCURRENCE
+        access_mode: ETCSL_TRANSLITERATION
+      - source_id: SCH-EPSD2-KUR-MOUNTAIN
+        locator: "kur semantic range"
+        relation: LEXICAL_CONTROL
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+      - source_id: SCH-EPSD2-GANZER-EARTH
+        locator: "ganzer semantic range"
+        relation: LEXICAL_CONTROL
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-GEN-NETHERWORLD-GIDIM-PERSON-VS-PLACE
+    proposition: "In Gilgamesh, Enkidu and the Netherworld, gidim denotes deceased-person/ghost entities while kur and Ganzer provide realm/place vocabulary, requiring person and place semantics to remain type-separated."
+    claim_type: COMPOSITION_LEVEL_TYPE_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-GILGAMESH-ENKIDU-NETHERWORLD
+        locator: "c.1.8.1.4 lines 213, 292-303 and variant sequences"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: ETCSL_TRANSLITERATION
+      - source_id: SCH-EPSD2-GIDIM-GHOST
+        locator: "gidim ghost sense"
+        relation: LEXICAL_CONTROL
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DEATH-GILGAMESH-GIDIM-GOVERNOR-KUR
+    proposition: "The Death of Gilgamesh represents Gilgamesh as a gidim who becomes governor of kur and pre-eminent among other gidim, combining a person-category term with a royal office in the death realm."
+    claim_type: COMPOSITION_LEVEL_LEXICAL_CONTROL
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-DEATH-GILGAMESH
+        locator: "c.1.8.1.3 lines 38-41 and parallel 131-134"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: ETCSL_TRANSLITERATION_AND_TRANSLATION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DEATH-GILGAMESH-ARALI-WITH-KUR
+    proposition: "The Death of Gilgamesh uses both kur as the broad royal death-realm domain and Arali as a named or marked place expression within its postmortem geography."
+    claim_type: COMPOSITION_LEVEL_LEXICAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-DEATH-GILGAMESH
+        locator: "c.1.8.1.3 kur passages and line 166 a-ra-li"
+        relation: DIRECT_COMPOSITIONAL_COOCCURRENCE
+        access_mode: ETCSL_TRANSLITERATION_AND_TRANSLATION
+      - source_id: SCH-EPSD2-ARALI-EARTH
+        locator: "arali semantic range"
+        relation: LEXICAL_CONTROL
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UR-NAMMA-KUR-INTERNAL-POLYSEMY
+    proposition: "The Death of Ur-Namma uses kur both for a foreign/unknown land comparison and repeatedly for the death-realm journey, institutions, offerings, and judgments, demonstrating local polysemy inside one composition."
+    claim_type: COMPOSITION_LEVEL_LEXICAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-DEATH-UR-NAMMA
+        locator: "c.2.4.1.1 lines 65, 73, 76, 79-95, 132-144"
+        relation: DIRECT_INTERNAL_CONTRAST
+        access_mode: ETCSL_TRANSLITERATION_AND_TRANSLATION
+      - source_id: SCH-EPSD2-KUR-MOUNTAIN
+        locator: "kur semantic range"
+        relation: LEXICAL_CONTROL
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UR-NAMMA-ARALI-NAMED-DEATH-PLACE
+    proposition: "The Death of Ur-Namma explicitly uses a-ra-li/Arali as a named or marked death-realm location alongside broader kur terminology."
+    claim_type: COMPOSITION_LEVEL_LEXICAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-DEATH-UR-NAMMA
+        locator: "c.2.4.1.1 lines 62, 127 and parallel manuscript sequence"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: ETCSL_TRANSLITERATION_AND_TRANSLATION
+      - source_id: SCH-EPSD2-ARALI-EARTH
+        locator: "arali semantic range"
+        relation: LEXICAL_CONTROL
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-CORE-DEATH-TEXTS-KURNUGI-NOT-FOUND
+    proposition: "kurnugi was not found in the ETCSL transliteration searches of the four core compositions mapped in this V1 packet; that search result blocks inserting kurnugi into those texts by English-gloss harmonization but does not establish historical absence from Sumerian tradition."
+    claim_type: ACCESS_SURFACE_NEGATIVE_CONTROL
+    evidence_class: [PRIMARY_TEXT, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-INANA-DESCENT
+        locator: "c.1.4.1 searched transliteration"
+        relation: ACCESS_SURFACE_NEGATIVE_SEARCH
+        access_mode: ETCSL_TRANSLITERATION
+      - source_id: SRC-ETCSL-GILGAMESH-ENKIDU-NETHERWORLD
+        locator: "c.1.8.1.4 searched transliteration"
+        relation: ACCESS_SURFACE_NEGATIVE_SEARCH
+        access_mode: ETCSL_TRANSLITERATION
+      - source_id: SRC-ETCSL-DEATH-GILGAMESH
+        locator: "c.1.8.1.3 searched transliteration"
+        relation: ACCESS_SURFACE_NEGATIVE_SEARCH
+        access_mode: ETCSL_TRANSLITERATION
+      - source_id: SRC-ETCSL-DEATH-UR-NAMMA
+        locator: "c.2.4.1.1 searched transliteration"
+        relation: ACCESS_SURFACE_NEGATIVE_SEARCH
+        access_mode: ETCSL_TRANSLITERATION
+    opposing_sources: []
+    confidence: high-for-current-access-surface-only
+    contested: false
+    notes:
+      - "This is not a claim that kurnugi was historically unknown in all Sumerian periods or communities."
+
+  - id: CLM-UNDERWORLD-ENGLISH-GLOSS-LOSSY
+    proposition: "Across the four mapped compositions, the English gloss underworld/netherworld corresponds to multiple source expressions including kur, Ganzer, and Arali, so English translation identity cannot be used as source-level semantic identity."
+    claim_type: TRANSLATION_SEMANTIC_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-INANA-DESCENT
+        locator: "kur/Ganzer passages"
+        relation: TRANSLATION_SOURCE_COMPARISON
+        access_mode: ETCSL_TRANSLITERATION_AND_TRANSLATION
+      - source_id: SRC-ETCSL-GILGAMESH-ENKIDU-NETHERWORLD
+        locator: "kur/Ganzer passages"
+        relation: TRANSLATION_SOURCE_COMPARISON
+        access_mode: ETCSL_TRANSLITERATION_AND_TRANSLATION
+      - source_id: SRC-ETCSL-DEATH-GILGAMESH
+        locator: "kur/Arali passages"
+        relation: TRANSLATION_SOURCE_COMPARISON
+        access_mode: ETCSL_TRANSLITERATION_AND_TRANSLATION
+      - source_id: SRC-ETCSL-DEATH-UR-NAMMA
+        locator: "kur/Arali passages"
+        relation: TRANSLATION_SOURCE_COMPARISON
+        access_mode: ETCSL_TRANSLITERATION_AND_TRANSLATION
+    opposing_sources: []
+    confidence: high
+    contested: false

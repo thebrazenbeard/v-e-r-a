@@ -1,0 +1,108 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SUMERIAN-URNAMMA-LINE-REVALIDATION-V1
+base_registry_head: 9ca2b40378a7ae22e3f10f392cb26cd62be1b9c8
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-CDLI-Q000386-CURRENT-COMPOSITE
+    source_roles: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE]
+    source_kind: digital_composite_and_witness_inventory
+    author_or_tradition: Cuneiform Digital Library Initiative
+    title: CDLI Literary 000386 / Q000386 Ur-Namma A
+    composition_date: {start: "2026", end: "2026", precision: current-digital-access-surface}
+    access_mode: institutional-digital-composite-and-witness-inventory
+    locators:
+      - url: "https://cdli.earth/artifacts/469688"
+    limitations:
+      - "Current artifact lists eleven witnesses but score alignment could not be read back in this runtime."
+      - "Composite confirmation is not labeled witness-aligned."
+      - "A current digital composite does not automatically supersede Flückiger-Hawker 1999 as critical score authority."
+
+claim_additions:
+  - id: CLM-URNAMMA-ARALI-CURRENT-COMPOSITE
+    proposition: "The current CDLI Ur-Namma A composite explicitly preserves a-ra-li/Arali at line 62 and additional later references."
+    claim_type: LINE_LEVEL_CURRENT_COMPOSITE_REVALIDATION
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000386-CURRENT-COMPOSITE
+        locator: "line 62; line 127; later variant segment"
+        relation: CURRENT_COMPOSITE_CONFIRMATION
+        access_mode: CDLI_COMPOSITE
+    opposing_sources: []
+    confidence: high-for-current-composite
+    contested: false
+
+  - id: CLM-URNAMMA-KUR-INTERNAL-POLYSEMY-CURRENT
+    proposition: "The current Ur-Namma A composite uses kur at line 65 in a foreign/unknown-land comparison and from line 73 onward in death-realm contexts, directly demonstrating context-sensitive polysemy inside one composition."
+    claim_type: COMPOSITION_INTERNAL_SEMANTIC_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000386-CURRENT-COMPOSITE
+        locator: "line 65 versus lines 73 onward"
+        relation: DIRECT_INTERNAL_SEMANTIC_CONTRAST
+        access_mode: CDLI_COMPOSITE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-URNAMMA-KUR-INSTITUTIONAL-DOMAIN-CURRENT
+    proposition: "The current Ur-Namma A composite repeatedly uses kur for death-realm route, gates, population, food/water, rites, offerings, royal titles, dwelling, and judgments."
+    claim_type: COMPOSITION_LEVEL_LEXICAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000386-CURRENT-COMPOSITE
+        locator: "lines 73-99 and 132-144"
+        relation: REPEATED_CURRENT_COMPOSITE_DOMAIN
+        access_mode: CDLI_COMPOSITE
+    opposing_sources: []
+    confidence: high-for-current-composite
+    contested: false
+
+  - id: CLM-URNAMMA-ME-KUR-GARZA-KUR-DISTINCT
+    proposition: "The current Ur-Namma A composite separately preserves garza kur-ra-ke4 and me kur-ra, requiring the two constructions to remain distinct even though both share the kur semantic domain."
+    claim_type: LEXICAL_CONSTRUCTION_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000386-CURRENT-COMPOSITE
+        locator: "line 84 garza kur-ra-ke4; line 99 me kur-ra"
+        relation: DIRECT_CONSTRUCTION_CONTRAST
+        access_mode: CDLI_COMPOSITE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-URNAMMA-GILGAMESH-NERGAL-KUR-TITLES
+    proposition: "The current Ur-Namma A composite preserves Nergal as Enlil of kur and Gilgamesh as king of kur, supporting an organized literary death-realm model with differentiated divine/royal offices."
+    claim_type: TEXTUAL_SYSTEM_SUMMARY
+    evidence_class: [PRIMARY_TEXT, HISTORICAL_RECONSTRUCTION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000386-CURRENT-COMPOSITE
+        locator: "lines 90 and 95; later variant repetition"
+        relation: CURRENT_COMPOSITE_TEXTUAL_SUPPORT
+        access_mode: CDLI_COMPOSITE
+    opposing_sources: []
+    confidence: high-for-literary-depiction
+    contested: false
+
+  - id: CLM-URNAMMA-CDLI-FRESHNESS-NOT-NEW-EDITION
+    proposition: "CDLI Q000386 has current transliteration revisions through 2026 and is a fresher digital readback surface, but that freshness does not by itself make it a new independent critical edition superseding Flückiger-Hawker 1999."
+    claim_type: EDITION_CURRENTNESS_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000386-CURRENT-COMPOSITE
+        locator: "revision history through 2026-08-18"
+        relation: DIGITAL_CURRENTNESS_READBACK
+        access_mode: CDLI_ARTIFACT_HISTORY
+      - source_id: SCH-FLUCKIGER-HAWKER-1999-URNAMMA
+        locator: "score-edition provenance"
+        relation: CRITICAL_EDITION_CONTROL
+        access_mode: BIBLIOGRAPHIC_CONTROL
+    opposing_sources: []
+    confidence: high
+    contested: false

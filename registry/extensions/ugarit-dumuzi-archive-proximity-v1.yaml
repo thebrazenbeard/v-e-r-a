@@ -1,0 +1,130 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-UGARIT-DUMUZI-ARCHIVE-PROXIMITY-V1
+base_registry_head: a6413d69106ef0ee934a6ca3a30516d5a7beb448
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-DEL-OLMO-2018-PRIVATE-ARCHIVES-UGARIT
+    source_roles: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE]
+    source_kind: archaeological_archive_study
+    author_or_tradition: Gregorio del Olmo Lete
+    title: The Private Archives of Ugarit
+    composition_date: {start: "2018", end: "2018", precision: publication-year}
+    access_mode: academic-monograph
+    limitations:
+      - "Used for archive inventories, topographic points, and functional context of private Ugarit archives."
+
+  - id: SCH-PARDEE-UGARIT-RITUAL-SOURCE-INDEX
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_source_index
+    author_or_tradition: Dennis Pardee
+    title: Sources for Ugaritic Ritual and Sacrifice — source index
+    composition_date: {start: "2002", end: "2002", precision: publication-year}
+    access_mode: scholarly-book-index
+    limitations:
+      - "Used for the index assignment of RS 20.123+ to Quartier Residentiel / Rapanu room 5."
+
+  - id: SCH-YON-2006-UGARIT-CITY-RAPANU
+    source_roles: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE]
+    source_kind: archaeological_site_synthesis
+    author_or_tradition: Marguerite Yon
+    title: The City of Ugarit at Tell Ras Shamra
+    composition_date: {start: "2006", end: "2006", precision: publication-year}
+    access_mode: archaeological-monograph
+    limitations:
+      - "Used for House of Rapanu architecture, archive scale, and Rapanu's high-ranking scribal/advisory context."
+
+claim_additions:
+  - id: CLM-RS20123-HOUSE-RAPANU-ROOM5
+    proposition: "RS 20.123+ / P332950 is indexed to Ugarit's Residential Quarter, House of Rapanu, room 5, placing the Dumuzi lexical attestation in a specific private scribal-archive context."
+    claim_type: ARCHIVE_PROVENANCE_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-PARDEE-UGARIT-RITUAL-SOURCE-INDEX
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "RS 20.123+ / QR, Rapanu #5"
+        relation: ARCHIVE_LOCATION_CONTROL
+        access_mode: SCHOLARLY_SOURCE_INDEX
+      - source_id: SCH-DEL-OLMO-2018-PRIVATE-ARCHIVES-UGARIT
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "RS 20.123 / topographic archive table"
+        relation: PRIVATE_ARCHIVE_CONTEXT
+        access_mode: ACADEMIC_MONOGRAPH
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-HOUSE-RAPANU-SCRIBAL-TRAINING
+    proposition: "The House of Rapanu archive functioned at least in part as a scribal-training environment, preserving bilingual Akkadian/Ugaritic materials, alphabetic exercises, and syllabary/lexical work."
+    claim_type: SCRIBAL_INSTITUTION_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, HISTORICAL_RECONSTRUCTION]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-DEL-OLMO-2018-PRIVATE-ARCHIVES-UGARIT
+        locator: "functional analysis of Rapanu archive"
+        relation: ARCHIVE_FUNCTION
+        access_mode: ACADEMIC_MONOGRAPH
+      - source_id: SCH-YON-2006-UGARIT-CITY-RAPANU
+        locator: "House of Rapanu archive and Rapanu profile"
+        relation: ARCHAEOLOGICAL_CONTEXT
+        access_mode: SITE_SYNTHESIS
+    opposing_sources: []
+    confidence: high-for-scribal-function
+    contested: false
+
+  - id: CLM-DUMUZI-BAAL-DIFFERENT-ARCHIVES
+    proposition: "The Dumuzi lexical witness RS 20.123+ belongs to the House of Rapanu archive context, whereas KTU 1.5-1.6 and the wider Baal Cycle are assigned to the House of the High Priest; the evidence therefore does not place the Dumuzi school tablet and Ilimilku's Baal tablets in one physical archive."
+    claim_type: ARCHIVE_SEPARATION_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-PARDEE-UGARIT-RITUAL-SOURCE-INDEX
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "Rapanu room 5"
+        relation: DUMUZI_WITNESS_ARCHIVE
+        access_mode: SCHOLARLY_SOURCE_INDEX
+      - source_id: SCH-EUPT-UGARIT-POETIC-CORPUS
+        witness_id: WIT-UGARIT-KTU16-AO16636
+        locator: "KTU 1.1-1.6 findspots: House of the High Priest"
+        relation: BAAL_WITNESS_ARCHIVE
+        access_mode: INSTITUTIONAL_CORPUS_INDEX
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UGARIT-CROSS-ARCHIVE-SCRIBAL-NETWORK
+    proposition: "The coexistence of a Dumuzi-bearing scholastic tablet in the House of Rapanu and Ilimilku's poetic corpus in the House of the High Priest makes cross-archive intellectual circulation within Ugarit historically plausible, but no direct transfer of RS 20.123+ to Ilimilku is documented."
+    claim_type: CARRIER_NETWORK_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, HISTORICAL_RECONSTRUCTION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-DEL-OLMO-2018-PRIVATE-ARCHIVES-UGARIT
+        locator: "private archive functional comparison"
+        relation: MULTI_ARCHIVE_CONTEXT
+        access_mode: ACADEMIC_MONOGRAPH
+      - source_id: SCH-EUPT-ILIMILKU-COLOPHON
+        locator: "Ilimilku scribal context"
+        relation: NAMED_TARGET_SCRIBE
+        access_mode: CRITICAL_EDITION_PROJECT
+    opposing_sources: []
+    confidence: medium-high-for-network-plausibility
+    contested: false
+
+  - id: CLM-ILIMILKU-RS20123-ACCESS-NOT-ESTABLISHED
+    proposition: "V1 contains no documentary evidence that Ilimilku personally accessed, copied, borrowed, or read RS 20.123+ despite the broader shared Ugaritic scribal environment."
+    claim_type: NAMED_CARRIER_CONTROL
+    evidence_class: [PROJECT_INFERENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-PARDEE-UGARIT-RITUAL-SOURCE-INDEX
+        locator: "RS 20.123+ Rapanu archive context"
+        relation: SOURCE_ARCHIVE_CONTROL
+        access_mode: SCHOLARLY_SOURCE_INDEX
+      - source_id: SCH-EUPT-ILIMILKU-COLOPHON
+        locator: "Ilimilku / High Priest archive context"
+        relation: TARGET_SCRIBE_CONTROL
+        access_mode: CRITICAL_EDITION_PROJECT
+    opposing_sources: []
+    confidence: high-for-v1-search-state
+    contested: false

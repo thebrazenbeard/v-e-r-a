@@ -1,0 +1,244 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-ENOCH-DANIEL-PHILO-V1
+base_registry_head: 7493cdd8f9fb56f388641f3006fb6c62ac81ad00
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-1ENOCH-WATCHERS
+    source_roles: [PRIMARY_TEXT]
+    source_kind: composite_ancient_apocalyptic_text
+    author_or_tradition: Enochic / Book of the Watchers tradition
+    title: 1 Enoch 1-36 / Book of the Watchers
+    composition_date: {start: null, end: null, precision: layered-second-temple-composition}
+    physical_witness_date: {start: null, end: null, precision: multiple-aramaic-greek-ethiopic-witness-traditions}
+    extant_status: composite-multilingual-witness-tradition
+    original_language: Aramaic-probable-for-core-material
+    access_mode: scholarly-secondary-reconstruction-in-v1
+    limitations:
+      - "1 Enoch is composite; Watchers strata and later redactional developments must not be collapsed into one composition date."
+      - "V1 has not yet bound every proposition to a specific Aramaic Qumran fragment."
+
+  - id: SRC-DANIEL-7-12
+    source_roles: [PRIMARY_TEXT]
+    source_kind: biblical_apocalyptic_text
+    author_or_tradition: Danielic Jewish tradition
+    title: Daniel 7-12
+    composition_date: {start: null, end: null, precision: layered-with-maccabean-apocalyptic-horizon}
+    physical_witness_date: {start: null, end: null, precision: multiple-hebrew-aramaic-greek-witness-traditions}
+    extant_status: extant-through-multiple-textual-traditions
+    original_language: Aramaic-and-Hebrew
+    access_mode: digital-edition-translation
+    locators:
+      - passage: "Daniel 7-12"
+        url: "https://www.sefaria.org/Daniel.7-12"
+      - passage: "Daniel 12:2-3"
+        url: "https://www.sefaria.org/Daniel.12.2"
+    limitations:
+      - "MT, Old Greek, and Proto-Theodotion traditions differ; V1 source-level claims do not erase textual pluralism."
+
+  - id: SRC-PHILO-DE-OPIFICIO
+    source_roles: [PRIMARY_TEXT]
+    source_kind: hellenistic_jewish_philosophical_exegesis
+    author_or_tradition: Philo of Alexandria
+    title: De opificio mundi / On the Creation
+    composition_date: {start: null, end: null, precision: first-century-ce-philonic-corpus}
+    physical_witness_date: {start: null, end: null, precision: later-manuscript-tradition}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Greek
+    access_mode: digital-public-domain-translation
+    locators:
+      - url: "https://www.ccel.org/ccel/philo/works.iii.i.html"
+    limitations:
+      - "Current direct readback uses the older Yonge English translation; consequential lexical claims require Greek-text verification."
+
+scholarly_context_additions:
+  - id: SCH-STOKES-2019-SATANOLOGY-WATCHERS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_article
+    author_or_tradition: Ryan E. Stokes
+    title: New Testament Satanology and Leading Suprahuman Opponents in Second Temple Jewish Literature
+    container: The Journal of Theological Studies 70.1
+    composition_date: {start: "2019", end: "2019", precision: publication-year}
+    access_mode: publisher-full-text-or-guest-access
+    locators:
+      - url: "https://academic.oup.com/jts/article/70/1/21/5404472"
+    limitations:
+      - "Used for literary-development reconstruction of Watchers traditions; reconstruction remains scholarship rather than manuscript fact."
+
+  - id: SCH-OCD-2022-DANIEL
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_reference_article
+    author_or_tradition: Oxford Classical Dictionary
+    title: Book of Daniel
+    composition_date: {start: "2022", end: "2022", precision: publication-year-version}
+    access_mode: publisher-abstract-full-reference-summary
+    locators:
+      - url: "https://academic.oup.com/edited-volume/61673/chapter-abstract/548080178"
+
+  - id: SCH-NIEHOFF-2018-PHILO-LOGOS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph_chapter
+    author_or_tradition: Maren R. Niehoff
+    title: An Utterly Transcendent God and His Logos
+    container: "Philo of Alexandria: An Intellectual Biography"
+    composition_date: {start: "2018", end: "2018", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - url: "https://academic.oup.com/yale-scholarship-online/book/17447/chapter-abstract/174961843"
+
+  - id: SCH-DECHARNEUX-2017-PHILO-POWERS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_book_chapter
+    author_or_tradition: Baudouin S. Decharneux
+    title: Divine Powers in Philo of Alexandria's De opificio mundi
+    composition_date: {start: "2017", end: "2017", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - url: "https://academic.oup.com/book/8825/chapter-abstract/155019922"
+
+  - id: SCH-SCHAFER-2020-PHILO-LOGOS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph_chapter
+    author_or_tradition: Peter Schäfer
+    title: The Logos according to Philo of Alexandria
+    composition_date: {start: "2020", end: "2020", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - url: "https://academic.oup.com/princeton-scholarship-online/book/31292/chapter-abstract/264519360"
+
+concept_additions:
+  - id: CON-ENOCH-WATCHERS
+    canonical_label: Enochic Watchers
+    kind: supernatural-agent-class
+    forms: [Watchers, rebellious-watchers]
+    semantic_guard: "Do not equate Watchers with every later angel, demon, Satan figure, or Greek daimon."
+    linked_claims: [CLM-ENOCH-WATCHERS-EVIL-ETIOLOGY]
+    relations: []
+
+  - id: CON-DANIEL-HUMANLIKE-FIGURE
+    canonical_label: Daniel 7 humanlike figure
+    kind: apocalyptic-symbolic-figure
+    forms: [one-like-a-human-being, son-of-man-translation-tradition]
+    semantic_guard: "Later messianic or christological uses do not by themselves fix the earliest referent in Daniel 7."
+    linked_claims: [CLM-DANIEL-APOCALYPTIC-EMPIRE-JUDGMENT]
+    relations: []
+
+  - id: CON-PHILO-LOGOS
+    canonical_label: Philonic Logos
+    kind: philosophical-exegetical-divine-mediation-concept
+    forms: [logos, divine-reason, intelligible-model]
+    semantic_guard: "Do not identify Philonic Logos with Johannine Christ-Logos, Stoic logos, Wisdom, or a separate deity without proposition-level evidence."
+    linked_claims: [CLM-PHILO-JEWISH-GREEK-SYNTHESIS]
+    relations: []
+
+claim_additions:
+  - id: CLM-ENOCH-WATCHERS-EVIL-ETIOLOGY
+    proposition: "The Book of the Watchers develops Genesis 6:1-4 into an account connecting rebellious heavenly beings, illicit human unions, forbidden knowledge, giant violence, divine judgment, and later giant-spirit demon etiology."
+    claim_type: TEXTUAL_AND_LITERARY_DEVELOPMENT
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [second-temple-judaism, enochic]
+    supporting_sources:
+      - source_id: SRC-1ENOCH-WATCHERS
+        locator: "1 Enoch 6-16 tradition complex"
+        relation: PRIMARY_TEXT_TRADITION
+        access_mode: SCHOLARLY_RECONSTRUCTION_IN_V1
+      - source_id: SCH-STOKES-2019-SATANOLOGY-WATCHERS
+        locator: "Book of Watchers analysis"
+        relation: SCHOLARLY_LAYERING_AND_DEMON_ETIOLOGY
+        access_mode: PUBLISHER_ACCESS
+    opposing_sources: []
+    confidence: high-for-developed-tradition-moderate-for-layer-sequence
+    contested: true
+
+  - id: CLM-DANIEL-APOCALYPTIC-EMPIRE-JUDGMENT
+    proposition: "Daniel 7-12 transforms imperial crisis into apocalyptic history involving symbolic empires, heavenly judgment, angelic princes, divine deliverance, and final vindication."
+    claim_type: TEXTUAL_SYSTEM_SUMMARY
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [second-temple-judaism, danielic]
+    supporting_sources:
+      - source_id: SRC-DANIEL-7-12
+        locator: "Daniel 7-12"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: DIGITAL_EDITION
+      - source_id: SCH-OCD-2022-DANIEL
+        locator: "reference article"
+        relation: HISTORICAL_SYNTHESIS
+        access_mode: PUBLISHER_SUMMARY
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DANIEL12-RESURRECTION
+    proposition: "Daniel 12:2-3 explicitly describes many sleepers in the dust awakening to differentiated enduring destinies and the wise/righteous receiving star-like radiance."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [second-temple-judaism, resurrection]
+    supporting_sources:
+      - source_id: SRC-DANIEL-7-12
+        locator: "Daniel 12:2-3"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: DIGITAL_EDITION
+    opposing_sources: []
+    confidence: high
+    contested: false
+    notes:
+      - "This claim does not assert a fully universal resurrection doctrine beyond the wording of the passage."
+
+  - id: CLM-PHILO-JEWISH-GREEK-SYNTHESIS
+    proposition: "Philo explicitly interprets Jewish scripture through Greek philosophical and exegetical categories while presenting Moses and the God of Israel as authoritative."
+    claim_type: INTELLECTUAL_HISTORY
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [hellenistic-judaism, greek-philosophy]
+    supporting_sources:
+      - source_id: SRC-PHILO-DE-OPIFICIO
+        locator: "On the Creation, opening and intelligible-world sections"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: DIGITAL_TRANSLATION
+      - source_id: SCH-NIEHOFF-2018-PHILO-LOGOS
+        locator: "chapter argument"
+        relation: SCHOLARLY_SYNTHESIS
+        access_mode: PUBLISHER_ABSTRACT
+      - source_id: SCH-DECHARNEUX-2017-PHILO-POWERS
+        locator: "chapter argument"
+        relation: SCHOLARLY_SYNTHESIS
+        access_mode: PUBLISHER_ABSTRACT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-PHILO-LOGOS-EQUALS-JOHN-CHRIST
+    proposition: "Philo's Logos and the Gospel of John's Christ-Logos are the same concept with established direct literary dependence."
+    claim_type: CONCEPT_IDENTITY_AND_TRANSMISSION
+    evidence_class: [UNKNOWN]
+    traditions: [hellenistic-judaism, christianity]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SCH-NIEHOFF-2018-PHILO-LOGOS
+        locator: "Philonic Logos in its own philosophical-exegetical setting"
+        relation: SOURCE_SPECIFIC_CONTEXT_PREVENTS_UNARGUED_IDENTITY
+        access_mode: PUBLISHER_ABSTRACT
+    confidence: unresolved
+    contested: true
+
+transmission_additions:
+  - id: TR-ENOCH-DANIEL-APOCALYPTIC-FIELD
+    from_source: SRC-1ENOCH-WATCHERS
+    to_source: SRC-DANIEL-7-12
+    relation: STRUCTURAL_PARALLEL
+    confidence: high-for-shared-apocalyptic-field-unresolved-for-direct-dependence
+    evidence:
+      - source_id: SCH-KNIBB-2011-DSS-APOCALYPTICISM
+        locator: "Enochic and Danielic influence in Qumran thought"
+    limitation: "Shared apocalyptic environment does not establish one-direction literary dependence between these specific works."
+
+  - id: TR-GREEK-PHILOSOPHY-PHILO
+    from_source: SRC-PLATO-REPUBLIC-10
+    to_source: SRC-PHILO-DE-OPIFICIO
+    relation: DIRECT_DEPENDENCE_POSSIBLE
+    confidence: high-for-broad-philosophical-contact-unresolved-for-this-exact-source
+    evidence:
+      - source_id: SCH-NIEHOFF-2018-PHILO-LOGOS
+        locator: "Platonic/Pythagorean intellectual setting"
+      - source_id: SCH-DECHARNEUX-2017-PHILO-POWERS
+        locator: "biblical and Platonic conceptual synthesis"
+    limitation: "The edge represents explicit Greek philosophical contact in Philo; it does not claim that Republic Book X itself is the direct source of De opificio."

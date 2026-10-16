@@ -1,0 +1,73 @@
+schema_version: on-theo.edition-currentness-research.v1
+status: TARGETED_CURRENTNESS_AUDIT_NOT_EXHAUSTIVE
+subject:
+  predecessor_pr: 38
+  predecessor_head: 6a049eb026a8959c860c17430e666f496adea369
+  branch: research/sumerian-death-edition-currentness-v1-20260918
+
+rules:
+  - "ETCSL searchability does not imply latest critical edition."
+  - "A later translation or commentary is not automatically a new full critical edition."
+  - "No later full edition identified in a targeted pass is not proof that no later line-specific correction exists."
+  - "Negative lexical searches remain access-surface negatives until edition and witness control are complete."
+
+compositions:
+  - composition_id: c.1.4.1
+    title: Inana's Descent to the Netherworld
+    base_access_surface: ETCSL
+    later_control:
+      id: SCH-ATTINGER-2021-INANA-DESCENT
+      year: 2021
+      control_type: LATER_PHILOLOGICAL_TRANSLATION
+    currentness_status: ATTINGER_CROSSCHECK_REQUIRED
+    full_new_critical_edition_identified: false
+    occurrence_state: ETCSL_PLUS_LEXICON_CURRENTNESS_PENDING
+    notes:
+      - "Attinger 2019, updated 2021, is a later dedicated philological translation/control."
+      - "This audit does not classify it as apparatus-equivalent to a full new manuscript edition."
+
+  - composition_id: c.1.8.1.4
+    title: Gilgamesh, Enkidu and the Netherworld
+    base_access_surface: ETCSL
+    later_control:
+      id: SCH-GADOTTI-2014-GEN-EDITION
+      year: 2014
+      control_type: NEW_FULL_EDITION
+    currentness_status: FULL_REVALIDATION_REQUIRED
+    full_new_critical_edition_identified: true
+    occurrence_state: ETCSL_PLUS_LEXICON_CURRENT_FULL_EDITION_CROSSCHECK_PENDING
+    notes:
+      - "Publisher description explicitly identifies additional manuscripts and a new edition."
+      - "PR #38 line numbers/readings must be checked against Gadotti before edition-current promotion."
+
+  - composition_id: c.1.8.1.3
+    title: The Death of Gilgamesh
+    base_access_surface: ETCSL
+    later_control:
+      id: SCH-CAVIGNEAUX-ALRAWI-2000-DEATH-GILGAMESH
+      year: 2000
+      control_type: MAJOR_REEDITION_ALREADY_IN_ETCSL_BIBLIOGRAPHY
+    currentness_status: LINE_SPECIFIC_RECHECK_WHEN_CONSEQUENTIAL
+    full_new_critical_edition_identified_after_etcsl: false
+    occurrence_state: ETCSL_WITH_2000_EDITION_LINEAGE
+    notes:
+      - "No later full edition superseding the 2000 re-edition was identified in this targeted pass."
+      - "Later specialized corrections remain possible."
+
+  - composition_id: c.2.4.1.1
+    title: The Death of Ur-Namma
+    base_access_surface: ETCSL
+    later_control:
+      id: SCH-FLUCKIGER-HAWKER-1999-URNAMMA
+      year: 1999
+      control_type: SCORE_EDITION_ALREADY_IN_ETCSL_BIBLIOGRAPHY
+    digital_readback_surface:
+      label: CDLI Literary 000386 Ur-Namma A composite
+      url: https://www.cdli.earth/inscriptions/2231690
+      recorded_update: "2014-10-17"
+    currentness_status: LINE_SPECIFIC_RECHECK_WHEN_CONSEQUENTIAL
+    full_new_critical_edition_identified_after_etcsl: false
+    occurrence_state: ETCSL_WITH_1999_SCORE_LINEAGE
+    notes:
+      - "A later CDLI digital composite is a readback/access surface, not automatically a new independent critical edition."
+      - "No later full score edition was identified in this targeted pass."

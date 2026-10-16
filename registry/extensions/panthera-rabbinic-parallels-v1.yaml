@@ -1,0 +1,240 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-PANTHERA-RABBINIC-PARALLELS-V1
+base_registry_head: c1f6df5ea1fee0c5ac8d84a7b5c2b81fb905fd3e
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-BAVLI-SANHEDRIN-67A
+    source_roles: [PRIMARY_TEXT, LATER_TRADITION]
+    source_kind: rabbinic_text
+    author_or_tradition: Babylonian Talmud
+    title: Sanhedrin 67a
+    composition_date: {start: null, end: null, precision: unresolved-in-v1}
+    physical_witness_date: {start: null, end: null, precision: unresolved-in-v1}
+    extant_status: extant-through-manuscript-and-print-tradition
+    original_language: Hebrew-Aramaic
+    access_mode: digital-text-edition
+    locators:
+      - passage: "Sanhedrin 67a:14-15"
+        url: "https://www.sefaria.org/Sanhedrin.67a"
+    limitations:
+      - "The checked passage names ben Setada/ben Pandeira and Miriam but does not explicitly name Jesus/Yeshua."
+      - "Its relationship to Shabbat 104b is a parallel textual tradition, not an independent-witness count by default."
+
+  - id: SRC-TOSEFTA-CHULLIN-2-6
+    source_roles: [PRIMARY_TEXT, LATER_TRADITION]
+    source_kind: rabbinic_text
+    author_or_tradition: Tosefta Chullin
+    title: Tosefta Chullin 2:6 / alternate numbering 2:22-24
+    composition_date: {start: null, end: null, precision: unresolved-in-v1}
+    physical_witness_date: {start: null, end: null, precision: witness-specific-see-witness-records}
+    extant_status: extant-through-medieval-manuscripts-print-and-fragments
+    original_language: Hebrew
+    access_mode: digital-edition
+    locators:
+      - passage: "Tosefta Chullin 2:6"
+        url: "https://www.sefaria.org/Tosefta_Chullin.2.6?lang=bi&with=manuscripts"
+      - passage: "Alternate digital range: Tosefta Chullin 2:22-24"
+        url: "https://www.sefaria.org/Tosefta_Chullin.2.22-24"
+    limitations:
+      - "Numbering differs across editions/references; both locators are retained to prevent false mismatch."
+      - "The work record must not be assigned the date of one surviving manuscript witness."
+
+  - id: SRC-YERUSHALMI-AVODAH-ZARAH-2-2
+    source_roles: [PRIMARY_TEXT, LATER_TRADITION]
+    source_kind: rabbinic_text
+    author_or_tradition: Jerusalem Talmud
+    title: Jerusalem Talmud Avodah Zarah 2:2
+    composition_date: {start: null, end: null, precision: unresolved-in-v1}
+    physical_witness_date: {start: null, end: null, precision: unresolved-in-v1}
+    extant_status: extant-through-manuscript-and-print-tradition
+    original_language: Hebrew-Aramaic
+    access_mode: digital-text-edition
+    locators:
+      - passage: "Avodah Zarah 2:2:7"
+        url: "https://www.sefaria.org/Jerusalem_Talmud_Avodah_Zarah.2.2.7"
+      - passage: "Avodah Zarah 2:2:11"
+        url: "https://www.sefaria.org/Jerusalem_Talmud_Avodah_Zarah.2.2.11"
+    limitations:
+      - "The checked digital edition/translation explicitly contains Jesus ben Pandera in healing traditions; V1 does not infer biological paternity from the name-form."
+
+  - id: SRC-YERUSHALMI-SHABBAT-14-4
+    source_roles: [PRIMARY_TEXT, LATER_TRADITION]
+    source_kind: rabbinic_text
+    author_or_tradition: Jerusalem Talmud
+    title: Jerusalem Talmud Shabbat 14:4
+    composition_date: {start: null, end: null, precision: unresolved-in-v1}
+    physical_witness_date: {start: null, end: null, precision: unresolved-in-v1}
+    extant_status: extant-through-manuscript-and-print-tradition
+    original_language: Hebrew-Aramaic
+    access_mode: digital-text-edition
+    locators:
+      - passage: "Shabbat 14:4:8"
+        url: "https://www.sefaria.org/Jerusalem_Talmud_Shabbat.14.4.8"
+      - passage: "Shabbat 14:4:12"
+        url: "https://www.sefaria.org/Jerusalem_Talmud_Shabbat.14.4.12"
+    limitations:
+      - "The checked digital edition/translation contains Jesus Pantera/Pandera name-forms in healing traditions; exact orthography varies by passage/edition."
+
+witness_additions:
+  - id: WIT-TOSEFTA-VIENNA-COD-HEBR-20
+    witness_of: SRC-TOSEFTA-CHULLIN-2-6
+    witness_kind: manuscript
+    common_name: Vienna manuscript of the Tosefta
+    shelfmark: "Österreichische Nationalbibliothek Cod. hebr. 20"
+    witness_date: {start: "1300", end: "1399", precision: early-fourteenth-century}
+    provenance_note: "Cambridge History of Judaism describes the Vienna manuscript as an early-fourteenth-century Spanish witness and the only nearly complete manuscript of the Tosefta."
+    access_mode: digital-edition-manuscript-layer
+    locators:
+      - passage: "Tosefta Chullin 2:6; Vienna manuscript locations 226v-227r shown by Sefaria"
+        url: "https://www.sefaria.org/Tosefta_Chullin.2.6?lang=bi&with=manuscripts"
+    limitations:
+      - "V1 reads Sefaria's manuscript-aware annotation and images/metadata layer; it does not claim an independent palaeographic re-dating."
+      - "A medieval witness can preserve older wording, but witness date and composition/origin date remain separate clocks."
+
+scholarly_context_additions:
+  - id: SCH-CAMBRIDGE-HISTORY-TOSEFTA
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_history_chapter
+    author_or_tradition: Paul Mandel
+    title: The Tosefta
+    container: The Cambridge History of Judaism
+    composition_date: {start: "2006", end: "2006", precision: publication-year}
+    access_mode: publisher-page
+    locators:
+      - url: "https://www.cambridge.org/core/books/cambridge-history-of-judaism/3F4F0A32983FC0DCDB414553888DC394"
+    limitations:
+      - "Used for general manuscript-witness history, especially the Vienna witness date; it does not determine the reading of a particular line."
+
+  - id: SCH-SCHREMER-2009-MINUT
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_book_chapter
+    author_or_tradition: Adiel Schremer
+    title: "Producing Minut: Labeling the Early Christians as Minim"
+    container: Brothers Estranged
+    composition_date: {start: "2009", end: "2009", precision: publication-year}
+    access_mode: publisher-page
+    locators:
+      - doi: "10.1093/acprof:oso/9780195383775.003.0005"
+        url: "https://academic.oup.com/book/10421/chapter-abstract/158243048"
+    limitations:
+      - "Interprets Tosefta Chullin 2:22-24 as a text constructing followers of Jesus as minim and discusses its historical use; it is scholarship, not manuscript evidence."
+
+claim_additions:
+  - id: CLM-SANHEDRIN-STADA-PANDEIRA-MIRIAM
+    proposition: "Sanhedrin 67a:14-15 relates a ben Setada execution tradition in Lod on Passover eve and follows it with a ben Pandeira/Miriam name discussion; the checked passage itself does not explicitly name Jesus/Yeshua."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT, LATER_TRADITION]
+    traditions: [rabbinic-judaism]
+    supporting_sources:
+      - source_id: SRC-BAVLI-SANHEDRIN-67A
+        locator: "Sanhedrin 67a:14-15"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: DIGITAL_TEXT_EDITION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-TOSEFTA-VIENNA-YESHUA-PANTEIRA-VARIANT
+    proposition: "The checked Sefaria manuscript-aware display for Tosefta Chullin 2:6 reports that the Vienna manuscript adds the name-form 'Yeshua ben Panteira' in both the ben Dama healing episode and the Rabbi Eliezer heresy episode."
+    claim_type: TEXTUAL_VARIANT_REPORT
+    evidence_class: [PRIMARY_TEXT, LATER_TRADITION]
+    traditions: [rabbinic-judaism, jewish-christian-relations]
+    supporting_sources:
+      - source_id: SRC-TOSEFTA-CHULLIN-2-6
+        witness_id: WIT-TOSEFTA-VIENNA-COD-HEBR-20
+        locator: "Tosefta Chullin 2:6; Vienna manuscript annotation in Sefaria"
+        relation: DIGITAL_EDITION_VARIANT_REPORT
+        access_mode: DIGITAL_EDITION_WITH_MANUSCRIPT_LAYER
+    opposing_sources: []
+    confidence: high-for-digital-edition-report
+    contested: false
+    notes:
+      - "This confidence applies to Sefaria's report of the Vienna reading, not to the proposition that V1 independently transcribed the codex."
+
+  - id: CLM-YERUSHALMI-HEALING-YESHUA-PANDERA
+    proposition: "The checked Jerusalem Talmud passages preserve healing traditions that explicitly invoke Jesus/Yeshua with Pandera/Pantera name-forms."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT, LATER_TRADITION]
+    traditions: [rabbinic-judaism, jewish-christian-relations]
+    supporting_sources:
+      - source_id: SRC-YERUSHALMI-AVODAH-ZARAH-2-2
+        locator: "Avodah Zarah 2:2:7 and 2:2:11"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: DIGITAL_TEXT_EDITION
+      - source_id: SRC-YERUSHALMI-SHABBAT-14-4
+        locator: "Shabbat 14:4:8 and 14:4:12"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: DIGITAL_TEXT_EDITION
+    opposing_sources: []
+    confidence: high-at-digital-text-level
+    contested: false
+    notes:
+      - "Parallel passages may share textual/traditional dependence and are not automatically independent historical witnesses."
+
+  - id: CLM-RABBINIC-PANDERA-MATERIAL-PROVES-BIOLOGICAL-PATERNITY
+    proposition: "The Tosefta, Jerusalem Talmud, and Babylonian Talmud Pandera/Pantera name traditions establish the biological paternity of the historical Yeshua/Jesus."
+    claim_type: HISTORICAL_BIOGRAPHY
+    evidence_class: [UNKNOWN]
+    traditions: [comparative]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SRC-TOSEFTA-CHULLIN-2-6
+        witness_id: WIT-TOSEFTA-VIENNA-COD-HEBR-20
+        locator: "Tosefta Chullin 2:6; Vienna variant annotation"
+        relation: TEXTUAL_NAMING_DOES_NOT_ESTABLISH_BIOLOGICAL_FACT
+        access_mode: DIGITAL_EDITION_WITH_MANUSCRIPT_LAYER
+      - source_id: SRC-BAVLI-SANHEDRIN-67A
+        locator: "Sanhedrin 67a:14-15"
+        relation: LATE_TEXTUAL_TRADITION_NOT_DIRECT_BIOLOGICAL_EVIDENCE
+        access_mode: DIGITAL_TEXT_EDITION
+    confidence: unresolved
+    contested: true
+    notes:
+      - "These materials are evidence for rabbinic textual/reception history and possibly earlier traditions; provenance to first-century biography remains unestablished."
+
+transmission_additions:
+  - id: TR-SHABBAT-SANHEDRIN-STADA-PARALLEL
+    from_source: SRC-BAVLI-SHABBAT-104B
+    to_source: SRC-BAVLI-SANHEDRIN-67A
+    relation: SHARED_TRADITION
+    confidence: high
+    evidence:
+      - source_id: SRC-BAVLI-SANHEDRIN-67A
+        locator: "Sanhedrin 67a:14-15"
+      - source_id: SRC-BAVLI-SHABBAT-104B
+        locator: "Shabbat 104b:5"
+    limitation: "Substantial verbal/narrative overlap supports a shared textual tradition, not two independent historical witnesses; direction of dependence is not established here."
+
+  - id: TR-TOSEFTA-YERUSHALMI-BEN-DAMA
+    from_source: SRC-TOSEFTA-CHULLIN-2-6
+    to_source: SRC-YERUSHALMI-AVODAH-ZARAH-2-2
+    relation: SHARED_TRADITION
+    confidence: high
+    evidence:
+      - source_id: SRC-TOSEFTA-CHULLIN-2-6
+        witness_id: WIT-TOSEFTA-VIENNA-COD-HEBR-20
+        locator: "Tosefta Chullin 2:6; ben Dama healing episode"
+      - source_id: SRC-YERUSHALMI-AVODAH-ZARAH-2-2
+        locator: "Avodah Zarah 2:2:11"
+    limitation: "The shared ben Dama/Jacob/healing narrative establishes a close textual-traditional parallel; V1 does not assign a direction of literary dependence or treat the two texts as independent first-century testimony."
+
+  - id: TR-YERUSHALMI-AZ-SHABBAT-HEALING
+    from_source: SRC-YERUSHALMI-AVODAH-ZARAH-2-2
+    to_source: SRC-YERUSHALMI-SHABBAT-14-4
+    relation: SHARED_TRADITION
+    confidence: high
+    evidence:
+      - source_id: SRC-YERUSHALMI-AVODAH-ZARAH-2-2
+        locator: "Avodah Zarah 2:2:7, 2:2:11"
+      - source_id: SRC-YERUSHALMI-SHABBAT-14-4
+        locator: "Shabbat 14:4:8, 14:4:12"
+    limitation: "Parallel placement and wording support shared tradition; they do not justify independent-witness multiplication."
+
+  - id: TR-PANTERA-NAME-TO-RABBINIC-PANDERA
+    from_source: SRC-CELSUS-TRUE-DOCTRINE
+    to_source: SRC-TOSEFTA-CHULLIN-2-6
+    relation: NONE_ESTABLISHED
+    confidence: unresolved
+    evidence: []
+    limitation: "The Pantera/Panteira/Pandera resemblance is a research lead. V1 does not establish direct dependence, a common named biological person, or a single origin across Celsus and rabbinic traditions."

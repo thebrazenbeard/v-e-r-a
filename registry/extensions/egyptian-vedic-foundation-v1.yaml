@@ -1,0 +1,164 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-EGYPTIAN-VEDIC-FOUNDATION-V1
+base_registry_head: 9cc582ecbd19857df41bea818625a4750ad33ae9
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: MAT-EGYPT-BOD-TIYE
+    source_roles: [MATERIAL_EVIDENCE, PRIMARY_TEXT]
+    source_kind: funerary_papyrus
+    author_or_tradition: ancient Egyptian Book of the Dead tradition
+    title: Book of the Dead Papyrus of Tiye
+    composition_date: {start: "0975 BCE", end: "0945 BCE", precision: museum-date-range}
+    physical_witness_date: {start: "0975 BCE", end: "0945 BCE", precision: museum-date-range}
+    extant_status: material-artifact
+    original_language: Egyptian
+    access_mode: museum-object-record
+    locators:
+      - url: "https://www.metmuseum.org/art/collection/search/551142"
+    limitations:
+      - "A single funerary papyrus is a witness to one textual/material configuration, not the entire Book of the Dead tradition."
+
+scholarly_context_additions:
+  - id: SCH-MET-DIVINE-EGYPT
+    source_roles: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE_CONTEXT]
+    source_kind: museum-curatorial-synthesis
+    author_or_tradition: Metropolitan Museum of Art
+    title: Divine Egypt / Ruling the Cosmos
+    access_mode: institutional-public-page
+    locators:
+      - url: "https://www.metmuseum.org/exhibitions/divine-egypt/inside-the-exhibition"
+    limitations:
+      - "Curatorial synthesis; individual historical propositions still require period-specific witnesses."
+
+  - id: SCH-JAMISON-BRERETON-RIGVEDA-2020
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Stephanie W. Jamison; Joel P. Brereton
+    title: "The Rigveda: A Guide"
+    container: Oxford University Press
+    composition_date: {start: "2020", end: "2020", precision: publication-year}
+    access_mode: publisher-chapter-abstracts
+    locators:
+      - doi: "10.1093/oso/9780190633363.001.0001"
+      - url: "https://academic.oup.com/book/33632"
+    limitations:
+      - "V1 uses publisher chapter abstracts/summaries for ritual, gods, eschatology, structure and historical context."
+
+  - id: SCH-OLIVELLE-UPANISADS-1998
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: critical-translation-and-introduction
+    author_or_tradition: Patrick Olivelle
+    title: "The Early Upanisads: Annotated Text and Translation"
+    composition_date: {start: "1998", end: "1998", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - doi: "10.1093/oso/9780195124354.003.0001"
+      - url: "https://academic.oup.com/book/50014/chapter-abstract/422709234"
+    limitations:
+      - "V1 uses the introduction-level historical framing; passage-level Upanishadic claims require direct textual locators."
+
+  - id: SCH-COHEN-UPANISADS-2024
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic-guide
+    author_or_tradition: Signe Cohen
+    title: "The Classical Upanisads: A Guide"
+    composition_date: {start: "2024", end: "2024", precision: publication-year}
+    access_mode: publisher-abstracts
+    locators:
+      - url: "https://academic.oup.com/book/55777"
+    limitations:
+      - "Used for high-level diachronic concepts; exact doctrinal propositions require primary Upanishadic witnesses."
+
+concept_additions:
+  - id: CON-EGYPT-MAAT
+    canonical_label: maat
+    kind: cosmic-social-ritual-order-concept
+    forms: [maat, ma'at]
+    semantic_guard: "Do not collapse into generic morality, natural law, logos, or Vedic rta."
+    relations:
+      - target_concept_id: CON-VEDIC-RTA
+        relation: STRUCTURAL_PARALLEL_NO_LINEAGE_ESTABLISHED
+
+  - id: CON-VEDIC-RTA
+    canonical_label: rta
+    kind: cosmic-ritual-order-concept
+    forms: [rta, ṛta]
+    semantic_guard: "Do not collapse into later dharma or Egyptian maat."
+    relations:
+      - target_concept_id: CON-EGYPT-MAAT
+        relation: STRUCTURAL_PARALLEL_NO_LINEAGE_ESTABLISHED
+
+claim_additions:
+  - id: CLM-EGYPT-RELIGION-DIACHRONIC-PLURAL
+    proposition: "Ancient Egyptian religion is a long-duration family of changing local, royal, funerary and temple systems and should not be represented as one timeless systematic theology."
+    claim_type: HISTORICAL_RECONSTRUCTION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ancient-egyptian]
+    supporting_sources:
+      - {source_id: SCH-MET-DIVINE-EGYPT, locator: "curatorial synthesis", relation: PERIOD_AND_FUNCTION_CONTEXT, access_mode: INSTITUTIONAL_PUBLIC_PAGE}
+    opposing_sources: []
+    confidence: high-at-broad-level
+    contested: false
+
+  - id: CLM-EGYPT-MAAT-ORDER-JUDGMENT
+    proposition: "Maat connects proper cosmic order with Egyptian religious and postmortem judgment traditions, including the weighing of the heart in New Kingdom and later funerary evidence."
+    claim_type: RELIGIOUS_CONCEPT_HISTORY
+    evidence_class: [MATERIAL_EVIDENCE, PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [ancient-egyptian]
+    supporting_sources:
+      - {source_id: MAT-EGYPT-BOD-TIYE, locator: "funerary papyrus context", relation: MATERIAL_FUNERARY_WITNESS, access_mode: MUSEUM_OBJECT_RECORD}
+      - {source_id: SCH-MET-DIVINE-EGYPT, locator: "Maat / cosmic order", relation: CURATORIAL_SYNTHESIS, access_mode: INSTITUTIONAL_PUBLIC_PAGE}
+    opposing_sources: []
+    confidence: high-for-broad-concept
+    contested: false
+
+  - id: CLM-RIGVEDA-RITUAL-CENTRAL
+    proposition: "Rigvedic hymn composition is deeply embedded in ritual performance, especially fire, Soma, offering, priestly recitation and sacrificial patronage."
+    claim_type: RELIGIOUS_SYSTEM_RECONSTRUCTION
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [vedic]
+    supporting_sources:
+      - {source_id: SCH-JAMISON-BRERETON-RIGVEDA-2020, locator: "chapter 6 Ritual", relation: SCHOLARLY_SYNTHESIS, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-RIGVEDA-KARMA-REBIRTH-ABSENT
+    proposition: "Mature doctrines of karma and rebirth are absent from the Rigveda; its principal afterlife imagery instead includes Yama and the ancestors."
+    claim_type: NEGATIVE_TEXTUAL_HISTORICAL_RECONSTRUCTION
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [vedic]
+    supporting_sources:
+      - {source_id: SCH-JAMISON-BRERETON-RIGVEDA-2020, locator: "chapter 8 Eschatology", relation: DIRECT_SCHOLARLY_SYNTHESIS, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: high-for-scholar-position
+    contested: false
+
+  - id: CLM-UPANISHAD-KARMA-REBIRTH-LIBERATION-DEVELOP
+    proposition: "Early Upanishadic traditions are major witnesses to the historical emergence and development of rebirth, karma and liberation-oriented religious ideas in ancient India."
+    claim_type: DIACHRONIC_RELIGIOUS_DEVELOPMENT
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [upanishadic, brahmanical]
+    supporting_sources:
+      - {source_id: SCH-OLIVELLE-UPANISADS-1998, locator: "Introduction", relation: HISTORICAL_SYNTHESIS, access_mode: PUBLISHER_ABSTRACT}
+      - {source_id: SCH-COHEN-UPANISADS-2024, locator: "Central Ideas", relation: CONCEPTUAL_SYNTHESIS, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: high-at-broad-level
+    contested: false
+
+  - id: CLM-MAAT-RTA-STRUCTURAL-PARALLEL
+    proposition: "Egyptian maat and Vedic rta exhibit a real structural parallel as concepts linking correct human/ritual action with wider cosmic order, but current evidence does not establish equivalence or direct historical lineage."
+    claim_type: COMPARATIVE_STRUCTURE
+    evidence_class: [PROJECT_INFERENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [ancient-egyptian, vedic, comparative]
+    supporting_sources:
+      - {source_id: SCH-MET-DIVINE-EGYPT, locator: "Maat / cosmic order", relation: EGYPTIAN_CONTROL, access_mode: INSTITUTIONAL_PUBLIC_PAGE}
+      - {source_id: SCH-JAMISON-BRERETON-RIGVEDA-2020, locator: "ritual/gods/poetics chapters", relation: VEDIC_CONTROL, access_mode: PUBLISHER_ABSTRACTS}
+    opposing_sources: []
+    confidence: moderate-for-structural-parallel
+    contested: true
+    notes:
+      - "No transmission edge is created in V1."
+
+transmission_additions: []

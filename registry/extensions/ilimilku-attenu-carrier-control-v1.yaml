@@ -1,0 +1,149 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-ILIMILKU-ATTENU-CARRIER-CONTROL-V1
+base_registry_head: c82601e33df54f7d2d15863df68540fd7a6b25d1
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-EUPT-KTU1179-CURRENT-CONTROL
+    source_roles: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE]
+    source_kind: current_critical_project_and_corpus_control
+    author_or_tradition: Edition des ugaritischen poetischen Textkorpus
+    title: KTU 1.179 / RS 92.2016 current corpus and colophon control
+    composition_date: {start: "2025", end: "2026", precision: current-project-surface}
+    access_mode: institutional-critical-edition-project
+    locators:
+      - url: "https://eupt.uni-goettingen.de/Korpus.html"
+      - url: "https://eupt.uni-goettingen.de/assets/images-content/Smith_Ancient-Syria-and-the-Bible_Handout.pdf"
+    limitations:
+      - "KTU 1.179 remains fragmentary; readable lines do not securely preserve the older proposed 'scribe of Babylon' restoration."
+
+  - id: SCH-DEMOOR-KTU1179-BABYLON-RESTORATION
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_interpretation_of_fragmentary_colophon
+    author_or_tradition: Johannes C. de Moor
+    title: Discussion of KTU 1.179 / RS 92.2016 in Theodicy in the Texts of Ugarit
+    composition_date: {start: "2003", end: "2003", precision: publication-year}
+    access_mode: scholarly-book-chapter
+    limitations:
+      - "The proposed restoration including 'scribe of Babel/Babylon' is explicitly labeled uncertain."
+      - "Any Babylonian-training inference is conditional on that uncertain restoration."
+
+  - id: SCH-UGARIT-NAMED-CARRIER-SEARCH-V1
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: bounded_prosopographic_search
+    author_or_tradition: On-Theo research control
+    title: Ugarit named-carrier / archive-network search V1
+    composition_date: {start: "2026", end: "2026", precision: current-search-state}
+    access_mode: current_scholarly_and_corpus_search
+    limitations:
+      - "No direct Rapanu-to-Urtenu-to-Ilimilku transfer document was recovered."
+      - "Administrative occurrences of the name Ilimilku may refer to namesakes and require source-specific identity control."
+
+claim_additions:
+  - id: CLM-ILIMILKU-ATTENU-DIRECT-TEACHER-CHAIN
+    proposition: "KTU 1.6 and KTU 1.179 directly identify Ilimilku as a student of Attenu, with Attenu bearing the prln title now understood through Hurrian professional vocabulary as a diviner/haruspex."
+    claim_type: NAMED_SCRIBAL_CHAIN_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic, hurrian]
+    supporting_sources:
+      - source_id: SCH-EUPT-ILIMILKU-COLOPHON
+        locator: "KTU 1.6 VI 54-58"
+        relation: DIRECT_TEACHER_STUDENT_COLOPHON
+        access_mode: CRITICAL_EDITION_PROJECT
+      - source_id: SCH-EUPT-KTU1179-CURRENT-CONTROL
+        locator: "KTU 1.179 line 40"
+        relation: SECOND_COLOPHON_CONTROL
+        access_mode: EUPT_CURRENT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-ATTENU-SCRIBE-OF-BABYLON-NOT-SECURE
+    proposition: "The claim that Attenu was a 'scribe of Babylon' rests on an older uncertain restoration of damaged KTU 1.179 and is not secure primary-text evidence in current readable editions."
+    claim_type: PHILOLOGICAL_CARRIER_CORRECTION
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-DEMOOR-KTU1179-BABYLON-RESTORATION
+        locator: "explicitly uncertain restoration"
+        relation: OLD_RESTORATION_CONTROL
+        access_mode: SCHOLARLY_INTERPRETATION
+      - source_id: SCH-EUPT-KTU1179-CURRENT-CONTROL
+        locator: "current readable KTU 1.179 lines 40-43"
+        relation: CURRENT_FRAGMENTARY_TEXT_CONTROL
+        access_mode: EUPT_CURRENT
+    opposing_sources: []
+    confidence: high-for-nonsecure-status
+    contested: false
+
+  - id: CLM-ATTENU-BABYLONIAN-TRAINING-NOT-ESTABLISHED
+    proposition: "Attenu's direct teacher relationship and Hurrian-derived professional title do not establish that he trained in Babylonia or transmitted Mesopotamian Dumuzi literature to Ilimilku."
+    claim_type: NAMED_CARRIER_SCOPE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, hurrian, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-EUPT-ILIMILKU-COLOPHON
+        locator: "Attenu prln title"
+        relation: SECURE_TEACHER_TITLE
+        access_mode: CRITICAL_EDITION_PROJECT
+      - source_id: SCH-DEMOOR-KTU1179-BABYLON-RESTORATION
+        locator: "conditional Babylonian-training inference"
+        relation: UNCERTAIN_HYPOTHESIS_BOUNDARY
+        access_mode: SCHOLARLY_INTERPRETATION
+    opposing_sources: []
+    confidence: high-for-current-evidence-state
+    contested: false
+
+  - id: CLM-ILIMILKU-KTU1179-URTENU-CROSS-ARCHIVE
+    proposition: "RS 92.2016 / KTU 1.179, found in the House of Urtenu archive, preserves an Ilimilku-type colophon with his Shubbanite identity and Attenu teacher formula, supporting Ilimilku textual activity or circulation outside the House of the High Priest."
+    claim_type: CROSS_ARCHIVE_SCRIBAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SCH-EUPT-KTU1179-CURRENT-CONTROL
+        locator: "KTU 1.179 / RS 92.2016"
+        relation: TEXT_AND_CORPUS_CONTROL
+        access_mode: EUPT
+      - source_id: SCH-EUPT-ILIMILKU-COLOPHON
+        locator: "Ilimilku colophon pattern"
+        relation: SCRIBAL_IDENTITY_CONTROL
+        access_mode: CRITICAL_EDITION_PROJECT
+    opposing_sources: []
+    confidence: high-for-attribution
+    contested: false
+
+  - id: CLM-RAPANU-ILIMILKU-DUMUZI-TRANSFER-NOT-ESTABLISHED
+    proposition: "No direct V1 document was recovered showing Rapanu, Urtenu, Attenu, or Ilimilku transferring, borrowing, reading, or copying P332950 or another Dumuzi source."
+    claim_type: NAMED_CARRIER_SEARCH_STATE
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-UGARIT-NAMED-CARRIER-SEARCH-V1
+        locator: "Rapanu / Urtenu / Ilimilku / Attenu targeted search"
+        relation: BOUNDED_NONRECOVERY
+        access_mode: CURRENT_SCHOLARLY_SEARCH
+    opposing_sources: []
+    confidence: high-for-v1-search-state
+    contested: false
+
+  - id: CLM-DUMUZID-BAAL-NAMED-CARRIER-GATE-PARTIAL
+    proposition: "The transmission ladder's named-carrier gate is better typed as PARTIAL: a named Ilimilku-Attenu scribal chain and cross-archive network are supported, but no named person is linked to transfer of a relevant Dumuzi death-return source into the Baal Cycle."
+    claim_type: TRANSMISSION_GATE_REFINEMENT
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian, hurrian]
+    supporting_sources:
+      - source_id: SCH-EUPT-ILIMILKU-COLOPHON
+        locator: "KTU 1.6 Ilimilku-Attenu chain"
+        relation: NAMED_NETWORK_POSITIVE
+        access_mode: CRITICAL_EDITION_PROJECT
+      - source_id: SCH-EUPT-KTU1179-CURRENT-CONTROL
+        locator: "KTU 1.179 House of Urtenu / Ilimilku colophon"
+        relation: CROSS_ARCHIVE_POSITIVE
+        access_mode: EUPT
+      - source_id: SCH-UGARIT-NAMED-CARRIER-SEARCH-V1
+        locator: "no relevant Dumuzi source-transfer chain recovered"
+        relation: RELEVANT_SOURCE_CARRIER_GAP
+        access_mode: CURRENT_SCHOLARLY_SEARCH
+    opposing_sources: []
+    confidence: high
+    contested: false

@@ -1,0 +1,65 @@
+schema_version: on-theo.dumuzid-substitution-research.v1
+status: PASS_WITH_DIRECT_WITNESS_SUPPORT_AND_MYTHIC_SCOPE_CONTROL
+subject:
+  predecessor_pr: 45
+  predecessor_head: 1e8597bce25f5ce883833dfbd17a7ea71fca9a8a
+  composition_id: c.1.4.1.1
+  cdli_composite: Q000344
+  witness_count: 2
+  key_aligned_witness: P346096
+
+occurrences:
+  - occurrence_id: OCC-C1411-L1-3-GALLA
+    lines: ["1-3"]
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P346096]
+    semantic_type: DEATH_CAPTOR_ENTITY
+
+  - occurrence_id: OCC-C1411-L4-10-KUR-DESCENT
+    lines: ["4-10"]
+    evidence_state: WITNESS_ALIGNED_REPEATED_FORMULA_CONFIRMED
+    witnesses: [P346096]
+    semantic_type: BROAD_DEATH_REALM
+
+  - occurrence_id: OCC-C1411-L13-DUMUZID-HANDOVER
+    lines: ["13"]
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P346096]
+    semantic_type: SUBSTITUTION_TRANSFER
+
+  - occurrence_id: OCC-C1411-L14-21-RESTRAINT
+    lines: ["14-21"]
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P346096]
+    semantic_type: CAPTURE_AND_EXECUTION_PREPARATION
+
+  - occurrence_id: OCC-C1411-L25-27-KUR-SUBSTITUTION
+    lines: ["25-27"]
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P346096]
+    semantic_type: SUBSTITUTION_TO_DEATH_REALM
+    note: "Line 27 is translated by CDLI as Dumuzid being given to kur as a substitute/in her place."
+
+  - occurrence_id: OCC-C1411-L29-37-ESCAPE
+    lines: ["29-37"]
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P346096]
+    semantic_type: TRANSFORMATION_ESCAPE_ATTEMPT
+
+  - occurrence_id: OCC-C1411-L38-45-GESHTINANA-LAMENT
+    lines: ["38-45"]
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P346096]
+    semantic_type: SIBLING_LAMENT
+
+  - occurrence_id: OCC-C1411-L46-51-GALLA-PURSUIT
+    lines: ["46-51"]
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P346096]
+    semantic_type: DEATH_CAPTOR_ENTITY
+
+guards:
+  - "substitution narrative != ordinary human funerary rule"
+  - "galla != gidim"
+  - "handover != direct killing claim"
+  - "cross-composition structural overlap != one textual witness"

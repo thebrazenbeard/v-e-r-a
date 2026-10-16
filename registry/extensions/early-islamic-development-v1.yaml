@@ -1,0 +1,202 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-EARLY-ISLAMIC-DEVELOPMENT-V1
+base_registry_head: d2a319321de9b77cefaba999fa6dd2cebc4899c5
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: MAT-DOME-ROCK-INSCRIPTION-691-692
+    source_roles: [MATERIAL_EVIDENCE, PRIMARY_TEXT]
+    source_kind: monumental_inscription
+    author_or_tradition: Umayyad / Abd al-Malik monumental program
+    title: Dome of the Rock mosaic inscription
+    composition_date: {start: "691", end: "692", precision: conventional-building-inscription-date}
+    physical_witness_date: {start: "691", end: "692", precision: monument-with-restoration-history}
+    extant_status: extant-monumental-inscription-with-restoration-history
+    original_language: Arabic
+    access_mode: scholarly-transcription-and-photographic-history
+    locators:
+      - url: "https://www.cambridge.org/core/journals/journal-of-the-royal-asiatic-society/article/abs/abd-almaliks-inscription-in-the-dome-of-the-rock-a-reconsideration/41E713D7ED1F04690B8DFF0095891B2C"
+    limitations:
+      - "Current V1 uses Kessler's published epigraphic study and later scholarship rather than direct autopsy of the mosaics."
+      - "Restoration history requires care when making letter-form-level claims."
+
+scholarly_context_additions:
+  - id: SCH-ANTHONY-2020-MUHAMMAD-EMPIRES
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Sean W. Anthony
+    title: Muhammad and the Empires of Faith
+    composition_date: {start: "2020", end: "2020", precision: publication-year}
+    access_mode: publisher-book-page-and-author-summary
+    locators:
+      - url: "https://www.ucpress.edu/books/muhammad-and-the-empires-of-faith/epub-pdf"
+      - url: "https://www.ucpress.edu/blog-posts/51668-the-empires-of-faith-and-the-making-of-the-prophet-of-islam"
+    limitations:
+      - "V1 uses publisher contents/summary and author discussion to establish the source program; consequential report-level claims need chapter/full-text readback."
+
+  - id: SCH-HOYLAND-2006-DOCUMENTARY-STATE
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_history_article
+    author_or_tradition: Robert Hoyland
+    title: New documentary texts and the early Islamic state
+    container: Bulletin of the School of Oriental and African Studies 69.3
+    composition_date: {start: "2006", end: "2006", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - url: "https://www.cambridge.org/core/journals/bulletin-of-the-school-of-oriental-and-african-studies/article/new-documentary-texts-and-the-early-islamic-state/0E4FE3847B0153AD46F31D999ED8D92D"
+      - doi: "10.1017/S0041977X06000188"
+    limitations:
+      - "V1 directly verifies the article's abstract/scope; detailed documentary arguments require full article readback."
+
+  - id: SCH-KESSLER-1970-DOME-ROCK
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_epigraphic_article
+    author_or_tradition: Christel Kessler
+    title: "Abd al-Malik's Inscription in the Dome of the Rock: A Reconsideration"
+    container: Journal of the Royal Asiatic Society 102.1
+    composition_date: {start: "1970", end: "1970", precision: publication-year}
+    access_mode: publisher-extract
+    locators:
+      - url: "https://www.cambridge.org/core/journals/journal-of-the-royal-asiatic-society/article/abs/abd-almaliks-inscription-in-the-dome-of-the-rock-a-reconsideration/41E713D7ED1F04690B8DFF0095891B2C"
+    limitations:
+      - "Current access provides substantial extract and notes but not an independently collated modern epigraphic edition."
+
+  - id: SCH-BLAIR-BLOOM-2007-QURAN-INSCRIPTIONS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_handbook_chapter
+    author_or_tradition: Sheila Blair; Jonathan Bloom
+    title: Inscriptions in art and architecture
+    container: The Cambridge Companion to the Quran
+    composition_date: {start: "2007", end: "2007", precision: publication-year}
+    access_mode: publisher-summary
+    locators:
+      - url: "https://www.cambridge.org/core/books/abs/cambridge-companion-to-the-quran/inscriptions-in-art-and-architecture/8B94B2FEC63E14A8447547668BCE0FED"
+
+  - id: SCH-HALLAQ-ORIGINS-ISLAMIC-LAW
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Wael B. Hallaq
+    title: The Origins and Evolution of Islamic Law
+    composition_date: {start: "2005", end: "2005", precision: original-publication-year}
+    access_mode: publisher-chapter-summaries
+    locators:
+      - url: "https://www.cambridge.org/core/books/abs/origins-and-evolution-of-islamic-law/early-judges-legal-specialists-and-the-search-for-religious-authority/883955AC0685F519128700393FA503B1"
+      - url: "https://www.cambridge.org/core/books/abs/origins-and-evolution-of-islamic-law/formation-of-legal-schools/4557AD1BDFD965F065F3F9AC95A7E2AF"
+    limitations:
+      - "V1 relies on book/chapter structure and publisher summaries for the broad developmental sequence; narrow chronological claims require chapter-level readback."
+
+  - id: SCH-OXFORD-BIB-HADITH
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_bibliographic_reference
+    author_or_tradition: Oxford Bibliographies in Islamic Studies
+    title: Hadith
+    composition_date: {start: "2009", end: null, precision: living-reference-entry}
+    access_mode: publisher-reference-summary
+    locators:
+      - url: "https://academic.oup.com/reference/62361/reference-article-abstract/554579067"
+    limitations:
+      - "Used to establish the recognized 632-900 collection/authenticity research field and high-level historiographic issues, not as a substitute for primary hadith analysis."
+
+  - id: SCH-MATTHIESEN-2023-CALIPH-IMAM
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Toby Matthiesen
+    title: "The Caliph and the Imam: The Making of Sunnism and Shiism"
+    composition_date: {start: "2023", end: "2023", precision: publication-year}
+    access_mode: publisher-book-and-chapter-abstracts
+    locators:
+      - url: "https://academic.oup.com/book/45757"
+      - url: "https://academic.oup.com/book/45757/chapter-abstract/398684879"
+    limitations:
+      - "V1 uses publisher abstracts/extracts for the long-development framework; detailed sectarian chronology needs chapter/full-text readback."
+
+claim_additions:
+  - id: CLM-EARLY-ISLAM-MULTILAYER-SOURCE-SYSTEM
+    proposition: "Historical reconstruction of early Islam requires distinguishing Quranic, documentary/material, early external, sira-maghazi, hadith, legal, state, and later confessional evidence layers rather than flattening them into one contemporaneous source corpus."
+    claim_type: HISTORIOGRAPHIC_METHOD
+    evidence_class: [PROJECT_INFERENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [early-islam]
+    supporting_sources:
+      - {source_id: SCH-ANTHONY-2020-MUHAMMAD-EMPIRES, locator: "book structure", relation: SOURCE_LAYERING_MODEL, access_mode: PUBLISHER_SUMMARY}
+      - {source_id: SCH-HOYLAND-2006-DOCUMENTARY-STATE, locator: "abstract", relation: DOCUMENTARY_INDEPENDENCE, access_mode: PUBLISHER_ABSTRACT}
+      - {source_id: SCH-OXFORD-BIB-HADITH, locator: "collection/authenticity 632-900 section", relation: HADITH_FORMATION_HISTORY, access_mode: PUBLISHER_REFERENCE}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-ANTHONY-SIRA-PRE-IBN-ISHAQ-LAYERS
+    proposition: "The early Muslim biographical tradition is not reducible to the surviving Ibn Hisham recension of Ibn Ishaq; earlier and parallel sira-maghazi materials and source layers can be historically investigated."
+    claim_type: SOURCE_HISTORY
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [early-islam, sira-maghazi]
+    supporting_sources:
+      - {source_id: SCH-ANTHONY-2020-MUHAMMAD-EMPIRES, locator: "Parts I-II and author summary", relation: SCHOLARLY_RECONSTRUCTION, access_mode: PUBLISHER_SUMMARY}
+    opposing_sources: []
+    confidence: high-for-author-position
+    contested: true
+
+  - id: CLM-HOYLAND-DOCUMENTS-UNDERUSED-EARLY-STATE
+    proposition: "Papyri, coins, rock inscriptions and related documents provide an independent evidentiary lane for the early Islamic state and have historically been underused relative to later literary narratives."
+    claim_type: HISTORIOGRAPHIC_METHOD
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [early-islam, state-formation]
+    supporting_sources:
+      - {source_id: SCH-HOYLAND-2006-DOCUMENTARY-STATE, locator: "abstract", relation: DIRECT_AUTHOR_ARGUMENT, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: high-for-author-position
+    contested: false
+
+  - id: CLM-ABD-AL-MALIK-PUBLIC-ISLAMIC-MESSAGING
+    proposition: "Surviving material evidence shows substantially clearer recognizably Islamic public messaging under Abd al-Malik, while the historical meaning of that visibility change remains a reconstruction problem rather than proof that Islam originated in his reign."
+    claim_type: HISTORICAL_RECONSTRUCTION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [early-islam, umayyad]
+    supporting_sources:
+      - {source_id: MAT-DOME-ROCK-INSCRIPTION-691-692, locator: "monumental inscription", relation: CONTEMPORARY_PUBLIC_ARTICULATION, access_mode: SCHOLARLY_EPIGRAPHIC_ACCESS}
+      - {source_id: SCH-HOYLAND-2006-DOCUMENTARY-STATE, locator: "abstract", relation: DOCUMENTARY_SYNTHESIS, access_mode: PUBLISHER_ABSTRACT}
+    opposing_sources: []
+    confidence: high-for-visibility-change-moderate-for-causal-explanation
+    contested: true
+
+  - id: CLM-HADITH-HAS-COLLECTION-AUTHENTICITY-HISTORY
+    proposition: "The hadith corpus has a historically extended collection, transmission, forgery-detection, isnad-criticism and canonization history, so collection date and claimed event date must be represented separately."
+    claim_type: SOURCE_HISTORY
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [early-islam, hadith]
+    supporting_sources:
+      - {source_id: SCH-OXFORD-BIB-HADITH, locator: "collection/authenticity 632-900 CE", relation: SCHOLARLY_REFERENCE_SYNTHESIS, access_mode: PUBLISHER_REFERENCE}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-ISLAMIC-LEGAL-SCHOOLS-FORM-HISTORICALLY
+    proposition: "Mature Islamic legal schools and formal legal theory emerge through a historical development involving earlier judges, legal specialists, prophetic authority and changing legal reasoning rather than existing in fully developed form at Muhammad's death."
+    claim_type: INSTITUTIONAL_AND_INTELLECTUAL_HISTORY
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [early-islam, islamic-law]
+    supporting_sources:
+      - {source_id: SCH-HALLAQ-ORIGINS-ISLAMIC-LAW, locator: "chapters 3-7 sequence", relation: SCHOLARLY_RECONSTRUCTION, access_mode: PUBLISHER_SUMMARY}
+    opposing_sources: []
+    confidence: high-for-broad-development
+    contested: true
+
+  - id: CLM-SUNNI-SHII-MATURE-BINARY-NOT-632
+    proposition: "The succession disputes beginning after Muhammad's death are early antecedents of later Sunnism and Shiism, but the mature confessional identities and boundaries developed historically and cannot be projected unchanged into 632."
+    claim_type: CONFESSIONAL_FORMATION_HISTORY
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [early-islam, sunnism, shiism]
+    supporting_sources:
+      - {source_id: SCH-MATTHIESEN-2023-CALIPH-IMAM, locator: "Part I and conclusion framework", relation: LONG_TERM_CONFESSIONAL_HISTORY, access_mode: PUBLISHER_ABSTRACT_EXTRACT}
+    opposing_sources: []
+    confidence: high-for-broad-development
+    contested: true
+
+transmission_additions:
+  - id: TR-QURAN-EARLY-ISLAM-DEVELOPMENT
+    from_source: SRC-QURAN-RECEIVED-TEXT
+    to_source: SCH-HALLAQ-ORIGINS-ISLAMIC-LAW
+    relation: RECEPTION_AND_INSTITUTIONAL_DEVELOPMENT_CONTEXT
+    confidence: high-for-Quranic-foundational-role-unresolved-for-any-single-later-rule
+    evidence:
+      - {source_id: SCH-HALLAQ-ORIGINS-ISLAMIC-LAW, locator: "Quranic law through later legal development"}
+    limitation: "This edge records Quranic norm as an antecedent in later Islamic legal development; it does not assert that every later legal rule is a direct derivation from the Quran."

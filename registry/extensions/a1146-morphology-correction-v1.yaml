@@ -1,0 +1,88 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-A1146-MORPHOLOGY-CORRECTION-V1
+base_registry_head: cf5c517faca6faff27e7ba28cd738ae49dd9523f
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-METTINGER-2001-A1146
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_monograph
+    author_or_tradition: Tryggve N. D. Mettinger
+    title: The Riddle of Resurrection
+    composition_date: {start: "2001", end: "2001", precision: publication-year}
+    access_mode: scholarly-monograph-text
+    limitations:
+      - "Used for the explicit note that the A.1146 form is morphologically problematic if derived from daku and for the reported Sasson alternative."
+      - "Sasson's alternative is second-hand through Mettinger and not independently controlled here."
+
+claim_additions:
+  - id: CLM-A1146-DAKU-LEMMA-DISPUTED
+    proposition: "The damaged A.1146 death/harm verb commonly translated 'they kill him' cannot be treated as a morphologically secure daku 'kill' form: Marello noted the expected daku form would differ, and Mettinger reports a competing Sasson analysis."
+    claim_type: PHILOLOGICAL_CORRECTION
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-MARELLO-1992-A1146
+        locator: "A.1146 edition and commentary around the damaged Dumuzi passage"
+        relation: ORIGINAL_EDITION_CONTROL
+        access_mode: ORIGINAL_PUBLICATION
+      - source_id: SCH-METTINGER-2001-A1146
+        locator: "A.1146 discussion and footnote on irregular daku morphology / Sasson alternative"
+        relation: EXPLICIT_PHILOLOGICAL_CAUTION
+        access_mode: SCHOLARLY_MONOGRAPH
+    opposing_sources: []
+    confidence: high-for-disputed-status
+    contested: true
+    alternatives:
+      - "Common reconstruction from daku 'kill', morphologically problematic."
+      - "Reported Sasson alternative involving pressing/pushing in or piercing."
+
+  - id: CLM-A1146-DEATH-CONTEXT-RETAINED
+    proposition: "Despite uncertainty over the exact death/harm verb lemma, A.1146 still places Dumuzi within a contextual comparison framed by the writer's escapes from death, so a death/harm interpretation remains textually and rhetorically plausible while the exact morphology stays unresolved."
+    claim_type: CONTEXTUAL_SEMANTIC_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-MARELLO-1992-A1146
+        locator: "A.1146 epistolary context and Dumuzi comparison"
+        relation: PRIMARY_CONTEXT
+        access_mode: ORIGINAL_PUBLICATION
+      - source_id: SCH-BOU-2023-A1146-CONTEXT
+        locator: "epistolary and warrior-ideology context"
+        relation: MODERN_CONTEXTUAL_CONTROL
+        access_mode: SCHOLARLY_ARTICLE
+    opposing_sources: []
+    confidence: high-for-context-bounded-for-exact-verb
+    contested: false
+
+  - id: CLM-A1146-KILL-TRANSLATION-RECONSTRUCTION
+    proposition: "The English rendering 'they kill him' should be retained only as a scholarly reconstruction of the damaged A.1146 passage, not as proof that the underlying Akkadian form is securely analyzed as daku."
+    claim_type: TRANSLATION_SCOPE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-METTINGER-2001-A1146
+        locator: "Fleming translation and morphology note"
+        relation: TRANSLATION_AND_CAUTION
+        access_mode: SCHOLARLY_MONOGRAPH
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZID-BAAL-LEXICAL-COMPARISON-CORRECTED
+    proposition: "The Dumuzid/Baal lexical comparison remains valid only in the narrower form that no shared death-return lexical formula has been demonstrated; its prior characterization of the A.1146 death verb as securely agentive daku is superseded by the philological ambiguity."
+    claim_type: COMPARATIVE_CORRECTION_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mari, mesopotamian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-METTINGER-2001-A1146
+        locator: "A.1146 morphology caution"
+        relation: SOURCE_A_CORRECTION
+        access_mode: SCHOLARLY_MONOGRAPH
+      - source_id: SCH-SMITH-1998-BAAL-DYING-RISING
+        locator: "Baal death/alive wording"
+        relation: SOURCE_B_CONTROL
+        access_mode: PEER_REVIEWED_ARTICLE
+    opposing_sources: []
+    confidence: high-for-corrected-comparison
+    contested: false

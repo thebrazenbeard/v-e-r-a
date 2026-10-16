@@ -1,0 +1,195 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-BAAL-DEATH-LIFE-WITNESS-CONTROL-V1
+base_registry_head: 48ca89402a6f685614a1cfd068a278d40c1de0fb
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+witness_additions:
+  - id: WIT-UGARIT-KTU15-AO16641-16642
+    witness_of: SRC-UGARIT-BAAL-CYCLE
+    witness_kind: clay_tablet_fragments
+    common_name: KTU 1.5 / Baal Cycle Tablet V
+    shelfmark: "AO 16641 + AO 16642"
+    witness_date: {start: "-1400", end: "-1200", precision: louvre-late-bronze-ii-broad-range}
+    provenance_note: "RS 2.[022] + RS 3.[565], Ras Shamra acropolis; current Louvre catalog."
+    access_mode: institutional-museum-catalog-and-critical-edition
+    locators:
+      - inventory: "AO 16641; AO 16642"
+        url: "https://collections.louvre.fr/en/ark:/53355/cl010141444"
+      - corpus_id: "KTU 1.5"
+        url: "https://eupt.uni-goettingen.de/Korpus.html"
+    limitations:
+      - "Museum/corpus identity is directly controlled; V1 does not claim autoptic sign-by-sign collation from photographs."
+
+  - id: WIT-UGARIT-KTU16-AO16636
+    witness_of: SRC-UGARIT-BAAL-CYCLE
+    witness_kind: clay_tablet_fragment
+    common_name: KTU 1.6 / Baal Cycle Tablet VI
+    shelfmark: "AO 16636"
+    witness_date: {start: "-1400", end: "-1200", precision: louvre-late-bronze-ii-broad-range}
+    provenance_note: "RS 2.[009] + RS 5.155, Ras Shamra acropolis / House of the High Priest; current Louvre catalog."
+    access_mode: institutional-museum-catalog-and-critical-edition
+    locators:
+      - inventory: "AO 16636"
+        url: "https://collections.louvre.fr/en/ark:/53355/cl010141546"
+      - corpus_id: "KTU 1.6"
+        url: "https://eupt.uni-goettingen.de/Korpus.html"
+    limitations:
+      - "Museum/corpus identity is directly controlled; V1 does not claim autoptic sign-by-sign collation from photographs."
+
+scholarly_context_additions:
+  - id: SCH-LOUVRE-KTU15-AO16641-42
+    source_roles: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    source_kind: museum_object_catalog
+    author_or_tradition: Musee du Louvre
+    title: AO 16641 / AO 16642 — Baal Cycle tablet fragments
+    composition_date: {start: "2026", end: "2026", precision: current-catalog-surface}
+    access_mode: institutional-museum-catalog
+    locators:
+      - url: "https://collections.louvre.fr/en/ark:/53355/cl010141444"
+    limitations:
+      - "Catalog establishes physical identity, inventory, broad date, material, script, genre and findspot; textual interpretation remains edition-dependent."
+
+  - id: SCH-LOUVRE-KTU16-AO16636
+    source_roles: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    source_kind: museum_object_catalog
+    author_or_tradition: Musee du Louvre
+    title: AO 16636 — Baal Cycle tablet fragment
+    composition_date: {start: "2026", end: "2026", precision: current-catalog-surface}
+    access_mode: institutional-museum-catalog
+    locators:
+      - url: "https://collections.louvre.fr/en/ark:/53355/cl010141546"
+    limitations:
+      - "Catalog establishes physical identity, inventory, broad date, material, language/genre and findspot; textual interpretation remains edition-dependent."
+
+  - id: SCH-EUPT-UGARIT-POETIC-CORPUS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: current_critical_edition_project_corpus_index
+    author_or_tradition: Georg-August-Universitat Gottingen / Edition des ugaritischen poetischen Textkorpus
+    title: Ugaritic Poetic Text Corpus
+    composition_date: {start: "2026", end: "2026", precision: current-project-surface}
+    access_mode: institutional-critical-edition-project
+    locators:
+      - url: "https://eupt.uni-goettingen.de/Korpus.html"
+    limitations:
+      - "Corpus index controls RS/museum/KTU/CTA identity mapping; V1 does not imply that the project's future complete critical edition is already available."
+
+claim_additions:
+  - id: CLM-BAAL-KTU15-PHYSICAL-WITNESS-IDENTITY
+    proposition: "KTU 1.5 is physically represented by RS 2.[022] + RS 3.[565], Louvre AO 16641 + AO 16642, a Late Bronze II Ugaritic Baal-cycle tablet witness from Ras Shamra."
+    claim_type: PHYSICAL_WITNESS_PROVENANCE
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SCH-LOUVRE-KTU15-AO16641-42
+        witness_id: WIT-UGARIT-KTU15-AO16641-16642
+        locator: "Louvre inventory and object metadata"
+        relation: INSTITUTIONAL_OBJECT_CONTROL
+        access_mode: LOUVRE_CATALOG
+      - source_id: SCH-EUPT-UGARIT-POETIC-CORPUS
+        witness_id: WIT-UGARIT-KTU15-AO16641-16642
+        locator: "RS 2.[022] + 3.[565] = AO 16.641+16.642 = KTU 1.5"
+        relation: CORPUS_IDENTITY_MAPPING
+        access_mode: INSTITUTIONAL_CORPUS_INDEX
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-BAAL-KTU16-PHYSICAL-WITNESS-IDENTITY
+    proposition: "KTU 1.6 is physically represented by RS 2.[009] + RS 5.155, Louvre AO 16636, a Late Bronze II Ugaritic Baal-cycle tablet witness from Ras Shamra."
+    claim_type: PHYSICAL_WITNESS_PROVENANCE
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SCH-LOUVRE-KTU16-AO16636
+        witness_id: WIT-UGARIT-KTU16-AO16636
+        locator: "Louvre inventory and object metadata"
+        relation: INSTITUTIONAL_OBJECT_CONTROL
+        access_mode: LOUVRE_CATALOG
+      - source_id: SCH-EUPT-UGARIT-POETIC-CORPUS
+        witness_id: WIT-UGARIT-KTU16-AO16636
+        locator: "RS 2.[009] + 5.155 = AO 16.636 = KTU 1.6"
+        relation: CORPUS_IDENTITY_MAPPING
+        access_mode: INSTITUTIONAL_CORPUS_INDEX
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-BAAL-DEATH-KTU15-WITNESS-BOUND
+    proposition: "The Baal death announcement using mt / hlq at KTU 1.5 VI 8-10 belongs to the KTU 1.5 physical witness complex AO 16641/16642, not to KTU 1.6."
+    claim_type: WITNESS_SPECIFIC_TEXTUAL_PROVENANCE
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SRC-UGARIT-BAAL-CYCLE
+        witness_id: WIT-UGARIT-KTU15-AO16641-16642
+        locator: "KTU 1.5 VI 8-10"
+        relation: WITNESS_SPECIFIC_PASSAGE
+        access_mode: CRITICAL_EDITION
+      - source_id: SCH-SMITH-1998-BAAL-DYING-RISING
+        locator: "KTU 1.5 VI death discussion"
+        relation: SCHOLARLY_PASSAGE_CONTROL
+        access_mode: PEER_REVIEWED_ARTICLE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-BAAL-LIFE-KTU16-WITNESS-BOUND
+    proposition: "The Baal renewed-life recognition using hy 'alive/lives' and the parallel existence statement at KTU 1.6 III belongs to the separate KTU 1.6 physical witness AO 16636."
+    claim_type: WITNESS_SPECIFIC_TEXTUAL_PROVENANCE
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SRC-UGARIT-BAAL-CYCLE
+        witness_id: WIT-UGARIT-KTU16-AO16636
+        locator: "KTU 1.6 III"
+        relation: WITNESS_SPECIFIC_PASSAGE
+        access_mode: CRITICAL_EDITION
+      - source_id: SCH-SMITH-1998-BAAL-DYING-RISING
+        locator: "KTU 1.6 III hy 'alive' discussion"
+        relation: SCHOLARLY_PASSAGE_CONTROL
+        access_mode: PEER_REVIEWED_ARTICLE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-BAAL-DEATH-LIFE-CROSS-WITNESS-SYNTHESIS
+    proposition: "The proposition that Baal dies and later lives/reappears is a cycle-level synthesis across at least KTU 1.5 and KTU 1.6, two separate physical clay witnesses; it is not a single-tablet continuous event report."
+    claim_type: WORK_WITNESS_SEPARATION_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SRC-UGARIT-BAAL-CYCLE
+        witness_id: WIT-UGARIT-KTU15-AO16641-16642
+        locator: "KTU 1.5 VI"
+        relation: DEATH_WITNESS
+        access_mode: CRITICAL_EDITION
+      - source_id: SRC-UGARIT-BAAL-CYCLE
+        witness_id: WIT-UGARIT-KTU16-AO16636
+        locator: "KTU 1.6 III"
+        relation: RENEWED_LIFE_WITNESS
+        access_mode: CRITICAL_EDITION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-BAAL-KTU15-KTU16-NOT-PHYSICAL-JOIN
+    proposition: "KTU 1.5 and KTU 1.6 are separately cataloged clay witnesses; their narrative continuation is a literary/cycle relationship rather than a physical join between the two tablets."
+    claim_type: PHYSICAL_VS_TEXTUAL_CONTINUITY_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SCH-LOUVRE-KTU15-AO16641-42
+        locator: "AO 16641/16642"
+        relation: PHYSICAL_OBJECT_A
+        access_mode: LOUVRE_CATALOG
+      - source_id: SCH-LOUVRE-KTU16-AO16636
+        locator: "AO 16636"
+        relation: PHYSICAL_OBJECT_B
+        access_mode: LOUVRE_CATALOG
+      - source_id: SCH-EUPT-UGARIT-POETIC-CORPUS
+        locator: "separate KTU 1.5 and KTU 1.6 corpus entries"
+        relation: TEXTUAL_CYCLE_MAPPING
+        access_mode: INSTITUTIONAL_CORPUS_INDEX
+    opposing_sources: []
+    confidence: high
+    contested: false

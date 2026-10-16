@@ -1,0 +1,24 @@
+schema_version: on-theo.source-integration-v2-materialization-tooling.v1
+status: DRAFT_TOOLING_CARRY_FORWARD_REHEARSAL_REQUIRED
+recorded: "2026-09-19"
+base_source_subject:
+  pr: 78
+  head: a48795b02ee7827c1e9f0f48089c2ca1154423e0
+tooling_source:
+  pr: 32
+  head: 093e8067bc9654fcef70f2ac13a68bc3f800fd22
+policy:
+  - "carry forward source-level validator/materializer hardening"
+  - "carry forward schema repairs required by hardened validator"
+  - "do not import PR32 old 20-extension manifest"
+  - "do not import PR33 generated materialized registry output"
+manifest:
+  retained_v2_union: true
+  extension_count: 50
+  added_contract: extension_schema_version
+expected_effect:
+  - RUN_HARDENED_VALIDATOR
+  - RUN_FULL_PYTEST
+  - RUN_DETERMINISTIC_MATERIALIZATION_REHEARSAL
+  - DISCOVER_NEW_V2_DEFECTS_FAIL_CLOSED
+canonical_effect: NONE

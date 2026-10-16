@@ -75,3 +75,17 @@ finding, and uses a real BLOCK finding in its unrepresentable Core fixture.
 This closes Integration's upstream challenge #6221273923 at the source
 level. The L2 consumer still holds dissent/effect claims and rechecks
 the current Vera Mono task journal. Not an installed model or effect grant.
+
+## Bounded current-journal advance falsifier
+
+A real Vera Mono task can advance between `verify_chain()` and
+`read(task_id)`. An adversarial test mutates the real SQLite journal
+after returning its old first task snapshot. The earlier consumer
+returned a no-effect binding for that old head. This source-only guard
+now compares two global verified chain cuts and two per-task readbacks,
+holding on changed global/task/packet/closed state. **This is bounded
+race detection, not SQLite snapshot isolation or compare-and-swap**:
+an advance after the last read can still occur. Any future accepted
+task-result event must be guarded by the Vera Mono owner's own
+transaction and an explicitly authorized compare-and-swap of the
+journal head. No authorized task-result transition is added here.

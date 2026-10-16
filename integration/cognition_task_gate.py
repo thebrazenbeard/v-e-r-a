@@ -162,8 +162,17 @@ def bind_episode(ledger: Any, task_id: str, episode: Any, *,
     current = _episode_dict(episode)
     if current["task_id"] != task_id:
         raise CognitionBindingError("episode does not belong to current task")
-    ledger.verify_chain()
+    # Two independent journal reads provide a bounded race detector, not
+    # an atomic snapshot or authority to accept a task result.
+    first_chain = ledger.verify_chain()
+    first_task = ledger.read(task_id)
+    second_chain = ledger.verify_chain()
     task = ledger.read(task_id)
+    if (first_chain != second_chain
+            or first_task.journal_head_digest != task.journal_head_digest
+            or first_task.packet.packet_digest != task.packet.packet_digest
+            or first_task.closed != task.closed):
+        raise CognitionBindingError("task journal advanced during binding")
     if task.closed:
         raise CognitionBindingError("cannot bind a closed task")
     head = task.journal_head_digest

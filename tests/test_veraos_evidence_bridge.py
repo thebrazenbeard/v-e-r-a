@@ -633,7 +633,10 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         cold = Store(path)
         try:
             persistent = cold.get_run(run_id)
-            self.assertEqual(persistent["source_event_id"], event)
+            stored_event = cold.connection.execute(
+                "SELECT source_event_id FROM runs WHERE id=?", (run_id,),
+            ).fetchone()
+            self.assertEqual(stored_event["source_event_id"], event)
             self.assertEqual(persistent["status"], "COMPLETED")
             self.assertEqual(persistent["final_text"],
                              "SYNTHETIC PRE-ACTIVE RESPONSE ONLY")

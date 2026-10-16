@@ -4,7 +4,7 @@
 
 This public repository is the source collection and integration workspace for Vera's constituent systems. Its original repositories remain authoritative.
 
-**The source collection is populated.** The 44 named component branches currently comprise **38 complete, Git-tree-verified repository snapshots** and **6 intentionally held placeholders**. Those branches contain actual source trees, not links or empty stubs. `main` contains the registry, workspace assembly tool, and regression tests needed to use them together.
+**The source collection is populated.** All **44 named component branches are populated**: **38 exact Git-tree mirrors**, **5 security-sanitized GitHub source snapshots**, and **1 source-definition snapshot of the live Vera Supabase project**. No named branch remains at the original placeholder commit. Exact versus non-exact status is recorded in the source registry and each branch's provenance. `main` contains the registry, workspace assembly tool, and regression tests needed to use them together.
 
 ## Assemble a working source workspace
 
@@ -19,7 +19,7 @@ python scripts/materialize.py materialize --only vera-mono --only portal --only 
 python scripts/materialize.py verify --only vera-mono --only portal --only intranel
 ```
 
-To check out **all 38 public snapshots**, use `python scripts/materialize.py materialize` after creating the `components` directory. Each component is materialized as a detached Git worktree at the **exact commit recorded in [components.json](components.json)**, within `components/<name>/`. The tool verifies the remote branch still matches the pinned commit, refuses overwrites, and never silently substitutes a newer source revision.
+To check out **all 44 populated branches**, use `python scripts/materialize.py materialize` after creating the `components` directory. Each component is materialized as a detached Git worktree at the **pinned branch commit recorded in [components.json](components.json)**, within `components/<name>/`. A pinned commit is not automatically an exact copy of its upstream GitHub tree. The tool verifies the remote branch still matches the pinned commit, refuses overwrites, and never silently substitutes a newer source revision.
 
 To see whether the registry still agrees with the remote branches without changing local files:
 
@@ -35,13 +35,15 @@ Run the included **offline Git integration tests**:
 python -m unittest discover -s tests -v
 ```
 
-These tests use temporary Git remotes and real worktrees. They exercise checkout, exact pin validation, drift detection, held branch rejection, and refusal to overwrite existing state. They do not qualify Vera's full autonomous runtime.
+The included tests use temporary Git remotes and worktrees for checkout, pin validation, drift detection and refusal to overwrite state. New snapshot classifications on `main` have not yet received a fresh local regression-test PASS in this turn because remote execution was blocked; treat them as source-only until independently run. These tests do not qualify Vera's full autonomous runtime.
 
 ## Branch model
 
 A branch named `portal` contains a snapshot of [thebrazenbeard/portal](https://github.com/thebrazenbeard/portal) and `vera-mono` a snapshot of [thebrazenbeard/vera-mono](https://github.com/thebrazenbeard/vera-mono). The same arrangement applies to the other populated components, including `intranel`, `pre-active`, `volition`, `lgcm`, and the remaining names in the registry.
 
-**Held branches:** `mediaphile`, `orgasm`, `redworm`, `sexuality`, and `vera-works` have private upstream source that has not been approved for copying into this public repository. `vera-supabase` lacks a verified corresponding source. The registry makes these holds visible without disclosing private contents. Public status of `v-e-r-a` is preserved.
+**Security-sanitized GitHub branches:** `mediaphile`, `orgasm`, `redworm`, `sexuality`, and `vera-works` contain source snapshots derived from their pinned canonical GitHub `main` commits, but are **not byte-identical source trees**. Each branch contains `MIRROR_SOURCE_PROVENANCE.json` enumerating omitted files. Microsoft Defender quarantined `.vscode/tasks.json` as `Trojan:Script/MalTask.A` in all five local checkouts. A repeatedly flagged font was excluded; MediaPhile's local media-library SQLite database and Vera Works' wallet evidence and active-quarantine third-party patches were also excluded. The original private repositories were not changed.
+
+**Vera Supabase branch:** [`vera-supabase`](../../tree/vera-supabase) is sourced from the actual Supabase project **Vera** (`klmbpaigzeguvnpccqzz`), not a missing GitHub repository. It contains generated types, six application-schema definitions, SQL routines, grants, row-level security policies, trigger definitions, 99 migration names/versions, and the live Edge Function source. No live table records, credentials, authentication records or vault data were copied. It is **not a restorable production database dump**; see its branch README.
 
 A mirror is a **point-in-time copy**, not an automatic synchronization promise. The original upstream repository and its independent PR/review/CI process own source decisions. Do not edit the mirror branch as if it were authoritative.
 
@@ -51,4 +53,4 @@ Source collection is not runtime integration. Vera needs one durable task owner 
 
 The next behavioral milestone is a single persistent Vera task that obtains a fresh, authorized PORTAL route, runs through the **existing** supervised execution mechanism, reconciles a durable receipt, and survives interruption. A selected route is not itself permission, completion, or model admission.
 
-The public repository may expose architecture, source, and reproducible tests without exposing secrets, credentials, personal data, or private project contents.
+The public repository exposes reviewed source snapshots and metadata while excluding quarantined code, known sensitive local records, and provider credentials. Distinguish snapshot availability from installed integration, authority, or runtime behavior.

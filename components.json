@@ -1,0 +1,359 @@
+{
+  "schema": "VERA_COMPONENT_BRANCH_REGISTRY_V1",
+  "mirror_repository": "thebrazenbeard/v-e-r-a",
+  "mirror_default_branch": "main",
+  "components": [
+    {
+      "name": "achilles",
+      "upstream": "thebrazenbeard/achilles",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "d5b04f7b50cc9e0a13764d804a5ce99cf7b62090",
+      "reason": null
+    },
+    {
+      "name": "Attune",
+      "upstream": "thebrazenbeard/Attune",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "7ab01ef1a6ddf20966c3842e90c6785e9d610a7b",
+      "reason": null
+    },
+    {
+      "name": "blotter",
+      "upstream": "thebrazenbeard/blotter",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "2d69125d9a5efe36035b3aee06df31dd3af58136",
+      "reason": null
+    },
+    {
+      "name": "conations",
+      "upstream": "thebrazenbeard/conations",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "080c8cdd1a425e9e35859f36a6bd4db880eba52c",
+      "reason": null
+    },
+    {
+      "name": "cricket",
+      "upstream": "thebrazenbeard/cricket",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "d798944b6b465867f641eaf30bb1cd0df28e5acf",
+      "reason": null
+    },
+    {
+      "name": "deepmemorystorage",
+      "upstream": "thebrazenbeard/deepmemorystorage",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "87ec31964a7fccf360955cfea17830d5c3123771",
+      "reason": null
+    },
+    {
+      "name": "discovery",
+      "upstream": "thebrazenbeard/discovery",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "12249503a4a1e1d3a50db19b064467fa9642a9af",
+      "reason": null
+    },
+    {
+      "name": "driftguard",
+      "upstream": "thebrazenbeard/driftguard",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "0d38f69fb70594ea3fff2552420a4aabb86c2743",
+      "reason": null
+    },
+    {
+      "name": "ears",
+      "upstream": "thebrazenbeard/ears",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "44a2f46aa27970074e9fb5421b1367ed3e34931a",
+      "reason": null
+    },
+    {
+      "name": "empathy",
+      "upstream": "thebrazenbeard/empathy",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "dec9d165bd200d4b34332240122381797939e724",
+      "reason": null
+    },
+    {
+      "name": "executor",
+      "upstream": "thebrazenbeard/executor",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "0fac7aa78faeb49657398adc31254dba65a1f4fd",
+      "reason": null
+    },
+    {
+      "name": "fuckup",
+      "upstream": "thebrazenbeard/fuckup",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "b453cdb2a72fd041e5d0eb847d607ae61c37c74c",
+      "reason": null
+    },
+    {
+      "name": "ingest",
+      "upstream": "thebrazenbeard/ingest",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "2b604459ddc2b51e69f500e05e06f5a94058510a",
+      "reason": null
+    },
+    {
+      "name": "intranel",
+      "upstream": "thebrazenbeard/intranel",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "4af26d27d51f25e71123053a693d086ed000706f",
+      "reason": null
+    },
+    {
+      "name": "lgcm",
+      "upstream": "thebrazenbeard/lgcm",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "3cbdb7c41ef9bd543e909fcea33a8b34a8fa146b",
+      "reason": null
+    },
+    {
+      "name": "lou-pole",
+      "upstream": "thebrazenbeard/lou-pole",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "8a3752b0ccbda51a4fcc4945bf138cdc30f12ed7",
+      "reason": null
+    },
+    {
+      "name": "masamune",
+      "upstream": "thebrazenbeard/masamune",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "66d5160917f0c6f9014daf18a5d3d97b9bac84c8",
+      "reason": null
+    },
+    {
+      "name": "mediaphile",
+      "upstream": "thebrazenbeard/mediaphile",
+      "upstream_branch": "main",
+      "state": "HELD",
+      "mirror_commit": null,
+      "reason": "Private upstream; not approved for publication into this public repository"
+    },
+    {
+      "name": "meso-crct",
+      "upstream": "thebrazenbeard/meso-crct",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "6c6d5794b32538d2dd8dd53ea2617b9474d0bcc3",
+      "reason": null
+    },
+    {
+      "name": "on-theo",
+      "upstream": "thebrazenbeard/on-theo",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "4ae73e61d6af6e6cb372f63b5ac84c6c3cd8f519",
+      "reason": null
+    },
+    {
+      "name": "orgasm",
+      "upstream": "thebrazenbeard/orgasm",
+      "upstream_branch": "main",
+      "state": "HELD",
+      "mirror_commit": null,
+      "reason": "Private upstream; not approved for publication into this public repository"
+    },
+    {
+      "name": "personification",
+      "upstream": "thebrazenbeard/personification",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "315b64a00f22914c5a31376f564388c0475e522d",
+      "reason": null
+    },
+    {
+      "name": "physica",
+      "upstream": "thebrazenbeard/physica",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "8b377c32956e439ee26caa7a6a145f9c10ef2b40",
+      "reason": null
+    },
+    {
+      "name": "portal",
+      "upstream": "thebrazenbeard/portal",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "f786ba9ee787c6d0a22a7440f37bce2277c59f52",
+      "reason": null
+    },
+    {
+      "name": "pre-active",
+      "upstream": "thebrazenbeard/pre-active",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "64914708d1cfc27e4dbb525adbf56adde1fc50e7",
+      "reason": null
+    },
+    {
+      "name": "project-runner",
+      "upstream": "thebrazenbeard/project-runner",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "a0fa380304272554bf00558fa3bac717320ee492",
+      "reason": null
+    },
+    {
+      "name": "redworm",
+      "upstream": "thebrazenbeard/redworm",
+      "upstream_branch": "main",
+      "state": "HELD",
+      "mirror_commit": null,
+      "reason": "Private upstream; not approved for publication into this public repository"
+    },
+    {
+      "name": "rezon",
+      "upstream": "thebrazenbeard/rezon",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "69e99b4585b0edc905fbecf9ff1c9fc47e2d6ce0",
+      "reason": null
+    },
+    {
+      "name": "roots",
+      "upstream": "thebrazenbeard/roots",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "ae9484bf6b395d6ffc1b68102a37a594d5205c6f",
+      "reason": null
+    },
+    {
+      "name": "self",
+      "upstream": "thebrazenbeard/self",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "c85d3fefd82464ac0769fe0c117d943ca547d21b",
+      "reason": null
+    },
+    {
+      "name": "semanticatlas",
+      "upstream": "thebrazenbeard/semanticatlas",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "23d1a920ab17b670be45f81efca82c087ac482e8",
+      "reason": null
+    },
+    {
+      "name": "semiotics",
+      "upstream": "thebrazenbeard/semiotics",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "0158e942ab5aeb509deefc5bdb6a95f699e099d1",
+      "reason": null
+    },
+    {
+      "name": "sexuality",
+      "upstream": "thebrazenbeard/sexuality",
+      "upstream_branch": "main",
+      "state": "HELD",
+      "mirror_commit": null,
+      "reason": "Private upstream; not approved for publication into this public repository"
+    },
+    {
+      "name": "sql-connectome",
+      "upstream": "thebrazenbeard/sql-connectome",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "18766bed309001aa77b483cce5abb2f3a51cf117",
+      "reason": null
+    },
+    {
+      "name": "tattler",
+      "upstream": "thebrazenbeard/tattler",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "c8e297324a969b87222857e02731ffa6c6206560",
+      "reason": null
+    },
+    {
+      "name": "temporal",
+      "upstream": "thebrazenbeard/temporal",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "309f8c6e539a7cf3e3e4b4d485bf8ec32930c8cf",
+      "reason": null
+    },
+    {
+      "name": "unvtrslr",
+      "upstream": "thebrazenbeard/unvtrslr",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "192bc252245c121b26a935758829d167fe05cee8",
+      "reason": null
+    },
+    {
+      "name": "vera",
+      "upstream": "thebrazenbeard/vera",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "97653ec9af656fe86906a772ad46e6d2f9c30cfa",
+      "reason": null
+    },
+    {
+      "name": "vera-control-plane",
+      "upstream": "thebrazenbeard/vera-control-plane",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "b76580375db3be3892718fa753a307225a307178",
+      "reason": null
+    },
+    {
+      "name": "vera-mono",
+      "upstream": "thebrazenbeard/vera-mono",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "cb17a33c379f4ac7939458e2e81df6acbcf1cc43",
+      "reason": null
+    },
+    {
+      "name": "vera-supabase",
+      "upstream": "thebrazenbeard/vera-supabase",
+      "upstream_branch": "main",
+      "state": "HELD",
+      "mirror_commit": null,
+      "reason": "No exact corresponding upstream repository verified"
+    },
+    {
+      "name": "vera-works",
+      "upstream": "thebrazenbeard/vera-works",
+      "upstream_branch": "main",
+      "state": "HELD",
+      "mirror_commit": null,
+      "reason": "Private upstream; not approved for publication into this public repository"
+    },
+    {
+      "name": "vision",
+      "upstream": "thebrazenbeard/vision",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "f730e986a05eb99fd7ad225fe35ff2d5fa97f4c4",
+      "reason": null
+    },
+    {
+      "name": "volition",
+      "upstream": "thebrazenbeard/volition",
+      "upstream_branch": "main",
+      "state": "MIRRORED",
+      "mirror_commit": "68f34c62df34b50c16033cc55a0f797ebecfb252",
+      "reason": null
+    }
+  ]
+}

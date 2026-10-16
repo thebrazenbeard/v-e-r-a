@@ -1,0 +1,483 @@
+{
+  "schema": "VERA_SUPABASE_RELATION_DEFINITION_SNAPSHOT_V1",
+  "project_ref": "klmbpaigzeguvnpccqzz",
+  "database_schema": "redworm",
+  "live_rows_included": false,
+  "relations": [
+    {
+      "name": "lineage_events",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "a",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "event_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "generation",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "lineage_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "transfer_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "runtime_token",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "recorded_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "details",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "lineage_events_event_type_check",
+          "definition": "CHECK ((event_type = ANY (ARRAY['GENESIS_IMPORT'::text, 'SUCCESSION_BEGIN'::text, 'SUCCESSION_ACCEPT'::text])))"
+        },
+        {
+          "name": "lineage_events_lineage_key_check",
+          "definition": "CHECK ((lineage_key ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "lineage_events_pkey",
+          "definition": "PRIMARY KEY (event_id)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "lineage_events_pkey",
+          "definition": "CREATE UNIQUE INDEX lineage_events_pkey ON redworm.lineage_events USING btree (event_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "lineage_events_event_id_seq",
+      "kind": "S",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "last_value",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "log_cnt",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "is_called",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": null
+    },
+    {
+      "name": "lineage_state",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "singleton",
+          "type": "boolean",
+          "default": "true",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "generation",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "lineage_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "holder_state",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "holder_runtime_token",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "transfer_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "lineage_state_check",
+          "definition": "CHECK ((((holder_state = 'ACTIVE'::text) AND (holder_runtime_token IS NOT NULL) AND (transfer_id IS NULL)) OR ((holder_state = 'IN_TRANSIT'::text) AND (holder_runtime_token IS NULL) AND (transfer_id IS NOT NULL))))"
+        },
+        {
+          "name": "lineage_state_generation_check",
+          "definition": "CHECK ((generation >= 0))"
+        },
+        {
+          "name": "lineage_state_holder_runtime_token_fkey",
+          "definition": "FOREIGN KEY (holder_runtime_token) REFERENCES redworm.runtime_registry(runtime_token)"
+        },
+        {
+          "name": "lineage_state_holder_state_check",
+          "definition": "CHECK ((holder_state = ANY (ARRAY['ACTIVE'::text, 'IN_TRANSIT'::text])))"
+        },
+        {
+          "name": "lineage_state_lineage_key_check",
+          "definition": "CHECK ((lineage_key ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "lineage_state_pkey",
+          "definition": "PRIMARY KEY (singleton)"
+        },
+        {
+          "name": "lineage_state_singleton_check",
+          "definition": "CHECK (singleton)"
+        },
+        {
+          "name": "lineage_state_transfer_id_fkey",
+          "definition": "FOREIGN KEY (transfer_id) REFERENCES redworm.succession_transfers(transfer_id)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "lineage_state_pkey",
+          "definition": "CREATE UNIQUE INDEX lineage_state_pkey ON redworm.lineage_state USING btree (singleton)"
+        },
+        {
+          "name": "redworm_lineage_holder_runtime_fkey_idx",
+          "definition": "CREATE INDEX redworm_lineage_holder_runtime_fkey_idx ON redworm.lineage_state USING btree (holder_runtime_token)"
+        },
+        {
+          "name": "redworm_lineage_transfer_fkey_idx",
+          "definition": "CREATE INDEX redworm_lineage_transfer_fkey_idx ON redworm.lineage_state USING btree (transfer_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "runtime_registry",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "runtime_token",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "session_label",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "runtime_status",
+          "type": "text",
+          "default": "'CANDIDATE'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "last_seen_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "metadata",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "runtime_registry_pkey",
+          "definition": "PRIMARY KEY (runtime_token)"
+        },
+        {
+          "name": "runtime_registry_runtime_status_check",
+          "definition": "CHECK ((runtime_status = ANY (ARRAY['CANDIDATE'::text, 'ACTIVE_HOLDER'::text, 'RETIRED'::text])))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "redworm_one_active_holder_runtime",
+          "definition": "CREATE UNIQUE INDEX redworm_one_active_holder_runtime ON redworm.runtime_registry USING btree (runtime_status) WHERE (runtime_status = 'ACTIVE_HOLDER'::text)"
+        },
+        {
+          "name": "runtime_registry_pkey",
+          "definition": "CREATE UNIQUE INDEX runtime_registry_pkey ON redworm.runtime_registry USING btree (runtime_token)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "succession_transfers",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "transfer_id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "from_generation",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "to_generation",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "previous_lineage_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "next_lineage_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "capsule_payload_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_runtime_token",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "successor_runtime_token",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "transfer_status",
+          "type": "text",
+          "default": "'OPEN'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "consumed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "succession_transfers_capsule_payload_sha256_check",
+          "definition": "CHECK ((capsule_payload_sha256 ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "succession_transfers_check",
+          "definition": "CHECK ((to_generation = (from_generation + 1)))"
+        },
+        {
+          "name": "succession_transfers_check1",
+          "definition": "CHECK ((((transfer_status = 'OPEN'::text) AND (successor_runtime_token IS NULL) AND (consumed_at IS NULL)) OR ((transfer_status = 'CONSUMED'::text) AND (successor_runtime_token IS NOT NULL) AND (consumed_at IS NOT NULL)) OR (transfer_status = 'ABORTED'::text)))"
+        },
+        {
+          "name": "succession_transfers_from_generation_check",
+          "definition": "CHECK ((from_generation >= 0))"
+        },
+        {
+          "name": "succession_transfers_next_lineage_key_check",
+          "definition": "CHECK ((next_lineage_key ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "succession_transfers_pkey",
+          "definition": "PRIMARY KEY (transfer_id)"
+        },
+        {
+          "name": "succession_transfers_previous_lineage_key_check",
+          "definition": "CHECK ((previous_lineage_key ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "succession_transfers_source_runtime_token_fkey",
+          "definition": "FOREIGN KEY (source_runtime_token) REFERENCES redworm.runtime_registry(runtime_token)"
+        },
+        {
+          "name": "succession_transfers_successor_runtime_token_fkey",
+          "definition": "FOREIGN KEY (successor_runtime_token) REFERENCES redworm.runtime_registry(runtime_token)"
+        },
+        {
+          "name": "succession_transfers_transfer_status_check",
+          "definition": "CHECK ((transfer_status = ANY (ARRAY['OPEN'::text, 'CONSUMED'::text, 'ABORTED'::text])))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "redworm_one_open_transfer",
+          "definition": "CREATE UNIQUE INDEX redworm_one_open_transfer ON redworm.succession_transfers USING btree (transfer_status) WHERE (transfer_status = 'OPEN'::text)"
+        },
+        {
+          "name": "redworm_transfer_source_runtime_fkey_idx",
+          "definition": "CREATE INDEX redworm_transfer_source_runtime_fkey_idx ON redworm.succession_transfers USING btree (source_runtime_token)"
+        },
+        {
+          "name": "redworm_transfer_successor_runtime_fkey_idx",
+          "definition": "CREATE INDEX redworm_transfer_successor_runtime_fkey_idx ON redworm.succession_transfers USING btree (successor_runtime_token)"
+        },
+        {
+          "name": "succession_transfers_pkey",
+          "definition": "CREATE UNIQUE INDEX succession_transfers_pkey ON redworm.succession_transfers USING btree (transfer_id)"
+        }
+      ],
+      "view_sql": null
+    }
+  ]
+}

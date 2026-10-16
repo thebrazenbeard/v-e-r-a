@@ -301,3 +301,17 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
             )
         with self.assertRaisesRegex(ProvenanceBridgeError, "receiver"):
             self.evaluate()
+
+
+    def test_forged_task_acceptance_or_effect_claim_never_becomes_route_evidence(self):
+        # A caller may edit a source-only task binding after it was built.
+        # Matching task ID and journal head do not authorize result adoption.
+        for authority in (
+            "accepted_as_task_result", "effect_authority",
+            "executed", "independent_source_attestation",
+        ):
+            with self.subTest(authority=authority):
+                forged = deepcopy(self.binding)
+                forged[authority] = True
+                with self.assertRaisesRegex(ProvenanceBridgeError, "task"):
+                    self.evaluate(binding=forged)

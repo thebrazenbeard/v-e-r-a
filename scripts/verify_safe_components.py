@@ -39,7 +39,21 @@ def git(repo: Path, *args: str) -> str:
         raise ValueError("git failed: " + p.stderr[-220:])
     return p.stdout.strip()
 
-def inspect(repo: Path, tree: str = "HEAD") -> dict:
+def tree_entries(repo: Path, subject: str) -> dict[str, tuple[str, str]]:
+    proc = subprocess.run(["git", "-C", str(repo), "ls-tree", "-r", "-z", subject],
+                          capture_output=True, timeout=90)
+    if proc.returncode:
+        raise ValueError("source tree unavailable: " + proc.stderr[-150:].decode("utf8", "replace"))
+    rows = {}
+    for record in proc.stdout.split(b"\0"):
+        if not record:
+            continue
+        meta, path = record.split(b"\t", 1)
+        mode, kind, oid = meta.decode("ascii").split()
+        rows[path.decode("utf8")] = (mode, oid)
+    return rows
+
+def inspect(repo: Path, tree: str = "HEAD", verify_source_objects: bool = False) -> dict:
     entries = json.loads(git(repo, "show", f"{tree}:components.json"))
     manifest = json.loads(git(repo, "show", f"{tree}:component-exports.json"))
     if manifest.get("schema") != SCHEMA:
@@ -63,14 +77,11 @@ def inspect(repo: Path, tree: str = "HEAD") -> dict:
         actual = git(repo, "rev-parse", f"{tree}:components/{name}")
         if actual != x["export_tree"]:
             raise ValueError("tracked component tree mismatch " + name)
-        lines = git(repo, "ls-tree", "-r", f"{tree}:components/{name}").splitlines()
-        paths = []
-        for line in lines:
-            meta, path = line.split("\t", 1)
-            mode = meta.split(" ", 1)[0]
+        exported_entries = tree_entries(repo, f"{tree}:components/{name}")
+        paths = list(exported_entries)
+        for path, (mode, oid) in exported_entries.items():
             if omission_reason(path, mode) is not None:
                 raise ValueError("unsafe class retained: " + name + "/" + path)
-            paths.append(path)
         claimed = x.get("omitted_paths")
         if not isinstance(claimed, list) or len(claimed) != len({z["path"] for z in claimed}):
             raise ValueError("malformed omissions " + name)
@@ -83,22 +94,43 @@ def inspect(repo: Path, tree: str = "HEAD") -> dict:
             x.get("omitted_count") != len(claimed) or
             x.get("source_file_count") != len(paths) + len(claimed)):
             raise ValueError("count mismatch " + name)
+        if verify_source_objects:
+            source_tree = git(repo, "rev-parse", x["mirror_commit"] + "^{tree}")
+            if source_tree != x["source_tree"]:
+                raise ValueError("pinned source tree mismatch " + name)
+            origin_entries = tree_entries(repo, x["mirror_commit"])
+            required_omissions = []
+            retained_origin = {}
+            for path, (mode, oid) in origin_entries.items():
+                reason = omission_reason(path, mode)
+                if reason:
+                    required_omissions.append({
+                        "path": path, "mode": mode, "blob_oid": oid, "reason": reason
+                    })
+                else:
+                    retained_origin[path] = (mode, oid)
+            if (required_omissions != claimed or
+                    retained_origin != exported_entries):
+                raise ValueError("source blob/omission provenance mismatch " + name)
         safe_files += len(paths)
         omissions += len(claimed)
     return {
         "status": "SOURCE_EXPORT_TREE_MATCH",
         "components": len(exports), "files_retained": safe_files,
         "explicit_omissions": omissions, "malware_free_proven": False,
-        "upstream_freshness_proven": False, "veraos_installed": False,
+        "upstream_freshness_proven": False,
+        "source_blob_identity_verified": verify_source_objects,
+        "veraos_installed": False,
     }
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", type=Path, default=Path(__file__).resolve().parents[1])
     ap.add_argument("--tree", default="HEAD")
+    ap.add_argument("--verify-source-objects", action="store_true")
     args = ap.parse_args()
     try:
-        print(json.dumps(inspect(args.repo.resolve(), args.tree), sort_keys=True))
+        print(json.dumps(inspect(args.repo.resolve(), args.tree, args.verify_source_objects), sort_keys=True))
     except (ValueError, KeyError, TypeError, OSError) as e:
         ap.exit(2, "EXPORT_HELD: " + str(e) + "\n")
 

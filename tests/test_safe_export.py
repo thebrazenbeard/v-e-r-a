@@ -46,7 +46,8 @@ class SafeComponentExportTests(unittest.TestCase):
         repo=os.environ.get("VERA_SAFE_EXPORT_TEST_REPO")
         if not commit or not repo:
             self.skipTest("On-demand exact source commit/root not supplied")
-        result=v.inspect(Path(repo),commit)
+        result=v.inspect(Path(repo),commit,verify_source_objects=True)
+        self.assertTrue(result["source_blob_identity_verified"])
         self.assertEqual(result["components"],44)
         self.assertTrue(result["explicit_omissions"]>0)
         self.assertFalse(result["malware_free_proven"])
@@ -67,6 +68,23 @@ class SafeComponentExportTests(unittest.TestCase):
         with patch.object(v,"git",side_effect=corrupted):
             with self.assertRaisesRegex(ValueError,"tracked component tree mismatch"):
                 v.inspect(Path(repo),commit)
+
+    def test_corrupted_omitted_blob_provenance_rejected(self):
+        commit=os.environ.get("VERA_SAFE_EXPORT_TEST_COMMIT")
+        repo=os.environ.get("VERA_SAFE_EXPORT_TEST_REPO")
+        if not commit or not repo:self.skipTest("On-demand original source objects unavailable")
+        original=v.git
+        def forged(repo_path,*args):
+            value=original(repo_path,*args)
+            if args==("show",commit+":component-exports.json"):
+                doc=json.loads(value)
+                item=next(r for r in doc["components"] if r["omitted_paths"])
+                item["omitted_paths"][0]["blob_oid"]="0"*40
+                return json.dumps(doc)
+            return value
+        with patch.object(v,"git",side_effect=forged):
+            with self.assertRaisesRegex(ValueError,"source blob/omission provenance mismatch"):
+                v.inspect(Path(repo),commit,verify_source_objects=True)
 
 if __name__ == "__main__":
     unittest.main()

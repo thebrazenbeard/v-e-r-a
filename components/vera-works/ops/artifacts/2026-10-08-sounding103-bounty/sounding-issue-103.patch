@@ -1,0 +1,295 @@
+From 0fb3405e7d7a3b97fc85b6d0f71f4e906ef40da5 Mon Sep 17 00:00:00 2001
+From: Patrick Sims <234958733+thebrazenbeard@users.noreply.github.com>
+Date: Thu, 8 Oct 2026 16:27:58 -0400
+Subject: [PATCH] sounding103-markdown-relative-link-ci
+
+---
+ .github/workflows/ci.yml             | 14 +++++
+ README.md                            |  4 +-
+ assets/README.md                     |  2 +-
+ docs/qa/artifacts/266-error-paths.md |  2 +-
+ docs/spike-corridor-attestation.md   |  2 +-
+ docs/troubleshooting.md              |  4 +-
+ scripts/check_markdown_links.py      | 91 ++++++++++++++++++++++++++++
+ scripts/check_markdown_links_test.py | 65 ++++++++++++++++++++
+ 8 files changed, 177 insertions(+), 7 deletions(-)
+ create mode 100644 scripts/check_markdown_links.py
+ create mode 100644 scripts/check_markdown_links_test.py
+
+diff --git a/.github/workflows/ci.yml b/.github/workflows/ci.yml
+index 94eebef..927bd9e 100644
+--- a/.github/workflows/ci.yml
++++ b/.github/workflows/ci.yml
+@@ -88,6 +88,20 @@ jobs:
+         with:
+           version: v2.1.6
+ 
++  docs:
++    name: markdown links
++    runs-on: ubuntu-latest
++    timeout-minutes: 5
++    steps:
++      - uses: actions/checkout@v5
++
++      # Standard-library only: no package install and no network lookup.
++      - name: test Markdown link checker
++        run: python3 scripts/check_markdown_links_test.py
++
++      - name: check relative Markdown links
++        run: python3 scripts/check_markdown_links.py .
++
+   # Every test is meant to run from recorded bytes. snapshot.Replayer returns
+   # ErrNotRecorded rather than falling through to the network, so a test that
+   # reaches out fails instead of passing intermittently — but that only holds
+diff --git a/README.md b/README.md
+index 6784628..a1d5cde 100644
+--- a/README.md
++++ b/README.md
+@@ -98,7 +98,7 @@ That is also why the reference rate is a required dependency rather than an
+ optional enrichment. Without it the engine can rank, but it cannot tell a good
+ deal from a disaster.
+ 
+-The full argument, with the measurements behind it: **[docs/why-sounding.md](docs/why-sounding.md)**.
++The full argument, with the measurements behind it: **[docs/why-wayfare.md](docs/why-wayfare.md)**.
+ Why Stellar-native and what the code uses: **[docs/why-stellar-native.md](docs/why-stellar-native.md)**.
+ 
+ ---
+@@ -275,7 +275,7 @@ refuses to do, who it is for, and the non-custodial position stated once?
+ 
+ Completely new to the ideas, and want the prose version — what a reference
+ rate is, why one corridor is priced at twelve sizes, and what a verdict is
+-allowed to claim? **[docs/how-sounding-works.md](docs/how-sounding-works.md)**
++allowed to claim? **[docs/how-wayfare-works.md](docs/how-wayfare-works.md)**
+ 
+ Why the monitor is Stellar-native, grounded in what the code uses (assets,
+ pathfinding, order books, anchors, SEP-1, SEP-38) without unsupported exclusivity claims:
+diff --git a/assets/README.md b/assets/README.md
+index 3121ef4..bc98f56 100644
+--- a/assets/README.md
++++ b/assets/README.md
+@@ -79,7 +79,7 @@ Add `banner.svg` as the social preview image:
+ 
+ ### README Header
+ ```markdown
+-![Stellar Pathfinder](assets/banner.svg)
++![Stellar Pathfinder](banner.svg)
+ ```
+ 
+ ### Open Graph Meta Tags
+diff --git a/docs/qa/artifacts/266-error-paths.md b/docs/qa/artifacts/266-error-paths.md
+index 2cd920a..c7e0916 100644
+--- a/docs/qa/artifacts/266-error-paths.md
++++ b/docs/qa/artifacts/266-error-paths.md
+@@ -130,4 +130,4 @@ panel. The panel text is the first row of the matrix.
+ - This is the branch under test, not the deployed instance. The deployed
+   instance is an older build: its errors carry no `code` field at all and it
+   ignores unknown query parameters, so rows 9 and 10 of the matrix cannot occur
+-  there. See [`docs/api.md`](../api.md).
++  there. See [`docs/api.md`](../../api.md).
+diff --git a/docs/spike-corridor-attestation.md b/docs/spike-corridor-attestation.md
+index 2c7acb3..8fd85c5 100644
+--- a/docs/spike-corridor-attestation.md
++++ b/docs/spike-corridor-attestation.md
+@@ -357,5 +357,5 @@ claims and no publisher trust model.
+ - `checks/wire.go` — tri-state check/metric wire format
+ - [spike-alerting-semantics.md](spike-alerting-semantics.md) — alerting on transitions, not single runs
+ - [spike-second-maintainer-verification.md](spike-second-maintainer-verification.md) — what is reproducible without trust
+-- [spike-the-publisher-trust-tradeoff.md](spike-the-publisher-trust-tradeoff.md) — #212, the sibling spike
++- [spike-publisher-trust-tradeoff.md](spike-publisher-trust-tradeoff.md) — #212, the sibling spike
+ - [docs/backlog.md](backlog.md#151) — initiative E4, this issue's context
+\ No newline at end of file
+diff --git a/docs/troubleshooting.md b/docs/troubleshooting.md
+index da3ac47..ccc5ae6 100644
+--- a/docs/troubleshooting.md
++++ b/docs/troubleshooting.md
+@@ -51,7 +51,7 @@ hour can exceed a free provider's daily allotment on their own.
+    better (`README.md` "Freshness depends on the measure workflow").
+ 4. If a *provider*, not Horizon, is the one 429ing, the reference feeds are
+    named per corridor in the run store record — check
+-   `docs/monitor.md` for how each provider's budget is budgeted per run.
++   `docs/deployment.md` ("Load on upstreams") for how each provider's budget is budgeted per run.
+ 
+ A 429 that never clears (same duration on every retry, hours apart) is
+ different: that is an exhausted daily allotment, which no retry shortens. Wait
+@@ -224,6 +224,6 @@ The usual causes:
+   invariants and the pre-commit verify guard (§4)
+ - [embedded-history.md](embedded-history.md) — how the deployed instance
+   serves history and why `stale` is a normal state (§2)
+-- [monitor.md](monitor.md) — the six-hour cadence and provider budgets (§1)
++- [deployment.md](deployment.md#load-on-upstreams) — the six-hour cadence and provider budgets (§1)
+ - [non-goals.md](non-goals.md) — why "not determined" never becomes a false
+   (§3)
+\ No newline at end of file
+diff --git a/scripts/check_markdown_links.py b/scripts/check_markdown_links.py
+new file mode 100644
+index 0000000..3b6e2fa
+--- /dev/null
++++ b/scripts/check_markdown_links.py
+@@ -0,0 +1,91 @@
++#!/usr/bin/env python3
++"""Fail when a Markdown file contains a broken repository-relative link."""
++
++from __future__ import annotations
++
++import argparse
++import re
++import sys
++from pathlib import Path
++from urllib.parse import unquote, urlsplit
++
++INLINE_LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
++REFERENCE_LINK = re.compile(r"^\s*\[[^\]]+\]:\s*(\S+)")
++
++
++def _target_token(raw: str) -> str:
++    target = raw.strip()
++    if target.startswith("<"):
++        end = target.find(">")
++        return target[1:end] if end != -1 else target[1:]
++    return target.split(None, 1)[0] if target else ""
++
++
++def _relative_path(target: str) -> str | None:
++    if not target or target.startswith(("#", "//")):
++        return None
++
++    parsed = urlsplit(target)
++    if parsed.scheme or parsed.netloc:
++        return None
++
++    path = unquote(parsed.path)
++    if not path or path.startswith("/"):
++        return None
++    return path
++
++
++def find_broken_links(root: Path) -> list[tuple[Path, int, str, Path]]:
++    root = root.resolve()
++    broken: list[tuple[Path, int, str, Path]] = []
++
++    for markdown in sorted(root.rglob("*.md")):
++        if ".git" in markdown.parts:
++            continue
++
++        text = markdown.read_text(encoding="utf-8", errors="replace")
++        for line_number, line in enumerate(text.splitlines(), 1):
++            targets = [_target_token(match.group(1)) for match in INLINE_LINK.finditer(line)]
++            reference = REFERENCE_LINK.match(line)
++            if reference:
++                targets.append(_target_token(reference.group(1)))
++
++            for target in targets:
++                relative = _relative_path(target)
++                if relative is None:
++                    continue
++
++                candidate = (markdown.parent / relative).resolve()
++                if not candidate.exists():
++                    broken.append((markdown.relative_to(root), line_number, target, candidate))
++
++    return broken
++
++
++def main(argv: list[str] | None = None) -> int:
++    parser = argparse.ArgumentParser()
++    parser.add_argument("root", nargs="?", default=".", help="repository root")
++    args = parser.parse_args(argv)
++
++    root = Path(args.root)
++    broken = find_broken_links(root)
++    if not broken:
++        print("All repository-relative Markdown links resolve.")
++        return 0
++
++    for source, line_number, target, candidate in broken:
++        try:
++            resolved = candidate.relative_to(root.resolve())
++        except ValueError:
++            resolved = candidate
++        print(
++            f"{source}:{line_number}: broken relative link {target!r} -> {resolved}",
++            file=sys.stderr,
++        )
++
++    print(f"{len(broken)} broken relative Markdown link(s).", file=sys.stderr)
++    return 1
++
++
++if __name__ == "__main__":
++    raise SystemExit(main())
+\ No newline at end of file
+diff --git a/scripts/check_markdown_links_test.py b/scripts/check_markdown_links_test.py
+new file mode 100644
+index 0000000..645bc0b
+--- /dev/null
++++ b/scripts/check_markdown_links_test.py
+@@ -0,0 +1,65 @@
++from __future__ import annotations
++
++import importlib.util
++import tempfile
++import unittest
++from pathlib import Path
++
++MODULE_PATH = Path(__file__).with_name("check_markdown_links.py")
++SPEC = importlib.util.spec_from_file_location("check_markdown_links", MODULE_PATH)
++assert SPEC and SPEC.loader
++CHECKER = importlib.util.module_from_spec(SPEC)
++SPEC.loader.exec_module(CHECKER)
++
++
++class MarkdownLinkCheckerTests(unittest.TestCase):
++    def test_broken_relative_link_is_reported_and_nonlocal_links_are_ignored(self) -> None:
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            (root / "docs").mkdir()
++            (root / "docs" / "ok.md").write_text("# ok" + chr(10), encoding="utf-8")
++            (root / "README.md").write_text(
++                chr(10).join(
++                    [
++                        "[ok](docs/ok.md#section)",
++                        "[broken](docs/missing.md)",
++                        "[external](https://example.com/missing.md)",
++                        "[anchor](#local-heading)",
++                        "[root path](/docs/generated)",
++                    ]
++                ),
++                encoding="utf-8",
++            )
++
++            broken = CHECKER.find_broken_links(root)
++
++            self.assertEqual(len(broken), 1)
++            self.assertEqual(broken[0][0].as_posix(), "README.md")
++            self.assertEqual(broken[0][2], "docs/missing.md")
++
++    def test_reference_links_and_fenced_examples_are_checked(self) -> None:
++        with tempfile.TemporaryDirectory() as tmp:
++            root = Path(tmp)
++            fence = "`" * 3
++            (root / "README.md").write_text(
++                chr(10).join(
++                    [
++                        "[guide]: docs/missing.md",
++                        fence + "markdown",
++                        "![preview](assets/missing.svg)",
++                        fence,
++                    ]
++                ),
++                encoding="utf-8",
++            )
++
++            broken = CHECKER.find_broken_links(root)
++
++            self.assertEqual(
++                [(item[1], item[2]) for item in broken],
++                [(1, "docs/missing.md"), (3, "assets/missing.svg")],
++            )
++
++
++if __name__ == "__main__":
++    unittest.main()
+\ No newline at end of file
+-- 
+2.55.0.windows.4
+

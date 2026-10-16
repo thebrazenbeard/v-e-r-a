@@ -1,0 +1,106 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-QURAN-LATE-ANTIQUE-FEATURE-TESTS-V1
+base_registry_head: d2a319321de9b77cefaba999fa6dd2cebc4899c5
+status: PROPOSED_COMPARATIVE_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-ZELLENTIN-2022-LAW-BEYOND-ISRAEL
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Holger M. Zellentin
+    title: "Law Beyond Israel: From the Bible to the Qur'an"
+    composition_date: {start: "2022", end: "2022", precision: publication-year}
+    access_mode: publisher-book-abstract-and-chapter-abstracts
+    locators:
+      - {url: "https://academic.oup.com/book/44598"}
+      - {url: "https://academic.oup.com/book/44598/chapter/377809151"}
+    limitations:
+      - "V1 has read publisher abstracts/contents, not the complete monograph page-by-page; exact individual legal lineages require chapter-level readback and hostile review."
+
+concept_additions:
+  - id: CON-QURAN-AL-RAHMAN
+    label: Qur'anic al-Rahman
+    canonical_label: Qur'anic al-Rahman
+    kind: divine-epithet-concept
+    forms: [al-Rahman]
+    semantic_guard: "Pre-Islamic lexical availability or similarity does not establish direct lineage, a single borrowing path, or identical theology."
+    traditions: [quranic]
+    definition: "Qur'anic divine epithet/name al-Rahman, to be studied independently before lineage to pre-Islamic Rahman(an) usage is assigned."
+    linked_claims: [CLM-RAHMAN-PREISLAMIC-SOUTH-ARABIAN-ATTESTATION]
+    relations:
+      - relation: POSSIBLE_DIACHRONIC_LEXICAL_RELATION
+        target_concept_id: CON-SOUTH-ARABIAN-RAHMANAN
+        confidence: unresolved
+        guard: "Pre-Islamic South Arabian attestation establishes availability, not a single direct lineage or identical theology."
+
+claim_additions:
+  - id: CLM-QURAN-RESURRECTION-SINGLE-DIRECT-SOURCE-UNRESOLVED
+    proposition: "The Qur'an's resurrection/judgment system has demonstrably earlier analogues in Jewish, Christian, and Iranian traditions, but the current evidence does not establish one single direct source tradition for the Qur'anic system."
+    claim_type: COMPARATIVE_NEGATIVE_TRANSMISSION_CONSTRAINT
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, UNKNOWN]
+    traditions: [quranic, second-temple-judaism, late-antique-christianity, zoroastrian]
+    supporting_sources:
+      - {source_id: SRC-QURAN-RECEIVED-TEXT, locator: "Q 75 and broader judgment corpus", relation: TARGET_TEXT, access_mode: DIGITAL_ARABIC_AND_TRANSLATION}
+      - {source_id: SRC-DANIEL-7-12, locator: "Daniel 12:2-3", relation: EARLIER_JEWISH_RESURRECTION_ATTESTATION, access_mode: DIGITAL_EDITION}
+      - {source_id: SCH-SHAKED-1998-ZORO-ESCHATOLOGY, locator: "article", relation: IRANIAN_ESCHATOLOGICAL_COMPARANDUM, access_mode: INSTITUTIONAL_FULL_TEXT}
+    opposing_sources: []
+    confidence: high-for-multiple-earlier-comparanda-unresolved-for-single-source
+    contested: true
+
+  - id: CLM-RAHMAN-PREISLAMIC-SOUTH-ARABIAN-ATTESTATION
+    proposition: "Rahman(an) is epigraphically attested as a divine epithet/name in South Arabian monotheist environments before the Qur'an, across changing Jewish/Judaizing and Christian political-religious contexts."
+    claim_type: EPIGRAPHIC_DIACHRONIC_ATTESTATION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [late-antique-arabia, quranic-comparative]
+    supporting_sources:
+      - {source_id: MAT-HIMYAR-LATE-ANTIQUE-INSCRIPTIONS, locator: "Rahman(an) inscriptional corpus", relation: PRE_QURANIC_EPIGRAPHIC_ATTESTATION, access_mode: SCHOLARLY_EPIGRAPHIC_EDITION}
+      - {source_id: SCH-KJAER-2022-RAHMAN, locator: "article", relation: DIACHRONIC_SCHOLARLY_SYNTHESIS, access_mode: PUBLISHER_FULL_TEXT}
+    opposing_sources: []
+    confidence: high-for-pre-quranic-attestation
+    contested: false
+    notes:
+      - "This does not establish a single direct transmission route into Qur'anic al-Rahman."
+
+  - id: CLM-ZELLENTIN-QURAN-GENTILE-LAW-CONTINUITY
+    proposition: "Holger M. Zellentin argues that Qur'anic food, sexual, incest and purity law substantially reformulates a Late Antique legal trajectory rooted in biblical law for non-Israelites and developed through Jewish and especially Christian gentile-law traditions."
+    claim_type: ATTRIBUTED_SCHOLARLY_TRANSMISSION_MODEL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [quranic, biblical, judaism, christianity]
+    supporting_sources:
+      - {source_id: SCH-ZELLENTIN-2022-LAW-BEYOND-ISRAEL, locator: "book abstract; chapters 1-4", relation: ATTRIBUTED_AUTHOR_ARGUMENT, access_mode: PUBLISHER_ABSTRACTS}
+    opposing_sources: []
+    confidence: author-claim-secure-project-verdict-not-yet-issued
+    contested: true
+    notes:
+      - "On-Theo records the model without yet promoting its individual lineage claims."
+
+  - id: CLM-QURAN-FASTING-PREDECESSOR-SPECIFIC-LINEAGE-UNKNOWN
+    proposition: "Q 2:183 explicitly frames fasting as a predecessor practice, but the specific ritual lineage that best explains the Qur'anic Ramadan fasting system is not established in V1."
+    claim_type: COMPARATIVE_HISTORICAL_CONSTRAINT
+    evidence_class: [PRIMARY_TEXT, UNKNOWN]
+    traditions: [quranic, jewish, christian, arabian]
+    supporting_sources:
+      - {source_id: SRC-QURAN-RECEIVED-TEXT, locator: "Q 2:183-187", relation: TEXT_ACKNOWLEDGES_PREDECESSOR_PRACTICE, access_mode: DIGITAL_ARABIC_AND_TRANSLATION}
+    opposing_sources: []
+    confidence: high-for-predecessor-frame-unresolved-for-specific-lineage
+    contested: true
+
+transmission_additions:
+  - id: TR-DANIEL-QURAN-RESURRECTION
+    from_source: SRC-DANIEL-7-12
+    to_source: SRC-QURAN-RECEIVED-TEXT
+    relation: STRUCTURAL_AND_HISTORICAL_PARALLEL
+    confidence: high-for-earlier-related-resurrection-field-unresolved-for-direct-textual-dependence
+    evidence:
+      - {source_id: SRC-DANIEL-7-12, locator: "Daniel 12:2-3"}
+      - {source_id: SRC-QURAN-RECEIVED-TEXT, locator: "Q 75:3-4 and broader resurrection corpus"}
+    limitation: "Danielic resurrection is an earlier Jewish comparandum; this edge does not claim the Qur'an directly copied Daniel."
+
+  - id: TR-HIMYAR-RAHMAN-QURAN
+    from_source: MAT-HIMYAR-LATE-ANTIQUE-INSCRIPTIONS
+    to_source: SRC-QURAN-RECEIVED-TEXT
+    relation: LEXICAL_CONTACT_ENVIRONMENT
+    confidence: high-for-pre-quranic-availability-unresolved-for-direct-lineage
+    evidence:
+      - {source_id: SCH-KJAER-2022-RAHMAN, locator: "diachronic Rahman(an) study"}
+    limitation: "South Arabian Rahman(an) establishes a pre-Qur'anic regional divine epithet and possible lexical history; identical theology/direct transmission is not established."

@@ -1,0 +1,27 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-YC-0001",
+  "event_type": "ASSIGNMENT_CREATED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-YIELD-CONTINUITY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T17:58:00Z",
+  "correlation_id": "CORR-YIELD-CONTINUITY-0001",
+  "causation_id": null,
+  "idempotency_key": "yield-continuity:v1:assignment-created",
+  "from_state": null,
+  "to_state": "CREATED",
+  "payload": {
+    "objective": "Extend Yield Harvester from nominal profit ranking to first-withdrawable-dollar continuity, household-relief prioritization, live mechanism scouting, and safe repository intake.",
+    "scope": "Continuity controller, payout/withdrawability gates, posted-reward source class, read-only live-source and repository scouting, and tests. No miner installation, trading, transaction signing, account creation, terms acceptance, capital deployment, wallet creation, or network exposure.",
+    "acceptance_criteria": [
+      "One realized withdrawable dollar is a valid milestone.",
+      "Nominal balances below payout thresholds do not count as available money.",
+      "Operating continuity and household relief precede discretionary surplus.",
+      "Private household targets remain runtime inputs rather than committed configuration.",
+      "Unsafe stealth/miner loaders are rejected instead of installed.",
+      "Capital-requiring trading infrastructure is deferred while Vera Fund is zero."
+    ]
+  },
+  "external_effect": false
+}

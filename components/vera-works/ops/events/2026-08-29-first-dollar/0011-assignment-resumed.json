@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0011",
+  "event_type": "ASSIGNMENT_RESUMED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FIRST-DOLLAR-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:34:51Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0010",
+  "idempotency_key": "first-dollar:asg:0001:resumed-after-account-authorization",
+  "from_state": "HELD",
+  "to_state": "IN_PROGRESS",
+  "payload": {
+    "holder": "vera:works-operator",
+    "resolution_event_id": "EVT-FD-0010",
+    "next_frontier": "Prepare a truthful Reddit application package and writing sample for OPP-FD-0001, then stop at the manual-send external-effect boundary."
+  },
+  "external_effect": false
+}

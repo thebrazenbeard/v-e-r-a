@@ -70,9 +70,9 @@ class MirrorIntegrationTests(unittest.TestCase):
         self.assertEqual(module.main(["verify", *args]), 2)
 
     def test_default_ignored_component_folder_is_safe(self):
-        (self.repo / ".gitignore").write_text("/components/\n")
-        folder = self.repo / "components"
-        folder.mkdir()
+        (self.repo / ".gitignore").write_text("/.worktrees/\n")
+        folder = self.repo / ".worktrees" / "components"
+        folder.mkdir(parents=True)
         self.assertEqual(module.main(["materialize", "--root", str(self.repo), "--only", "portal"]), 0)
         self.assertEqual(cmd("rev-parse", "HEAD", cwd=folder / "portal"), self.pin)
         self.assertEqual(module.main(["verify", "--root", str(self.repo), "--only", "portal"]), 0)

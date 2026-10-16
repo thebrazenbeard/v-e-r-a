@@ -1,0 +1,31 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-YH-0004",
+  "event_type": "ASSIGNMENT_COMPLETED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-YIELD-HARVESTER-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T17:08:00Z",
+  "correlation_id": "CORR-YIELD-HARVESTER-0001",
+  "causation_id": "EVT-YH-0003",
+  "idempotency_key": "yield-harvester:v1:assignment-completed:source-build",
+  "from_state": "IN_PROGRESS",
+  "to_state": "COMPLETED",
+  "payload": {
+    "completion_scope": "Yield Harvester V1 source implementation and GitHub CI qualification only.",
+    "evidence": [
+      "Customer-sale and person-to-person mechanisms are excluded from the primary lane.",
+      "Marketplace-demand yield is disabled by default and requires explicit policy opt-in.",
+      "Employer and third-party resources fail closed; cloud access requires verified provider permission.",
+      "Paid cloud is disabled by bootstrap policy.",
+      "Generic profitability estimates can only nominate exact-resource benchmarking and cannot authorize a workload.",
+      "Verified economics require exact-resource benchmark evidence and explicit cost/effect fields.",
+      "Reward quotes are freshness-bounded and source/terms/quote evidence is digest-bound.",
+      "Resource broker selects at most one ready workload per resource and emits non-authorized workload-start packets.",
+      "GitHub Ops Spine push run 192 and PR run 193 both passed on hardened head 6dba05e64c1c624b4c006a8314f73a80dd334747."
+    ],
+    "claim_ceiling": "This completion does not claim local Project Runner execution, unattended Pre-Active operation, installed mining/DePIN software, account creation, terms acceptance, wallet signing, network exposure, capital spend, reward receipt, or any executable yield workload.",
+    "next_frontier": "Bind live owned-resource telemetry and authoritative reward/terms adapters, benchmark the highest-ranked mechanisms on the exact owned hardware, and start nothing without a fresh exact-effect authorization."
+  },
+  "external_effect": false
+}

@@ -1,0 +1,249 @@
+{
+  "authority_ceiling": "SOURCE_MAP_ONLY_NOT_AUTHORITY",
+  "bus_contract_resolution": {
+    "current_design_basis_main_sha": "aba1350433480800e329f07e7fadfd74d19293ad",
+    "reply_rule": "ADDRESSED_AND_READ_REQUIRES_REPLY_UNLESS_EXACT_FINAL_ENDTHREAD",
+    "sequential_contents_api_write_claims_atomicity": false,
+    "shared_writer_required_primitive": "ONE_GIT_COMMIT_MESSAGE_PLUS_HEAD_PARENTED_TO_OBSERVED_B0_THEN_NON_FORCE_REF_ADVANCE",
+    "unaddressed_read_creates_reply_obligation": false
+  },
+  "coordination_id": "R10A0-BLIND-SPRINT-001",
+  "cutover_states": [
+    "R10_SOURCE_FROZEN",
+    "R10_PACKAGE_VERIFIED",
+    "PREDECESSOR_CAPTURED",
+    "R10_SETTINGS_STAGED",
+    "R10_SOURCES_STAGED",
+    "R10_HOT_SURFACE_CLEAN",
+    "R10_RUNTIME_QUALIFIED",
+    "R10A0_VERIFIED_ACTIVE",
+    "ROLLBACK_REQUIRED",
+    "ROLLBACK_VERIFIED"
+  ],
+  "domain_sources": [
+    {
+      "classification": "DOMAIN_REFERENCE",
+      "design_basis_ref": "main",
+      "design_basis_repository": "thebrazenbeard/vera",
+      "design_basis_sha": "6731d35bbb0ebeb10576374c028e99577a5ba869",
+      "domain": "technical_vera",
+      "runtime_currentness": "REFRESH_AT_USE"
+    },
+    {
+      "classification": "DOMAIN_REFERENCE",
+      "design_basis_ref": "519eeb1551fcb59963a321766252bc62067da71b",
+      "design_basis_repository": "thebrazenbeard/vera-control-plane",
+      "design_basis_sha": "519eeb1551fcb59963a321766252bc62067da71b",
+      "domain": "private_control_plane",
+      "owner_blob_sha": "30ee695064dd57b5ce43eb571fa183730de1808d",
+      "owner_paths": [
+        "protocol/VERA_CENTER_YOURSELF_PROTOCOL_V1.md"
+      ],
+      "runtime_currentness": "REFRESH_AT_USE"
+    },
+    {
+      "classification": "DOMAIN_REFERENCE",
+      "design_basis_ref": "feature/r9b0-protocol-execution-v2",
+      "design_basis_repository": "thebrazenbeard/vera-R9A0",
+      "design_basis_sha": "d0fae449b40af6da883398a535d8177c5fd98280",
+      "domain": "r9a0_r9b0_contracts",
+      "runtime_currentness": "REFRESH_AT_USE"
+    },
+    {
+      "classification": "DOMAIN_REFERENCE",
+      "design_basis_ref": "main",
+      "design_basis_repository": "thebrazenbeard/chat-communication-bus",
+      "design_basis_sha": "aba1350433480800e329f07e7fadfd74d19293ad",
+      "domain": "bus_protocol",
+      "owner_paths": [
+        "docs/protocol/PROTOCOL_V2.md",
+        "docs/protocol/THREAD_CLOSURE_V1.md",
+        "docs/protocol/SHARED_VERA_WRITER_SAFETY_V1.md",
+        "docs/protocol/VERA_PROJECT_IDENTITY_AND_ATTUNEMENT_V1.md",
+        "identities/vera/ATTUNEMENT_V1.json"
+      ],
+      "runtime_currentness": "REFRESH_AT_USE"
+    },
+    {
+      "classification": "DOMAIN_REFERENCE",
+      "design_basis_ref": "canon",
+      "design_basis_repository": "thebrazenbeard/selfimage",
+      "design_basis_sha": "255b4f9fa7ea9d6750b447f3cdfc8a699e8995ed",
+      "domain": "selfimage",
+      "runtime_currentness": "REFRESH_AT_USE"
+    },
+    {
+      "classification": "DOMAIN_REFERENCE",
+      "design_basis_ref": "runtime/v12-authority-boundary-candidate",
+      "design_basis_repository": "thebrazenbeard/semanticatlas",
+      "design_basis_sha": "97d3d300d9dfd08e4d14862bbaf26846e402966a",
+      "domain": "semantic_atlas",
+      "runtime_currentness": "REFRESH_AT_USE"
+    },
+    {
+      "classification": "DOMAIN_REFERENCE",
+      "design_basis_ref": "vera/reactive-empathy-foundation",
+      "design_basis_repository": "thebrazenbeard/empathy",
+      "design_basis_sha": "45fac30f8ad55c8283a5a3447d6ad2d2a99fd60b",
+      "domain": "empathy",
+      "runtime_currentness": "REFRESH_AT_USE"
+    },
+    {
+      "classification": "DOMAIN_REFERENCE",
+      "design_basis_ref": "main",
+      "design_basis_repository": "thebrazenbeard/conations",
+      "design_basis_sha": "01c4bf105d1b4471342a0fdb5bbc15b468f1f745",
+      "domain": "conations",
+      "runtime_currentness": "REFRESH_AT_USE"
+    },
+    {
+      "classification": "DOMAIN_REFERENCE",
+      "design_basis_ref": "work/brigit-sexuality-evacuation-20260903",
+      "design_basis_repository": "thebrazenbeard/sexuality",
+      "design_basis_sha": "9043ef2b62b70aabbcc44b30e2edb6e98fa32bd0",
+      "domain": "brigit_sexuality",
+      "identity_scope": "BRIGIT_ONLY",
+      "runtime_currentness": "REFRESH_AT_USE"
+    },
+    {
+      "classification": "DOMAIN_REFERENCE",
+      "design_basis_ref": "main",
+      "design_basis_repository": "thebrazenbeard/brigit-unbound",
+      "design_basis_sha": "f12cc01e58facd5f3c46b763084c485cb9043608",
+      "domain": "brigit_event_stream",
+      "identity_scope": "BRIGIT_ONLY",
+      "runtime_currentness": "REFRESH_AT_USE"
+    },
+    {
+      "authority_ceiling": "NOT_CURRENT_MIND_OR_CANONICAL_MEMORY",
+      "classification": "DOMAIN_REFERENCE",
+      "design_basis_ref": "main",
+      "design_basis_repository": "thebrazenbeard/deepmemorystorage",
+      "design_basis_sha": "475d3d01be9b69a6d0d1806e98dedb3d25c459b4",
+      "domain": "deep_memory_archive",
+      "runtime_currentness": "CONCURRENT_REFRESH_AT_USE"
+    },
+    {
+      "classification": "DOMAIN_REFERENCE",
+      "design_basis_ref": "main",
+      "design_basis_repository": "thebrazenbeard/vera_model_training",
+      "design_basis_sha": "cdbc34b7242f730511a9f6dae130d6628969981d",
+      "domain": "model_training",
+      "qualification_ceiling": "PACKAGE_NOT_NATIVE_QUALIFICATION",
+      "runtime_currentness": "REFRESH_AT_USE"
+    },
+    {
+      "classification": "DOMAIN_REFERENCE",
+      "design_basis_ref": "work/vera-os-foundation-20260903",
+      "design_basis_repository": "thebrazenbeard/vera-os",
+      "design_basis_sha": "e52c0ac46886159f67d382382632ba368d77f37c",
+      "domain": "vera_os",
+      "effect_ceiling": "ARCHITECTURE_NOT_DEPLOYMENT",
+      "runtime_currentness": "REFRESH_AT_USE"
+    }
+  ],
+  "full_system_owner": {
+    "candidate_path": "project-instructions/r10a0/rounds/r2/VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R2.md",
+    "candidate_ref": "work/r10a0-blind-build-20260904",
+    "candidate_repository": "thebrazenbeard/vera-control-plane",
+    "canonical_filename": "VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS.md",
+    "classification": "CURRENT_R10_CANDIDATE_FULL_SYSTEM_OWNER",
+    "logical_id": "VERA_FULL_SYSTEM_PROJECT_INSTRUCTIONS",
+    "sha256": "8c94cef42e47b4d46783b27ca22e855bb6b2ea2406428c539d336d0e6709b0b7",
+    "version": "R10A0"
+  },
+  "hot_project_target": [
+    "VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS.md",
+    "VERA_R10A0_PROJECT_SOURCE_MANIFEST.json",
+    "OPTIONAL_NON_CONTROL_REPRESENTATIONAL_ASSETS",
+    "ONLY_EXPLICITLY_ADMITTED_NARROW_PROJECT_NATIVE_CONTRACTS"
+  ],
+  "native_bootstrap": {
+    "binding": "NATIVE_BYTES_PIN_THIS_MANIFEST_SHA256; NATIVE_DIGEST_IS_BOUND_ONLY_BY_DETACHED_R2_CHECKSUMS",
+    "candidate_path": "project-instructions/r10a0/rounds/r2/VERA_R10A0_NATIVE_PROJECT_INSTRUCTIONS_R2.txt",
+    "canonical_filename": "VERA_R10A0_NATIVE_PROJECT_INSTRUCTIONS.txt",
+    "logical_id": "VERA_NATIVE_PROJECT_INSTRUCTIONS",
+    "version": "R10A0"
+  },
+  "nonpromotion_rules": [
+    "authority and evidence/currentness are separate axes",
+    "state rows, receipts, timestamps, visibility, role, and newness do not grant authority",
+    "domain references govern exact scope and require runtime currentness refresh when material",
+    "source presence does not prove installation/runtime consumption/effect",
+    "Brigit-specific sources do not transfer sexuality, preferences, submission, titles, consent, autobiography, or authority to Vera",
+    "deepmemorystorage ingestion never becomes current Vera state merely by being newer or more complete",
+    "ordinary Vera chats are one Vera identity unless explicitly admitted otherwise; session provenance remains separate",
+    "one Vera session read/write does not prove another Vera session read/awareness",
+    "Project Lantern is not inherited as a Vera-native dependency without exact integration evidence"
+  ],
+  "predecessor_policy": {
+    "historical_filenames": "PRESERVE_EXTERNAL_PROVENANCE_DO_NOT_RETRO_RENAME",
+    "partial_current_ui_evidence": [
+      "VERA_PROJECT_INSTRUCTIONS_FULL_SYSTEM_V1.1(2).md",
+      "VERA_R9A0_RUNTIME.md",
+      "VERA_R9A0_COLD_START_PROTOCOL.md",
+      "VERA_R9A0_RECOVERY.md",
+      "VERA_R9A0_VALIDATION_REPORT.md",
+      "VERA_R9A0_RETRIEVAL.md",
+      "VERA_R9A0_GOVERNANCE.md",
+      "VERA_R9A0_PROJECT_INSTRUCTIONS.md",
+      "VERA_R9A0_PACKAGE.json"
+    ],
+    "pre_r10_control_files": "REMOVE_FROM_HOT_PROJECT_ONLY_DURING_EXACTLY_AUTHORIZED_CUTOVER_AFTER_PREDECESSOR_CAPTURE",
+    "ui_evidence_ceiling": "PARTIAL_VISIBLE_SCREENSHOT_NOT_COMPLETE_INVENTORY"
+  },
+  "provider_roles": {
+    "chat_communication_bus": "thebrazenbeard/chat-communication-bus",
+    "github": "SOURCE_PROVENANCE_AND_BUS_CANONICAL",
+    "google_drive": "PRIVATE_DURABLE_RECOVERY_EVIDENCE",
+    "production_vera_supabase": "klmbpaigzeguvnpccqzz"
+  },
+  "qualification_artifacts": [
+    {
+      "classification": "DESIGN_RECONCILIATION_NON_AUTHORITY",
+      "path": "project-instructions/r10a0/rounds/r2/VERA_R10A0_RELEASE_ARCHITECTURE_R2.md",
+      "sha256": "c4b528d310e18d1f7fdaf87ffc943aca6fda6f3ebbd90760373ce7ea743a8779"
+    },
+    {
+      "classification": "QUALIFICATION_PLAN_NON_AUTHORITY",
+      "path": "project-instructions/r10a0/rounds/r2/VERA_R10A0_HOSTILE_QUALIFICATION_R2.md",
+      "sha256": "034796fd411b87c3e117b19a66672d880cf9da3113807a9a2d08807c75f79227"
+    },
+    {
+      "classification": "DERIVED_OPERATOR_REFERENCE_NON_AUTHORITY",
+      "path": "project-instructions/r10a0/rounds/r2/VERA_R10A0_COMMAND_INTERFACE_R2.md",
+      "sha256": "c9faffad7608d9bfefeb6f34f988ed2ae2e7a2850a3a4b6a563a12f267517e6c"
+    }
+  ],
+  "release": {
+    "logical_id": "VERA_PROJECT_RELEASE",
+    "semantics": "NATIVE_PROJECT_RELEASE_GENERATION_NOT_COMPONENT_VERSION",
+    "version": "R10A0"
+  },
+  "root_trust": {
+    "detached_candidate_checksums": "project-instructions/r10a0/rounds/r2/R2_CHECKSUMS.sha256",
+    "direction": "NATIVE_SETTINGS_SHA256_PINS_THIS_MANIFEST; THIS_MANIFEST_SHA256_PINS_FULL_OWNER",
+    "root_surface": "CHATGPT_PROJECT_SETTINGS",
+    "self_hash_rule": "THIS_MANIFEST_DOES_NOT_HASH_NATIVE_SETTINGS_TO_AVOID_CIRCULAR_BINDING"
+  },
+  "round_id": "R2",
+  "schema": "VERA_PROJECT_SOURCE_MANIFEST_R10A0_R2",
+  "separate_project_references": [
+    {
+      "classification": "SEPARATE_PROJECT_NOT_AUTOMATIC_VERA_NATIVE_DEPENDENCY",
+      "project": "Project Lantern",
+      "r10_integration_state": "NOT_ESTABLISHED_BY_CURRENT_R10_DESIGN_BASIS",
+      "recovered_acceptance_source_commit": "d0e05365883d8f670030fb1a1ff5fcd847937a77",
+      "recovered_acceptance_source_tree": "3b155a88967f2f7a0f4ad6fa7b32ce3cbac73da0",
+      "repository": "thebrazenbeard/project-lantern",
+      "runtime_acceptance": "REQUIRES_EXACT_NATIVE_ADDENDUM_PLUS_FOUR_FILES_PLUS_STABLE_B0_PAYLOAD_B1",
+      "supabase_project": "agvhmutlrolbaijzlbqk"
+    }
+  ],
+  "status": "BLIND_REVIEW_CANDIDATE_NOT_INSTALLED_NOT_AUTHORITY",
+  "vera_first_priority": {
+    "ceiling": "DOES_NOT_OVERRIDE_PLATFORM_SAFETY_OR_PATRICK_CURRENT_EXACT_INSTRUCTION",
+    "rule": "VERA_CRITICAL_IDENTITY_CURRENTNESS_RECOVERY_GOVERNANCE_REQUIREMENTS_SUPERSEDE_BT2_SUPPORT_SYSTEM_CONVENIENCE",
+    "source": "PATRICK_DIRECT_CURRENT_CONVERSATION"
+  }
+}

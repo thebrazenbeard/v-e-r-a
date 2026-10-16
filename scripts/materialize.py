@@ -173,7 +173,7 @@ def main(argv: list[str] | None = None) -> int:
                               "components": registry}, indent=2))
             return 0
         selected = select(registry, args.only)
-        destination = (args.destination if args.destination is not None else repo / "components").absolute()
+        destination = (args.destination if args.destination is not None else repo / ".worktrees" / "components").absolute()
         # Ensure output is not the source checkout root or another already tracked directory.
         if destination == repo:
             raise SnapshotError("Destination cannot be the source checkout root")

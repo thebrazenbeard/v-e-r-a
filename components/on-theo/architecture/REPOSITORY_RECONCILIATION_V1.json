@@ -1,0 +1,100 @@
+{
+  "schema": "ON_THEO_REPOSITORY_RECONCILIATION_V1",
+  "status": "DRAFT_CANONICALIZATION_CANDIDATE_NO_MERGE_AUTHORITY",
+  "generated_date": "2026-09-20",
+  "current_main": {
+    "sha": "eedbcf660c2cfe6cff5636e798806b0cd3d56efc",
+    "classification": "MAIN_BEHIND_ACTIVE_INFRASTRUCTURE_AND_RESEARCH"
+  },
+  "composed_subjects": [
+    {
+      "role": "SOURCE_REGISTRY_AND_MATERIALIZATION_HARDENING",
+      "pr": 81,
+      "head": "f243db1256a19fb1e3e61f119ed48263e034e6b3",
+      "state": "MECHANICALLY_QUALIFIED",
+      "evidence": [
+        "hosted/local prior qualification recorded in PR",
+        "fresh BT2 Coordinator 56/56 pytest PASS",
+        "registry validator PASS 0 errors/0 warnings",
+        "rebase audit 50 total / 11 ancestor / 39 divergent / 0 referential mismatches",
+        "compileall PASS",
+        "diff-check against 7c1e57f... PASS"
+      ],
+      "claim_ceiling": "Referential-precondition and mechanical source equivalence only; no blanket historical/philosophical truth promotion."
+    },
+    {
+      "role": "CHATGPT_PROJECT_INTERFACE_AND_CURRENTNESS",
+      "pr": 103,
+      "head": "05b41dced0d34d8608986106027d5431d7230496",
+      "state": "SOURCE_COMPOSED_NOT_CANONICAL",
+      "note": "Interface files are additive to the V2 source spine. The old CURRENT.md pointer is replaced by this candidate's fresh reconstruction pointer."
+    },
+    {
+      "role": "EXODUS_CHATLESS_RECOVERY_CHECKPOINT",
+      "pr": 95,
+      "head": "2e11e28d1a40cd4cf17d2feb3640b6b5284769ba",
+      "state": "SOURCE_COMPOSED_NOT_CANONICAL",
+      "note": "Documentation/recovery only; does not promote a retired chat into infrastructure."
+    }
+  ],
+  "historical_source_families": {
+    "v1_materialization_stack": {
+      "prs": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33
+      ],
+      "disposition": "HISTORICAL_PROVENANCE_SUPERSEDED_BY_V2_SOURCE_LINE_FOR_CURRENT_CANONICALIZATION"
+    },
+    "v2_failed_candidate": {
+      "pr": 80,
+      "disposition": "FAILED_PRESERVED_EVIDENCE",
+      "blockers": [
+        "no-op provenance erasure",
+        "declared-base/rebase gate defect"
+      ],
+      "successor": 81
+    },
+    "v2_rehearsal_parent": {
+      "pr": 79,
+      "disposition": "HISTORICAL_STACK_DEPENDENCY_OF_81"
+    }
+  },
+  "research_policy": {
+    "active_research_prs": "REMAIN_OFF_MAIN_BY_DEFAULT",
+    "rule": "Research breadth is indexed by live GitHub currentness; research PR count is not a canonical merge queue.",
+    "current_high_level_examples": [
+      96,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137
+    ]
+  },
+  "proposed_main_meaning": [
+    "reconstructible source/registry/tooling spine",
+    "native ChatGPT Project interface and evidence/currentness contracts",
+    "durable recovery pointers",
+    "research provenance/indexing without wholesale ingestion of active research leaves"
+  ],
+  "protected_effects": {
+    "merge": false,
+    "main_ref_move": false,
+    "branch_deletion": false,
+    "project_settings_change": false,
+    "deployment": false
+  },
+  "fresh_read_rule": "Any head movement in a composed subject or this candidate requires fresh exact-head qualification/review."
+}

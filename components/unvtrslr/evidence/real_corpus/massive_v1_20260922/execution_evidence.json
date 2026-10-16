@@ -1,0 +1,16 @@
+{
+  "schema":"UNVTRSLR_REAL_CORPUS_EXECUTION_EVIDENCE_V1",
+  "run_id":"MASSIVE_V1_FIRST_REAL_CORPUS_20260922",
+  "workflow_run_id":35780678938,
+  "workflow_job_id":106925111095,
+  "workflow_artifact_id":10716994299,
+  "workflow_artifact_name":"massive-v1-first-real-corpus-b938d13c7293f72c6b769b95934b124d9c2901aa",
+  "workflow_artifact_zip_sha256":"be6e6fee1febf6b93b772cdd6b74e76fbd1edc3aa5d13eb294d5811adf40e12f",
+  "workflow_conclusion":"success",
+  "executed_pr_head":"b938d13c7293f72c6b769b95934b124d9c2901aa",
+  "github_synthetic_merge_sha":"65e46eda379d7470acfe755aff79dbdd5431c382",
+  "dataset_sha256":"7df623fd2d300a4d235d6ee5bd396c9a28258d3a0ccb29abdb054506eba153f8",
+  "result":"MULTILINGUAL_HOLDOUT_THRESHOLD_NOT_MET",
+  "leakage_violations":[],
+  "note":"The workflow succeeded; the preregistered scientific gate did not."
+}

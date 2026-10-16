@@ -1,0 +1,246 @@
+schema_version: on-theo.occurrence-provenance-overlay.v1
+status: COMPLETE_OVER_TARGETED_V1_OCCURRENCE_SET
+subject:
+  predecessor_pr: 43
+  predecessor_head: 1c1019d6f2eda3bd442349ec1c896e6270a2e100
+  source_occurrence_file: traditions/sumerian/death-corpus-lexical-occurrences-v1.yaml
+  source_occurrence_count: 25
+
+evidence_states:
+  - WITNESS_ALIGNED_CONFIRMED
+  - WITNESS_ALIGNED_CONFIRMED_WITH_VARIANT_SYNTAX
+  - WITNESS_ALIGNED_CONFIRMED_WITH_VARIATION
+  - CURRENT_COMPOSITE_CONFIRMED
+  - CURRENT_COMPOSITE_CONFIRMED_GEOGRAPHIC
+  - CURRENT_COMPOSITE_CONFIRMED_DEATH_REALM
+  - CURRENT_COMPOSITE_CONFIRMED_WITH_DAMAGE
+  - CURRENT_COMPOSITE_REPEATED_DOMAIN_CONFIRMED
+  - ETCSL_ME_TURAN_VERSION_CONFIRMED
+  - ETCSL_DIRECT_CURRENT_RECHECK_PENDING
+
+currentness_states:
+  - CURRENT_DIGITAL_WITNESS_SUPPORT
+  - CURRENT_DIGITAL_COMPOSITE_SUPPORT
+  - LATER_PHILOLOGICAL_CROSSCHECK_PENDING
+  - FULL_EDITION_RECHECK_PENDING
+  - DIRECT_SCORE_OR_PLATE_RECHECK_REQUIRED
+  - WITNESS_ALIGNMENT_UNAVAILABLE
+
+occurrences:
+  - occurrence_id: OCC-C141-L73-GANZER
+    composition_id: c.1.4.1
+    version: COMPOSITE
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P345344]
+    currentness_state: LATER_PHILOLOGICAL_CROSSCHECK_PENDING
+    dependency: Attinger_2019_2021
+    note: "CDLI Q000343 confirms palace Ganzer with aligned Nippur witness support."
+
+  - occurrence_id: OCC-C141-L74-KUR
+    composition_id: c.1.4.1
+    version: COMPOSITE
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P345344]
+    currentness_state: LATER_PHILOLOGICAL_CROSSCHECK_PENDING
+    dependency: Attinger_2019_2021
+
+  - occurrence_id: OCC-C141-L75-KUR
+    composition_id: c.1.4.1
+    version: COMPOSITE
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P345597]
+    currentness_state: LATER_PHILOLOGICAL_CROSSCHECK_PENDING
+    dependency: Attinger_2019_2021
+
+  - occurrence_id: OCC-C141-L98-GANZER
+    composition_id: c.1.4.1
+    version: COMPOSITE
+    evidence_state: ETCSL_DIRECT_CURRENT_RECHECK_PENDING
+    witnesses: []
+    currentness_state: LATER_PHILOLOGICAL_CROSSCHECK_PENDING
+    dependency: Attinger_2019_2021
+    note: "Not separately upgraded in the targeted CDLI line-revalidation pass."
+
+  - occurrence_id: OCC-C141-L99-KUR
+    composition_id: c.1.4.1
+    version: COMPOSITE
+    evidence_state: ETCSL_DIRECT_CURRENT_RECHECK_PENDING
+    witnesses: []
+    currentness_state: LATER_PHILOLOGICAL_CROSSCHECK_PENDING
+    dependency: Attinger_2019_2021
+    note: "Not separately upgraded in the targeted CDLI line-revalidation pass."
+
+  - occurrence_id: OCC-C141-L119-KUR
+    composition_id: c.1.4.1
+    version: COMPOSITE
+    evidence_state: WITNESS_ALIGNED_CONFIRMED_WITH_VARIATION
+    witnesses: [P274957, P356898]
+    currentness_state: LATER_PHILOLOGICAL_CROSSCHECK_PENDING
+    dependency: Attinger_2019_2021
+
+  - occurrence_id: OCC-C141-L120-GANZER
+    composition_id: c.1.4.1
+    version: COMPOSITE
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P356898]
+    currentness_state: LATER_PHILOLOGICAL_CROSSCHECK_PENDING
+    dependency: Attinger_2019_2021
+
+  - occurrence_id: OCC-C1814-L166-GANZER
+    composition_id: c.1.8.1.4
+    version: COMPOSITE
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P346141]
+    currentness_state: FULL_EDITION_RECHECK_PENDING
+    dependency: Gadotti_2014
+
+  - occurrence_id: OCC-C1814-L166-KUR
+    composition_id: c.1.8.1.4
+    version: COMPOSITE
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P346141]
+    currentness_state: FULL_EDITION_RECHECK_PENDING
+    dependency: Gadotti_2014
+
+  - occurrence_id: OCC-C1814-L178-KUR
+    composition_id: c.1.8.1.4
+    version: COMPOSITE
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P346141]
+    currentness_state: FULL_EDITION_RECHECK_PENDING
+    dependency: Gadotti_2014
+
+  - occurrence_id: OCC-C1814-L179-GANZER
+    composition_id: c.1.8.1.4
+    version: COMPOSITE
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P346141]
+    currentness_state: FULL_EDITION_RECHECK_PENDING
+    dependency: Gadotti_2014
+
+  - occurrence_id: OCC-C1814-L224-KUR-GANZER
+    composition_id: c.1.8.1.4
+    version: COMPOSITE
+    evidence_state: ETCSL_DIRECT_CURRENT_RECHECK_PENDING
+    witnesses: []
+    currentness_state: FULL_EDITION_RECHECK_PENDING
+    dependency: Gadotti_2014
+    note: "High-value paired reading remains outside the targeted witness-upgrade subset."
+
+  - occurrence_id: OCC-C1814-L292-GIDIM
+    composition_id: c.1.8.1.4
+    version: COMPOSITE
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    witnesses: [P346143]
+    currentness_state: FULL_EDITION_RECHECK_PENDING
+    dependency: Gadotti_2014
+
+  - occurrence_id: OCC-C1814-L303-GIDIM
+    composition_id: c.1.8.1.4
+    version: COMPOSITE
+    evidence_state: WITNESS_ALIGNED_CONFIRMED_WITH_VARIANT_SYNTAX
+    witnesses: [P346143]
+    currentness_state: FULL_EDITION_RECHECK_PENDING
+    dependency: Gadotti_2014
+
+  - occurrence_id: OCC-C1813-L38-GIDIM
+    composition_id: c.1.8.1.3
+    version: ME_TURAN_VERSION
+    evidence_state: ETCSL_ME_TURAN_VERSION_CONFIRMED
+    witnesses: []
+    currentness_state: DIRECT_SCORE_OR_PLATE_RECHECK_REQUIRED
+    dependency: Cavigneaux_al_Rawi_2000_CM19
+
+  - occurrence_id: OCC-C1813-L39-GIDIM
+    composition_id: c.1.8.1.3
+    version: ME_TURAN_VERSION
+    evidence_state: ETCSL_ME_TURAN_VERSION_CONFIRMED
+    witnesses: []
+    currentness_state: DIRECT_SCORE_OR_PLATE_RECHECK_REQUIRED
+    dependency: Cavigneaux_al_Rawi_2000_CM19
+
+  - occurrence_id: OCC-C1813-L39-KUR
+    composition_id: c.1.8.1.3
+    version: ME_TURAN_VERSION
+    evidence_state: ETCSL_ME_TURAN_VERSION_CONFIRMED
+    witnesses: []
+    currentness_state: DIRECT_SCORE_OR_PLATE_RECHECK_REQUIRED
+    dependency: Cavigneaux_al_Rawi_2000_CM19
+
+  - occurrence_id: OCC-C1813-L166-ARALI
+    composition_id: c.1.8.1.3
+    version: ME_TURAN_VERSION
+    evidence_state: ETCSL_ME_TURAN_VERSION_CONFIRMED
+    witnesses: []
+    currentness_state: DIRECT_SCORE_OR_PLATE_RECHECK_REQUIRED
+    dependency: Cavigneaux_al_Rawi_2000_CM19
+    note: "Arali is explicitly version-specific in the checked surfaces."
+
+  - occurrence_id: OCC-C2411-L62-ARALI
+    composition_id: c.2.4.1.1
+    version: COMPOSITE
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    witnesses: []
+    currentness_state: WITNESS_ALIGNMENT_UNAVAILABLE
+    dependency: Fluckiger_Hawker_1999_score
+
+  - occurrence_id: OCC-C2411-L65-KUR-GEOGRAPHIC
+    composition_id: c.2.4.1.1
+    version: COMPOSITE
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED_GEOGRAPHIC
+    witnesses: []
+    currentness_state: WITNESS_ALIGNMENT_UNAVAILABLE
+    dependency: Fluckiger_Hawker_1999_score
+
+  - occurrence_id: OCC-C2411-L73-KUR
+    composition_id: c.2.4.1.1
+    version: COMPOSITE
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED_DEATH_REALM
+    witnesses: []
+    currentness_state: WITNESS_ALIGNMENT_UNAVAILABLE
+    dependency: Fluckiger_Hawker_1999_score
+
+  - occurrence_id: OCC-C2411-L76-KUR
+    composition_id: c.2.4.1.1
+    version: COMPOSITE
+    evidence_state: CURRENT_COMPOSITE_REPEATED_DOMAIN_CONFIRMED
+    witnesses: []
+    currentness_state: WITNESS_ALIGNMENT_UNAVAILABLE
+    dependency: Fluckiger_Hawker_1999_score
+
+  - occurrence_id: OCC-C2411-L95-KUR
+    composition_id: c.2.4.1.1
+    version: COMPOSITE
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    witnesses: []
+    currentness_state: WITNESS_ALIGNMENT_UNAVAILABLE
+    dependency: Fluckiger_Hawker_1999_score
+
+  - occurrence_id: OCC-C2411-L127-ARALI
+    composition_id: c.2.4.1.1
+    version: COMPOSITE
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    witnesses: []
+    currentness_state: WITNESS_ALIGNMENT_UNAVAILABLE
+    dependency: Fluckiger_Hawker_1999_score
+
+  - occurrence_id: OCC-C2411-L136-KUR
+    composition_id: c.2.4.1.1
+    version: COMPOSITE
+    evidence_state: CURRENT_COMPOSITE_REPEATED_DOMAIN_CONFIRMED
+    witnesses: []
+    currentness_state: WITNESS_ALIGNMENT_UNAVAILABLE
+    dependency: Fluckiger_Hawker_1999_score
+
+coverage:
+  expected_occurrence_count: 25
+  overlaid_occurrence_count: 25
+  missing_occurrences: []
+  extra_occurrences: []
+
+global_guards:
+  - "Evidence state and currentness state are orthogonal."
+  - "Witness-aligned confirmation does not waive later full-edition recheck when a newer edition exists."
+  - "Composite confirmation is not witness confirmation."
+  - "Version-specific evidence must not be promoted to version-neutral composition evidence without explicit reconciliation."
+  - "No ETCSL negative search is promoted to historical absence."

@@ -1,0 +1,35 @@
+schema_version: on-theo.a1146-morphology-correction.v1
+status: CORRECTION_APPLIED
+subject:
+  predecessor_pr: 52
+  predecessor_head: cf5c517faca6faff27e7ba28cd738ae49dd9523f
+
+target:
+  prior_claim: CLM-A1146-DAKU-AGENTIVE-KILLING
+  prior_status: TOO_STRONG
+  correction: DOWNGRADE
+
+states:
+  death_context: HIGH
+  common_translation_kill: SCHOLARLY_RECONSTRUCTION
+  daku_lemma: DISPUTED
+  exact_morphology: UNRESOLVED
+  sasson_alternative: REPORTED_PHILOLOGICAL_ALTERNATIVE
+  taru_return_control: RETAIN
+
+alternatives:
+  - analysis: DAKU_KILL
+    status: COMMON_SCHOLARLY_RECONSTRUCTION_MORPHOLOGICALLY_PROBLEMATIC
+  - analysis: PUSH_PRESS_IN_OR_PIERCE
+    status: SECOND_HAND_REPORTED_ALTERNATIVE
+
+effect_on_comparison:
+  shared_dumuzid_baal_lexical_formula: NOT_FOUND
+  direct_calque_evidence: NOT_ESTABLISHED
+  prior_agentive_kill_high_confidence: SUPERSEDED
+
+guards:
+  - "translation does not prove lemma"
+  - "contextual death frame does not settle morphology"
+  - "reported scholarly alternative is not primary-text proof"
+  - "correction narrows only the disputed A.1146 death verb"

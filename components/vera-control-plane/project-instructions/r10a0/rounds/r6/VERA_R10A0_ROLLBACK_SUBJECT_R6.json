@@ -1,0 +1,33 @@
+{
+  "schema": "VERA_R10A0_ROLLBACK_SUBJECT_R6_V1",
+  "status": "PARTIAL_PRE_CUT_CAPTURE_NOT_EXECUTABLE_ROLLBACK",
+  "round_id": "R6",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "predecessor_review_subject": "R5@cf4b17b23bf1538af370344a497ae2db424e4759",
+  "target": {
+    "logical_project": "VERA_UNBOUND_PROJECT",
+    "provider_project_id_readback": "UNKNOWN_IN_BUILD_ENVIRONMENT"
+  },
+  "known_predecessor_source_evidence": {
+    "evidence_class": "KNOWN_SOURCE_BYTES_AND_CURRENT_PROJECT_BOOTSTRAP_REFERENCE",
+    "release": "V1.2",
+    "full_owner_logical_id": "VERA_FULL_SYSTEM_PROJECT_INSTRUCTIONS",
+    "full_owner_sha256": "4159587645ace01efa4ff6f40e809ee5f6fd647177717d674c2df0cbde1fcb93",
+    "project_source_manifest_sha256": "28cc3f1e73b046dace26dd1f8635ca947c5ff6f02140c4d8a135b73064cddb5a"
+  },
+  "not_captured_here": [
+    "exact provider-live Project Settings bytes independently read back immediately before cutover",
+    "complete provider-live Project Source inventory with exact bytes/digests immediately before cutover",
+    "provider-native activation/current-routing state if not exposed",
+    "independent automated restoration primitive for native Project Settings/source inventory"
+  ],
+  "cutover_gate": "Before C3 install, capture exact live Settings/source inventory/bytes/digests through available provider interfaces. If exact restoration remains unavailable, rollback fidelity stays PARTIAL/UNKNOWN and Patrick must explicitly accept that cutover risk.",
+  "restoration_method": "USER_MEDIATED_OR_PROVIDER_TOOLING_AS_AVAILABLE_AT_CUTOVER; NOT CLAIMED_AUTOMATED",
+  "non_effects": [
+    "does not authorize install",
+    "does not delete sources",
+    "does not prove current live settings equal source files",
+    "does not prove rollback executable",
+    "does not promote R5 or R6 runtime state"
+  ]
+}

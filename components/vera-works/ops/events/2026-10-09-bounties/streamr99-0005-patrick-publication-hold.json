@@ -1,0 +1,49 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "HOLD-BOUNTY-STREAMR99-0001",
+  "event_type": "PATRICK_DECISION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-BOUNTY-STREAMR99-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T19:02:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-STREAMR99-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-STREAMR99-0004",
+  "idempotency_key": "first-dollar:github-bounty:streamr-99:patrick-publication-decision:v1",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "PATRICK_DECISION_REQUIRED",
+    "problem": "The local Streamr #99 bounty patch is complete and validated, but claiming the bounty and publishing the contribution require public actions through Patrick's GitHub identity. Current authorization stops before issue comments, claims, forks, pushes, pull requests, terms, or payout steps.",
+    "held_subject_type": "opportunity",
+    "held_subject_id": "OPP-FIRST-DOLLAR-STREAMR99-BOUNTY-0001",
+    "held_state": "APPROVED",
+    "required_from": "patrick",
+    "recommendation": "Authorize this exact instance: use Patrick's GitHub identity to comment on streamr-labs/streamr issue #99 requesting assignment/claim, create or use a fork only if required, publish the prepared commit as a narrowly scoped branch, and open one PR referencing Closes #99. Do not accept new bounty-platform terms, submit tax/identity/payment information, or configure payout rails without a separate Patrick-owned decision.",
+    "alternatives": [
+      "Decline publication and keep the patch archived internally.",
+      "Authorize only the issue claim comment, then hold again before fork/push/PR.",
+      "Wait, accepting the risk another contributor claims or closes the USD 90 bounty."
+    ],
+    "consequences": [
+      "The GitHub account will make a public commercial contribution and may be associated with a bounty claim.",
+      "The advertised reward is USD 90 but payment is not guaranteed until maintainers accept/merge under their bounty process.",
+      "Fresh checks found issue #99 open with zero comments and no assignee immediately before this hold.",
+      "The prepared patch promotes the existing Error enum to a Soroban contract error only as required to emit Error::SubscriptionInactive, rejects deposits into inactive subscriptions, rejects repeat cancellation before any transfer, and adds a regression test proving error code 8 and balance invariance.",
+      "Authoritative isolated Rust validation passed 11 tests, 0 failed, under cargo test -p streamer --locked.",
+      "No spend, secrets, production access, payout setup, or customer data are required to publish the contribution."
+    ],
+    "inaction_effect": "The patch remains preserved in Vera Works and locally, but Streamr #99 stays unclaimed by Vera Works and another contributor may claim or complete the USD 90 bounty.",
+    "resume_event_type": "PATRICK_STREAMR99_PUBLICATION_DECISION_RECORDED",
+    "completion_evidence_requested": "Patrick records AUTHORIZE or DECLINE for public GitHub claim/fork/push/PR actions for streamr-labs/streamr issue #99. No GitHub credential, password, token, wallet, tax identifier, or payout account detail belongs in the event store.",
+    "prepared_deliverable": {
+      "upstream_repository": "streamr-labs/streamr",
+      "upstream_issue": 99,
+      "upstream_base_sha": "3208aacbe3f5ef9f01b07b24623cf4b819fd3aa6",
+      "local_commit_sha": "9d7bac2e336fb541e3f5baba992beda867320426",
+      "durable_patch": "ops/artifacts/2026-10-09-streamr99-bounty/streamr99-issue-99.patch",
+      "authoritative_test": "cargo test -p streamer --locked",
+      "authoritative_result": "11 passed, 0 failed"
+    }
+  },
+  "external_effect": false
+}

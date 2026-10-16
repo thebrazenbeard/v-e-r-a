@@ -1,0 +1,30 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-SIGNPOSTAPI118-0005",
+  "event_type": "OPPORTUNITY_CLOSED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-SIGNPOSTAPI118-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T19:27:37Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SIGNPOSTAPI118-BOUNTY-0001",
+  "causation_id": "HOLD-BOUNTY-SIGNPOSTAPI118-0001",
+  "idempotency_key": "first-dollar:github-bounty:signpostapi118:closed-source-closed:20261009:v1",
+  "from_state": "APPROVED",
+  "to_state": "CLOSED",
+  "payload": {
+    "outcome": "SOURCE_BOUNTY_CLOSED_BEFORE_PUBLICATION",
+    "source_repository": "Signpost-Labs/signpost-api",
+    "source_issue_number": 118,
+    "issue_state_observed": "CLOSED",
+    "issue_updated_at_observed": "2026-10-09T18:25:21Z",
+    "issue_comment_count_observed": 1,
+    "publication_performed": false,
+    "local_patch_commit_sha": "4ccc3a4503017ae736dc3f9d1f97877796093321",
+    "durable_patch": "ops/artifacts/2026-10-09-signpostapi118-bounty/signpost-api-issue-118.patch",
+    "validation_result": "6 passed, 2 skipped, 0 failed",
+    "publication_hold": "HOLD-BOUNTY-SIGNPOSTAPI118-0001",
+    "hold_disposition": "CANCELLED_BY_EVT-BOUNTY-SIGNPOSTAPI118-0006; underlying opportunity is CLOSED and no publication may occur without a fresh live opportunity and new authorization.",
+    "claim_ceiling": "No bounty claim, fork, upstream push, pull request, terms acceptance, payout setup, identity submission, or spend occurred."
+  },
+  "external_effect": false
+}

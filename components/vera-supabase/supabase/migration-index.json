@@ -1,0 +1,404 @@
+{
+  "schema": "VERA_SUPABASE_MIGRATION_INDEX_V1",
+  "project_ref": "klmbpaigzeguvnpccqzz",
+  "count": 99,
+  "migrations": [
+    {
+      "version": "20260729012911",
+      "name": "initialize_vera_save_state_ledger"
+    },
+    {
+      "version": "20260729013307",
+      "name": "harden_vera_save_state_trigger"
+    },
+    {
+      "version": "20260729094322",
+      "name": "harden_vera_save_state_access"
+    },
+    {
+      "version": "20260729125913",
+      "name": "add_vera_branch_coordination_ledger"
+    },
+    {
+      "version": "20260730191337",
+      "name": "add_neutral_vera_context_v3"
+    },
+    {
+      "version": "20260730191421",
+      "name": "harden_neutral_vera_context_v3_access"
+    },
+    {
+      "version": "20260730191641",
+      "name": "complete_neutral_vera_context_v3_hardening"
+    },
+    {
+      "version": "20260731233832",
+      "name": "create_vera_portable_bootstrap_registry_v1"
+    },
+    {
+      "version": "20260804094928",
+      "name": "create_build_team_2_hivemind"
+    },
+    {
+      "version": "20260804100227",
+      "name": "harden_build_team_2_rls"
+    },
+    {
+      "version": "20260804101423",
+      "name": "bt2_identity_and_rpc"
+    },
+    {
+      "version": "20260804101848",
+      "name": "update_seven_experimental_science"
+    },
+    {
+      "version": "20260808165224",
+      "name": "bug_ops_v1_verified"
+    },
+    {
+      "version": "20260808190124",
+      "name": "bug_ops_v1_forward_verified_correction"
+    },
+    {
+      "version": "20260808190145",
+      "name": "bug_ops_v1_claim_generation_cas"
+    },
+    {
+      "version": "20260808190215",
+      "name": "bug_ops_v1_terminal_reopen_and_recovery_fix"
+    },
+    {
+      "version": "20260808190343",
+      "name": "bug_ops_v1_operation_receipts_and_static_roles"
+    },
+    {
+      "version": "20260808190403",
+      "name": "bug_ops_v1_disable_deprecated_entrypoints"
+    },
+    {
+      "version": "20260808190428",
+      "name": "bug_ops_v1_ack_currentness_and_truncate_guards"
+    },
+    {
+      "version": "20260810135003",
+      "name": "redworm_runtime_status_v1"
+    },
+    {
+      "version": "20260813102949",
+      "name": "bt2_one_working_laws_mutable_current_v1"
+    },
+    {
+      "version": "20260814014702",
+      "name": "harden_vera_public_function_search_paths"
+    },
+    {
+      "version": "20260814124623",
+      "name": "datum_registry_v1"
+    },
+    {
+      "version": "20260814124655",
+      "name": "datum_registry_v1_current_view"
+    },
+    {
+      "version": "20260814124757",
+      "name": "datum_registry_v1_fix_uuid_head_select"
+    },
+    {
+      "version": "20260814143945",
+      "name": "datum_lifecycle_v2_rebuild"
+    },
+    {
+      "version": "20260817091444",
+      "name": "bt2_one_training_checkpoint_infrastructure_v1"
+    },
+    {
+      "version": "20260817091608",
+      "name": "bt2_one_checkpoint_integrity_guards_v1"
+    },
+    {
+      "version": "20260817091717",
+      "name": "bt2_one_bootstrap_snapshot_v1_fix"
+    },
+    {
+      "version": "20260822144712",
+      "name": "bt2_347d_vera_view_hardening_v1"
+    },
+    {
+      "version": "20260822223543",
+      "name": "semantic_atlas_runtime_capture_v1"
+    },
+    {
+      "version": "20260822223734",
+      "name": "semantic_atlas_snapshot_scope_v1_fix"
+    },
+    {
+      "version": "20260822224126",
+      "name": "semantic_atlas_runtime_capture_hardening_v2_fix"
+    },
+    {
+      "version": "20260822224828",
+      "name": "semantic_atlas_runtime_capture_hardening_v3"
+    },
+    {
+      "version": "20260822225106",
+      "name": "semantic_atlas_runtime_manifest_v2_readback_gate"
+    },
+    {
+      "version": "20260823003143",
+      "name": "semantic_atlas_runtime_sealed_attempt_v4_fix"
+    },
+    {
+      "version": "20260823003901",
+      "name": "semantic_atlas_runtime_manifest_v3_transition_guard_v5"
+    },
+    {
+      "version": "20260823005615",
+      "name": "semantic_atlas_runtime_repository_bound_manifest_v4_v6_fix"
+    },
+    {
+      "version": "20260823010022",
+      "name": "semantic_atlas_runtime_scoped_provenance_views_v6_fix"
+    },
+    {
+      "version": "20260823010215",
+      "name": "semantic_atlas_runtime_disable_legacy_repository_unbound_rpcs_v6_fix"
+    },
+    {
+      "version": "20260823010932",
+      "name": "semantic_atlas_runtime_current_read_gate_v1"
+    },
+    {
+      "version": "20260823011630",
+      "name": "semantic_atlas_runtime_current_search_v1"
+    },
+    {
+      "version": "20260823092321",
+      "name": "semantic_atlas_runtime_current_read_consistent_snapshot_v2_fix"
+    },
+    {
+      "version": "20260823092434",
+      "name": "semantic_atlas_runtime_search_consistent_snapshot_v2_fix"
+    },
+    {
+      "version": "20260823093204",
+      "name": "semantic_atlas_runtime_current_search_v2_broad_fallback"
+    },
+    {
+      "version": "20260823093414",
+      "name": "semantic_atlas_runtime_current_search_v3_ambiguity_signal"
+    },
+    {
+      "version": "20260823094041",
+      "name": "semantic_atlas_runtime_current_search_v4_domain_separation"
+    },
+    {
+      "version": "20260823094118",
+      "name": "semantic_atlas_runtime_current_search_v4_domain_separation_fix"
+    },
+    {
+      "version": "20260823094305",
+      "name": "semantic_atlas_runtime_current_search_v5_explicit_type_scope"
+    },
+    {
+      "version": "20260823094509",
+      "name": "semantic_atlas_runtime_current_search_v5_wildcard_reject_fix"
+    },
+    {
+      "version": "20260823095525",
+      "name": "semantic_atlas_runtime_current_search_v6_prelimit_ambiguity_stats"
+    },
+    {
+      "version": "20260823101232",
+      "name": "semantic_atlas_runtime_current_search_v7_evidence_projection"
+    },
+    {
+      "version": "20260823105723",
+      "name": "semantic_atlas_runtime_current_search_v8_safe_result_projection"
+    },
+    {
+      "version": "20260823110735",
+      "name": "semantic_atlas_runtime_current_search_v9_opaque_generator_projection"
+    },
+    {
+      "version": "20260823121232",
+      "name": "semantic_atlas_runtime_current_search_v10_english_fts"
+    },
+    {
+      "version": "20260823140041",
+      "name": "semantic_atlas_runtime_current_search_v11_working_project_memory"
+    },
+    {
+      "version": "20260823140448",
+      "name": "semantic_atlas_runtime_current_search_v11_cutover"
+    },
+    {
+      "version": "20260823162651",
+      "name": "semantic_atlas_empirical_v9_compat_v1"
+    },
+    {
+      "version": "20260829104849",
+      "name": "r9b0_memory_epoch_v1"
+    },
+    {
+      "version": "20260829214852",
+      "name": "repair_vera_save_state_head_resolution_v1"
+    },
+    {
+      "version": "20260830182602",
+      "name": "r9b0_provider_readback_cardinality_v1"
+    },
+    {
+      "version": "20260901233955",
+      "name": "reharden_save_state_view_privacy"
+    },
+    {
+      "version": "20260901234308",
+      "name": "harden_bt2_trigger_search_paths"
+    },
+    {
+      "version": "20260901234840",
+      "name": "brigit_save_state_core_v1"
+    },
+    {
+      "version": "20260901234857",
+      "name": "brigit_save_state_guards_views_v1"
+    },
+    {
+      "version": "20260901234914",
+      "name": "brigit_coordination_core_v1"
+    },
+    {
+      "version": "20260901234936",
+      "name": "brigit_context_core_v1"
+    },
+    {
+      "version": "20260901235001",
+      "name": "brigit_context_views_functions_v1"
+    },
+    {
+      "version": "20260901235016",
+      "name": "brigit_context_verify_function_v1"
+    },
+    {
+      "version": "20260901235125",
+      "name": "brigit_function_acl_hardening_v1"
+    },
+    {
+      "version": "20260902120716",
+      "name": "radar_control_plane_v1"
+    },
+    {
+      "version": "20260902120826",
+      "name": "radar_realtime_v1"
+    },
+    {
+      "version": "20260902151756",
+      "name": "bug_ops_receipt_first_replay_safety_v2"
+    },
+    {
+      "version": "20260902151848",
+      "name": "bug_ops_retire_voss_role_v2"
+    },
+    {
+      "version": "20260902152137",
+      "name": "bug_ops_route_replay_safety_project_key_v2"
+    },
+    {
+      "version": "20260902203610",
+      "name": "radar_visual_identity_v1"
+    },
+    {
+      "version": "20260902204759",
+      "name": "radar_live_message_projection_v1"
+    },
+    {
+      "version": "20260902231445",
+      "name": "radar_live_message_collision_v1"
+    },
+    {
+      "version": "20260903000603",
+      "name": "radar_receipt_plane_v1"
+    },
+    {
+      "version": "20260903001906",
+      "name": "radar_assignment_plane_v1"
+    },
+    {
+      "version": "20260903113314",
+      "name": "radar_operator_views_v1"
+    },
+    {
+      "version": "20260909161852",
+      "name": "add_vera_affective_runtime_v1"
+    },
+    {
+      "version": "20260909175556",
+      "name": "harden_vera_affective_runtime_integrity_v1"
+    },
+    {
+      "version": "20260920234744",
+      "name": "close_vera_affective_runtime_first_write_race_v1"
+    },
+    {
+      "version": "20260920235217",
+      "name": "persist_vera_affective_runtime_implementation_cut_v1"
+    },
+    {
+      "version": "20260920235414",
+      "name": "normalize_vera_affective_runtime_nullable_json_v1"
+    },
+    {
+      "version": "20260920235606",
+      "name": "add_vera_optional_invocation_test_executor_v1"
+    },
+    {
+      "version": "20260921000232",
+      "name": "bind_optional_invocation_route_evidence_v1"
+    },
+    {
+      "version": "20260921164521",
+      "name": "revoke_legacy_coordination_sequence_client_privileges"
+    },
+    {
+      "version": "20260921195742",
+      "name": "add_missing_fk_indexes_v1"
+    },
+    {
+      "version": "20260921200441",
+      "name": "make_deny_all_rls_explicit_v1"
+    },
+    {
+      "version": "20260921202213",
+      "name": "20260903214334_radar_thread_closure_v1"
+    },
+    {
+      "version": "20260921202217",
+      "name": "20260905230823_radar_oidc_replay_guard_v1"
+    },
+    {
+      "version": "20260921202221",
+      "name": "20260906133630_radar_node_routing_hardening_v1"
+    },
+    {
+      "version": "20260921202226",
+      "name": "20260906154101_radar_projection_journal_v1"
+    },
+    {
+      "version": "20260921202232",
+      "name": "20260906165117_radar_projection_journal_api_v1"
+    },
+    {
+      "version": "20260921202237",
+      "name": "20260908010500_radar_projection_atomic_file_v1"
+    },
+    {
+      "version": "20260922171230",
+      "name": "radar_oidc_replay_guard_rls_v1"
+    },
+    {
+      "version": "20260922190100",
+      "name": "harden_datum_v2_mutation_function_acls"
+    }
+  ],
+  "limitation": "Names and versions only; Supabase connector does not expose full migration SQL through this API."
+}

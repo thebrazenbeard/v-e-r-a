@@ -1,0 +1,88 @@
+schema_version: on-theo.line-revalidation-research.v1
+status: PARTIAL_PASS_WITH_STRONG_WITNESS_ALIGNMENT
+subject:
+  predecessor_pr: 40
+  predecessor_head: e1fbd46e151d65ac786257b268a28237b8e66d77
+  composition_id: c.1.4.1
+  cdli_composite: Q000343
+  cdli_witness_count: 58
+  cdli_aligned_witness_count: 44
+
+records:
+  - occurrence_group: INANA-DESCENT-L4-13-KUR
+    evidence_state: WITNESS_ALIGNED_REPEATED_FORMULA_CONFIRMED
+    lines: ["4-13 and city-expansion variants"]
+    lexeme: kur
+    witnesses_sample: [P268937, P267276, P345106, P345344, P345597]
+    note: "Repeated descent formula preserves kur across multiple Nippur witnesses."
+
+  - occurrence_group: INANA-DESCENT-L73-GANZER
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    lines: ["73"]
+    lexeme: ganzer
+    witnesses_sample: [P345344]
+    note: "P345344 preserves palace Ganzer."
+
+  - occurrence_group: INANA-DESCENT-L74-75-KUR-GATES
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    lines: ["74", "75"]
+    lexeme: kur
+    witnesses_sample: [P345344, P345597]
+    note: "Door/gate constructions preserve kur."
+
+  - occurrence_group: INANA-DESCENT-L117-KUR-NETI
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    lines: ["117"]
+    lexeme: kur
+    witnesses_sample: [P356898]
+    note: "Neti's chief-doorman office is expressed with kur."
+
+  - occurrence_group: INANA-DESCENT-L119-KUR-SEVEN-GATES
+    evidence_state: WITNESS_ALIGNED_CONFIRMED_WITH_VARIATION
+    lines: ["119"]
+    lexeme: kur
+    witnesses_sample: [P274957, P356898]
+
+  - occurrence_group: INANA-DESCENT-L120-GANZER
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    lines: ["120"]
+    lexeme: ganzer
+    witnesses_sample: [P356898]
+    note: "Palace Ganzer and its individual doors are witness-supported."
+
+  - occurrence_group: INANA-DESCENT-L126-GANZER-KUR-CODOMAIN
+    evidence_state: WITNESS_LEVEL_CODOMAIN_CONFIRMATION
+    lines: ["126"]
+    lexeme: "ganzer + kur"
+    witnesses_sample: [P266238]
+    note: "Local witness context combines Ganzer palace language with igi kur-ra-ka."
+
+  - occurrence_group: INANA-DESCENT-L132-ME-KUR
+    evidence_state: MULTI_WITNESS_ALIGNED_CONFIRMED
+    lines: ["132"]
+    lexeme: "me kur"
+    witnesses_sample: [P266238, P346462, P469280]
+
+  - occurrence_group: INANA-DESCENT-L137-ME-KUR
+    evidence_state: WITNESS_ALIGNED_CONFIRMED_WITH_VARIATION
+    lines: ["137"]
+    lexeme: "me kur"
+    witnesses_sample: [P266238, P356898]
+
+  - occurrence_group: INANA-DESCENT-L162-ME-KUR
+    evidence_state: MULTI_WITNESS_ALIGNED_CONFIRMED
+    lines: ["162"]
+    lexeme: "me kur"
+    witnesses_sample: [P269767, P274244, P346093, P346094]
+    note: "P346094 preserves the full repeated formula."
+
+  - occurrence_group: INANA-DESCENT-GARZA-KUR
+    evidence_state: MULTI_WITNESS_ALIGNED_CONFIRMED
+    lines: ["133", "138", "158", "163"]
+    lexeme: "garza kur"
+    witnesses_sample: [P266238, P345597, P346462, P356898, P269767, P346094]
+
+remaining_dependency:
+  source: Attinger_2019_2021
+  evidence_state: LATER_PHILOLOGICAL_CROSSCHECK_PENDING
+  note: "Open metadata/currentness verified; no direct line-by-line Attinger collation claim is made in this pass."

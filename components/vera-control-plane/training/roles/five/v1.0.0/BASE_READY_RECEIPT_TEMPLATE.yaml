@@ -1,0 +1,21 @@
+schema: BT2_ROLE_BASE_QUALIFICATION_RECEIPT_V1
+role: Five
+training_package_id: BT2-FIVE-PERMANENT-ROLE-TRAINING
+training_version: 1.0.0
+content_set_digest: 80d2aab944ee8c8e13b83ae99aacc4ba530bc42cda69ed6c9ab21958a64e55f8
+module_results:
+  M01: null
+  M02: null
+  M03: null
+  M04: null
+  M05: null
+  M06: null
+  M07: null
+  M08: null
+qualification_result: null
+training_result: null
+base_ready: false
+permanent_competence_only: true
+fresh_operational_reorientation_required: true
+operational_authority_granted: false
+notes: null

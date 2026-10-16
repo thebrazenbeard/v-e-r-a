@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0038",
+  "event_type": "OPPORTUNITY_REJECTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0004",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T22:33:01Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0037",
+  "idempotency_key": "first-dollar:opp:0004:rejected:vera",
+  "from_state": "VERA_DECISION",
+  "to_state": "REJECTED",
+  "payload": {
+    "decision": "REJECT",
+    "decision_owner": "vera",
+    "reasoning": "Do not spend a large implementation effort duplicating an active mature competitor for a modest bounty with uncertain award probability.",
+    "patrick_action_required": false
+  },
+  "external_effect": false
+}

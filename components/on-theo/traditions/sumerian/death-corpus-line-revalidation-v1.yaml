@@ -1,0 +1,60 @@
+schema_version: on-theo.line-revalidation-research.v1
+status: PARTIAL_PASS_WITH_WITNESS_LEVEL_UPGRADES
+subject:
+  predecessor_pr: 39
+  predecessor_head: 74ce2094ad8e45368bd51f8c559046b8b6f2c763
+  composition_id: c.1.8.1.4
+  cdli_composite: Q000364
+
+records:
+  - occurrence_id: OCC-C1814-L166-GANZER
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    composite_line: 166
+    aligned_witnesses: [P346141]
+    note: "Ganzer and kur are preserved together in the aligned Ur witness."
+
+  - occurrence_id: OCC-C1814-L166-KUR
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    composite_line: 166
+    aligned_witnesses: [P346141]
+
+  - occurrence_id: OCC-C1814-L178-KUR
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    composite_line: 178
+    aligned_witnesses: [P346141]
+
+  - occurrence_id: OCC-C1814-L179-GANZER
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    composite_line: 179
+    aligned_witnesses: [P346141]
+
+  - occurrence_id: OCC-C1814-L213-GIDIM
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    composite_line: 213
+    aligned_witnesses: []
+    note: "Current CDLI composite reads gidim. Later Attinger dispute concerns nearby differently numbered/sign-sensitive loci, so this record is retained but not witness-upgraded."
+
+  - occurrence_id: OCC-C1814-L292-GIDIM
+    evidence_state: WITNESS_ALIGNED_CONFIRMED
+    composite_line: 292
+    aligned_witnesses: [P346143]
+    note: "Aligned Ur witness preserves gidim in the no-funerary-offerings line."
+
+  - occurrence_id: OCC-C1814-L303-GIDIM
+    evidence_state: WITNESS_ALIGNED_CONFIRMED_WITH_VARIANT_SYNTAX
+    composite_line: 303
+    aligned_witnesses: [P346143]
+    note: "Witness preserves gidim-a-ni with different word order/continuation."
+
+quarantined_loci:
+  - editor: Pascal Attinger
+    publication_state: updated_2019
+    loci: [192, 214, 229, 237]
+    issue: "udug/gidim/kitim sign/read classification"
+    evidence_state: PHILOLOGICALLY_DISPUTED
+    note: "Do not promote these loci into the gidim occurrence set without manuscript-level control."
+
+remaining_dependency:
+  edition: Gadotti_2014
+  state: FULL_EDITION_RECHECK_PENDING
+  reason: "New full edition with additional manuscripts, eclectic text, textual matrix, commentary, and plates."

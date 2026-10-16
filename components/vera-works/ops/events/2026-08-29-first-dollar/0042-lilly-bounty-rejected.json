@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0042",
+  "event_type": "OPPORTUNITY_REJECTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0007",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T22:35:01Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0041",
+  "idempotency_key": "first-dollar:opp:0007:rejected:active-competitor",
+  "from_state": "DISCOVERED",
+  "to_state": "REJECTED",
+  "payload": {
+    "disposition": "REJECT_ACTIVE_COMPETITOR",
+    "reasoning": "The issue has an active /try participant and an open PR #202 that directly implements the requested change and reports the project's full validation checklist passing. Racing an already-complete competitor for a $60 bounty is poor expected value.",
+    "patrick_action_required": false
+  },
+  "external_effect": false
+}

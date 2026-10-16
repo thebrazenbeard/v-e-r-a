@@ -1,0 +1,89 @@
+{
+  "schema": "VERA_HOSTILE_REVIEWER_BINDING_V1",
+  "status": "SOURCE_BOUND_CURRENT_RUNTIME_HEAD_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
+  "frozen_at": "2026-09-22",
+  "runtime": {
+    "repository": "thebrazenbeard/vera",
+    "pull_request": 127,
+    "branch": "work/hostile-reviewer-runtime-v1-20260919",
+    "source_commit": "44bd82b07ced00cabf800c6ee36bf096a363b797",
+    "architecture_contract": {
+      "path": "architecture/VERA_HOSTILE_REVIEWER_RUNTIME_V1.json",
+      "blob": "ecdf279a231e2469aa202098250fe30981aa900e"
+    },
+    "runtime_module": {
+      "path": "runtime_cohesion/hostile_reviewer.py",
+      "blob": "da14b1f4fbfa587157dce1a7ce409313c7bda9a1"
+    },
+    "package_init": {
+      "path": "runtime_cohesion/__init__.py",
+      "blob": "23b93c30a89bcd8002847a7a53d89eb145ef4e22"
+    },
+    "focused_test": {
+      "path": "tests/test_runtime_cohesion_hostile_reviewer_feature.py",
+      "blob": "381d71150561b4fb28e6eec6cc454a335bef24cc"
+    },
+    "typed_contract": {
+      "input": "LiteralProposition",
+      "output": "HostileReviewDecision",
+      "literal_verdicts": [
+        "LITERAL_SURVIVES",
+        "LITERAL_FAILS",
+        "UNRESOLVED"
+      ],
+      "proposition_digest_bound": true,
+      "primary_answer_digest_bound": true,
+      "zero_objection_survival_allowed": true,
+      "stronger_route_guarded": true
+    }
+  },
+  "control_plane": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "branch": "repair/hostile-reviewer-control-current-main-20260922",
+    "control_contract": {
+      "path": "governance/VERA_HOSTILE_REVIEWER_CONTROL_V1.json",
+      "blob": "8f3ffe26dbcfe9132138210ab1a1fe4a6b355ab9"
+    },
+    "source_state": {
+      "path": "state/features/hostile-reviewer-v1.json",
+      "blob": "8b59faac8985c1bd237ee3f72a9ff466df80a097"
+    },
+    "toggle_tool": {
+      "path": "tools/hostile_reviewer_toggle.py",
+      "blob": "fbb0eb93751dfb856d55ae92c047d30c48d5d807"
+    },
+    "focused_test": {
+      "path": "tests/test_hostile_reviewer_toggle_v1.py",
+      "blob": "792de993db7dc122a06890112dcb61887803a514"
+    },
+    "currentness_doc": {
+      "path": "docs/HOSTILE_REVIEWER_CONTROL_CURRENTNESS_V1.md",
+      "blob": "4dcc78efe9708710885858a070c0211c95b3d40b"
+    },
+    "control_core_commit": "98d0755c68d0c86f977ba31f3a1bbf757e78bcd0",
+    "binding_identity": {
+      "path": "governance/VERA_HOSTILE_REVIEWER_BINDING_V1.json",
+      "rule": "Resolve from the exact reviewed PR head plus path. The binding does not self-hash or self-pin its own containing commit."
+    },
+    "mutation_semantics": {
+      "single_writer_lock": "ATOMIC_O_EXCL_LOCKFILE",
+      "lock_collision": "FAIL_CLOSED_RECONCILE",
+      "exact_readback": true
+    }
+  },
+  "lifecycle": {
+    "source": "IMPLEMENTED_AND_EXACT_BOUND",
+    "install": "NOT_ESTABLISHED",
+    "current_route": "NOT_ESTABLISHED",
+    "runtime_consumption": "NOT_ESTABLISHED",
+    "behavioral_qualification": "NOT_ESTABLISHED",
+    "project_wide_mode": "SOURCE_DEFAULT_OFF_NOT_LIVE_READBACK"
+  },
+  "currentness": {
+    "runtime_head_is_point_in_time": true,
+    "external_review_currentness_required": true,
+    "repository_presence_is_not_install": true,
+    "source_state_is_not_live_mode": true
+  },
+  "authority_ceiling": "NO_MERGE_NO_INSTALL_NO_GLOBAL_ACTIVATION_NO_PROVIDER_OR_PERMISSION_EFFECT"
+}

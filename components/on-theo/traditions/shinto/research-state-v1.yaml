@@ -1,0 +1,35 @@
+schema_version: on-theo.shinto-research-state.v1
+status: FOUNDATION_RESEARCH_ACTIVE
+
+source_layers:
+  - KOJIKI
+  - NIHON_SHOKI
+  - FUDOKI
+  - KOGO_SHUI
+  - MANYOSHU
+  - ENGISHIKI_NORITO
+  - SHRINE_MATERIAL_EVIDENCE
+  - MEDIEVAL_SYNCRETIC_TEXT
+  - KOKUGAKU
+  - MEIJI_STATE_SHINTO
+  - CONTEMPORARY_PRACTICE
+
+priority_topics:
+  - KAMI
+  - IZANAGI_IZANAMI
+  - YOMI
+  - AMATERASU
+  - SUSANOO
+  - OKUNINUSHI
+  - KEGARE
+  - HARAE
+  - IMPERIAL_GENEALOGY
+  - BUDDHIST_SHINTO_INTERACTION
+
+guards:
+  - "classical compilation != prehistoric transcript"
+  - "Kojiki != Nihon shoki duplicate"
+  - "kami != generic monotheistic God"
+  - "kegare != moral sin"
+  - "State Shinto != timeless Shinto"
+  - "variant myths remain variants"

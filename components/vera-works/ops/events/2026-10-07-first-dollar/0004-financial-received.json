@@ -1,0 +1,33 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-NANSWAP-0014",
+  "event_type": "FINANCIAL_RECEIVED",
+  "subject_type": "financial",
+  "subject_id": "FIN-NANSWAP-RANDOMX-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-07T18:50:01Z",
+  "correlation_id": "CORR-NANSWAP-RANDOMX-0001",
+  "causation_id": "EVT-NANSWAP-0013",
+  "idempotency_key": "nanswap-randomx:v1:received-1.7368-ban-onchain",
+  "from_state": "RECEIVABLE",
+  "to_state": "RECEIVED",
+  "payload": {
+    "currency": "USD",
+    "gross": "0.0009092425888",
+    "fees": "0",
+    "tax_reserve": "0",
+    "net": "0.0009092425888",
+    "underlying_asset": "BAN",
+    "underlying_units": "1.7368",
+    "valuation_kind": "RECEIPT_TIME_MARK_TO_MARKET",
+    "valuation_source_uri": "https://data.nanswap.com/get-markets",
+    "valuation_observed_at": "2026-10-07T18:44:06.670022Z",
+    "valuation_unit_usd": "0.000523516",
+    "provider_withdrawal_hash": "3C8D006AADFC17598EE18417739F9EB030C42B912448498E7A0253B37F11DD93",
+    "destination_alias": "vera-banano-receiving-v1",
+    "onchain_receipt_observed": true,
+    "first_dollar_milestone_reached": false,
+    "first_dollar_progress_usd": "0.0009092425888"
+  },
+  "external_effect": false
+}

@@ -1,0 +1,84 @@
+schema_version: on-theo.transmission-test.v1
+status: CHRONOLOGY_COMPATIBLE_CONTACT_PLAUSIBLE_DIRECT_TRANSMISSION_NOT_ESTABLISHED
+subject:
+  predecessor_pr: 47
+  predecessor_head: d4b1bb63a706911609fec6db9dd12711bb21a3d0
+  source_tradition: DUMUZID_TAMMUZ
+  target_tradition: UGARITIC_BAAL
+
+chronology:
+  dumuzid_old_babylonian_attestation: earlier_than_surviving_baal_cycle
+  mari_dumuzi_return_attestation: first_half_18th_century_BCE
+  baal_cycle_tablets: late_bronze_age_14th_or_13th_century_BCE
+  status: COMPATIBLE_WITH_POSSIBLE_INFLUENCE
+
+contact:
+  mari_role: PLAUSIBLE_INTERMEDIATE_CONTACT_FIELD
+  direct_mari_to_ugarit_carrier: NOT_ESTABLISHED
+  named_transmitting_scribe: NOT_FOUND
+  direct_copy_relation: NOT_FOUND
+
+motifs:
+  - motif: DIVINE_DEATH_OR_DISAPPEARANCE
+    dumuzid: present
+    baal: present
+    relation: STRUCTURAL_PARALLEL
+
+  - motif: RETURN_OR_RENEWED_PRESENCE
+    dumuzid: sparse_and_contested_except_specific_attestations
+    baal: strongly_attested_in_cycle
+    relation: NON_EQUIVALENT_EVIDENCE_STRENGTH
+
+  - motif: SEASONAL_INTERPRETATION
+    dumuzid: plausible_but_not_primary_text_explicit
+    baal: strongly_connected_to_rainfall_in_scholarly_reading
+    relation: STRUCTURAL_PARALLEL_NOT_TRANSMISSION
+
+  - motif: SUBSTITUTE_CAPTURE
+    dumuzid: present
+    baal: absent_as_core_mechanism
+    relation: DIFFERENT_CAUSAL_ARCHITECTURE
+
+  - motif: SISTER_HALF_YEAR_ALTERNATION
+    dumuzid: present_in_inana_descent
+    baal: absent
+    relation: NON_PARALLEL
+
+  - motif: DEATH_ANTAGONIST
+    dumuzid: galla_captors
+    baal: Mot
+    relation: FUNCTIONAL_PARALLEL_NOT_IDENTITY
+
+hypotheses:
+  - hypothesis_id: HYP-DUMUZID-TO-BAAL-DIRECT
+    status: NONE_ESTABLISHED
+    reason: "No specific carrier, copying chain, lexical dependence, or directional documentary link identified."
+
+  - hypothesis_id: HYP-DUMUZID-TO-BAAL-POSSIBLE-INFLUENCE
+    status: PLAUSIBLE_BUT_UNPROVEN
+    reason: "Chronology and Mari contact field permit influence."
+
+  - hypothesis_id: HYP-SHARED-WEST-ASIAN-MYTHOLOGEM
+    status: PLAUSIBLE
+    reason: "Mari and Levantine evidence permit a broader regional history not reducible to one-directional borrowing."
+
+  - hypothesis_id: HYP-BAAL-INDEPENDENT-DEVELOPMENT
+    status: PLAUSIBLE
+    reason: "Distinct narrative mechanics and strong indigenous Ugaritic theological structure allow independent development."
+
+  - hypothesis_id: HYP-DUMUZID-PROTOTYPE
+    status: CURRENTLY_CHALLENGED
+    hostile_source: Ayali_Darshan_2024
+
+required_before_direct_transmission:
+  - proposition_level_semantic_match
+  - chronology
+  - contact
+  - carrier
+  - directional_evidence
+  - source_specific_language_or_ritual_dependency
+
+recommended_edge:
+  type: STRUCTURAL_PARALLEL_WITH_PLAUSIBLE_CONTACT_FIELD
+  direct_transmission: NONE_ESTABLISHED
+  direction: UNRESOLVED

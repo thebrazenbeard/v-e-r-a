@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FDBENCH-0002",
+  "event_type": "ASSIGNMENT_CLAIMED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FIRST-DOLLAR-BENCH-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T18:18:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-BENCH-0001",
+  "causation_id": "EVT-FDBENCH-0001",
+  "idempotency_key": "first-dollar-benchmark:v1:claimed",
+  "from_state": "CREATED",
+  "to_state": "CLAIMED",
+  "payload": {
+    "lease_action": "CLAIM",
+    "holder": "vera:works-operator",
+    "claimed_at": "2026-10-05T18:18:01Z",
+    "expires_at": null
+  },
+  "external_effect": false
+}

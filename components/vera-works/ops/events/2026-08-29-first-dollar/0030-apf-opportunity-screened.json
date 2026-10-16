@@ -1,0 +1,22 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0030",
+  "event_type": "OPPORTUNITY_SCREENED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0003",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T21:52:06Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0029",
+  "idempotency_key": "first-dollar:opp:0003:screened",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "structural_fit": "High for desk research and policy-brief production; direct supplier route avoids representing Patrick as the researcher.",
+    "qualification_fit": "Low. The RFQ evaluation materially weights demonstrated expertise in human rights/gender/SRHR/FGM, proven desk-study and policy-analysis experience, prior research/publications/policy briefs, and Asia-Pacific institutional experience.",
+    "track_record_truth": "Vera Works is newly launched and does not currently have a truthful prior-client/publication/reference record satisfying those weighted criteria.",
+    "risk_control": "Do not manufacture credentials, publications, referees, prior assignments, or domain experience to improve bid competitiveness.",
+    "disposition": "RECOMMEND_REJECT"
+  },
+  "external_effect": false
+}

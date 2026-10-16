@@ -1,0 +1,253 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SUMERIAN-MATERIAL-EVIDENCE-V1
+base_registry_head: efe4ab2e39f205ff5bbc6e176be0b4fe1348f480
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: MAT-NIPPUR-I-ENLIL-SCRIBAL-QUARTER
+    source_roles: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    source_kind: archaeological_excavation_publication
+    author_or_tradition: Donald E. McCown; Richard C. Haines; Donald P. Hansen
+    title: "Nippur I: Temple of Enlil, Scribal Quarter, and Soundings"
+    composition_date: {start: "1967", end: "1967", precision: publication-year}
+    physical_witness_date: {start: null, end: null, precision: archaeological-strata-multiple-periods}
+    extant_status: published-excavation-record
+    original_language: English
+    access_mode: institutional-full-text-metadata
+    locators:
+      - url: "https://isac.uchicago.edu/publications/nippur-i-temple-enlil-scribal-quarter-and-soundings"
+    limitations:
+      - "Publication synthesizes 1948-1952 campaigns; individual architectural phases require chapter/plate-level readback when consequential."
+      - "The reported Enlil temple and private chapels are distinct material contexts and must not be collapsed."
+
+  - id: MAT-UR-PENN-EXCAVATION-CORPUS
+    source_roles: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    source_kind: archaeological_project_archive
+    author_or_tradition: Penn Museum / Joint Expedition to Ur
+    title: "Ur excavation record: sacred precinct, Royal Cemetery, domestic and urban contexts"
+    composition_date: {start: "1922", end: "1934", precision: excavation-campaign-range}
+    physical_witness_date: {start: null, end: null, precision: multi-period-archaeological-site}
+    extant_status: excavation-archive-and-material-collections
+    original_language: English
+    access_mode: institutional-project-history-and-reports
+    locators:
+      - url: "https://www.penn.museum/sites/expedition/the-thrill-of-discovery/"
+      - url: "https://www.penn.museum/sites/expedition/ur-and-its-treasures/"
+      - url: "https://www.penn.museum/sites/expedition/city-of-the-moon/"
+    limitations:
+      - "Royal Cemetery evidence is mortuary evidence and must not be treated as direct evidence for Nanna temple liturgy."
+      - "Woolley's interpretations and chronologies require modern reassessment where consequential."
+
+  - id: MAT-GIRSU-BRITISH-MUSEUM-PROJECT
+    source_roles: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    source_kind: active_archaeological_project
+    author_or_tradition: British Museum Girsu Project with Iraqi partners
+    title: "Girsu Project / Tello sacred district excavations"
+    composition_date: {start: "2024", end: "2026", precision: current-project-phase}
+    physical_witness_date: {start: null, end: null, precision: third-millennium-bce-site-material}
+    extant_status: active-excavation-and-documentation
+    original_language: English
+    access_mode: institutional-project-reporting
+    locators:
+      - url: "https://www.britishmuseum.org/research/projects/girsu-project"
+      - url: "https://www.britishmuseum.org/our-work/international/iraq-scheme/tello"
+    limitations:
+      - "Older Girsu finds often have weak context because of early excavation and looting; modern re-documentation is evidentially important."
+      - "Textual Gudea temple descriptions are not identical to excavated building phases."
+
+  - id: MAT-LAGASH-PENN-ARCHAEOLOGICAL-PROJECT
+    source_roles: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    source_kind: active_archaeological_project
+    author_or_tradition: Penn Museum Lagash Archaeological Project
+    title: "Lagash Archaeological Project"
+    composition_date: {start: "2019", end: null, precision: active-project}
+    physical_witness_date: {start: null, end: null, precision: fourth-to-third-millennium-bce-site-material}
+    extant_status: active-excavation-and-survey
+    original_language: English
+    access_mode: institutional-project-reporting
+    locators:
+      - url: "https://www.penn.museum/research/project.php?pid=219"
+      - url: "https://www.penn.museum/sites/expedition/partners-in-search-of-the-past/"
+    limitations:
+      - "Lagash/Tell al-Hiba is distinct from Girsu/Tello despite belonging to the historical Lagash city-state."
+      - "Modern work deliberately broadens beyond elite monumental architecture, so legacy temple-heavy samples are not representative of all urban life."
+
+  - id: MAT-FARA-PROSPECTION-2022
+    source_roles: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    source_kind: archaeological_prospection_article
+    author_or_tradition: Jörg W.E. Fassbinder and collaborators / FARSUP
+    title: "Revisiting Fara: Comparison of merged prospection results of diverse magnetometers with the earliest excavations in ancient Shuruppak"
+    composition_date: {start: "2022", end: "2022", precision: publication-year}
+    physical_witness_date: {start: null, end: null, precision: third-millennium-bce-urban-site}
+    extant_status: published-geophysical-survey
+    original_language: English
+    access_mode: open-access-full-text
+    locators:
+      - url: "https://doi.org/10.1002/arp.1878"
+      - url: "https://www.en.vorderas-archaeologie.uni-muenchen.de/research/fara-fieldwork/index.html"
+    limitations:
+      - "The central building is interpreted as likely a temple; its cultic identity is not treated as archaeologically closed."
+      - "Textual attestation of Sud does not by itself identify the central building as Sud's temple."
+
+  - id: MAT-URUK-DAI-ARCHITECTURE
+    source_roles: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    source_kind: long_term_archaeological_project
+    author_or_tradition: Deutsches Archäologisches Institut
+    title: "Uruk (Warka) excavation project"
+    composition_date: {start: "1912", end: null, precision: long-term-project}
+    physical_witness_date: {start: null, end: null, precision: late-ubaid-through-late-antique-multi-period-site}
+    extant_status: excavation-archive-and-active-research
+    original_language: German
+    access_mode: institutional-project-reporting
+    locators:
+      - url: "https://www.dainst.org/en/research/projects/noslug/2604"
+    limitations:
+      - "Long architectural duration in Eanna does not prove unchanged ritual or theology."
+      - "Uruk research history disproportionately emphasizes monumental architecture."
+
+  - id: MAT-ERIDU-2022-EABZU-REASSESSMENT
+    source_roles: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    source_kind: archaeological_excavation_article
+    author_or_tradition: Philippe Quenet et al. / Archaeological Mission at Eridu
+    title: "Archaeological Mission at Eridu: the 2022 campaign — E-abzu monumental complex reconsidered"
+    composition_date: {start: "2025", end: "2026", precision: volume-2025-online-2026}
+    physical_witness_date: {start: null, end: null, precision: chalcolithic-through-second-millennium-bce-site-material}
+    extant_status: open-access-excavation-report
+    original_language: English
+    access_mode: open-access-full-text
+    locators:
+      - url: "https://doi.org/10.1017/irq.2025.10035"
+    limitations:
+      - "Legacy plan locations and phase assignments are under modern reassessment."
+      - "Some terrace dates remain indirect pending tighter radiocarbon control."
+      - "Royal epithets and inscriptions may be ideological and cannot substitute for concrete archaeological traces."
+
+claim_additions:
+  - id: CLM-NIPPUR-URIII-ENLIL-TEMPLE-MATERIAL
+    proposition: "At Nippur, excavation publication identifies a Temple of Enlil northeast of the ziggurat, apparently built by Ur-Nammu, with continued later use/rebuilding."
+    claim_type: ARCHAEOLOGICAL_RECONSTRUCTION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: MAT-NIPPUR-I-ENLIL-SCRIBAL-QUARTER
+        locator: "Temple of Enlil"
+        relation: EXCAVATION_PUBLICATION
+        access_mode: INSTITUTIONAL_PUBLICATION
+    opposing_sources: []
+    confidence: high-for-published-identification
+    contested: false
+
+  - id: CLM-NIPPUR-PRIVATE-CHAPELS-URIII-ISINLARSA
+    proposition: "Nippur Scribal Quarter excavations reported clear private chapels in Ur III and early Isin-Larsa levels, demonstrating a material religious setting distinct from the monumental temple precinct."
+    claim_type: ARCHAEOLOGICAL_RECONSTRUCTION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: MAT-NIPPUR-I-ENLIL-SCRIBAL-QUARTER
+        locator: "Private Houses in the Scribal Quarter"
+        relation: EXCAVATION_PUBLICATION
+        access_mode: INSTITUTIONAL_PUBLICATION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UR-CEMETERY-NOT-TEMPLE-LITURGY
+    proposition: "Ur's Royal Cemetery is direct material evidence for mortuary practice and social differentiation, but it is not by itself direct evidence for the daily liturgy of the Nanna temple."
+    claim_type: EVIDENCE_SCOPE_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, PROJECT_INFERENCE]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: MAT-UR-PENN-EXCAVATION-CORPUS
+        locator: "Royal Cemetery"
+        relation: MATERIAL_CONTEXT
+        access_mode: INSTITUTIONAL_ARCHIVE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-GIRSU-NINGIRSU-TEMPLE-CONTEXT-RECOVERED
+    proposition: "Modern Girsu excavations materially document the Ningirsu sacred district with mudbrick architecture and inscribed cones while explicitly addressing the weak context of many earlier finds."
+    claim_type: ARCHAEOLOGICAL_RECONSTRUCTION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: MAT-GIRSU-BRITISH-MUSEUM-PROJECT
+        locator: "sacred district / temple and sanctuary of Ningirsu"
+        relation: ACTIVE_EXCAVATION
+        access_mode: INSTITUTIONAL_PROJECT_REPORT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-LAGASH-INSTITUTIONAL-MATERIAL-PLURALITY
+    proposition: "Lagash excavation records materially distinguish temple complexes, an administrative complex, craft-production areas, housing, streets, and other public spaces rather than one undifferentiated sacred monumental zone."
+    claim_type: ARCHAEOLOGICAL_RECONSTRUCTION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: MAT-LAGASH-PENN-ARCHAEOLOGICAL-PROJECT
+        locator: "legacy temple complexes and modern neighborhood/craft investigations"
+        relation: ARCHAEOLOGICAL_PROJECT_SYNTHESIS
+        access_mode: INSTITUTIONAL_PROJECT_REPORT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-FARA-CENTRAL-BUILDING-CULTIC-PROBABLE
+    proposition: "Modern prospection at Shuruppak maps a central building complex interpreted as likely a temple, but the cultic identification remains a scholarly interpretation rather than a closed material fact."
+    claim_type: ARCHAEOLOGICAL_RECONSTRUCTION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: MAT-FARA-PROSPECTION-2022
+        locator: "central building complex"
+        relation: GEOPHYSICAL_PROSPECTION
+        access_mode: OPEN_ACCESS_FULL_TEXT
+    opposing_sources: []
+    confidence: probable-not-closed
+    contested: true
+    alternatives:
+      - "Cultic/temple complex."
+      - "Other official or mixed institutional building pending excavation."
+
+  - id: CLM-URUK-EANNA-DURATION-NOT-SEMANTIC-CONTINUITY
+    proposition: "Uruk preserves a long stratified monumental sequence in the Eanna sanctuary area, but architectural continuity across phases does not by itself establish unchanged ritual or theology."
+    claim_type: EVIDENCE_SCOPE_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, PROJECT_INFERENCE]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: MAT-URUK-DAI-ARCHITECTURE
+        locator: "Eanna sanctuary architectural sequence"
+        relation: LONG_TERM_EXCAVATION_RECORD
+        access_mode: INSTITUTIONAL_PROJECT_REPORT
+    opposing_sources: []
+    confidence: high-for-scope-control
+    contested: false
+
+  - id: CLM-ERIDU-URIII-EABZU-MATERIAL
+    proposition: "At Eridu, renewed excavation supports a major Ur III monumental E-abzu/E-unir phase in which earlier terraces were reused within a large ziggurat platform and precinct complex."
+    claim_type: ARCHAEOLOGICAL_RECONSTRUCTION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: MAT-ERIDU-2022-EABZU-REASSESSMENT
+        locator: "Operations 1 and 3 / general conclusion"
+        relation: EXCAVATION_STRATIGRAPHY
+        access_mode: OPEN_ACCESS_FULL_TEXT
+    opposing_sources: []
+    confidence: high-for-uriii-phase
+    contested: false
+
+  - id: CLM-ERIDU-LEGACY-TEMPLE-LABEL-NOT-PHASE-PROOF
+    proposition: "Eridu's legacy 'Temple Sounding' label and later royal cultic language cannot by themselves establish that every architectural level represents an Enki temple; phase-specific archaeological evidence remains required."
+    claim_type: EVIDENCE_SCOPE_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian, mesopotamian]
+    supporting_sources:
+      - source_id: MAT-ERIDU-2022-EABZU-REASSESSMENT
+        locator: "Temple Sounding reassessment; royal inscription caution"
+        relation: MODERN_REASSESSMENT
+        access_mode: OPEN_ACCESS_FULL_TEXT
+    opposing_sources: []
+    confidence: high-as-methodological-control
+    contested: false

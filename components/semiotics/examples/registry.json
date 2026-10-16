@@ -1,0 +1,51 @@
+{
+  "signs": [
+    {
+      "id": "red-light",
+      "form": "red light",
+      "modality": "visual"
+    },
+    {
+      "id": "raised-hand",
+      "form": "raised hand",
+      "modality": "gesture"
+    }
+  ],
+  "sources": [
+    {
+      "id": "studio-convention",
+      "description": "Illustrative recording-studio convention used by this example."
+    },
+    {
+      "id": "traffic-convention",
+      "description": "Illustrative road-signal convention used by this example."
+    },
+    {
+      "id": "classroom-convention",
+      "description": "Illustrative classroom convention used by this example."
+    }
+  ],
+  "interpretations": [
+    {
+      "id": "red-light-studio",
+      "sign_id": "red-light",
+      "meaning": "Recording in progress",
+      "source_id": "studio-convention",
+      "required_tags": ["studio"]
+    },
+    {
+      "id": "red-light-road",
+      "sign_id": "red-light",
+      "meaning": "Stop at the signal",
+      "source_id": "traffic-convention",
+      "required_tags": ["road"]
+    },
+    {
+      "id": "raised-hand-classroom",
+      "sign_id": "raised-hand",
+      "meaning": "Request to speak",
+      "source_id": "classroom-convention",
+      "required_tags": ["classroom"]
+    }
+  ]
+}

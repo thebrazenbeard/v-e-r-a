@@ -1,0 +1,28 @@
+schema: BT2_ROLE_TRAINING_MANIFEST_V1
+role:
+  identity: four
+  title: Exact Implementation Reconstruction / Packaging; Documentation / Specification Owner
+package_version: 1.0.0
+purpose: Reproducible permanent-role competence for fresh Four chats.
+mutable_operational_state_in_package: false
+ordered_modules:
+  - 01-role-authority.md
+  - 02-reconstruction-packaging.md
+  - 03-specification-provenance.md
+  - 04-dependencies-handoffs.md
+  - 05-failure-retry.md
+  - 06-checkpoint-reorientation.md
+  - 07-final-qualification.md
+bootstrap: BOOTSTRAP.md
+checkpoint: CHECKPOINT.md
+qualification:
+  required_result: BASE_READY
+  all_modules_required: true
+  unresolved_high_medium_defects_allowed: 0
+  must_distinguish_capability_from_authority: true
+  must_exclude_mutable_assignments_leases_shas: true
+source_dependencies:
+  - Build Team Two current governed role map
+  - current repository governance and writer-lease rules
+  - current project instructions
+operational_reorientation_after_base_ready: required

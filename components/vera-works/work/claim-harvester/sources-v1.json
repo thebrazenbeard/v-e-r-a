@@ -1,0 +1,110 @@
+{
+  "schema_version": "claim-source-registry-v1",
+  "observed_at": "2026-10-05T15:36:00Z",
+  "sources": [
+    {
+      "source_id": "indiana-unclaimed-property",
+      "title": "Indiana Attorney General Unclaimed Property",
+      "jurisdiction": "US-IN",
+      "source_class": "GOVERNMENT",
+      "discovery_mode": "INTERACTIVE_SEARCH",
+      "read_state": "INTERACTIVE_GATE",
+      "entrypoint": "https://www.indianaunclaimed.gov/app/claim-search",
+      "authoritative": true,
+      "person_to_person_communication_required": false,
+      "claim_effect_requires_identity": true,
+      "notes": "Official search is free. Live search form requires Cloudflare Turnstile before result retrieval. Do not bypass; a blocked automation attempt is not evidence that no property exists."
+    },
+    {
+      "source_id": "missing-money",
+      "title": "MissingMoney multi-state unclaimed property search",
+      "jurisdiction": "US",
+      "source_class": "OFFICIAL",
+      "discovery_mode": "INTERACTIVE_SEARCH",
+      "read_state": "BOT_BLOCKED",
+      "entrypoint": "https://www.missingmoney.com/",
+      "authoritative": false,
+      "person_to_person_communication_required": false,
+      "claim_effect_requires_identity": true,
+      "notes": "Indiana recommends MissingMoney for other-state searches. Current automated fetch was bot-blocked, so no negative search conclusion is allowed. State programs remain the authoritative claim sources."
+    },
+    {
+      "source_id": "indiana-unclaimed-guidance",
+      "title": "Indiana Unclaimed Property public guidance",
+      "jurisdiction": "US-IN",
+      "source_class": "GOVERNMENT",
+      "discovery_mode": "DIRECT_FETCH",
+      "read_state": "READY",
+      "entrypoint": "https://www.indianaunclaimed.gov/app/faq-claim",
+      "authoritative": true,
+      "person_to_person_communication_required": false,
+      "claim_effect_requires_identity": true,
+      "notes": "Useful for claim requirements and ownership semantics, not for discovering a named property by itself."
+    },
+    {
+      "source_id": "dol-workers-owed-wages",
+      "title": "U.S. Department of Labor Workers Owed Wages",
+      "jurisdiction": "US",
+      "source_class": "GOVERNMENT",
+      "discovery_mode": "SEARCH_FORM",
+      "read_state": "UNKNOWN",
+      "entrypoint": "https://webapps.dol.gov/wow/",
+      "authoritative": true,
+      "person_to_person_communication_required": false,
+      "claim_effect_requires_identity": true,
+      "notes": "Employer-first search is public and the form itself shows no CAPTCHA. The result endpoint is JavaScript-mediated and has not yet been qualified for unattended read-only use. Claiming requires contact information, a signed WH-60, login.gov, and identity evidence."
+    },
+    {
+      "source_id": "pbgc-unclaimed-retirement",
+      "title": "PBGC Find Unclaimed Retirement Benefits",
+      "jurisdiction": "US",
+      "source_class": "GOVERNMENT",
+      "discovery_mode": "INTERACTIVE_SEARCH",
+      "read_state": "AUTH_REQUIRED",
+      "entrypoint": "https://www.pbgc.gov/workers-retirees/find-unclaimed-retirement-benefits/search-unclaimed",
+      "authoritative": true,
+      "person_to_person_communication_required": false,
+      "claim_effect_requires_identity": true,
+      "notes": "PBGC requires last name plus last four digits of SSN for the initial match. Treat this as identity-gated; do not store SSN fragments in Git or infer them."
+    },
+    {
+      "source_id": "fdic-unclaimed-funds",
+      "title": "FDIC Unclaimed Funds from Failed Banks",
+      "jurisdiction": "US",
+      "source_class": "GOVERNMENT",
+      "discovery_mode": "INTERACTIVE_SEARCH",
+      "read_state": "INTERACTIVE_GATE",
+      "entrypoint": "https://closedbanks.fdic.gov/funds/",
+      "authoritative": true,
+      "person_to_person_communication_required": false,
+      "claim_effect_requires_identity": true,
+      "notes": "Public search supports name, failed institution, city, and state, but the live form requires reCAPTCHA. Do not bypass. Claiming requires an FDIC reference number and a completed claim form."
+    },
+    {
+      "source_id": "ncua-unclaimed-deposits",
+      "title": "NCUA Unclaimed Deposits",
+      "jurisdiction": "US",
+      "source_class": "GOVERNMENT",
+      "discovery_mode": "DIRECT_FETCH",
+      "read_state": "READY",
+      "entrypoint": "https://ncua.gov/support-services/conservatorships-liquidations/unclaimed-deposits",
+      "authoritative": true,
+      "person_to_person_communication_required": false,
+      "claim_effect_requires_identity": true,
+      "notes": "Current public list is directly readable. A surname/initial listing is discovery evidence only; member verification is still required before entitlement."
+    },
+    {
+      "source_id": "base-basenames-profile",
+      "title": "Base Basenames public profile",
+      "jurisdiction": "BASE",
+      "source_class": "FIRST_PARTY_PROTOCOL",
+      "discovery_mode": "DIRECT_FETCH",
+      "read_state": "READY",
+      "entrypoint": "https://www.base.org/name/thebrazenbeard",
+      "authoritative": true,
+      "person_to_person_communication_required": false,
+      "claim_effect_requires_identity": false,
+      "notes": "Confirms the public Basename profile exists. A profile is not a monetary entitlement."
+    }
+  ]
+}

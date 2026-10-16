@@ -1,0 +1,108 @@
+schema_version: on-theo.dumuzid-death-lament-research.v1
+status: PASS_WITH_GENRE_AND_WITNESS_ASYMMETRY_CONTROLS
+subject:
+  predecessor_pr: 44
+  predecessor_head: 778c19f4cb8c0e8d4dde0b5aebf5689808c2e3a5
+
+compositions:
+  - composition_id: c.1.4.3
+    title: Dumuzid's Dream
+    cdli_composite: Q000347
+    cdli_artifact: P469528
+    witness_count: 89
+    aligned_witness_count: 4
+    current_role: LARGE_WITNESS_TRADITION_SPARSELY_ALIGNED
+    key_controls:
+      - MYTHIC_DEATH_FOREBODING
+      - GALLA_CAPTURE
+      - ARALI_DEATH_CAPTURE_TOPOGRAPHY
+
+  - composition_id: c.1.4.4
+    title: Inana and Bilulu
+    cdli_composite: Q000348
+    cdli_artifact: P469529
+    witness_count: 1
+    aligned_witness_count: null
+    current_role: SINGLE_LISTED_WITNESS_LAMENT_TRADITION
+    key_controls:
+      - ARALI_LAMENT_TOPOGRAPHY
+      - RESTING_PLACE_CARE
+      - LIBATION_AND_FLOUR_PROVISIONING
+
+occurrences:
+  - occurrence_id: OCC-C143-L12-DEATH-FOREBODING
+    composition_id: c.1.4.3
+    line_ref: "12"
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    semantic_type: MYTHIC_DEATH_FOREBODING
+    source_form: "u4 ug5-ge-gu10"
+    note: "Dumuzid anticipates the day of his death."
+
+  - occurrence_id: OCC-C143-L59-63-GALLA
+    composition_id: c.1.4.3
+    line_ref: "59-63"
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    semantic_type: DEATH_CAPTOR_ENTITY
+    source_form: gal5-la2
+    note: "galla pursuit/captor vocabulary; not gidim."
+
+  - occurrence_id: OCC-C143-L89-90-GALLA
+    composition_id: c.1.4.3
+    line_ref: "89-90"
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    semantic_type: DEATH_CAPTOR_ENTITY
+    source_form: gal5-la2
+    note: "Geshtin-ana warns Dumuzid that his galla are after him."
+
+  - occurrence_id: OCC-C143-L94-ARALI
+    composition_id: c.1.4.3
+    line_ref: "94"
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    semantic_type: DEATH_CAPTURE_LOCATION
+    source_form: "e a-ra-li-ka"
+
+  - occurrence_id: OCC-C143-L106-ARALI
+    composition_id: c.1.4.3
+    line_ref: "106"
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    semantic_type: DEATH_CAPTURE_LOCATION
+    source_form: "e a-ra-li"
+
+  - occurrence_id: OCC-C143-L149-151-ARALI
+    composition_id: c.1.4.3
+    line_ref: "149-151"
+    evidence_state: WITNESS_ALIGNED_CONFIRMED_WITH_DAMAGE
+    semantic_type: DEATH_CAPTURE_LOCATION
+    source_form: "e a-ra-li-ka"
+    witnesses: [P346104]
+    note: "Aligned Ur witness preserves damaged Arali sequence and corresponding Dumuzid capture."
+
+  - occurrence_id: OCC-C144-L2-ARALI-LAMENT
+    composition_id: c.1.4.4
+    line_ref: "2"
+    evidence_state: ETCSL_SOURCE_FORM_CONFIRMED
+    semantic_type: LAMENT_LOCATION
+    source_form: "e2 a-ra-li"
+    note: "House Arali in opening Dumuzid lament geography."
+
+  - occurrence_id: OCC-C144-L98-110-PROVISIONING
+    composition_id: c.1.4.4
+    line_ref: "98-110"
+    evidence_state: ETCSL_TEXTUAL_SEQUENCE_CONFIRMED
+    semantic_type: LIBATION_PROVISIONING_ACTION
+    note: "Water libation and flour sprinkling in desert rite/presence sequence."
+
+  - occurrence_id: OCC-C144-L166-173-ARALI-LAMENT
+    composition_id: c.1.4.4
+    line_ref: "166-173"
+    evidence_state: ETCSL_TEXTUAL_SEQUENCE_CONFIRMED
+    semantic_type: LAMENT_LOCATION
+    source_form: "house Arali"
+    note: "Repeated lament geography includes Arali, Du-shuba, Bad-tibira, desert/shepherding country."
+
+guards:
+  - "galla != gidim"
+  - "Arali capture topology != Arali lament topology"
+  - "repeated Arali association != universal Sumerian underworld definition"
+  - "divine/mythic Dumuzid lament != ordinary human funeral"
+  - "89 witnesses != 89 aligned witnesses"

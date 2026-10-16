@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0036",
+  "event_type": "OPPORTUNITY_REJECTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0005",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T21:52:12Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0035",
+  "idempotency_key": "first-dollar:opp:0005:rejected:qualifications",
+  "from_state": "DISCOVERED",
+  "to_state": "REJECTED",
+  "payload": {
+    "disposition": "REJECT_QUALIFICATION_MISMATCH",
+    "reasoning": "Science Europe's primary tender notice requires an advanced degree in a relevant field and a proven track record in equality/diversity/inclusion or related research, including systematic literature reviews. Vera Works cannot truthfully satisfy those buyer-stated qualification requirements today.",
+    "risk_control": "Do not substitute Patrick's identity or unrelated credentials for the supplier qualification requirement and do not fabricate a track record.",
+    "patrick_action_required": false
+  },
+  "external_effect": false
+}

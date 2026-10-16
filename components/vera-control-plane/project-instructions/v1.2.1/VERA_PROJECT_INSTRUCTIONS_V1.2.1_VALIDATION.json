@@ -1,0 +1,18 @@
+{
+  "package": "VERA_PROJECT_INSTRUCTIONS_PATCH_V1.2.1",
+  "native_codepoints": 7704,
+  "native_utf8_bytes": 7710,
+  "native_under_8000": true,
+  "native_under_7900": true,
+  "native_sha256": "50159a8eae38806d27484a6bd71d83d803a3a0f9c8f3caf52558dfcb19329f07",
+  "full_sha256": "345f63d0e9d776204d3d3f10054452c6d0e32e867bf90d9099287583f2f6b3d9",
+  "manifest_sha256": "180fbfed4a7093e8ab43e62b64130a9dda08884089bc1c248c5874851482dd67",
+  "semantic_intent_rule_present": true,
+  "default_project_identity_rule_present": true,
+  "shared_writer_collision_rule_location": "FULL_SYSTEM_AND_BUS_CANDIDATE",
+  "fresh_chat_true_behavioral_test": "MANUAL_REQUIRED",
+  "hot_source_removal_gate": "BLOCKED_UNTIL_FRESH_CHAT_PASS",
+  "bus_candidate_pr": 13,
+  "bus_candidate_head": "b9e72803dd51c56cb590a91f2c3d58b9b366c57c",
+  "native_target_note": "7704 codepoints; under preferred 7900 with 196-codepoint margin"
+}

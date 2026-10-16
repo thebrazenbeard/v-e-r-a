@@ -4,7 +4,7 @@
 
 This public repository is the source collection and integration workspace for Vera's constituent systems. Its original repositories remain authoritative.
 
-**The source collection is populated.** All **44 named component branches are populated**: **38 exact Git-tree mirrors**, **5 security-sanitized GitHub source snapshots**, and **1 source-definition snapshot of the live Vera Supabase project**. No named branch remains at the original placeholder commit. Exact versus non-exact status is recorded in the source registry and each branch's provenance. `main` contains the registry, workspace assembly tool, and regression tests needed to use them together.
+**The source collection is populated.** All **44 named component branches are populated**: **38 exact Git-tree mirrors**, **5 security-sanitized GitHub source snapshots**, and **1 source-definition snapshot of the live Vera Supabase project**. No named branch remains at the original placeholder commit. Exact versus non-exact status is recorded in the source registry and each branch's provenance. `main` contains 44 navigable **filtered source-preview folders** under components/<name>/, plus the original registry and workspace assembler. Every omitted file is traceable to its original blob in [component-exports.json](component-exports.json); see [safe-export limitations](docs/SAFE_COMPONENT_EXPORT_V1.md). These preview folders are not the exact original trees when omissions occur, nor installed VeraOS runtime dependencies.
 
 ## Assemble a working source workspace
 
@@ -14,12 +14,12 @@ Git and Python 3.10+ are required. No global installation or model download is r
 git clone https://github.com/thebrazenbeard/v-e-r-a.git
 cd v-e-r-a
 python scripts/materialize.py list
-mkdir components
+mkdir -p .worktrees/components
 python scripts/materialize.py materialize --only vera-mono --only portal --only intranel
 python scripts/materialize.py verify --only vera-mono --only portal --only intranel
 ```
 
-To check out **all 44 populated branches**, use `python scripts/materialize.py materialize` after creating the `components` directory. Each component is materialized as a detached Git worktree at the **pinned branch commit recorded in [components.json](components.json)**, within `components/<name>/`. A pinned commit is not automatically an exact copy of its upstream GitHub tree. The tool verifies the remote branch still matches the pinned commit, refuses overwrites, and never silently substitutes a newer source revision.
+To check out **all 44 populated branches**, use `python scripts/materialize.py materialize` after creating the `.worktrees/components` directory. Each component is materialized as a detached Git worktree at the **pinned branch commit recorded in [components.json](components.json)**, within `.worktrees/components/<name>/`. The tracked components/<name>/ directories remain filtered read-only review snapshots. A pinned commit is not automatically an exact copy of its upstream GitHub tree. The tool verifies the remote branch still matches the pinned commit, refuses overwrites, and never silently substitutes a newer source revision.
 
 To see whether the registry still agrees with the remote branches without changing local files:
 
@@ -27,7 +27,7 @@ To see whether the registry still agrees with the remote branches without changi
 python scripts/materialize.py check-origin
 ```
 
-The `verify` command checks pinned commits and clean working-tree state **after** materialization. The materialized `components/` folder is ignored on `main`, so one working clone can contain multiple independently versioned systems without mixing their trees.
+The `verify` command checks pinned commits and clean working-tree state **after** materialization. The materialized `.worktrees/` folder is ignored on `main`, so one working clone can contain multiple independently versioned systems without mixing their trees.
 
 Run the included **offline Git integration tests**:
 

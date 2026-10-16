@@ -1,0 +1,32 @@
+{
+    "external_effect":  false,
+    "recorded_at":  "2026-10-08T12:48:03Z",
+    "subject_id":  "OPP-FIRST-DOLLAR-STREAMR8-BOUNTY-0001",
+    "schema_version":  "event-v1",
+    "causation_id":  "EVT-BOUNTY-STREAMR8-0003",
+    "to_state":  "APPROVED",
+    "event_type":  "OPPORTUNITY_APPROVED",
+    "from_state":  "VERA_DECISION",
+    "payload":  {
+                    "explicit_exclusions":  [
+                                                "No WorkLaptop.",
+                                                "No external account creation.",
+                                                "No terms acceptance.",
+                                                "No identity, tax, wallet, or payout submission.",
+                                                "No public GitHub publication.",
+                                                "No spending."
+                                            ],
+                    "stop_conditions":  [
+                                            "Stop before any public issue comment, claim, fork, PR, terms, or payout step.",
+                                            "Stop if implementation requires secrets, spend, production access, destructive external testing, or nonpublic data.",
+                                            "Stop if fresh issue state shows the bounty closed or claimed before local preparation completes."
+                                        ],
+                    "approved_effect":  "On Lappy, clone the public Streamr repository, inspect issue-8-relevant code, implement the smallest correct deterministic test patch, and run local tests.",
+                    "external_effect_not_yet_performed_by_this_event":  true
+                },
+    "idempotency_key":  "first-dollar:github-bounty:streamr8:local-prep-approved:v1",
+    "event_id":  "EVT-BOUNTY-STREAMR8-0004",
+    "subject_type":  "opportunity",
+    "correlation_id":  "CORR-FIRST-DOLLAR-STREAMR8-BOUNTY-0001",
+    "actor":  "vera:principal"
+}

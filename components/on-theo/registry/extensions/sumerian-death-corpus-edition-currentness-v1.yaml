@@ -1,0 +1,130 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SUMERIAN-DEATH-CORPUS-EDITION-CURRENTNESS-V1
+base_registry_head: 6a049eb026a8959c860c17430e666f496adea369
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-GADOTTI-2014-GEN-EDITION
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: critical_text_edition_monograph
+    author_or_tradition: Alhena Gadotti
+    title: Gilgamesh, Enkidu, and the Netherworld and the Sumerian Gilgamesh Cycle
+    composition_date: {start: "2014", end: "2014", precision: publication-year}
+    access_mode: publisher-description-limited-preview
+    locators:
+      - url: "https://doi.org/10.1515/9781614515456"
+    limitations:
+      - "Full line-level revalidation requires access to the edition's text, textual matrix, and commentary, not publisher metadata alone."
+
+  - id: SCH-ATTINGER-2021-INANA-DESCENT
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: philological_translation_working_paper
+    author_or_tradition: Pascal Attinger
+    title: La descente d'Innana dans le monde infernal (1.4.1)
+    composition_date: {start: "2019", end: "2021", precision: publication-and-update-years}
+    access_mode: open-access-working-paper
+    locators:
+      - url: "https://doi.org/10.5281/zenodo.4603728"
+    limitations:
+      - "Used as a later philological translation/control; not classified here as a full new manuscript edition equivalent in apparatus scope to Gadotti 2014."
+
+  - id: SCH-CAVIGNEAUX-ALRAWI-2000-DEATH-GILGAMESH
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: critical_text_edition_monograph
+    author_or_tradition: Antoine Cavigneaux; Farouk N. H. al-Rawi
+    title: Gilgamesh et la Mort. Textes de Tell Haddad VI
+    composition_date: {start: "2000", end: "2000", precision: publication-year}
+    access_mode: bibliographic-control-and-book-preview
+    locators:
+      - url: "https://books.google.com/books/about/Gilgame%C5%A1_et_la_mort.html?id=_60axEdEQn8C"
+      - url: "https://etcsl.orinst.ox.ac.uk/section1/b1813.htm"
+    limitations:
+      - "ETCSL directly incorporates this edition in its bibliography; targeted currentness search does not exclude later line-specific corrections."
+
+  - id: SCH-FLUCKIGER-HAWKER-1999-URNAMMA
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: score_edition_monograph
+    author_or_tradition: Esther Flückiger-Hawker
+    title: Urnamma of Ur in Sumerian Literary Tradition
+    composition_date: {start: "1999", end: "1999", precision: publication-year}
+    access_mode: bibliographic-control-and-ETCSL-bibliography
+    locators:
+      - url: "https://etcsl.orinst.ox.ac.uk/section2/b2411.htm"
+      - url: "https://vergil.uni-tuebingen.de/keibi/Record/KEI00013241"
+    limitations:
+      - "ETCSL lists a score transliteration, translation, photograph, commentary, handcopy, and composite text for Ur-Namma A; targeted search does not exclude later line-specific corrections."
+
+claim_additions:
+  - id: CLM-GEN-GADOTTI-2014-POST-ETCSL-REEDITION
+    proposition: "Gadotti 2014 is a post-ETCSL new edition of Gilgamesh, Enkidu and the Netherworld that incorporates additional manuscripts and therefore creates a line-level currentness dependency for ETCSL-derived occurrence mapping."
+    claim_type: EDITION_CURRENTNESS_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-GADOTTI-2014-GEN-EDITION
+        locator: "publisher description; edition/manuscript/textual-matrix contents"
+        relation: LATER_CRITICAL_EDITION
+        access_mode: PUBLISHER_DESCRIPTION
+    opposing_sources: []
+    confidence: high-for-edition-existence-and-currentness-dependency
+    contested: false
+
+  - id: CLM-INANA-ATTINGER-LATER-PHILOLOGICAL-CONTROL
+    proposition: "Attinger's Inana's Descent study, published in 2019 and updated in 2021, is a later philological translation/control than ETCSL and should be cross-checked without being silently relabeled as a full new critical edition."
+    claim_type: EDITION_CURRENTNESS_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-ATTINGER-2021-INANA-DESCENT
+        locator: "Zenodo V2 metadata and working paper"
+        relation: LATER_PHILOLOGICAL_CONTROL
+        access_mode: OPEN_ACCESS_WORKING_PAPER
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DEATH-GILGAMESH-ETCSL-2000-EDITION-LINEAGE
+    proposition: "ETCSL's Death of Gilgamesh bibliography directly uses the Cavigneaux/al-Rawi 2000 major re-edition based on Meturan and republished Nippur material."
+    claim_type: EDITION_PROVENANCE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CAVIGNEAUX-ALRAWI-2000-DEATH-GILGAMESH
+        locator: "ETCSL bibliography and edition description"
+        relation: EDITION_PROVENANCE
+        access_mode: BIBLIOGRAPHIC_CONTROL
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-URNAMMA-ETCSL-1999-SCORE-LINEAGE
+    proposition: "ETCSL's Death of Ur-Namma bibliography directly uses Flückiger-Hawker 1999 as a score transliteration, translation, commentary, photograph/handcopy, and composite-text control."
+    claim_type: EDITION_PROVENANCE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-FLUCKIGER-HAWKER-1999-URNAMMA
+        locator: "ETCSL Ur-Namma A bibliography"
+        relation: EDITION_PROVENANCE
+        access_mode: BIBLIOGRAPHIC_CONTROL
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-ETCSL-NEGATIVE-SEARCH-NOT-HISTORICAL-ABSENCE
+    proposition: "A lexeme not found on the ETCSL access surface is only an access-surface negative until later editions, variant normalization, and witness-level evidence are checked; it cannot establish historical absence."
+    claim_type: ACCESS_SURFACE_NEGATIVE_CONTROL
+    evidence_class: [PROJECT_INFERENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-GADOTTI-2014-GEN-EDITION
+        locator: "additional manuscripts motivating a new edition"
+        relation: CURRENTNESS_COUNTEREXAMPLE
+        access_mode: PUBLISHER_DESCRIPTION
+      - source_id: SCH-ATTINGER-2021-INANA-DESCENT
+        locator: "later philological control"
+        relation: CURRENTNESS_CONTROL
+        access_mode: OPEN_ACCESS_WORKING_PAPER
+    opposing_sources: []
+    confidence: high-as-methodological-control
+    contested: false

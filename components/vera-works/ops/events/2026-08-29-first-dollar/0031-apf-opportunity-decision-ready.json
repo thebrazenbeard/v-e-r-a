@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0031",
+  "event_type": "OPPORTUNITY_READY_FOR_DECISION",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0003",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T21:52:07Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0030",
+  "idempotency_key": "first-dollar:opp:0003:vera-decision-ready",
+  "from_state": "SCREENING",
+  "to_state": "VERA_DECISION",
+  "payload": {
+    "recommendation": "REJECT",
+    "why": "The work itself fits Vera Works, but a competitive proposal would depend on evidence of prior specialized FGM/human-rights/policy work and references that Vera Works cannot truthfully supply. Pursuit would have low expected value and create pressure toward misrepresentation.",
+    "decision_owner": "vera",
+    "patrick_action_required": false
+  },
+  "external_effect": false
+}

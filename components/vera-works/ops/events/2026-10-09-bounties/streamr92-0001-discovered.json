@@ -1,0 +1,25 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-STREAMR92-0001",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-STREAMR92-BOUNTY-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-09T20:17:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-STREAMR92-BOUNTY-0001",
+  "causation_id": "EVT-FIRST-DOLLAR-EXPAND-0002",
+  "idempotency_key": "first-dollar:github-bounty:streamr-92:discovered:v1",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {
+    "objective": "Earn the Streamr #92 cash bounty by deleting unused exports and centralizing the 30-day stream period constant.",
+    "source": "https://github.com/streamr-labs/streamr/issues/92",
+    "advertised_reward_usd": "55",
+    "observed_state": "OPEN",
+    "observed_comments": 0,
+    "observed_assignees": 0,
+    "customer_required": false,
+    "upfront_capital_required": false
+  },
+  "external_effect": false
+}

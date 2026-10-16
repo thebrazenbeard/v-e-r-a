@@ -1,0 +1,37 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "HOLD-FIRST-DOLLAR-0001",
+  "event_type": "HOLD_OPENED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-FIRST-DOLLAR-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T18:12:02Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-FOLDING-0001",
+  "causation_id": "EVT-FOLD-0002",
+  "idempotency_key": "first-dollar:folding:patrick-action-hold",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "PATRICK_ACTION_REQUIRED",
+    "problem": "The first revenue experiment requires a receiving wallet controlled by Patrick and explicit approval of a personally owned physical computer for software installation and sustained compute/power use. Vera Works will not create or retain wallet seed material and will not assume that any available work/employer device is authorized.",
+    "held_subject_type": "opportunity",
+    "held_subject_id": "OPP-FIRST-DOLLAR-FOLDING-0001",
+    "held_state": "SCREENING",
+    "required_from": "patrick",
+    "recommendation": "Create or choose a BANANO wallet yourself, retain its seed/private material, give Vera Works only the public ban_ receiving address, identify the personally owned computer approved for the test, and explicitly approve installation/configuration of the official Folding@Home client for one bounded benchmark. This is the lowest-complexity current route to proving an actual customerless payout.",
+    "alternatives": [
+      "Instead provide a Monero public address and approve an XMRig/P2Pool benchmark on owned hardware.",
+      "Choose the Gridcoin plus Curecoin double-reward Folding path; this requires additional wallet/registration setup before the same kind of benchmark.",
+      "Decline all hardware revenue experiments and leave Yield Harvester in read-only mode."
+    ],
+    "consequences": [
+      "The benchmark consumes electricity and creates heat/hardware load.",
+      "BANANO reward amounts are variable and are not guaranteed to exceed electricity cost.",
+      "No continuous operation will be authorized by the benchmark approval; the system stops and evaluates measured economics first.",
+      "Only official Folding@Home software is in scope; the rejected stealth-miner repository is not used."
+    ],
+    "inaction_effect": "No mining, Folding@Home, provider, storage, bandwidth, trading, wallet-signing, or other revenue workload will start. Read-only scouting may continue.",
+    "resume_event_type": "PATRICK_ACTION_COMPLETED"
+  },
+  "external_effect": false
+}

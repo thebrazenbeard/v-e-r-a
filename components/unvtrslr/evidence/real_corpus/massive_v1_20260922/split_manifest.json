@@ -1,0 +1,26 @@
+{
+  "schema":"UNVTRSLR_MASSIVE_V1_SPLIT_MANIFEST_V1",
+  "dataset_sha256":"7df623fd2d300a4d235d6ee5bd396c9a28258d3a0ccb29abdb054506eba153f8",
+  "dataset_version":"1.0",
+  "locales":["en-US","fr-FR","de-DE","sw-KE","tr-TR"],
+  "training":{
+    "selection":"all records with partition=train in each selected locale",
+    "records_per_locale":11514,
+    "total_records":57570,
+    "source_identity":"locale + ':worker:' + worker_id",
+    "content_identity":"id",
+    "training_exposure_jsonl_sha256":"6229733a9fe2cf65eac6d099bc6e07b2b74bfd7a2711608777d2d6673ef6d241",
+    "training_exposure_jsonl_gz_sha256":"b6b5213f45ac47945e0537e49127f948cad8ddad54199701fd7f5b942537e3e4"
+  },
+  "holdout":{
+    "source_partition":"test",
+    "selection":"lowest 200 SHA256(locale + ':' + id) values per locale",
+    "records_per_locale":200,
+    "total_records":1000,
+    "prediction_artifact_contains_exact_selected_record_ids":true,
+    "holdout_predictions_jsonl_sha256":"9028e4735c93424eca1528fe42c82276d2f5c941b575ac38528103dd245766b4",
+    "holdout_predictions_jsonl_gz_sha256":"23647b9dc44962bdba21001c5ee5006619b71986d62280d6c058bfe54c6f111f"
+  },
+  "reconstruction_rule":"Given the exact MASSIVE 1.0 bytes named by dataset_sha256, load the five locale JSONL files. Training is every row whose partition is train. Holdout is every row whose partition is test, sorted independently per locale by SHA256(locale + ':' + id), taking the first 200. The committed run.py and adapter_spec.json define the exact transformation into training exposure and predictions.",
+  "claim":"This manifest plus dataset hash, run.py and adapter_spec.json deterministically identifies the exact train/holdout records without relying on mutable dataset hosting."
+}

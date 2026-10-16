@@ -1,0 +1,25 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0024",
+  "event_type": "ASSIGNMENT_CREATED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FD-SOURCING-0002",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T21:52:00Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": null,
+  "idempotency_key": "first-dollar:asg:sourcing-0002:created",
+  "from_state": null,
+  "to_state": "CREATED",
+  "payload": {
+    "objective": "Continue zero-cost first-dollar opportunity sourcing and screening in parallel while the separate Reddit application remains held at Patrick's manual external-action boundary.",
+    "scope": "Fresh market and bounty discovery, source verification, screening, Vera-side pursue/reject decisions, and feasibility analysis. No application, bid, claim, comment, account action, spend, contract acceptance, or customer communication is authorized.",
+    "acceptance_criteria": [
+      "The existing Reddit opportunity and hold remain untouched.",
+      "Stale, human-role-misrepresentation, track-record, paid-entry, or poor-economics candidates are rejected without Patrick involvement.",
+      "Promising lower-friction candidates remain in screening until enough evidence exists for a Vera-side decision.",
+      "No Patrick escalation occurs merely to research an opportunity."
+    ]
+  },
+  "external_effect": false
+}

@@ -1,0 +1,63 @@
+schema_version: on-theo.dumuzid-baal-borrowing-signal-control.v1
+status: DIRECT_BORROWING_NONE_ESTABLISHED_DIRECTION_UNRESOLVED
+subject:
+  predecessor_pr: 73
+  predecessor_head: 6d9004a17dc04d5dd399407c4a37e48c7766bcaa
+
+carrier_update:
+  rs_94_2406:
+    proposition: "A piggyback letter contains a communication from Ilimilku to Urtenu."
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    network_effect: STRENGTHENS_ILIMILKU_URTENU_COMMUNICATION_LINK
+    source_transfer_effect: DOES_NOT_ESTABLISH_P332950_OR_DUMUZI_NARRATIVE_ACCESS
+  g07_named_carrier:
+    overall: PARTIAL_NETWORK_IDENTIFIED_RELEVANT_SOURCE_CARRIER_NOT_ESTABLISHED
+
+borrowing_signal_test:
+  broad_parallels:
+    death_or_disappearance: PRESENT
+    mourning_or_divine_response: PRESENT_HIGH_LEVEL
+    renewed_presence: PRESENT_HIGH_LEVEL
+  distinctive_dumuzid_features:
+    substitution_for_another_deity: NOT_MATCHED_IN_CONTROLLED_BAAL_SEQUENCE
+    galla_pursuit_capture: NOT_MATCHED
+    transformative_escape: NOT_MATCHED_AS_BORROWING_SIGNAL
+    sister_exchange: NOT_MATCHED
+    half_year_alternation: NOT_MATCHED
+  distinctive_baal_features:
+    mot_antagonist: NOT_DUMUZID_MATCH
+    anat_mot_conflict: NOT_DUMUZID_MATCH
+    rain_kingship_restoration: NOT_DUMUZID_SPECIFIC_MATCH
+  textual_dependence:
+    shared_lexical_formula: NOT_ESTABLISHED
+    translation_calque: NOT_ESTABLISHED
+    source_note_linking_dumuzi_to_baal_cycle: NOT_ESTABLISHED
+    relevant_source_carrier: NOT_ESTABLISHED
+  overall: SOURCE_SPECIFIC_BORROWING_SIGNAL_NOT_ESTABLISHED
+
+directionality:
+  chronology_east_to_west_possible: PASS
+  regional_contact: PASS
+  dumuzi_scholastic_exposure_at_ugarit: PASS
+  dumuzi_narrative_exposure_at_ugarit: NOT_ESTABLISHED
+  distinctive_directional_signal: NOT_ESTABLISHED
+  result: UNRESOLVED
+
+scholarly_countermodel:
+  source: "Noga Ayali-Darshan, Dying and Rising Gods, Zaphon 2024"
+  evidence_class: SCHOLARLY_INTERPRETATION
+  proposition: "The extant evidence challenges the older assumption that Dumuzi was the dominant prototype influencing Baal."
+  project_disposition: MATERIAL_COUNTERMODEL_NOT_AUTOMATICALLY_ADOPTED
+
+final:
+  direct_dumuzid_to_baal_borrowing: NONE_ESTABLISHED
+  regional_connected_culture_model: VIABLE
+  west_to_east_or_bidirectional_models: NOT_EXCLUDED
+
+guards:
+  - "broad motif similarity != source-specific borrowing"
+  - "chronological priority != demonstrated direction"
+  - "network capacity != relevant source transfer"
+  - "multiple Dumuzid compositions != one recovered transmission template"
+  - "absence of a current borrowing signal != historical impossibility"
+  - "scholarly countermodel != project fact by authority"

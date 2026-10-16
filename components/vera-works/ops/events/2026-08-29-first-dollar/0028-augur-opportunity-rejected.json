@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0028",
+  "event_type": "OPPORTUNITY_REJECTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0002",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T21:52:04Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0027",
+  "idempotency_key": "first-dollar:opp:0002:rejected:deadline",
+  "from_state": "DISCOVERED",
+  "to_state": "REJECTED",
+  "payload": {
+    "disposition": "REJECT_STALE",
+    "reasoning": "The primary employer source gives an application deadline of 2026-08-28 at 23:00 GMT-5. Current sourcing is on 2026-08-29, so the opportunity is already past deadline even though aggregators still surface it.",
+    "positive_signal_preserved": "The role was unusually aligned with AI-assisted research and may indicate a useful future market category.",
+    "patrick_action_required": false
+  },
+  "external_effect": false
+}

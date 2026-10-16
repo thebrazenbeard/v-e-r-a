@@ -1,0 +1,29 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-SIGNPOSTAPI109-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-SIGNPOSTAPI109-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T16:33:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SIGNPOSTAPI109-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-SIGNPOSTAPI109-0001",
+  "idempotency_key": "first-dollar:github-bounty:signpost-api-109:screening:v1",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "evidence_summary": [
+      "Direct GitHub issue observed open with zero comments and no assignee.",
+      "Advertised bounty is USD 85.",
+      "Acceptance requires a database migration bounding reason length and rejecting an empty wallet, matching application-layer validation, tests, and Backend CI.",
+      "Signpost API tooling is already warm on Lappy from the validated #118 package, reducing setup cost."
+    ],
+    "recommended_test": "Prepare the smallest local patch from fresh upstream main, add one migration plus matching service validation and focused tests, then run the repository typecheck/test gates.",
+    "alternatives": [
+      "Specula API #10 USD 85 module-level httpx client reuse.",
+      "Signpost App #97 USD 85 migration-registry conversion.",
+      "Vellara #105/#106 USD 85 Rust test bounties."
+    ]
+  },
+  "external_effect": false
+}

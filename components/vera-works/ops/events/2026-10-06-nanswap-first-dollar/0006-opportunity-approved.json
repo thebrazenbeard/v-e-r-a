@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-NANSWAP-0006",
+  "event_type": "OPPORTUNITY_APPROVED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-NANSWAP-RANDOMX-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-06T10:35:32Z",
+  "correlation_id": "CORR-NANSWAP-RANDOMX-0001",
+  "causation_id": "EVT-NANSWAP-0005",
+  "idempotency_key": "nanswap-randomx:v1:approved-bounded-test",
+  "from_state": "VERA_DECISION",
+  "to_state": "APPROVED",
+  "payload": {
+    "approved_effect": "Run official checksum-verified XMRig v6.26.0 on Lappy against xmrig.nanswap.com:3333 using 4 CPU threads and the existing BANANO receiving alias while on AC power.",
+    "stop_condition": "Stop after first confirmed BANANO payout or 30 minutes if no payout occurs.",
+    "postcondition": "Measure realized payout/economics before any continuous-operation decision.",
+    "external_effect_not_yet_performed_by_this_event": true
+  },
+  "external_effect": false
+}

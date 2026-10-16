@@ -1,0 +1,35 @@
+{
+  "schema_version": "yield-harvester-config-v1",
+  "policy": {
+    "minimum_net_usd_per_hour": "0.01",
+    "available_upfront_capital_usd": "0",
+    "allow_marketplace_demand": false,
+    "allow_network_exposure": false,
+    "allow_paid_cloud": false
+  },
+  "resources": [
+    {
+      "alias": "local-gpu",
+      "kind": "GPU",
+      "origin": "LOCAL_OWNED",
+      "availability": "AVAILABLE",
+      "usage_terms_state": "NOT_APPLICABLE",
+      "gpu_vram_gb": "4",
+      "ram_gb": "16",
+      "cpu_threads": 16,
+      "env": {
+        "electricity_usd_per_kwh": "VERA_WORKS_ELECTRICITY_USD_PER_KWH"
+      },
+      "notes": "Example only. Populate from measured current hardware before operational use."
+    },
+    {
+      "alias": "cloud-free-gpu",
+      "kind": "GPU",
+      "origin": "CLOUD_FREE",
+      "availability": "UNKNOWN",
+      "usage_terms_state": "UNKNOWN",
+      "electricity_usd_per_kwh": "0",
+      "notes": "Unknown provider permission intentionally prevents execution until current terms explicitly allow the workload."
+    }
+  ]
+}

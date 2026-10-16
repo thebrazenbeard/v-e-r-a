@@ -1,0 +1,61 @@
+schema_version: nature-of-existence.tool-routing-policy.v1
+
+routes:
+  historical_or_primary_source_research:
+    prefer:
+      - github
+      - scholarly_web_or_parallel_search
+      - google_drive_if_user_source
+      - scispace_for_scholarship
+    persist_to: on_theo
+
+  academic_literature_review:
+    prefer:
+      - scispace
+      - parallel_search
+    optional:
+      - google_drive
+    admission_rule: evaluate_before_persisting_claims
+
+  biology_neuroscience_health_science:
+    prefer:
+      - life_science_research
+      - scispace
+    persist_classification: EMPIRICAL_OR_SCHOLARLY_EVIDENCE
+
+  astronomy_statistics_math:
+    prefer:
+      - wolfram
+    optional:
+      - code_execution
+    persist_classification: COMPUTATION_OR_EXPERIMENT_RESULT
+
+  simulation_or_large_benchmark:
+    prefer:
+      - codex_process_jobs
+      - remote_desktop_commander
+    optional:
+      - hugging_face
+      - nvidia_skills
+
+  code_change:
+    prefer:
+      - codex_engineering_guardrails
+      - github
+    verification: independent_where_material
+
+  work_tracking:
+    optional:
+      - linear
+    authority: NONE
+
+  research_ui:
+    optional_pipeline:
+      - figma
+      - lovable
+      - vercel
+
+  relational_research_query:
+    candidate:
+      - wowsql
+    rule: derived_only_and_resolve_back_to_git_provenance

@@ -1,0 +1,29 @@
+From 350a2ff61e53e69319e56556c1589f586e4dcce4 Mon Sep 17 00:00:00 2001
+From: Patrick Sims <234958733+thebrazenbeard@users.noreply.github.com>
+Date: Fri, 9 Oct 2026 11:36:47 -0400
+Subject: [PATCH] augora69-reject-mismatched-passphrase
+
+---
+ frontend/wallet.js | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/frontend/wallet.js b/frontend/wallet.js
+index eaa4bd6..6aff99b 100644
+--- a/frontend/wallet.js
++++ b/frontend/wallet.js
+@@ -101,7 +101,11 @@ async function validateNetwork() {
+   const result = await getNetwork();
+   if (result.error) throw new Error(errorMessage(result.error));
+   state.network = result.network;
+-  if (result.networkPassphrase !== TESTNET_PASSPHRASE && result.network !== "TESTNET") {
++  if (result.networkPassphrase != null) {
++    if (result.networkPassphrase !== TESTNET_PASSPHRASE) {
++      throw new Error("Switch Freighter to Testnet, then connect again.");
++    }
++  } else if (result.network !== "TESTNET") {
+     throw new Error("Switch Freighter to Testnet, then connect again.");
+   }
+ }
+-- 
+2.55.0.windows.4
+

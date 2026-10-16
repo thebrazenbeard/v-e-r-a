@@ -1,0 +1,328 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-BROAD-MYTHOS-FOUNDATION-V1
+base_registry_head: 71ba8382c073e72332f3cb7199fb5824fe74a2b2
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-UGARIT-BAAL-CYCLE
+    source_roles: [PRIMARY_TEXT]
+    source_kind: ancient_text_corpus
+    author_or_tradition: Ugaritic scribal tradition
+    title: Baal Cycle / KTU 1.1-1.6
+    composition_date: {start: null, end: null, precision: late-bronze-age-ugarit}
+    physical_witness_date: {start: null, end: null, precision: late-bronze-age-tablets}
+    extant_status: clay-tablet-witnesses
+    original_language: Ugaritic
+    access_mode: scholarly-edition-translation-commentary
+    locators:
+      - identifier: "KTU 1.1-1.6"
+        url: "https://brill.com/display/title/1061"
+    limitations:
+      - "Ugaritic religion is evidence for Ugarit and related Northwest Semitic culture, not a complete synonym for every Canaanite community."
+
+  - id: SRC-ENUMA-ELISH
+    source_roles: [PRIMARY_TEXT]
+    source_kind: ancient_text
+    author_or_tradition: Babylonian scribal tradition
+    title: Enuma Elish / Babylonian Epic of Creation
+    composition_date: {start: null, end: null, precision: late-second-millennium-bce-scholarly-range}
+    physical_witness_date: {start: null, end: null, precision: multiple-tablet-witnesses}
+    extant_status: extant-through-cuneiform-tablet-tradition
+    original_language: Akkadian
+    access_mode: scholarly-translation
+    locators:
+      - passage: "Tablet IV and full seven-tablet epic"
+        url: "https://isac.uchicago.edu/sites/default/files/uploads/shared/docs/misc_genesis.pdf"
+    limitations:
+      - "The epic is a historically situated Babylonian composition and must not be treated as the sole Mesopotamian cosmogony."
+
+  - id: SRC-DEUTERONOMY-32
+    source_roles: [PRIMARY_TEXT]
+    source_kind: biblical_text
+    author_or_tradition: Deuteronomic / Hebrew biblical tradition
+    title: Deuteronomy 32
+    composition_date: {start: null, end: null, precision: unresolved-in-v1}
+    physical_witness_date: {start: null, end: null, precision: multiple-witness-tradition}
+    extant_status: extant-through-manuscript-traditions
+    original_language: Hebrew
+    access_mode: textual-witness-comparison
+    locators:
+      - passage: "Deuteronomy 32:8-9"
+        url: "https://www.thetorah.com/article/the-sons-of-israel-or-god-deuteronomy-32-8"
+    limitations:
+      - "The textual variant must preserve MT, 4QDeutj, and LXX evidence rather than harmonizing them."
+
+  - id: MAT-KUNTILLET-AJRUD-YHWH-ASHERAH
+    source_roles: [MATERIAL_EVIDENCE]
+    source_kind: inscriptional_material
+    author_or_tradition: Iron Age Israelite/Judahite-associated epigraphy
+    title: Kuntillet Ajrud Yahweh / asherah inscriptions
+    composition_date: {start: null, end: null, precision: eighth-century-bce}
+    physical_witness_date: {start: null, end: null, precision: eighth-century-bce-material}
+    extant_status: material-artifact
+    original_language: Hebrew / Northwest Semitic epigraphy
+    access_mode: scholarly-transcription-and-interpretation
+    locators:
+      - url: "https://academic.oup.com/book/10720/chapter/158788296"
+    limitations:
+      - "The referent of 'his asherah' is debated: goddess, cult object, or associated sacred symbol/object."
+
+  - id: SRC-AVESTA-YASNA-30
+    source_roles: [PRIMARY_TEXT]
+    source_kind: sacred_text
+    author_or_tradition: Old Avestan / Gathic Zoroastrian tradition
+    title: Yasna 30
+    composition_date: {start: null, end: null, precision: old-avestan-chronology-contested}
+    physical_witness_date: {start: null, end: null, precision: later-manuscript-tradition}
+    extant_status: extant-through-avestan-manuscript-tradition
+    original_language: Old Avestan
+    access_mode: scholarly-digital-text-and-translation
+    locators:
+      - passage: "Yasna 30"
+        url: "https://lrc.la.utexas.edu/eieol/aveol/40"
+      - passage: "Yasna 30 digital translation"
+        url: "https://www.avesta.org/yasna/"
+    limitations:
+      - "Translation and interpretation of Old Avestan are difficult; later Pahlavi theology must not be back-projected automatically."
+
+  - id: SRC-BUNDAHISHN
+    source_roles: [PRIMARY_TEXT, LATER_TRADITION]
+    source_kind: middle_persian_religious_text
+    author_or_tradition: Zoroastrian Pahlavi tradition
+    title: Bundahishn
+    composition_date: {start: null, end: null, precision: late-antique-to-medieval-compilation-tradition}
+    physical_witness_date: {start: null, end: null, precision: later-manuscript-tradition}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Middle Persian
+    access_mode: scholarly-summary-and-edition-tradition
+    limitations:
+      - "Primary evidence for later Zoroastrian systematic cosmology; later tradition relative to the Gathas."
+
+scholarly_context_additions:
+  - id: SCH-SMITH-2001-BIBLICAL-MONOTHEISM
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Mark S. Smith
+    title: The Origins of Biblical Monotheism
+    composition_date: {start: "2001", end: "2001", precision: publication-year}
+    access_mode: publisher-chapter-abstracts
+    locators:
+      - url: "https://academic.oup.com/book/12858"
+    limitations:
+      - "Used for divine-council, Ugaritic/Israelite comparison, and development-of-monotheism framing; individual arguments require chapter-level readback when consequential."
+
+  - id: SCH-MET-2009-CANAANITE-GODS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: museum_scholarly_essay
+    author_or_tradition: Metropolitan Museum of Art
+    title: The Gods and Goddesses of Canaan
+    composition_date: {start: "2009", end: "2009", precision: publication-year}
+    access_mode: institutional-full-text
+    locators:
+      - url: "https://www.metmuseum.org/essays/the-gods-and-goddesses-of-canaan"
+
+  - id: SCH-MET-2009-MESOPOTAMIAN-CREATION
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: museum_scholarly_essay
+    author_or_tradition: Metropolitan Museum of Art
+    title: Mesopotamian Creation Myths
+    composition_date: {start: "2009", end: "2009", precision: publication-year}
+    access_mode: institutional-full-text
+    locators:
+      - url: "https://www.metmuseum.org/essays/epic-of-creation-mesopotamia"
+
+  - id: SCH-TOV-2023-DEUT32
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_essay
+    author_or_tradition: Emanuel Tov
+    title: The Sons of Israel or God? – Deuteronomy 32:8
+    composition_date: {start: "2023", end: "2023", precision: publication-year}
+    access_mode: scholarly-full-text
+    locators:
+      - url: "https://www.thetorah.com/article/the-sons-of-israel-or-god-deuteronomy-32-8"
+
+  - id: SCH-LEWIS-2020-ORIGIN-YAHWEH
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph_chapter
+    author_or_tradition: Theodore J. Lewis
+    title: The Origin of Yahweh
+    container: The Origin and Character of God
+    composition_date: {start: "2020", end: "2020", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - url: "https://academic.oup.com/book/37440/chapter-abstract/331575152"
+
+  - id: SCH-KREYENBROEK-1993-ZORO-COSMOGONY
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: reference_article
+    author_or_tradition: Philip G. Kreyenbroek
+    title: Cosmogony and Cosmology i. In Zoroastrianism/Mazdaism
+    composition_date: {start: "1993", end: "1993", precision: publication-year}
+    access_mode: institutional-full-text
+    locators:
+      - url: "https://www.iranicaonline.org/articles/cosmogony-i/"
+
+  - id: SCH-SHAKED-1998-ZORO-ESCHATOLOGY
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: reference_article
+    author_or_tradition: Shaul Shaked
+    title: Eschatology i. In Zoroastrianism and Zoroastrian Influence
+    composition_date: {start: "1998", end: "1998", precision: publication-year}
+    access_mode: institutional-full-text
+    locators:
+      - url: "https://www.iranicaonline.org/articles/eschatology-i/"
+
+claim_additions:
+  - id: CLM-UGARIT-DIVINE-COUNCIL
+    proposition: "The Ugaritic religious corpus represents a differentiated divine family/council including El, Athirat, Baal, and other deities."
+    claim_type: MYTHIC_SYSTEM_RECONSTRUCTION
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [canaanite-ugaritic]
+    supporting_sources:
+      - source_id: SRC-UGARIT-BAAL-CYCLE
+        locator: "KTU 1.1-1.6"
+        relation: PRIMARY_TEXT_CORPUS
+        access_mode: SCHOLARLY_EDITION
+      - source_id: SCH-SMITH-2001-BIBLICAL-MONOTHEISM
+        locator: "Divine Council / Divine Family chapters"
+        relation: SCHOLARLY_SYNTHESIS
+        access_mode: PUBLISHER_ABSTRACTS
+    opposing_sources: []
+    confidence: high-for-structured-divine-plurality
+    contested: false
+
+  - id: CLM-BAAL-YAMM-MOT-CYCLE
+    proposition: "The Baal Cycle centers major conflicts over kingship involving Baal, Yamm/Sea, and Mot/Death."
+    claim_type: TEXTUAL_SYSTEM_SUMMARY
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [canaanite-ugaritic]
+    supporting_sources:
+      - source_id: SRC-UGARIT-BAAL-CYCLE
+        locator: "KTU 1.1-1.6"
+        relation: DIRECT_CORPUS_SUPPORT
+        access_mode: SCHOLARLY_EDITION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-ENUMA-MARDUK-TIAMAT-ORDER
+    proposition: "In Enuma Elish, Marduk receives supreme authority, defeats Tiamat, and establishes cosmic order in a narrative also tied to Babylonian divine-political supremacy."
+    claim_type: TEXTUAL_AND_HISTORICAL_CONTEXT
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [mesopotamian, babylonian]
+    supporting_sources:
+      - source_id: SRC-ENUMA-ELISH
+        locator: "Tablet IV onward"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: SCHOLARLY_TRANSLATION
+      - source_id: SCH-MET-2009-MESOPOTAMIAN-CREATION
+        locator: "essay"
+        relation: HISTORICAL_CONTEXT
+        access_mode: INSTITUTIONAL_FULL_TEXT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DEUT32-DIVINE-BEINGS-VARIANT
+    proposition: "Deuteronomy 32:8 has materially different textual witnesses: the Masoretic tradition reads 'sons of Israel' while 4QDeutj and Septuagint evidence preserve a divine-being reading."
+    claim_type: TEXTUAL_VARIANT_REPORT
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [ancient-israelite, biblical]
+    supporting_sources:
+      - source_id: SRC-DEUTERONOMY-32
+        locator: "Deuteronomy 32:8-9"
+        relation: TEXTUAL_WITNESS_SET
+        access_mode: WITNESS_COMPARISON
+      - source_id: SCH-TOV-2023-DEUT32
+        locator: "variant table and analysis"
+        relation: SCHOLARLY_TEXTUAL_CRITICISM
+        access_mode: SCHOLARLY_FULL_TEXT
+    opposing_sources: []
+    confidence: high-for-existence-of-variant
+    contested: false
+
+  - id: CLM-KUNTILLET-YHWH-ASHERAH-ASSOCIATION
+    proposition: "Kuntillet Ajrud inscriptions attest blessing formulae associating Yahweh with 'his asherah', while the exact referent of asherah remains debated."
+    claim_type: MATERIAL_TEXTUAL_ATTESTATION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [ancient-israelite, yahwism]
+    supporting_sources:
+      - source_id: MAT-KUNTILLET-AJRUD-YHWH-ASHERAH
+        locator: "inscriptional blessing formulae"
+        relation: MATERIAL_ATTESTATION
+        access_mode: SCHOLARLY_TRANSCRIPTION
+    opposing_sources: []
+    confidence: high-for-association-unresolved-for-referent
+    contested: true
+    alternatives:
+      - "Asherah refers to the goddess."
+      - "asherah refers to a cult object or sacred symbol associated with Yahweh."
+
+  - id: CLM-YASNA30-TWO-SPIRITS-CHOICE
+    proposition: "Yasna 30 presents two opposed primal spirits/beliefs and frames human moral choice between better and worse orientations."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [zoroastrian, old-avestan]
+    supporting_sources:
+      - source_id: SRC-AVESTA-YASNA-30
+        locator: "Yasna 30.2-5"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: SCHOLARLY_DIGITAL_TEXT
+    opposing_sources: []
+    confidence: high-at-translation-level
+    contested: false
+
+  - id: CLM-LATER-ZORO-COSMOLOGY-SYSTEMATIZES-CONFLICT
+    proposition: "Later Pahlavi Zoroastrian texts systematize cosmic history as creation, mixture/conflict, and eventual separation/defeat of evil more explicitly than the extant Gathas."
+    claim_type: DIACHRONIC_THEOLOGICAL_DEVELOPMENT
+    evidence_class: [PRIMARY_TEXT, LATER_TRADITION, SCHOLARLY_INTERPRETATION]
+    traditions: [zoroastrian]
+    supporting_sources:
+      - source_id: SRC-BUNDAHISHN
+        locator: "cosmogonic framework"
+        relation: LATER_TEXTUAL_SYSTEMATIZATION
+        access_mode: SCHOLARLY_EDITION_TRADITION
+      - source_id: SCH-KREYENBROEK-1993-ZORO-COSMOGONY
+        locator: "article"
+        relation: SCHOLARLY_SYNTHESIS
+        access_mode: INSTITUTIONAL_FULL_TEXT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-ZORO-INFLUENCE-ON-JEWISH-ESCHATOLOGY
+    proposition: "Specific Jewish eschatological doctrines derive directly from Zoroastrian teaching."
+    claim_type: TRANSMISSION_HYPOTHESIS
+    evidence_class: [SCHOLARLY_INTERPRETATION, UNKNOWN]
+    traditions: [zoroastrian, judaism]
+    supporting_sources:
+      - source_id: SCH-SHAKED-1998-ZORO-ESCHATOLOGY
+        locator: "influence discussion"
+        relation: SCHOLARLY_SUPPORT_FOR_INFLUENCE_FAMILY
+        access_mode: INSTITUTIONAL_FULL_TEXT
+    opposing_sources: []
+    confidence: unresolved-feature-specific
+    contested: true
+    notes:
+      - "Broad historical influence proposals do not establish direct derivation of each doctrine; each feature requires chronology and transmission testing."
+
+transmission_additions:
+  - id: TR-UGARIT-DEUT32-DIVINE-COUNCIL
+    from_source: SRC-UGARIT-BAAL-CYCLE
+    to_source: SRC-DEUTERONOMY-32
+    relation: STRUCTURAL_PARALLEL
+    confidence: high-for-parallel-unresolved-for-direct-dependence
+    evidence:
+      - source_id: SCH-SMITH-2001-BIBLICAL-MONOTHEISM
+        locator: "divine council comparison"
+      - source_id: SCH-TOV-2023-DEUT32
+        locator: "divine beings / Ugaritic comparison"
+    limitation: "Shared West Semitic cultural grammar is historically plausible; no claim is made that Deuteronomy directly copied a surviving Ugaritic tablet."
+
+  - id: TR-UGARIT-ENUMA-SEA-COMBAT
+    from_source: SRC-UGARIT-BAAL-CYCLE
+    to_source: SRC-ENUMA-ELISH
+    relation: STRUCTURAL_PARALLEL
+    confidence: high-for-combat-parallel
+    evidence: []
+    limitation: "Baal/Yamm and Marduk/Tiamat are comparable divine-war structures, not demonstrated instances of direct textual dependence in V1."

@@ -1,0 +1,16 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-DRY-0001",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-DRY-0001",
+  "actor": "worker:scout",
+  "recorded_at": "2026-08-29T13:00:00Z",
+  "correlation_id": "CORR-DRY-0001",
+  "causation_id": null,
+  "idempotency_key": "dry:opp:0001:discovered",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {"source": "dry-run"},
+  "external_effect": false
+}

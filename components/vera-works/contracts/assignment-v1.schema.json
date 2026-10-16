@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "assignment-v1.schema.json",
+  "title": "Vera Works Assignment Lease Payload V1",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "lease_action": {"enum": ["CLAIM", "TRANSFER"]},
+    "holder": {"type": "string", "minLength": 1},
+    "previous_holder": {"type": "string", "minLength": 1},
+    "claimed_at": {"type": "string", "minLength": 20},
+    "expires_at": {"type": ["string", "null"]}
+  }
+}

@@ -1,0 +1,129 @@
+From a1331cb7dbd3a7a8134b324b47f0b351e60d47c9 Mon Sep 17 00:00:00 2001
+From: Patrick Sims <234958733+thebrazenbeard@users.noreply.github.com>
+Date: Thu, 8 Oct 2026 17:02:53 -0400
+Subject: [PATCH] signpost102-storage-layout-regression-tests
+
+---
+ .github/workflows/contract-ci.yml             |  2 +
+ scripts/check-storage-layout-compat.sh        | 11 +++-
+ .../tests/check-storage-layout-compat.test.sh | 55 +++++++++++++++++++
+ 3 files changed, 66 insertions(+), 2 deletions(-)
+ create mode 100644 scripts/tests/check-storage-layout-compat.test.sh
+
+diff --git a/.github/workflows/contract-ci.yml b/.github/workflows/contract-ci.yml
+index e74fdd9..bac5ebb 100644
+--- a/.github/workflows/contract-ci.yml
++++ b/.github/workflows/contract-ci.yml
+@@ -103,6 +103,8 @@ jobs:
+           shellcheck scripts/check-error-code-continuity.sh
+           shellcheck scripts/check-cargo-doc.sh
+           shellcheck scripts/check-migration-numbering.sh
++      - name: Storage-layout compatibility regression
++        run: bash scripts/tests/check-storage-layout-compat.test.sh
+       - name: Docs completeness check
+         run: bash scripts/check-docs.sh
+       - name: Event-topic consistency check
+diff --git a/scripts/check-storage-layout-compat.sh b/scripts/check-storage-layout-compat.sh
+index 54c06bf..c2818df 100755
+--- a/scripts/check-storage-layout-compat.sh
++++ b/scripts/check-storage-layout-compat.sh
+@@ -349,12 +349,19 @@ extract_git_ref() {
+ copy_from_path() {
+   local src="$1"
+   local dest="$2"
++  local side="$3"
+   mkdir -p "$dest"
+   if [[ -f "$src" ]]; then
+     # Single file — treat as the types.rs for all contracts (fixture mode)
+     for contract in registration verification progress scout_access; do
+       cp "$src" "${dest}/${contract}_types.rs"
+     done
++  elif [[ -f "${src}/${side}_types.rs" ]]; then
++    # Fixture-pair directory. The old reference uses old_types.rs and the
++    # new reference uses new_types.rs, matching scripts/fixtures/storage_compat_*.
++    for contract in registration verification progress scout_access; do
++      cp "${src}/${side}_types.rs" "${dest}/${contract}_types.rs"
++    done
+   else
+     for contract in registration verification progress scout_access; do
+       local f="${src}/contracts/${contract}/src/types.rs"
+@@ -375,13 +382,13 @@ OLD_SRC="${WORK_DIR}/old_src"
+ NEW_SRC="${WORK_DIR}/new_src"
+ 
+ if is_file_path "$OLD_REF"; then
+-  copy_from_path "$OLD_REF" "$OLD_SRC"
++  copy_from_path "$OLD_REF" "$OLD_SRC" old
+ else
+   extract_git_ref "$OLD_REF" "$OLD_SRC"
+ fi
+ 
+ if is_file_path "$NEW_REF"; then
+-  copy_from_path "$NEW_REF" "$NEW_SRC"
++  copy_from_path "$NEW_REF" "$NEW_SRC" new
+ else
+   extract_git_ref "$NEW_REF" "$NEW_SRC"
+ fi
+diff --git a/scripts/tests/check-storage-layout-compat.test.sh b/scripts/tests/check-storage-layout-compat.test.sh
+new file mode 100644
+index 0000000..aaa2b3a
+--- /dev/null
++++ b/scripts/tests/check-storage-layout-compat.test.sh
+@@ -0,0 +1,55 @@
++#!/usr/bin/env bash
++set -euo pipefail
++
++ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
++CHECKER="${ROOT}/scripts/check-storage-layout-compat.sh"
++SAFE="${ROOT}/scripts/fixtures/storage_compat_safe"
++BREAKING="${ROOT}/scripts/fixtures/storage_compat_breaking"
++
++fail() {
++  echo "FAIL: $*" >&2
++  exit 1
++}
++
++for required in \
++  "$CHECKER" \
++  "$SAFE/old_types.rs" \
++  "$SAFE/new_types.rs" \
++  "$BREAKING/old_types.rs" \
++  "$BREAKING/new_types.rs"; do
++  [[ -f "$required" ]] || fail "required fixture or checker is missing: $required"
++done
++
++assert_exit() {
++  local expected="$1"
++  local description="$2"
++  shift 2
++
++  local output
++  output="$(mktemp)"
++  local status=0
++  "$@" >"$output" 2>&1 || status=$?
++
++  if [[ "$status" -ne "$expected" ]]; then
++    echo "FAIL: $description" >&2
++    echo "expected exit $expected, got $status" >&2
++    cat "$output" >&2
++    rm -f "$output"
++    exit 1
++  fi
++
++  echo "PASS: $description (exit $status)"
++  rm -f "$output"
++}
++
++assert_exit 0 \
++  "safe fixture evolution is accepted" \
++  bash "$CHECKER" "$SAFE" "$SAFE"
++
++assert_exit 1 \
++  "breaking fixture evolution is blocked" \
++  bash "$CHECKER" "$SAFE" "$BREAKING"
++
++assert_exit 0 \
++  "explicit acknowledgement permits the breaking fixture evolution" \
++  bash "$CHECKER" "$SAFE" "$BREAKING" --acknowledge-breaking-change
+-- 
+2.55.0.windows.4
+

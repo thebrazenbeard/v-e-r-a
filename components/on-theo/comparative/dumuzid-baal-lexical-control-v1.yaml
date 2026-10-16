@@ -1,0 +1,54 @@
+schema_version: on-theo.cross-language-lexical-control.v1
+status: SEMANTIC_PARALLEL_WITHOUT_SHARED_LEXICAL_FORMULA
+subject:
+  predecessor_pr: 50
+  predecessor_head: 8aabf5571246ca772ef6954c2470ee9d6f33e208
+  source_a: A1146_DUMUZI
+  source_b: UGARITIC_BAAL_CYCLE
+
+lexical_pairs:
+  - concept: DEATH
+    a1146:
+      language: Akkadian
+      form: idakkushu
+      lemma: daku
+      semantic_value: THEY_KILL_HIM
+      grammatical_profile: AGENTIVE_CAUSATION
+      evidence_state: RECONSTRUCTION_DEPENDENT
+    baal_cycle:
+      language: Ugaritic
+      forms: [mt, hlq]
+      lemmas: [mt, hlq]
+      semantic_values: [DEAD_OR_DIE, PERISH]
+      grammatical_profile: DEATH_STATE_EVENT_PARALLEL
+      evidence_state: CRITICAL_TEXT_TRADITION
+    relation: SEMANTIC_PARALLEL_NOT_FORMULA_IDENTITY
+
+  - concept: RENEWED_PRESENCE
+    a1146:
+      language: Akkadian
+      form: ittanar
+      lemma: taru
+      semantic_value: REPEATEDLY_RETURNS
+      grammatical_profile: ITERATIVE_RETURN
+      evidence_state: RECONSTRUCTION_DEPENDENT
+    baal_cycle:
+      language: Ugaritic
+      forms: [hy, "existence parallel"]
+      semantic_values: [ALIVE, EXISTS]
+      grammatical_profile: LIFE_EXISTENCE_STATE
+      evidence_state: CRITICAL_TEXT_TRADITION
+    relation: SEMANTIC_PARALLEL_NOT_FORMULA_IDENTITY
+
+inference:
+  shared_plot_level_semantics: true
+  shared_lexical_formula: false
+  direct_translation_calque_established: false
+  broader_mythic_influence_possible: true
+  direct_textual_dependence_established: false
+
+guards:
+  - "ordinary kill/return verbs are not automatically a resurrection idiom"
+  - "alive/exist language is not lexically the same as return"
+  - "different lexemes do not disprove adapted oral or ritual influence"
+  - "English dies/returns/rises labels must not replace source-language comparison"

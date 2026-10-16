@@ -1,0 +1,23 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-AUGORA69-0006",
+  "event_type": "HOLD_CANCELLED_EXTERNAL_INVALIDATION",
+  "subject_type": "hold",
+  "subject_id": "HOLD-BOUNTY-AUGORA69-0001",
+  "actor": "automation",
+  "recorded_at": "2026-10-09T19:27:37Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-AUGORA69-BOUNTY-0001",
+  "causation_id": "HOLD-BOUNTY-AUGORA69-0001",
+  "idempotency_key": "first-dollar:github-bounty:augora69:publication-hold:external-invalidation-cancel:20261009:v1",
+  "from_state": "OPEN",
+  "to_state": "CANCELLED",
+  "payload": {
+    "resolution_of": "HOLD-BOUNTY-AUGORA69-0001",
+    "cancellation_reason": "HELD_SUBJECT_NO_LONGER_ACTIONABLE",
+    "evidence": "Fresh GitHub issue retrieval on 2026-10-09 showed Augora-Labs/augora issue #69 in CLOSED state before Vera Works performed any public claim or publication.",
+    "authority_effect": "No Patrick decision is inferred or granted. The prior Patrick publication hold is cancelled only because its external bounty subject is closed; publication remains unauthorized.",
+    "related_opportunity_close_event": "EVT-BOUNTY-AUGORA69-0005",
+    "public_effect_performed": false
+  },
+  "external_effect": false
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-NANSWAP-0009",
+  "event_type": "FINANCIAL_RECEIVABLE",
+  "subject_type": "financial",
+  "subject_id": "FIN-NANSWAP-RANDOMX-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-06T11:48:45.340016Z",
+  "correlation_id": "CORR-NANSWAP-RANDOMX-0001",
+  "causation_id": "EVT-NANSWAP-0008",
+  "idempotency_key": "nanswap-randomx:v1:reward-receivable-1.7368-ban",
+  "from_state": "EARNED",
+  "to_state": "RECEIVABLE",
+  "payload": {
+    "currency": "USD",
+    "gross": "0.000956483131968",
+    "underlying_asset": "BAN",
+    "underlying_units": "1.7368",
+    "valuation_kind": "PROVISIONAL_MARK_TO_MARKET",
+    "valuation_source_uri": "https://data.nanswap.com/get-markets",
+    "valuation_observed_at": "2026-10-06T11:48:43.340016Z",
+    "valuation_unit_usd": "0.00055071576",
+    "evidence_ref": "work/first-dollar/nanswap-randomx-0001/pool-reward-evidence.json",
+    "onchain_receipt_observed": false,
+    "receivable_location": "Nanswap mining pool",
+    "available_fund_effect": "NONE_UNTIL_RECEIVED"
+  },
+  "external_effect": false
+}

@@ -1,0 +1,42 @@
+schema_version: on-theo.daoism-research-state.v1
+status: FOUNDATION_RESEARCH_ACTIVE
+
+early_text_controls:
+  laozi:
+    composite_text: true
+    manuscript_variation: true
+    key_witness_families:
+      - GUODIAN
+      - MAWANGDUI
+      - RECEIVED_WANG_BI
+  zhuangzi:
+    layered_text: true
+    major_layers:
+      - INNER
+      - OUTER
+      - MISCELLANEOUS
+
+later_religious_lanes:
+  - HUANG_LAO
+  - CELESTIAL_MASTERS
+  - SHANGQING
+  - LINGBAO
+  - MONASTIC_DAOISM
+  - ALCHEMY
+  - QUANZHEN
+
+priority_semantics:
+  - DAO
+  - DE
+  - WUWEI
+  - ZIRAN
+  - QI
+  - MING
+  - LIFE_DEATH_TRANSFORMATION
+
+guards:
+  - "classical Daoist texts != all later Daoist religion"
+  - "received text != original archetype"
+  - "qi != modern physical energy by default"
+  - "Dao != external simulator"
+  - "Zhuangzi dream motifs != simulation evidence"

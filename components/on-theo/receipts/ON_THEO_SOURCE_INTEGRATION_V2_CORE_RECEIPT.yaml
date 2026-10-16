@@ -1,0 +1,40 @@
+schema_version: on-theo.source-integration-v2-core-receipt.v1
+status: DRAFT_SOURCE_TREE_NOT_MATERIALIZED_NOT_CANONICAL
+recorded: "2026-09-19"
+base:
+  pr: 28
+  head: 99be7dd0e222480e0c82ed41c3d43383a759ab90
+  tree: 278c7b102c1582ae97bc75a59745c481e2cfd277
+research_delta:
+  pr: 75
+  head: 5f232ccc70f27a5830605da5c94896b32bc5797a
+construction:
+  base_tree_policy: PR28_SOURCE_CONSOLIDATION_BASE
+  pr75_only_paths_added: 88
+  shared_path_differences: 5
+  shared_resolution:
+    README.md: KEEP_PR28_ARCHITECTURE
+    docs/BRANCH_MAP.md: KEEP_PR28_ARCHITECTURE
+    registry/source-access.yaml: KEEP_PR28_54_RECORD_SUPERSET
+    traditions/sumerian/overview-v1.md: TAKE_PR75_EXPLICIT_NARROWING_CORRECTION
+    registry/extension-manifest.yaml: REBUILD_50_ID_SOURCE_UNION
+  extension_manifest:
+    total_ids: 50
+    pr28_entries: 20
+    pr75_unique_entries: 30
+    missing_dependencies: 0
+    topological_order_violations: 0
+  known_carried_fixes:
+    - extension_id: EXT-EGYPTIAN-VEDIC-FOUNDATION-V1
+      blob: a3bcccf22976573e6596fdc9df92f40f9ecdbd8b
+    - extension_id: EXT-DUMUZID-BAAL-LEXICAL-CONTROL-V1
+      blob: 8b7a88d9e21797af8363bb1dbd7639ed41a2a6f9
+      repair: QUOTE_COLON_BEARING_TITLE
+    - extension_id: EXT-SUMERIAN-DUMUZID-SEASONAL-HYPOTHESIS-V1
+      blob: cfa5a589f329780db51c8e9e50c537fd472d3bc9
+      repair: QUOTE_COLON_BEARING_TITLE
+guards:
+  - "source integration != materialization"
+  - "source integration != independent review"
+  - "source integration != merge authority"
+  - "topic/master branch payloads are not yet integrated by this core cut"

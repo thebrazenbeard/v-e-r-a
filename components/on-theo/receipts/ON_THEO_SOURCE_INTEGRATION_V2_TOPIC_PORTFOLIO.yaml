@@ -1,0 +1,172 @@
+schema_version: on-theo.source-integration-v2-topic-portfolio.v1
+status: DRAFT_TOPIC_PORTFOLIO_INTEGRATED_NOT_CANONICAL
+recorded: "2026-09-19"
+base_core:
+  pr: 77
+  head: 18e482e4ed021d9b94fdfc13a691f24b2ee98970
+policy:
+  - "branch names are provenance surfaces, not durable epistemic namespaces"
+  - "master hub summaries are preserved but relocated"
+  - "review-only payload never overwrites research corpus"
+  - "already integrated byte-identical legacy payload is not duplicated"
+mappings:
+  - source_branch: "chrisanity-master"
+    source_head: efafea1d04c4dcd8543200c022a037f36471bc5f
+    source_path: "docs/christianity"
+    git_blob: 9421e14ad122aadeb42c117f89186d0333335cee
+    target_path: "docs/master-hubs/christianity-v1.md"
+    classification: MASTER_HUB_RELOCATED
+  - source_branch: "judaism"
+    source_head: cb7825ceba44ea05a2111d94ae50d91fb67ad1f9
+    source_path: "judaism"
+    git_blob: 2a32f60aab52948b4254592fbb51912b3d242704
+    target_path: "docs/master-hubs/judaism-v1.md"
+    classification: MASTER_HUB_RELOCATED
+  - source_branch: "sumerian"
+    source_head: bd6b6572141dc2f48f2f104b8f25301662d4a06f
+    source_path: "sumerian"
+    git_blob: 96fa1a5337824954f0f1b9a239d9038fe96e81cd
+    target_path: "docs/master-hubs/sumerian-v1.md"
+    classification: MASTER_HUB_RELOCATED
+  - source_branch: "sim-theory"
+    source_head: 8f8af585b8a73bcf830953b8eef4cd0c6c837603
+    source_path: "sim-theory"
+    git_blob: 84e00afda990089e173e91374c34d37b98865106
+    target_path: "research/simulation-theory/master-hub-v1.md"
+    classification: MASTER_HUB_RELOCATED
+  - source_branch: "taoism"
+    source_head: 30de6433ab2bdce86b88fcdad1a3134084ed39ab
+    source_path: "taoism"
+    git_blob: 2b653d5c58ccb359a4f332cbe5ff2004d91e2ff7
+    target_path: "traditions/daoism/master-hub-v1.md"
+    classification: MASTER_HUB_RELOCATED
+  - source_branch: "taoism"
+    source_head: 30de6433ab2bdce86b88fcdad1a3134084ed39ab
+    source_path: "traditions/daoism/research-state-v1.yaml"
+    git_blob: beb0a8a83a19f96c3dcf44473b04639563948719
+    target_path: "traditions/daoism/research-state-v1.yaml"
+    classification: UNIQUE_SOURCE_CONTROL
+  - source_branch: "taoism"
+    source_head: 30de6433ab2bdce86b88fcdad1a3134084ed39ab
+    source_path: "traditions/daoism/source-map-v1.md"
+    git_blob: ec2e6b6f40e4ef0c6beaa150c3c85c6d80c99217
+    target_path: "traditions/daoism/source-map-v1.md"
+    classification: UNIQUE_SOURCE_CONTROL
+  - source_branch: "shinto"
+    source_head: a578729a2e3cec02fe533c3c1d20946347da9aa4
+    source_path: "shinto"
+    git_blob: 1ea59a0db713ca4fcc2804f5e3d6dad897a42d2c
+    target_path: "traditions/shinto/master-hub-v1.md"
+    classification: MASTER_HUB_RELOCATED
+  - source_branch: "shinto"
+    source_head: a578729a2e3cec02fe533c3c1d20946347da9aa4
+    source_path: "traditions/shinto/research-state-v1.yaml"
+    git_blob: 076b8d77bfde0807f1c19e7f2c97de987ad4fd15
+    target_path: "traditions/shinto/research-state-v1.yaml"
+    classification: UNIQUE_SOURCE_CONTROL
+  - source_branch: "shinto"
+    source_head: a578729a2e3cec02fe533c3c1d20946347da9aa4
+    source_path: "traditions/shinto/source-map-v1.md"
+    git_blob: 5c357f5a8d3eecd04520f3080e8846c64a92e5f7
+    target_path: "traditions/shinto/source-map-v1.md"
+    classification: UNIQUE_SOURCE_CONTROL
+  - source_branch: "shinto-1"
+    source_head: 58917fbd88cdba79fc16eca27d33feb2b92a02a1
+    source_path: "shinto"
+    git_blob: 1aa8f16a4031f95eba8634755b4f103e2f9ed1dd
+    target_path: "reviews/shinto-hostile-source-control-v1.md"
+    classification: REVIEW_ONLY_RELOCATED
+  - source_branch: "buddhism"
+    source_head: b9f2e2a635cd98129b0a0122aeb8a2e7a65cfaa5
+    source_path: "buddhism"
+    git_blob: 36161fba29d168605a090410d9c66bbf5e2e22b7
+    target_path: "traditions/buddhism/master-hub-v1.md"
+    classification: MASTER_HUB_RELOCATED
+  - source_branch: "buddhism"
+    source_head: b9f2e2a635cd98129b0a0122aeb8a2e7a65cfaa5
+    source_path: "traditions/buddhism/overview-v1.md"
+    git_blob: 00a3be2716a85266aac6e94df1f30fad51e0876d
+    target_path: "traditions/buddhism/overview-v1.md"
+    classification: UNIQUE_RESEARCH_PAYLOAD
+  - source_branch: "buddhism"
+    source_head: b9f2e2a635cd98129b0a0122aeb8a2e7a65cfaa5
+    source_path: "traditions/buddhism/research-state-v1.yaml"
+    git_blob: 6c7f5768739c141736123d5579b3c03e0bd8feb1
+    target_path: "traditions/buddhism/research-state-v1.yaml"
+    classification: UNIQUE_SOURCE_CONTROL
+  - source_branch: "buddhism"
+    source_head: b9f2e2a635cd98129b0a0122aeb8a2e7a65cfaa5
+    source_path: "traditions/buddhism/source-map-v1.md"
+    git_blob: e0254b49e75bd5433131e5db847e13de6a037d34
+    target_path: "traditions/buddhism/source-map-v1.md"
+    classification: UNIQUE_SOURCE_CONTROL
+  - source_branch: "asatru"
+    source_head: 4af66d0bb3aa3f9bbfcd45fb52b400045b9d5339
+    source_path: "asatru"
+    git_blob: 3beb0e18913f4e4fe57d2a6dec5ff4744e9b0016
+    target_path: "traditions/norse/master-hub-v1.md"
+    classification: MASTER_HUB_RELOCATED
+  - source_branch: "asatru"
+    source_head: 4af66d0bb3aa3f9bbfcd45fb52b400045b9d5339
+    source_path: "traditions/norse/research-state-v1.yaml"
+    git_blob: b984b91d5c8ccc950728dc0fa8a11e498f38e78c
+    target_path: "traditions/norse/research-state-v1.yaml"
+    classification: UNIQUE_SOURCE_CONTROL
+  - source_branch: "asatru"
+    source_head: 4af66d0bb3aa3f9bbfcd45fb52b400045b9d5339
+    source_path: "traditions/norse/source-map-v1.md"
+    git_blob: 7cce6764fe3def6a2ea911bce602833b670ac6d0
+    target_path: "traditions/norse/source-map-v1.md"
+    classification: UNIQUE_SOURCE_CONTROL
+  - source_branch: "hindu"
+    source_head: ccd5b82cf99fa9dfda238366a93447047f74b1fa
+    source_path: "hindu"
+    git_blob: c00fa255b18077521d1e1552857ca0cbc832278d
+    target_path: "traditions/hindu/master-hub-v1.md"
+    classification: MASTER_HUB_RELOCATED
+  - source_branch: "hindu"
+    source_head: ccd5b82cf99fa9dfda238366a93447047f74b1fa
+    source_path: "traditions/hindu/research-state-v1.yaml"
+    git_blob: 90095d02d0780a234318f625bc1999ee8e802823
+    target_path: "traditions/hindu/research-state-v1.yaml"
+    classification: UNIQUE_SOURCE_CONTROL
+  - source_branch: "hindu"
+    source_head: ccd5b82cf99fa9dfda238366a93447047f74b1fa
+    source_path: "traditions/hindu/source-map-v1.md"
+    git_blob: 43362f709ad530213739f7b27f3aed264b813c4c
+    target_path: "traditions/hindu/source-map-v1.md"
+    classification: UNIQUE_SOURCE_CONTROL
+  - source_branch: "islam"
+    source_head: 827815e8806fa038f9ecb23abf558d608826eee8
+    source_path: "islam"
+    git_blob: f96823793c108266ac207ef20ed36f29cf056602
+    target_path: "docs/master-hubs/islam-v1.md"
+    classification: MASTER_HUB_RELOCATED
+already_integrated:
+  - source_branch: "history/chronology"
+    source_head: 71dec0ffb6602dfcdc7e3561e82fae276f720303
+    classification: ALREADY_INTEGRATED_BYTE_IDENTICAL
+  - source_branch: "synthesis/commonality"
+    source_head: a8a792229610de55ce8e69b106d0c1a093b47dd8
+    classification: ALREADY_INTEGRATED_BYTE_IDENTICAL
+  - source_branch: "tradition/christianity"
+    source_head: 38132a768c754e180a9f8a2bb50bf81b6c13719e
+    classification: ALREADY_INTEGRATED_BYTE_IDENTICAL
+  - source_branch: "tradition/judaism"
+    source_head: 74492647fc76cb56574c8dda0cdaebc142399482
+    classification: ALREADY_INTEGRATED_BYTE_IDENTICAL
+  - source_branch: "tradition/islam"
+    source_head: 62d8e45e79faab37e5a6ab7e394c051776bbf03f
+    classification: ALREADY_INTEGRATED_BYTE_IDENTICAL
+collision_resolutions:
+  - collision: "shinto root path on shinto vs shinto-1"
+    disposition: "preserve shinto corpus as traditions/shinto/master-hub-v1.md; preserve hostile review as reviews/shinto-hostile-source-control-v1.md"
+    destructive_overwrite: false
+counts:
+  source_branches_total: 16
+  mapped_payloads_added: 22
+  already_integrated_branches: 5
+guards:
+  - "topic integration != review pass"
+  - "topic integration != canonical merge"
+  - "master hub preservation != claim promotion"

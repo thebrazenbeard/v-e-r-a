@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vera.works/contracts/first-dollar-benchmark-v1.schema.json",
+  "title": "Vera Works First-Dollar Benchmark V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "observations"],
+  "properties": {
+    "schema_version": {"const": "first-dollar-benchmark-v1"},
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mechanism_id",
+          "resource_alias",
+          "evidence_quality",
+          "source_uri",
+          "quote_observed_at",
+          "max_quote_age_seconds",
+          "benchmark_duration_hours",
+          "hours_per_day",
+          "baseline_watts",
+          "workload_watts",
+          "performance_metric_name",
+          "performance_metric_value",
+          "performance_metric_unit",
+          "reward_units_per_day",
+          "reward_unit_symbol",
+          "reward_unit_usd",
+          "minimum_payout_units",
+          "payout_fee_units",
+          "liquidity_ratio",
+          "platform_fee_usd_per_day",
+          "other_cost_usd_per_day",
+          "electricity_usd_per_kwh",
+          "warmup_days",
+          "payout_lag_days",
+          "evidence_refs"
+        ],
+        "properties": {
+          "mechanism_id": {"type": "string", "minLength": 1},
+          "resource_alias": {"type": "string", "minLength": 1},
+          "evidence_quality": {
+            "enum": ["SOURCE_ESTIMATE", "EXACT_RESOURCE_MEASURED", "REALIZED_REWARD"]
+          },
+          "source_uri": {"type": "string", "pattern": "^https://"},
+          "quote_observed_at": {"type": "string", "minLength": 20},
+          "max_quote_age_seconds": {"type": "integer", "minimum": 1},
+          "benchmark_duration_hours": {"type": "string"},
+          "hours_per_day": {"type": "string"},
+          "baseline_watts": {"type": "string"},
+          "workload_watts": {"type": "string"},
+          "performance_metric_name": {"type": "string", "minLength": 1},
+          "performance_metric_value": {"type": "string", "minLength": 1},
+          "performance_metric_unit": {"type": "string", "minLength": 1},
+          "reward_units_per_day": {"type": "string"},
+          "reward_unit_symbol": {"type": "string", "minLength": 1},
+          "reward_unit_usd": {"type": "string"},
+          "minimum_payout_units": {"type": "string"},
+          "payout_fee_units": {"type": "string"},
+          "liquidity_ratio": {"type": "string"},
+          "platform_fee_usd_per_day": {"type": "string"},
+          "other_cost_usd_per_day": {"type": "string"},
+          "electricity_usd_per_kwh": {"type": "string"},
+          "warmup_days": {"type": "string"},
+          "payout_lag_days": {"type": "string"},
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    }
+  }
+}

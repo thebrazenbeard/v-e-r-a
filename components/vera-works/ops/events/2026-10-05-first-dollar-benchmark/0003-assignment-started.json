@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FDBENCH-0003",
+  "event_type": "ASSIGNMENT_STARTED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FIRST-DOLLAR-BENCH-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T18:18:02Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-BENCH-0001",
+  "causation_id": "EVT-FDBENCH-0002",
+  "idempotency_key": "first-dollar-benchmark:v1:started",
+  "from_state": "CLAIMED",
+  "to_state": "IN_PROGRESS",
+  "payload": {
+    "holder": "vera:works-operator",
+    "reason": "The protected revenue experiment is held for Patrick action, but benchmark/economics tooling is safe mechanical work that can be completed independently.",
+    "held_workflow_respected": "HOLD-FIRST-DOLLAR-0001 remains open; this assignment does not resolve or bypass it."
+  },
+  "external_effect": false
+}

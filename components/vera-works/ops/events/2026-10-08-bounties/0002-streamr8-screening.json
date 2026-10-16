@@ -1,0 +1,28 @@
+{
+    "external_effect":  false,
+    "recorded_at":  "2026-10-08T12:48:01Z",
+    "subject_id":  "OPP-FIRST-DOLLAR-STREAMR8-BOUNTY-0001",
+    "schema_version":  "event-v1",
+    "causation_id":  "EVT-BOUNTY-STREAMR8-0001",
+    "to_state":  "SCREENING",
+    "event_type":  "OPPORTUNITY_SCREENING_STARTED",
+    "from_state":  "DISCOVERED",
+    "payload":  {
+                    "recommended_test":  "Prepare the smallest local patch that exports or extracts pure helpers and adds deterministic unit tests.",
+                    "evidence_summary":  [
+                                             "Direct issue observed open with zero comments and no assignee.",
+                                             "Bounty advertises USD 85 and asks for deterministic unit tests around pure stream accrual math.",
+                                             "Acceptance requires elapsed-zero, exact-drain, over-drain, inactive, progress clamp, zero-rate completion, and npm test green."
+                                         ],
+                    "alternatives":  [
+                                         "Streamr #27 USD 95 contract lifecycle tests.",
+                                         "Streamr #10 USD 85 XDR decoder tests.",
+                                         "Stellita #91 USD 90 incremental sync patch."
+                                     ]
+                },
+    "idempotency_key":  "first-dollar:github-bounty:streamr8:screening:v1",
+    "event_id":  "EVT-BOUNTY-STREAMR8-0002",
+    "subject_type":  "opportunity",
+    "correlation_id":  "CORR-FIRST-DOLLAR-STREAMR8-BOUNTY-0001",
+    "actor":  "vera:works-operator"
+}

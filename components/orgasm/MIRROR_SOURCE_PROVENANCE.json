@@ -1,0 +1,22 @@
+{
+  "excluded_files": [
+    {
+      "path": ".vscode/tasks.json",
+      "reason": "Microsoft Defender quarantined Trojan:Script/MalTask.A"
+    },
+    {
+      "path": "public/fonts/fa-solid-500.woff2",
+      "reason": "Defender previously flagged this shared font asset"
+    }
+  ],
+  "limitation": "This public snapshot intentionally differs from source; omitted content remains in original upstream private repo subject to its access permissions.",
+  "mirror_tree_before_notice": "699aa4ebf2e08f921f1e583c3e275d371f5bd45c",
+  "no_source_history_imported": true,
+  "schema": "VERA_PUBLIC_SANITIZED_MIRROR_PROVENANCE_V1",
+  "security_status": "SOURCE_SNAPSHOT_WITH_EXCLUSIONS_NOT_EXACT",
+  "source_authoritative": true,
+  "source_commit": "b44a9b7d29cd9e371422ba3dc3ad6356ece7a13d",
+  "source_ref": "main",
+  "source_repository": "thebrazenbeard/orgasm",
+  "source_tree_sha": "ea9acd7e6840f76fe9ec6a3b8da82204d40b3e09"
+}

@@ -1,0 +1,137 @@
+schema_version: on-theo.source-registry.v1
+notes:
+  - "Source roles describe what a source is evidence for; they do not automatically establish the historical truth of narrated events."
+sources:
+  - id: SRC-ORIGEN-CONTRA-CELSUM
+    source_roles: [PRIMARY_TEXT]
+    source_kind: ancient_text
+    author_or_tradition: Origen of Alexandria
+    title: Contra Celsum
+    composition_date:
+      start: "0248"
+      end: "0248"
+      precision: approximate-year
+    physical_witness_date:
+      start: null
+      end: null
+      precision: unknown
+    extant_status: extant-through-manuscript-tradition
+    original_language: Greek
+    access_mode: extant-work-modern-translation
+    locators:
+      - passage: "Book I, chapter 28"
+        url: "https://www.newadvent.org/fathers/04161.htm"
+      - passage: "Book I, chapter 32"
+        url: "https://www.newadvent.org/fathers/04161.htm"
+      - passage: "Book I, chapter 69"
+        url: "https://www.newadvent.org/fathers/04161.htm"
+    limitations:
+      - "Origen is a Christian apologist rebutting Celsus; his preservation and framing must be separated from Celsus's lost original."
+
+  - id: SRC-CELSUS-TRUE-DOCTRINE
+    source_roles: [PRIMARY_TEXT]
+    source_kind: lost_ancient_text
+    author_or_tradition: Celsus
+    title: The True Doctrine / True Discourse
+    composition_date:
+      start: "0170"
+      end: "0185"
+      precision: approximate-range
+    physical_witness_date:
+      start: null
+      end: null
+      precision: no-direct-witness-in-current-registry
+    extant_status: lost-indirectly-preserved
+    original_language: Greek
+    access_mode: indirect-through-origen
+    preserved_by: [SRC-ORIGEN-CONTRA-CELSUM]
+    limitations:
+      - "No direct manuscript of Celsus's work is registered here; claims about wording are mediated through Origen."
+      - "The exact dating of Celsus remains a scholarly question; this range is provisional and must not be treated as an exact timestamp."
+
+  - id: MAT-ABDES-PANTERA-INSCRIPTION
+    source_roles: [MATERIAL_EVIDENCE]
+    source_kind: funerary_inscription
+    author_or_tradition: Roman military / funerary context
+    title: Funerary inscription of Tiberius Julius Abdes Pantera
+    composition_date:
+      start: "0001"
+      end: "0100"
+      precision: broad-first-century-range
+    physical_witness_date:
+      start: "0001"
+      end: "0100"
+      precision: broad-first-century-range
+    extant_status: material-artifact
+    original_language: Latin
+    access_mode: institutional-or-scholarly-database-transcription
+    locators:
+      - identifier: "CIL XIII 7514 / database record §400"
+        url: "https://armyofromanpalestine.com/%C2%A7400-tiberius-julius-abdes-pantera"
+    limitations:
+      - "The inscription attests a person and the name Pantera; it does not identify this soldier as Jesus/Yeshua's father."
+
+  - id: SRC-BAVLI-SHABBAT-104B
+    source_roles: [PRIMARY_TEXT, LATER_TRADITION]
+    source_kind: rabbinic_text
+    author_or_tradition: Babylonian Talmud
+    title: Shabbat 104b
+    composition_date:
+      start: null
+      end: null
+      precision: unresolved-in-v1
+    physical_witness_date:
+      start: null
+      end: null
+      precision: unresolved-in-v1
+    extant_status: extant-through-manuscript-and-print-tradition
+    original_language: Hebrew-Aramaic
+    access_mode: digital-text-edition
+    locators:
+      - passage: "Shabbat 104b:5"
+        url: "https://www.sefaria.org/Shabbat.104b"
+    limitations:
+      - "The passage names ben Stada, Pandeira, and a Miriam; it does not itself use the name Jesus in the displayed passage."
+      - "Identification with Jesus/Yeshua is a separate scholarly proposition and must remain contested unless independently established."
+
+  - id: SCH-BLUMELL-2007-CELSUS-JEW
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_article
+    author_or_tradition: Lincoln Blumell
+    title: "A Jew in Celsus' True Doctrine? An examination of Jewish Anti-Christian polemic in the second century C.E."
+    composition_date:
+      start: "2007"
+      end: "2007"
+      precision: exact-year
+    physical_witness_date:
+      start: "2007"
+      end: "2007"
+      precision: publication-year
+    extant_status: published
+    access_mode: publisher-record
+    locators:
+      - doi: "10.1177/000842980703600206"
+        url: "https://journals.sagepub.com/doi/10.1177/000842980703600206"
+    limitations:
+      - "A scholarly argument about Celsus's Jewish material, not a second-century witness itself."
+
+  - id: SCH-NIEHOFF-2013-CELSUS-JEW
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_article
+    author_or_tradition: Maren R. Niehoff
+    title: "A Jewish Critique of Christianity from Second-Century Alexandria: Revisiting the Jew Mentioned in Contra Celsum"
+    composition_date:
+      start: "2013"
+      end: "2013"
+      precision: exact-year
+    physical_witness_date:
+      start: "2013"
+      end: "2013"
+      precision: publication-year
+    extant_status: published
+    access_mode: institutional-bibliographic-record
+    locators:
+      - doi: "10.1353/earl.2013.0015"
+        url: "https://cris.huji.ac.il/en/publications/a-jewish-critique-of-christianity-from-second-century-alexandria-/"
+    limitations:
+      - "Argues for a mid-second-century Alexandrian Jewish written source behind the Celsus fragments; this is an attributed scholarly reconstruction, not project fact."

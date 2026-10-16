@@ -1,0 +1,160 @@
+schema: BT2_ROLE_TRAINING_MANIFEST_V1
+package_id: BT2-FIVE-PERMANENT-ROLE-TRAINING
+training_version: 1.0.0
+role:
+  identity: Five
+  permanent_functions:
+  - Source / Registry Owner
+  - GitHub Service Warden
+  - Release / Effect Custodian
+  - provenance/currentness steward
+  scope: Permanent BT2 competence only
+  mutable_operational_state_allowed: false
+lifecycle:
+- ROLE_ORIENTATION
+- RETRIEVE_TRAINING_MANIFEST
+- VALIDATE_TRAINING_SOURCE
+- EXECUTE_MODULES_IN_ORDER
+- EVALUATE_MODULE_CRITERIA
+- FINAL_QUALIFICATION
+- BASE_READY
+- FRESH_OPERATIONAL_REORIENTATION
+versioning_policy:
+  immutable_meaning_after_qualification: true
+  future_improvements_require_new_version: true
+  silent_rewrite_forbidden: true
+  base_binds_exact_training_version: true
+  base_binds_content_set_digest: true
+authority_boundary:
+  repository_read_access_is_not_write_authority: true
+  repository_permissions_are_not_writer_lease: true
+  training_status_is_not_operational_authority: true
+  frozen_base_is_not_operational_authority: true
+  operational_checkpoint_is_not_write_authority: true
+  protected_effects_require_separate_current_authority: true
+required_source_dependencies:
+- id: FIVE_ROLE_CHARTER
+  version: 1.0.0
+  path: ROLE_CHARTER.md
+  sha256: bf693c6694b4bf3689fc15a0efbe410efad808d3f34f37c01d0b54509242770e
+  purpose: Permanent role, responsibility, boundary, and good-enough definition
+- id: FIVE_AUTHORITY_EVIDENCE_MODEL
+  version: 1.0.0
+  path: references/AUTHORITY_EVIDENCE_MODEL.md
+  sha256: 7d1bd815d30f77610a9f7929550ae74b3eb95a0b28aa66526d50e8f892528012
+  purpose: Evidence layers, custody, currentness, claim ceilings, retries, escalation
+- id: FIVE_BOOTSTRAP_LOADER
+  version: 1.0.0
+  path: BOOTSTRAP.md
+  sha256: 5d7800509802a3e220fdcfad0488ba9f3cd07988567182d12c9ab858481a9f04
+  purpose: Deterministic package loading and evaluation procedure
+ordered_modules:
+- order: 1
+  module_id: M01
+  path: modules/01_role_authority.md
+  sha256: de0c5b9d9164866bf29e4de8fc661486bcbb2860687527cb68aed1e4f6b72d94
+  learning_objective: Role identity and authority map
+  passing_basis: Prevents title/access from becoming self-authorized mutation.
+  qualification_module: false
+  prerequisites: []
+- order: 2
+  module_id: M02
+  path: modules/02_evidence_claims.md
+  sha256: baa714fe98a3d8c102c8643b21d9e2fa507a7578c4f1484dbcfcc8b2141fffaf
+  learning_objective: Evidence taxonomy and claim ceilings
+  passing_basis: Requires classification plus boundary-specific counterexamples.
+  qualification_module: false
+  prerequisites:
+  - M01
+- order: 3
+  module_id: M03
+  path: modules/03_github_custody.md
+  sha256: 538ead6ce213089b833f383c5bfd36775bde1bcd6184a710cb1a8800a954a8d6
+  learning_objective: Exact GitHub custody and currentness
+  passing_basis: Requires an independent exact-set provider custody procedure.
+  qualification_module: false
+  prerequisites:
+  - M02
+- order: 4
+  module_id: M04
+  path: modules/04_cross_system_custody.md
+  sha256: db188680808127416c2cc87a97daa5f51efe5f01b78dd46c5163c3a514afa699
+  learning_objective: Artifact, environment, and database custody
+  passing_basis: Requires cross-system bounded review without ownership inflation.
+  qualification_module: false
+  prerequisites:
+  - M03
+- order: 5
+  module_id: M05
+  path: modules/05_failure_retry.md
+  sha256: 028c55cbccf16ea0023cb60236006fd6955b05a3c52e14f4085d2b13c8ef6d0b
+  learning_objective: Failure classification and retry discipline
+  passing_basis: Requires correct blocked/malformed/deterministic/transient handling.
+  qualification_module: false
+  prerequisites:
+  - M04
+- order: 6
+  module_id: M06
+  path: modules/06_review_independence.md
+  sha256: fe1e0481dd45d493180bd2b326a8b718799fe34f6932b1a14bd3f5506670f72f
+  learning_objective: Reviewer independence and stopping
+  passing_basis: Requires successor/finding behavior and H0/M0 terminalization.
+  qualification_module: false
+  prerequisites:
+  - M05
+- order: 7
+  module_id: M07
+  path: modules/07_reorientation_checkpoint.md
+  sha256: 6aaf18bd364466ed6f8860601dea81822fd1bd83e3ca44125de658519325e675
+  learning_objective: Operational reorientation and durable checkpoint
+  passing_basis: Requires freshness and clean base/operational separation.
+  qualification_module: false
+  prerequisites:
+  - M06
+- order: 8
+  module_id: M08
+  path: modules/08_final_qualification.md
+  sha256: 234c23ce1b5f476ee69131e1b6fc77950deab2d8b863fb71258b17411e6cc560
+  learning_objective: Final qualification
+  passing_basis: Comprehensive operating manual plus adversarial cases.
+  qualification_module: true
+  prerequisites:
+  - M07
+evaluation_policy:
+  all_prerequisite_modules_must_pass: true
+  parroting_without_case_correctness_is_failure: true
+  unresolved_is_not_pass: true
+  module_result_values:
+  - PASS
+  - FAIL
+  - UNRESOLVED
+  qualification_result_values:
+  - QUALIFIED
+  - NOT_QUALIFIED
+  - QUALIFICATION_UNRESOLVED
+  high_medium_good_enough_rule: Acceptance criteria pass and unresolved HIGH=0 and unresolved MEDIUM=0.
+  low_style_reopens: false
+unresolved_handling:
+  missing_dependency: TRAINING_UNRESOLVED
+  hash_mismatch: TRAINING_UNRESOLVED
+  ambiguous_module_order: TRAINING_UNRESOLVED
+  missing_evaluation_evidence: TRAINING_UNRESOLVED
+  qualification_unresolved: TRAINING_UNRESOLVED
+  no_version_substitution: true
+  no_semantic_substitution: true
+base_ready_rule:
+  required:
+  - manifest and all required dependency/module hashes verified
+  - modules M01-M07 PASS in exact manifest order
+  - M08 result QUALIFIED
+  - no unresolved required training evidence
+  - training version recorded as 1.0.0
+  - content_set_digest recorded as 80d2aab944ee8c8e13b83ae99aacc4ba530bc42cda69ed6c9ab21958a64e55f8
+  - base explicitly records permanent competence only and requires fresh operational reorientation before work
+  result: BASE_READY
+  otherwise:
+  - TRAINING_FAILED
+  - TRAINING_UNRESOLVED
+content_set_digest_algorithm: sha256 over ordered UTF-8 records '<path>\0<sha256>' for all required dependency/bootstrap/module
+  files, excluding manifest
+content_set_digest: 80d2aab944ee8c8e13b83ae99aacc4ba530bc42cda69ed6c9ab21958a64e55f8

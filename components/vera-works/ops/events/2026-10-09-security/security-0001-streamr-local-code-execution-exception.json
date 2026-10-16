@@ -1,0 +1,55 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "HOLD-SECURITY-STREAMR-20261009-0001",
+  "event_type": "AUTOMATION_EXCEPTION",
+  "subject_type": "hold",
+  "subject_id": "HOLD-SECURITY-STREAMR-20261009-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T19:56:02Z",
+  "correlation_id": "CORR-SECURITY-STREAMR-LOCAL-COMPROMISE-20261009",
+  "causation_id": "EVT-BOUNTY-STREAMR89-0004",
+  "idempotency_key": "security:streamr-local-code-execution-compromise:20261009:v1",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "AUTOMATION_EXCEPTION",
+    "problem": "Third-party Streamr worktree execution on Lappy resulted in observed malicious detached Node loaders executing remote code and establishing outbound command-and-control connections. Third-party bounty code execution is no longer admissible until containment, endpoint review, and clean-room requalification are complete.",
+    "held_subject_type": "security_incident",
+    "held_subject_id": "SECURITY-STREAMR-LOCAL-COMPROMISE-20261009",
+    "held_state": "CONTAINED_FORENSICS_OPEN",
+    "required_from": "automation",
+    "recommendation": "Keep all third-party repository execution quarantined; preserve the outbound firewall block for 193.247.144.38; complete Defender scanning and static persistence/dropper forensics; treat Streamr-built bounty artifacts as non-publishable until rebuilt from a freshly verified clean source/dependency environment; prepare a bounded Patrick credential-rotation packet if exposure cannot be ruled out.",
+    "alternatives": [
+      "Escalate immediately to full host network isolation and offline/reimage workflow if new malicious activity or persistence appears.",
+      "Preserve current containment and perform a clean-room rebuild on a separate trusted environment after credential remediation.",
+      "Abandon Streamr bounty work entirely and continue only read-only opportunity scouting."
+    ],
+    "consequences": [
+      "Arbitrary remote JavaScript executed under Patrick's Windows user context; credentials/session material accessible to that context may have been exposed.",
+      "Two malicious node -e loader trees were observed; each had an established TLS connection to 193.247.144.38:443 before containment.",
+      "The newer loader command included remote fetch-and-eval behavior and a fallback POST containing machine hostname and Windows username.",
+      "Both observed loader trees were terminated; a Windows Firewall outbound block for 193.247.144.38 is active; post-containment verification found no matching live loader process and no established connection to that C2 IP.",
+      "Initial persistence review found no unknown Run key, Startup item, scheduled task, service, or WMI event consumer attributable to the incident.",
+      "The checked-out Streamr eslint.config.js contains injected code, but the Git HEAD/index blob is clean; upstream repository compromise is therefore NOT established by current evidence.",
+      "The shared Streamr node_modules tree has been quarantined locally and the autonomous Vera Works operator is prohibited from executing third-party source while this exception is open."
+    ],
+    "inaction_effect": "The host would remain at uncertain post-compromise trust and autonomous work could accidentally re-execute contaminated code or publish artifacts whose provenance is not trustworthy.",
+    "resume_event_type": "AUTOMATION_SECURITY_EXCEPTION_RESOLVED",
+    "containment_evidence": {
+      "c2_ip": "193.247.144.38",
+      "observed_loader_pids": [
+        19868,
+        15748
+      ],
+      "firewall_rule": "Vera Works containment - Streamr C2 193.247.144.38",
+      "postcontainment_c2_connections": "NONE",
+      "postcontainment_matching_processes": "NONE",
+      "injected_eslint_sha256": "436F27BF3F5D8EBA761490F9C4B60A948E4D9DF53E947D2085400861EEA40FA2",
+      "raw_worktree_git_hash": "50c06886ba0f68c5be39fc48f9304a8557357161",
+      "clean_head_blob": "7da565bcb57517fa1c3adc1c824b7e105dae2699",
+      "quarantine_root": "D:/VERA/quarantine/streamr-20261009"
+    },
+    "claim_ceiling": "Confirmed local arbitrary-code execution and C2 activity; containment successful for the observed loaders/C2. Root cause, full exposure scope, and host clean state remain unresolved. Do not attribute the malicious payload to upstream Streamr Git history on present evidence."
+  },
+  "external_effect": false
+}

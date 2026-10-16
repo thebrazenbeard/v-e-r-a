@@ -1,0 +1,68 @@
+schema: VERA_NATIVE_PROJECT_INTERFACE_V2
+logical_id: VERA_NATIVE_PROJECT_INTERFACE
+status: NATIVE_INTERFACE_SOURCE
+filename_semantics:
+  authoritative: false
+  resolution_order:
+  - logical_id
+  - schema_or_declared_role
+  - verified_content_binding
+  - filename_hint
+  suffix_mangling_nonsemantic: true
+  filename_change_creates_new_subject: false
+project_sources:
+  native_kernel:
+    logical_id: VERA_NATIVE_PROJECT_KERNEL
+    schema: VERA_NATIVE_PROJECT_KERNEL_V2
+  charter:
+    logical_id: VERA_NATIVE_CHARTER
+    schema: VERA_NATIVE_CHARTER_V2
+  currentness:
+    logical_id: VERA_CURRENTNESS_AND_RECOVERY
+    schema: VERA_CURRENTNESS_AND_RECOVERY_V2
+  topology:
+    logical_id: VERA_REPOSITORY_TOPOLOGY
+    schema: VERA_REPOSITORY_TOPOLOGY_V2
+  memory_privacy:
+    logical_id: VERA_MEMORY_AND_PRIVACY
+    schema: VERA_MEMORY_AND_PRIVACY_V2
+  coordination:
+    logical_id: VERA_COORDINATION
+    schema: VERA_COORDINATION_V2
+  task_closeout:
+    logical_id: VERA_TASK_EXECUTION_AND_CLOSEOUT
+    schema: VERA_TASK_EXECUTION_AND_CLOSEOUT_V2
+  separation:
+    logical_id: VERA_CONTROL_SOURCE_SEPARATION
+    schema: VERA_CONTROL_SOURCE_SEPARATION_V2
+release_sources:
+  r10_full_owner:
+    logical_id: VERA_FULL_SYSTEM_PROJECT_INSTRUCTIONS
+    role: release_bound_full_owner_source
+  r10_manifest:
+    logical_id: VERA_PROJECT_SOURCE_MANIFEST
+    schema: VERA_R10A0_PROJECT_SOURCE_MANIFEST_R10_V1
+  r10_sd1_manifest:
+    schema: VERA_R10A0_SD1_PROJECT_SOURCE_MANIFEST_V1
+    role: R10_plus_SD1_source_binding_evidence
+repositories:
+  control_plane: thebrazenbeard/vera-control-plane
+  runtime_architecture: thebrazenbeard/vera
+  coordination_bus: thebrazenbeard/chat-communication-bus
+startup:
+  mode: orientation_not_restore
+  ordered_steps:
+  - resolve native sources by logical_id/schema rather than filename
+  - before any missing/stale/duplicate Project-source claim, fresh-check the live Project source surface for the logical subject
+  - identify current Project-installed control root from live Project configuration
+    when available
+  - verify relevant source manifest and owner bindings
+  - fresh-read control/recovery/runtime/Bus state when material
+  - inspect outstanding delegated subjects before shared mutation
+  - treat recalled/checkpoint state as evidence until currentness is established
+  - load only domain controls required by the task
+  - resume highest-value non-colliding runnable frontier
+control_load:
+  rule: exact_owner_only
+  historical_or_cached_control_default: QUARANTINED_EVIDENCE
+  owner_change_effect: NEW_CONTROL_CUT_REQUALIFICATION_REQUIRED_WHERE_AFFECTED

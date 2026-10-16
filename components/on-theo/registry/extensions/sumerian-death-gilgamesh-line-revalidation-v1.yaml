@@ -1,0 +1,129 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SUMERIAN-DEATH-GILGAMESH-LINE-REVALIDATION-V1
+base_registry_head: a60d4ba8af209ddef7e6f42ecf01cade64e8a87a
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-CDLI-Q000363-CURRENT-COMPOSITE
+    source_roles: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE]
+    source_kind: digital_composite_and_witness_inventory
+    author_or_tradition: Cuneiform Digital Library Initiative
+    title: CDLI Literary 000363 / Q000363 Death of Gilgamesh Nippur Version
+    composition_date: {start: "2026", end: "2026", precision: current-digital-access-surface}
+    access_mode: institutional-digital-composite-and-witness-inventory
+    locators:
+      - url: "https://cdli.earth/artifacts/composites-score/Q000363"
+    limitations:
+      - "The current score reports 12 witnesses and zero witnesses aligned to the composite text."
+      - "Composite-line readback cannot be promoted to witness-aligned confirmation."
+
+claim_additions:
+  - id: CLM-DEATH-GILGAMESH-Q000363-ALIGNMENT-ZERO
+    proposition: "The current CDLI Q000363 score reports twelve witnesses and zero aligned witnesses, imposing a hard evidence ceiling on line-level revalidation from that surface."
+    claim_type: DIGITAL_WITNESS_ALIGNMENT_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000363-CURRENT-COMPOSITE
+        locator: "score header and witness list"
+        relation: CURRENT_ALIGNMENT_STATE
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DEATH-GILGAMESH-NIPPUR-KUR-COMPOSITE
+    proposition: "The current Q000363 Nippur composite preserves kur in an explicitly dark death-realm context, but this reading is composite-confirmed rather than witness-aligned."
+    claim_type: LINE_LEVEL_EVIDENCE_CEILING
+    evidence_class: [SCHOLARLY_INTERPRETATION, PRIMARY_TEXT]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000363-CURRENT-COMPOSITE
+        locator: "line 88': kur-ra ki ku10-ku10-ka"
+        relation: CURRENT_COMPOSITE_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high-for-current-composite
+    contested: false
+
+  - id: CLM-DEATH-GILGAMESH-NIPPUR-GIDIM-FESTIVAL
+    proposition: "The current Q000363 Nippur composite preserves ezen gidim at line 93', confirming gidim vocabulary at the composite level but not at aligned-witness level."
+    claim_type: LINE_LEVEL_EVIDENCE_CEILING
+    evidence_class: [SCHOLARLY_INTERPRETATION, PRIMARY_TEXT]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000363-CURRENT-COMPOSITE
+        locator: "line 93': ezen gidim-ma-ke4-ne"
+        relation: CURRENT_COMPOSITE_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high-for-current-composite
+    contested: false
+
+  - id: CLM-DEATH-GILGAMESH-NIPPUR-ROYAL-OFFICE-DAMAGED
+    proposition: "The current Q000363 Nippur composite preserves damaged adjacent lines with nam-szagina kur-ra and gidim-zu, providing partial current-composite corroboration for a royal kur/gidim sequence without securing the full reconstructed syntax."
+    claim_type: LINE_LEVEL_DAMAGED_TEXT_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PRIMARY_TEXT, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000363-CURRENT-COMPOSITE
+        locator: "lines 145'-146'"
+        relation: CURRENT_COMPOSITE_DAMAGED_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high-for-preserved-lexemes-lower-for-full-syntax
+    contested: false
+
+  - id: CLM-DEATH-GILGAMESH-ARALI-METURAN-SPECIFIC
+    proposition: "In the checked access surfaces, explicit a-ra-li/Arali occurs in ETCSL's Me-Turan version of The Death of Gilgamesh rather than in the current Q000363 Nippur composite, so the Arali occurrence requires version-specific provenance."
+    claim_type: VERSION_SPECIFIC_PROVENANCE_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-DEATH-GILGAMESH
+        locator: "Me-Turan version line 166"
+        relation: VERSION_SPECIFIC_TEXTUAL_SUPPORT
+        access_mode: ETCSL_TRANSLITERATION
+      - source_id: SCH-CDLI-Q000363-CURRENT-COMPOSITE
+        locator: "current Nippur composite searched for a-ra-li"
+        relation: ACCESS_SURFACE_VERSION_CONTRAST
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high-for-checked-surfaces
+    contested: false
+
+  - id: CLM-DEATH-GILGAMESH-METURAN-GIDIM-GOVERNOR
+    proposition: "ETCSL's Me-Turan version preserves the fuller gidim/governor-of-kur formulation at lines 38-39 and 131-132; current CDLI Q000363 does not independently witness-align that reconstruction."
+    claim_type: VERSION_SPECIFIC_PROVENANCE_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-ETCSL-DEATH-GILGAMESH
+        locator: "Me-Turan lines 38-39 and 131-132"
+        relation: VERSION_SPECIFIC_TEXTUAL_SUPPORT
+        access_mode: ETCSL_TRANSLITERATION
+      - source_id: SCH-CDLI-Q000363-CURRENT-COMPOSITE
+        locator: "zero aligned witnesses"
+        relation: CURRENT_ALIGNMENT_CEILING
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high-for-version-reading
+    contested: false
+
+  - id: CLM-DEATH-GILGAMESH-VERSION-SPLIT-REQUIRED
+    proposition: "Nippur and Me-Turan textual states of The Death of Gilgamesh must be represented separately in occurrence provenance before version-neutral semantic synthesis."
+    claim_type: VERSION_PROVENANCE_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000363-CURRENT-COMPOSITE
+        locator: "Nippur composite / mixed witness inventory"
+        relation: DIGITAL_VERSION_CONTROL
+        access_mode: CDLI_SCORE
+      - source_id: SRC-ETCSL-DEATH-GILGAMESH
+        locator: "separate Nippur and Me-Turan versions"
+        relation: TEXTUAL_VERSION_CONTROL
+        access_mode: ETCSL_COMPOSITE_PRESENTATION
+    opposing_sources: []
+    confidence: high
+    contested: false

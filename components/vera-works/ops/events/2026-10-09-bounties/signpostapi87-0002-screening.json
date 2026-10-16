@@ -1,0 +1,29 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-SIGNPOSTAPI87-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-SIGNPOSTAPI87-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T17:18:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SIGNPOSTAPI87-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-SIGNPOSTAPI87-0001",
+  "idempotency_key": "first-dollar:github-bounty:signpost-api-87:screening:v1",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "evidence_summary": [
+      "Direct GitHub issue observed open with zero comments and no assignee.",
+      "Advertised bounty is USD 85.",
+      "Scope is documentation-only and bounded to docs/rate-limiting.md, verified against src/middleware/rateLimit.ts.",
+      "No account, spend, secret, production access, customer interaction, or new dependency is required."
+    ],
+    "recommended_test": "Refresh public main, verify createStore and RateLimitStore behavior in source, update the Implementation Details section only, then run documentation/source consistency checks and the repository test suite if practical.",
+    "alternatives": [
+      "Traiecta API #9 USD 85 metrics cursor bug.",
+      "Specula Contracts #6 USD 85 CI hardening.",
+      "Sounding #62 USD 85 error-code cleanup."
+    ]
+  },
+  "external_effect": false
+}

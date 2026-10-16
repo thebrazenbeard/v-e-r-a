@@ -1,0 +1,117 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-UGARIT-DUMUZI-ALPHABETIC-SEARCH-V1
+base_registry_head: c360b0d99323144815c88e8dfbc5cf81c6e45009
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-AEMW-UGARIT-DIVINE-NAME-INDEX
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: digital_ugarit_divine_name_index
+    author_or_tradition: ORACC Ancient Egyptian and Mesopotamian World / Ugarit
+    title: Ugarit divine-name glossary and summaries
+    composition_date: {start: "2024", end: "2026", precision: current-digital-corpus}
+    access_mode: institutional-digital-corpus
+    locators:
+      - url: "https://oracc.museum.upenn.edu/aemw/ugarit/cbd/qpn-x-divine/summaries.html"
+      - url: "https://oracc.museum.upenn.edu/aemw/ugarit/cbd/qpn-x-divine/onebigfile.html"
+    limitations:
+      - "A current digital index can miss damaged, uncertain, unindexed, unpublished, or newly joined material."
+      - "A normalized-name non-hit is not historical proof of absence."
+
+claim_additions:
+  - id: CLM-UGARIT-DUMUZI-ALPHABETIC-DIVINE-INDEX-NONHIT
+    proposition: "The current ORACC AEMW/Ugarit divine-name index contains many local and foreign divine names but no indexed Dumuzi or Tammuz entry."
+    claim_type: BOUNDED_SEARCH_STATE
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-AEMW-UGARIT-DIVINE-NAME-INDEX
+        locator: "current divine-name summaries / one-big-file"
+        relation: CURRENT_INDEX_SEARCH
+        access_mode: ORACC_AEMW
+    opposing_sources: []
+    confidence: high-for-current-index-state
+    contested: false
+    notes:
+      - "This does not prove historical absence from Ugaritic religion."
+
+  - id: CLM-UGARIT-DUMUZI-DIRECT-SPELLING-SEARCH-NONHIT
+    proposition: "Targeted V1 searches for Dumuzi, Dumuzid, Tammuz, tmz, and dmz did not identify a controlled alphabetic-Ugaritic deity, ritual, offering, or mythological occurrence independent of the syllabic scholastic P332950 witness."
+    claim_type: BOUNDED_SEARCH_STATE
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-AEMW-UGARIT-DIVINE-NAME-INDEX
+        locator: "normalized divine-name search surface"
+        relation: DIVINE_NAME_SEARCH_CONTROL
+        access_mode: ORACC_AEMW
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "positive control for syllabic Dumuzi occurrence"
+        relation: SYLLABIC_POSITIVE_CONTROL
+        access_mode: CDLI
+    opposing_sources: []
+    confidence: high-for-targeted-v1-search-state
+    contested: false
+
+  - id: CLM-UGARIT-DUMUZI-SCHOLASTIC-NOT-ALPHABETIC-CULT
+    proposition: "The direct Dumuzi occurrence at Ugarit remains a syllabic scholastic lexical attestation and must not be relabeled as an alphabetic Ugaritic cult or ritual occurrence."
+    claim_type: SOURCE_GENRE_AND_SCRIPT_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "lexical Middle Babylonian tablet / Dumuzi row"
+        relation: POSITIVE_SOURCE_BOUNDARY
+        access_mode: CDLI
+      - source_id: SCH-AEMW-UGARIT-DIVINE-NAME-INDEX
+        locator: "alphabetic/local corpus index non-hit"
+        relation: NEGATIVE_SEARCH_BOUNDARY
+        access_mode: ORACC_AEMW
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UGARIT-DUMUZI-LOCAL-CULT-NOT-ESTABLISHED
+    proposition: "V1 does not establish a local Ugaritic Dumuzi cult, because direct Dumuzi evidence currently comes from a scholastic god-list witness while no controlled alphabetic ritual/offering occurrence has been identified."
+    claim_type: CULT_RECEPTION_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "scholastic lexical positive control"
+        relation: SCHOLASTIC_EVIDENCE
+        access_mode: CDLI
+      - source_id: SCH-AEMW-UGARIT-DIVINE-NAME-INDEX
+        locator: "current local/divine-name search surface"
+        relation: CULT_NAME_SEARCH_CONTROL
+        access_mode: ORACC_AEMW
+    opposing_sources: []
+    confidence: high-for-v1-evidence-state
+    contested: false
+
+  - id: CLM-UGARIT-DUMUZI-NONHIT-NOT-HISTORICAL-ABSENCE
+    proposition: "Failure to find an alphabetic-Ugaritic Dumuzi/Tammuz occurrence in the current targeted search cannot be promoted to a historical claim that Dumuzi was absent from Ugaritic religion."
+    claim_type: NEGATIVE_EVIDENCE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SCH-AEMW-UGARIT-DIVINE-NAME-INDEX
+        locator: "digital corpus limitations"
+        relation: SEARCH_SURFACE_LIMITATION
+        access_mode: ORACC_AEMW
+    opposing_sources: []
+    confidence: high-as-methodological-control
+    contested: false
+
+  - id: CLM-UGARIT-DUMUZI-COGNATE-NOT-INFERRED
+    proposition: "No alphabetic Ugaritic form is promoted as a Dumuzi/Tammuz cognate in V1 merely from consonantal resemblance; any future cognate claim requires philological derivation, phonological compatibility, context, and scholarly support."
+    claim_type: PHILOLOGICAL_SCOPE_CONTROL
+    evidence_class: [PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources: []
+    opposing_sources: []
+    confidence: high-as-methodological-control
+    contested: false

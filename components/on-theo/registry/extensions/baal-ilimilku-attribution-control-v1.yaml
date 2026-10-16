@@ -1,0 +1,149 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-BAAL-ILIMILKU-ATTRIBUTION-CONTROL-V1
+base_registry_head: 700f2b6c3a9975fe11db45e1441b339dd0b917d8
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-WYATT-ILIMILKU-SCRIBAL-PRACTICE
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_book_chapter
+    author_or_tradition: Nick Wyatt
+    title: Ilimilku of Ugarit and scribal practice
+    composition_date: {start: "2013", end: "2021", precision: publication-family}
+    access_mode: scholarly-book-index-and-chapter-summary
+    limitations:
+      - "Used for the distinction between direct Ilimilku colophons and tablets attributed by ductus where colophons do not survive."
+
+  - id: SCH-EUPT-ILIMILKU-COLOPHON
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: current_critical_edition_project_article
+    author_or_tradition: Edition des ugaritischen poetischen Textkorpus
+    title: Ilimilku colophon and professional background
+    composition_date: {start: "2024", end: "2026", precision: current-project-surface}
+    access_mode: institutional-critical-edition-project
+    locators:
+      - url: "https://eupt.uni-goettingen.de/GMU/2_Notarius_Ugaritic-prln-and-Hurrian-furullinni.html"
+    limitations:
+      - "Used for KTU 1.6 VI 54-58 colophon wording and the fact that Ilimilku colophons also occur in KTU 1.4, 1.16 and 1.17."
+
+  - id: SCH-PARDEE-2012-UGARITIC-LITERARY-COMPOSITION
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph_chapter
+    author_or_tradition: Dennis Pardee
+    title: Ugaritic Literary Composition
+    composition_date: {start: "2012", end: "2012", precision: publication-year}
+    access_mode: publisher-chapter-abstract
+    locators:
+      - url: "https://academic.oup.com/british-academy-scholarship-online/book/14187/chapter-abstract/168042623"
+    limitations:
+      - "Used for the six-tablet Baal Cycle as literary-compositional unit; detailed authorship argument requires full chapter access."
+
+claim_additions:
+  - id: CLM-ILIMILKU-KTU16-DIRECT-COLOPHON
+    proposition: "KTU 1.6 VI 54-58 directly names Ilimilku as scribe and situates him within the court/cultic circle of Niqmaddu king of Ugarit."
+    claim_type: SCRIBAL_PROVENANCE_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SRC-UGARIT-BAAL-CYCLE
+        witness_id: WIT-UGARIT-KTU16-AO16636
+        locator: "KTU 1.6 VI 54-58"
+        relation: DIRECT_COLOPHON
+        access_mode: CRITICAL_EDITION
+      - source_id: SCH-EUPT-ILIMILKU-COLOPHON
+        locator: "quoted KTU 1.6 VI 54-58 colophon"
+        relation: CURRENT_COLOPHON_CONTROL
+        access_mode: INSTITUTIONAL_CRITICAL_EDITION_PROJECT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-ILIMILKU-KTU14-DIRECT-NOTE
+    proposition: "KTU 1.4 preserves a direct Ilimilku scribal note/colophon, providing a second explicit Baal-Cycle scribal anchor separate from KTU 1.6."
+    claim_type: SCRIBAL_PROVENANCE_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SRC-UGARIT-BAAL-CYCLE
+        locator: "KTU 1.4 edge/colophon"
+        relation: DIRECT_SCRIBAL_ATTESTATION
+        access_mode: CRITICAL_EDITION
+      - source_id: SCH-EUPT-ILIMILKU-COLOPHON
+        locator: "Ilimilku colophon distribution"
+        relation: CURRENT_COLOPHON_CONTROL
+        access_mode: INSTITUTIONAL_CRITICAL_EDITION_PROJECT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-BAAL-CYCLE-OTHER-TABLETS-ILIMILKU-ATTRIBUTION
+    proposition: "Baal Cycle tablets without surviving Ilimilku colophons may be attributed to him by ductus/style and cycle reconstruction, but that attribution is not the same evidentiary type as direct colophon naming."
+    claim_type: SCRIBAL_ATTRIBUTION_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SCH-WYATT-ILIMILKU-SCRIBAL-PRACTICE
+        locator: "discussion of direct colophons versus texts recognizably/arguably in Ilimilku's ductus"
+        relation: SCRIBAL_DUCTUS_CONTROL
+        access_mode: SCHOLARLY_BOOK_CHAPTER
+      - source_id: SCH-PARDEE-2012-UGARITIC-LITERARY-COMPOSITION
+        locator: "six tablets making up the Baal Cycle"
+        relation: CYCLE_UNIT_CONTROL
+        access_mode: PUBLISHER_CHAPTER
+    opposing_sources: []
+    confidence: high-for-distinction
+    contested: false
+
+  - id: CLM-BAAL-CYCLE-SIX-TABLET-UNIT-NOT-ONE-WITNESS
+    proposition: "The six-tablet Baal Cycle is a strong scholarly literary-compositional unit, but it remains a multi-witness corpus rather than one physical document."
+    claim_type: WORK_WITNESS_SEPARATION_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SCH-PARDEE-2012-UGARITIC-LITERARY-COMPOSITION
+        locator: "six tablets making up the Baal Cycle"
+        relation: LITERARY_UNIT
+        access_mode: PUBLISHER_CHAPTER
+      - source_id: SCH-EUPT-UGARIT-POETIC-CORPUS
+        locator: "separate KTU 1.1-1.6 witness entries"
+        relation: PHYSICAL_CORPUS_CONTROL
+        access_mode: INSTITUTIONAL_CORPUS_INDEX
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-ILIMILKU-SCRIBE-NOT-ORIGINAL-AUTHOR-PROOF
+    proposition: "Direct Ilimilku scribal colophons establish scribal participation but do not by themselves prove that he originated every narrative motif or composed all inherited traditions in the Baal Cycle de novo."
+    claim_type: AUTHORSHIP_SCOPE_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SCH-EUPT-ILIMILKU-COLOPHON
+        locator: "KTU 1.6 colophon"
+        relation: SCRIBAL_IDENTITY
+        access_mode: CRITICAL_EDITION_PROJECT
+      - source_id: SCH-WYATT-ILIMILKU-SCRIBAL-PRACTICE
+        locator: "authorial/scribal role discussion"
+        relation: AUTHORSHIP_MODEL_CONTROL
+        access_mode: SCHOLARLY_BOOK_CHAPTER
+    opposing_sources: []
+    confidence: high-as-methodological-control
+    contested: false
+
+  - id: CLM-ILIMILKU-NOT-DUMUZID-TRANSMISSION-CARRIER
+    proposition: "Ilimilku is a concrete scribal anchor for the Ugaritic target tradition, but V1 has not established him or his school as a carrier of specific Dumuzid/Tammuz source material into the Baal Cycle."
+    claim_type: TRANSMISSION_CARRIER_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-EUPT-ILIMILKU-COLOPHON
+        locator: "Ilimilku scribal context"
+        relation: TARGET_SCRIBAL_ANCHOR
+        access_mode: CRITICAL_EDITION_PROJECT
+      - source_id: SCH-PARDEE-2012-UGARITIC-LITERARY-COMPOSITION
+        locator: "Baal Cycle literary context"
+        relation: TARGET_COMPOSITION_CONTROL
+        access_mode: PUBLISHER_CHAPTER
+    opposing_sources: []
+    confidence: high-for-v1-search-state
+    contested: false

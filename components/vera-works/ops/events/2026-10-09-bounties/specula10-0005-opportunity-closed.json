@@ -1,0 +1,38 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-SPECULA10-0005",
+  "event_type": "OPPORTUNITY_CLOSED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-SPECULA10-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T17:15:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SPECULA10-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-SPECULA10-0004",
+  "idempotency_key": "first-dollar:github-bounty:specula-api-10:closed-external-claim:v1",
+  "from_state": "APPROVED",
+  "to_state": "CLOSED",
+  "payload": {
+    "outcome": "EXTERNALLY_CLAIMED_BEFORE_LOCAL_PREPARATION_COMPLETED",
+    "source": "https://github.com/Specula-Labs/specula-api/issues/10",
+    "advertised_reward_usd": "85",
+    "fresh_issue_state": "OPEN",
+    "fresh_comment_count": 1,
+    "fresh_assignee_count": 0,
+    "claim_evidence": "A public issue comment posted a concrete implementation proposal and explicitly requested payment of the USD 85 bounty.",
+    "claim_evidence_url": "https://github.com/Specula-Labs/specula-api/issues/10#issuecomment-6085652971",
+    "issue_updated_at": "2026-10-09T17:11:52Z",
+    "stop_condition_triggered": "Material competing claim observed before local preparation completed.",
+    "local_draft_evidence": {
+      "upstream_base_sha": "5bce265b0fe77961e66957b8b5cf0a82d6dc6b05",
+      "baseline_test_result": "6 passed, 0 failed",
+      "draft_test_result": "12 passed, 0 failed",
+      "compileall_result": "exit 0",
+      "diff_check_result": "exit 0",
+      "durable_patch": "ops/artifacts/2026-10-09-specula10-bounty/specula10-local-draft.patch"
+    },
+    "publication_hold_created": false,
+    "publication_authorized": false,
+    "recommendation": "Do not claim or publish against issue #10. Preserve the local draft only as reusable engineering evidence and redirect effort to an uncontested opportunity."
+  },
+  "external_effect": false
+}

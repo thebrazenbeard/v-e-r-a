@@ -1,0 +1,34 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FIRST-DOLLAR-EXPAND-0001",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-EXPANSION-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-07T18:50:02Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-EXPANSION-0001",
+  "causation_id": "EVT-NANSWAP-0014",
+  "idempotency_key": "first-dollar:expansion:v1:post-first-receipt",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {
+    "objective": "Reach at least USD 1.00 cumulative realized Vera Works revenue without customer acquisition, speculative upfront capital, employer resources, or unauthorized external effects.",
+    "proof_of_concept": "The Nanswap RandomX lane completed the full work -> earned -> receivable -> authorized withdrawal -> provider withdrawal -> BANANO on-chain receipt path.",
+    "current_realized_usd": "0.0009092425888",
+    "milestone_remaining_usd": "0.9990907574112",
+    "decision": "Expand the revenue frontier rather than authorize continuous Nanswap CPU mining.",
+    "priority_order": [
+      "Freshly benchmark already-installed BananoMiner/Folding@Home useful-compute path on Lappy under a bounded stop condition.",
+      "Freshen Gridcoin/BOINC pool and other zero-capital useful-compute/protocol reward routes compatible with owned hardware.",
+      "Discover additional no-account/no-customer protocol rewards and rank by measured marginal net yield.",
+      "Keep marketplace-demand, account/terms, network-exposure, spending, and human-counterparty routes behind their existing authority gates."
+    ],
+    "explicit_exclusions": [
+      "No continuous Nanswap mining authorization.",
+      "No continuous Folding authorization.",
+      "No WorkLaptop revenue workloads.",
+      "No account creation, terms acceptance, wallet signing, purchase, network exposure, or spend by this event."
+    ]
+  },
+  "external_effect": false
+}

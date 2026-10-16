@@ -1,0 +1,131 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SUMERIAN-INANA-LINE-REVALIDATION-V1
+base_registry_head: e1fbd46e151d65ac786257b268a28237b8e66d77
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-CDLI-Q000343-CURRENT-SCORE
+    source_roles: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE]
+    source_kind: digital_composite_and_witness_score
+    author_or_tradition: Cuneiform Digital Library Initiative
+    title: CDLI Literary 000343 / Q000343 Inanna's Descent composite
+    composition_date: {start: "2024", end: "2026", precision: current-digital-access-surface}
+    access_mode: institutional-digital-composite-and-score
+    locators:
+      - url: "https://cdli.earth/artifacts/composites-score/Q000343"
+    limitations:
+      - "A current digital composite/score is a strong readback surface but not automatically a replacement for a full critical edition."
+      - "Witness alignment is uneven by line despite 44 of 58 witnesses being aligned overall."
+
+claim_additions:
+  - id: CLM-INANA-L4-13-KUR-MULTIWITNESS
+    proposition: "The opening descent sequence of Inana's Descent repeatedly preserves kur in the descent formula across the current CDLI composite and multiple aligned Nippur witnesses."
+    claim_type: LINE_LEVEL_WITNESS_REVALIDATION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000343-CURRENT-SCORE
+        locator: "lines 4-13 and aligned Nippur witnesses"
+        relation: MULTI_WITNESS_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-INANA-L73-GANZER-WITNESS-CONFIRMED
+    proposition: "CDLI Q000343 preserves palace Ganzer at line 73 in the composite and aligned Nippur witness P345344."
+    claim_type: LINE_LEVEL_WITNESS_REVALIDATION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000343-CURRENT-SCORE
+        locator: "line 73 / P345344"
+        relation: ALIGNED_WITNESS_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-INANA-L74-75-KUR-GATES-WITNESS-CONFIRMED
+    proposition: "The door/gate sequence immediately after palace Ganzer preserves kur at lines 74-75 in the current composite with aligned witness support."
+    claim_type: LINE_LEVEL_WITNESS_REVALIDATION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000343-CURRENT-SCORE
+        locator: "lines 74-75 / P345344 / P345597"
+        relation: ALIGNED_WITNESS_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-INANA-L119-120-KUR-GANZER-SEQUENCE
+    proposition: "In the gate instructions, CDLI Q000343 preserves the seven gates of kur at line 119 followed by the individual doors of palace Ganzer at line 120, with aligned Nippur support."
+    claim_type: LINE_LEVEL_CODOMAIN_REVALIDATION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000343-CURRENT-SCORE
+        locator: "lines 119-120 / P274957 / P356898"
+        relation: ALIGNED_CODOMAIN_SEQUENCE
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-INANA-L126-GANZER-KUR-CODOMAIN
+    proposition: "An aligned witness in the repeated palace-Ganzer sequence preserves Ganzer together with igi kur-ra-ka, strengthening the claim that the terms occupy one death-realm domain while remaining lexically distinct."
+    claim_type: LINE_LEVEL_CODOMAIN_REVALIDATION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000343-CURRENT-SCORE
+        locator: "line 126 local sequence / P266238"
+        relation: WITNESS_LEVEL_CODOMAIN_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-INANA-ME-KUR-REPEATED-WITNESS-CONFIRMED
+    proposition: "The repeated me kur-ra(-ke4) formula in the seven-gate sequence is preserved in multiple aligned Nippur, Ur, and Sippar-Amnanum witnesses, including lines 132, 137, and 162."
+    claim_type: FORMULA_LEVEL_WITNESS_REVALIDATION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000343-CURRENT-SCORE
+        locator: "lines 132, 137, 162 and aligned witnesses"
+        relation: MULTI_WITNESS_FORMULA_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-INANA-GARZA-KUR-REPEATED-WITNESS-CONFIRMED
+    proposition: "The paired garza kur-ra(-ke4) formula is separately preserved in multiple aligned witnesses and must not be collapsed into me kur-ra as though the two expressions were one lexical item."
+    claim_type: FORMULA_LEVEL_WITNESS_REVALIDATION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000343-CURRENT-SCORE
+        locator: "lines 133, 138, 158, 163 and aligned witnesses"
+        relation: MULTI_WITNESS_FORMULA_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-INANA-ATTINGER-DIRECT-CROSSCHECK-PENDING
+    proposition: "Attinger's 2019/2021 Inana's Descent study remains a later philological crosscheck dependency; this line-revalidation pass does not claim direct line-by-line reconciliation against that work."
+    claim_type: EDITION_CURRENTNESS_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-ATTINGER-2021-INANA-DESCENT
+        locator: "Zenodo v2 metadata"
+        relation: LATER_PHILOLOGICAL_CONTROL
+        access_mode: OPEN_ACCESS_METADATA
+    opposing_sources: []
+    confidence: high
+    contested: false

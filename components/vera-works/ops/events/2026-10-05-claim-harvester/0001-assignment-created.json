@@ -1,0 +1,27 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-CH-0001",
+  "event_type": "ASSIGNMENT_CREATED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-CLAIM-HARVESTER-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T15:14:00Z",
+  "correlation_id": "CORR-CLAIM-HARVESTER-0001",
+  "causation_id": null,
+  "idempotency_key": "claim-harvester:v1:assignment-created",
+  "from_state": null,
+  "to_state": "CREATED",
+  "payload": {
+    "objective": "Build a passive, evidence-bound Claim Harvester that finds legitimately claimable value without customer sales or person-to-person communication.",
+    "scope": "Source architecture, deterministic eligibility/value gates, runtime-only wallet aliases, tests, provenance/effect boundaries, and integration seams for Discovery, Ingest, Roots, Lou-Pole, Voss/Cricket, WIP, Project Runner, Pre-Active, and Vera Works. No claim submission, signature, account creation, terms acceptance, identity/tax submission, spend, customer communication, or private-key handling is authorized.",
+    "acceptance_criteria": [
+      "Unclaimed is never treated as ownerless.",
+      "Only explicit ENTITLED or OPEN_CLAIM candidates from authoritative evidence can advance beyond research.",
+      "Wallet-specific candidates require exact runtime beneficiary matching without committing full wallet addresses.",
+      "Identity/signature/account/terms boundaries stop at explicit Patrick holds.",
+      "Passing candidates stop at exact external-effect authorization rather than auto-claiming.",
+      "Deterministic tests cover ownership, source quality, beneficiary matching, claim windows, value, communication, and human-boundary gates."
+    ]
+  },
+  "external_effect": false
+}

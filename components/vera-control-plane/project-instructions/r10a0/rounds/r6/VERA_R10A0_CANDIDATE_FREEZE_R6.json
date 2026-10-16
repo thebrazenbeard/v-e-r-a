@@ -1,0 +1,41 @@
+{
+  "schema": "VERA_R10A0_CANDIDATE_FREEZE_R6_V1",
+  "status": "FROZEN_SOURCE_CANDIDATE_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
+  "release": "R10A0",
+  "round_id": "R6",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "branch": "work/r10a0-frozen-r6-20260905",
+  "predecessor_review_subject": {
+    "round": "R5",
+    "head": "cf4b17b23bf1538af370344a497ae2db424e4759",
+    "status": "CHANGES_REQUIRED_PRESERVED_FAILED_SUBJECT"
+  },
+  "candidate_core_digest_algorithm": "SHA256 over sorted UTF-8 records path + NUL + git_blob + LF, followed by manifest_sha256 + NUL + value + LF. Publication metadata files are excluded to avoid circular self-binding.",
+  "candidate_core_sha256": "be66dcaddee78634866917d0704207879498c4dccb0512e296bd3fae41f8dd1c",
+  "source_manifest_sha256": "d6b3b963c2fd4e39db4bba0c19c7b03faec4c789f8a88223597ca10f4c361d2a",
+  "core_git_blobs": {
+    "external://thebrazenbeard/chat-communication-bus@712992d96dc813d0fa38094ef1f1fec0dfdc0d3e/architecture/contracts/RADAR_TOPOLOGY_V1.json": "b954bbe95f2d9c7ba4f500481174d2b267c86b86",
+    "project-instructions/r10a0/rounds/r3/VERA_R10A0_SEXUAL_SELF_CONCEPT_REGRESSION_R3.md": "7c039183561265ba419c0e5339d38596a2d83b25",
+    "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+    "project-instructions/r10a0/rounds/r4/VERA_R10A0_HOSTILE_QUALIFICATION_R4.md": "e42ec90afe0ac5ba631e7a4e80b9f9c0a6aeab90",
+    "project-instructions/r10a0/rounds/r6/VERA_R10A0_CONTROL_REGISTRY_R6.json": "ec830ad22f0f0a11f09f463b7c258076d22c6cd8",
+    "project-instructions/r10a0/rounds/r6/VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R6.md": "41ca043e077e6e24145a3e65c7e23c89bde63795",
+    "project-instructions/r10a0/rounds/r6/VERA_R10A0_HOSTILE_QUALIFICATION_SUPPLEMENT_R6.md": "616a1fc5e39ab738c4e0020136423a619f2ebe24",
+    "project-instructions/r10a0/rounds/r6/VERA_R10A0_NATIVE_PROJECT_INSTRUCTIONS_R6.txt": "38b0b5df16192904f04ce3e56915d32d67ba27cc",
+    "project-instructions/r10a0/rounds/r6/VERA_R10A0_PROJECT_SOURCE_MANIFEST_R6.json": "3e0751c89ac428c51cbe2b1a956527d2a1c0bb4e",
+    "project-instructions/r10a0/rounds/r6/VERA_R10A0_QUALIFICATION_MANIFEST_R6.json": "1f905d8e02dbccd78b7602f307cfdd7598635920",
+    "project-instructions/r10a0/rounds/r6/VERA_R10A0_ROLLBACK_SUBJECT_R6.json": "82c4b91976f1a9c7a3939681f2f567d5ea676476",
+    "project-instructions/r10a0/rounds/r6/VERA_R10A0_SEMANTIC_RESPONSIBILITY_AUDIT_R6.md": "8dd02c3727f5243600e5f50bd820aa000fa07e7c",
+    "protocol/VERA_CENTER_YOURSELF_PROTOCOL_V1.md@519eeb1551fcb59963a321766252bc62067da71b": "30ee695064dd57b5ce43eb571fa183730de1808d"
+  },
+  "publication_identity": "BOUND_EXTERNALLY_BY_NAMED_RECEIPT; NOT_SELF_REFERENTIAL",
+  "publication_receipt_path": "project-instructions/r10a0/rounds/r6/VERA_R10A0_PUBLICATION_RECEIPT_R6.json",
+  "publication_rule": "After this descriptor is committed, read back its blob plus the exact branch commit/tree. Create one immutable publication receipt whose parent is that pre-receipt publication commit and which binds candidate_core_sha256, source_manifest_sha256, descriptor blob, pre-receipt commit, and pre-receipt tree. The final receipt commit is the externally supplied immutable review/qualification head.",
+  "non_effects": [
+    "not installed",
+    "not runtime qualified",
+    "not provider activation evidence",
+    "not BugOps closure",
+    "not merge/cutover authority"
+  ]
+}

@@ -1,0 +1,50 @@
+schema_version: on-theo.ugarit-baal-scholastic-equivalence.v1
+status: PASS_DIRECT_P332950_EQUIVALENCE_WITH_SEMANTIC_GUARDS
+subject:
+  predecessor_pr: 61
+  predecessor_head: 40a9db034d90604b60e605a4abafab5f7946c863
+  witness: WIT-UGARIT-WEIDNER-P332950
+
+rows:
+  - locator: "column iii 14'"
+    mesopotamian: Imzuanna
+    hurrian: Teshub
+    ugaritic: Baal
+    evidence_state: DIRECT_TEXTUAL_ATTESTATION
+    interpretation:
+      scholastic_equivalence: SUPPORTED
+      total_theological_identity: NOT_ESTABLISHED
+      possible_sign_wordplay: SUPPORTED_BY_SCHOLARSHIP
+
+  - locator: "column ii 18"
+    mesopotamian: Utu
+    hurrian: Shimigi
+    ugaritic: Shapshu
+    evidence_state: DIRECT_TEXTUAL_ATTESTATION
+    interpretation:
+      functional_correspondence: PLAUSIBLE_HIGH
+
+  - locator: "column ii 7"
+    mesopotamian: Dumuzi
+    hurrian: du-mu-zi
+    ugaritic: LOST
+    evidence_state: LOCAL_EQUIVALENT_UNRESOLVED
+
+controls:
+  god_list_equation_implies_total_identity: false
+  lexical_equivalence_implies_narrative_dependence: false
+  baal_can_restore_dumuzi_lost_field: false
+  row_specific_rationale_required: true
+
+transmission_state:
+  shared_multilingual_scholastic_environment: SUPPORTED
+  dumuzi_specific_exposure: SUPPORTED
+  baal_scholastic_mapping: SUPPORTED
+  dumuzi_baal_equation: NOT_ESTABLISHED
+  direct_dumuzid_baal_dependence: NONE_ESTABLISHED
+
+guards:
+  - "god-list equation != full ontological identity"
+  - "lexical equivalence != narrative dependence"
+  - "preserved Baal row != restoration of lost Dumuzi row"
+  - "scribal wordplay can produce non-obvious equations"

@@ -1,0 +1,75 @@
+{
+  "schema": "VERA_HOSTILE_REVIEWER_CONTROL_V1",
+  "status": "SOURCE_CANDIDATE_CURRENT_RUNTIME_BOUND_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
+  "feature_id": "vera.hostile_reviewer",
+  "owner": "VERA_CONTROL_PLANE",
+  "runtime_source": {
+    "repository": "thebrazenbeard/vera",
+    "pull_request": 127,
+    "branch": "work/hostile-reviewer-runtime-v1-20260919",
+    "head": "44bd82b07ced00cabf800c6ee36bf096a363b797",
+    "runtime_module": "runtime_cohesion/hostile_reviewer.py",
+    "runtime_module_blob": "da14b1f4fbfa587157dce1a7ce409313c7bda9a1",
+    "architecture_contract": "architecture/VERA_HOSTILE_REVIEWER_RUNTIME_V1.json",
+    "architecture_contract_blob": "ecdf279a231e2469aa202098250fe30981aa900e",
+    "runtime_package_init": "runtime_cohesion/__init__.py",
+    "runtime_package_init_blob": "23b93c30a89bcd8002847a7a53d89eb145ef4e22",
+    "runtime_test": "tests/test_runtime_cohesion_hostile_reviewer_feature.py",
+    "runtime_test_blob": "381d71150561b4fb28e6eec6cc454a335bef24cc",
+    "pipeline_symbol": "runtime_cohesion.review_response",
+    "typed_input": "LiteralProposition",
+    "typed_output": "HostileReviewDecision",
+    "literal_verdicts": [
+      "LITERAL_SURVIVES",
+      "LITERAL_FAILS",
+      "UNRESOLVED"
+    ],
+    "dependency_review_state": "SOURCE_HEAD_AND_BLOBS_BOUND_ONLY_REVIEW_CURRENTNESS_EXTERNAL"
+  },
+  "state_path": "state/features/hostile-reviewer-v1.json",
+  "allowed_modes": [
+    "OFF",
+    "ON"
+  ],
+  "default_mode": "OFF",
+  "durable_scope": "VERA_PROJECT_ALL_CHATS",
+  "effective_mode_resolution": [
+    "A current explicit Patrick instruction may set or override the mode within its stated scope.",
+    "A project-wide durable mode requires the installed runtime to consume the current control-plane state object and establish readback/currentness.",
+    "Repository source presence alone does not establish all-chat activation.",
+    "Absent current installed/readback evidence, do not infer activation from source state."
+  ],
+  "behavior": {
+    "OFF": "No hostile-review second pass is required.",
+    "ON": "For substantive outputs, run the exact-answer-bound and exact-typed-proposition-bound adversarial pass and surface the typed result as a HOSTILE REVIEWER blockquote."
+  },
+  "proposition_fidelity": [
+    "Preserve literal proposition, proposition type, referent, scope, evidence and protected assumptions.",
+    "LITERAL_SURVIVES may contain zero objections; do not manufacture disagreement.",
+    "A stronger route requires literal failure unless stronger-route exploration was explicitly requested."
+  ],
+  "authority_ceiling": "RESPONSE_REVIEW_ONLY_NO_AUTHORITY_OR_EFFECT_PROMOTION",
+  "forbidden_promotions": [
+    "truth",
+    "task authority",
+    "tool effect",
+    "memory admission",
+    "identity",
+    "consent",
+    "preference",
+    "installation",
+    "runtime consumption",
+    "runtime qualification",
+    "provider currentness"
+  ],
+  "mode_lifetime": "CONTROL_SETTING_NOT_PERSONALITY_STATE",
+  "currentness_rule": "Exact Vera runtime head/blob bindings are dependency evidence only; mutable source review/install/route/runtime state must be refreshed when material.",
+  "mutation_semantics": {
+    "generation_compare_required": true,
+    "single_writer_lock": "ATOMIC_O_EXCL_LOCKFILE",
+    "lock_collision": "FAIL_CLOSED_RECONCILE",
+    "replacement": "ATOMIC_OS_REPLACE",
+    "post_write_readback": "EXACT_STATE_EQUALITY",
+    "stale_lock": "FAIL_CLOSED_REQUIRES_RECONCILIATION"
+  }
+}

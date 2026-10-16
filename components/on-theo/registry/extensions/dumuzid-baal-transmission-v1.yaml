@@ -1,0 +1,193 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-DUMUZID-BAAL-TRANSMISSION-V1
+base_registry_head: d4b1bb63a706911609fec6db9dd12711bb21a3d0
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-MARI-A1146-DUMUZI
+    source_roles: [PRIMARY_TEXT]
+    source_kind: mari_letter
+    author_or_tradition: Mari / Zimri-Lim-period scribal context
+    title: A.1146 — letter mentioning Dumuzi's death and return
+    composition_date: {start: null, end: null, precision: zimri-lim-year-12-first-half-18th-century-bce}
+    physical_witness_date: {start: null, end: null, precision: old-babylonian-mari}
+    extant_status: cuneiform-tablet
+    original_language: Akkadian
+    access_mode: indirect-through-current-scholarly-synthesis
+    limitations:
+      - "V1 has not independently collated the tablet text; identity/date/function derive from Ayali-Darshan 2024's current synthesis."
+
+  - id: SRC-MARI-A4540-DUMUZI
+    source_roles: [PRIMARY_TEXT]
+    source_kind: mari_economic_ritual_record
+    author_or_tradition: Mari / Zimri-Lim-period scribal context
+    title: A.4540 — record associated with Dumuzi's burial
+    composition_date: {start: null, end: null, precision: zimri-lim-year-4-18th-century-bce}
+    physical_witness_date: {start: null, end: null, precision: old-babylonian-mari}
+    extant_status: cuneiform-tablet
+    original_language: Akkadian
+    access_mode: indirect-through-current-scholarly-synthesis
+    limitations:
+      - "V1 has not independently collated the tablet text."
+
+  - id: SRC-MARI-1987-14-DUMUZI
+    source_roles: [PRIMARY_TEXT]
+    source_kind: mari_economic_ritual_record
+    author_or_tradition: Mari scribal context
+    title: MARI 5 (1987) 14 — record associated with Dumuzi's return
+    composition_date: {start: null, end: null, precision: old-babylonian-mari}
+    physical_witness_date: {start: null, end: null, precision: old-babylonian-mari}
+    extant_status: cuneiform-tablet
+    original_language: Akkadian
+    access_mode: indirect-through-current-scholarly-synthesis
+    limitations:
+      - "V1 has not independently collated the tablet text."
+
+scholarly_context_additions:
+  - id: SCH-SMITH-1994-UGARITIC-BAAL-CYCLE
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: critical_text_monograph
+    author_or_tradition: Mark S. Smith
+    title: The Ugaritic Baal Cycle, Volume I
+    composition_date: {start: "1994", end: "1994", precision: publication-year}
+    access_mode: publisher-description-and-bibliographic-control
+    locators:
+      - url: "https://brill.com/display/title/1061"
+    limitations:
+      - "Volume I treats KTU 1.1-1.2; later Baal death/return material requires the subsequent volume and other critical-edition control."
+
+claim_additions:
+  - id: CLM-DUMUZID-BAAL-CHRONOLOGY-COMPATIBLE
+    proposition: "Old Babylonian Dumuzid traditions and eighteenth-century Mari Dumuzi death/return attestations predate the surviving Late Bronze Age Baal Cycle tablets, so chronology permits possible influence but does not establish it."
+    claim_type: TRANSMISSION_CHRONOLOGY_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian, mesopotamian, ugaritic]
+    supporting_sources:
+      - source_id: SRC-MARI-A1146-DUMUZI
+        locator: "Zimri-Lim year 12 / first half of 18th century BCE"
+        relation: EARLIER_INTERMEDIATE_ATTESTATION
+        access_mode: INDIRECT_SCHOLARLY_READBACK
+      - source_id: SCH-SMITH-1994-UGARITIC-BAAL-CYCLE
+        locator: "introductory dating discussion"
+        relation: LATE_BRONZE_UGARIT_CONTROL
+        access_mode: SCHOLARLY_EDITION
+    opposing_sources: []
+    confidence: high-for-relative-chronology
+    contested: false
+
+  - id: CLM-MARI-DUMUZI-CONTACT-FIELD
+    proposition: "The three Mari documents summarized by Ayali-Darshan provide a real eighteenth-century West Asian contact field for Dumuzi death, burial, and return traditions, but do not by themselves document transmission to Ugarit."
+    claim_type: CONTACT_FIELD_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mesopotamian, mari, west_semitic]
+    supporting_sources:
+      - source_id: SRC-MARI-A1146-DUMUZI
+        locator: "death and return reference"
+        relation: MARI_DEATH_RETURN_ATTESTATION
+        access_mode: INDIRECT_SCHOLARLY_READBACK
+      - source_id: SRC-MARI-A4540-DUMUZI
+        locator: "burial record"
+        relation: MARI_BURIAL_ATTESTATION
+        access_mode: INDIRECT_SCHOLARLY_READBACK
+      - source_id: SRC-MARI-1987-14-DUMUZI
+        locator: "return record"
+        relation: MARI_RETURN_ATTESTATION
+        access_mode: INDIRECT_SCHOLARLY_READBACK
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "chapter 2, Dying and Rising God in Mari Texts"
+        relation: CURRENT_SCHOLARLY_SYNTHESIS
+        access_mode: JSTOR_OR_PUBLISHER_SUMMARY
+    opposing_sources: []
+    confidence: high-for-contact-field-low-for-direct-lineage
+    contested: false
+
+  - id: CLM-BAAL-REVIVAL-EVIDENCE-STRONGER
+    proposition: "Ayali-Darshan 2024 identifies explicit Baal death and revival sequences in the Ugaritic cycle and argues that the second-millennium Levantine evidence for a dying-and-rising god is stronger than the corresponding Mesopotamian Dumuzid evidence."
+    claim_type: COMPARATIVE_EVIDENCE_STRENGTH
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "chapters 1 and 3; publisher/JSTOR summaries"
+        relation: CURRENT_COMPARATIVE_SYNTHESIS
+        access_mode: JSTOR_OR_PUBLISHER_SUMMARY
+    opposing_sources: []
+    confidence: high-for-author-stated-thesis
+    contested: true
+
+  - id: CLM-DUMUZID-BAAL-MECHANICS-DIFFER
+    proposition: "Dumuzid's substitution/galla/sister-alternation architecture differs materially from Baal's conflict with Mot and Ugaritic death/return architecture, so high-level death-return similarity cannot be treated as narrative identity."
+    claim_type: COMPARATIVE_CAUSAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian, ugaritic]
+    supporting_sources:
+      - source_id: SRC-DUMUZID-GESHTINANA
+        locator: "substitution, galla, escape and lament sequence"
+        relation: DUMUZID_CAUSAL_ARCHITECTURE
+        access_mode: CDLI_SCORE_AND_ETCSL
+      - source_id: SRC-UGARIT-BAAL-CYCLE
+        locator: "KTU 1.5-1.6 death/return complex"
+        relation: BAAL_CAUSAL_ARCHITECTURE
+        access_mode: SCHOLARLY_EDITION
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "Ugaritic dying/rising discussion"
+        relation: COMPARATIVE_CONTROL
+        access_mode: CURRENT_SCHOLARSHIP
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZID-BAAL-DIRECT-CARRIER-NOT-FOUND
+    proposition: "V1 has not identified a named scribe, copied tablet, lexical dependency, ritual institution, or documentary chain carrying a Dumuzid death-return composition from Mesopotamia or Mari into the Ugaritic Baal Cycle."
+    claim_type: TRANSMISSION_CARRIER_CONTROL
+    evidence_class: [PROJECT_INFERENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [mesopotamian, mari, ugaritic]
+    supporting_sources:
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "current challenge to Dumuzi-prototype model"
+        relation: HOSTILE_TRANSMISSION_CONTROL
+        access_mode: CURRENT_SCHOLARSHIP
+      - source_id: SCH-SMITH-1994-UGARITIC-BAAL-CYCLE
+        locator: "Ugaritic text/scribe/date context"
+        relation: TARGET_TEXT_PROVENANCE
+        access_mode: SCHOLARLY_EDITION
+    opposing_sources: []
+    confidence: high-for-v1-search-state
+    contested: false
+
+  - id: CLM-DUMUZID-BAAL-DIRECTION-UNRESOLVED
+    proposition: "The direction of any historical relationship between Dumuzid/Tammuz and Baal death-return traditions remains unresolved; current scholarship directly challenges a default Mesopotamia-to-Ugarit prototype model."
+    claim_type: TRANSMISSION_DIRECTION_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mesopotamian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "findings on limited Mesopotamian revival evidence and Levantine Baal"
+        relation: CURRENT_DIRECTIONAL_CHALLENGE
+        access_mode: CURRENT_SCHOLARSHIP
+    opposing_sources: []
+    confidence: high-for-unresolved-status
+    contested: true
+
+transmission_additions:
+  - id: TR-DUMUZID-BAAL-STRUCTURAL-PARALLEL
+    from_source: SRC-DUMUZID-GESHTINANA
+    to_source: SRC-UGARIT-BAAL-CYCLE
+    relation: STRUCTURAL_PARALLEL
+    confidence: high-for-parallel-unresolved-for-dependence
+    evidence:
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "Mesopotamian and Ugaritic dying/rising comparison"
+      - source_id: SCH-SMITH-1994-UGARITIC-BAAL-CYCLE
+        locator: "Baal Cycle provenance and text"
+    limitation: "Shared divine death/return structure and chronological priority do not establish direct literary or cultic dependence."
+
+  - id: TR-MARI-A1146-TO-UGARIT-BAAL
+    from_source: SRC-MARI-A1146-DUMUZI
+    to_source: SRC-UGARIT-BAAL-CYCLE
+    relation: NONE_ESTABLISHED
+    confidence: unresolved
+    evidence:
+      - source_id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+        locator: "Mari and Ugaritic chapters"
+    limitation: "Mari provides an earlier western contact field, but no specific Mari-to-Ugarit carrier or copying chain is established."

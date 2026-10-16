@@ -1,0 +1,56 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FIRST-DOLLAR-EXPAND-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-EXPANSION-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-08T02:18:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-EXPANSION-0001",
+  "causation_id": "EVT-FIRST-DOLLAR-EXPAND-0001",
+  "idempotency_key": "first-dollar:expansion:v1:screening-current-evidence-20261008",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "objective": "Rank the next first-dollar route using current public evidence while preserving zero-capital, no-employer-resource, and protected-effect boundaries.",
+    "fresh_evidence": [
+      {
+        "route": "Nanswap RandomX to BANANO",
+        "source": "https://nanswap.com/mining/banano",
+        "observed": "Official page remains CPU-only and currently advertises reward estimates of 0.09211 BAN/minute, 5.526 BAN/hour, and 132.6 BAN/day, with actual rewards variable.",
+        "vera_works_evidence": "The bounded prior run already produced and delivered 1.7368 BAN, proving the rail but not positive electricity-adjusted economics.",
+        "disposition": "PROVEN_RAIL_NOT_CONTINUOUSLY_AUTHORIZED"
+      },
+      {
+        "route": "BananoMiner / Folding@home",
+        "source": "https://bananominer.com/",
+        "observed": "Official site is active, maps BANANO rewards to Folding@home contribution, and shows recent payouts.",
+        "vera_works_evidence": "The bounded GPU WU reached 71%, then failed with bad allocation; Folding@home accepted the uploaded result and reported Credited, but public donor stats and BANANO settlement are not yet observed.",
+        "disposition": "READ_ONLY_SETTLEMENT_FOLLOWUP"
+      },
+      {
+        "route": "unMineable GPU conversion pool",
+        "source": "https://unmineable.com/ and https://unmineable.com/support/article/what-are-the-minimum-requirements-for-mining",
+        "observed": "Current service advertises 80+ payout assets; the new unMiner flow requires email, platform use is governed by Terms, a 1% platform fee is disclosed, and several GPU algorithms support 3-4GB VRAM while others require 6GB.",
+        "vera_works_evidence": "Lappy has an RTX 3050 Laptop GPU with 4GB VRAM.",
+        "disposition": "ACCOUNT_TERMS_INSTALL_BOUNDARY_NOT_EXECUTED"
+      },
+      {
+        "route": "Gridcoin / BOINC research rewards",
+        "source": "https://gridcoin.us/Guides/boinc-install.htm and https://gridcoin.us/wiki/faq.html",
+        "observed": "Current official guidance requires BOINC plus Gridcoin wallet/research identity setup; solo setup needs roughly 1-2 GRC to begin and beacon/MRC mechanics introduce fees and multi-day ramp/claim delays.",
+        "vera_works_evidence": "No Gridcoin wallet, BOINC project account, starter GRC, or authorization exists.",
+        "disposition": "LONG_LATENCY_AND_NEW_BOUNDARIES_NOT_EXECUTED"
+      }
+    ],
+    "priority_order": [
+      "Finish read-only Folding/BananoMiner settlement reconciliation before any new Folding effect.",
+      "Continue scouting no-account/no-customer routes that can use already-owned Lappy resources without new credentials, spend, or network exposure.",
+      "Keep unMineable and Gridcoin behind Patrick-owned account/terms/install/identity boundaries and Vera economics review.",
+      "Do not restart continuous Nanswap mining merely because the rail is proven."
+    ],
+    "recommendation": "No new revenue workload tonight. Use the proof-of-concept to improve route selection rather than multiply weak or unmeasured economics.",
+    "external_effect_authorized": false
+  },
+  "external_effect": false
+}

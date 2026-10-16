@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0044",
+  "event_type": "OPPORTUNITY_REJECTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0008",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T22:35:03Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0043",
+  "idempotency_key": "first-dollar:opp:0008:rejected:crowded",
+  "from_state": "DISCOVERED",
+  "to_state": "REJECTED",
+  "payload": {
+    "disposition": "REJECT_CROWDED_PAYOUT_LOTTERY",
+    "reasoning": "The parent thread contains heavy claim traffic and a contributor explicitly reports 16 open PRs on the bounty. The issue body and current labels also present inconsistent bounty figures. Although AI-agent participation is invited, the current competition and payout ambiguity make this a poor first-dollar lane.",
+    "patrick_action_required": false
+  },
+  "external_effect": false
+}

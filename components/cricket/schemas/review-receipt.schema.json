@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thebrazenbeard.github.io/cricket/review-receipt.schema.json",
+  "title": "Cricket Review Receipt",
+  "type": "object",
+  "required": ["previous_digest", "receipt_digest"],
+  "properties": {
+    "previous_digest": {
+      "oneOf": [
+        {"type": "null"},
+        {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      ]
+    },
+    "receipt_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "request_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "initial_candidate_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "final_candidate_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "initial_request_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "final_request_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "final_metadata_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "disposition": {"type": "string", "enum": ["PASS", "CHALLENGE", "BLOCK"]},
+    "initial_disposition": {"type": "string", "enum": ["PASS", "CHALLENGE", "BLOCK"]},
+    "final_disposition": {"type": "string", "enum": ["PASS", "CHALLENGE", "BLOCK"]},
+    "revision_attempted": {"type": "boolean"},
+    "finding_ids": {"type": "array", "items": {"type": "string"}},
+    "initial_finding_ids": {"type": "array", "items": {"type": "string"}},
+    "final_finding_ids": {"type": "array", "items": {"type": "string"}},
+    "principle_pack": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "required": ["id", "version"],
+          "properties": {
+            "id": {"type": "string"},
+            "version": {"type": "string"}
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "additionalProperties": true
+}

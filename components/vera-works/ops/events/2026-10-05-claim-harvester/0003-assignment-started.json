@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-CH-0003",
+  "event_type": "ASSIGNMENT_STARTED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-CLAIM-HARVESTER-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T15:14:02Z",
+  "correlation_id": "CORR-CLAIM-HARVESTER-0001",
+  "causation_id": "EVT-CH-0002",
+  "idempotency_key": "claim-harvester:v1:assignment-in-progress",
+  "from_state": "CLAIMED",
+  "to_state": "IN_PROGRESS",
+  "payload": {
+    "holder": "vera:works-operator",
+    "reason": "Patrick explicitly authorized building the Claim Harvester after approving the portfolio-composed passive-money architecture.",
+    "next_frontier": "Implement and qualify the read-only source core, then bind real authoritative source adapters and wallet scans without crossing signing, identity, account, terms, spend, or communication boundaries."
+  },
+  "external_effect": false
+}

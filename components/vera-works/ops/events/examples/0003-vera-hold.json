@@ -1,0 +1,28 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-DRY-0003",
+  "event_type": "VERA_DECISION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-DRY-0001",
+  "actor": "automation",
+  "recorded_at": "2026-08-29T13:02:00Z",
+  "correlation_id": "CORR-DRY-0001",
+  "causation_id": "EVT-DRY-0002",
+  "idempotency_key": "dry:hold:0001:open",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "VERA_DECISION_REQUIRED",
+    "problem": "The opportunity passed mechanical screening and now requires a pursue/reject decision.",
+    "held_subject_type": "opportunity",
+    "held_subject_id": "OPP-DRY-0001",
+    "held_state": "SCREENING",
+    "required_from": "vera",
+    "recommendation": "Pursue the opportunity for the dry-run path.",
+    "alternatives": ["Reject", "Request more research"],
+    "consequences": ["Pursue advances the workflow", "Reject closes the opportunity"],
+    "inaction_effect": "Workflow remains held with no external effect.",
+    "resume_event_type": "VERA_DECISION_RECORDED"
+  },
+  "external_effect": false
+}

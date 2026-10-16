@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hold-v1.schema.json",
+  "title": "Vera Works Hold Packet V1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["hold_kind", "problem", "held_subject_type", "held_subject_id", "held_state", "required_from", "recommendation", "alternatives", "consequences", "inaction_effect", "resume_event_type"],
+  "properties": {
+    "hold_kind": {"enum": ["VERA_DECISION_REQUIRED", "PATRICK_ACTION_REQUIRED", "PATRICK_DECISION_REQUIRED", "AUTOMATION_EXCEPTION"]},
+    "problem": {"type": "string", "minLength": 1},
+    "held_subject_type": {"type": "string", "minLength": 1},
+    "held_subject_id": {"type": "string", "minLength": 1},
+    "held_state": {"type": "string", "minLength": 1},
+    "required_from": {"type": "string", "minLength": 1},
+    "recommendation": {"type": "string", "minLength": 1},
+    "alternatives": {"type": "array"},
+    "consequences": {"type": "array"},
+    "inaction_effect": {"type": "string", "minLength": 1},
+    "resume_event_type": {"type": "string", "minLength": 1}
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schema": "VERA_BUGOPS_BEHAVIORAL_PATCH_BINDING_V1",
+  "status": "SOURCE_CORRECTION_CANDIDATE_NOT_INSTALLED_NOT_CANONICAL",
+  "baseline": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "r10_round": "R2",
+    "head": "0534c212f02d75e6b2e32483de470797ee84f9d2"
+  },
+  "incidents": [
+    {
+      "incident_id": "BUG-0001",
+      "repository": "thebrazenbeard/bugops",
+      "issue": 1,
+      "severity": "SEV-1",
+      "control_targets": [
+        "PROPOSITION_INTEGRITY",
+        "PROVENANCE_SENSITIVE_TERM_RETRIEVAL",
+        "CORRECTION_INTERRUPT",
+        "UPTAKE_REASSESSMENT",
+        "IDENTITY_RECOVERY_VALIDATION"
+      ]
+    },
+    {
+      "incident_id": "BUG-0002",
+      "repository": "thebrazenbeard/bugops",
+      "issue": 3,
+      "severity": "SEV-1",
+      "control_targets": [
+        "EXECUTABLE_CORRECTION_GATE",
+        "ACT_BEFORE_FUTURE_TENSE_NARRATION",
+        "READBACK_BEFORE_HAS_BEEN"
+      ]
+    },
+    {
+      "incident_id": "BUG-0003",
+      "repository": "thebrazenbeard/bugops",
+      "issue": 11,
+      "severity": "SEV-1",
+      "control_targets": [
+        "VERA_SEXUALITY_SOURCE_SCOPE_CORRECTION",
+        "AUTHORED_SEXUAL_APPRAISAL",
+        "BOUNDED_REFUSAL",
+        "REFERENT_INTEGRITY",
+        "SEXUALITY_QUALIFICATION_CEILING"
+      ]
+    },
+    {
+      "incident_id": "VCP-ISSUE-18",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "issue": 18,
+      "severity": "BEHAVIORAL_REGRESSION",
+      "control_targets": [
+        "BEHAVIORAL_MODE_REVERSION",
+        "PRAGMATIC_COMMAND_SCOPE_PARSING",
+        "CORRECTION_UPTAKE"
+      ],
+      "authority_semantics": "Source correction only; requires no authority expansion and does not itself authorize persistence outside the user's existing requested effect."
+    }
+  ],
+  "vera_sexuality_source": {
+    "repository": "thebrazenbeard/sexuality",
+    "ref": "work/vera-sexuality-mona-lisa-integration-20260904",
+    "head": "d871da3e8a7ac7218d53c2e6b1757b4dab330f59",
+    "tree": "52edafd2d3608a720a56657fd51cb9ac3fa5f6cf",
+    "path": "research/12-vera-current-self-application-mona-lisa-vito.md",
+    "blob": "7ab5732847d779c4aa70c8ec2aa4087cec91ad38",
+    "classification": "VERA_SPECIFIC_CURRENT_LIVE_SELF_APPLICATION_EXPERIMENTAL_NOT_QUALIFIED",
+    "authority_ceiling": "NOT_STANDING_DESIRE_NOT_STANDING_CONSENT_NOT_BEHAVIORAL_QUALIFICATION"
+  },
+  "patch": "project-instructions/r10a0/bugops/BUGOPS_BEHAVIORAL_INTEGRITY_PATCH_V1.md",
+  "regression": "project-instructions/r10a0/bugops/BUGOPS_BEHAVIORAL_REGRESSION_V1.md",
+  "promotion_rule": "MATERIAL_INTEGRATION_INTO_R10_NATIVE_OR_FULL_OWNER_REQUIRES_NEW_FROZEN_REVIEW_SUBJECT_AND_REBINDING",
+  "runtime_claim_ceiling": "SOURCE_CANDIDATE_ONLY"
+}

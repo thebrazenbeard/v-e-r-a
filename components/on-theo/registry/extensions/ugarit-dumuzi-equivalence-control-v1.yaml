@@ -1,0 +1,159 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-UGARIT-DUMUZI-EQUIVALENCE-CONTROL-V1
+base_registry_head: 50d0eaff73054a09444028be83a9452d5f468fc3
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-DCCLT-WEIDNER-COMPOSITE-Q000263
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: digital_lexical_composite
+    author_or_tradition: ORACC Digital Corpus of Cuneiform Lexical Texts
+    title: Weidner God List / Q000263
+    composition_date: {start: "2026", end: "2026", precision: current-digital-composite}
+    access_mode: institutional-digital-lexical-composite
+    locators:
+      - url: "https://oracc.museum.upenn.edu/dcclt/Q000263.7"
+      - url: "https://oracc.museum.upenn.edu/dcclt/Q000263/sources"
+    limitations:
+      - "The composite controls the Mesopotamian list tradition and source inventory; non-Ugarit parallels do not reconstruct the lost Ugaritic column of P332950."
+
+  - id: SCH-EPSD2-UGARIT-TRILINGUAL-CONTROLS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: digital_lexical_occurrence_index
+    author_or_tradition: ORACC ePSD2
+    title: Ugaritica 5, 137 multilingual deity occurrence controls
+    composition_date: {start: "2024", end: "2026", precision: current-digital-lexicon}
+    access_mode: institutional-digital-lexicon
+    locators:
+      - url: "https://oracc.museum.upenn.edu/epsd2/cbd/sux/o0043861.html"
+      - url: "https://oracc.museum.upenn.edu/epsd2/sux/o0048408"
+      - url: "https://oracc.museum.upenn.edu/epsd2/sux/o0045253"
+    limitations:
+      - "Used to control Dumuzi, Utu/Shimigi/Shapshu, and Inana/Shaushka rows; lexical indexing does not establish cultic identity."
+
+claim_additions:
+  - id: CLM-UGARIT-DUMUZI-EQUIVALENT-LOST-DATUM
+    proposition: "P332950 reverse ii 7 preserves Dumuzi and Hurrian du-mu-zi while the Ugaritic-equivalent field is lost, making the local Ugaritic correspondence an unresolved textual datum rather than a recoverable value in the surviving row."
+    claim_type: LOST_TEXT_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mesopotamian, hurrian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-DCCLT-WEIDNER-UGARIT-P332950
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "reverse ii 7"
+        relation: DAMAGED_TRILINGUAL_ROW
+        access_mode: ORACC_DCCLT
+      - source_id: SCH-ORACC-DUMUZID-P332950
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "Ugaritica 5, 137 r ii 7"
+        relation: INDEPENDENT_DUMUZI_OCCURRENCE_CONTROL
+        access_mode: ORACC_EPSD2
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-WEIDNER-PARALLELS-NOT-UGARITIC-RECOVERY
+    proposition: "Other Weidner God List witnesses can control Dumuzi's place in the Mesopotamian list tradition but do not independently recover the missing Ugaritic-equivalent field of the Ugarit trilingual adaptation."
+    claim_type: PARALLEL_WITNESS_SCOPE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mesopotamian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-DCCLT-WEIDNER-COMPOSITE-Q000263
+        locator: "source inventory and Dumuzi list position"
+        relation: PARALLEL_LIST_CONTROL
+        access_mode: ORACC_DCCLT
+      - source_id: SCH-DCCLT-WEIDNER-UGARIT-P332950
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "local trilingual witness"
+        relation: LOCAL_ADAPTATION_CONTROL
+        access_mode: ORACC_DCCLT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UGARIT-DUMUZI-EQUIVALENT-NOT-RECOVERED-V1
+    proposition: "A targeted V1 search of accessible Weidner-list, Ugarit trilingual, ePSD2, and western/Emar parallel results did not identify an independent witness preserving the lost Ugaritic equivalent beside Dumuzi."
+    claim_type: BOUNDED_SEARCH_STATE
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-DCCLT-WEIDNER-COMPOSITE-Q000263
+        locator: "current accessible source inventory"
+        relation: PARALLEL_SEARCH_CONTROL
+        access_mode: ORACC_DCCLT
+      - source_id: SCH-EPSD2-UGARIT-TRILINGUAL-CONTROLS
+        locator: "Dumuzi occurrence index"
+        relation: OCCURRENCE_SEARCH_CONTROL
+        access_mode: ORACC_EPSD2
+    opposing_sources: []
+    confidence: high-for-targeted-v1-search-state
+    contested: false
+    notes:
+      - "This does not establish historical absence or prove that no unindexed fragment can preserve the correspondence."
+
+  - id: CLM-UGARIT-TRILINGUAL-MAPPING-STRUCTURE
+    proposition: "Ugaritica 5, 137 demonstrates explicit multilingual deity mapping where preserved, including Utu = Hurrian Shimigi = Ugaritic Shapshu, while adjacent Inana and Dumuzi rows lose the Ugaritic field."
+    claim_type: MULTILINGUAL_SCRIBAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [mesopotamian, hurrian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-EPSD2-UGARIT-TRILINGUAL-CONTROLS
+        locator: "Utu, Inana, and Dumuzi rows in Ugaritica 5, 137"
+        relation: MULTILINGUAL_ROW_CONTROL
+        access_mode: ORACC_EPSD2
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-SCHOLASTIC-EQUIVALENCE-NOT-AUTOMATIC-CULT-IDENTITY
+    proposition: "A deity equation in a multilingual god list should first be typed as a scholastic correspondence; it does not by itself establish full cultic, mythological, or historical identity between the equated deities."
+    claim_type: EQUIVALENCE_SEMANTIC_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mesopotamian, hurrian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-DCCLT-WEIDNER-UGARIT-P332950
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "multilingual lexical-list genre"
+        relation: SOURCE_GENRE_CONTROL
+        access_mode: ORACC_DCCLT
+      - source_id: SCH-EPSD2-UGARIT-TRILINGUAL-CONTROLS
+        locator: "preserved deity equations"
+        relation: MAPPING_STRUCTURE_CONTROL
+        access_mode: ORACC_EPSD2
+    opposing_sources: []
+    confidence: high-as-methodological-control
+    contested: false
+
+  - id: CLM-DUMUZI-BAAL-LOST-COLUMN-NOT-RESTORABLE-BY-MOTIF
+    proposition: "The broken Ugaritic-equivalent field beside Dumuzi cannot be restored as Baal merely because Dumuzi and Baal share death/return motifs; motif similarity is not textual restoration evidence."
+    claim_type: LOST_TEXT_RECONSTRUCTION_CONTROL
+    evidence_class: [PRIMARY_TEXT, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-DCCLT-WEIDNER-UGARIT-P332950
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "broken Ugaritic field at Dumuzi row"
+        relation: TEXTUAL_DAMAGE_BOUNDARY
+        access_mode: ORACC_DCCLT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZI-BAAL-EQUIVALENCE-REMAINS-UNESTABLISHED
+    proposition: "Direct Dumuzi-specific scholastic exposure at Ugarit does not establish a Dumuzi=Baal scholastic equation, because the relevant Ugaritic field is lost and no independent preserving parallel was recovered in V1."
+    claim_type: COMPARATIVE_IDENTITY_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-DCCLT-WEIDNER-UGARIT-P332950
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "Dumuzi row"
+        relation: DIRECT_CONTACT_WITH_LOST_EQUIVALENT
+        access_mode: ORACC_DCCLT
+      - source_id: SCH-DCCLT-WEIDNER-COMPOSITE-Q000263
+        locator: "parallel source inventory"
+        relation: NO_RECOVERED_LOCAL_EQUIVALENT
+        access_mode: ORACC_DCCLT
+    opposing_sources: []
+    confidence: high-for-v1-state
+    contested: false

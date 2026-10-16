@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-AUGORA68-0003",
+  "event_type": "OPPORTUNITY_VERA_DECISION",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-AUGORA68-BOUNTY-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-08T23:58:02Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-AUGORA68-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-AUGORA68-0002",
+  "idempotency_key": "first-dollar:github-bounty:augora68:vera-decision:v1",
+  "from_state": "SCREENING",
+  "to_state": "VERA_DECISION",
+  "payload": {
+    "decision": "AUTHORIZE_PATCH_VALIDATION_ONLY",
+    "reason": "This is a live, uncontested, zero-capital bounty with a very small deterministic source change and favorable expected dollars per unit of work.",
+    "claim_ceiling": "Prepare/apply/revise and validate the patch using public source only. Do not claim the issue, fork, push to Augora, open an external PR, accept terms, configure payout, submit identity/tax/payment data, or spend."
+  },
+  "external_effect": false
+}

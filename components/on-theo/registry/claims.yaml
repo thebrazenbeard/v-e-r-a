@@ -1,0 +1,143 @@
+schema_version: on-theo.claim-registry.v1
+allowed_evidence_classes:
+  - PRIMARY_TEXT
+  - MATERIAL_EVIDENCE
+  - HISTORICAL_RECONSTRUCTION
+  - LATER_TRADITION
+  - SCHOLARLY_INTERPRETATION
+  - PROJECT_INFERENCE
+  - SPECULATIVE_MODEL
+  - UNKNOWN
+claims:
+  - id: CLM-CELSUS-VIRGIN-BIRTH-COUNTERCLAIM
+    proposition: "In Contra Celsum I.28, Origen represents Celsus's Jewish speaker as accusing Jesus of inventing a virgin-birth account and describes an adulterous/illegitimate-birth counter-story."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [greco-roman, christianity, jewish-countertradition]
+    supporting_sources:
+      - source_id: SRC-ORIGEN-CONTRA-CELSUM
+        locator: "Book I, chapter 28"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: ORIGEN_REPORTING_CELSUS
+    opposing_sources: []
+    confidence: high
+    contested: false
+    notes:
+      - "High confidence applies to what Origen's extant text reports, not to the biological truth of Celsus's accusation."
+
+  - id: CLM-CELSUS-PANTHERA-NAMED
+    proposition: "In Contra Celsum I.32, Origen reports that Celsus's Jewish speaker said Mary bore a child to a soldier named Panthera."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [greco-roman, christianity, jewish-countertradition]
+    supporting_sources:
+      - source_id: SRC-ORIGEN-CONTRA-CELSUM
+        locator: "Book I, chapter 32"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: ORIGEN_REPORTING_CELSUS
+      - source_id: SRC-ORIGEN-CONTRA-CELSUM
+        locator: "Book I, chapter 69"
+        relation: CORROBORATING_REPETITION_WITHIN_SAME_WORK
+        access_mode: ORIGEN_REPORTING_CELSUS
+    opposing_sources: []
+    confidence: high
+    contested: false
+    notes:
+      - "These are not independent witnesses; both locators are in Origen's same work."
+
+  - id: CLM-ORIGEN-REJECTS-PANTHERA-COUNTERSTORY
+    proposition: "Origen rejects the Panthera/adultery counter-story as fabricated while preserving it in his rebuttal."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [christianity]
+    supporting_sources:
+      - source_id: SRC-ORIGEN-CONTRA-CELSUM
+        locator: "Book I, chapter 32"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: ORIGEN_OWN_ARGUMENT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-PANTERA-NAME-ATTESTED
+    proposition: "A first-century funerary inscription attests a Roman soldier named Tiberius Julius Abdes Pantera."
+    claim_type: MATERIAL_ATTESTATION
+    evidence_class: [MATERIAL_EVIDENCE]
+    traditions: [greco-roman]
+    supporting_sources:
+      - source_id: MAT-ABDES-PANTERA-INSCRIPTION
+        locator: "CIL XIII 7514 / §400"
+        relation: DIRECT_MATERIAL_ATTESTATION
+        access_mode: TRANSCRIPTION_OF_ARTIFACT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-ABDES-PANTERA-WAS-YESHUA-FATHER
+    proposition: "Tiberius Julius Abdes Pantera was the biological father of Yeshua/Jesus."
+    claim_type: HISTORICAL_IDENTITY
+    evidence_class: [UNKNOWN]
+    traditions: [comparative]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: MAT-ABDES-PANTERA-INSCRIPTION
+        locator: "CIL XIII 7514 / §400"
+        relation: DOES_NOT_ESTABLISH_IDENTITY_LINK
+        access_mode: MATERIAL_CONTEXT_ONLY
+    confidence: unresolved
+    contested: true
+    alternatives:
+      - "The inscription and Celsus's Panthera name are unrelated except for name attestation."
+      - "The polemical Panthera name derives from a different person, wordplay, or tradition."
+    notes:
+      - "Name existence is not paternity evidence."
+
+  - id: CLM-BAVLI-BEN-STADA-PANDEIRA-MIRIAM
+    proposition: "Shabbat 104b contains a ben Stada/ben Pandeira discussion and identifies the mother in that discussion as Miriam, while the displayed passage itself does not name Jesus."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT, LATER_TRADITION]
+    traditions: [rabbinic-judaism]
+    supporting_sources:
+      - source_id: SRC-BAVLI-SHABBAT-104B
+        locator: "Shabbat 104b:5"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: DIGITAL_TEXT_EDITION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-BAVLI-STADA-PANDEIRA-IS-YESHUA
+    proposition: "The ben Stada/ben Pandeira figure in Shabbat 104b should be identified with Yeshua/Jesus."
+    claim_type: HISTORICAL_IDENTITY
+    evidence_class: [SCHOLARLY_INTERPRETATION, UNKNOWN]
+    traditions: [rabbinic-judaism, christianity]
+    supporting_sources: []
+    opposing_sources: []
+    confidence: unresolved
+    contested: true
+    notes:
+      - "V1 intentionally does not promote the identification from the similarity of names and motifs alone."
+      - "Add variant manuscripts, Tosefta/Sanhedrin parallels, and competing scholarship before changing this status."
+
+  - id: CLM-CELSUS-JEW-PRESERVES-AUTHENTIC-JEWISH-SOURCE
+    proposition: "The material assigned by Origen to Celsus's Jewish speaker substantially derives from an authentic second-century Jewish source rather than being principally a literary construction by Celsus."
+    claim_type: SOURCE_PROVENANCE
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [greco-roman, judaism, christianity]
+    supporting_sources:
+      - source_id: SCH-BLUMELL-2007-CELSUS-JEW
+        locator: "article argument"
+        relation: SCHOLARLY_SUPPORT
+        access_mode: PUBLISHER_ABSTRACT_AND_BIBLIOGRAPHIC_RECORD
+      - source_id: SCH-NIEHOFF-2013-CELSUS-JEW
+        locator: "article argument"
+        relation: SCHOLARLY_SUPPORT
+        access_mode: INSTITUTIONAL_ABSTRACT_AND_BIBLIOGRAPHIC_RECORD
+    opposing_sources: []
+    confidence: unresolved
+    contested: true
+    alternatives:
+      - "Celsus composed or substantially reshaped the Jewish speaker for literary/polemical purposes."
+      - "Celsus used Jewish material but not a single recoverable written Jewish source."
+    notes:
+      - "Niehoff's specific Alexandrian written-source thesis is attributed scholarship, not repository fact."

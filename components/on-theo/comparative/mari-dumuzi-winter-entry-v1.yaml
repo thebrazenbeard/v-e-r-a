@@ -1,0 +1,57 @@
+schema_version: on-theo.mari-dumuzi-winter-entry.v1
+status: PASS_WITH_PRIMARY_PUBLICATION_UPGRADE_AND_RITUAL_MOVEMENT_CONTROL
+subject:
+  predecessor_pr: 49
+  predecessor_head: b97d9db58485315e1ba6f31c89cd00f210b93e4d
+
+records:
+  - record_id: MARI5-599-14
+    source_id: SRC-MARI-1987-14-DUMUZI
+    cdli_artifact: P497204
+    publication:
+      author: Dominique Charpin
+      year: 1987
+      article: Nouveaux documents du bureau de l'huile (suite)
+      journal: MARI 5
+      pages: 597-599
+      locator: "p. 599 no. 14"
+    evidence_state: PRIMARY_PUBLICATION_IDENTITY_CONFIRMED
+    line_text_state: NOT_DIRECTLY_RECOVERED
+    object_context: OLD_BABYLONIAN_MARI_CLAY_TABLET
+
+  - record_id: A512-DUMUZI-ANNUNITUM
+    source_id: SRC-MARI-A512-DUMUZI
+    evidence_state: DIRECT_PUBLISHED_TRANSLITERATION
+    source_form: "dDUMU.ZI ana E Annunitim sha Mari usherib"
+    translation: "I had Dumuzi enter the temple of Annunitum of Mari."
+    semantic_type: TEMPLE_ENTRY_MOVEMENT
+    does_not_establish:
+      - BODILY_RESURRECTION
+      - NETHERWORLD_EXIT_AS_EXPLICIT_WORDING
+      - CULT_IMAGE_AS_EXPLICIT_WORDING
+
+  - record_id: M13167-DUMUZI-BELET-EKALLIM
+    source_id: SRC-MARI-M13167-DUMUZI
+    date: "10/x/ZL2"
+    evidence_state: PUBLISHED_TRANSCRIPTION_REPORTED
+    publication_control: "Duponchel, Gs Barrelet 1997, p. 222"
+    semantic_type: TEMPLE_ENTRY_PROVISIONING
+    statement: "Oil ration for Dumuzi when entering the temple of Belet-ekallim."
+
+  - record_id: M15090-DUMUZI-BELET-EKALLIM
+    source_id: SRC-MARI-M15090-DUMUZI
+    date: "6/x/ZL5"
+    evidence_state: UNPUBLISHED_PARALLEL_REPORTED
+    publication_control: "Charpin, MARI 5 (1987), p. 599"
+    semantic_type: TEMPLE_ENTRY_PARALLEL
+
+guards:
+  - "temple entry != bodily resurrection"
+  - "calendar correlation != explicit resurrection wording"
+  - "cult-image movement is historical reconstruction unless source-specific evidence states it"
+  - "publication identity != line-level transliteration"
+  - "reported unpublished parallel != independently controlled primary text"
+
+contact_field_revision:
+  status: STRENGTHENED_AND_NARROWED
+  formulation: "Mari preserves differentiated evidence for Dumuzi death/return language, burial, temple-entry movement, and cult provisioning without establishing one unified bodily-resurrection rite."

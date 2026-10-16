@@ -1,0 +1,136 @@
+schema_version: on-theo.transmission-evidence-ladder.v1
+status: DIRECT_TRANSMISSION_NONE_ESTABLISHED_WITH_MATERIALLY_GROUNDED_CONTACT_CAPACITY
+subject:
+  predecessor_pr: 66
+  predecessor_head: 3ba41fe0cec4b4a8ba84d4ef90c4c71471637445
+  source_tradition: DUMUZID_TAMMUZ
+  target_tradition: UGARITIC_BAAL
+
+gate_vocabulary:
+  PASS: positively_supported
+  PARTIAL: relevant_evidence_but_full_requirement_not_satisfied
+  OPEN: materially_unresolved
+  NOT_ESTABLISHED: required_evidence_not_established_in_current_research
+  SUPERSEDED: earlier_project_state_replaced_by_later_control
+  NONE_ESTABLISHED: no_direct_transmission_edge_justified
+
+gates:
+  - gate_id: G01_INDEPENDENT_SOURCE_RECONSTRUCTION
+    status: PASS
+    notes:
+      - "Dumuzid side controlled across Sumerian and Mari packets."
+      - "Baal death/life controlled across KTU 1.5 and 1.6."
+      - "A.1146 death-verb morphology correction governs older lexical snapshot."
+
+  - gate_id: G02_CHRONOLOGY
+    status: PASS
+    evidence: "Dumuzid/Mari material predates surviving Baal Cycle tablets."
+
+  - gate_id: G03_REGIONAL_CONTACT
+    status: PASS
+    evidence: "Mari Dumuzi death/burial/temple-entry contact field."
+
+  - gate_id: G04_MESOPOTAMIAN_LITERARY_CONTACT_AT_UGARIT
+    status: PASS
+    evidence: "Akkadian Gilgamesh and cuneiform school texts physically present."
+
+  - gate_id: G05_DUMUZI_SPECIFIC_UGARIT_EXPOSURE
+    status: PASS
+    evidence: "P332950 r ii 7 direct Dumuzi scholastic attestation."
+    scope: SCHOLASTIC_NAME_EXPOSURE
+
+  - gate_id: G06_INSTITUTIONAL_CARRIER_CAPACITY
+    status: PASS
+    evidence: "House of Rapanu and House of High Priest belong to one multilingual scribal city."
+    scope: INSTITUTIONAL_NETWORK_NOT_DIRECT_TRANSFER
+
+  - gate_id: G07_NAMED_CARRIER
+    status: NOT_ESTABLISHED
+    missing:
+      - ILIMILKU_ACCESS_TO_P332950
+      - NAMED_INTERMEDIARY
+      - DOCUMENTED_ARCHIVE_TRANSFER
+
+  - gate_id: G08_DUMUZI_NARRATIVE_AT_UGARIT
+    status: NOT_ESTABLISHED
+    evidence_state: "Alphabetic targeted search non-hit; syllabic lexical positive control only."
+
+  - gate_id: G09_LOCAL_DUMUZI_EQUIVALENT
+    status: OPEN
+    reason: "P332950 Ugaritic field lost; no preserving parallel recovered."
+
+  - gate_id: G10_EQUIVALENCE_SEMANTICS_CONTROL
+    status: PASS
+    evidence: "P332950 contains Utu=Shimigi=Shapshu and Imzuanna=Teshub=Baal; equations require row-specific scribal interpretation."
+
+  - gate_id: G11_PROPOSITION_LEVEL_SEMANTIC_MATCH
+    status: PARTIAL
+    parallels:
+      - DIVINE_DEATH_OR_DISAPPEARANCE
+      - RENEWED_PRESENCE
+      - LAMENT_OR_DIVINE_RESPONSE
+      - POSSIBLE_SEASONAL_INTERPRETATION
+    differences:
+      - DUMUZID_SUBSTITUTION_AND_GALLA
+      - DUMUZID_SISTER_HALF_YEAR_ALTERNATION
+      - BAAL_MOT_CONFLICT
+      - BAAL_RAIN_KINGSHIP_FRAMEWORK
+
+  - gate_id: G12_LEXICAL_OR_FORMULA_DEPENDENCE
+    status: NOT_ESTABLISHED
+    correction: "A.1146 daku lemma disputed; older secure-agentive-kill analysis superseded."
+    baal_forms: [mt, hlq, hy]
+    direct_calque: false
+
+  - gate_id: G13_SOURCE_SPECIFIC_BORROWING_SIGNAL
+    status: NOT_ESTABLISHED
+    missing:
+      - COPIED_LINE
+      - DISTINCTIVE_TRANSLATED_FORMULA
+      - UNIQUE_RITUAL_SEQUENCE_DEPENDENCY
+      - SOURCE_NAMING_COLOPHON
+
+  - gate_id: G14_DIRECTIONAL_EVIDENCE
+    status: OPEN
+    models:
+      - EAST_TO_WEST_INFLUENCE
+      - SHARED_WEST_ASIAN_MYTHOLOGEM
+      - WESTERN_INFLUENCE_ON_SOME_DUMUZI_RETURN_TRADITIONS
+      - BIDIRECTIONAL_INTERACTION
+      - INDEPENDENT_DEVELOPMENT_WITHIN_CONTACT_ZONE
+
+  - gate_id: G15_DIRECT_TRANSMISSION
+    status: NONE_ESTABLISHED
+    reason: "Named carrier, relevant narrative-source contact, source-specific dependency, and direction remain unestablished."
+
+supersessions:
+  - prior: "No Dumuzi-specific source identified at Ugarit"
+    current: "P332950 directly attests Dumuzi-specific scholastic exposure"
+    status: SUPERSEDED
+
+  - prior: "A.1146 death verb securely analyzed as daku kill"
+    current: "Death/harm context retained; daku lemma/morphology disputed"
+    status: SUPERSEDED
+
+refinements:
+  - topic: MARI_EVIDENCE
+    state: ASYMMETRIC_SOURCE_CEILINGS
+  - topic: BAAL_DEATH_LIFE
+    state: CROSS_TABLET_WITNESS_BOUND_SYNTHESIS
+  - topic: GOD_LIST_EQUIVALENCE
+    state: SCHOLASTIC_CORRESPONDENCE_NOT_AUTOMATIC_THEOLOGICAL_IDENTITY
+
+current_edge:
+  relation: STRUCTURAL_PARALLEL_WITH_MATERIALLY_GROUNDED_CONTACT_CAPACITY
+  direct_transmission: NONE_ESTABLISHED
+  direction: UNRESOLVED
+  influence: PLAUSIBLE_BUT_UNPROVEN
+
+guards:
+  - "contact capacity != direct transmission"
+  - "divine-name exposure != narrative-source exposure"
+  - "scholastic equation != narrative dependence"
+  - "chronological priority != source"
+  - "motif similarity != transmission"
+  - "search non-hit != historical absence"
+  - "superseded claims must not be revived by older snapshots"

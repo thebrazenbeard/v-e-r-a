@@ -1,0 +1,26 @@
+{
+  "excluded_files": [
+    {
+      "path": ".vscode/tasks.json",
+      "reason": "Microsoft Defender quarantined Trojan:Script/MalTask.A"
+    },
+    {
+      "path": "data/mediaphile_movies.sqlite3",
+      "reason": "May expose local personal media library"
+    },
+    {
+      "path": "public/fonts/fa-solid-500.woff2",
+      "reason": "Defender previously flagged this shared font asset"
+    }
+  ],
+  "limitation": "This public snapshot intentionally differs from source; omitted content remains in original upstream private repo subject to its access permissions.",
+  "mirror_tree_before_notice": "b5beb52f221c1da335feb5706939909d2d3b3385",
+  "no_source_history_imported": true,
+  "schema": "VERA_PUBLIC_SANITIZED_MIRROR_PROVENANCE_V1",
+  "security_status": "SOURCE_SNAPSHOT_WITH_EXCLUSIONS_NOT_EXACT",
+  "source_authoritative": true,
+  "source_commit": "5b566459cdcf5ba1e86726261534193b950e26a9",
+  "source_ref": "main",
+  "source_repository": "thebrazenbeard/mediaphile",
+  "source_tree_sha": "0c6b83fe2e3d7a4f03bd9f8531e87cd71e70ed65"
+}

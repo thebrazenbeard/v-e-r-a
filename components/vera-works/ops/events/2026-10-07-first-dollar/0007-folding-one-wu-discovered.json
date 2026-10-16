@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FOLD-BENCH-0001",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-FOLDING-BENCHMARK-0002",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-07T19:46:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-FOLDING-BENCHMARK-0002",
+  "causation_id": "EVT-FOLD-0007",
+  "idempotency_key": "first-dollar:folding:one-wu-benchmark:discovered:v1",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {
+    "objective": "Measure realized BananoMiner/Folding@Home payout from exactly one already-assigned GPU work unit on Lappy.",
+    "customer_required": false,
+    "upfront_capital_required": false
+  },
+  "external_effect": false
+}

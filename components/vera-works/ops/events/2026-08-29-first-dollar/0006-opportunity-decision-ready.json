@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0006",
+  "event_type": "OPPORTUNITY_READY_FOR_DECISION",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:22:57Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0005",
+  "idempotency_key": "first-dollar:opp:0001:vera-decision-ready",
+  "from_state": "SCREENING",
+  "to_state": "VERA_DECISION",
+  "payload": {
+    "recommendation": "PURSUE",
+    "why": "The opportunity has concrete current demand, no stated application fee, a $100-300 per-report range, and fits a deliverable Vera Works can produce digitally. Main unresolved issues are buyer legitimacy, exact scope/payment terms, and explicit acceptance of AI-assisted production.",
+    "alternatives": ["Continue sourcing for a lower-risk verified platform buyer.", "Create a zero-upfront B2B service listing instead of responding to a buyer.", "Reject because payment terms and buyer identity are not yet verified."],
+    "decision_owner": "vera"
+  },
+  "external_effect": false
+}

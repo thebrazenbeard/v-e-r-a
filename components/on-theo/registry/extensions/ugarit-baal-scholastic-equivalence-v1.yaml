@@ -1,0 +1,121 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-UGARIT-BAAL-SCHOLASTIC-EQUIVALENCE-V1
+base_registry_head: 40a9db034d90604b60e605a4abafab5f7946c863
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-TUGENDHAFT-2016-GODS-ON-CLAY
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_book_chapter
+    author_or_tradition: Aaron Tugendhaft
+    title: "Gods on clay: Ancient Near Eastern scholarly practices and the history of religions"
+    composition_date: {start: "2016", end: "2016", precision: publication-year}
+    access_mode: scholarly-book-chapter
+    locators:
+      - doi: "10.1017/CBO9781316226728.009"
+        url: "https://www.cambridge.org/core/books/canonical-texts-and-scholarly-practices/gods-on-clay/FB2416FA3AB003354A666F58F502C972"
+    limitations:
+      - "Used for methodological interpretation of multilingual god-list equations; direct P332950 rows remain primary textual control."
+
+claim_additions:
+  - id: CLM-UGARIT-BAAL-IMZUANNA-TESHUB-ROW
+    proposition: "P332950 column iii 14' directly aligns Mesopotamian Imzuanna, Hurrian Teššub, and Ugaritic Baal in the same trilingual scholastic witness that preserves the damaged Dumuzi row."
+    claim_type: DIRECT_MULTILINGUAL_EQUIVALENCE
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [mesopotamian, hurrian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "column iii 14': dImzuanna = Teššub = Baal"
+        relation: DIRECT_TRILINGUAL_ROW
+        access_mode: CDLI_TEXT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UGARIT-BAAL-ROW-WORDPLAY-CONTROL
+    proposition: "Modern scholarship treats the Imzuanna-Teššub-Baal equation as a warning against literal theological identity, with the Imzuanna component plausibly generated through IM-sign wordplay associated with weather-god writing."
+    claim_type: SCHOLASTIC_EQUIVALENCE_INTERPRETATION
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [mesopotamian, hurrian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-TUGENDHAFT-2016-GODS-ON-CLAY
+        locator: "discussion of Ugarit trilingual god-list scholarly practice"
+        relation: SCHOLASTIC_PRACTICE_CONTROL
+        access_mode: SCHOLARLY_BOOK_CHAPTER
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "column iii 14'"
+        relation: PRIMARY_ROW_CONTROL
+        access_mode: CDLI_TEXT
+    opposing_sources: []
+    confidence: high-for-scholastic-warning-medium-high-for-specific-wordplay-mechanism
+    contested: false
+
+  - id: CLM-GODLIST-EQUATION-NOT-FULL-THEOLOGICAL-IDENTITY
+    proposition: "The preserved Imzuanna-Teššub-Baal row demonstrates that multilingual god-list equations can encode learned scribal correspondence even across major gender or functional mismatch, so an equation cannot be treated automatically as full cultic or mythological identity."
+    claim_type: EQUIVALENCE_SEMANTIC_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mesopotamian, hurrian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "column iii 14'"
+        relation: INTERNAL_HOSTILE_CONTROL
+        access_mode: CDLI_TEXT
+      - source_id: SCH-TUGENDHAFT-2016-GODS-ON-CLAY
+        locator: "god-list comparison methodology"
+        relation: SCHOLARLY_METHOD_CONTROL
+        access_mode: SCHOLARLY_BOOK_CHAPTER
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-BAAL-PRESERVED-ROW-NOT-DUMUZI-RESTORATION
+    proposition: "Baal's preserved equation elsewhere on P332950 does not supply evidence that Baal occupied the lost Ugaritic field beside Dumuzi; the two entries are separate rows with separate scribal mappings."
+    claim_type: LOST_TEXT_RECONSTRUCTION_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "column ii 7 Dumuzi row; column iii 14' Baal row"
+        relation: SAME_WITNESS_ROW_SEPARATION
+        access_mode: CDLI_TEXT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UGARIT-EQUIVALENCE-ROW-SPECIFIC-RATIONALE
+    proposition: "P332950 contains both intuitively functional equations such as Utu-Šimigi-Šapšu and irregular learned equations such as Imzuanna-Teššub-Baal, requiring row-specific analysis of the scribal rationale before stronger theological inference."
+    claim_type: SCHOLASTIC_METHOD_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mesopotamian, hurrian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "column ii 18 and column iii 14'"
+        relation: INTERNAL_COMPARATIVE_CONTROL
+        access_mode: CDLI_TEXT
+      - source_id: SCH-TUGENDHAFT-2016-GODS-ON-CLAY
+        locator: "multilingual god-list scholarly practices"
+        relation: METHOD_INTERPRETATION
+        access_mode: SCHOLARLY_BOOK_CHAPTER
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZID-BAAL-SHARED-SCHOLASTIC-SYSTEM-NOT-LINEAGE
+    proposition: "Dumuzi and Baal are both directly represented within P332950's multilingual scholastic system, but their co-presence in one lexical tablet establishes shared scribal knowledge rather than a Dumuzi=Baal equation or narrative lineage."
+    claim_type: TRANSMISSION_SCOPE_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "column ii 7 and column iii 14'"
+        relation: SHARED_WITNESS_SCHOLASTIC_CONTEXT
+        access_mode: CDLI_TEXT
+    opposing_sources: []
+    confidence: high
+    contested: false

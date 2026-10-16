@@ -1,0 +1,30 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0013",
+  "event_type": "DELIVERABLE_READY_FOR_VERA_REVIEW",
+  "subject_type": "deliverable",
+  "subject_id": "DLV-FD-APP-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:34:53Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0012",
+  "idempotency_key": "first-dollar:deliverable:application:0001:vera-review",
+  "from_state": "DRAFTING",
+  "to_state": "VERA_REVIEW",
+  "payload": {
+    "files": [
+      "work/first-dollar/OPP-FD-0001/application-message.md",
+      "work/first-dollar/OPP-FD-0001/capability-profile.md",
+      "work/first-dollar/OPP-FD-0001/writing-sample-eu-ai-act-2026.md"
+    ],
+    "checks": [
+      "Posting refreshed and still live before drafting",
+      "Buyer requirements represented without embellishment",
+      "AI assistance disclosed explicitly",
+      "No fabricated credentials, client history, testimonials, or LinkedIn profile",
+      "Writing sample uses current European Commission sources",
+      "No external effect performed"
+    ]
+  },
+  "external_effect": false
+}

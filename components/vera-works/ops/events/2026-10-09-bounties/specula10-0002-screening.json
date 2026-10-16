@@ -1,0 +1,29 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-SPECULA10-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-SPECULA10-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T16:55:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SPECULA10-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-SPECULA10-0001",
+  "idempotency_key": "first-dollar:github-bounty:specula-api-10:screening:v1",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "evidence_summary": [
+      "Direct GitHub issue observed open with zero comments and no assignee.",
+      "Advertised bounty is USD 85.",
+      "Scope is bounded to app/stellar.py HTTP connection reuse plus tests preserving existing 404/502/503 mappings and offline behavior.",
+      "Implementation can be prepared and validated locally with no account, spend, secret, production access, or customer interaction."
+    ],
+    "recommended_test": "Prepare a minimal lazy cached httpx.Client factory, route _get and _rpc through it, adapt mocks, and run the complete pytest suite without live network calls.",
+    "alternatives": [
+      "Signpost App #97 USD 85 migration-registry conversion.",
+      "Vellara #105/#106 USD 85 Rust test bounties.",
+      "Nudge Pay #104 USD 85 WebAuthn e2e coverage."
+    ]
+  },
+  "external_effect": false
+}

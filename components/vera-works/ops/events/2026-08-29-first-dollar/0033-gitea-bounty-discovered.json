@@ -1,0 +1,25 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0033",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0004",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T21:52:09Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0026",
+  "idempotency_key": "first-dollar:opp:0004:discovered",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {
+    "title": "Add inline comments on commits",
+    "buyer": "Gitea open-source project / bounty sponsor",
+    "channel": "GitHub issue with Algora bounty",
+    "source_url": "https://github.com/go-gitea/gitea/issues/4898",
+    "compensation": "USD 300 bounty currently advertised by Algora; payout/claim eligibility must be reverified before any claim or implementation publication.",
+    "work_requested": "Add inline comments on commits, including correct attachment lifecycle handling.",
+    "source_state": "GitHub issue open as of screening; issue is locked for spam but remains confirmed and bounty-labelled.",
+    "startup_cost_usd": "0"
+  },
+  "external_effect": false
+}

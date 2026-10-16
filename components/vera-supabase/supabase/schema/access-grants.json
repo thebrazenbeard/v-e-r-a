@@ -1,0 +1,6700 @@
+{
+  "schema": "VERA_SUPABASE_CATALOG_SNAPSHOT_V1",
+  "project_ref": "klmbpaigzeguvnpccqzz",
+  "catalog": "access-grants",
+  "items": [
+    {
+      "table_schema": "bug_ops",
+      "table_name": "bug_events",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "bug_events",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "bug_events",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "bug_events",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "bug_events",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "bug_events",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "bug_events",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "bug_reports",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "bug_reports",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "bug_reports",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "bug_reports",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "bug_reports",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "bug_reports",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "bug_reports",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "dispatch_events",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "dispatch_events",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "dispatch_events",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "dispatch_events",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "dispatch_events",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "dispatch_events",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "dispatch_events",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "dispatch_events_v2",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "dispatch_events_v2",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "dispatch_events_v2",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "dispatch_events_v2",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "dispatch_events_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "dispatch_events_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "dispatch_events_v2",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "operation_receipts",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "operation_receipts",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "operation_receipts",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "operation_receipts",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "operation_receipts",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "operation_receipts",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "operation_receipts",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "role_registry",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "role_registry",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "role_registry",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "role_registry",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "role_registry",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "role_registry",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "role_registry",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "system_config",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "system_config",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "system_config",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "system_config",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "system_config",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "system_config",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "bug_ops",
+      "table_name": "system_config",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "collectives",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "collectives",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "collectives",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "collectives",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "collectives",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "collectives",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "collectives",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "decisions",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "decisions",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "decisions",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "decisions",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "decisions",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "decisions",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "decisions",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "facets",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "facets",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "facets",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "facets",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "facets",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "facets",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "facets",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "memory_events",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "memory_events",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "memory_events",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "memory_events",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "memory_events",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "memory_events",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "memory_events",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "one_working_laws_current",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "one_working_laws_current",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "one_working_laws_current",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "one_working_laws_current",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "one_working_laws_current",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "one_working_laws_current",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "one_working_laws_current",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "perspectives",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "perspectives",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "perspectives",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "perspectives",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "perspectives",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "perspectives",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "perspectives",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_operational_checkpoint_current",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_operational_checkpoint_current",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_operational_checkpoint_current",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_operational_checkpoint_current",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_operational_checkpoint_current",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_operational_checkpoint_current",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_operational_checkpoint_current",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_operational_checkpoints",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_operational_checkpoints",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_operational_checkpoints",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_operational_checkpoints",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_operational_checkpoints",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_operational_checkpoints",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_operational_checkpoints",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_current",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_current",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_current",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_current",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_current",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_current",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_current",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_current_resolved",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_current_resolved",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_current_resolved",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_current_resolved",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_current_resolved",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_current_resolved",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_current_resolved",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_packages",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_packages",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_packages",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_packages",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_packages",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_packages",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_packages",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_qualifications",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_qualifications",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_qualifications",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_qualifications",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_qualifications",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_qualifications",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "role_training_qualifications",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "tasks",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "tasks",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "tasks",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "tasks",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "tasks",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "tasks",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "build_team_2",
+      "table_name": "tasks",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_active_datum_index_v2",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_active_datum_index_v2",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_active_datum_index_v2",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_active_datum_index_v2",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_active_datum_index_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_active_datum_index_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_active_datum_index_v2",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_active_datum_index_v2",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_active_datum_index_v2",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_active_datum_index_v2",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_active_datum_index_v2",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_active_datum_index_v2",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_active_datum_index_v2",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_active_datum_index_v2",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_context_events_v3",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_context_events_v3",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_context_events_v3",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_context_events_v3",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_context_events_v3",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_context_events_v3",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_context_events_v3",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_context_events_v3",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_context_events_v3",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_context_events_v3",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_context_events_v3",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_context_events_v3",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_context_events_v3",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_context_events_v3",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_events",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_events",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_events",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_events",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_events",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_events",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_events",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_events",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_events",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_events",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_events",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_events",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_events",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_events",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_latest",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_latest",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_latest",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_latest",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_latest",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_latest",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_latest",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_latest",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_latest",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_latest",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_latest",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_latest",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_latest",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_latest",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_open_issues",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_open_issues",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_open_issues",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_open_issues",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_open_issues",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_open_issues",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_open_issues",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_open_issues",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_open_issues",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_open_issues",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_open_issues",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_open_issues",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_open_issues",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_coordination_open_issues",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_context_v3",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_context_v3",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_context_v3",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_context_v3",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_context_v3",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_context_v3",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_context_v3",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_context_v3",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_context_v3",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_context_v3",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_context_v3",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_context_v3",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_context_v3",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_context_v3",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_save_state",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_save_state",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_save_state",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_save_state",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_save_state",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_save_state",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_save_state",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_save_state",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_save_state",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_save_state",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_save_state",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_save_state",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_save_state",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_current_save_state",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_inactive_datum_archive_v2",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_inactive_datum_archive_v2",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_inactive_datum_archive_v2",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_inactive_datum_archive_v2",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_inactive_datum_archive_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_inactive_datum_archive_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_inactive_datum_archive_v2",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_inactive_datum_archive_v2",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_inactive_datum_archive_v2",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_inactive_datum_archive_v2",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_inactive_datum_archive_v2",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_inactive_datum_archive_v2",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_inactive_datum_archive_v2",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_inactive_datum_archive_v2",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_quarantine",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_quarantine",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_quarantine",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_quarantine",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_quarantine",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_quarantine",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_quarantine",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_quarantine",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_quarantine",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_quarantine",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_quarantine",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_quarantine",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_quarantine",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_quarantine",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_reviewable",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_reviewable",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_reviewable",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_reviewable",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_reviewable",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_reviewable",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_reviewable",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_reviewable",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_reviewable",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_reviewable",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_reviewable",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_reviewable",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_reviewable",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_legacy_reviewable",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_events",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_events",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_events",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_events",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_events",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_events",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_events",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_events",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_events",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_events",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_events",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_events",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_events",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_events",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_head_status",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_head_status",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_head_status",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_head_status",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_head_status",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_head_status",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_head_status",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_head_status",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_head_status",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_head_status",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_head_status",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_head_status",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_head_status",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_head_status",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_heads",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_heads",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_heads",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_heads",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_heads",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_heads",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_heads",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_heads",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_heads",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_heads",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_heads",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_heads",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_heads",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_heads",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_supersession_edges",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_supersession_edges",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_supersession_edges",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_supersession_edges",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_supersession_edges",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_supersession_edges",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_supersession_edges",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_supersession_edges",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_supersession_edges",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_supersession_edges",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_supersession_edges",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_supersession_edges",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_supersession_edges",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_save_state_supersession_edges",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_verified_datum_heads_v2",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_verified_datum_heads_v2",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_verified_datum_heads_v2",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_verified_datum_heads_v2",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_verified_datum_heads_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_verified_datum_heads_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_verified_datum_heads_v2",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_verified_datum_heads_v2",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_verified_datum_heads_v2",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_verified_datum_heads_v2",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_verified_datum_heads_v2",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_verified_datum_heads_v2",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_verified_datum_heads_v2",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "brigit_verified_datum_heads_v2",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_active_datum_index_v2",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_active_datum_index_v2",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_active_datum_index_v2",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_active_datum_index_v2",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_active_datum_index_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_active_datum_index_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_active_datum_index_v2",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_active_datum_index_v2",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_events_v1",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_events_v1",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_events_v1",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_events_v1",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_events_v1",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_events_v1",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_state_v1",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_state_v1",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_state_v1",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_state_v1",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_state_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_state_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_state_v1",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_state_v1",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_state_v1",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_state_v1",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_state_v1",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_affective_runtime_state_v1",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_context_events_v3",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_context_events_v3",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_context_events_v3",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_context_events_v3",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_context_events_v3",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_context_events_v3",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_context_events_v3",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_context_events_v3",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_context_events_v3",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_context_events_v3",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_context_events_v3",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_context_events_v3",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_context_events_v3",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_context_events_v3",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_events",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_events",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_events",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_events",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_events",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_events",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_events",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_events",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_events",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_latest",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_latest",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_latest",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_latest",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_latest",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_latest",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_latest",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_latest",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_open_issues",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_open_issues",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_open_issues",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_open_issues",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_open_issues",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_open_issues",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_open_issues",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_coordination_open_issues",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_context_v3",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_context_v3",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_context_v3",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_context_v3",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_context_v3",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_context_v3",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_context_v3",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_context_v3",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_save_state",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_save_state",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_save_state",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_save_state",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_save_state",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_save_state",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_save_state",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_current_save_state",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_inactive_datum_archive_v2",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_inactive_datum_archive_v2",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_inactive_datum_archive_v2",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_inactive_datum_archive_v2",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_inactive_datum_archive_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_inactive_datum_archive_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_inactive_datum_archive_v2",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_inactive_datum_archive_v2",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_quarantine",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_quarantine",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_quarantine",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_quarantine",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_quarantine",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_quarantine",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_quarantine",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_quarantine",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_reviewable",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_reviewable",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_reviewable",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_reviewable",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_reviewable",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_reviewable",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_reviewable",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_legacy_reviewable",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_archive_receipts_v1",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_archive_receipts_v1",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_archive_receipts_v1",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_archive_receipts_v1",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_archive_receipts_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_archive_receipts_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_archive_receipts_v1",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_provider_receipts_v1",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_provider_receipts_v1",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_provider_receipts_v1",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_provider_receipts_v1",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_provider_receipts_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_provider_receipts_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_provider_receipts_v1",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_subjects_v1",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_subjects_v1",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_subjects_v1",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_subjects_v1",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_subjects_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_subjects_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_memory_epoch_subjects_v1",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_route_evidence_v1",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_route_evidence_v1",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_route_evidence_v1",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_route_evidence_v1",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_route_evidence_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_route_evidence_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_route_evidence_v1",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_route_evidence_v1",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_route_evidence_v1",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_route_evidence_v1",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_route_evidence_v1",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_route_evidence_v1",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_route_evidence_v1",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_route_evidence_v1",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_test_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_test_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_test_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_test_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_test_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_test_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_test_events_v1",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_test_events_v1",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_test_events_v1",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_test_events_v1",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_test_events_v1",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_test_events_v1",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_test_events_v1",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_optional_invocation_test_events_v1",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_bindings",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_bindings",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_bindings",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_bindings",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_bindings",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_bindings",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_bindings",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_bindings",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_bindings",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_bindings",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_bindings",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_bindings",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_bindings",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_bindings",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_current",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_current",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_current",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_current",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_current",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_current",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_current",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_current",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_current",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_current",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_current",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_current",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_current",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_current",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_events",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_events",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_events",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_events",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_events",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_events",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_events",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_events",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_events",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_events",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_events",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_events",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_events",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_events",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_readback_confirmations",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_readback_confirmations",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_readback_confirmations",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_readback_confirmations",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_readback_confirmations",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_readback_confirmations",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_readback_confirmations",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_readback_confirmations",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_readback_confirmations",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_readback_confirmations",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_readback_confirmations",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_readback_confirmations",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_readback_confirmations",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_readback_confirmations",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_requests",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_requests",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_requests",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_requests",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_requests",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_requests",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_requests",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_requests",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_requests",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_requests",
+      "grantee": "service_role",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_requests",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_requests",
+      "grantee": "service_role",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_requests",
+      "grantee": "service_role",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_portable_bootstrap_requests",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_events",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_events",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_events",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_events",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_events",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_events",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_events",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_events",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_events",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_head_status",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_head_status",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_head_status",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_head_status",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_head_status",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_head_status",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_head_status",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_head_status",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_heads",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_heads",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_heads",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_heads",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_heads",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_heads",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_heads",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_heads",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_supersession_edges",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_supersession_edges",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_supersession_edges",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_supersession_edges",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_supersession_edges",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_supersession_edges",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_supersession_edges",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_save_state_supersession_edges",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_verified_datum_heads_v2",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_verified_datum_heads_v2",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_verified_datum_heads_v2",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_verified_datum_heads_v2",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_verified_datum_heads_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_verified_datum_heads_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_verified_datum_heads_v2",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "public",
+      "table_name": "vera_verified_datum_heads_v2",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "acknowledgements",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "acknowledgements",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "acknowledgements",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "acknowledgements",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "acknowledgements",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "acknowledgements",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "acknowledgements",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "acknowledgements",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "acknowledgements",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "acknowledgements",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "acknowledgements",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignment_events",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignment_events",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignment_events",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignment_events",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignment_events",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignment_events",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignment_events",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignment_events",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignment_events",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignment_events",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignment_events",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignments",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignments",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignments",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignments",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignments",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignments",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignments",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignments",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignments",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignments",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "assignments",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dead_letters",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dead_letters",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dead_letters",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dead_letters",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dead_letters",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dead_letters",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dead_letters",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dead_letters",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dead_letters",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dead_letters",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dead_letters",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "delivery_events",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "delivery_events",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "delivery_events",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "delivery_events",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "delivery_events",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "delivery_events",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "delivery_events",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "delivery_events",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "delivery_events",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "delivery_events",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "delivery_events",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dependencies",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dependencies",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dependencies",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dependencies",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dependencies",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dependencies",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dependencies",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dependencies",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dependencies",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dependencies",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "dependencies",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "endpoints",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "endpoints",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "endpoints",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "endpoints",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "endpoints",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "endpoints",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "endpoints",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "endpoints",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "endpoints",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "endpoints",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "endpoints",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "github_oidc_replay_guard",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "github_oidc_replay_guard",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "github_oidc_replay_guard",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "github_oidc_replay_guard",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "github_oidc_replay_guard",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "github_oidc_replay_guard",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "github_oidc_replay_guard",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "health_events",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "health_events",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "health_events",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "health_events",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "health_events",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "health_events",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "health_events",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "health_events",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "health_events",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "health_events",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "health_events",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identities",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identities",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identities",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identities",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identities",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identities",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identities",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identities",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identities",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identities",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identities",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v1",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v1",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v1",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v1",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v1",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v1",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v2",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v2",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v2",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v2",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v2",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v2",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_message_status_v2",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_visuals",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_visuals",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_visuals",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_visuals",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_visuals",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_visuals",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_visuals",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_visuals",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_visuals",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_visuals",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "identity_visuals",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "messages",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "messages",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "messages",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "messages",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "messages",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "messages",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "messages",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "messages",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "messages",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "messages",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "messages",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "nodes",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "nodes",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "nodes",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "nodes",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "nodes",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "nodes",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "nodes",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "nodes",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "nodes",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "nodes",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "nodes",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "open_assignments_v1",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "open_assignments_v1",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "open_assignments_v1",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "open_assignments_v1",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "open_assignments_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "open_assignments_v1",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "open_assignments_v1",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "open_assignments_v1",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batch_files",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batch_files",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batch_files",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batch_files",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batch_files",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batch_files",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batch_files",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batch_files",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batches",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batches",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batches",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batches",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batches",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batches",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batches",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_batches",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_lane_state",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_lane_state",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_lane_state",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_lane_state",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_lane_state",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_lane_state",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_lane_state",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "projection_lane_state",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "reconciliation_events",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "reconciliation_events",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "reconciliation_events",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "reconciliation_events",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "reconciliation_events",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "reconciliation_events",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "reconciliation_events",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "reconciliation_events",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "reconciliation_events",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "reconciliation_events",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "reconciliation_events",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "subscriptions",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "subscriptions",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "subscriptions",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "subscriptions",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "subscriptions",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "subscriptions",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "subscriptions",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "subscriptions",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "subscriptions",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "subscriptions",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "subscriptions",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "telemetry",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "telemetry",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "telemetry",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "telemetry",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "telemetry",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "telemetry",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "telemetry",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "telemetry",
+      "grantee": "service_role",
+      "privilege_type": "DELETE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "telemetry",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "telemetry",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "radar",
+      "table_name": "telemetry",
+      "grantee": "service_role",
+      "privilege_type": "UPDATE",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "lineage_events",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "lineage_events",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "lineage_events",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "lineage_events",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "lineage_events",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "lineage_events",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "lineage_events",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "lineage_state",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "lineage_state",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "lineage_state",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "lineage_state",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "lineage_state",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "lineage_state",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "lineage_state",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "runtime_registry",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "runtime_registry",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "runtime_registry",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "runtime_registry",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "runtime_registry",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "runtime_registry",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "runtime_registry",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "succession_transfers",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "succession_transfers",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "succession_transfers",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "succession_transfers",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "succession_transfers",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "succession_transfers",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "redworm",
+      "table_name": "succession_transfers",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "active_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "active_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "active_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "active_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "active_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "active_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "active_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "active_runtime_objects",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "canonical_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "canonical_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "canonical_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "canonical_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "canonical_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "canonical_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "canonical_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "canonical_runtime_objects",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_current_state",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_current_state",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_current_state",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_current_state",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_current_state",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_current_state",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_current_state",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_policy",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_policy",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_policy",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_policy",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_policy",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_policy",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_policy",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_policy",
+      "grantee": "service_role",
+      "privilege_type": "INSERT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "capture_policy",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "pending_semantic_captures",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "pending_semantic_captures",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "pending_semantic_captures",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "pending_semantic_captures",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "pending_semantic_captures",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "pending_semantic_captures",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "pending_semantic_captures",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "research_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "research_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "research_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "research_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "research_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "research_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "research_runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "research_runtime_objects",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_objects",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_objects",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_snapshots",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_snapshots",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_snapshots",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_snapshots",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_snapshots",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_snapshots",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_snapshots",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "runtime_snapshots",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_events",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_events",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_events",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_events",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_events",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_events",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_events",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_events",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_outcomes",
+      "grantee": "postgres",
+      "privilege_type": "DELETE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_outcomes",
+      "grantee": "postgres",
+      "privilege_type": "INSERT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_outcomes",
+      "grantee": "postgres",
+      "privilege_type": "REFERENCES",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_outcomes",
+      "grantee": "postgres",
+      "privilege_type": "SELECT",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_outcomes",
+      "grantee": "postgres",
+      "privilege_type": "TRIGGER",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_outcomes",
+      "grantee": "postgres",
+      "privilege_type": "TRUNCATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_outcomes",
+      "grantee": "postgres",
+      "privilege_type": "UPDATE",
+      "is_grantable": "YES"
+    },
+    {
+      "table_schema": "semantic_atlas",
+      "table_name": "semantic_capture_outcomes",
+      "grantee": "service_role",
+      "privilege_type": "SELECT",
+      "is_grantable": "NO"
+    }
+  ],
+  "contains_runtime_records": false
+}

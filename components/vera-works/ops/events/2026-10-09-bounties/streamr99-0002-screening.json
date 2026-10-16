@@ -1,0 +1,29 @@
+{
+  "schema_version":"event-v1",
+  "event_id":"EVT-BOUNTY-STREAMR99-0002",
+  "event_type":"OPPORTUNITY_SCREENING_STARTED",
+  "subject_type":"opportunity",
+  "subject_id":"OPP-FIRST-DOLLAR-STREAMR99-BOUNTY-0001",
+  "actor":"vera:works-operator",
+  "recorded_at":"2026-10-09T18:49:01Z",
+  "correlation_id":"CORR-FIRST-DOLLAR-STREAMR99-BOUNTY-0001",
+  "causation_id":"EVT-BOUNTY-STREAMR99-0001",
+  "idempotency_key":"first-dollar:github-bounty:streamr-99:screening:v1",
+  "from_state":"DISCOVERED",
+  "to_state":"SCREENING",
+  "payload":{
+    "evidence_summary":[
+      "Issue #99 is open with zero comments and no assignee.",
+      "Advertised bounty is USD 90.",
+      "The requested fix is a bounded contract invariant: reject deposits to inactive subscriptions with Error::SubscriptionInactive and make repeated cancellation non-effectful.",
+      "Acceptance requires contract balance stability on failed deposit, no fund movement on a second cancel, cargo test green, and contracts CI green."
+    ],
+    "recommended_test":"Patch deposit_to_subscription and cancel_subscription minimally, then add deterministic Soroban lifecycle tests around cancellation/deposit behavior.",
+    "alternatives":[
+      "Streamr #97 USD 95 refund-accounting fix with broader accounting surface.",
+      "Streamr #100 USD 85 remainder-policy change spanning contract and UI.",
+      "Streamr #94 USD 75 accessibility patch."
+    ]
+  },
+  "external_effect":false
+}

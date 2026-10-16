@@ -1,0 +1,3 @@
+numpy==2.4.6
+scipy==1.17.1
+-e git+https://github.com/thebrazenbeard/unvtrslr@65e46eda379d7470acfe755aff79dbdd5431c382#egg=unvtrslr

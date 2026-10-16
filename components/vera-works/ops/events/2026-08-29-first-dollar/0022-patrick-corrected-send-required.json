@@ -1,0 +1,36 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0022",
+  "event_type": "PATRICK_ACTION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-FD-0003",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:39:15Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0021",
+  "idempotency_key": "first-dollar:hold:0003:open:manual-reddit-send-corrected",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "PATRICK_ACTION_REQUIRED",
+    "problem": "The corrected application is ready, but the Reddit DM remains an external account action requiring Patrick under the one-application authorization.",
+    "held_subject_type": "deliverable",
+    "held_subject_id": "DLV-FD-APP-0002",
+    "held_state": "APPROVED",
+    "required_from": "patrick",
+    "recommendation": "If still willing, send only the corrected application message. It states that Patrick is not the researcher and does not work for Vera Works; Patrick is only the human account/legal/financial proxy.",
+    "alternatives": [
+      "Decline to send and resume sourcing through a channel better suited to an AI-operated business.",
+      "Send the corrected fit-check/application and let the buyer decide whether this operating model is eligible."
+    ],
+    "consequences": [
+      "The unconventional operating model may be rejected because the posting asks for a conventional researcher resume/LinkedIn profile.",
+      "Sending does not accept work, create a contract, or authorize any other Reddit action.",
+      "The superseded DLV-FD-APP-0001 message must not be sent."
+    ],
+    "inaction_effect": "Nothing external happens; the assignment remains held.",
+    "completion_evidence": "Patrick reports SENT and approximate time, or DECLINE. No credentials or account identifiers are required.",
+    "resume_event_type": "PATRICK_REDDIT_APPLICATION_SENT_RECORDED"
+  },
+  "external_effect": false
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "HOLD-BOUNTY-SIGNPOST102-0001",
+  "event_type": "PATRICK_DECISION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-BOUNTY-SIGNPOST102-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-08T21:04:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SIGNPOST102-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-SIGNPOST102-0004",
+  "idempotency_key": "first-dollar:github-bounty:signpost-contracts-102:patrick-publication-decision:v1",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "PATRICK_DECISION_REQUIRED",
+    "problem": "The local Signpost contracts #102 bounty patch is complete and validated, but claiming the bounty and publishing the contribution require public actions through Patrick's GitHub identity. Current canonical authorization stops before issue comments, claims, forks, pushes, pull requests, terms, or payout steps.",
+    "held_subject_type": "opportunity",
+    "held_subject_id": "OPP-FIRST-DOLLAR-SIGNPOST102-BOUNTY-0001",
+    "held_state": "APPROVED",
+    "required_from": "patrick",
+    "recommendation": "Authorize this exact instance: use Patrick's GitHub identity to comment on Signpost-Labs/signpost-contracts issue #102 requesting assignment/claim, create or use a fork only if required, publish the prepared commit as a narrowly scoped branch, and open one PR referencing Closes #102. Do not accept any additional platform terms, submit tax/identity/payment information, or configure payout rails without a separate Patrick-owned decision.",
+    "alternatives": [
+      "Decline publication and keep the patch archived internally; no public GitHub action occurs.",
+      "Authorize only the issue claim comment, then hold again before fork/push/PR.",
+      "Wait, accepting the risk another contributor takes the USD 95 bounty."
+    ],
+    "consequences": [
+      "Patrick's GitHub account will make a public commercial contribution and may be associated with a bounty claim.",
+      "The advertised reward is USD 95 but payment is not guaranteed until maintainers accept/merge under their bounty process.",
+      "Fresh check immediately before preservation found issue #102 open with zero comments and no assignee.",
+      "Linux harness passes all three required outcomes: safe fixture exit 0, breaking fixture exit 1, acknowledged breaking exit 0.",
+      "Deleting a required fixture in a disposable copy makes the harness fail immediately with exit 1.",
+      "bash -n and git diff --check pass for the changed shell/workflow files.",
+      "The prepared commit changes exactly three files: contract CI, the compatibility checker fixture-path handling, and the new regression harness.",
+      "The repository contains an MIT License; no separate root contributor agreement or explicit contribution-assent text was identified.",
+      "No spend, secrets, production access, payout setup, or customer data are required to publish the contribution itself."
+    ],
+    "inaction_effect": "The validated patch remains preserved in Vera Works and locally, but Signpost #102 stays unclaimed by Vera Works and another contributor may claim or complete the USD 95 bounty.",
+    "resume_event_type": "PATRICK_SIGNPOST102_PUBLICATION_DECISION_RECORDED",
+    "completion_evidence_requested": "Patrick records AUTHORIZE or DECLINE for public GitHub claim/fork/push/PR actions for Signpost-Labs/signpost-contracts issue #102. No GitHub credential, password, token, wallet, tax identifier, or payout account detail belongs in the event store.",
+    "prepared_deliverable": {
+      "upstream_repository": "Signpost-Labs/signpost-contracts",
+      "upstream_issue": 102,
+      "advertised_reward_usd": "95",
+      "upstream_base_sha": "3d8bdb95cd64fde0a98e6112b70efed7dd4cb3a9",
+      "local_commit_sha": "a1331cb7dbd3a7a8134b324b47f0b351e60d47c9",
+      "durable_patch": "ops/artifacts/2026-10-08-signpost102-bounty/signpost-issue-102.patch",
+      "harness_command": "bash scripts/tests/check-storage-layout-compat.test.sh",
+      "harness_result": "safe=0; breaking=1; acknowledged_breaking=0",
+      "missing_fixture_result": "required fixture removed in disposable copy -> harness exit 1"
+    }
+  },
+  "external_effect": false
+}

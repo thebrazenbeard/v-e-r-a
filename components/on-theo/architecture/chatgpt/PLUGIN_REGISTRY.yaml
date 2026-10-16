@@ -1,0 +1,88 @@
+schema_version: nature-of-existence.plugin-registry.v1
+status: PROJECT_CAPABILITY_MAP
+
+canonical:
+  github:
+    role: DURABLE_SOURCE_OF_TRUTH
+    authority:
+      - repository_state
+      - committed_research_state
+
+candidate_derived_data_plane:
+  wowsql:
+    role: DERIVED_RELATIONAL_RESEARCH_INDEX
+    authority: NONE
+    requirements:
+      - rebuildable_from_github
+      - every_record_carries_git_provenance
+      - database_loss_must_not_lose_epistemic_state
+    current_status: CANDIDATE_NOT_BOUND
+    note: connector returned an internal error during this chat
+
+paused:
+  supabase:
+    role: NOT_ADOPTED
+    note: explicitly paused by Patrick during architecture discussion
+
+research_acquisition:
+  scispace:
+    role: SCHOLARLY_DISCOVERY_AND_TRIAGE
+  parallel_search:
+    role: WEB_DISCOVERY_AND_EXTRACTION
+  life_science_research:
+    role: SPECIALIZED_BIOMEDICAL_AND_LIFE_SCIENCE_RESEARCH
+  google_drive:
+    role: EXTERNAL_DOCUMENT_CONTAINER_AND_WORKING_SOURCE
+    authority: SOURCE_CONTAINER_ONLY
+
+formal_computation:
+  wolfram:
+    role: MATHEMATICS_STATISTICS_ASTRONOMY_AND_CURATED_COMPUTATION
+
+execution_and_verification:
+  codex_engineering_guardrails:
+    role: IMPLEMENTATION_AND_INDEPENDENT_VERIFICATION_DISCIPLINE
+  codex_coordinator:
+    role: BOUNDED_PARALLEL_ENGINEERING_COORDINATION
+  codex_process_jobs:
+    role: LONG_RUNNING_EXECUTION_AND_BENCHMARKS
+  remote_desktop_commander:
+    role: AUTHORIZED_LOCAL_EXECUTION_PLANE
+  hugging_face:
+    role:
+      - MODEL_DISCOVERY
+      - DATASET_DISCOVERY
+      - EXTERNAL_COMPUTE
+  nvidia_skills:
+    role: NVIDIA_SPECIFIC_GPU_AND_AI_STACK_EXPERTISE
+  superpowers:
+    role: OPTIONAL_EXECUTION_METHODOLOGY
+    status: NO_FIRST_CLASS_BINDING_YET
+
+coordination:
+  linear:
+    role: OPTIONAL_WORK_TRACKING
+    authority: NONE
+
+product_and_presentation:
+  figma:
+    role: DESIGN
+  lovable:
+    role: APPLICATION_PROTOTYPING
+  vercel:
+    role: HOSTING_AND_RUNTIME
+
+other:
+  onegate:
+    role: NO_CURRENT_ON_THEO_USE_CASE
+  veramesh:
+    role: OPTIONAL_TRANSPORT_OR_EXECUTION_IF_ACCESSIBLE
+    authority: NONE
+  verarelay:
+    role: OPTIONAL_TRANSPORT_OR_EXECUTION_IF_ACCESSIBLE
+    authority: NONE
+
+global_guards:
+  - PLUGIN_OUTPUT_NE_CANONICAL_RESEARCH_STATE
+  - TOOL_CONVENIENCE_NE_EVIDENCE_AUTHORITY
+  - IMPORTANT_RESULTS_MUST_BE_PERSISTED_WITH_PROVENANCE

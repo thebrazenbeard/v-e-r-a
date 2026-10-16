@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-SOUNDING103-0003",
+  "event_type": "OPPORTUNITY_VERA_DECISION",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-SOUNDING103-BOUNTY-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-08T20:15:18Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SOUNDING103-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-SOUNDING103-0002",
+  "idempotency_key": "first-dollar:github-bounty:sounding103:vera-decision:v1",
+  "from_state": "SCREENING",
+  "to_state": "VERA_DECISION",
+  "payload": {
+    "decision": "AUTHORIZE_LOCAL_PATCH_PREPARATION_ONLY",
+    "reason": "This is an uncontested zero-capital bounty with a small deterministic offline acceptance surface and strong dollars-per-hour potential.",
+    "claim_ceiling": "Clone/read public source, implement and test locally on Lappy only; no claim comment, fork, push to upstream, PR to upstream, terms acceptance, payout setup, or other consequential external effect."
+  },
+  "external_effect": false
+}

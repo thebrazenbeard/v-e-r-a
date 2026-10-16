@@ -1,0 +1,39 @@
+schema_version: on-theo.ugarit-dumuzi-alphabetic-search.v1
+status: NO_CONTROLLED_HIT_TARGETED_SEARCH_HISTORICAL_ABSENCE_NOT_PROVEN
+subject:
+  predecessor_pr: 58
+  predecessor_head: c360b0d99323144815c88e8dfbc5cf81c6e45009
+
+search:
+  target: ALPHABETIC_UGARITIC_DUMUZI_TAMMUZ
+  queries:
+    - Dumuzi
+    - Dumuzid
+    - Tammuz
+    - tmz
+    - dmz
+  surfaces:
+    - ORACC_AEMW_UGARIT_DIVINE_NAME_INDEX
+    - ORACC_AEMW_UGARIT_UGARITIC_GLOSSARY
+    - WEB_UGARIT_RITUAL_OFFERING_SEARCH
+    - WEB_RAS_SHAMRA_DUMUZI_SEARCH
+  controlled_hits: 0
+
+positive_control:
+  source: WIT-UGARIT-WEIDNER-P332950
+  evidence_type: SYLLABIC_SCHOLASTIC_DUMUZI_ATTESTATION
+  alphabetic_ugaritic: false
+
+states:
+  dumuzi_specific_scholastic_exposure: SUPPORTED
+  alphabetic_ugaritic_dumuzi_occurrence: NOT_FOUND_IN_TARGETED_V1_SEARCH
+  local_dumuzi_cult: NOT_ESTABLISHED
+  dumuzi_narrative_at_ugarit: NOT_ESTABLISHED
+  historical_absence: NOT_PROVEN
+  direct_dumuzid_baal_dependence: NONE_ESTABLISHED
+
+guards:
+  - "digital search non-hit != historical absence"
+  - "syllabic scholastic occurrence != alphabetic cult occurrence"
+  - "lookalike consonants != defensible cognate"
+  - "school-list exposure != local cult integration"

@@ -1,0 +1,68 @@
+schema_version: on-theo.dumuzid-seasonal-hypothesis.v1
+status: PARTIAL_PASS_HALF_YEAR_CHANGES_REQUIRED_SIMPLE_VEGETATION_MODEL
+subject:
+  predecessor_pr: 46
+  predecessor_head: b0873f7840e1d336bc63570e017a5de45b0e6fe4
+
+propositions:
+  - proposition_id: PROP-DUMUZID-HALF-YEAR-ALTERNATION
+    statement: "Dumuzid and his sister alternate half-year terms."
+    evidence_class: PRIMARY_TEXT
+    status: SUPPORTED_HIGH
+    source: "Inana's Descent c.1.4.1 lines 404-410"
+
+  - proposition_id: PROP-DUMUZID-SEASONAL-CORRELATION
+    statement: "The half-year alternation correlates with a seasonal cycle."
+    evidence_class: SCHOLARLY_INTERPRETATION
+    status: PLAUSIBLE_NOT_TEXTUALLY_EXPLICIT
+
+  - proposition_id: PROP-DUMUZID-VEGETATION-DEITY
+    statement: "Dumuzid is fundamentally a vegetation deity."
+    evidence_class: SCHOLARLY_INTERPRETATION
+    status: CONTESTED_AND_OVERBROAD
+    alternatives:
+      - SHEPHERD_DEITY
+      - ROYAL_KINGSHIP_FIGURE
+      - NETHERWORLD_OFFICER
+      - SYNCRETIC_ASSOCIATION_WITH_DAMU_OR_NINGISHZIDA
+
+  - proposition_id: PROP-DUMUZID-ANNUAL-RESURRECTION
+    statement: "Dumuzid annually resurrects from death in the strong dying-and-rising-god sense."
+    evidence_class: SCHOLARLY_INTERPRETATION
+    status: CONTESTED_NOT_PRIMARY_TEXT_FACT
+
+  - proposition_id: PROP-DUMUZID-WEST-ASIA-PROTOTYPE
+    statement: "Dumuzid is the demonstrated origin/prototype of later West Asian dying-and-rising gods."
+    evidence_class: HISTORICAL_RECONSTRUCTION
+    status: NOT_ESTABLISHED
+    hostile_control: "Ayali-Darshan 2024 argues the extant evidence does not support this dominant-prototype assumption."
+
+controls:
+  - "half-year alternation != explicit vegetation etiology"
+  - "seasonal correlation != vegetation-deity identity"
+  - "temporary release/alternation != automatic resurrection"
+  - "Dumuzi != Damu != Ningishzida without source-specific evidence"
+  - "motif similarity != transmission"
+
+scholarship:
+  - id: SCH-MANDER-2005-DUMUZI
+    author: Pietro Mander
+    work: Dumuzi
+    container: Encyclopedia of Religion
+    year: 2005
+    url: https://www.encyclopedia.com/environment/encyclopedias-almanacs-transcripts-and-maps/dumuzi
+    role: HISTORIOGRAPHIC_AND_SEMANTIC_CONTROL
+
+  - id: SCH-AYALI-DARSHAN-2024-DYING-RISING
+    author: Noga Ayali-Darshan
+    work: Dying and Rising Gods
+    year: 2024
+    url: https://www.zaphon.de/dying-and-rising-gods/en
+    role: CURRENT_DYING_RISING_MYTHOLOGEM_CONTROL
+
+  - id: SCH-ALSTER-2006-DUMUZI-DREAM
+    author: Bendt Alster
+    work: New Sources for Dumuzi's Dream
+    year: 2006
+    doi: https://doi.org/10.1515/ZA.2006.001
+    role: EDITION_AND_MANUSCRIPT_CURRENTNESS_CONTROL

@@ -1,0 +1,27 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-AUGORA69-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-AUGORA69-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T00:07:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-AUGORA69-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-AUGORA69-0001",
+  "idempotency_key": "first-dollar:github-bounty:augora69:screening:v1",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "evidence_summary": [
+      "Direct GitHub issue observed open with zero comments and no assignee.",
+      "Advertised bounty is USD 95 with ETA 24 hours.",
+      "Current validateNetwork can accept a mismatched passphrase when the network name says TESTNET.",
+      "The prepared draft makes a present passphrase authoritative and uses the network name only when the passphrase is absent."
+    ],
+    "prepared_draft_artifact": "ops/artifacts/2026-10-08-augora69-bounty/augora-issue-69.patch",
+    "source_blob_sha": "eaa4bd63eff653b9867d71855b64f3a7c539e489",
+    "draft_validation_state": "NOT_YET_EXECUTED",
+    "recommendation": "Validate the draft on Lappy when Executor connectivity returns."
+  },
+  "external_effect": false
+}

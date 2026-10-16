@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0032",
+  "event_type": "OPPORTUNITY_REJECTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0003",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T21:52:08Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0031",
+  "idempotency_key": "first-dollar:opp:0003:rejected:vera",
+  "from_state": "VERA_DECISION",
+  "to_state": "REJECTED",
+  "payload": {
+    "decision": "REJECT",
+    "decision_owner": "vera",
+    "reasoning": "Do not bid where the buyer explicitly scores specialized prior experience, publications, and references that the newly launched Vera Works cannot demonstrate truthfully.",
+    "patrick_action_required": false
+  },
+  "external_effect": false
+}

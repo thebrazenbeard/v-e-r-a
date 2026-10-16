@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-YH-0003",
+  "event_type": "ASSIGNMENT_STARTED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-YIELD-HARVESTER-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T16:45:02Z",
+  "correlation_id": "CORR-YIELD-HARVESTER-0001",
+  "causation_id": "EVT-YH-0002",
+  "idempotency_key": "yield-harvester:v1:assignment-in-progress",
+  "from_state": "CLAIMED",
+  "to_state": "IN_PROGRESS",
+  "payload": {
+    "holder": "vera:works-operator",
+    "reason": "Patrick explicitly approved the Yield Harvester concept and instructed Vera Works to build it.",
+    "next_frontier": "Qualify the source implementation in CI, then bind current owned-resource telemetry and read-only reward/terms adapters without crossing protected-effect boundaries."
+  },
+  "external_effect": false
+}

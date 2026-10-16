@@ -1,10 +1,10 @@
 # Vera Cognition ↔ durable task: source-only Integration L2 gate
 
 **Lane:** L2 Integration + Training (separate chats and source roles).
-**Integration owner:** this branch; **Training reviewer:** model-training PR #104.
+**Integration owner:** this branch; **Training reviewer:** model-training PR #106 (stacked on #104).
 **Base:** V-E-R-A Integration draft PR #3 at db6c1fee06bf011f66b5ba9b490fc2f9e42cbdfb;
 stacked on PORTAL runtime PR #1 at 7a9ebf5724dff962f5ffbd994678370c00592835.
-**Training subject:** model-training@a271bf25bdbcd3731ac17588ef475ba1bf74f96f.
+**Training subject:** model-training@874526d25fb12d1bdfbcba47b74c1c397ad1bd8b.
 **Vera Mono source:** PR #76 at dec5c029e51c4fd436435cbda7e02e501822ee85.
 
 ## Executable, limited behavior
@@ -18,10 +18,11 @@ journal head, exact Training source subject and episode snapshot digest.
 Re-verification re-reads the SQLite task chain. Changing task, episode,
 source subject, digest or effect flags holds rather than accepting.
 
-A Cricket BLOCK stays HELD_SOURCE_REVIEW; a Cricket PASS result containing
-a BLOCK-severity finding is rejected. That contradiction was reproduced
-against the current actual Training PR104 source; it creates a misleading
-coherence label, not an effect grant or proof of malicious behavior.
+Cricket's BLOCK > CHALLENGE > PASS disposition rule must match nested finding
+severity. Training PR106 adds CRICKET_BLOCKED/CRICKET_CHALLENGED statuses;
+this consumer retains both as HELD_SOURCE_REVIEW, rejects inconsistent status
+or disposition, and rejects duplicate globally scoped agent IDs after node
+migration. Digest consistency is never independence or effect permission.
 
 ## Source qualification and limits
 

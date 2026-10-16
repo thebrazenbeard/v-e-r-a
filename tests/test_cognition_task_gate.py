@@ -113,6 +113,12 @@ class RealCognitionTaskGateTests(unittest.TestCase):
     def test_training_cricket_block_remains_held_and_forged_pass_block_rejected(self):
         block = deepcopy(self.episode)
         block["cricket_review"]["disposition"] = "BLOCK"
+        block["cricket_review"]["findings"] = [dict(
+            rule_id="effect", severity="BLOCK", title="No authorization",
+            rationale="No grant", evidence="fixture",
+            recommendation="Hold", source="Cricket",
+        )]
+        block["status"] = "CRICKET_BLOCKED"
         held = bind_episode(self.ledger, self.task_id, block)
         self.assertEqual(held["status"], "HELD_SOURCE_REVIEW")
         self.assertFalse(held["effect_authority"])
@@ -125,8 +131,7 @@ class RealCognitionTaskGateTests(unittest.TestCase):
                 recommendation="Hold", source="Cricket",
             )],
         }
-        # Training PR104 currently accepts this contradictory tuple. The
-        # Integration task-consumer must reject it regardless of upstream shape.
+        # A self-declared PASS cannot contradict stronger nested findings.
         with self.assertRaisesRegex(CognitionBindingError, "contradicts"):
             bind_episode(self.ledger, self.task_id, conflicting)
 
@@ -138,3 +143,32 @@ class RealCognitionTaskGateTests(unittest.TestCase):
         bound["effect_authority"] = True
         with self.assertRaises(CognitionBindingError):
             verify_episode_binding(self.ledger, self.task_id, self.episode, bound)
+
+
+    def test_migrated_agent_and_cricket_challenge_fences(self):
+        migrated = deepcopy(self.episode)
+        migrated["contributions"][1]["participant"]["agent_id"] = (
+            migrated["contributions"][0]["participant"]["agent_id"]
+        )
+        migrated["contributions"][1]["claim"]["agent_id"] = (
+            migrated["contributions"][0]["participant"]["agent_id"]
+        )
+        with self.assertRaisesRegex(CognitionBindingError, "duplicate"):
+            bind_episode(self.ledger, self.task_id, migrated)
+        challenged = deepcopy(self.episode)
+        challenged["cricket_review"] = {
+            "disposition": "CHALLENGE",
+            "findings": [dict(
+                rule_id="challenge", severity="CHALLENGE", title="Review",
+                rationale="Unresolved", evidence="fixture",
+                recommendation="Check", source="Cricket",
+            )],
+        }
+        challenged["status"] = "CRICKET_CHALLENGED"
+        self.assertEqual(
+            bind_episode(self.ledger, self.task_id, challenged)["status"],
+            "HELD_SOURCE_REVIEW",
+        )
+        challenged["cricket_review"]["disposition"] = "PASS"
+        with self.assertRaisesRegex(CognitionBindingError, "contradicts"):
+            bind_episode(self.ledger, self.task_id, challenged)

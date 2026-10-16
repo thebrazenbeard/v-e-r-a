@@ -10,7 +10,7 @@ import json
 import re
 from typing import Any, Mapping
 
-TRAINING_HEAD = "a271bf25bdbcd3731ac17588ef475ba1bf74f96f"
+TRAINING_HEAD = "874526d25fb12d1bdfbcba47b74c1c397ad1bd8b"
 TRAINING_SUBJECT = f"git:thebrazenbeard/model-training@{TRAINING_HEAD}"
 _SCHEMA = "VERA_COGNITION_TASK_SOURCE_BINDING_V1"
 _SHA = re.compile(r"^[0-9a-f]{64}$")
@@ -56,7 +56,8 @@ def _episode_dict(episode: Any) -> dict:
         raise CognitionBindingError("unverified model/cognitive qualification")
     if candidate["status"] not in {
         "SOURCE_EXPERIMENT_ONLY", "SEMANTIC_TRANSFER_UNREPRESENTABLE",
-        "UNRESOLVED_REFERENT_OR_SCOPE",
+        "UNRESOLVED_REFERENT_OR_SCOPE", "CRICKET_BLOCKED",
+        "CRICKET_CHALLENGED",
     }:
         raise CognitionBindingError("unknown training result state")
     contributions = candidate["contributions"]
@@ -77,8 +78,8 @@ def _episode_dict(episode: Any) -> dict:
             ("agent_id", "agent_id"), ("model_sha256", "model_digest"),
         )):
             raise CognitionBindingError("participant/claim origin mismatch")
-        key = (p.get("node_id"), p.get("agent_id"))
-        if any(not isinstance(x, str) or not x for x in key) or key in seen:
+        key = p.get("agent_id")
+        if type(key) is not str or not key or key in seen:
             raise CognitionBindingError("duplicate or invalid logical participant")
         seen.add(key)
         digest = sha256(_canonical(claim)).hexdigest()
@@ -105,10 +106,24 @@ def _episode_dict(episode: Any) -> dict:
         "NOTE", "CHALLENGE", "BLOCK"
     ) for f in cricket["findings"]):
         raise CognitionBindingError("malformed Cricket finding")
-    if cricket["disposition"] == "PASS" and any(
-        f["severity"] == "BLOCK" for f in cricket["findings"]
-    ):
-        raise CognitionBindingError("Cricket PASS contradicts BLOCK finding")
+    # Full real Cricket precedence: BLOCK > CHALLENGE > PASS.
+    severities = {f["severity"] for f in cricket["findings"]}
+    expected_disposition = ("BLOCK" if "BLOCK" in severities else
+                            "CHALLENGE" if "CHALLENGE" in severities else "PASS")
+    if cricket["disposition"] != expected_disposition:
+        raise CognitionBindingError("Cricket disposition contradicts finding precedence")
+    fidelity = semantic.get("fidelity")
+    dissent_class = dissent.get("classification")
+    expected_status = ("SEMANTIC_TRANSFER_UNREPRESENTABLE"
+                       if fidelity == "UNREPRESENTABLE" else
+                       "CRICKET_BLOCKED" if expected_disposition == "BLOCK" else
+                       "CRICKET_CHALLENGED" if expected_disposition == "CHALLENGE" else
+                       "UNRESOLVED_REFERENT_OR_SCOPE"
+                       if dissent_class in ("DIFFERENT_PROPOSITION",
+                                           "DIFFERENT_SCOPE", "DIFFERENT_REVISION") else
+                       "SOURCE_EXPERIMENT_ONLY")
+    if candidate["status"] != expected_status:
+        raise CognitionBindingError("Training episode status contradicts source receipts")
     _canonical(candidate)
     return candidate
 
@@ -129,8 +144,7 @@ def bind_episode(ledger: Any, task_id: str, episode: Any, *,
     if not isinstance(head, str) or _SHA.fullmatch(head) is None:
         raise CognitionBindingError("missing durable journal head")
     digest = sha256(_canonical(current)).hexdigest()
-    held = (current["cricket_review"]["disposition"] == "BLOCK"
-            or current["status"] == "SEMANTIC_TRANSFER_UNREPRESENTABLE")
+    held = current["status"] != "SOURCE_EXPERIMENT_ONLY"
     body = {
         "schema": _SCHEMA, "task_id": task_id,
         "packet_digest": task.packet.packet_digest,

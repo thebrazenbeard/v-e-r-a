@@ -27,6 +27,7 @@ TRAINING = os.environ.get("VERA_TRAINING_SOURCE_ROOT")
 INTRANEL = os.environ.get("INTRANEL_SOURCE_ROOT")
 VERAOS = os.environ.get("VERAOS_SOURCE_ROOT")
 PORTAL = os.environ.get("PORTAL_SOURCE_ROOT")
+PRE_ACTIVE = os.environ.get("PRE_ACTIVE_SOURCE_ROOT")
 
 
 def git(root, *args):
@@ -531,3 +532,116 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
                 provider=self.provider, route_intent=self.intent,
                 advertisements=(self.advisory_ad(),),
             )
+
+
+    def test_real_pre_active_durable_run_from_mono_proposal_synthetic_only(self):
+        # Real Pre-Active event/run SQLite with deterministic stub response.
+        # No model, endpoint, QEMU, native route admission or resident is called.
+        if not PORTAL or not PRE_ACTIVE:
+            self.skipTest("requires exact pinned PORTAL and Pre-Active test sources")
+        pre = Path(PRE_ACTIVE)
+        self.assertEqual(git(pre, "rev-parse", "HEAD"),
+                         "1f23a809d7274df506e03e2d9052525538c3bcf6")
+        self.assertEqual(git(pre, "rev-parse", "HEAD:src/pre_active/store.py"),
+                         "4612d4c621e01ce4ee69ad5702c4ca37fa7e3402")
+        sys.path.insert(0, str(Path(PORTAL)))
+        sys.path.insert(0, str(pre / "src"))
+        from pre_active.store import Store
+        from pre_active.engine import Engine, ModelResponse
+        from pre_active.context import ContextAssembler
+        from pre_active.tools import ToolRegistry
+
+        ledger, binding = self.linked()
+        proposal = self.proposal(ledger, binding)
+        self.assertEqual(proposal["status"], "ROUTE_PROPOSED_UNATTESTED")
+        self.assertFalse(proposal["normal_resident_route_admitted"])
+        call = proposal["native_call"]
+        self.assertEqual(call["callable"], "execute_text_request")
+
+        class Stub:
+            calls = 0
+            def respond(inner, *, messages, tools):
+                inner.calls += 1
+                assert tools == [], "no effect tools allowed in fixture"
+                assert any(m["role"] == "user" and call["task"] in m["content"]
+                           for m in messages)
+                return ModelResponse(final_text="SYNTHETIC PRE-ACTIVE RESPONSE ONLY")
+
+        path = Path(self.temp.name) / "preactive-fixture.sqlite3"
+        store = Store(path)
+        stub = Stub()
+        engine = Engine(
+            store=store, model=stub, tools=ToolRegistry(store),
+            context=ContextAssembler(store, max_chars=4096),
+            system_prompt="Synthetic fixture only; no inference.",
+            worker_id="synthetic-no-effect", max_steps=2,
+            max_autonomous_turns_per_run=0,
+            max_consecutive_endogenous_turns=0,
+        )
+        try:
+            event = store.enqueue_event(
+                kind="task.requested",
+                payload={"task": call["task"], "capabilities": []},
+                priority=0, dedup_key="veraos-text:" + call["request_id"],
+                now=1.0,
+            )
+            store.append_journal(
+                event_type="VERAOS_COGNITION_ROUTE_SELECTED",
+                subject_id=event,
+                payload={
+                    "adapter_id": "pre-active-openai-compatible",
+                    "route_id": "dev:virtio-qwen4b",
+                    "provider_id": "dev:virtio-qwen4b",
+                    "model": "qwen3:4b-instruct",
+                    "effect_class": "COGNITION_ONLY",
+                },
+                now=1.0,
+            )
+            for i in range(4):
+                engine.run_once(now=2.0 + i * 0.02)
+            row = store.connection.execute(
+                "SELECT id FROM runs WHERE source_event_id=?", (event,),
+            ).fetchone()
+            self.assertIsNotNone(row)
+            run_id = str(row["id"])
+            run = store.get_run(run_id)
+            self.assertEqual(run["status"], "COMPLETED")
+            self.assertEqual(run["final_text"],
+                             "SYNTHETIC PRE-ACTIVE RESPONSE ONLY")
+            self.assertEqual(stub.calls, 1)
+            self.assertTrue(any(
+                j["event_type"] == "VERAOS_COGNITION_ROUTE_SELECTED"
+                for j in store.list_journal(limit=50)
+            ))
+            duplicate = store.enqueue_event(
+                kind="task.requested",
+                payload={"task": call["task"], "capabilities": []},
+                priority=0, dedup_key="veraos-text:" + call["request_id"],
+                now=9.0,
+            )
+            self.assertEqual(duplicate, event)
+            self.assertEqual(stub.calls, 1)
+            with self.assertRaises((RuntimeError, ValueError)):
+                store.enqueue_event(
+                    kind="task.requested",
+                    payload={"task": "FORGED TASK", "capabilities": []},
+                    priority=0, dedup_key="veraos-text:" + call["request_id"],
+                    now=10.0,
+                )
+        finally:
+            store.close()
+        cold = Store(path)
+        try:
+            persistent = cold.get_run(run_id)
+            self.assertEqual(persistent["source_event_id"], event)
+            self.assertEqual(persistent["status"], "COMPLETED")
+            self.assertEqual(persistent["final_text"],
+                             "SYNTHETIC PRE-ACTIVE RESPONSE ONLY")
+        finally:
+            cold.close()
+        ledger.bind_dependency(
+            self.task_id, "dependency:after-synthetic-result",
+            kind="COORDINATION_COMMAND", target_id="command:advanced",
+        )
+        with self.assertRaisesRegex(ProvenanceBridgeError, "task"):
+            self.proposal(ledger, binding)

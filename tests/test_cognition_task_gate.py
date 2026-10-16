@@ -172,3 +172,36 @@ class RealCognitionTaskGateTests(unittest.TestCase):
         challenged["cricket_review"]["disposition"] = "PASS"
         with self.assertRaisesRegex(CognitionBindingError, "contradicts"):
             bind_episode(self.ledger, self.task_id, challenged)
+
+    def test_runtime_correlation_is_not_independent_evidence(self):
+        correlated = deepcopy(self.episode)
+        correlated["contributions"][1]["participant"]["runtime_instance_id"] = (
+            correlated["contributions"][0]["participant"]["runtime_instance_id"]
+        )
+        correlated["dissent"]["classification"] = "SELF_OR_CORRELATED_CLAIMS"
+        self.assertEqual(
+            bind_episode(self.ledger, self.task_id, correlated)["status"],
+            "HELD_SOURCE_REVIEW",
+        )
+        forged = deepcopy(correlated)
+        forged["dissent"]["classification"] = "EVIDENCE_CONFLICT_FOR_REVIEW"
+        with self.assertRaisesRegex(CognitionBindingError, "correlated"):
+            bind_episode(self.ledger, self.task_id, forged)
+
+    def test_cricket_block_dominates_semantic_unrepresentable(self):
+        blocked = deepcopy(self.episode)
+        blocked["core_semantic_plan"]["fidelity"] = "UNREPRESENTABLE"
+        blocked["cricket_review"] = {
+            "disposition": "BLOCK",
+            "findings": [dict(
+                rule_id="block", severity="BLOCK", title="Blocked",
+                rationale="Source holds", evidence="fixture",
+                recommendation="Review", source="Cricket",
+            )],
+        }
+        blocked["status"] = "CRICKET_BLOCKED"
+        self.assertEqual(
+            bind_episode(self.ledger, self.task_id, blocked)["status"],
+            "HELD_SOURCE_REVIEW",
+        )
+

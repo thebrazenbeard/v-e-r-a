@@ -10,7 +10,7 @@ import json
 import re
 from typing import Any, Mapping
 
-TRAINING_HEAD = "874526d25fb12d1bdfbcba47b74c1c397ad1bd8b"
+TRAINING_HEAD = "93e302c4efabec270a8baa53d4ab62d66a77b964"
 TRAINING_SUBJECT = f"git:thebrazenbeard/model-training@{TRAINING_HEAD}"
 _SCHEMA = "VERA_COGNITION_TASK_SOURCE_BINDING_V1"
 _SHA = re.compile(r"^[0-9a-f]{64}$")
@@ -64,6 +64,8 @@ def _episode_dict(episode: Any) -> dict:
     if type(contributions) is not list or len(contributions) != 2:
         raise CognitionBindingError("two attributed contributions required")
     seen = set()
+    runtimes = set()
+    correlated_runtime = False
     digests = []
     for c in contributions:
         if type(c) is not dict or set(c) != {
@@ -82,6 +84,12 @@ def _episode_dict(episode: Any) -> dict:
         if type(key) is not str or not key or key in seen:
             raise CognitionBindingError("duplicate or invalid logical participant")
         seen.add(key)
+        runtime_id = p.get("runtime_instance_id")
+        if type(runtime_id) is not str or not runtime_id:
+            raise CognitionBindingError("invalid participant runtime identity")
+        if runtime_id in runtimes:
+            correlated_runtime = True
+        runtimes.add(runtime_id)
         digest = sha256(_canonical(claim)).hexdigest()
         if c["claim_sha256"] != digest:
             raise CognitionBindingError("attributed claim digest mismatch")
@@ -92,6 +100,8 @@ def _episode_dict(episode: Any) -> dict:
             or dissent.get("accepted_as_fact") is not False
             or dissent.get("independence_proven") is not False):
         raise CognitionBindingError("dissent provenance/evidence escalation")
+    if correlated_runtime and dissent.get("classification") == "EVIDENCE_CONFLICT_FOR_REVIEW":
+        raise CognitionBindingError("correlated runtime cannot supply independent evidence")
     semantic = candidate["core_semantic_plan"]
     if (type(semantic) is not dict
             or semantic.get("authorization_effect") != "NONE"
@@ -114,9 +124,9 @@ def _episode_dict(episode: Any) -> dict:
         raise CognitionBindingError("Cricket disposition contradicts finding precedence")
     fidelity = semantic.get("fidelity")
     dissent_class = dissent.get("classification")
-    expected_status = ("SEMANTIC_TRANSFER_UNREPRESENTABLE"
+    expected_status = ("CRICKET_BLOCKED" if expected_disposition == "BLOCK" else
+                       "SEMANTIC_TRANSFER_UNREPRESENTABLE"
                        if fidelity == "UNREPRESENTABLE" else
-                       "CRICKET_BLOCKED" if expected_disposition == "BLOCK" else
                        "CRICKET_CHALLENGED" if expected_disposition == "CHALLENGE" else
                        "UNRESOLVED_REFERENT_OR_SCOPE"
                        if dissent_class in ("DIFFERENT_PROPOSITION",
@@ -144,7 +154,9 @@ def bind_episode(ledger: Any, task_id: str, episode: Any, *,
     if not isinstance(head, str) or _SHA.fullmatch(head) is None:
         raise CognitionBindingError("missing durable journal head")
     digest = sha256(_canonical(current)).hexdigest()
-    held = current["status"] != "SOURCE_EXPERIMENT_ONLY"
+    runtimes = [x["participant"]["runtime_instance_id"] for x in current["contributions"]]
+    held = (current["status"] != "SOURCE_EXPERIMENT_ONLY"
+            or len(set(runtimes)) != len(runtimes))
     body = {
         "schema": _SCHEMA, "task_id": task_id,
         "packet_digest": task.packet.packet_digest,

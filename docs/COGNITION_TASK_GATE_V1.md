@@ -4,7 +4,7 @@
 **Integration owner:** this branch; **Training reviewer:** model-training PR #106 (stacked on #104).
 **Base:** V-E-R-A Integration draft PR #3 at db6c1fee06bf011f66b5ba9b490fc2f9e42cbdfb;
 stacked on PORTAL runtime PR #1 at 7a9ebf5724dff962f5ffbd994678370c00592835.
-**Training subject:** model-training@874526d25fb12d1bdfbcba47b74c1c397ad1bd8b.
+**Training subject:** model-training@93e302c4efabec270a8baa53d4ab62d66a77b964.
 **Vera Mono source:** PR #76 at dec5c029e51c4fd436435cbda7e02e501822ee85.
 
 ## Executable, limited behavior
@@ -42,3 +42,14 @@ and invalidate prior bindings after real task-journal advancement.
 Integration owns this additional bridge only; Training owns its PR104
 cognitive model. Production use, model skill, Training peer review, live host
 consumption, schedules, merges and deployment all remain unqualified.
+
+## Exact Training #106 successor compatibility
+
+Training #106 at `93e302c4efabec270a8baa53d4ab62d66a77b964` preserves Cricket BLOCK precedence over
+semantic unrepresentability and exposes correlated runtime identity claims.
+The consumer retains this BLOCK, forbids a correlated-runtime dissent from
+being treated as an independent evidence conflict, and keeps duplicate-runtime
+observations HELD without claiming model/agent independence. Its stricter
+Cricket disposition/finding consistency guard still rejects a synthetic
+BLOCK with no BLOCK-severity finding, unlike Training's current permissive
+source fixture; independent upstream review is requested.

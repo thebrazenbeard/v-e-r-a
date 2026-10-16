@@ -1,0 +1,386 @@
+{
+  "schema": "VERA_SUPABASE_CATALOG_SNAPSHOT_V1",
+  "project_ref": "klmbpaigzeguvnpccqzz",
+  "catalog": "triggers",
+  "items": [
+    {
+      "schema_name": "bug_ops",
+      "relation_name": "bug_events",
+      "trigger_name": "bug_events_immutable",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER bug_events_immutable BEFORE DELETE OR UPDATE ON bug_ops.bug_events FOR EACH ROW EXECUTE FUNCTION bug_ops.block_immutable_mutation()"
+    },
+    {
+      "schema_name": "bug_ops",
+      "relation_name": "dispatch_events",
+      "trigger_name": "dispatch_events_immutable",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER dispatch_events_immutable BEFORE DELETE OR UPDATE ON bug_ops.dispatch_events FOR EACH ROW EXECUTE FUNCTION bug_ops.block_immutable_mutation()"
+    },
+    {
+      "schema_name": "bug_ops",
+      "relation_name": "dispatch_events_v2",
+      "trigger_name": "dispatch_events_v2_immutable",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER dispatch_events_v2_immutable BEFORE DELETE OR UPDATE ON bug_ops.dispatch_events_v2 FOR EACH ROW EXECUTE FUNCTION bug_ops.block_immutable_mutation()"
+    },
+    {
+      "schema_name": "bug_ops",
+      "relation_name": "operation_receipts",
+      "trigger_name": "operation_receipts_immutable",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER operation_receipts_immutable BEFORE DELETE OR UPDATE ON bug_ops.operation_receipts FOR EACH ROW EXECUTE FUNCTION bug_ops.block_immutable_mutation()"
+    },
+    {
+      "schema_name": "bug_ops",
+      "relation_name": "operation_receipts",
+      "trigger_name": "operation_receipts_no_truncate",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER operation_receipts_no_truncate BEFORE TRUNCATE ON bug_ops.operation_receipts FOR EACH STATEMENT EXECUTE FUNCTION bug_ops.block_immutable_mutation()"
+    },
+    {
+      "schema_name": "bug_ops",
+      "relation_name": "role_registry",
+      "trigger_name": "role_registry_immutable_v1",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER role_registry_immutable_v1 BEFORE INSERT OR DELETE OR UPDATE ON bug_ops.role_registry FOR EACH ROW EXECUTE FUNCTION bug_ops.block_immutable_mutation()"
+    },
+    {
+      "schema_name": "bug_ops",
+      "relation_name": "role_registry",
+      "trigger_name": "role_registry_no_truncate_v1",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER role_registry_no_truncate_v1 BEFORE TRUNCATE ON bug_ops.role_registry FOR EACH STATEMENT EXECUTE FUNCTION bug_ops.block_immutable_mutation()"
+    },
+    {
+      "schema_name": "build_team_2",
+      "relation_name": "memory_events",
+      "trigger_name": "memory_events_no_update",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER memory_events_no_update BEFORE DELETE OR UPDATE ON build_team_2.memory_events FOR EACH ROW EXECUTE FUNCTION build_team_2.prevent_memory_event_mutation()"
+    },
+    {
+      "schema_name": "build_team_2",
+      "relation_name": "role_operational_checkpoints",
+      "trigger_name": "trg_role_operational_checkpoints_append_only",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER trg_role_operational_checkpoints_append_only BEFORE DELETE OR UPDATE ON build_team_2.role_operational_checkpoints FOR EACH ROW EXECUTE FUNCTION build_team_2.reject_training_history_mutation()"
+    },
+    {
+      "schema_name": "build_team_2",
+      "relation_name": "role_operational_checkpoints",
+      "trigger_name": "trg_validate_checkpoint_qualification_binding",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER trg_validate_checkpoint_qualification_binding BEFORE INSERT ON build_team_2.role_operational_checkpoints FOR EACH ROW EXECUTE FUNCTION build_team_2.validate_checkpoint_qualification_binding()"
+    },
+    {
+      "schema_name": "build_team_2",
+      "relation_name": "role_training_packages",
+      "trigger_name": "trg_role_training_packages_append_only",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER trg_role_training_packages_append_only BEFORE DELETE OR UPDATE ON build_team_2.role_training_packages FOR EACH ROW EXECUTE FUNCTION build_team_2.reject_training_history_mutation()"
+    },
+    {
+      "schema_name": "build_team_2",
+      "relation_name": "role_training_qualifications",
+      "trigger_name": "trg_role_training_qualifications_append_only",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER trg_role_training_qualifications_append_only BEFORE DELETE OR UPDATE ON build_team_2.role_training_qualifications FOR EACH ROW EXECUTE FUNCTION build_team_2.reject_training_history_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "brigit_context_events_v3",
+      "trigger_name": "brigit_validate_datum_v2",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER brigit_validate_datum_v2 BEFORE INSERT OR UPDATE ON brigit_context_events_v3 FOR EACH ROW EXECUTE FUNCTION brigit_validate_datum_v2()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "brigit_coordination_events",
+      "trigger_name": "brigit_coordination_assign_record_time",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER brigit_coordination_assign_record_time BEFORE INSERT ON brigit_coordination_events FOR EACH ROW EXECUTE FUNCTION assign_brigit_coordination_record_time()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "brigit_coordination_events",
+      "trigger_name": "brigit_coordination_block_delete",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER brigit_coordination_block_delete BEFORE DELETE ON brigit_coordination_events FOR EACH ROW EXECUTE FUNCTION block_brigit_coordination_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "brigit_coordination_events",
+      "trigger_name": "brigit_coordination_block_update",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER brigit_coordination_block_update BEFORE UPDATE ON brigit_coordination_events FOR EACH ROW EXECUTE FUNCTION block_brigit_coordination_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "brigit_save_state_events",
+      "trigger_name": "brigit_save_state_events_no_delete",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER brigit_save_state_events_no_delete BEFORE DELETE ON brigit_save_state_events FOR EACH ROW EXECUTE FUNCTION block_brigit_save_state_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "brigit_save_state_events",
+      "trigger_name": "brigit_save_state_events_no_update",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER brigit_save_state_events_no_update BEFORE UPDATE ON brigit_save_state_events FOR EACH ROW EXECUTE FUNCTION block_brigit_save_state_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "brigit_save_state_supersession_edges",
+      "trigger_name": "brigit_save_state_supersession_edges_no_delete",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER brigit_save_state_supersession_edges_no_delete BEFORE DELETE ON brigit_save_state_supersession_edges FOR EACH ROW EXECUTE FUNCTION block_brigit_supersession_edge_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "brigit_save_state_supersession_edges",
+      "trigger_name": "brigit_save_state_supersession_edges_no_update",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER brigit_save_state_supersession_edges_no_update BEFORE UPDATE ON brigit_save_state_supersession_edges FOR EACH ROW EXECUTE FUNCTION block_brigit_supersession_edge_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "brigit_save_state_supersession_edges",
+      "trigger_name": "brigit_save_state_supersession_edges_validate",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER brigit_save_state_supersession_edges_validate BEFORE INSERT ON brigit_save_state_supersession_edges FOR EACH ROW EXECUTE FUNCTION brigit_validate_save_state_supersession_edge()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_affective_runtime_state_v1",
+      "trigger_name": "vera_affective_runtime_normalize_nullable_json_v1",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_affective_runtime_normalize_nullable_json_v1 BEFORE INSERT OR UPDATE ON vera_affective_runtime_state_v1 FOR EACH ROW EXECUTE FUNCTION vera_affective_runtime_normalize_nullable_json_v1()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_context_events_v3",
+      "trigger_name": "vera_validate_datum_v2",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_validate_datum_v2 BEFORE INSERT OR UPDATE ON vera_context_events_v3 FOR EACH ROW EXECUTE FUNCTION vera_validate_datum_v2()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_coordination_events",
+      "trigger_name": "vera_coordination_assign_record_time",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_coordination_assign_record_time BEFORE INSERT ON vera_coordination_events FOR EACH ROW EXECUTE FUNCTION assign_vera_coordination_record_time()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_coordination_events",
+      "trigger_name": "vera_coordination_block_delete",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_coordination_block_delete BEFORE DELETE ON vera_coordination_events FOR EACH ROW EXECUTE FUNCTION block_vera_coordination_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_coordination_events",
+      "trigger_name": "vera_coordination_block_update",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_coordination_block_update BEFORE UPDATE ON vera_coordination_events FOR EACH ROW EXECUTE FUNCTION block_vera_coordination_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_memory_epoch_archive_receipts_v1",
+      "trigger_name": "vera_memory_epoch_archive_receipts_append_only_guard_v1",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_memory_epoch_archive_receipts_append_only_guard_v1 BEFORE DELETE OR UPDATE ON vera_memory_epoch_archive_receipts_v1 FOR EACH ROW EXECUTE FUNCTION _vera_memory_epoch_guard_v1()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_memory_epoch_events_v1",
+      "trigger_name": "vera_memory_epoch_events_append_only_guard_v1",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_memory_epoch_events_append_only_guard_v1 BEFORE DELETE OR UPDATE ON vera_memory_epoch_events_v1 FOR EACH ROW EXECUTE FUNCTION _vera_memory_epoch_guard_v1()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_memory_epoch_provider_receipts_v1",
+      "trigger_name": "vera_memory_epoch_provider_receipts_append_only_guard_v1",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_memory_epoch_provider_receipts_append_only_guard_v1 BEFORE DELETE OR UPDATE ON vera_memory_epoch_provider_receipts_v1 FOR EACH ROW EXECUTE FUNCTION _vera_memory_epoch_guard_v1()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_memory_epoch_subjects_v1",
+      "trigger_name": "vera_memory_epoch_subject_immutable_guard_v1",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_memory_epoch_subject_immutable_guard_v1 BEFORE UPDATE ON vera_memory_epoch_subjects_v1 FOR EACH ROW EXECUTE FUNCTION _vera_memory_epoch_guard_v1()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_optional_invocation_test_events_v1",
+      "trigger_name": "vera_optional_invocation_require_route_evidence_v1",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_optional_invocation_require_route_evidence_v1 BEFORE INSERT ON vera_optional_invocation_test_events_v1 FOR EACH ROW EXECUTE FUNCTION vera_optional_invocation_require_route_evidence_v1()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_portable_bootstrap_bindings",
+      "trigger_name": "vera_portable_bootstrap_bindings_no_update",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_portable_bootstrap_bindings_no_update BEFORE DELETE OR UPDATE ON vera_portable_bootstrap_bindings FOR EACH ROW EXECUTE FUNCTION block_vera_portable_bootstrap_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_portable_bootstrap_events",
+      "trigger_name": "vera_portable_bootstrap_events_no_update",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_portable_bootstrap_events_no_update BEFORE DELETE OR UPDATE ON vera_portable_bootstrap_events FOR EACH ROW EXECUTE FUNCTION block_vera_portable_bootstrap_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_portable_bootstrap_readback_confirmations",
+      "trigger_name": "vera_portable_bootstrap_readback_confirmations_no_update",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_portable_bootstrap_readback_confirmations_no_update BEFORE DELETE OR UPDATE ON vera_portable_bootstrap_readback_confirmations FOR EACH ROW EXECUTE FUNCTION block_vera_portable_bootstrap_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_portable_bootstrap_requests",
+      "trigger_name": "vera_portable_bootstrap_requests_no_update",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_portable_bootstrap_requests_no_update BEFORE DELETE OR UPDATE ON vera_portable_bootstrap_requests FOR EACH ROW EXECUTE FUNCTION block_vera_portable_bootstrap_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_save_state_events",
+      "trigger_name": "vera_save_state_events_no_delete",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_save_state_events_no_delete BEFORE DELETE ON vera_save_state_events FOR EACH ROW EXECUTE FUNCTION block_vera_save_state_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_save_state_events",
+      "trigger_name": "vera_save_state_events_no_update",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_save_state_events_no_update BEFORE UPDATE ON vera_save_state_events FOR EACH ROW EXECUTE FUNCTION block_vera_save_state_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_save_state_supersession_edges",
+      "trigger_name": "vera_save_state_supersession_edges_no_delete",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_save_state_supersession_edges_no_delete BEFORE DELETE ON vera_save_state_supersession_edges FOR EACH ROW EXECUTE FUNCTION block_vera_supersession_edge_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_save_state_supersession_edges",
+      "trigger_name": "vera_save_state_supersession_edges_no_update",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_save_state_supersession_edges_no_update BEFORE UPDATE ON vera_save_state_supersession_edges FOR EACH ROW EXECUTE FUNCTION block_vera_supersession_edge_mutation()"
+    },
+    {
+      "schema_name": "public",
+      "relation_name": "vera_save_state_supersession_edges",
+      "trigger_name": "vera_save_state_supersession_edges_validate",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER vera_save_state_supersession_edges_validate BEFORE INSERT ON vera_save_state_supersession_edges FOR EACH ROW EXECUTE FUNCTION vera_validate_save_state_supersession_edge()"
+    },
+    {
+      "schema_name": "radar",
+      "relation_name": "assignment_events",
+      "trigger_name": "radar_append_only_assignment_events",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER radar_append_only_assignment_events BEFORE DELETE OR UPDATE ON radar.assignment_events FOR EACH ROW EXECUTE FUNCTION radar.prevent_event_mutation()"
+    },
+    {
+      "schema_name": "radar",
+      "relation_name": "delivery_events",
+      "trigger_name": "radar_append_only_delivery_events",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER radar_append_only_delivery_events BEFORE DELETE OR UPDATE ON radar.delivery_events FOR EACH ROW EXECUTE FUNCTION radar.prevent_event_mutation()"
+    },
+    {
+      "schema_name": "radar",
+      "relation_name": "dependencies",
+      "trigger_name": "radar_dependencies_no_cycle",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER radar_dependencies_no_cycle BEFORE INSERT OR UPDATE ON radar.dependencies FOR EACH ROW EXECUTE FUNCTION radar.prevent_dependency_cycle()"
+    },
+    {
+      "schema_name": "radar",
+      "relation_name": "health_events",
+      "trigger_name": "radar_append_only_health_events",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER radar_append_only_health_events BEFORE DELETE OR UPDATE ON radar.health_events FOR EACH ROW EXECUTE FUNCTION radar.prevent_event_mutation()"
+    },
+    {
+      "schema_name": "radar",
+      "relation_name": "messages",
+      "trigger_name": "radar_messages_assignment_projection",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER radar_messages_assignment_projection AFTER INSERT ON radar.messages FOR EACH STATEMENT EXECUTE FUNCTION radar.bus_assignment_reconcile_after_insert_v1()"
+    },
+    {
+      "schema_name": "radar",
+      "relation_name": "messages",
+      "trigger_name": "radar_messages_receipt_projection",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER radar_messages_receipt_projection AFTER INSERT ON radar.messages FOR EACH STATEMENT EXECUTE FUNCTION radar.bus_message_receipts_after_insert_v1()"
+    },
+    {
+      "schema_name": "radar",
+      "relation_name": "nodes",
+      "trigger_name": "radar_nodes_identity_immutable",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER radar_nodes_identity_immutable BEFORE UPDATE OF identity_id ON radar.nodes FOR EACH ROW EXECUTE FUNCTION radar.prevent_node_identity_reassignment()"
+    },
+    {
+      "schema_name": "radar",
+      "relation_name": "reconciliation_events",
+      "trigger_name": "radar_append_only_reconciliation_events",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER radar_append_only_reconciliation_events BEFORE DELETE OR UPDATE ON radar.reconciliation_events FOR EACH ROW EXECUTE FUNCTION radar.prevent_event_mutation()"
+    },
+    {
+      "schema_name": "radar",
+      "relation_name": "subscriptions",
+      "trigger_name": "radar_subscriptions_node_identity_guard",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER radar_subscriptions_node_identity_guard BEFORE INSERT OR UPDATE OF node_id, identity_id, active ON radar.subscriptions FOR EACH ROW EXECUTE FUNCTION radar.validate_subscription_node_identity()"
+    },
+    {
+      "schema_name": "radar",
+      "relation_name": "telemetry",
+      "trigger_name": "radar_append_only_telemetry",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER radar_append_only_telemetry BEFORE DELETE OR UPDATE ON radar.telemetry FOR EACH ROW EXECUTE FUNCTION radar.prevent_event_mutation()"
+    },
+    {
+      "schema_name": "semantic_atlas",
+      "relation_name": "runtime_objects",
+      "trigger_name": "semantic_atlas_runtime_object_guard_v3",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER semantic_atlas_runtime_object_guard_v3 BEFORE INSERT OR DELETE OR UPDATE ON semantic_atlas.runtime_objects FOR EACH ROW EXECUTE FUNCTION semantic_atlas.validate_runtime_object_payload_v3()"
+    },
+    {
+      "schema_name": "semantic_atlas",
+      "relation_name": "runtime_snapshots",
+      "trigger_name": "semantic_atlas_runtime_snapshot_guard_v4",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER semantic_atlas_runtime_snapshot_guard_v4 BEFORE INSERT OR DELETE OR UPDATE ON semantic_atlas.runtime_snapshots FOR EACH ROW EXECUTE FUNCTION semantic_atlas.reject_runtime_direct_mutation_v4()"
+    },
+    {
+      "schema_name": "semantic_atlas",
+      "relation_name": "semantic_capture_events",
+      "trigger_name": "semantic_capture_events_append_only",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER semantic_capture_events_append_only BEFORE DELETE OR UPDATE ON semantic_atlas.semantic_capture_events FOR EACH ROW EXECUTE FUNCTION semantic_atlas.reject_capture_history_mutation_v1()"
+    },
+    {
+      "schema_name": "semantic_atlas",
+      "relation_name": "semantic_capture_outcomes",
+      "trigger_name": "semantic_capture_outcomes_append_only",
+      "enabled": "O",
+      "definition": "CREATE TRIGGER semantic_capture_outcomes_append_only BEFORE DELETE OR UPDATE ON semantic_atlas.semantic_capture_outcomes FOR EACH ROW EXECUTE FUNCTION semantic_atlas.reject_capture_history_mutation_v1()"
+    }
+  ],
+  "no_data_rows": true
+}

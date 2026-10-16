@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thebrazenbeard.github.io/cricket/webhook-interruption-response.schema.json",
+  "title": "Cricket Webhook Interruption Response",
+  "type": "object",
+  "required": [
+    "action",
+    "disposition",
+    "injection_markdown",
+    "finding_ids",
+    "unresolved",
+    "formulation_source"
+  ],
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": ["ALLOW", "INJECT_AND_REVISE", "BLOCK_AND_INJECT"]
+    },
+    "disposition": {
+      "type": "string",
+      "enum": ["PASS", "CHALLENGE", "BLOCK"]
+    },
+    "injection_markdown": {"type": "string"},
+    "finding_ids": {"type": "array", "items": {"type": "string"}},
+    "unresolved": {"type": "array", "items": {"type": "string"}},
+    "formulation_source": {
+      "type": "string",
+      "enum": ["none", "rezon", "cricket-fallback"]
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thebrazenbeard.github.io/cricket/review-result.schema.json",
+  "title": "Cricket Review Result",
+  "type": "object",
+  "required": ["disposition", "findings"],
+  "properties": {
+    "disposition": {"type": "string", "enum": ["PASS", "CHALLENGE", "BLOCK"]},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["rule_id", "severity", "title", "rationale", "evidence", "recommendation", "source"],
+        "properties": {
+          "rule_id": {"type": "string"},
+          "severity": {"type": "string", "enum": ["NOTE", "CHALLENGE", "BLOCK"]},
+          "title": {"type": "string"},
+          "rationale": {"type": "string"},
+          "evidence": {"type": "string"},
+          "recommendation": {"type": "string"},
+          "source": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

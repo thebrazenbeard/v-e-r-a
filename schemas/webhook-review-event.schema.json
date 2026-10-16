@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thebrazenbeard.github.io/cricket/webhook-review-event.schema.json",
+  "title": "Cricket Webhook Review Event",
+  "allOf": [
+    {"$ref": "review-request.schema.json"}
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "schema": "VERA_SUPABASE_EDGE_FUNCTION_BINDING_V1",
+  "project_ref": "klmbpaigzeguvnpccqzz",
+  "slug": "github-bus-ingest",
+  "status": "ACTIVE",
+  "version": 5,
+  "verify_jwt": false,
+  "ezbr_sha256": "07a117919e985a8566d2ffa8bab9565c560b630d8448c0987ac29ec16a4b559a",
+  "files": [
+    "index.ts",
+    "handler.ts",
+    "deno.json"
+  ],
+  "source_relation": "live Supabase Edge Function snapshot; no deployed activation or re-deployment by this import"
+}

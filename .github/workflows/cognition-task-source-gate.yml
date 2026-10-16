@@ -40,6 +40,13 @@ jobs:
           ref: a242df78155ca20b36dbde8cbb7448dad43a5e55
           path: model-training
           persist-credentials: false
+      - name: Checkout exact Pre-Active source kernel for synthetic-only tests
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: thebrazenbeard/pre-active
+          ref: 1f23a809d7274df506e03e2d9052525538c3bcf6
+          path: pre-active
+          persist-credentials: false
       - name: Checkout exact Intranel L1 receiver
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -60,6 +67,8 @@ jobs:
           test "$(git -C portal rev-parse HEAD)" = "36fa04da4e5eb383fecf463c72a43b94ca47d7e5"
           test "$(git -C model-training rev-parse HEAD)" = "a242df78155ca20b36dbde8cbb7448dad43a5e55"
           test "$(git -C intranel rev-parse HEAD)" = "58714f5f6561b5e44e42dcdbca67e2cb59bfb87b"
+          test "$(git -C pre-active rev-parse HEAD)" = "1f23a809d7274df506e03e2d9052525538c3bcf6"
+          test "$(git -C pre-active rev-parse HEAD:src/pre_active/store.py)" = "4612d4c621e01ce4ee69ad5702c4ca37fa7e3402"
           test "$(git -C intranel rev-parse HEAD:src/intranel/four_role_receiver.py)" = "72e88e8d60516ec6655f010f469e936595fe15a6"
           test "$(git -C model-training rev-parse HEAD:participating_cognition_v1.py)" = "3adf446e166a6574a5f389c074f86ba10a4483d5"
           test "$(git -C model-training rev-parse HEAD:veraos_development_evidence_v1.py)" = "bde78d71972f26c6e896b621fe1cd467d59e55ee"
@@ -70,6 +79,7 @@ jobs:
           VERA_MONO_SOURCE_ROOT: ${{ github.workspace }}/vera-mono
           VERA_TRAINING_SOURCE_ROOT: ${{ github.workspace }}/model-training
           PORTAL_SOURCE_ROOT: ${{ github.workspace }}/portal
+          PRE_ACTIVE_SOURCE_ROOT: ${{ github.workspace }}/pre-active
           INTRANEL_SOURCE_ROOT: ${{ github.workspace }}/intranel
           PYTHONDONTWRITEBYTECODE: '1'
         run: python -m unittest discover -s tests -v

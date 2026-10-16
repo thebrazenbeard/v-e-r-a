@@ -271,3 +271,30 @@ assessment under `REAL_HOST_UNATTESTED` remains `HOLD_SOURCE_PREFLIGHT`.
 Neither result is an authorized Qwen trial or loaded-model result;
 `prepare_source_linked_veraos_route` still generates only a revocable
 Mono/PORTAL no-effect proposal.
+
+
+## Real Pre-Active durable Store / Engine synthetic no-effect result
+
+Integration's existing source-gate suite now checks out the exact Pre-Active
+source staged by VeraOS PR31, head 1f23a809d7274df506e03e2d9052525538c3bcf6
+(Store Git blob 4612d4c621e01ce4ee69ad5702c4ca37fa7e3402)
+as a TEST dependency only. The test uses actual pre_active.Store, Engine,
+ContextAssembler, and empty ToolRegistry with a literal in-memory stub
+returning SYNTHETIC PRE-ACTIVE RESPONSE ONLY. It consumes the existing
+Mono TASK_OPENED -> PORTAL route source proposal and mimics the exact PR31
+event/request-id primitives: task.requested, veraos-text:<request_id>,
+VERAOS_COGNITION_ROUTE_SELECTED, then bounded Engine.run_once. The actual
+Pre-Active SQLite run must be COMPLETED, retain source_event_id/run_id,
+survive cold Store reopen and preserve exactly one synthetic stub response.
+Duplicate event/request ID does not create a second run, changed task with
+same request token is rejected, and a later Vera Mono journal advance
+invalidates the original advisory.
+
+NO MODEL, NETWORK, QEMU, GUEST, OS, PROVIDER ADMISSION, OR EFFECT IS INVOKED.
+This is NOT an execution of private veraos.native_cognition.execute_text_request.
+Private VeraOS source is not copied into public CI; its optional source test
+remains a declared SKIP. The stub result is explicitly not a Vera Mono
+accepted task, a completed real cognition turn, or canonical memory.
+The normal resident can only use a separately authorized admitted route,
+Mono-owned expected-head acceptance transaction, and durable
+event/run/result readback with identity and current-source checks.

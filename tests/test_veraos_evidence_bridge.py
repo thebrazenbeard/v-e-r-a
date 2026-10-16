@@ -17,6 +17,7 @@ import unittest
 from integration.cognition_task_gate import bind_episode
 from integration.veraos_evidence_bridge import (
     evaluate_source_route_evidence, ProvenanceBridgeError,
+    prepare_source_linked_veraos_route, verify_source_linked_veraos_route,
     VERAOS_HEAD, NATIVE_ROUTE_BLOB, GUEST_PROBE_BLOB,
 )
 
@@ -25,6 +26,7 @@ MONO = os.environ.get("VERA_MONO_SOURCE_ROOT")
 TRAINING = os.environ.get("VERA_TRAINING_SOURCE_ROOT")
 INTRANEL = os.environ.get("INTRANEL_SOURCE_ROOT")
 VERAOS = os.environ.get("VERAOS_SOURCE_ROOT")
+PORTAL = os.environ.get("PORTAL_SOURCE_ROOT")
 
 
 def git(root, *args):
@@ -337,3 +339,103 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
                 forged[authority] = True
                 with self.assertRaisesRegex(ProvenanceBridgeError, "task"):
                     self.evaluate(binding=forged)
+
+
+    def linked(self):
+        # An actual durable Mono TASK_OPENED event records the same local
+        # receiver packet digest. This is declared causality, not identity.
+        from integration.cognition_task_gate import bind_episode
+        source = self.receiver.read_comment_packet_evidence(81, "reply-1")
+        ledger = self.Ledger(Path(self.temp.name) / "linked-tasks.sqlite3")
+        ledger.open_task(
+            self.task_id, self.ledger.read(self.task_id).packet,
+            lifecycle_evidence_digest=source["semantic_sha256"],
+        )
+        return ledger, bind_episode(ledger, self.task_id, self.episode)
+
+    def advisory_ad(self, route_id="dev:virtio-qwen4b"):
+        from portal.route_resolver import PortalRouteAdvertisement
+        return PortalRouteAdvertisement(
+            adapter_id="pre-active-openai-compatible", route_id=route_id,
+            node_id="veraos", target_kind="MODEL", target_id="qwen3:4b-instruct",
+            capabilities=("text",),
+            effect_capabilities=("NO_PROTECTED_EFFECT",),
+            authorized_effects=("NO_PROTECTED_EFFECT",),
+            available=True, attached=True, current=True,
+        )
+
+    def proposal(self, ledger, binding, **changes):
+        props = dict(
+            receiver=self.receiver, task_ledger=ledger, task_id=self.task_id,
+            episode=self.episode, binding=binding, comment_id=81,
+            message_id="reply-1", coverage=self.coverage,
+            provider=self.provider, route_intent=self.intent,
+            advertisements=(self.advisory_ad(),),
+        )
+        props.update(changes)
+        return prepare_source_linked_veraos_route(**props)
+
+    def test_real_mono_open_digest_to_portal_to_veraos_intent_is_durable_and_reverified(self):
+        if not PORTAL:
+            self.skipTest("requires actual pinned PORTAL source checkout")
+        sys.path.insert(0, str(Path(PORTAL)))
+        ledger, binding = self.linked()
+        proposal = self.proposal(ledger, binding)
+        self.assertEqual(proposal["status"], "ROUTE_PROPOSED_UNATTESTED")
+        self.assertEqual(proposal["portal_request"]["requested_effect"], "NO_PROTECTED_EFFECT")
+        self.assertEqual(proposal["portal_assessment"]["state"], "ROUTE_PROPOSED")
+        self.assertEqual(proposal["native_call"]["module"], "veraos.native_cognition")
+        self.assertEqual(proposal["native_call"]["callable"], "execute_text_request")
+        self.assertEqual(proposal["native_call"]["task"], ledger.read(self.task_id).packet.subject)
+        self.assertLessEqual(len(proposal["native_call"]["request_id"]), 96)
+        for denied in ("accepted_as_task_result", "normal_resident_route_admitted",
+                       "executed", "protected_effect_authority", "origin_authenticated"):
+            self.assertIs(proposal[denied], False)
+        # Actual durable receipt, cold reread and idempotent exact proposal
+        receipt_file = Path(self.temp.name) / "portal-veraos-proposal.json"
+        self.proposal(ledger, binding, receipt_path=receipt_file)
+        self.assertTrue(receipt_file.is_file())
+        self.assertEqual(verify_source_linked_veraos_route(
+            receipt_file, receiver=self.receiver, task_ledger=ledger,
+            task_id=self.task_id, episode=self.episode, binding=binding,
+            comment_id=81, message_id="reply-1", coverage=self.coverage,
+            provider=self.provider, route_intent=self.intent,
+            advertisements=(self.advisory_ad(),),
+        ), proposal)
+        self.assertEqual(self.proposal(ledger, binding), proposal)
+        with self.assertRaisesRegex(ProvenanceBridgeError, "receipt"):
+            self.proposal(ledger, binding, receipt_path=receipt_file)
+
+    def test_unlinked_task_and_stale_post_receipt_journal_fail_closed(self):
+        if not PORTAL:
+            self.skipTest("requires pinned PORTAL")
+        sys.path.insert(0, str(Path(PORTAL)))
+        with self.assertRaisesRegex(ProvenanceBridgeError, "opening"):
+            self.proposal(self.ledger, self.binding)
+        ledger, binding = self.linked()
+        path = Path(self.temp.name) / "durable-source-proposal.json"
+        self.proposal(ledger, binding, receipt_path=path)
+        ledger.bind_dependency(self.task_id, "dependency:other-writer",
+                               kind="COORDINATION_COMMAND", target_id="command:advance")
+        with self.assertRaisesRegex(ProvenanceBridgeError, "task"):
+            verify_source_linked_veraos_route(
+                path, receiver=self.receiver, task_ledger=ledger,
+                task_id=self.task_id, episode=self.episode, binding=binding,
+                comment_id=81, message_id="reply-1", coverage=self.coverage,
+                provider=self.provider, route_intent=self.intent,
+                advertisements=(self.advisory_ad(),),
+            )
+
+    def test_forged_model_route_and_incomplete_provider_keep_advisory_untrusted(self):
+        if not PORTAL:
+            self.skipTest("requires pinned PORTAL")
+        sys.path.insert(0, str(Path(PORTAL)))
+        ledger, binding = self.linked()
+        unmatched = self.proposal(ledger, binding, advertisements=(self.advisory_ad("forged:route"),))
+        self.assertEqual(unmatched["status"], "HELD_UNQUALIFIED_ROUTE")
+        self.assertIsNone(unmatched["native_call"])
+        unqualified = self.proposal(ledger, binding, advertisements=())
+        self.assertEqual(unqualified["status"], "HELD_UNQUALIFIED_ROUTE")
+        proposed = self.proposal(ledger, binding)
+        self.assertFalse(proposed["coverage"]["coverage_complete"])
+        self.assertFalse(proposed["normal_resident_route_admitted"])

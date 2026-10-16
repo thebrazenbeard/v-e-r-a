@@ -1,0 +1,638 @@
+{
+  "schema": "VERA_SUPABASE_CATALOG_SNAPSHOT_V1",
+  "project_ref": "klmbpaigzeguvnpccqzz",
+  "catalog": "row-level-policies",
+  "items": [
+    {
+      "schemaname": "bug_ops",
+      "tablename": "bug_events",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "bug_ops",
+      "tablename": "bug_reports",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "bug_ops",
+      "tablename": "dispatch_events",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "bug_ops",
+      "tablename": "dispatch_events_v2",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "bug_ops",
+      "tablename": "operation_receipts",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "bug_ops",
+      "tablename": "role_registry",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "bug_ops",
+      "tablename": "system_config",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "build_team_2",
+      "tablename": "collectives",
+      "policyname": "deny_client_access",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "build_team_2",
+      "tablename": "decisions",
+      "policyname": "deny_client_access",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "build_team_2",
+      "tablename": "facets",
+      "policyname": "deny_client_access",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "build_team_2",
+      "tablename": "memory_events",
+      "policyname": "deny_client_access",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "build_team_2",
+      "tablename": "one_working_laws_current",
+      "policyname": "Deny client access to current working laws",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "build_team_2",
+      "tablename": "perspectives",
+      "policyname": "deny_client_access",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "build_team_2",
+      "tablename": "role_operational_checkpoints",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "build_team_2",
+      "tablename": "role_training_current",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "build_team_2",
+      "tablename": "role_training_packages",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "build_team_2",
+      "tablename": "role_training_qualifications",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "build_team_2",
+      "tablename": "tasks",
+      "policyname": "deny_client_access",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "brigit_context_events_v3",
+      "policyname": "brigit_context_events_v3_no_client_access",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "brigit_coordination_events",
+      "policyname": "brigit_coordination_no_client_access",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "brigit_save_state_events",
+      "policyname": "brigit_save_state_events_no_client_access",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "brigit_save_state_supersession_edges",
+      "policyname": "brigit_save_state_edges_no_client_access",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_affective_runtime_events_v1",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_affective_runtime_state_v1",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_context_events_v3",
+      "policyname": "vera_context_events_v3_no_anon_access",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_context_events_v3",
+      "policyname": "vera_context_events_v3_no_authenticated_access",
+      "permissive": "PERMISSIVE",
+      "roles": "{authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_coordination_events",
+      "policyname": "vera_coordination_no_client_access",
+      "permissive": "RESTRICTIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_memory_epoch_archive_receipts_v1",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_memory_epoch_events_v1",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_memory_epoch_provider_receipts_v1",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_memory_epoch_subjects_v1",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_optional_invocation_route_evidence_v1",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_optional_invocation_test_events_v1",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_portable_bootstrap_bindings",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_portable_bootstrap_events",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_portable_bootstrap_readback_confirmations",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_portable_bootstrap_requests",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_save_state_events",
+      "policyname": "vera_save_state_events_no_client_access",
+      "permissive": "RESTRICTIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "public",
+      "tablename": "vera_save_state_supersession_edges",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "acknowledgements",
+      "policyname": "No direct client access",
+      "permissive": "RESTRICTIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "assignment_events",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "assignments",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "dead_letters",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "delivery_events",
+      "policyname": "delivery_events_api_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "dependencies",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "endpoints",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "health_events",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "identities",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "identity_visuals",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "messages",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "nodes",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "reconciliation_events",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "subscriptions",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "radar",
+      "tablename": "telemetry",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "redworm",
+      "tablename": "lineage_events",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "redworm",
+      "tablename": "lineage_state",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "redworm",
+      "tablename": "runtime_registry",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "redworm",
+      "tablename": "succession_transfers",
+      "policyname": "backend_only_anon_authenticated_deny",
+      "permissive": "PERMISSIVE",
+      "roles": "{anon,authenticated}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "semantic_atlas",
+      "tablename": "capture_policy",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "semantic_atlas",
+      "tablename": "runtime_objects",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "semantic_atlas",
+      "tablename": "runtime_snapshots",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "semantic_atlas",
+      "tablename": "semantic_capture_events",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    },
+    {
+      "schemaname": "semantic_atlas",
+      "tablename": "semantic_capture_outcomes",
+      "policyname": "deny_all_untrusted_v1",
+      "permissive": "PERMISSIVE",
+      "roles": "{public}",
+      "cmd": "ALL",
+      "qual": "false",
+      "with_check": "false"
+    }
+  ],
+  "no_data_rows": true
+}

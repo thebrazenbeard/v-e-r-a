@@ -191,7 +191,11 @@ class RealCognitionTaskGateTests(unittest.TestCase):
 
     def test_cricket_block_dominates_semantic_unrepresentable(self):
         blocked = deepcopy(self.episode)
-        blocked["core_semantic_plan"]["fidelity"] = "UNREPRESENTABLE"
+        plan = blocked["core_semantic_plan"]
+        plan["fidelity"] = "UNREPRESENTABLE"
+        plan["required_capabilities"].append("latent:unresolved")
+        plan["missing_capabilities"].append("latent:unresolved")
+        plan["unresolved_capabilities"].append("latent:unresolved")
         blocked["cricket_review"] = {
             "disposition": "BLOCK",
             "findings": [dict(

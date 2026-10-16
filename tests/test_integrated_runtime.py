@@ -2,6 +2,7 @@
 from __future__ import annotations
 import hashlib
 import json
+from contextlib import closing
 from pathlib import Path
 import sqlite3
 import sys
@@ -23,24 +24,30 @@ class TaskPacket:
 
 
 class Ledger:
-    def __init__(self, file):
-        self.db = sqlite3.connect(file)
-        self.db.execute('create table if not exists tasks (id text primary key, head text, packet text)')
-        self.db.commit()
-    def __del__(self):
-        try: self.db.close()
-        except AttributeError: pass
-    def events(self):
-        return tuple(types.SimpleNamespace(task_id=r[0]) for r in self.db.execute('select id from tasks'))
-    def open_task(self, task, packet, *, lifecycle_evidence_digest):
-        self.db.execute('insert into tasks values (?, ?, ?)', (task, 'a'*64, packet.packet_digest))
-        self.db.commit()
-        return types.SimpleNamespace(journal_head_digest='a'*64)
-    def read(self, task):
-        row = self.db.execute('select head, packet from tasks where id=?', (task,)).fetchone()
-        if row is None: raise KeyError(task)
-        return row
+    """Mock task ledger with deterministic SQLite handle release on Windows."""
 
+    def __init__(self, file):
+        self.file = file
+        with closing(sqlite3.connect(self.file)) as db:
+            db.execute('create table if not exists tasks (id text primary key, head text, packet text)')
+            db.commit()
+
+    def events(self):
+        with closing(sqlite3.connect(self.file)) as db:
+            return tuple(types.SimpleNamespace(task_id=r[0]) for r in db.execute('select id from tasks'))
+
+    def open_task(self, task, packet, *, lifecycle_evidence_digest):
+        with closing(sqlite3.connect(self.file)) as db:
+            db.execute('insert into tasks values (?, ?, ?)', (task, 'a'*64, packet.packet_digest))
+            db.commit()
+        return types.SimpleNamespace(journal_head_digest='a'*64)
+
+    def read(self, task):
+        with closing(sqlite3.connect(self.file)) as db:
+            row = db.execute('select head, packet from tasks where id=?', (task,)).fetchone()
+        if row is None:
+            raise KeyError(task)
+        return row
 
 class Advertisement:
     def __init__(self, **kwargs): self.data = kwargs
@@ -105,8 +112,9 @@ class IntegratedRuntimeTests(unittest.TestCase):
         self.assertIsNone(again['route'])
         with self.assertRaises(ValueError):
             runner.execute(self.args('route',node='lappy',target_kind='repository',target='thebrazenbeard/portal',capability=['repository_read'],advertisements=None,receipt=receipt))
-        with sqlite3.connect(self.ledger) as db:
+        with closing(sqlite3.connect(self.ledger)) as db:
             db.execute('update tasks set head=? where id=?', ('b'*64,'task-1'))
+            db.commit()
         with self.assertRaisesRegex(RuntimeError,'stale journal'):
             runner.execute(self.args('verify',receipt=receipt))
 

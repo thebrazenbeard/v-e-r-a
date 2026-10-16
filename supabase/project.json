@@ -1,0 +1,18 @@
+{
+  "schema": "VERA_SUPABASE_SOURCE_SNAPSHOT_V1",
+  "provider": "Supabase",
+  "project_ref": "klmbpaigzeguvnpccqzz",
+  "project_name": "Vera",
+  "region": "ca-central-1",
+  "postgres_engine": "17",
+  "postgres_version": "17.6.1.155",
+  "source_state": "LIVE_READ_ONLY_PROJECTION",
+  "contains_live_row_data": false,
+  "contains_secrets": false,
+  "definition_snapshot_only": true,
+  "limitations": [
+    "Source definitions reflect inspected current project; excluded live table rows, user/auth/vault/storage objects, tokens and credentials",
+    "This snapshot does not claim migration-history SQL reconstruction or represent physical service replication",
+    "Lantern WoWSQL runtime bt2-479e4ad9 is separate and is not represented by this project"
+  ]
+}

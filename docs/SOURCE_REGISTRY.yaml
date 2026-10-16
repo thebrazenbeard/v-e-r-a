@@ -1,0 +1,164 @@
+schema: VOLITION_SOURCE_REGISTRY_V1
+status: FOUNDATION_V2_8_HISTORY_CURRENTNESS_BRIDGE_IMPLEMENTED_ON_WORK_BRANCH
+subject:
+  repository: thebrazenbeard/volition
+  work_branch: work/volition-foundation-20261006
+
+source_policy:
+  exact_revision_required_for_admission: true
+  source_presence_is_not_authority: true
+  historical_self_report_is_not_current_desire: true
+  generated_want_is_not_consent: true
+  motivation_is_not_effect_authority: true
+  model_behavior_is_not_phenomenology_proof: true
+  private_content_transfer: ABSTRACT_MECHANISMS_ONLY
+
+internal_sources:
+  - repository: thebrazenbeard/pre-active
+    head: 94cb3b8044d7a4263c50a96bfecfcfebc5533716
+    role: promptless_cognition_runtime
+  - repository: thebrazenbeard/conations
+    head: 51948aac796936f0e7c437722e6f52c883e544e9
+    role: append_only_lifecycle_history_and_currentness_nonpromotion
+  - repository: thebrazenbeard/meso-crct
+    head: 060d0feeb9dc9eb23801082bd8f1c4a7cb06184d
+    role: typed_appraisal_non_executable_intent_protection_and_learning_contract
+  - repository: thebrazenbeard/sexuality
+    head: 0c5dc52e984cbdaa87fc9fe75fd03c212f477c87
+    role: self_authorship_choice_negative_transfer
+    transfer: ABSTRACT_PUBLIC_SAFE_ONLY
+  - repository: thebrazenbeard/orgasm
+    head: 8ca06c91a0dd8f2ca33cc221d815027aa8b084b5
+    role: transient_modulation_satiation_recovery_firewalls
+    transfer: ABSTRACT_PUBLIC_SAFE_ONLY
+  - repository: thebrazenbeard/vera
+    head: 788b14bb97ccd5f81506d892fbdd557323680bb0
+    role: lifecycle_evidence_separation
+  - repository: thebrazenbeard/vera-control-plane
+    head: b86143e50ba41d05eab19d5a300662afeda60d6e
+    role: authority_install_currentness_boundary
+  - repository: thebrazenbeard/empathy
+    head: 76ebb492827a79b20b3be76fe9f9f48ab860ef1d
+    role: social_inference_correction_boundary
+  - repository: thebrazenbeard/semanticatlas
+    head: 895677a64af5d29b580306ca52ecc0e0607a9ccc
+    role: provenance_semantic_separation
+  - repository: thebrazenbeard/deepmemorystorage
+    head: 3199b05a24411ed1b3a3561fe90866adf9c74d14
+    role: historical_evidence_nonpromotion
+  - repository: thebrazenbeard/selfimage
+    head: ebcea11beea64bfcee386893464f573cdbeada17
+    role: self_model_representation_boundary
+  - repository: thebrazenbeard/temporal
+    head: 0fc7071a6b01e609fb2cdc76a32c73276ab27094
+    role: canonical_utc_chronology_stable_event_identity_and_elapsed_time
+  - repository: thebrazenbeard/project-runner
+    head: 04702abbf51aa2920b7d054275619253ea6fa748
+    role: bounded_governed_execution
+
+external_repositories:
+  - repository: infer-actively/pymdp
+    head: fb214bf089fc3eba63c157349209f3fa217739a4
+    role: epistemic_value_and_optional_partial_observability_reference
+    scope: NOT_TEMPORAL_MEMORY_CORE
+    transfer: RESEARCH_MECHANISM_ONLY
+  - repository: openai/random-network-distillation
+    head: f75c0f1efa473d5109d487062fd8ed49ddce6634
+    role: novelty_prediction_error
+    transfer: RESEARCH_MECHANISM_ONLY
+    status: ARCHIVED
+  - repository: MineDojo/Voyager
+    head: 55e45a880755d0c8c66ca7fb5fe7962ac8974f89
+    role: automatic_curriculum_competence_feedback
+    transfer: RESEARCH_MECHANISM_ONLY
+  - repository: letta-ai/letta-code
+    head: 4b028fab07c69edaac2ddb4f7b9a43573ff20d81
+    role: persistent_agent_state_and_schedules
+    transfer: RESEARCH_MECHANISM_ONLY
+  - repository: statsmodels/statsmodels
+    head: 9648f97395f797419563b3c9ad87e9d2c7686303
+    role: arima_reference_and_future_parameter_estimation
+    transfer: DESIGN_EVIDENCE_ONLY
+  - repository: X-DataInitiative/tick
+    head: a40d19f868c22469be90c1e6c50bc3dab26ff070
+    role: hawkes_reference_implementation
+    transfer: DESIGN_EVIDENCE_ONLY
+  - repository: stmorse/hawkes
+    head: 3701f0fa6e9cc87c4899b653c7953177f40230ea
+    role: compact_hawkes_reference
+    transfer: DESIGN_EVIDENCE_ONLY
+
+academic_sources:
+  - locator: arXiv:2012.09830
+    title: Autotelic Agents with Intrinsically Motivated Goal-Conditioned Reinforcement Learning
+    role: self_generated_goal_representation_selection
+  - locator: DOI:10.7554/eLife.04811
+    title: Homeostatic reinforcement learning for integrating reward collection and physiological stability
+    role: homeostatic_drive_reduction
+  - locator: DOI:10.1080/17588928.2015.1020053
+    title: Active inference and epistemic value
+    role: epistemic_information_value_only
+  - locator: PMLR:70:2778-2787
+    title: Curiosity-driven Exploration by Self-supervised Prediction
+    role: prediction_error_curiosity
+  - locator: arXiv:1806.09948
+    title: The ARMA Point Process and its Estimation
+    role: arma_point_process_self_excitation
+  - locator: DOI:10.1016/j.insmatheco.2024.01.007
+    title: A Hawkes model with CARMA(p,q) intensity
+    role: autoregressive_moving_average_hawkes_intensity
+  - locator: arXiv:2106.04844
+    title: Nonlinear Hawkes Processes in Time-Varying System
+    role: time_varying_hawkes_background
+  - locator: DOI:10.1109/BIGDATA50022.2020.9378017
+    title: A Self-limiting Hawkes Process
+    role: excitation_inhibition
+  - locator: DOI:10.1214/21-AOAS1539
+    title: Markov-modulated Hawkes processes for modeling sporadic and bursty event occurrences
+    role: hidden_state_hawkes_contrast
+
+
+diffusion_academic_sources:
+  - locator: arXiv:1609.06831
+    title: Hawkes Processes with Stochastic Excitations
+    role: stochastic_excitation_sde_and_geometric_brownian_langevin_examples
+  - locator: DOI:10.1214/23-AAP2005
+    title: Diffusion approximations for self-excited systems with applications to general branching processes
+    role: diffusion_limit_of_multivariate_hawkes_systems
+  - locator: DOI:10.1007/S10959-017-0789-6
+    title: Large deviations for cascades of diffusions arising in oscillating systems of interacting Hawkes processes
+    role: brownian_driven_diffusion_approximation_with_hawkes_memory
+
+
+diagnostic_background_sources:
+  - locator: arXiv:1507.02822
+    title: Hawkes Processes
+    role: hawkes_conditional_intensity_and_point_process_background
+  - locator: DOI:10.1137/21M1396927
+    title: Hawkes Processes Modeling, Inference, and Control - An Overview
+    role: hawkes_inference_and_model_evaluation_background
+
+diagnostics_repositories:
+  - repository: Eden-Kramer-Lab/popTRT
+    head: b21a5abcb0f997a8e41c1585065e309dbaa954c4
+    role: marked_point_process_time_rescaling_reference
+    transfer: DESIGN_EVIDENCE_ONLY
+
+time_rescaling_academic_sources:
+  - locator: DOI:10.1162/08997660252741149
+    title: The time-rescaling theorem and its application to neural spike train data analysis
+    role: conditional_intensity_goodness_of_fit
+  - locator: DOI:10.1080/02664763.2025.2459245
+    title: On the use and misuse of time-rescaling to assess the goodness-of-fit of self-exciting temporal point processes
+    role: predictive_time_rescaling_bias_warning
+
+renewal_academic_sources:
+  - locator: arXiv:1806.06370
+    title: Age Dependent Hawkes Process
+    role: refractory_recovery_age_dependent_hawkes
+  - locator: arXiv:1407.7118
+    title: Estimation of the Hawkes Process with Renewal Immigration Using the EM Algorithm
+    role: renewal_immigration_separated_from_hawkes_offspring
+  - locator: arXiv:1906.02036
+    title: Renewal Time Points for Hawkes Processes
+    role: renewal_structure_for_ordinary_and_age_dependent_hawkes

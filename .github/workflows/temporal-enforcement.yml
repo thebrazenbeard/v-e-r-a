@@ -1,0 +1,81 @@
+name: Temporal enforcement kernel
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - feature/temporal-enforcement-kernel-v1
+
+permissions:
+  contents: read
+
+jobs:
+  python-kernel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Run temporal enforcement tests
+        run: python -m unittest discover -s tests -p "test_temporal*.py" -v
+      - name: Compile temporal enforcement modules
+        run: >-
+          python -m py_compile
+          protocol/temporal_enforcement.py
+          protocol/temporal_role_precision.py
+          protocol/__init__.py
+          tests/test_temporal_enforcement.py
+          tests/test_temporal_role_precision.py
+
+  database-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      PGDATABASE_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      SUPABASE_CLI_VERSION: 2.101.0
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install pinned Supabase CLI
+        uses: supabase/setup-cli@45a513f8c64c0bc8e0e3dfe572b5c95be85f6359 # v3.0.0
+        with:
+          version: ${{ env.SUPABASE_CLI_VERSION }}
+      - name: Verify pinned Supabase CLI
+        run: test "$(supabase --version)" = "$SUPABASE_CLI_VERSION"
+      - name: Initialize local Supabase configuration
+        run: |
+          if [ ! -f supabase/config.toml ]; then
+            supabase init
+          fi
+      - name: Isolate the new draft from historical migrations
+        run: |
+          rm -rf supabase/migrations.temporal-enforcement-backup
+          if [ -d supabase/migrations ]; then
+            mv supabase/migrations supabase/migrations.temporal-enforcement-backup
+          fi
+          mkdir -p supabase/migrations
+      - name: Start disposable local Supabase
+        run: supabase start
+      - name: Apply temporal enforcement base draft
+        run: psql "$PGDATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/drafts/20260730_temporal_enforcement_v1.sql
+      - name: Validate temporal enforcement base contract
+        run: psql "$PGDATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/validate_temporal_enforcement_v1.sql
+      - name: Apply role-specific temporal precision draft
+        run: psql "$PGDATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/drafts/20260730_temporal_role_precision_v1.sql
+      - name: Validate role-specific temporal precision
+        run: psql "$PGDATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/tests/validate_temporal_role_precision_v1.sql
+      - name: Run database lint
+        run: supabase db lint --local
+      - name: Stop and delete disposable Supabase
+        if: always()
+        run: supabase stop --no-backup

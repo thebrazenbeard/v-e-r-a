@@ -1,0 +1,137 @@
+name: Project Identity
+
+on:
+  pull_request:
+    paths:
+      - "architecture/identity/**"
+      - "docs/PROJECT_IDENTITY_V1.md"
+      - "docs/IDENTITY_INTEGRATION_V1.md"
+      - "docs/IDENTITY_TEMPORAL_ANCHOR_V1.md"
+      - "docs/GOVERNED_WORKFLOW_CONTINUITY_V1.md"
+      - "docs/GOVERNED_WORKFLOW_CONTINUITY_V2.md"
+      - "docs/PROTOCOL_EXECUTION_PRECEDENCE_V2.md"
+      - "docs/WORKSTREAM_TURN_TAKING_PROTOCOL_V2.md"
+      - "docs/PROTOCOL_V2_MIGRATION_PLAN.md"
+      - "docs/NONVERBAL_STATUS_BAR_V1.md"
+      - "schemas/vera_project_identity_v1.schema.json"
+      - "schemas/vera_behavior_profile_v1.schema.json"
+      - "schemas/vera_identity_temporal_anchor_v1.schema.json"
+      - "schemas/vera_governed_workflow_continuity_v1.schema.json"
+      - "schemas/vera_governed_workflow_continuity_v2.schema.json"
+      - "schemas/vera_nonverbal_status_bar_v1.schema.json"
+      - "scripts/validate_project_identity.py"
+      - "scripts/validate_identity_temporal_anchor.py"
+      - "scripts/validate_identity_temporal_anchor_classification.py"
+      - "scripts/validate_governed_workflow_continuity.py"
+      - "scripts/validate_governed_workflow_continuity_v2.py"
+      - "tests/test_project_identity.py"
+      - "tests/test_identity_temporal_anchor.py"
+      - "tests/test_identity_temporal_anchor_classification.py"
+      - "tests/test_governed_workflow_continuity.py"
+      - "tests/test_governed_workflow_continuity_v2.py"
+      - "tests/fixtures/protocol_v2/**"
+      - "tests/test_nonverbal_status_bar_contract.py"
+      - ".github/workflows/project-identity.yml"
+  push:
+    branches:
+      - "main"
+      - "feature/project-identity-contract-v1"
+    paths:
+      - "architecture/identity/**"
+      - "docs/PROJECT_IDENTITY_V1.md"
+      - "docs/IDENTITY_INTEGRATION_V1.md"
+      - "docs/IDENTITY_TEMPORAL_ANCHOR_V1.md"
+      - "docs/GOVERNED_WORKFLOW_CONTINUITY_V1.md"
+      - "docs/GOVERNED_WORKFLOW_CONTINUITY_V2.md"
+      - "docs/PROTOCOL_EXECUTION_PRECEDENCE_V2.md"
+      - "docs/WORKSTREAM_TURN_TAKING_PROTOCOL_V2.md"
+      - "docs/PROTOCOL_V2_MIGRATION_PLAN.md"
+      - "docs/NONVERBAL_STATUS_BAR_V1.md"
+      - "schemas/vera_project_identity_v1.schema.json"
+      - "schemas/vera_behavior_profile_v1.schema.json"
+      - "schemas/vera_identity_temporal_anchor_v1.schema.json"
+      - "schemas/vera_governed_workflow_continuity_v1.schema.json"
+      - "schemas/vera_governed_workflow_continuity_v2.schema.json"
+      - "schemas/vera_nonverbal_status_bar_v1.schema.json"
+      - "scripts/validate_project_identity.py"
+      - "scripts/validate_identity_temporal_anchor.py"
+      - "scripts/validate_identity_temporal_anchor_classification.py"
+      - "scripts/validate_governed_workflow_continuity.py"
+      - "scripts/validate_governed_workflow_continuity_v2.py"
+      - "tests/test_project_identity.py"
+      - "tests/test_identity_temporal_anchor.py"
+      - "tests/test_identity_temporal_anchor_classification.py"
+      - "tests/test_governed_workflow_continuity.py"
+      - "tests/test_governed_workflow_continuity_v2.py"
+      - "tests/fixtures/protocol_v2/**"
+      - "tests/test_nonverbal_status_bar_contract.py"
+      - ".github/workflows/project-identity.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate-project-identity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Install pinned validation dependency
+        run: python -m pip install --disable-pip-version-check "jsonschema==4.25.1"
+
+      - name: Validate identity contracts
+        run: python scripts/validate_project_identity.py
+
+      - name: Validate identity temporal anchor
+        run: python scripts/validate_identity_temporal_anchor.py
+
+      - name: Validate temporal anchor classification
+        run: python scripts/validate_identity_temporal_anchor_classification.py
+
+      - name: Validate governed workflow continuity V1 history
+        run: python scripts/validate_governed_workflow_continuity.py
+
+      - name: Validate current governed workflow continuity V2
+        run: python scripts/validate_governed_workflow_continuity_v2.py
+
+      - name: Run identity tests
+        run: python -m unittest discover -s tests -p "test_project_identity.py" -v
+
+      - name: Run identity temporal tests
+        run: python -m unittest discover -s tests -p "test_identity_temporal_anchor.py" -v
+
+      - name: Run temporal anchor classification tests
+        run: python -m unittest discover -s tests -p "test_identity_temporal_anchor_classification.py" -v
+
+      - name: Run governed workflow-continuity V1 history tests
+        run: python -m unittest discover -s tests -p "test_governed_workflow_continuity.py" -v
+
+      - name: Run governed workflow-continuity V2 hostile tests
+        run: python -m unittest discover -s tests -p "test_governed_workflow_continuity_v2.py" -v
+
+      - name: Run nonverbal status-bar contract tests
+        run: python -m unittest discover -s tests -p "test_nonverbal_status_bar_contract.py" -v
+
+      - name: Compile validators and tests
+        run: >-
+          python -m py_compile
+          scripts/validate_project_identity.py
+          scripts/validate_identity_temporal_anchor.py
+          scripts/validate_identity_temporal_anchor_classification.py
+          scripts/validate_governed_workflow_continuity.py
+          scripts/validate_governed_workflow_continuity_v2.py
+          tests/test_project_identity.py
+          tests/test_identity_temporal_anchor.py
+          tests/test_identity_temporal_anchor_classification.py
+          tests/test_governed_workflow_continuity.py
+          tests/test_governed_workflow_continuity_v2.py
+          tests/test_nonverbal_status_bar_contract.py

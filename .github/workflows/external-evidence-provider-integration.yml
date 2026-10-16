@@ -1,0 +1,40 @@
+name: External evidence provider integration
+
+on:
+  pull_request:
+    paths:
+      - "architecture/integration/VERA_EXTERNAL_EVIDENCE_PROVIDER_REGISTRY_V1.json"
+      - "architecture/integration/VERA_DEEP_MEMORY_ARCHIVE_INTEGRATION_V1.json"
+      - "architecture/integration/vendor/**"
+      - "runtime_cohesion/deep_memory_evidence.py"
+      - "schemas/vera_external_evidence_provider_registry_v1.schema.json"
+      - "scripts/validate_external_evidence_provider_registry.py"
+      - "tests/test_deep_memory_evidence_adapter.py"
+      - ".github/workflows/external-evidence-provider-integration.yml"
+  push:
+    paths:
+      - "architecture/integration/VERA_EXTERNAL_EVIDENCE_PROVIDER_REGISTRY_V1.json"
+      - "architecture/integration/VERA_DEEP_MEMORY_ARCHIVE_INTEGRATION_V1.json"
+      - "architecture/integration/vendor/**"
+      - "runtime_cohesion/deep_memory_evidence.py"
+      - "schemas/vera_external_evidence_provider_registry_v1.schema.json"
+      - "scripts/validate_external_evidence_provider_registry.py"
+      - "tests/test_deep_memory_evidence_adapter.py"
+      - ".github/workflows/external-evidence-provider-integration.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+      - run: python -m pip install jsonschema==4.25.1
+      - run: python scripts/validate_external_evidence_provider_registry.py
+      - run: python -m unittest tests.test_deep_memory_evidence_adapter -v

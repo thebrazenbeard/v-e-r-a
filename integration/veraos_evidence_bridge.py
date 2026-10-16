@@ -88,7 +88,7 @@ def _check_provider(provider: Mapping[str, Any], route_intent: Mapping[str, Any]
                 "status": "VERAOS_ROUTE_ELIGIBLE",
                 "route_class": "COGNITION_ONLY",
                 "selector_owner": "thebrazenbeard/portal",
-            })):
+            }):
         raise ProvenanceBridgeError("provider descriptor does not match diagnostic source")
     return {
         "provider_id": provider["provider_id"],

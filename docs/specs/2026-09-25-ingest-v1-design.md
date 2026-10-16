@@ -1,0 +1,228 @@
+# Ingest V1 — Universal Intake Boundary Design
+
+Status: APPROVED
+Date: 2026-09-25
+Repository: `thebrazenbeard/ingest`
+
+## Purpose
+
+Ingest is the universal provider-neutral intake layer for heterogeneous information. It accepts source material, preserves exact raw bytes, creates deterministic normalized derivatives when explicitly supported, binds source and transformation provenance, and emits machine-readable records and receipts for downstream systems.
+
+Ingest is deliberately below downstream ontology. Intake is not truth adjudication, semantic interpretation, currentness, authority, memory admission, or runtime activation.
+
+## Required distinctions
+
+`SOURCE_LOCATOR != SOURCE_AUTHORSHIP`
+
+`RETRIEVAL != ADMISSION`
+
+`INGESTION_TIME != EVENT_TIME`
+
+`RAW_BYTES != NORMALIZED_DERIVATIVE`
+
+`CONTENT_IDENTITY != SOURCE_IDENTITY`
+
+`SIMILARITY != IDENTITY`
+
+`RECEIPT != TRUTH`
+
+`SOURCE != INTERPRETATION`
+
+`MUTABLE_REF != IMMUTABLE_PROVENANCE`
+
+`SOURCE_IMPLEMENTATION != INSTALLED_RUNTIME`
+
+## V1 source classes
+
+1. inline text and bytes;
+2. local files;
+3. HTTP(S) resources;
+4. GitHub repository files with exact-commit resolution;
+5. generic message/event envelopes;
+6. caller-provided byte streams with explicit locator/identity claims and policy-bounded streaming admission.
+
+Structured JSON and JSONL are transformations over acquired bytes rather than separate truth-bearing source classes.
+
+## Canonical record model
+
+### SourceRef
+
+A `SourceRef` contains:
+
+- `scheme`;
+- `locator`;
+- adapter name and version;
+- `observed_at`;
+- stable `source_identity` used for deterministic ingest identity;
+- `claimed_metadata` supplied by the source or caller;
+- `observed_metadata` established by the adapter.
+
+`observed_at` never substitutes for an event timestamp supplied by source evidence. For HTTP(S), persisted human-readable URL provenance excludes userinfo, query, and fragment; SHA-256 digests bind the exact requested/final URLs without storing likely credentials or secret query material in plaintext.
+
+### Artifact
+
+An artifact is an immutable content-addressed byte sequence with:
+
+- SHA-256 identity;
+- byte length;
+- media type;
+- artifact role (`raw` or `normalized`);
+- storage locator.
+
+Two source observations may share an artifact without being the same ingest event.
+
+### Ingest record
+
+An ingest record binds:
+
+- deterministic `ingest_id`;
+- source identity and provenance;
+- raw artifact;
+- optional normalized artifact;
+- status;
+- evidence class;
+- normalizer version;
+- policy identity;
+- stage receipts;
+- derivation edges;
+- warnings and bounded error state.
+
+### Receipt
+
+Every completed pipeline stage can emit an append-only `INGEST_STAGE_RECEIPT_V1` with a canonical SHA-256 receipt digest. Receipts report observations and transformations. They cannot promote content into truth or authority.
+
+### Derivation
+
+A derivation is a typed immutable edge between artifacts. V1 uses `NORMALIZED_FROM`. Future chunking/extraction must add new explicit relation types rather than mutating source artifacts.
+
+## Pipeline
+
+1. **Acquire** through a source adapter; adapters may use the byte-oriented contract or the optional streaming contract.
+2. **Bound** size and source-policy constraints while reading, not only after acquisition.
+3. **Persist raw** bytes to content-addressed storage; streaming adapters hash and stage exact bytes incrementally before create-only publication.
+4. **Sniff** content type and compare it with claimed type. The current V1 normalizer is still byte-oriented, so this stage may materialize a verified raw artifact after streaming capture.
+5. **Identify ingest** from stable source identity, raw hash, parser-driving media type, normalizer version, and policy digest.
+6. **Deduplicate** by exact ingest identity.
+7. **Normalize** only supported formats.
+8. **Persist normalized** derivative and relation.
+9. **Record** the accepted or quarantined intake state.
+10. **Emit result** without silently strengthening evidence.
+
+## Deterministic identity
+
+Artifact identity:
+
+`SHA256(exact persisted bytes)`
+
+Ingest identity:
+
+`SHA256(canonical JSON(source identity + raw SHA256 + parser-driving media type + normalizer version + policy identity))`
+
+Observation timestamps are excluded from deterministic identity.
+
+The design intentionally mirrors Project Runner's useful rule that provenance paths may explain how something was discovered without defining the underlying work/content identity. In Ingest, raw bytes deduplicate globally while source observations retain their own provenance identity.
+
+## Normalization V1
+
+### UTF-8 text
+
+- strict UTF-8 decode;
+- CRLF/CR → LF;
+- Unicode NFC;
+- no whitespace trimming or rewriting.
+
+### JSON
+
+- strict parse and strict JSON serialization;
+- non-finite numbers are rejected/quarantined rather than emitted as `NaN`/`Infinity`;
+- unsupported Python objects are never silently stringified;
+- canonical UTF-8 JSON;
+- sorted object keys;
+- compact separators;
+- Unicode preserved.
+
+### JSONL / NDJSON
+
+- blank lines ignored;
+- each non-empty line must parse independently;
+- each object is canonicalized independently;
+- normalized output ends with LF when non-empty.
+
+### Opaque binary
+
+No derivative is created in V1 unless a registered future parser explicitly owns that transformation.
+
+## Failure model
+
+`REJECTED` means policy denied admission before durable raw storage.
+
+`QUARANTINED` means raw bytes were safely stored but structured interpretation is unsafe or invalid, such as a file claiming JSON that does not parse as JSON.
+
+`FAILED` means acquisition or internal execution could not establish a reliable admitted result. Default GitHub API network, HTTP, invalid-JSON, raw-stream read, metadata-size, and blob-identity failures are normalized into this governed failure path rather than escaping as raw transport exceptions.
+
+`PARTIAL` is reserved for future optional derivations where the raw/core record remains safe but nonessential processing is incomplete.
+
+A repeated observation does not promote the disposition of the existing record: an accepted existing record yields `DUPLICATE`, while an existing quarantined/partial record preserves that non-success state and is marked as a duplicate observation in warnings/receipts.
+
+## GitHub provenance
+
+A requested branch or tag is a mutable acquisition hint. The GitHub adapter resolves it to an exact commit before reading file content, and `SourceRef.source_identity` binds owner, repository, exact commit, and path. The default API transport preflights file/blob metadata at the exact commit, rejects declared oversize content before opening the raw blob, then streams the raw Git blob while recomputing the Git object digest incrementally. A reported blob identity that does not match exact acquired bytes fails before streaming admission can finalize. The originally requested ref remains claimed metadata. When the transport does not supply a media type, `.json`, `.jsonl`, and `.ndjson` are assigned deterministic parser-driving media types before any host MIME lookup; other extensions may still use the platform MIME database as a best-effort descriptive hint. Invalid structured files therefore do not silently degrade into plain text because a host MIME table disagrees.
+
+Credential material belongs to the transport object, not the source record, receipt, locator, or artifact.
+
+## Security boundary
+
+V1 requires:
+
+- no acquired-code execution;
+- hard input byte ceilings;
+- local allowed-root confinement when configured, with absolute roots required for unambiguous policy identity;
+- full-path symlink/junction denial by default unless link following is explicitly enabled;
+- descriptor-bound local-file reads with stable cross-handle identity checks, stronger same-descriptor post-read stability checks, bounded chunked raw persistence, and a hard `max_bytes` ceiling;
+- HTTPS by default;
+- HTTP only by explicit policy;
+- bounded redirects;
+- required network timeouts;
+- private/loopback/link-local network denial by default;
+- raw preservation before structured parsing when admission is safe;
+- no automatic archive/container extraction.
+
+The default HTTP(S) transport binds each connection to an address that passed the private-network policy check, so a later hostname re-resolution cannot silently redirect that connection onto a forbidden network. HTTPS certificate verification still uses the original hostname. Injected custom openers remain supported, but they own their own connection-binding guarantee.
+
+## Storage boundary
+
+V1 ships a filesystem content-addressed store. Provider databases, object stores, Supabase, vector indexes, Bus projection, and Vera-specific integrations remain downstream adapters. Core importability cannot depend on them. Managed storage components beneath the caller-selected root reject symlink/junction redirection; this protects the store's internal hierarchy without silently redefining the root path the caller chose.
+
+Concurrent same-identity ingestion is first-writer-wins only after verifying deterministic record semantics: source identity material, raw/normalized artifacts, status, evidence class, normalizer version, policy, derivation IDs, warnings, and error state must agree; non-identity source metadata, observation timestamps, and receipt IDs may differ between observations. Equivalent races resolve to the already-created record/derivation; a true immutable-content conflict still raises `StoreConflict`. For accepted intake, a `record/READY` receipt is persisted and included in the candidate record before create-only publication. The record's durable presence commits `ACCEPTED`, eliminating the former post-record final-receipt gap. Storage-directory creation is explicit rather than recursive-and-unsynced: each missing directory is created one level at a time and its parent is sync-attempted before the next level is admitted. File publication fsyncs the temporary file before create-only hard-linking it into place; POSIX hosts then attempt a containing-directory `fsync` for the final file entry. Windows and filesystems that reject directory `fsync` remain an explicit durability claim ceiling.
+
+## Public Python interfaces
+
+- `Ingestor.ingest(source, policy=None) -> IngestResult`
+- `StreamSource(chunks, locator, media_type=None, source_identity={})` for caller-owned chunk iterables; default source identity remains locator-bound and exact bytes still determine artifact identity
+- `Ingestor.ingest_many(sources, policy=None) -> list[IngestResult]`
+- adapter contract: `supports(source)` + `acquire(source, policy) -> Acquisition`; adapters may additionally implement `acquire_stream(source, policy) -> StreamingAcquisition` for bounded raw streaming
+- `FileSystemStore` artifact/record/receipt/derivation operations with fail-closed read verification, including incremental artifact hashing, bounded immutable collision verification, streaming blob publication, pre-read artifact-size checks, and same-ingest derivation receipt binding
+- `StoreIntegrityError` for corrupted or internally inconsistent persisted evidence
+- `FileSystemStore.cleanup_stale_temp_files(older_than_seconds=86400.0) -> {files_removed, bytes_removed}` for explicit bounded cleanup of interrupted-write residue
+- `FileSystemStore.audit_records() -> INGEST_RECORD_AUDIT_V1` for deep verification of persisted record graphs
+- `FileSystemStore.audit_store(stale_after_seconds=86400.0) -> INGEST_STORE_AUDIT_V1` for read-only whole-store inventory, published-object validation, unreferenced-object reporting, and stale-temp discovery
+
+## CLI contract
+
+Commands: `text`, `file`, `url`, `github`, `json`, `message`, `inspect`, and `audit-records`.
+
+Default output is compact machine-readable JSON on stdout. `--human` selects a compact human summary. `audit-records` returns `INGEST_RECORD_AUDIT_V1`, exit `0` on `PASS`, and exit `2` on `CORRUPT`; it verifies record graphs and unexpected `records/` entries but does not inventory unreferenced store objects. `inspect` performs the same deep record verification as the Python API; missing records return `NOT_FOUND`, while failed integrity checks return `CORRUPT`, both with exit code `2`. File-command `--root` values are resolved to absolute paths at the CLI boundary before `IngestPolicy` is constructed; programmatic policy callers must still provide absolute roots. CLI-side `json` and `message` file/stdin reads obey `--max-bytes` before parsing, and malformed/non-object message input is returned as a governed machine-readable rejection. `ACCEPTED` and `DUPLICATE` exit `0`; all other ingest result states exit `2`.
+
+## V1 acceptance
+
+V1 is acceptable when:
+
+- identical bytes always have the same artifact SHA-256;
+- identical source + bytes + parser semantics + policy resolve to the same ingest identity;
+- repeat ingestion reports `DUPLICATE` without overwriting prior immutable records;
+- different source identities can point to the same artifact without collapsing provenance;
+- mutable GitHub refs are resolved to exact commits and default-transport Git blob identity is byte-verified;
+- invalid structured claims quarantine safely after raw preservation;
+- event time and observation time remain distinct;
+- receipts can be independently digest-verified;
+- local tests pass from a clean package install.

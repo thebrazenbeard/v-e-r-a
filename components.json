@@ -143,9 +143,9 @@
       "name": "mediaphile",
       "upstream": "thebrazenbeard/mediaphile",
       "upstream_branch": "main",
-      "state": "HELD",
-      "mirror_commit": null,
-      "reason": "Private upstream; not approved for publication into this public repository"
+      "state": "SANITIZED",
+      "mirror_commit": "1bd3f5ec77caa225d2295978f49641e89102871c",
+      "reason": "Public safety-sanitized source snapshot, not an exact Git tree mirror; see MIRROR_SOURCE_PROVENANCE.json for excluded files and pinned upstream."
     },
     {
       "name": "meso-crct",
@@ -167,9 +167,9 @@
       "name": "orgasm",
       "upstream": "thebrazenbeard/orgasm",
       "upstream_branch": "main",
-      "state": "HELD",
-      "mirror_commit": null,
-      "reason": "Private upstream; not approved for publication into this public repository"
+      "state": "SANITIZED",
+      "mirror_commit": "91d748aac78ef7482ed2b265d12560984d7b4481",
+      "reason": "Public safety-sanitized source snapshot, not an exact Git tree mirror; see MIRROR_SOURCE_PROVENANCE.json for excluded files and pinned upstream."
     },
     {
       "name": "personification",
@@ -215,9 +215,9 @@
       "name": "redworm",
       "upstream": "thebrazenbeard/redworm",
       "upstream_branch": "main",
-      "state": "HELD",
-      "mirror_commit": null,
-      "reason": "Private upstream; not approved for publication into this public repository"
+      "state": "SANITIZED",
+      "mirror_commit": "112bb5f2cee6fa0689f52d3c8925ab722b88252b",
+      "reason": "Public safety-sanitized source snapshot, not an exact Git tree mirror; see MIRROR_SOURCE_PROVENANCE.json for excluded files and pinned upstream."
     },
     {
       "name": "rezon",
@@ -263,9 +263,9 @@
       "name": "sexuality",
       "upstream": "thebrazenbeard/sexuality",
       "upstream_branch": "main",
-      "state": "HELD",
-      "mirror_commit": null,
-      "reason": "Private upstream; not approved for publication into this public repository"
+      "state": "SANITIZED",
+      "mirror_commit": "cb6661775b1ad1d14df96305acf7b2d18a8e2e16",
+      "reason": "Public safety-sanitized source snapshot, not an exact Git tree mirror; see MIRROR_SOURCE_PROVENANCE.json for excluded files and pinned upstream."
     },
     {
       "name": "sql-connectome",
@@ -325,19 +325,19 @@
     },
     {
       "name": "vera-supabase",
-      "upstream": "thebrazenbeard/vera-supabase",
-      "upstream_branch": "main",
-      "state": "HELD",
-      "mirror_commit": null,
-      "reason": "No exact corresponding upstream repository verified"
+      "upstream": "supabase://klmbpaigzeguvnpccqzz",
+      "upstream_branch": "LIVE",
+      "state": "PROJECT_SNAPSHOT",
+      "mirror_commit": "d9778940323132b1fb62de51ed576339eaca1d77",
+      "reason": "Source-definition snapshot of live Supabase Vera project; excludes live rows, credentials and managed service state."
     },
     {
       "name": "vera-works",
       "upstream": "thebrazenbeard/vera-works",
       "upstream_branch": "main",
-      "state": "HELD",
-      "mirror_commit": null,
-      "reason": "Private upstream; not approved for publication into this public repository"
+      "state": "SANITIZED",
+      "mirror_commit": "baa9a5ea3ef2afad01f3805e84691c3403f9046e",
+      "reason": "Public safety-sanitized source snapshot, not an exact Git tree mirror; see MIRROR_SOURCE_PROVENANCE.json for excluded files and pinned upstream."
     },
     {
       "name": "vision",

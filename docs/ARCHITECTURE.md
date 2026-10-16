@@ -1,0 +1,100 @@
+# SQL Connectome Architecture
+
+## Boundary
+
+SQL Connectome is a multi-dialect semantic connectome with pluggable execution and governance
+substrates.
+
+The existing PostgreSQL V1 is deliberately retained as the first execution/control substrate. It
+is not a PostgreSQL fork and PostgreSQL is not the semantic boundary of the project.
+
+The backing database provider is replaceable. Provider APIs provision infrastructure; they do not
+define SQL Connectome semantics, migration history, currentness, translation fidelity, or tool
+behavior.
+
+## Semantic plane
+
+The semantic plane owns:
+
+1. **Dialect genomes** — version-aware dialect identities and capability bundles.
+2. **Semantic IR** — graph-shaped representation that may retain dialect-specific semantics.
+3. **Type/coercion graph** — canonical semantic type families, dialect coercion evidence, explicit type-projection fidelity, and digest-bound explicit type identities embedded in semantic IR nodes.
+4. **Expression semantic registry** — stable source-controlled identities for admitted functions/operators plus explicit query-scoped unknowns and links to known semantic-risk rules.
+5. **Capability graph** — explicit feature support rather than family-name inference.
+6. **Rewrite knowledge** — target-dependent transformations with declared fidelity.
+7. **Translation loss** — preserved evidence when target semantics cannot remain exact.
+8. **Parser/generator adapters** — components that map text into/out of semantic IR.
+9. **Validation adapters** — static binding plus target-engine qualification paths. PostgreSQL performs read-only, non-ANALYZE `EXPLAIN` validation; DuckDB performs hardened in-memory `EXPLAIN` validation with external access and extension autoload/install disabled; SQLite performs in-memory `EXPLAIN QUERY PLAN` validation under query-only mode and a compile-time SELECT/READ/function authorizer.
+
+10. **Dialect comparison evidence** — catalog-bound capability/dimension deltas plus pinned SQLGlot semantic-flag and type/coercion summaries, with no compatibility score or behavioral-equivalence claim.
+11. **Differential conformance** — bounded source-controlled probes compare normalized values and type families across qualified engine runtimes without upgrading fixture evidence into general behavioral equivalence.
+
+The semantic plane follows:
+
+`UNDERSTAND != TRANSLATE != VALIDATE != EXECUTE != AUTHORIZE`
+
+See `CONNECTOME_MODEL.md`.
+
+## Execution/governance plane
+
+The first executable substrate contains:
+
+1. **PostgreSQL substrate** — ordinary PostgreSQL 16/17.
+2. **Canonical migrations** — source-controlled, checksum-bound, replayable.
+3. **Control API** — authenticated FastAPI service.
+4. **Read boundary** — single SELECT plus PostgreSQL READ ONLY transaction, timeout and row cap.
+5. **Currentness adapter** — Lantern cut/payload captured in one REPEATABLE READ READ ONLY snapshot.
+6. **Receipts** — canonical digests bind responses to runtime identity and exact subjects.
+7. **Recovery plane** — provider-independent pg_dump/pg_restore archives with manifest
+   cross-binding, blank-target restore, and post-restore qualification.
+8. **ChatGPT/MCP adapter** — current MCP v2/Streamable HTTP layer exposing semantic and governed
+   read tools without adding write authority.
+9. **Project control plane** — provider-neutral logical projects and concrete database-target
+   bindings with append-only effect receipts.
+
+The execution layer is intentionally separable from semantic reasoning. Understanding Oracle SQL,
+for example, does not require an Oracle execution credential, and having a PostgreSQL connection
+does not make PostgreSQL the meaning of a foreign dialect.
+
+## Bootstrap API
+
+The semantic slice exposes:
+
+- `GET /v1/connectome/dialects`
+- `GET /v1/connectome/compare?source_dialect=...&target_dialect=...`
+- `GET /v1/connectome/type-graph?dialect=...`
+- `GET /v1/connectome/expression-registry`
+- `POST /v1/connectome/expression-semantics`
+- `POST /v1/connectome/translation-plan`
+
+These surfaces report admitted capability knowledge only. They do not generate target SQL.
+
+The MCP surface composes the same internal functions rather than proxying the REST API. That keeps
+semantic, execution, receipt, and authority behavior identical across interfaces while avoiding an
+extra HTTP hop. See `MCP_CHATGPT.md`.
+
+## Optional components
+
+PostgREST and postgres-meta are composable candidates, not mandatory runtime dependencies.
+Provider provisioning, Realtime, Auth, storage, GraphQL, cloud-scale pooling, foreign-engine adapters,
+and parser engines are admitted only when a consumer demonstrates the need. Project/target
+registration now exists, but registration is not treated as provider provisioning.
+
+## Provider rule
+
+No semantic-plane source path should require Aiven, Supabase, WoWSQL, Neon, or another vendor. A
+provider outage must be an infrastructure failure, not a change in SQL Connectome semantics.
+
+## Write rule
+
+The first control API intentionally exposes no protected write API. Migration tooling is an
+operator-side command and is not reachable through the HTTP service.
+
+A later write surface must add:
+
+- distinct write identity;
+- capability-specific authorization;
+- exact currentness preflight;
+- idempotency;
+- effect receipt persistence;
+- post-effect readback.

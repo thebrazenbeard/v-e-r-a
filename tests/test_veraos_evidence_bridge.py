@@ -449,8 +449,8 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
             self.skipTest("requires pinned PORTAL")
         import threading
         from unittest.mock import patch
-        import portal.vera_task_handoff as handoff
         sys.path.insert(0, str(Path(PORTAL)))
+        import portal.vera_task_handoff as handoff
         ledger, binding = self.linked()
         receipt = Path(self.temp.name) / "writer-race-advisory.json"
         started = threading.Event()

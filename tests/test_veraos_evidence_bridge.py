@@ -46,7 +46,7 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         cls.veraos = Path(VERAOS) if VERAOS else None
         expected = (
             (cls.mono, "dec5c029e51c4fd436435cbda7e02e501822ee85"),
-            (cls.training, "06995fd7c43230e1ccc33cab196dcd55ffc363d9"),
+            (cls.training, "a242df78155ca20b36dbde8cbb7448dad43a5e55"),
             (cls.intranel, "58714f5f6561b5e44e42dcdbca67e2cb59bfb87b"),
         )
         for root, commit in expected:
@@ -439,6 +439,36 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         proposed = self.proposal(ledger, binding)
         self.assertFalse(proposed["coverage"]["coverage_complete"])
         self.assertFalse(proposed["normal_resident_route_admitted"])
+
+
+    def test_latest_training_trial_is_synthetic_only_not_a_route_permit(self):
+        # Latest sibling Training PR106 adds a supervised trial SOURCE preflight,
+        # NOT authenticated artifact or installed resident model admission.
+        from test_controlled_resident_trial_v1 import ControlledResidentTrialTests
+        trial = ControlledResidentTrialTests()
+        trial.setUp()
+        accepted = trial.evaluate()
+        self.assertEqual(accepted.status, "ACCEPT_SYNTHETIC_DEV_PREFLIGHT")
+        self.assertFalse(accepted.model_identity_authenticated)
+        self.assertFalse(accepted.normal_resident_admitted)
+        self.assertFalse(accepted.effect_authority)
+        from controlled_resident_trial_v1 import evaluate_controlled_trial
+        live = evaluate_controlled_trial(
+            trial.target, trial.session, trial.sample, trial.session,
+            trial.bytes, trial.development, trial.cognition,
+            episode=trial.episode, now_epoch_s=1800000001,
+            evidence_scope="REAL_HOST_UNATTESTED",
+        )
+        self.assertEqual(live.status, "HOLD_SOURCE_PREFLIGHT")
+        self.assertIn("HOST_CAPTURE_NOT_RECEIVER_AUTHENTICATED", live.holds)
+        # Even a separately coherent synthetic development cut cannot
+        # turn our real Mono/PORTAL route proposal into model admission.
+        if PORTAL:
+            sys.path.insert(0, str(Path(PORTAL)))
+            ledger, binding = self.linked()
+            offered = self.proposal(ledger, binding)
+            self.assertFalse(offered["normal_resident_route_admitted"])
+            self.assertFalse(offered["accepted_as_task_result"])
 
     def test_actual_other_writer_waits_until_advisory_sqlite_source_cut_releases(self):
         # The writer is the REAL Mono bind_dependency() append writer.

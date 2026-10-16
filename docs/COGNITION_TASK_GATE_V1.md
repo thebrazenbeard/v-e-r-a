@@ -258,3 +258,16 @@ as the accepted decision, an independently authorized resident
 invocation and persisted Pre-Active `event_id/run_id/final_text`
 readback bound to that permit. Until then this adapter is a
 verifiable no-effect vertical slice and not an accepted task result.
+
+## Training PR106 controlled synthetic model trial source refresh
+
+Training has advanced to `a242df78155ca20b36dbde8cbb7448dad43a5e55` (additive module
+`controlled_resident_trial_v1.py` Git blob
+`94e2b04063da37e30e7a2c515261d5444a60aa16`). A new
+Integration real-source test checks Training's `ACCEPT_SYNTHETIC_DEV_PREFLIGHT`
+under a synthetic fixture and explicitly verifies that model identity,
+normal-resident admission and effects remain false. The SAME source
+assessment under `REAL_HOST_UNATTESTED` remains `HOLD_SOURCE_PREFLIGHT`.
+Neither result is an authorized Qwen trial or loaded-model result;
+`prepare_source_linked_veraos_route` still generates only a revocable
+Mono/PORTAL no-effect proposal.

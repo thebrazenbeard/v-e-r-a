@@ -1,0 +1,182 @@
+{
+  "schema": "VCP_SUPABASE_PROVIDER_CUSTODY_V1",
+  "observed_at": "2026-09-21T19:26:27.779Z",
+  "provider": {
+    "kind": "supabase",
+    "project_id": "fawkirqroyniueeqspif",
+    "project_name": "Vera Control Plane",
+    "organization_id": "eryullybadeilkceiwod",
+    "region": "us-east-2",
+    "status": "ACTIVE_HEALTHY",
+    "postgres_version": "17.6.1.166"
+  },
+  "applied_migrations": [
+    {
+      "version": "20260912170153",
+      "name": "harden_public_default_privileges",
+      "provider_bytes": 697,
+      "provider_sha256": "d3386eb573ee96c2ae6bc18941ec75d98a5f217efd7a5948d53a6e96ba25e4b1",
+      "custody_class": "EXACT_PROVIDER_SOURCE_RECOVERED",
+      "canonical_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260912170153_harden_public_default_privileges.sql",
+      "historical_git_source": "UNRESOLVED",
+      "active": true
+    },
+    {
+      "version": "20260912170345",
+      "name": "enforce_rls_on_exposed_schemas",
+      "provider_bytes": 1604,
+      "provider_sha256": "4205e76e5973650c54779378bd8e7baaeadd25e123d7bc4d3a57f7d834c5b9aa",
+      "custody_class": "EXACT_PROVIDER_SOURCE_RECOVERED",
+      "canonical_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260912170345_enforce_rls_on_exposed_schemas.sql",
+      "historical_git_source": "UNRESOLVED",
+      "active": true
+    },
+    {
+      "version": "20260912170408",
+      "name": "reserve_locked_api_schema",
+      "provider_bytes": 786,
+      "provider_sha256": "e979320f17ca7895f08008bd7b5f2d0d62aca3b532e843308e0ae55aec7671d5",
+      "custody_class": "EXACT_PROVIDER_SOURCE_RECOVERED",
+      "canonical_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260912170408_reserve_locked_api_schema.sql",
+      "historical_git_source": "UNRESOLVED",
+      "active": true
+    },
+    {
+      "version": "20260919223652",
+      "name": "create_sd1_causal_secondary_anchor",
+      "provider_bytes": 24103,
+      "provider_sha256": "246ac38c8112346d90885626514bcead0ef73005ecf30e90b04884983fce7523",
+      "custody_class": "EXACT_DEPLOYED_SOURCE_BYTES_VERIFIED",
+      "canonical_path": "supabase/migrations/20260919223652_create_sd1_causal_secondary_anchor.sql",
+      "source_pr": 45,
+      "source_head": "749b64e4cc65859db40271fcf27f9273708f2304",
+      "source_git_blob": "0769c527ad8fc8280d052dc1ce93f85673b6bb7d",
+      "source_filename_version": "20260919223652",
+      "note": "Canonical migration filename now matches provider version; exact deployed/source bytes remain bound to source Git blob 0769c527ad8fc8280d052dc1ce93f85673b6bb7d.",
+      "active": true
+    },
+    {
+      "version": "20260921192624",
+      "name": "revoke_internal_rls_guard_public_execute",
+      "provider_bytes": 231,
+      "provider_sha256": "b5f43de5a82cd8a2f4b068dcc213db0370d8ddd286c8487722aef6a59f48a698",
+      "custody_class": "EXACT_PROVIDER_SOURCE_RECOVERED",
+      "canonical_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260921192624_revoke_internal_rls_guard_public_execute.sql",
+      "source_path": "supabase/migrations/20260921192624_revoke_internal_rls_guard_public_execute.sql",
+      "source_relation": "EXECUTABLE_EFFECT_EQUIVALENT_NOT_BYTE_IDENTICAL_DUE_TO_OMITTED_EXPLANATORY_COMMENTS",
+      "historical_git_source": "REVIEWED_SOURCE_EXISTED_BEFORE_EFFECT_BUT_APPLIED_PROVIDER_BYTES_DIFFER",
+      "active": true
+    }
+  ],
+  "provider_inventory": {
+    "schemas": [
+      "public",
+      "vera_cp_anchor",
+      "vera_cp_api",
+      "vera_cp_internal"
+    ],
+    "tables": [
+      {
+        "name": "vera_cp_anchor.sd1_causal_frontiers",
+        "rls": true,
+        "policies": 0
+      },
+      {
+        "name": "vera_cp_anchor.sd1_causal_mutation_receipts",
+        "rls": true,
+        "policies": 0
+      }
+    ],
+    "views": [],
+    "critical_functions": [
+      {
+        "name": "vera_cp_internal.enable_rls_for_new_api_tables()",
+        "security_definer": true,
+        "search_path": "pg_catalog"
+      },
+      {
+        "name": "vera_cp_api.sd1_causal_frontier_read_v1()",
+        "security_definer": true,
+        "search_path": "pg_catalog"
+      },
+      {
+        "name": "vera_cp_api.sd1_causal_receipt_read_v1(text)",
+        "security_definer": true,
+        "search_path": "pg_catalog"
+      },
+      {
+        "name": "vera_cp_api.sd1_causal_frontier_advance_v1(...)",
+        "security_definer": true,
+        "search_path": "pg_catalog, extensions"
+      }
+    ],
+    "event_triggers": [
+      {
+        "name": "vera_cp_enable_rls_on_new_api_tables",
+        "event": "ddl_command_end",
+        "enabled": true,
+        "function": "vera_cp_internal.enable_rls_for_new_api_tables()"
+      }
+    ],
+    "row_anchors": {
+      "sd1_causal_frontiers": 1,
+      "sd1_causal_mutation_receipts": 0,
+      "max_generation": 0,
+      "latest_frontier_digest": "7de55cc22b28539c1d4e6934b1790d99c70ecee55ded80d7b698bec61ee249a1"
+    }
+  },
+  "security_readback": {
+    "supabase_advisor": {
+      "security": [
+        {
+          "finding": "rls_enabled_no_policy",
+          "count": 2,
+          "classification": "INTENTIONAL_DENY_ALL",
+          "reason": "Tables have RLS enabled, no policies, no client SELECT grants, and anchor schema has no client/broker USAGE."
+        }
+      ],
+      "performance": []
+    },
+    "internal_rls_guard": {
+      "function": "vera_cp_internal.enable_rls_for_new_api_tables()",
+      "security_definer": true,
+      "search_path": "pg_catalog",
+      "public_execute": false,
+      "anon_execute": false,
+      "authenticated_execute": false,
+      "service_role_execute": false,
+      "broker_execute": false,
+      "public_schema_usage": false,
+      "anon_schema_usage": false,
+      "authenticated_schema_usage": false,
+      "service_role_schema_usage": false,
+      "broker_schema_usage": false,
+      "exploitability": "EXECUTE_REVOKED_FOR_PUBLIC_CLIENT_BACKEND_AND_BROKER_ROLES",
+      "defect_class": "VERIFIED_FIXED",
+      "repair_source": "supabase/migrations/20260921192624_revoke_internal_rls_guard_public_execute.sql",
+      "provider_effect": "APPLIED_VERIFIED",
+      "provider_migration_version": "20260921192624",
+      "provider_migration_sha256": "b5f43de5a82cd8a2f4b068dcc213db0370d8ddd286c8487722aef6a59f48a698",
+      "provider_custody_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260921192624_revoke_internal_rls_guard_public_execute.sql"
+    },
+    "api_rpc_boundary": {
+      "broker_schema_usage": true,
+      "public_schema_usage": false,
+      "anon_schema_usage": false,
+      "authenticated_schema_usage": false,
+      "service_role_schema_usage": false,
+      "broker_only_execute": true
+    }
+  },
+  "reproducibility": {
+    "canonical_main_observed": "386ef60b7cd3911c07227ccf0e9563ace1f4731c",
+    "current_main_class": "PARTIALLY_REPRODUCIBLE",
+    "repair_branch": "work/bv-whole-system-repair-v1-20260921",
+    "target_after_merge": "REPRODUCIBLE_FROM_CANONICAL_SOURCE",
+    "provenance_limitations": [
+      "Migrations 20260912170153/20260912170345/20260912170408 are exact provider-history recovery; original pre-apply Git custody is unresolved.",
+      "Migration 20260919223652 has exact deployed/source byte identity proven via PR #45/PR #58 evidence.",
+      "Migration 20260921192624 was applied under Patrick's current Supabase/GitHub repair instruction; exact provider bytes are preserved separately because the provider query omitted explanatory comments from the reviewed source file."
+    ]
+  }
+}

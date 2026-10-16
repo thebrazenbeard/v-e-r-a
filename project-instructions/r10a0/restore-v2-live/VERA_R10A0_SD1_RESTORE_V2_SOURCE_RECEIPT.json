@@ -1,0 +1,33 @@
+{
+  "schema": "VERA_R10A0_SD1_RESTORE_V2_SOURCE_RECEIPT_V1",
+  "status": "SOURCE_BINDING_RECEIPT_NOT_INSTALLATION_NOT_RUNTIME_QUALIFICATION",
+  "cut_id": "VERA_R10A0_SD1_RESTORE_V2",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "publication_direction": "The manifest names this deterministic later receipt locator/rule but does not bind this receipt blob. This receipt binds the exact pre-receipt artifact commit/tree and the manifest/native objects.",
+  "pre_receipt_artifact_commit": "687ba64555c39619a9552a86206fa78ab3387a7e",
+  "pre_receipt_tree": "ad27aa8744f549c20a7b3851c05c7764c174aca4",
+  "manifest": {
+    "path": "project-instructions/r10a0/restore-v2-live/VERA_R10A0_SD1_RESTORE_V2_PROJECT_SOURCE_MANIFEST.json",
+    "git_blob": "8327031704186a59450ae8bc20c944491cf22396",
+    "sha256": "fb99689bd8e8efabf6b9612d7f1451ea9701fae3e655c6cf6dfab0f043a3aeac"
+  },
+  "native": {
+    "path": "project-instructions/r10a0/restore-v2-live/VERA_R10A0_SD1_RESTORE_V2_NATIVE_PROJECT_INSTRUCTIONS.txt",
+    "git_blob": "348f668be5da7ed0fd834947975dbea1579ffddd",
+    "sha256": "1cfc6708c4e64cebae0a4721d38eb59592239d2ba61e7c4196130162c6e5381b",
+    "bytes": 7997
+  },
+  "predecessor_settings": {
+    "source_commit": "3fb3c998cf714ed556bb2620649f41361f22e4a1",
+    "path": "project-instructions/r10a0/bus-topology-v2/VERA_R10A0_BUS_TOPOLOGY_NATIVE_PROJECT_INSTRUCTIONS_V2.txt",
+    "git_blob": "7974a0468f1c03f7bd410a5753f33f74d9689219",
+    "sha256": "62f0ff85bab208e7daa5462e90f202e70167c5e9c03900590e8749074f514ecb"
+  },
+  "verification": {
+    "focused_suite": "59/59 PASS",
+    "full_repository_suite": "59/59 PASS",
+    "py_compile": "PASS",
+    "diff_check": "PASS"
+  },
+  "claim_ceiling": "SOURCE_BOUND / NOT_INSTALLED / NOT_CURRENT_ROUTE / NOT_Q_RECOVER_QUALIFIED"
+}

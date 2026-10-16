@@ -1,0 +1,62 @@
+{
+  "schema": "VERA_R10A0_LIVE1_R4_FREEZE_MANIFEST_V1",
+  "status": "FROZEN_IMPLEMENTATION_REVIEW_SUBJECT_NOT_INSTALLABLE_NOT_RUNTIME_QUALIFIED",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "round_id": "R4",
+  "frozen_from": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "main_commit": "89c61adf5397e6d6c0df3a189c670f9d0d1b87dc",
+    "tree": "ebdfae94876390b657439111390816e96aabdd83",
+    "contains_merged_r3_pr8": true
+  },
+  "review_subject": {
+    "purpose": "LIVE-1 accepted behavior/runtime-control implementation delta + release-bound cold-control registry + hostile qualification corpus + semantic responsibility audit",
+    "installable": false,
+    "native_project_effect": false,
+    "behavioral_qualification": "NOT_EXECUTED",
+    "bugops_closure": false
+  },
+  "artifacts": [
+    {
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_NATIVE_HOT_DELTA_R4.md",
+      "git_blob": "d08d11578bcbcd3e7c4fb82e8bcff7b1becb964c",
+      "role": "hot-native semantic delta"
+    },
+    {
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "role": "release-bound retrievable domain controls"
+    },
+    {
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_HOSTILE_QUALIFICATION_R4.md",
+      "git_blob": "e42ec90afe0ac5ba631e7a4e80b9f9c0a6aeab90",
+      "role": "hostile semantic qualification corpus"
+    },
+    {
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_SEMANTIC_RESPONSIBILITY_AUDIT_R4.md",
+      "git_blob": "7dbc35659e4735ae51a03c9e60fad28623dfb4ef",
+      "role": "R2/R3 responsibility disposition audit"
+    },
+    {
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_CONTROL_REGISTRY_R4.json",
+      "git_blob": "bd6c5d976b376a5e225a5fe940968d8e6d3971c6",
+      "role": "release-bound current-owner registry candidate"
+    },
+    {
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_QUALIFICATION_MANIFEST_R4.json",
+      "git_blob": "d76513ff1488268d96d543b4f60433c6bba266ab",
+      "role": "frozen suite/case binding"
+    }
+  ],
+  "release_bound_owner_rule": "CONTROL_LOAD may activate only owners/digests bound by this control cut. Material owner drift creates a new control cut and invalidates inherited global behavioral qualification until affected requalification.",
+  "quarantine_rule": "Restored/cached control bodies remain QUARANTINED_EVIDENCE until release-bound CONTROL_LOAD/live revalidation admits the active owner.",
+  "qualification_rule": "Q-COLD and Q-RECOVER are distinct required subjects when both modes are supported; Q-STALE is hostile recovery fixture; Q-OLDCHAT is compatibility observation only.",
+  "source_rollback_subject": {
+    "repository_commit": "89c61adf5397e6d6c0df3a189c670f9d0d1b87dc",
+    "meaning": "source baseline only",
+    "native_live_project_rollback_fidelity": "UNKNOWN_UNTIL_C0_CAPTURE",
+    "note": "This source baseline is not a claim that exact live Project Settings/files can be restored from Git alone. Final cutover requires exact C0 capture/readback or explicit Patrick risk acceptance."
+  },
+  "next_gate": "One implementation review of this immutable R4 subject. Material changes after review begin create R5/new subject. Only after review convergence may native/full owner + final source manifest/checksums be mechanically composed as an installable candidate.",
+  "root_trust_note": "Git blob SHA binds exact bytes for this source-review subject. Final installable candidate must generate required SHA-256 release/root-trust bindings; this R4 review subject intentionally does not pretend those final install artifacts exist."
+}

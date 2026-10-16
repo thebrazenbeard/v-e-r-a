@@ -1,0 +1,66 @@
+{
+  "schema": "VERA_SPECIALIST_TOPOLOGY_CURRENTNESS_V2",
+  "status": "GIT_HEADS_AND_BUS_TOPOLOGY_REFRESHED / PROVIDER_CURRENTNESS_NOT_REVALIDATED / NO_ARCHIVE_EFFECT",
+  "observed_at": "2026-09-22",
+  "exact_control_plane_base": "076a130ecfdff9b8276ddd586f8cb387c9a7970f",
+  "vera_main": "6388f9e2564795530db35728f42d5ab9f50275ae",
+  "specialist_main_heads": {
+    "thebrazenbeard/sexuality": "efab00be36e57ca6593d648e38f6127006210f9d",
+    "thebrazenbeard/orgasm": "eea5932031a43104199981fee8c5ac0d942508a4",
+    "thebrazenbeard/empathy": "4b2a6998f39aa4763c1c5a28fc3d815104e5637e",
+    "thebrazenbeard/conations": "03174e59de131a500a5433a839697e45b4ec0137",
+    "thebrazenbeard/semanticatlas": "5669a727b870a490ecee748b2cd712a2fc4a54c5",
+    "thebrazenbeard/selfimage": "95ea602c4a537172fc531195e20a4e303b6d31da",
+    "thebrazenbeard/temporal": "02f1091d359866e1b1b645b87651750c726a6396"
+  },
+  "predecessor_pr80_observations": {
+    "vera": "b7b8dcd1440a3b7147bec2cc35972f083e20f44a",
+    "sexuality": "6194aa9496c34198bba9b898c35fa9961a54dc2e",
+    "orgasm": "494432873dd8bcf96b8f59d26a4f4687cd66d635",
+    "empathy": "4b2a6998f39aa4763c1c5a28fc3d815104e5637e",
+    "conations": "03174e59de131a500a5433a839697e45b4ec0137",
+    "semanticatlas": "5669a727b870a490ecee748b2cd712a2fc4a54c5",
+    "selfimage": "95ea602c4a537172fc531195e20a4e303b6d31da",
+    "temporal": "02f1091d359866e1b1b645b87651750c726a6396"
+  },
+  "drift": {
+    "vera": true,
+    "sexuality": true,
+    "orgasm": true,
+    "empathy": false,
+    "conations": false,
+    "semanticatlas": false,
+    "selfimage": false,
+    "temporal": false
+  },
+  "provider_currentness": {
+    "status": "NOT_REVALIDATED_IN_THIS_SOURCE_PASS",
+    "rule": "PR80 provider observations from 2026-09-20 are historical evidence only and are not promoted into current provider facts."
+  },
+  "current_disposition": {
+    "source_head_currentness": "REFRESHED",
+    "bulk_content_ownership": "UNCHANGED_VCP_DOES_NOT_OWN_SPECIALIST_CORPORA",
+    "archive_action": "NONE",
+    "qualification_transfer": "NONE",
+    "provider_claim": "UNRESOLVED_UNTIL_FRESH_PROVIDER_READBACK",
+    "bus_topology_currentness": "VERIFIED_EXACT_BLOB_AND_ROUTE",
+    "frozen_r10_topology_qualification": "NOT_INHERITED_AFTER_TOPOLOGY_BLOB_MOVEMENT"
+  },
+  "non_effects": [
+    "NOT_ARCHIVE",
+    "NOT_PROVIDER_MUTATION",
+    "NOT_PROJECT_INSTALL",
+    "NOT_RUNTIME_ROUTE_CHANGE",
+    "NOT_QUALIFICATION_PASS",
+    "NOT_MERGE"
+  ],
+  "bus_currentness": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "main": "f9179bd1426bf90c23ab6a4d14d5a8e9b39c66d2",
+    "topology_path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+    "topology_git_blob": "69e505031d4e53dcb853578dac23817649af1918",
+    "vera_writer_lane": "bus/vera-v2",
+    "topology_blob_moved_from_frozen_r10_binding": true,
+    "qualification_disposition": "LIVE_ROUTE_VERIFIED / FROZEN_R10_TOPOLOGY_QUALIFICATION_NOT_INHERITED"
+  }
+}

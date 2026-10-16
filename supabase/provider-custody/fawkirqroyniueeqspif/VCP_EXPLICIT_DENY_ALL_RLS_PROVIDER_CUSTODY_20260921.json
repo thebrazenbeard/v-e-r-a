@@ -1,0 +1,43 @@
+{
+  "schema": "VCP_EXPLICIT_DENY_ALL_RLS_PROVIDER_CUSTODY_V1",
+  "observed_at": "2026-09-21T20:06:23Z",
+  "provider": {
+    "kind": "SUPABASE_POSTGRES",
+    "project_id": "fawkirqroyniueeqspif",
+    "project_name": "Vera Control Plane"
+  },
+  "source": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "branch": "work/explicit-deny-all-anchor-policies-20260921",
+    "source_commit": "a32333a9b70a353b45a5903edd415c617d21aae2",
+    "path": "supabase/migrations/20260921201000_make_anchor_deny_all_rls_explicit_v1.sql",
+    "git_blob": "5441b649c5cc5d9d6d9c38583c1a92986569f760",
+    "application_binding": "THE_EXACT_GITHUB_FETCHED_FILE_CONTENT_WAS_PASSED_DIRECTLY_TO_SUPABASE_APPLY_MIGRATION"
+  },
+  "provider_effect": {
+    "migration_version": "20260921200623",
+    "migration_name": "make_anchor_deny_all_rls_explicit_v1",
+    "provider_statement_count": 1,
+    "provider_statement_octets_utf8": 636,
+    "provider_statement_sha256": "46132f28486afe4ee1ba9830fdf93d499b7b61a53e81b904a49a128579eda248",
+    "policy_count": 2,
+    "status": "APPLIED_VERIFIED"
+  },
+  "readback": {
+    "security_advisor_before_rls_enabled_no_policy": 2,
+    "security_advisor_after_lints": 0,
+    "deny_all_untrusted_v1_policy_count": 2,
+    "exact_public_false_false_policy_count": 2,
+    "schema_usage_anon_authenticated_service_role_broker": false,
+    "direct_table_crud_anon_authenticated_service_role_broker": false,
+    "force_rls": true,
+    "grants_changed": false
+  },
+  "claim_ceiling": [
+    "PROVIDER_RLS_POLICY_EFFECT_APPLIED_VERIFIED",
+    "SECURITY_ADVISOR_CLEARED",
+    "DENY_ALL_INTENT_MADE_EXPLICIT",
+    "NO_GRANT_EXPANSION",
+    "NO_RUNTIME_BEHAVIOR_QUALIFICATION"
+  ]
+}

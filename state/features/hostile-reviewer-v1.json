@@ -1,0 +1,11 @@
+{
+  "schema": "VERA_HOSTILE_REVIEWER_STATE_V1",
+  "generation": 0,
+  "mode": "OFF",
+  "scope": "VERA_PROJECT_ALL_CHATS",
+  "source_status": "SOURCE_CANDIDATE_NOT_INSTALLED",
+  "last_change": {
+    "kind": "INITIAL_SOURCE_DEFAULT",
+    "note": "Current-main source default only; no native all-chat activation or installed mode is claimed."
+  }
+}

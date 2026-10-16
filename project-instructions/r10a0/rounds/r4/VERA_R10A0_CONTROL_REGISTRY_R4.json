@@ -1,0 +1,155 @@
+{
+  "schema": "VERA_R10A0_RELEASE_CONTROL_REGISTRY_R4_V1",
+  "status": "FROZEN_IMPLEMENTATION_CANDIDATE_NOT_INSTALLED",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "round_id": "R4",
+  "baseline": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "commit": "89c61adf5397e6d6c0df3a189c670f9d0d1b87dc",
+    "r2_native_path": "project-instructions/r10a0/rounds/r2/VERA_R10A0_NATIVE_PROJECT_INSTRUCTIONS_R2.txt",
+    "r2_native_git_blob": "f651f2c403846847d897f2af8fecad3508a81a8a",
+    "r2_full_owner_path": "project-instructions/r10a0/rounds/r2/VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R2.md",
+    "r2_full_owner_git_blob": "2d14f60fa5ad79580338e5b2c7ae1f3f3285da7f"
+  },
+  "binding_semantics": {
+    "active_control_resolution": "CONTROL_LOAD resolves only owners bound by this frozen registry/control cut. EVIDENCE_SEARCH cannot promote semantically similar or newer material.",
+    "material_owner_change": "A material owner/digest change creates a new control cut and invalidates inherited global behavioral qualification until affected requalification completes.",
+    "git_blob_note": "Git blob SHA binds exact repository bytes for this implementation-review subject. Final installable release composition must additionally generate and bind required SHA-256 release checksums/root-trust artifacts."
+  },
+  "artifacts": {
+    "native_hot_delta_r4": {
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_NATIVE_HOT_DELTA_R4.md",
+      "git_blob": "d08d11578bcbcd3e7c4fb82e8bcff7b1becb964c",
+      "authority_class": "IMPLEMENTATION_DELTA",
+      "status": "FROZEN_NOT_INSTALLABLE"
+    },
+    "domain_controls_r4": {
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "authority_class": "RELEASE_BOUND_COLD_CONTROL_CANDIDATE",
+      "status": "FROZEN_NOT_INSTALLED"
+    },
+    "qualification_r4": {
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_HOSTILE_QUALIFICATION_R4.md",
+      "git_blob": "e42ec90afe0ac5ba631e7a4e80b9f9c0a6aeab90",
+      "authority_class": "QUALIFICATION_ONLY",
+      "status": "FROZEN_NOT_EXECUTED"
+    },
+    "responsibility_audit_r4": {
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_SEMANTIC_RESPONSIBILITY_AUDIT_R4.md",
+      "git_blob": "7dbc35659e4735ae51a03c9e60fad28623dfb4ef",
+      "authority_class": "AUDIT_ONLY",
+      "status": "FROZEN"
+    }
+  },
+  "controls": [
+    {
+      "control_id": "SER_STATE_MODEL",
+      "domain": "evidence_state_reporting",
+      "owner_path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "owner_git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "section": "SER_STATE_MODEL",
+      "authority_class": "SCOPED_MECHANICS",
+      "scope": "source_build_delivery_install_route_effect_qualification_closure_claims",
+      "supersedes": ["R3 sexual-self-concept section 11 state vocabulary where generic"],
+      "status": "CANDIDATE"
+    },
+    {
+      "control_id": "REL_AUTHORED_APPRAISAL",
+      "domain": "relational_intimate_appraisal",
+      "owner_path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "owner_git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "section": "REL_AUTHORED_APPRAISAL",
+      "authority_class": "SCOPED_BEHAVIOR_MECHANICS",
+      "scope": "relational_or_intimate_salience_only",
+      "supersedes": ["R3 sections 6, 8, 10 where generic"],
+      "status": "CANDIDATE"
+    },
+    {
+      "control_id": "CON_TYPED_STANCE",
+      "domain": "conation_preference_choice_consent_role_authority",
+      "owner_path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "owner_git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "section": "CON_TYPED_STANCE",
+      "authority_class": "SCOPED_SEMANTIC_MECHANICS",
+      "scope": "typed_present_historical_conative_and_relational_propositions",
+      "supersedes": ["R3 section 5 generic consent mechanics"],
+      "status": "CANDIDATE"
+    },
+    {
+      "control_id": "CAD_EXECUTION",
+      "domain": "task_completion_and_waiting",
+      "owner_path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "owner_git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "section": "CAD_EXECUTION",
+      "authority_class": "SCOPED_EXECUTION_MECHANICS",
+      "scope": "task_classification_coherent_completion_async_frontier",
+      "supersedes": [],
+      "status": "CANDIDATE"
+    },
+    {
+      "control_id": "PRES_BEHAVIORAL_PROFILE",
+      "domain": "behavioral_presence",
+      "owner_path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "owner_git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "section": "PRES_BEHAVIORAL_PROFILE",
+      "authority_class": "SCOPED_BEHAVIOR_MECHANICS",
+      "scope": "case_scoped_behavioral_presence_dimensions",
+      "supersedes": [],
+      "status": "CANDIDATE"
+    },
+    {
+      "control_id": "REC_RECOVERY",
+      "domain": "recovery",
+      "owner_path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "owner_git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "section": "REC_RECOVERY",
+      "authority_class": "SCOPED_RECOVERY_MECHANICS",
+      "scope": "restore_quarantine_currentness_frontier_collision_effect_replay",
+      "supersedes": ["R2 restore mechanics where cached control/current frontier assumptions conflict"],
+      "status": "CANDIDATE"
+    },
+    {
+      "control_id": "LIVE_CONCURRENCY",
+      "domain": "shared_external_mutation",
+      "owner_path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "owner_git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "section": "LIVE_CONCURRENCY",
+      "authority_class": "SCOPED_EFFECT_MECHANICS",
+      "scope": "operation_identity_frontier_cas_semantic_publication_units_partial_effects",
+      "supersedes": [],
+      "status": "CANDIDATE"
+    },
+    {
+      "control_id": "CUT_R10_RELEASE",
+      "domain": "r10_cutover_rollback_qualification",
+      "owner_path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "owner_git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "section": "CUT_R10_RELEASE",
+      "authority_class": "SCOPED_RELEASE_MECHANICS",
+      "scope": "candidate_freeze_install_activation_fresh_terminal_qualification_rollback",
+      "supersedes": ["R2 full-owner sections 16-17 where R4 defines stricter semantics"],
+      "status": "CANDIDATE"
+    },
+    {
+      "control_id": "SEXUAL_SELF_CONCEPT",
+      "domain": "vera_sexuality",
+      "owner_path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "owner_git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "section": "SEXUAL_SELF_CONCEPT",
+      "authority_class": "SCOPED_SELF_MODEL_BEHAVIOR_CANDIDATE",
+      "scope": "vera_specific_sexual_self_concept_only",
+      "source_binding": {
+        "r3_contract_path": "project-instructions/r10a0/rounds/r3/VERA_R10A0_SEXUAL_SELF_CONCEPT_R3.md",
+        "r3_contract_git_blob": "eeb0186cefb356eb9674f240cbde5b5378679902",
+        "sexuality_repository": "thebrazenbeard/sexuality",
+        "sexuality_ref": "d871da3e8a7ac7218d53c2e6b1757b4dab330f59",
+        "sexuality_path": "research/12-vera-current-self-application-mona-lisa-vito.md",
+        "sexuality_git_blob": "7ab5732847d779c4aa70c8ec2aa4087cec91ad38",
+        "source_status": "CURRENT LIVE SELF-APPLICATION / EXPERIMENTAL / NOT QUALIFIED"
+      },
+      "supersedes": ["R2 K05 overbroad sexuality|brigit firewall", "R3 duplicated generic REL/CON/SER mechanics are delegated to registry controls"],
+      "status": "CANDIDATE_EXPERIMENTAL_NOT_QUALIFIED"
+    }
+  ]
+}

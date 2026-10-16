@@ -1,0 +1,93 @@
+{
+  "schema": "VERA_NATIVE_PROJECT_V2_SOURCE_RECEIPT_V1",
+  "logical_id": "VERA_NATIVE_PROJECT_V2_SOURCE_RECEIPT",
+  "status": "SOURCE_CUSTODY_ONLY_NOT_CANONICAL_RELEASE_NOT_INSTALL_EVIDENCE",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "work/native-project-v2-safe-replacement-v1-20260920",
+  "base_main": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+  "pre_receipt_head": "e8a94081fcb91809df6872eec59becb692c19ece",
+  "package": {
+    "filename_hint": "VERA_NATIVE_PROJECT_PACK_V2.zip",
+    "sha256": "51a1cb3f66e9aa40f27d6a7e828325b5760bef60ccba70b103dd8a4a791a7b52",
+    "bytes": 32475,
+    "binary_zip_not_committed": true,
+    "reproducible_from_git": true,
+    "archive_format": "ZIP_STORED_V1",
+    "entry_order": "PACK_MANIFEST_DECLARED_ORDER",
+    "fixed_datetime": "1980-01-01T00:00:00",
+    "fixed_mode": "100644",
+    "builder": {
+      "path": "tools/build_native_project_pack_v2.py",
+      "source_commit": "f03b1cd5c66e3d49e6e4a47156141b40b3d7e2de",
+      "git_blob": "5001202872580e43de8ff5e6dd98ac8a9eaada60"
+    },
+    "source_commit": "e8a94081fcb91809df6872eec59becb692c19ece"
+  },
+  "source_directory": "project-instructions/native-v2/",
+  "files": {
+    "VERA_NATIVE_PROJECT_KERNEL_V2.txt": {
+      "git_blob": "6f9f1cb92a4f4ce788edbd4aacef29a322f702c5",
+      "sha256": "877a2e97ec5cb6fc5f80ed907b5b12b8587c0c698f5e46e84dad2940baf79fcb",
+      "python_character_count": 7958,
+      "utf8_bytes": 7974
+    },
+    "VERA_NATIVE_PROJECT_INTERFACE_V2.yaml": {
+      "git_blob": "6dea5c6e8d87ccda95f70d0661d1352539154af6",
+      "sha256": "e07aabe59bc4e37e097c33c45857355f5b36f521d30b350e0e8422c827a061e0"
+    },
+    "VERA_NATIVE_CHARTER_V2.md": {
+      "git_blob": "cf2a01b67b78a49e00015e7c691e37ddb53fd6d3",
+      "sha256": "b6ddbbf7266d3d0af3ec00b88626e8c71091d9f5905c4e02b9da158204547fec"
+    },
+    "VERA_CONTROL_SOURCE_SEPARATION_V2.md": {
+      "git_blob": "0c6ad24e62f46c01d4361a3794cf35fcc0f35d7b",
+      "sha256": "85d4c469b54c9bfd601bf1ba6426adee9f596b3e8655eaa1d673d1bb2d71f5a0"
+    },
+    "VERA_CURRENTNESS_AND_RECOVERY_V2.md": {
+      "git_blob": "750952be40e82ac7ce746faa91f5f692e3f10228",
+      "sha256": "596d831a77d1d37884531fbb70e3a45d778aca942ba12096ee271c1c4dda9c0d"
+    },
+    "VERA_REPOSITORY_TOPOLOGY_V2.yaml": {
+      "git_blob": "07278c3dfd19d694fa307a839425c218d8ad2478",
+      "sha256": "5e3a747c2bc5a8dab29d6ad011a630701ce8c7106e9828901681c3dac7c3b2d0"
+    },
+    "VERA_MEMORY_AND_PRIVACY_V2.md": {
+      "git_blob": "60dda7d02ee6adb6ecf67f6072eaf21a3b6ced67",
+      "sha256": "e808c9aec1d7b9fc24a72973f113803929d0edb31f421ee2937c7bd4de9e6a1a"
+    },
+    "VERA_COORDINATION_V2.md": {
+      "git_blob": "bab44fd1701c8ad9bca75ccecb30a7bfdd3e4e6b",
+      "sha256": "60528e1f2137005f920bcbbafd0b7dd0a01d9092d140d8963d57b707ff2fdb69"
+    },
+    "VERA_TASK_EXECUTION_AND_CLOSEOUT_V2.md": {
+      "git_blob": "1afc7a4de35e1d946471b667ffa04cf003cfba7a",
+      "sha256": "9c111299be4c03a0aed707aa0430ddec14fcb2e63dfa3d73c8d44e0ced86f025"
+    },
+    "VERA_NATIVE_PROJECT_PACK_MANIFEST_V2.json": {
+      "git_blob": "592e3de561e217d26d3fdcc34b638bc257702095",
+      "sha256": "164dcd956759336aca7f8fc746c9dfe69f7571eecc24faff0e14ba18739591a2"
+    }
+  },
+  "project_source_inventory_observation": {
+    "observed_date": "2026-09-20",
+    "v2_architecture_files_present": true,
+    "r10_full_owner_discoverable": true,
+    "r10_source_manifest_discoverable": true,
+    "r10_sd1_manifest_discoverable": false,
+    "classification": "PROJECT_SOURCE_INVENTORY_PARTIAL",
+    "scope": "native Project Library observation only"
+  },
+  "non_effects": [
+    "not merge authority",
+    "not R10/R10A2 supersession",
+    "not native Project installation evidence",
+    "not current-route evidence",
+    "not runtime-consumption evidence",
+    "not behavioral qualification",
+    "not SD1 installation/currentness evidence",
+    "not provider mutation",
+    "not canonical memory mutation"
+  ],
+  "filename_rule": "LOGICAL_ID_SCHEMA_ROLE_AND_VERIFIED_CONTENT_BINDING_OUTRANK_FILENAME; FILENAME_MANGLE_DOES_NOT_CREATE_NEW_CONTROL_SUBJECT",
+  "previous_native_v2_head": "fdb99f164ffbfa3e651eb37c500d6cc98ab56a25"
+}

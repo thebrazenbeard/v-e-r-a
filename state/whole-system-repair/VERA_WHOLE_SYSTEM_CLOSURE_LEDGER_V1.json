@@ -1,0 +1,835 @@
+{
+  "schema": "VERA_WHOLE_SYSTEM_CLOSURE_LEDGER_V1",
+  "mission": "VERA::WHOLE_SYSTEM_REPAIR::EXECUTE_TO_VERIFIED_CLOSURE_V1",
+  "steward": "BV",
+  "branch": "work/bv-whole-system-repair-v1-20260921",
+  "created_at": "2026-09-21",
+  "current_heads": {
+    "vera": "0e9d298b4c9ae9f1ae3a5d1fae29c74a9eeeba52",
+    "vera_control_plane": "386ef60b7cd3911c07227ccf0e9563ace1f4731c",
+    "bus_bv": "8ec2c20ab8f8b0384e9b0d73887c5312a1016d9b",
+    "bus_vera": "e3fc73ecb5b3510e27b965ea05e95348d96e7af9"
+  },
+  "provider_projects": {
+    "vera": "klmbpaigzeguvnpccqzz",
+    "vera_control_plane": "fawkirqroyniueeqspif"
+  },
+  "allowed_states": [
+    "DISCOVERED",
+    "CLAIMED",
+    "REPAIR_IN_PROGRESS",
+    "SOURCE_FIXED",
+    "REVIEW_PENDING",
+    "REVIEW_PASS",
+    "PROTECTED_EFFECT_REQUIRED",
+    "EFFECT_AUTHORIZED",
+    "EFFECT_APPLIED",
+    "READBACK_VERIFIED",
+    "VERIFIED_FIXED",
+    "ACCEPTED_LIMITATION",
+    "BLOCKED_EXTERNAL"
+  ],
+  "workers": {
+    "BV": {
+      "claimed": [
+        "VCP_REPOSITORY_HYGIENE",
+        "VCP_PROVIDER_CUSTODY",
+        "VCP_DATABASE_SECURITY",
+        "VCP_DATABASE_REPRODUCIBILITY",
+        "SHARED_CLOSURE_LEDGER"
+      ]
+    },
+    "Vera": {
+      "observed_claim": [
+        "VERA_CURRENTNESS_REQUIREMENT_PROFILE_PR147_PR148",
+        "VERA_REPOSITORY_CURRENTNESS",
+        "VERA_SUPABASE_CUSTODY_PENDING_COORDINATION"
+      ]
+    }
+  },
+  "defects": [
+    {
+      "id": "VCP-REPO-README-001",
+      "subsystem": "vera-control-plane/repository",
+      "severity": "HIGH",
+      "description": "README on canonical main falsely states main is still the original near-empty baseline.",
+      "discovery_evidence": [
+        "vera-control-plane@386ef60b7cd3911c07227ccf0e9563ace1f4731c:README.md"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "work/bv-whole-system-repair-v1-20260921",
+      "status": "CLAIMED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": null
+    },
+    {
+      "id": "VCP-REPO-PRSTACK-001",
+      "subsystem": "vera-control-plane/repository",
+      "severity": "HIGH",
+      "description": "35 open draft PRs lack one current dependency/supersession classification.",
+      "discovery_evidence": [
+        "GitHub open PR inventory 2026-09-21"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "work/bv-whole-system-repair-v1-20260921",
+      "status": "REPAIR_IN_PROGRESS",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": "No mass-close permitted; exact per-PR classification required.",
+      "closure_classification": null
+    },
+    {
+      "id": "VCP-DB-CUSTODY-001",
+      "subsystem": "vera-control-plane/supabase",
+      "severity": "HIGH",
+      "description": "Five applied production migrations require canonical VCP source custody on main; exact provider bytes are now captured on the repair branch.",
+      "discovery_evidence": [
+        "Supabase fawkirqroyniueeqspif supabase_migrations.schema_migrations",
+        "versions 20260912170153,20260912170345,20260912170408,20260919223652"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "work/bv-whole-system-repair-v1-20260921",
+      "status": "SOURCE_FIXED",
+      "repair_head": "PENDING_BRANCH_HEAD_AFTER_PROVIDER_READBACK_BINDING",
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": "Canonical-main reproducibility remains pending merge of the reviewed custody cut.",
+      "closure_classification": null
+    },
+    {
+      "id": "VCP-DB-SEC-001",
+      "subsystem": "vera-control-plane/supabase",
+      "severity": "HIGH",
+      "description": "SECURITY DEFINER/internal function PUBLIC EXECUTE and related grants require exploitability review.",
+      "discovery_evidence": [
+        "Migration 20260912170345 created vera_cp_internal.enable_rls_for_new_api_tables()"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "work/bv-whole-system-repair-v1-20260921",
+      "status": "READBACK_VERIFIED",
+      "repair_head": "PENDING_BRANCH_HEAD_AFTER_PROVIDER_READBACK_BINDING",
+      "review_evidence": [],
+      "provider_effect": {
+        "project_id": "fawkirqroyniueeqspif",
+        "migration_version": "20260921192624",
+        "name": "revoke_internal_rls_guard_public_execute",
+        "sha256": "b5f43de5a82cd8a2f4b068dcc213db0370d8ddd286c8487722aef6a59f48a698"
+      },
+      "post_effect_readback": "anon/authenticated/service_role/vera_sd1_causal_anchor_broker EXECUTE=false; function ACL postgres-only; security advisor unchanged at two intentional deny-all INFO findings.",
+      "residual_limitation": null,
+      "closure_classification": "VERIFIED_FIXED"
+    },
+    {
+      "id": "VCP-DB-REPRO-001",
+      "subsystem": "vera-control-plane/supabase",
+      "severity": "HIGH",
+      "description": "Production VCP database lacks one deterministic canonical source/provider inventory and reproducibility classification.",
+      "discovery_evidence": [
+        "Supabase project fawkirqroyniueeqspif",
+        "vera-control-plane main"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "work/bv-whole-system-repair-v1-20260921",
+      "status": "REPAIR_IN_PROGRESS",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": null
+    },
+    {
+      "id": "VCP-GITHUB-SEC-002",
+      "subsystem": "vera-control-plane/github",
+      "severity": "HIGH",
+      "description": "Historical security containment issue #2 remains open; current closure state must be reconciled against live repo visibility/protections/scanner evidence.",
+      "discovery_evidence": [
+        "vera-control-plane issue #2"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "work/bv-whole-system-repair-v1-20260921",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": "Some repository/account administration effects may be unavailable through current connector.",
+      "closure_classification": null
+    },
+    {
+      "id": "VERA-CURRENTNESS-147-148",
+      "subsystem": "vera/currentness",
+      "severity": "HIGH",
+      "description": "PRs #147/#148 currentness/requirement-profile mechanism has hostile review defects and is behind current main.",
+      "discovery_evidence": [
+        "vera PR #147 e291b2e07357884be97a41f604726b393484017b",
+        "vera PR #148 0111602eff64e70f91dfee1f9c8f7bc3824f627f",
+        "bus/vera-v2 e3fc73ecb5b3510e27b965ea05e95348d96e7af9"
+      ],
+      "assigned_worker": "Vera",
+      "source_subject": "vera PR #147/#148 successor",
+      "status": "CLAIMED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": "BV will cross-review exact successor head when handed off.",
+      "closure_classification": null
+    },
+    {
+      "id": "VERA-DB-CUSTODY-001",
+      "subsystem": "vera/supabase",
+      "severity": "HIGH",
+      "description": "Production Vera Supabase requires complete distributed source-custody mapping and reproducibility closure.",
+      "discovery_evidence": [
+        "Supabase project klmbpaigzeguvnpccqzz"
+      ],
+      "assigned_worker": "Vera",
+      "source_subject": null,
+      "status": "CLAIMED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": "Await Vera CLAIM/RESULT coordination.",
+      "closure_classification": null
+    },
+    {
+      "id": "VCP-PR-099",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #99 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #99"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #99",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-096",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #96 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #96"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #96",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-092",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #92 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #92"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #92",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-091",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #91 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #91"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #91",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-090",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #90 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #90"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #90",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-089",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #89 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #89"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #89",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-086",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #86 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #86"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #86",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-084",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #84 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #84"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #84",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-080",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #80 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #80"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #80",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-079",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #79 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #79"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #79",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-078",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #78 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #78"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #78",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-075",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #75 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #75"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #75",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-074",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #74 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #74"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #74",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-071",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #71 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #71"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #71",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-070",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #70 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #70"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #70",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-068",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #68 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #68"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #68",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-067",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #67 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #67"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #67",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-066",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #66 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #66"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #66",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-065",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #65 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #65"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #65",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-058",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #58 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #58"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #58",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-057",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #57 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #57"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #57",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-056",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #56 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #56"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #56",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-053",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #53 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #53"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #53",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-052",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #52 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #52"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #52",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-051",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #51 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #51"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #51",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-050",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #50 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #50"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #50",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-047",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #47 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #47"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #47",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-046",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #46 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #46"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #46",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-036",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #36 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #36"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #36",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-034",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #34 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #34"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #34",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-025",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #25 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #25"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #25",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-024",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #24 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #24"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #24",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-023",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #23 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #23"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #23",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-022",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #22 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #22"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #22",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    },
+    {
+      "id": "VCP-PR-019",
+      "subsystem": "vera-control-plane/pr-stack",
+      "severity": "MEDIUM",
+      "description": "Open draft PR #19 requires explicit dependency/current/superseded/historical/blocker classification.",
+      "discovery_evidence": [
+        "vera-control-plane PR #19"
+      ],
+      "assigned_worker": "BV",
+      "source_subject": "vera-control-plane PR #19",
+      "status": "DISCOVERED",
+      "repair_head": null,
+      "review_evidence": [],
+      "provider_effect": null,
+      "post_effect_readback": null,
+      "residual_limitation": null,
+      "closure_classification": "UNRESOLVED"
+    }
+  ]
+}

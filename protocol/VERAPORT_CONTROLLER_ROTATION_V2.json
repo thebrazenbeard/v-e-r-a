@@ -1,0 +1,182 @@
+{
+  "schema": "VERAPORT_CONTROLLER_ROTATION_V2",
+  "status": "SOURCE_CONTROL_CONTRACT_ONLY_NO_CREDENTIAL_EFFECT / ROTATION_BLOCKED_PENDING_KEY_ID_SPEC",
+  "observed_at": "2026-09-22",
+  "supersedes_source_contract": {
+    "pr": 99,
+    "head": "08637d04cba2914c4058ee7d5094fff87d23eadf",
+    "reason": "Principal and key-ID derivation were underspecified and the branch was graph-divergent from current main."
+  },
+  "owning_protocol": {
+    "repository": "thebrazenbeard/vera-mesh",
+    "issue": 15,
+    "observed_main": "d3bbaa247797dce5f6a26e7006206f37cfef66fe",
+    "rule": "Owning VeraMesh protocol controls live controller identity semantics and credential effects."
+  },
+  "current_blocker": {
+    "enrolled_controller_principal": "controller:ef3814b70f0883d2fbc4a8b7bd7b4eb982ac6cf74d9fd76734827d4561bc554b",
+    "matching_private_key": "NOT_RECOVERED",
+    "live_acceptance": "BLOCKED",
+    "key_id_derivation": "UNRESOLVED_OWNING_PROTOCOL_GAP"
+  },
+  "controller_identity_derivation": {
+    "contract_id": "VERAPORT_CONTROLLER_PRINCIPAL_DERIVATION_V1",
+    "key_type": "EC",
+    "curve": "P-256",
+    "public_key_encoding": "DER_ENCODED_RFC5280_SUBJECT_PUBLIC_KEY_INFO",
+    "digest": {
+      "algorithm": "SHA-256",
+      "input": "EXACT_RAW_DER_SPKI_BYTES",
+      "output": "LOWERCASE_HEX_64"
+    },
+    "principal_serialization": {
+      "prefix": "controller:",
+      "value": "controller:<lowercase_sha256_hex_of_exact_der_spki_bytes>",
+      "normalization": "NONE_AFTER_DER_ENCODING"
+    },
+    "recovery_and_rotation_share_exact_primitive": true,
+    "recovery_match_rule": "DERIVE_EXACT_PRINCIPAL_AND_COMPARE_BYTE_FOR_BYTE_TO_ENROLLED_PRINCIPAL"
+  },
+  "key_id_derivation": {
+    "status": "UNRESOLVED_OWNING_PROTOCOL_GAP",
+    "owning_source": "thebrazenbeard/vera-mesh#15",
+    "known_requirement": "Key ID must be derived from generated public SPKI.",
+    "missing_definition": [
+      "ALGORITHM",
+      "CANONICAL_INPUT_ENCODING_IF_DIFFERENT_FROM_PRINCIPAL",
+      "OUTPUT_ENCODING_OR_PREFIX",
+      "TRUNCATION_OR_DOMAIN_SEPARATION_RULE"
+    ],
+    "forbidden_inference": [
+      "DO_NOT_ASSUME_KEY_ID_EQUALS_PRINCIPAL_DIGEST",
+      "DO_NOT_ASSUME_TRUNCATED_SHA256",
+      "DO_NOT_INVENT_PREFIX",
+      "DO_NOT_COPY_AN_UNVERIFIED_IMPLEMENTATION_CONVENTION"
+    ],
+    "operational_gate": "ROTATION_OR_ENROLLMENT_MUST_STOP_BEFORE_KEY_GENERATION_OR_TRUST_MUTATION_UNTIL_OWNER_DEFINES_EXACT_KEY_ID_DERIVATION"
+  },
+  "synthetic_known_answer_vectors": [
+    {
+      "id": "P256_SPKI_DER_VECTOR_1",
+      "classification": "PUBLIC_SYNTHETIC_TEST_VECTOR_NO_LIVE_CREDENTIAL",
+      "spki_der_hex": "3059301306072a8648ce3d020106082a8648ce3d030107034200046b17d1f2e12c4247f8bce6e563a440f277037d812deb33a0f4a13945d898c2964fe342e2fe1a7f9b8ee7eb4a7c0f9e162bce33576b315ececbb6406837bf51f5",
+      "spki_der_length": 91,
+      "sha256_hex": "5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+      "controller_principal": "controller:5cd252fb0ce8932436faf8ccd1040981b89ee4ad6b9fe9e2a2b7e71aacb27cd3",
+      "key_id": "UNRESOLVED_BY_OWNING_PROTOCOL"
+    }
+  ],
+  "recovery": {
+    "candidate_filename_is_identity": false,
+    "required_match": [
+      "EC_P256_PRIVATE_KEY",
+      "DER_ENCODED_RFC5280_PUBLIC_SPKI",
+      "SHA256_EXACT_DER_SPKI",
+      "CONTROLLER_PREFIX_PLUS_LOWERCASE_SHA256_HEX",
+      "EXACT_ENROLLED_PRINCIPAL_MATCH"
+    ],
+    "matching_candidate_action": "RECOVER_EXISTING_IDENTITY_NO_TRUST_MUTATION",
+    "key_id_requirement": "If recovery requires key-ID verification, owner-defined key-ID derivation must exist first."
+  },
+  "rotation": {
+    "availability": "BLOCKED_PENDING_OWNER_KEY_ID_SPEC_AND_PATRICK_EXACT_EFFECT_AUTHORITY",
+    "strategy": "ADDITIVE_THEN_ACCEPT_THEN_OPTIONAL_RETIRE",
+    "pre_effect_evidence": [
+      "HASH_VERAPORT_CONFIG",
+      "HASH_CONTROLLER_TRUST",
+      "READ_WORKSTATION_PRINCIPAL",
+      "READ_TLS_IDENTITY",
+      "READ_ALLOWED_ROOTS",
+      "READ_PROCESS_POLICY",
+      "READ_DIRECT_EDGE_TRANSPORT",
+      "CAPTURE_ROLLBACK_TRUST_COPY"
+    ],
+    "new_identity": {
+      "curve": "P-256",
+      "principal_derivation_contract": "VERAPORT_CONTROLLER_PRINCIPAL_DERIVATION_V1",
+      "key_id_derivation_contract": "UNRESOLVED_OWNING_PROTOCOL_GAP",
+      "private_key_git": "FORBIDDEN",
+      "private_key_bus": "FORBIDDEN",
+      "private_key_logs": "FORBIDDEN",
+      "private_key_screenshots": "FORBIDDEN",
+      "restrictive_local_acl_required_before_use": true
+    },
+    "initial_enrollment": {
+      "mode": "ADD_WITHOUT_PREDECESSOR_DELETION",
+      "capabilities": [
+        "fs.read"
+      ],
+      "fs_write": "NOT_GRANTED_IN_INITIAL_ACCEPTANCE",
+      "process_exec": "NOT_GRANTED"
+    },
+    "reload": {
+      "trust_loaded_at_host_prepare": true,
+      "service_restart_required_for_new_trust": true,
+      "restart_is_separate_protected_effect": true,
+      "rollback_on_restart_failure": true
+    },
+    "acceptance": [
+      "DIRECT_APPLICATION_AUTH_PASS",
+      "EDGE_APPLICATION_AUTH_PASS",
+      "EXPECTED_NEW_CONTROLLER_PRINCIPAL",
+      "EXPECTED_WORKSTATION_PRINCIPAL",
+      "LANE_LIST_PASS",
+      "READ_ONLY_LANE_OPEN_PASS",
+      "HARMLESS_ALLOWED_ROOT_READ_PASS",
+      "LANE_CLOSE_DRAIN_PASS",
+      "DIRECT_EDGE_IDENTITY_MATCH"
+    ],
+    "predecessor_retirement": {
+      "separate_effect": true,
+      "requires_successor_acceptance": true,
+      "requires_exact_authority": true,
+      "remove_only_exact_principal": true,
+      "empty_trust_forbidden": true
+    }
+  },
+  "authority": {
+    "key_generation": "PATRICK_EXACT_AUTHORITY_REQUIRED",
+    "trust_mutation": "PATRICK_EXACT_AUTHORITY_REQUIRED",
+    "acl_mutation": "PATRICK_EXACT_AUTHORITY_REQUIRED",
+    "service_restart": "PATRICK_EXACT_AUTHORITY_REQUIRED",
+    "old_controller_retirement": "PATRICK_EXACT_AUTHORITY_REQUIRED",
+    "write_capability_activation": "SEPARATE_EXACT_AUTHORITY_REQUIRED",
+    "process_activation": "SEPARATE_EXACT_AUTHORITY_REQUIRED",
+    "plugin_or_tunnel_activation": "SEPARATE_EXACT_AUTHORITY_REQUIRED"
+  },
+  "receipts": {
+    "may_record": [
+      "PRE_TRUST_SHA256",
+      "POST_TRUST_SHA256",
+      "CONFIG_SHA256",
+      "CONTROLLER_PRINCIPAL",
+      "CONTROLLER_KEY_ID_AFTER_OWNER_SPEC_EXISTS",
+      "EXACT_CAPABILITY_CEILING",
+      "SERVICE_RESTART_READBACK",
+      "DIRECT_EDGE_APPLICATION_RESULTS",
+      "LIVE_READ_RESULT",
+      "PREDECESSOR_STATUS"
+    ],
+    "never_record": [
+      "PRIVATE_KEY_BYTES",
+      "PASSWORDS",
+      "UNREDACTED_SECRET_MATERIAL"
+    ]
+  },
+  "hostile_regressions": [
+    "PRINCIPAL_HASHES_WRONG_SPKI_ENCODING",
+    "PRINCIPAL_USES_NON_SHA256_DIGEST",
+    "PRINCIPAL_SERIALIZATION_PREFIX_OR_HEX_CASE_DRIFT",
+    "RECOVERY_AND_ROTATION_USE_DIFFERENT_PRINCIPAL_PRIMITIVES",
+    "KEY_ID_INVENTED_WHILE_OWNER_SPEC_UNRESOLVED",
+    "FILENAME_MISLABELED_AS_RECOVERY",
+    "WRONG_CURVE",
+    "PUBLIC_PRIVATE_MISMATCH",
+    "TRUST_OVERWRITE_REMOVES_ALL_CONTROLLERS",
+    "ROTATION_CAPABILITY_WIDENING",
+    "OLD_CONTROLLER_REMOVED_PRE_ACCEPTANCE",
+    "SERVICE_RESTART_FAILURE",
+    "DIRECT_EDGE_WORKSTATION_IDENTITY_DIVERGENCE",
+    "PRIVATE_KEY_LEAK_TO_GIT_BUS_LOG_SCREENSHOT"
+  ]
+}

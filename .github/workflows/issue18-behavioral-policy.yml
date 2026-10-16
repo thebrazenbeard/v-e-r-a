@@ -1,0 +1,30 @@
+name: VCP Issue 18 behavioral policy
+
+on:
+  pull_request:
+    paths:
+      - "tools/behavioral_integrity_policy.py"
+      - "protocol/VCP_ISSUE18_BEHAVIORAL_PRAGMATIC_POLICY_V1.json"
+      - "tests/test_behavioral_integrity_policy.py"
+      - "tests/test_issue18_pragmatic_mode_reversion.py"
+      - "project-instructions/r10a0/bugops/**"
+      - ".github/workflows/issue18-behavioral-policy.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  issue18-policy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.11"
+      - name: Run issue 18 executable regressions
+        run: |
+          python -m unittest             tests.test_behavioral_integrity_policy             tests.test_issue18_pragmatic_mode_reversion

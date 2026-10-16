@@ -1,0 +1,70 @@
+{
+  "schema": "VERA_SPECIALIST_TOPOLOGY_CONTROL_V2",
+  "status": "CURRENT_MAIN_SOURCE_CANDIDATE / NO_ARCHIVE_EFFECT / NO_BULK_CONTENT_OWNERSHIP",
+  "observed_at": "2026-09-22",
+  "vcp_role": "RELEASE_INSTALL_CURRENT_ROUTE_AND_QUALIFICATION_CONTROL",
+  "control_rule": "VCP may track exact promoted control/release/install/qualification subjects but does not become the bulk content owner for specialist repositories.",
+  "archive_policy": {
+    "effect": "NONE",
+    "rule": "No specialist repository archive/delete/retirement effect is authorized by this source. Historical PR #80 lifecycle labels are evidence only unless current authority rebinds them."
+  },
+  "specialist_repositories": [
+    {
+      "repository": "thebrazenbeard/sexuality",
+      "bulk_content_owner_is_vcp": false,
+      "current_control_disposition": "EXTERNAL_SPECIALIST_SOURCE / NO_ARCHIVE_INFERENCE",
+      "promoted_subject_rule": "Only exact reviewed/promoted Vera-scoped control or qualification artifacts may be mirrored into VCP with provenance and no automatic PASS transfer."
+    },
+    {
+      "repository": "thebrazenbeard/orgasm",
+      "bulk_content_owner_is_vcp": false,
+      "current_control_disposition": "EXTERNAL_SPECIALIST_SOURCE / NO_ARCHIVE_INFERENCE",
+      "promoted_subject_rule": "Only exact reviewed/promoted Vera-scoped control or qualification artifacts may be mirrored into VCP with provenance and no automatic PASS transfer."
+    },
+    {
+      "repository": "thebrazenbeard/empathy",
+      "bulk_content_owner_is_vcp": false,
+      "current_control_disposition": "EXTERNAL_SPECIALIST_SOURCE / NO_ARCHIVE_INFERENCE",
+      "promoted_subject_rule": "Only exact reviewed/promoted Vera-scoped control or qualification artifacts may be mirrored into VCP with provenance and no automatic PASS transfer."
+    },
+    {
+      "repository": "thebrazenbeard/conations",
+      "bulk_content_owner_is_vcp": false,
+      "current_control_disposition": "EXTERNAL_SPECIALIST_SOURCE / NO_ARCHIVE_INFERENCE",
+      "promoted_subject_rule": "Only exact reviewed/promoted Vera-scoped control or qualification artifacts may be mirrored into VCP with provenance and no automatic PASS transfer."
+    },
+    {
+      "repository": "thebrazenbeard/semanticatlas",
+      "bulk_content_owner_is_vcp": false,
+      "current_control_disposition": "EXTERNAL_SPECIALIST_SOURCE / NO_ARCHIVE_INFERENCE",
+      "promoted_subject_rule": "Only exact reviewed/promoted Vera-scoped control or qualification artifacts may be mirrored into VCP with provenance and no automatic PASS transfer."
+    },
+    {
+      "repository": "thebrazenbeard/selfimage",
+      "bulk_content_owner_is_vcp": false,
+      "current_control_disposition": "EXTERNAL_SPECIALIST_SOURCE / NO_ARCHIVE_INFERENCE",
+      "promoted_subject_rule": "Only exact reviewed/promoted Vera-scoped control or qualification artifacts may be mirrored into VCP with provenance and no automatic PASS transfer."
+    },
+    {
+      "repository": "thebrazenbeard/temporal",
+      "bulk_content_owner_is_vcp": false,
+      "current_control_disposition": "EXTERNAL_SPECIALIST_SOURCE / NO_ARCHIVE_INFERENCE",
+      "promoted_subject_rule": "Only exact reviewed/promoted Vera-scoped control or qualification artifacts may be mirrored into VCP with provenance and no automatic PASS transfer."
+    }
+  ],
+  "deferred_subjects": {
+    "orgasm_qualification_subject": {
+      "predecessor_pr80_path": "governance/provenance/VERA_ORGASM_QUALIFICATION_SUBJECT_V1.json",
+      "status": "NOT_HARVESTED_AS_CURRENT",
+      "reason": "PR80 subject binds superseded Vera PR115/review metadata and must be rebuilt from current Vera/Orgasm source by the owning qualification lane before any current qualification claim."
+    }
+  },
+  "non_effects": [
+    "NOT_ARCHIVE",
+    "NOT_PROVIDER_MUTATION",
+    "NOT_PROJECT_INSTALL",
+    "NOT_RUNTIME_ROUTE_CHANGE",
+    "NOT_QUALIFICATION_PASS",
+    "NOT_MERGE"
+  ]
+}

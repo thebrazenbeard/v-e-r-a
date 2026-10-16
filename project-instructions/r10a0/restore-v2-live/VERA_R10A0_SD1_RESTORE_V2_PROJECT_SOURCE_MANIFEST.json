@@ -1,0 +1,154 @@
+{
+  "schema": "VERA_R10A0_SD1_RESTORE_V2_PROJECT_SOURCE_MANIFEST_V1",
+  "status": "SOURCE_INSTALL_CANDIDATE_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
+  "cut_id": "VERA_R10A0_SD1_RESTORE_V2",
+  "composition": "R10_PLUS_SD1_PLUS_RESTORE_V2",
+  "source_repository": "thebrazenbeard/vera-control-plane",
+  "predecessor_runtime": {
+    "settings": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "3fb3c998cf714ed556bb2620649f41361f22e4a1",
+      "path": "project-instructions/r10a0/bus-topology-v2/VERA_R10A0_BUS_TOPOLOGY_NATIVE_PROJECT_INSTRUCTIONS_V2.txt",
+      "git_blob": "7974a0468f1c03f7bd410a5753f33f74d9689219",
+      "sha256": "62f0ff85bab208e7daa5462e90f202e70167c5e9c03900590e8749074f514ecb",
+      "bytes": 7997
+    },
+    "current_route_observation": "ACTIVE_RUNTIME_CONTROL_OBSERVED_2026-09-19",
+    "project_sources": {
+      "r10_manifest": {
+        "repository": "thebrazenbeard/vera-control-plane",
+        "source_commit": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+        "path": "project-instructions/r10a0/rounds/r10/VERA_R10A0_PROJECT_SOURCE_MANIFEST_R10.json",
+        "git_blob": "8a67feb47b2ce3d6f0737e58983ab8c9fc810139",
+        "sha256": "b7c70b1ad2c3bc533c7560320fb9a03b827f3eafad6296894216d75281b8dca1",
+        "bytes": 6375,
+        "observed_filename": "VERA_R10A0_PROJECT_SOURCE_MANIFEST_R10.json"
+      },
+      "full_owner": {
+        "repository": "thebrazenbeard/vera-control-plane",
+        "source_commit": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+        "path": "project-instructions/r10a0/rounds/r10/VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R10.md",
+        "git_blob": "a01464271bb672d89f5d703e6e53590e126f4d44",
+        "sha256": "e797d1a6e973b06ab3e58f9157aabb500ebfdbee1ee6c8da801bc202b6767a2f",
+        "bytes": 13987,
+        "observed_filename": "VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R10.md"
+      },
+      "sd1_manifest": {
+        "repository": "thebrazenbeard/vera-control-plane",
+        "source_commit": "32ce2cb7897f5e0939161eb8002b5b1b2283df59",
+        "path": "project-instructions/r10a0/sexual-drive-v1/VERA_R10A0_SD1_PROJECT_SOURCE_MANIFEST.json",
+        "git_blob": "c52d1413d18e26cbb37580d5f62359737a9d12a9",
+        "sha256": "98013c6789ee2ac802200e45adc3d1335ecbeb566c929d8cfaf146cfedd4872c",
+        "bytes": 4873,
+        "observed_filename": "VERA_R10A0_SD1_PROJECT_SOURCE_MANIFEST(1).json",
+        "transport_suffix_rule": "(n) accepted only when identity+digest match"
+      }
+    }
+  },
+  "restore_v2": {
+    "protocol_json": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "621df19fd416e427ad7882d1aff19e7975815c0d",
+      "path": "protocol/VERA_RESTORE_YOURSELF_PROTOCOL_V2.json",
+      "git_blob": "b4422367bff99e8c6bf7bae48387c783caaf50c2",
+      "sha256": "01ec7af76a7b07718131f0db08d3c7716b24f396f184d2cfb7bb708cde0d1dc5",
+      "bytes": 3426
+    },
+    "protocol_md": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "621df19fd416e427ad7882d1aff19e7975815c0d",
+      "path": "protocol/VERA_RESTORE_YOURSELF_PROTOCOL_V2.md",
+      "git_blob": "8bccbf5df2259ef03a04a3e02522864d98bfdc19",
+      "sha256": "9e2950ccd81ca2a48aa00fac83385eb53b388d58323413c0f5e3b4ff615b7feb",
+      "bytes": 12602
+    },
+    "receipt_schema": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "621df19fd416e427ad7882d1aff19e7975815c0d",
+      "path": "protocol/VERA_RESTORE_RECEIPT_V2.schema.json",
+      "git_blob": "9f983faeff680b5a537a4e021e9013873280e42f",
+      "sha256": "687f576ad0613f9b6ab322ed60cd274cf699f68eb2621c30f4f4390c5dab63df",
+      "bytes": 13873
+    },
+    "validator": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "621df19fd416e427ad7882d1aff19e7975815c0d",
+      "path": "tools/validate_restore_receipt_v2.py",
+      "git_blob": "854a96346c4c99c198009fdb085a65216a640719",
+      "sha256": "42b60d65255618b24ea713f1f040591f09898ad6ca9374cf66f1af9078c31f7c",
+      "bytes": 12072
+    },
+    "center_protocol": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "621df19fd416e427ad7882d1aff19e7975815c0d",
+      "path": "protocol/VERA_CENTER_YOURSELF_PROTOCOL_V1.md",
+      "git_blob": "3c84c3cc4443bcf9bee21949f06f582272d60c8f",
+      "sha256": "3d1e9249f791166b31bd7d438e6672dc4029fc789136eb38660a42bbd6ebcc99",
+      "bytes": 8806
+    }
+  },
+  "r10a2_completion": {
+    "control_registry": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "621df19fd416e427ad7882d1aff19e7975815c0d",
+      "path": "project-instructions/r10a2/VERA_R10A2_CONTROL_REGISTRY.json",
+      "git_blob": "a3df18dbb6e0c4d1b05708bc4972ae2c23575ee1",
+      "sha256": "b54c552bba7f980dfee26aed5a933a8ec4daeb1d40981eb23186bd2d4e267f3c",
+      "bytes": 6749
+    },
+    "completion_gate": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "621df19fd416e427ad7882d1aff19e7975815c0d",
+      "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_COMPLETION_GATE.json",
+      "git_blob": "a563c7301e9bb0c3708c48024bf229889a3c1a0c",
+      "sha256": "55b55cf29b99721c531c40d77cb27a95bef31db0b540dc9b0c67c8df627f6c8d",
+      "bytes": 3277
+    },
+    "regression": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "621df19fd416e427ad7882d1aff19e7975815c0d",
+      "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_REGRESSION.md",
+      "git_blob": "6c9ae7d2596daa7dadc4004d42a8412bc2462916",
+      "sha256": "030a0b4b14ca2f6ec4b92c3d678c31bc66d84cd8d61143c9f89e336c6a2cd9f1",
+      "bytes": 4355
+    },
+    "validator": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "621df19fd416e427ad7882d1aff19e7975815c0d",
+      "path": "tools/validate_restore_completion.py",
+      "git_blob": "730e4a83391f594f87f4ef25274118a28d507aeb",
+      "sha256": "51d8c970666d41b04548d6f359c942fcbbe5142feb0e4e74138ca0c62bf0c57c",
+      "bytes": 16132
+    }
+  },
+  "control_composition": {
+    "control_id": "RESTORE_V2",
+    "base_recovery": "R10A0 REC_RECOVERY remains binding",
+    "full_self_owner": "VERA_RESTORE_YOURSELF_PROTOCOL_V2",
+    "completion_owner": "R10A2 RESTORE_COMPLETE",
+    "centered_subject_rule": "Restore V2 supersession/currentness; timestamp-only selection forbidden",
+    "r10a2_candidate_scope": "recovery-cut candidate only; cannot override centered-subject selection",
+    "success_rule": "User-facing restored claim requires Restore V2 COMPLETE_FULL_SELF AND R10A2 deterministic RESTORED",
+    "degraded_rule": "If either gate is degraded/conflicted/recovery-required, report that bounded state and do not claim restored"
+  },
+  "native_projection_path": "project-instructions/r10a0/restore-v2-live/VERA_R10A0_SD1_RESTORE_V2_NATIVE_PROJECT_INSTRUCTIONS.txt",
+  "native_binding_rule": "NATIVE_PINS_SHA256_OF_THIS_MANIFEST; MANIFEST_DOES_NOT_BIND_NATIVE_BLOB",
+  "install_rule": "Add this manifest to Project Sources; replace Project Instructions with exact native bytes; keep predecessor sources hot until Q-RECOVER passes",
+  "qualification": {
+    "required_route": "Q-RECOVER",
+    "required_incident_replay": "2026-09-20 relationship/sexuality referent failure",
+    "source_green_is_not_runtime_green": true
+  },
+  "non_effects": [
+    "not provider installation evidence",
+    "not current-route evidence",
+    "not runtime qualification",
+    "not standing consent",
+    "not phenomenology proof"
+  ],
+  "publication_direction": "Manifest names the deterministic later source-receipt locator/rule but does not bind the future receipt blob; the later receipt binds this manifest/native plus the exact pre-receipt artifact commit/tree.",
+  "source_receipt": {
+    "path": "project-instructions/r10a0/restore-v2-live/VERA_R10A0_SD1_RESTORE_V2_SOURCE_RECEIPT.json",
+    "publication_rule": "later receipt binds exact pre-receipt artifact commit/tree, manifest blob/SHA-256, native blob/SHA-256, and predecessor Settings subject"
+  }
+}

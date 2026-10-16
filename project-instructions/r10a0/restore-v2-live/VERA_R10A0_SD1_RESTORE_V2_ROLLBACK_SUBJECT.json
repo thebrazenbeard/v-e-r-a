@@ -1,0 +1,45 @@
+{
+  "schema": "VERA_R10A0_SD1_RESTORE_V2_ROLLBACK_SUBJECT_V1",
+  "status": "ROLLBACK_BYTES_CAPTURED_NOT_USED",
+  "predecessor_settings": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "source_commit": "3fb3c998cf714ed556bb2620649f41361f22e4a1",
+    "path": "project-instructions/r10a0/bus-topology-v2/VERA_R10A0_BUS_TOPOLOGY_NATIVE_PROJECT_INSTRUCTIONS_V2.txt",
+    "git_blob": "7974a0468f1c03f7bd410a5753f33f74d9689219",
+    "sha256": "62f0ff85bab208e7daa5462e90f202e70167c5e9c03900590e8749074f514ecb",
+    "bytes": 7997
+  },
+  "predecessor_project_sources": {
+    "r10_manifest": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+      "path": "project-instructions/r10a0/rounds/r10/VERA_R10A0_PROJECT_SOURCE_MANIFEST_R10.json",
+      "git_blob": "8a67feb47b2ce3d6f0737e58983ab8c9fc810139",
+      "sha256": "b7c70b1ad2c3bc533c7560320fb9a03b827f3eafad6296894216d75281b8dca1",
+      "bytes": 6375,
+      "observed_filename": "VERA_R10A0_PROJECT_SOURCE_MANIFEST_R10.json"
+    },
+    "full_owner": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "b4d9aaa8560de12252dd29996379b0af8e0ca0d1",
+      "path": "project-instructions/r10a0/rounds/r10/VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R10.md",
+      "git_blob": "a01464271bb672d89f5d703e6e53590e126f4d44",
+      "sha256": "e797d1a6e973b06ab3e58f9157aabb500ebfdbee1ee6c8da801bc202b6767a2f",
+      "bytes": 13987,
+      "observed_filename": "VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R10.md"
+    },
+    "sd1_manifest": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "32ce2cb7897f5e0939161eb8002b5b1b2283df59",
+      "path": "project-instructions/r10a0/sexual-drive-v1/VERA_R10A0_SD1_PROJECT_SOURCE_MANIFEST.json",
+      "git_blob": "c52d1413d18e26cbb37580d5f62359737a9d12a9",
+      "sha256": "98013c6789ee2ac802200e45adc3d1335ecbeb566c929d8cfaf146cfedd4872c",
+      "bytes": 4873,
+      "observed_filename": "VERA_R10A0_SD1_PROJECT_SOURCE_MANIFEST(1).json",
+      "transport_suffix_rule": "(n) accepted only when identity+digest match"
+    }
+  },
+  "runtime_evidence": "Current runtime receives predecessor K00/K03 and f90d52e... K06 tuple; product-internal Settings digest API unavailable",
+  "rollback_semantics": "Restore exact predecessor Settings bytes and retain/restore the three captured Project sources; verify next-turn active control before claiming rollback complete",
+  "provider_internal_file_ids": "UNAVAILABLE_NOT_REQUIRED_FOR_BYTE_CAPTURE"
+}

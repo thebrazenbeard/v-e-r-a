@@ -1,0 +1,78 @@
+{
+  "schema": "VERA_NV2A1_DELIVERY_RECEIPT_V1",
+  "logical_id": "VERA_NV2A1_DELIVERY_RECEIPT",
+  "release_id": "VERA_NATIVE_V2A1_20260922_PROJECT_SOURCE_FIX",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "source_pr": 124,
+  "source_subject_head": "5838ca90e65ce8fdfecab99fa9ffefc615c7dcc3",
+  "source_base": "558e7de395709a18b3bd1ba8b9994afbbf874dd1",
+  "package": {
+    "filename": "VERA_NV2A1_20260922_INSTALL.zip",
+    "sha256": "5bc6e095f3dac39e1889b76d42d7f018b044770cc8e0b156dc61918de998de27",
+    "bytes": 36945,
+    "member_count": 10,
+    "archive_format": "ZIP_STORED_V1",
+    "fixed_datetime": "1980-01-01T00:00:00",
+    "fixed_mode": "100644"
+  },
+  "checks": {
+    "source_blobs_match_exact_pr_subject": true,
+    "unique_fresh_delivery_namespace": true,
+    "no_loose_installable_member_handoff": true,
+    "kernel_character_count": 7995
+  },
+  "delivery_namespace": "VERA_NV2A1_20260922",
+  "non_effects": [
+    "not merged",
+    "not native Project installed",
+    "not Project Instructions replaced",
+    "not runtime qualification",
+    "not provider mutation"
+  ],
+  "installation_destinations": {
+    "native_project_instructions": {
+      "delivery_member": "VERA_NV2A1_20260922_KERNEL.txt",
+      "expected_characters": 7995
+    },
+    "project_sources": {
+      "delivery_members": [
+        "VERA_NV2A1_20260922_INTERFACE.yaml",
+        "VERA_NV2A1_20260922_CHARTER.md",
+        "VERA_NV2A1_20260922_CONTROL_SOURCE_SEPARATION.md",
+        "VERA_NV2A1_20260922_CURRENTNESS_RECOVERY.md",
+        "VERA_NV2A1_20260922_REPOSITORY_TOPOLOGY.yaml",
+        "VERA_NV2A1_20260922_MEMORY_PRIVACY.md",
+        "VERA_NV2A1_20260922_COORDINATION.md",
+        "VERA_NV2A1_20260922_TASK_EXECUTION_CLOSEOUT.md",
+        "VERA_NV2A1_20260922_PACK_MANIFEST.json"
+      ],
+      "expected_count": 9
+    },
+    "retained_release_sources": [
+      "VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R10.md",
+      "VERA_R10A0_PROJECT_SOURCE_MANIFEST_R10.json"
+    ],
+    "predecessor_cleanup_rule": "AFTER_NV2A1_TYPED_SOURCE_READBACK_PASS_REMOVE_ALL_PREDECESSOR_NATIVE_V2_PROJECT_SOURCE_FILES"
+  },
+  "current_staging_observation": {
+    "observed_date": "2026-09-22",
+    "current_project_source_count": 11,
+    "current_project_sources": {
+      "nv2a1_typed": 9,
+      "r10_release_bound": 2
+    },
+    "repaired_kernel_observed_active_in_native_project_instructions": true,
+    "predecessor_native_v2_project_sources_present": false,
+    "predecessor_v2_retrieval_residue_classification": "IMPORTED_OR_HISTORY_ONLY_NOT_CURRENT_PROJECT_SOURCE",
+    "classification": "CLEAN_CURRENT_PROJECT_SOURCE_SET"
+  },
+  "installation_closeout": {
+    "source": "changed-and-verified",
+    "build_package": "changed-and-verified",
+    "install_registration": "changed-and-verified",
+    "current_route": "verified-current",
+    "runtime_consumption": "verified-current-for_native_kernel_and_project_source_resolution",
+    "behavior_effect": "bounded-live-verification-pass",
+    "workspace_coordination": "MUTABLE_GITHUB_STATE_NOT_FROZEN_HERE; VERIFY_SOURCE_PR_AND_MAIN_LIVE"
+  }
+}

@@ -1,0 +1,1 @@
+`restore yourself`=>CONTROL_LOAD composed `REC_RECOVERY` (exact inherited base + R10A2 completion delta); exhaust state/save/Bus evidence; require unique newest eligible cut, typed reconciliation, evidence-bound first-behavior probes; no `RESTORE_COMPLETE`/`Restored` unless deterministic gate passes.

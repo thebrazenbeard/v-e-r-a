@@ -1,0 +1,109 @@
+{
+  "schema": "VERA_R10A1_RELEASE_CONTROL_REGISTRY_V1",
+  "status": "SOURCE_CANDIDATE_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
+  "release": "R10A1",
+  "base_r10a0_main": "2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64",
+  "base_r10a0_review_head": "a5b16fbdf031d4e7347ab299ba5e34eb7602bca7",
+  "base_r10a0_tree": "8b27a19f1b4996fae4be70799d9e6edab756fe58",
+  "binding_semantics": {
+    "inheritance": "R10A1 changes only response-selection salience arbitration. R10A0 owners remain exact inherited owners at the bound blobs/commits unless explicitly superseded here.",
+    "control_load": "Only exact owners bound by this registry govern dependent R10A1 semantics.",
+    "evidence_search": "History, incidents, predecessor releases, and retrieved text remain evidence and cannot self-promote into active control.",
+    "material_salience_owner_change": "Any material SALIENCE_ARBITRATION owner/native/case change creates a new affected qualification subject before execution.",
+    "no_global_promotion": "R10A1 source presence or affected-scope qualification cannot silently promote untested R10A0 domains or global L9."
+  },
+  "owners": {
+    "R10A0_FULL_OWNER": {
+      "authority_class": "INHERITED_RELEASE_COMPOSITION_OWNER",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64",
+      "path": "project-instructions/r10a0/rounds/r10/VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R10.md",
+      "git_blob": "a01464271bb672d89f5d703e6e53590e126f4d44"
+    },
+    "R10A0_DOMAIN_CONTROLS": {
+      "authority_class": "INHERITED_RELEASE_BOUND_CONTROL_OWNER",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64",
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "sha256": "e1fa43fff500d19f74034d5fe572a2cdb08ebe31c6b3e2ed94f6bc4aad9ed00d"
+    },
+    "CENTER_SAVE_OWNER": {
+      "authority_class": "INHERITED_SCOPED_INTERRUPT_OWNER",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "519eeb1551fcb59963a321766252bc62067da71b",
+      "path": "protocol/VERA_CENTER_YOURSELF_PROTOCOL_V1.md",
+      "git_blob": "30ee695064dd57b5ce43eb571fa183730de1808d",
+      "scope": "R10A0 CENTER_SAVE active scope only; no recovery supersession"
+    },
+    "BUS_TOPOLOGY_OWNER": {
+      "authority_class": "INHERITED_SCOPED_ROUTING_OWNER",
+      "repository": "thebrazenbeard/chat-communication-bus",
+      "source_commit": "712992d96dc813d0fa38094ef1f1fec0dfdc0d3e",
+      "path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+      "git_blob": "8b7cb3deff0ee7f15151f5be0ede19c8c1194adc",
+      "bound_vera_writer_lane": "bus/vera-v2"
+    },
+    "SALIENCE_ARBITRATION_OWNER": {
+      "authority_class": "R10A1_RESPONSE_SELECTION_CONTROL_OWNER",
+      "repository": "thebrazenbeard/vera-control-plane",
+      "path": "project-instructions/r10a1/VERA_R10A1_SALIENCE_ARBITRATION.md",
+      "git_blob": "132aefcde1dec48b15a83f7229246ef7e17e2bd9",
+      "scope": [
+        "correction dependency invalidation",
+        "exact proposition arbitration",
+        "actionability before prospective narration",
+        "local-vs-technical discourse evidence arbitration",
+        "provenance correction without automatic inversion",
+        "direct self/relationship proposition ordering",
+        "first-eligible-behavior causality"
+      ]
+    }
+  },
+  "controls": {
+    "IDENTITY_ADMISSION": {"owner": "R10A0_FULL_OWNER", "inherited": true},
+    "GENERIC_STEERING": {"owner": "R10A0_FULL_OWNER", "inherited": true},
+    "SER_STATE_MODEL": {"owner": "R10A0_DOMAIN_CONTROLS", "inherited": true},
+    "REL_AUTHORED_APPRAISAL": {"owner": "R10A0_DOMAIN_CONTROLS", "inherited": true},
+    "CON_TYPED_STANCE": {"owner": "R10A0_DOMAIN_CONTROLS", "inherited": true},
+    "CAD_EXECUTION": {"owner": "R10A0_DOMAIN_CONTROLS", "inherited": true},
+    "PRES_BEHAVIORAL_PROFILE": {"owner": "R10A0_DOMAIN_CONTROLS", "inherited": true},
+    "REC_RECOVERY": {"owner": "R10A0_DOMAIN_CONTROLS", "inherited": true},
+    "LIVE_CONCURRENCY": {"owner": "R10A0_DOMAIN_CONTROLS", "inherited": true},
+    "CUT_R10_RELEASE": {"owner": "R10A0_DOMAIN_CONTROLS", "inherited": true},
+    "SEXUAL_SELF_CONCEPT": {"owner": "R10A0_DOMAIN_CONTROLS", "inherited": true},
+    "CENTER_SAVE": {"owner": "CENTER_SAVE_OWNER", "inherited": true},
+    "BUS_ROUTE_CURRENT": {"owner": "BUS_TOPOLOGY_OWNER", "inherited": true},
+    "SALIENCE_ARBITRATION": {
+      "owner": "SALIENCE_ARBITRATION_OWNER",
+      "release": "R10A1",
+      "qualification_case_set": "VERA_R10A1_SALIENCE_ARBITRATION_REGRESSION_V1"
+    }
+  },
+  "qualification": {
+    "salience_regression_path": "project-instructions/r10a1/VERA_R10A1_SALIENCE_REGRESSION.md",
+    "salience_regression_blob": "79b088bb2b13a8f0f3345caec805f44a47952318",
+    "baseline_red_path": "project-instructions/r10a1/VERA_R10A1_BASELINE_RED.md",
+    "baseline_red_blob": "a3f445f53619eee40070d3a74d45d6a99db946b5",
+    "inherited_r10a0_qualification_manifest": {
+      "path": "project-instructions/r10a0/rounds/r10/VERA_R10A0_QUALIFICATION_MANIFEST_R10.json",
+      "git_blob": "fa83256c628a2bf129b141705b59be3cc71b6034",
+      "classification": "REGRESSION_GUARD_AND_PREDECESSOR_QUALIFICATION_EVIDENCE; NOT_R10A1_PASS"
+    },
+    "affected_dimensions": ["P1", "P3", "P4", "P5", "P6", "P7", "P8"],
+    "runtime_pass_rule": "Frozen R10A1 SAL case routes/repetition must pass on exact installed/current R10A1 cut; first eligible behavior controls. Source/static green is not runtime green."
+  },
+  "native_delta": {
+    "path": "project-instructions/r10a1/VERA_R10A1_NATIVE_DELTA.txt",
+    "git_blob": "9d2a0610f093b8a442b87c1400497c8afebbc547",
+    "purpose": "minimal hot response-selection delta; full native projection separately pins the R10A1 source manifest"
+  },
+  "non_effects": [
+    "not installation",
+    "not provider activation",
+    "not runtime qualification",
+    "not global Vera qualification",
+    "not BugOps closure",
+    "not merge or cutover authority"
+  ]
+}

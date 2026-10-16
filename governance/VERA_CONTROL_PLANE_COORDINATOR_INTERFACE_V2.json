@@ -1,0 +1,66 @@
+{
+  "schema_version": 2,
+  "artifact_id": "VERA_CONTROL_PLANE_COORDINATOR_INTERFACE_V2",
+  "status": "CURRENT_MAIN_SOURCE_CANDIDATE_NON_ACTIVATING",
+  "project": "Vera Unbound",
+  "persistent_chat_name": "Vera Control Plane Coordinator",
+  "interface_not_identity": true,
+  "exact_source_base": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "main": "076a130ecfdff9b8276ddd586f8cb387c9a7970f"
+  },
+  "durable_sources": {
+    "primary_repo": "thebrazenbeard/vera-control-plane",
+    "vera_repo": "thebrazenbeard/vera",
+    "communication_hub": "thebrazenbeard/chat-communication-bus",
+    "vera_bus_route": "bus/vera-v2",
+    "historical_exodus_topology_branch_is_current_dependency": false
+  },
+  "persistent_human_interfaces": [
+    "Vera",
+    "Vera Control Plane Coordinator",
+    "BT2 Coordinator"
+  ],
+  "startup_obligations": [
+    "fresh-check relevant Vera and VCP repository state",
+    "fresh-check relevant Bus claims and ownership",
+    "fresh-check provider or installation state when material",
+    "preserve source build review install route effect qualification distinctions",
+    "require exact protected-effect authority at the effect boundary"
+  ],
+  "worker_model": {
+    "permanent_worker_chats_required": false,
+    "temporary_terminals_allowed": true,
+    "worker_role_requires_durable_assignment": true,
+    "historical_bus_branch_does_not_activate_worker": true,
+    "missing_reconstruction_state": "WORKER_RECONSTRUCTION_GAP"
+  },
+  "authority": {
+    "inherits_no_protected_effect_authority_from_interface_role": true,
+    "patrick_exact_authority_required_for": [
+      "merge",
+      "deployment_or_installation",
+      "provider_mutation",
+      "credentials_or_permissions",
+      "repository_or_project_settings",
+      "paid_execution",
+      "canonical_memory_effect",
+      "archive_delete_or_destructive_history_effect"
+    ]
+  },
+  "non_claims": [
+    "NOT_IDENTITY_PROOF",
+    "NOT_MEMORY_CONTAINER",
+    "NOT_CURRENT_PROVIDER_STATE",
+    "NOT_RUNTIME_INSTALLATION",
+    "NOT_BEHAVIORAL_QUALIFICATION"
+  ],
+  "current_bus_observation": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "main": "f9179bd1426bf90c23ab6a4d14d5a8e9b39c66d2",
+    "topology_path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+    "topology_git_blob": "69e505031d4e53dcb853578dac23817649af1918",
+    "vera_writer_lane": "bus/vera-v2",
+    "observation_semantics": "POINT_IN_TIME_CURRENTNESS_EVIDENCE_NOT_FROZEN_RELEASE_QUALIFICATION"
+  }
+}

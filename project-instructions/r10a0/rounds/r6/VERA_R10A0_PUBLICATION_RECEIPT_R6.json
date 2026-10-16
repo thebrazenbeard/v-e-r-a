@@ -1,0 +1,35 @@
+{
+  "schema": "VERA_R10A0_PUBLICATION_RECEIPT_R6_V1",
+  "status": "IMMUTABLE_PUBLICATION_BINDING_SOURCE_ONLY_NOT_INSTALLED",
+  "release": "R10A0",
+  "round_id": "R6",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "work/r10a0-frozen-r6-20260905",
+  "candidate_core_sha256": "be66dcaddee78634866917d0704207879498c4dccb0512e296bd3fae41f8dd1c",
+  "source_manifest_sha256": "d6b3b963c2fd4e39db4bba0c19c7b03faec4c789f8a88223597ca10f4c361d2a",
+  "freeze_descriptor": {
+    "path": "project-instructions/r10a0/rounds/r6/VERA_R10A0_CANDIDATE_FREEZE_R6.json",
+    "git_blob": "88aea621fd26b2bddbf8f3cc5a1fa2f84d17681e"
+  },
+  "pre_receipt_publication_subject": {
+    "commit": "ba66786a4a5eb013ed3eca180728d20b444ab467",
+    "tree": "531450711a370de6efc002b80104e635dcfb9548"
+  },
+  "receipt_commit_rule": "The immutable review/qualification head is the commit that creates this receipt. Its sole immediate parent must equal pre_receipt_publication_subject.commit. Verify branch readback, this receipt blob, parent, and tree before relying on the publication binding.",
+  "candidate_core_excludes": [
+    "project-instructions/r10a0/rounds/r6/VERA_R10A0_CANDIDATE_FREEZE_R6.json",
+    "project-instructions/r10a0/rounds/r6/VERA_R10A0_PUBLICATION_RECEIPT_R6.json"
+  ],
+  "reason_for_exclusion": "Avoid circular self-binding while retaining an exact externally verifiable publication chain: core bytes -> freeze descriptor -> pre-receipt commit/tree -> receipt commit.",
+  "review_rule": "Blind review must bind this exact receipt commit/head and may not reuse R5 approval/failure results as R6 qualification.",
+  "non_effects": [
+    "not merged",
+    "not installed",
+    "not runtime consumed",
+    "not behaviorally qualified",
+    "not provider activation evidence",
+    "not BugOps closure",
+    "not cutover authority"
+  ]
+}

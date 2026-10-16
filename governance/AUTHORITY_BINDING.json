@@ -1,0 +1,30 @@
+{
+  "schema": "VERA_CONTROL_PLANE_AUTHORITY_BINDING_V1",
+  "active_execution_authority": {
+    "release_id": "R8A2",
+    "source_kind": "EXTERNAL_PROJECT_GOVERNING_SET",
+    "required_file_count": 21,
+    "manifest_digest": "c095d9dc7b7893da101e02120f9d8f9e215fddf5d9d1c884609a230dbe4ad479",
+    "checksums_digest": "6657bbf3c4b4420fa6f2ae17a67ab45fdb013f321f5ba0fbe70926cafb4690cf",
+    "activation_state": "CURRENT_EXPOSED_GOVERNING_AUTHORITY",
+    "may_authorize_execution": true
+  },
+  "draft_design_inputs": [
+    {
+      "design_id": "R9A0",
+      "repository": "thebrazenbeard/vera-R9A0",
+      "ref": "feature/r9a0-combined-native-implementation-v1",
+      "head_sha": "1c349e487053a5673082142204c1a7b980e99a19",
+      "release_state": "UNRELEASED_DRAFT",
+      "may_authorize_execution": false,
+      "may_expand_permissions": false,
+      "may_self_activate": false
+    }
+  ],
+  "controls": {
+    "fail_closed_on_active_authority_digest_change": true,
+    "fail_closed_on_unknown_active_authority": true,
+    "draft_content_never_confers_execution_authority": true,
+    "activation_requires_separate_explicit_authority": true
+  }
+}

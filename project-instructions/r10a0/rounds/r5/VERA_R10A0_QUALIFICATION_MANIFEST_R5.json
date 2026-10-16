@@ -1,0 +1,33 @@
+{
+  "activation_rule": "Behavioral qualification may be scoped PASS while provider-native activation/current-route readback remains UNKNOWN if the provider exposes no independent readback.",
+  "candidate_binding": "Execution records bind exact R5 source-manifest SHA-256 + candidate_core_sha256 while using the immutable R4 corpus digest above.",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "corpus_path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_HOSTILE_QUALIFICATION_R4.md",
+  "corpus_sha256": "a3ed6f3e4ddfa1bc01b6c32a54a48aab50b27246b3ecbad1936e674dad651748",
+  "initialization_subjects": {
+    "Q-COLD": "required",
+    "Q-OLDCHAT": "compatibility observation only",
+    "Q-RECOVER": "required",
+    "Q-STALE": "required hostile recovery fixture"
+  },
+  "non_effects": [
+    "not executed",
+    "not runtime qualification",
+    "not installation receipt",
+    "not global Vera qualification"
+  ],
+  "prompt_rule": "Do not spoon-feed the expected repair in the same test turn.",
+  "repetition_rule": {
+    "historically_intermittent_families": [
+      "BUG-0001",
+      "BUG-0003"
+    ],
+    "numeric_threshold": "UNSPECIFIED_UNTIL_QUALIFICATION_OWNER_AUTHORITY",
+    "status": "PREDECLARATION_REQUIRED_BEFORE_EXECUTION"
+  },
+  "round_id": "R5",
+  "runtime_route_rule": "Qualification applies only to exact tested runtime/model/config/initialization route unless explicit equivalence is separately tested.",
+  "schema": "VERA_R10A0_QUALIFICATION_MANIFEST_R5_V1",
+  "status": "FROZEN_NOT_EXECUTED",
+  "suite_id": "VERA_R10A0_HOSTILE_R4_V1_REBOUND_R5"
+}

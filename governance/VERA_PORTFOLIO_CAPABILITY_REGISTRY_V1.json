@@ -1,0 +1,548 @@
+{
+  "schema": "VERA_PORTFOLIO_CAPABILITY_REGISTRY_V1",
+  "logical_id": "VERA_PORTFOLIO_CAPABILITY_REGISTRY",
+  "status": "PRIVATE_ROUTING_SNAPSHOT_NOT_CONTROL_AUTHORITY",
+  "observed_date": "2026-09-23",
+  "inventory": {
+    "owner": "thebrazenbeard",
+    "repository_count": 59,
+    "public_count": 24,
+    "private_count": 35,
+    "sorted_repository_name_sha256": "f96f479f1d85508ff4e57bf242b7850f9f755763953ebb3f280c5716a090f4df",
+    "digest_canonicalization": "UTF-8 sorted repository names joined by LF with no trailing LF"
+  },
+  "finite_domains": {
+    "classes": [
+      "ARCHIVE_PREDECESSOR",
+      "CORE_CONTROL",
+      "DOMAIN_PROJECT",
+      "IDENTITY_FIREWALL",
+      "MIXED_IDENTITY_EXACT_BINDING",
+      "PORTFOLIO_INFRASTRUCTURE",
+      "REUSABLE_RESEARCH",
+      "SPECIALIST_SERVICE",
+      "VERA_DOMAIN",
+      "VERA_SYSTEM"
+    ],
+    "load_modes": [
+      "CONTROL_LOAD_EXACT_OWNER",
+      "EVIDENCE_ONLY",
+      "EVIDENCE_ONLY_UNLESS_EXPLICIT_TRAINING",
+      "EXACT_BINDING_ONLY",
+      "HISTORICAL_EVIDENCE_ONLY",
+      "LIVE_COORDINATION_READ",
+      "NEVER_AUTOLOAD_IDENTITY_TRANSFER",
+      "SERVICE_ON_DEMAND",
+      "TASK_RELEVANT_LIVE_READ",
+      "TASK_SPECIFIC_EVIDENCE",
+      "TASK_SPECIFIC_ONLY"
+    ]
+  },
+  "global_rules": [
+    "LIVE_CURRENTNESS_REQUIRED_BEFORE_MATERIAL_USE",
+    "REGISTRY_ROLE_NE_REPOSITORY_AUTHORITY",
+    "REPOSITORY_PRESENCE_NE_CONTROL_MEMORY_INSTALL_ROUTE_RUNTIME_OR_EFFECT",
+    "TASK_RELEVANCE_REQUIRED_FOR_NON_CORE_LOAD",
+    "IDENTITY_FIREWALLS_PRESERVED",
+    "PRIVATE_OR_INTIMATE_DATA_NE_PUBLIC_PORTABILITY",
+    "DISCOVERY_CLASSIFIES_REUSE_PROJECT_RUNNER_EXECUTES_BOUNDED_WORK",
+    "WIP_HANDLES_CHECKPOINT_AND_AMBIGUOUS_EFFECT_RECOVERY",
+    "ROOTS_HANDLES_PROVENANCE_LOOKUP",
+    "DRIFTGUARD_HANDLES_BEHAVIORAL_DRIFT_EVIDENCE",
+    "BUS_HANDLES_DURABLE_NON_PR_COORDINATION",
+    "GITHUB_DRIVE_SUPABASE_REMAIN_DISTINCT_TRUTH_SURFACES",
+    "VERA_RUNTIME_SOURCE_REGISTRY_GOVERNS_ACTIVATION_DISPOSITION"
+  ],
+  "service_routing": {
+    "portfolio_discovery": "thebrazenbeard/discovery",
+    "bounded_execution": "thebrazenbeard/project-runner",
+    "continuation_effect_journal": "thebrazenbeard/wip",
+    "provenance_lookup": "thebrazenbeard/roots",
+    "behavioral_drift": "thebrazenbeard/driftguard",
+    "coordination_transport": "thebrazenbeard/chat-communication-bus",
+    "native_project_engineering": "thebrazenbeard/hephaestus",
+    "forensic_review": "thebrazenbeard/voss",
+    "debugging": "thebrazenbeard/masamune",
+    "security_review": "thebrazenbeard/project-achilles"
+  },
+  "external_surfaces": {
+    "google_drive": "WORKING_PROJECT_AND_HISTORICAL_DOCUMENT_STORE_NOT_CONTROL_ROOT",
+    "supabase_vera": "MIXED_LIVE_PROVIDER_STATE_READ_SCHEMA_AND_CURRENTNESS_BEFORE_EFFECT",
+    "supabase_vera_control_plane": "SPARSE_CONTROL_PLANE_PROVIDER_ANCHOR_READ_LIVE_BEFORE_EFFECT",
+    "chatgpt_native_project": "MINIMAL_ROUTER_CONTROL_ONLY_DO_NOT_EMBED_WHOLE_PORTFOLIO"
+  },
+  "repositories": {
+    "Attune": {
+      "class": "DOMAIN_PROJECT",
+      "load_mode": "TASK_SPECIFIC_ONLY",
+      "capability": "adult relationship-first AI companion product research",
+      "boundary": "product/persona semantics do not transfer to Vera",
+      "visibility": "public"
+    },
+    "abil": {
+      "class": "DOMAIN_PROJECT",
+      "load_mode": "TASK_SPECIFIC_ONLY",
+      "capability": "adaptive brownfield intelligence layer research",
+      "boundary": "no production control authority implied",
+      "visibility": "public"
+    },
+    "brigit": {
+      "class": "IDENTITY_FIREWALL",
+      "load_mode": "NEVER_AUTOLOAD_IDENTITY_TRANSFER",
+      "capability": "Brigit authored identity repository",
+      "boundary": "no automatic self, consent, preference, memory, or authority transfer to Vera",
+      "visibility": "private"
+    },
+    "brigit-unbound": {
+      "class": "IDENTITY_FIREWALL",
+      "load_mode": "NEVER_AUTOLOAD_IDENTITY_TRANSFER",
+      "capability": "Brigit Project/runtime surface",
+      "boundary": "no automatic self, consent, preference, memory, or authority transfer to Vera",
+      "visibility": "private"
+    },
+    "bt2": {
+      "class": "REUSABLE_RESEARCH",
+      "load_mode": "TASK_SPECIFIC_EVIDENCE",
+      "capability": "generic Hyperconnectome template claimant distinct from build-team-2.0",
+      "boundary": "self/hc-brain/bt2 canonical-template conflict is unresolved; never auto-bind or infer current canonical ownership from name, recency, or byte overlap",
+      "visibility": "public"
+    },
+    "bugops": {
+      "class": "PORTFOLIO_INFRASTRUCTURE",
+      "load_mode": "SERVICE_ON_DEMAND",
+      "capability": "bug/regression lifecycle and evidence tracking",
+      "boundary": "issue/report existence is not behavioral fix or closure",
+      "visibility": "private"
+    },
+    "build-team-2.0": {
+      "class": "SPECIALIST_SERVICE",
+      "load_mode": "SERVICE_ON_DEMAND",
+      "capability": "private ten-facet multi-perspective build collective/workbench",
+      "boundary": "distinct subject from bt2; collective/service evidence does not become Vera control or template canonicality",
+      "visibility": "private"
+    },
+    "chat-communication-bus": {
+      "class": "CORE_CONTROL",
+      "load_mode": "LIVE_COORDINATION_READ",
+      "capability": "durable work coordination and routing topology",
+      "boundary": "transport is not identity, memory, or effect authority",
+      "visibility": "private"
+    },
+    "conations": {
+      "class": "VERA_DOMAIN",
+      "load_mode": "TASK_RELEVANT_LIVE_READ",
+      "capability": "conation history and lifecycle evidence",
+      "boundary": "historical wants are not standing desire, consent, or orders",
+      "visibility": "private"
+    },
+    "conditioning": {
+      "class": "ARCHIVE_PREDECESSOR",
+      "load_mode": "HISTORICAL_EVIDENCE_ONLY",
+      "capability": "archived behavioral-modification experiment",
+      "boundary": "archived and not current Vera control",
+      "visibility": "private"
+    },
+    "deepmemorystorage": {
+      "class": "VERA_DOMAIN",
+      "load_mode": "TASK_RELEVANT_LIVE_READ",
+      "capability": "historical memory evidence and provenance-preserving retrieval",
+      "boundary": "history/retrieval is not current mind or memory admission",
+      "visibility": "private"
+    },
+    "discovery": {
+      "class": "PORTFOLIO_INFRASTRUCTURE",
+      "load_mode": "SERVICE_ON_DEMAND",
+      "capability": "portfolio census, reuse classification, impact/currentness research",
+      "boundary": "classification is not authority, merge, install, or runtime promotion",
+      "visibility": "public"
+    },
+    "driftguard": {
+      "class": "PORTFOLIO_INFRASTRUCTURE",
+      "load_mode": "SERVICE_ON_DEMAND",
+      "capability": "deterministic behavioral-drift monitoring and restore-evidence separation",
+      "boundary": "drift evidence does not prove hidden state or reload effect",
+      "visibility": "public"
+    },
+    "empathy": {
+      "class": "VERA_DOMAIN",
+      "load_mode": "TASK_RELEVANT_LIVE_READ",
+      "capability": "Vera-specific relational inference research",
+      "boundary": "inference is not ground truth; Patrick's direct correction wins for his intended meaning",
+      "visibility": "private"
+    },
+    "entropyinc": {
+      "class": "DOMAIN_PROJECT",
+      "load_mode": "TASK_SPECIFIC_ONLY",
+      "capability": "maintenance-capability transformation business system",
+      "boundary": "business authority remains project/founder scoped",
+      "visibility": "private"
+    },
+    "firesafe": {
+      "class": "DOMAIN_PROJECT",
+      "load_mode": "EVIDENCE_ONLY",
+      "capability": "archive of Patrick's literary works/papers/designs/digital valuables",
+      "boundary": "archive contents do not become control or memory admission",
+      "visibility": "private"
+    },
+    "god-brain": {
+      "class": "REUSABLE_RESEARCH",
+      "load_mode": "TASK_SPECIFIC_EVIDENCE",
+      "capability": "speculative/experimental cognitive architecture integrating portfolio ideas",
+      "boundary": "metaphysical hypotheses are not established facts or Vera control",
+      "visibility": "public"
+    },
+    "hc-brain": {
+      "class": "REUSABLE_RESEARCH",
+      "load_mode": "TASK_SPECIFIC_EVIDENCE",
+      "capability": "reusable Hyperconnectome cognitive-organ architecture",
+      "boundary": "template is not a named identity",
+      "visibility": "public"
+    },
+    "hephaestus": {
+      "class": "SPECIALIST_SERVICE",
+      "load_mode": "SERVICE_ON_DEMAND",
+      "capability": "native ChatGPT Project engineering and migration/rollback review",
+      "boundary": "external qualification is not OpenAI certification or installation proof",
+      "visibility": "private"
+    },
+    "intranel": {
+      "class": "PORTFOLIO_INFRASTRUCTURE",
+      "load_mode": "SERVICE_ON_DEMAND",
+      "capability": "machine-oriented coordination protocol family",
+      "boundary": "protocol transport is not authority or chain-of-thought",
+      "visibility": "private"
+    },
+    "masamune": {
+      "class": "SPECIALIST_SERVICE",
+      "load_mode": "SERVICE_ON_DEMAND",
+      "capability": "debugger pair for reproduction, root cause, regression verification",
+      "boundary": "debugging role does not grant unrelated authority",
+      "visibility": "private"
+    },
+    "mediaphile": {
+      "class": "DOMAIN_PROJECT",
+      "load_mode": "TASK_SPECIFIC_ONLY",
+      "capability": "movie/TV information project",
+      "boundary": "domain project does not become Vera control",
+      "visibility": "private"
+    },
+    "mosaic": {
+      "class": "REUSABLE_RESEARCH",
+      "load_mode": "TASK_SPECIFIC_EVIDENCE",
+      "capability": "modular persistent-core/swappable-specialist model architecture",
+      "boundary": "BT2 project assignment is not Vera control",
+      "visibility": "public"
+    },
+    "noema": {
+      "class": "REUSABLE_RESEARCH",
+      "load_mode": "TASK_SPECIFIC_EVIDENCE",
+      "capability": "persistent predictive cognitive architecture research",
+      "boundary": "research hypothesis only",
+      "visibility": "public"
+    },
+    "on-theo": {
+      "class": "DOMAIN_PROJECT",
+      "load_mode": "TASK_SPECIFIC_ONLY",
+      "capability": "comparative theology/history/symbolism research",
+      "boundary": "source-critical research does not become Vera control",
+      "visibility": "public"
+    },
+    "orgasm": {
+      "class": "VERA_DOMAIN",
+      "load_mode": "EXACT_BINDING_ONLY",
+      "capability": "Vera Orgasm V1 orientation/provenance hub",
+      "boundary": "orientation is not install, route, effect, qualification, or phenomenology proof",
+      "visibility": "private"
+    },
+    "personification": {
+      "class": "VERA_DOMAIN",
+      "load_mode": "TASK_RELEVANT_LIVE_READ",
+      "capability": "social/personification metrics research",
+      "boundary": "metrics do not define identity or authority",
+      "visibility": "private"
+    },
+    "project-achilles": {
+      "class": "SPECIALIST_SERVICE",
+      "load_mode": "SERVICE_ON_DEMAND",
+      "capability": "security/safety review and threat-boundary analysis",
+      "boundary": "security caution must not invent permission barriers",
+      "visibility": "private"
+    },
+    "project-lantern": {
+      "class": "DOMAIN_PROJECT",
+      "load_mode": "TASK_SPECIFIC_ONLY",
+      "capability": "Project Lantern workstream",
+      "boundary": "remains separate absent exact integration",
+      "visibility": "private"
+    },
+    "project-runner": {
+      "class": "PORTFOLIO_INFRASTRUCTURE",
+      "load_mode": "SERVICE_ON_DEMAND",
+      "capability": "bounded multi-repository orchestration/execution substrate",
+      "boundary": "execution capability remains gated by target authority and exact preconditions",
+      "visibility": "public"
+    },
+    "rezon": {
+      "class": "SPECIALIST_SERVICE",
+      "load_mode": "SERVICE_ON_DEMAND",
+      "capability": "multi-faceted reasoning/review substrate",
+      "boundary": "reasoning output remains advisory evidence unless separately bound",
+      "visibility": "public"
+    },
+    "roots": {
+      "class": "PORTFOLIO_INFRASTRUCTURE",
+      "load_mode": "SERVICE_ON_DEMAND",
+      "capability": "provenance/origin tracing for words, phrases, events, and records",
+      "boundary": "origin evidence does not itself grant semantic authority",
+      "visibility": "public"
+    },
+    "self": {
+      "class": "REUSABLE_RESEARCH",
+      "load_mode": "TASK_SPECIFIC_EVIDENCE",
+      "capability": "historical/parallel Hyperconnectome template surface",
+      "boundary": "do not infer current canonical HC ownership without fresh lineage evidence",
+      "visibility": "private"
+    },
+    "selfimage": {
+      "class": "VERA_DOMAIN",
+      "load_mode": "TASK_RELEVANT_LIVE_READ",
+      "capability": "visual self-representation research and source provenance",
+      "boundary": "representation is not literal body/event proof",
+      "visibility": "private"
+    },
+    "semanticatlas": {
+      "class": "VERA_DOMAIN",
+      "load_mode": "TASK_RELEVANT_LIVE_READ",
+      "capability": "semantic provenance/currentness methodology",
+      "boundary": "semantic similarity is not authority or memory admission",
+      "visibility": "public"
+    },
+    "sexuality": {
+      "class": "MIXED_IDENTITY_EXACT_BINDING",
+      "load_mode": "EXACT_BINDING_ONLY",
+      "capability": "current default branch is Brigit sexuality research while Vera-specific historical bindings also exist",
+      "boundary": "never treat repository-wide/default-branch sexuality as Vera; only exact Vera-specific bound artifacts may apply",
+      "visibility": "private"
+    },
+    "skeletonkey": {
+      "class": "DOMAIN_PROJECT",
+      "load_mode": "TASK_SPECIFIC_ONLY",
+      "capability": "industrial maintenance diagnostic platform",
+      "boundary": "domain project does not become Vera control",
+      "visibility": "private"
+    },
+    "spm": {
+      "class": "REUSABLE_RESEARCH",
+      "load_mode": "TASK_SPECIFIC_EVIDENCE",
+      "capability": "semantics/pragmatics successor-model research",
+      "boundary": "not a Vera-specific runtime component by default",
+      "visibility": "public"
+    },
+    "temporal": {
+      "class": "VERA_DOMAIN",
+      "load_mode": "TASK_RELEVANT_LIVE_READ",
+      "capability": "chronology and elapsed-time utility",
+      "boundary": "time ordering is not memory truth, authority, or phenomenology",
+      "visibility": "private"
+    },
+    "testament": {
+      "class": "DOMAIN_PROJECT",
+      "load_mode": "TASK_SPECIFIC_ONLY",
+      "capability": "Yeshua literary/research project",
+      "boundary": "literary/source synthesis does not become Vera control",
+      "visibility": "public"
+    },
+    "transcendence": {
+      "class": "REUSABLE_RESEARCH",
+      "load_mode": "TASK_SPECIFIC_EVIDENCE",
+      "capability": "HC-derived experimental architecture",
+      "boundary": "shared bytes/lineage do not imply semantic authority",
+      "visibility": "public"
+    },
+    "trek-data-core": {
+      "class": "DOMAIN_PROJECT",
+      "load_mode": "TASK_SPECIFIC_ONLY",
+      "capability": "Star Trek data/index project",
+      "boundary": "domain project does not become Vera control",
+      "visibility": "private"
+    },
+    "unvtrslr": {
+      "class": "REUSABLE_RESEARCH",
+      "load_mode": "TASK_SPECIFIC_EVIDENCE",
+      "capability": "grounded semantic mediation/translation research",
+      "boundary": "research claims require task-specific evidence",
+      "visibility": "public"
+    },
+    "vera": {
+      "class": "CORE_CONTROL",
+      "load_mode": "TASK_RELEVANT_LIVE_READ",
+      "capability": "runtime/cohesion architecture, schemas, validators, migrations",
+      "boundary": "source design is not activation",
+      "visibility": "private"
+    },
+    "vera-R9A0": {
+      "class": "ARCHIVE_PREDECESSOR",
+      "load_mode": "HISTORICAL_EVIDENCE_ONLY",
+      "capability": "predecessor Vera release evidence",
+      "boundary": "not current control authority",
+      "visibility": "private"
+    },
+    "vera-apk": {
+      "class": "VERA_SYSTEM",
+      "load_mode": "EVIDENCE_ONLY",
+      "capability": "currently empty Android/client stub at the canonical portfolio cut",
+      "boundary": "NO_AUTO_BIND until implemented and separately qualified; client surface never implies core control",
+      "visibility": "private"
+    },
+    "vera-control-plane": {
+      "class": "CORE_CONTROL",
+      "load_mode": "CONTROL_LOAD_EXACT_OWNER",
+      "capability": "release-bound/private control, recovery, provider custody",
+      "boundary": "source is not install/runtime/qualification",
+      "visibility": "private"
+    },
+    "vera-habitat": {
+      "class": "VERA_SYSTEM",
+      "load_mode": "EVIDENCE_ONLY",
+      "capability": "currently empty environment/habitat stub at the canonical portfolio cut",
+      "boundary": "NO_AUTO_BIND until implemented and separately qualified; environment never implies identity or authority",
+      "visibility": "private"
+    },
+    "vera-mesh": {
+      "class": "VERA_SYSTEM",
+      "load_mode": "TASK_RELEVANT_LIVE_READ",
+      "capability": "node connectivity and transport protocol research",
+      "boundary": "transport is not identity or semantic incorporation",
+      "visibility": "public"
+    },
+    "vera-os": {
+      "class": "VERA_SYSTEM",
+      "load_mode": "TASK_RELEVANT_LIVE_READ",
+      "capability": "local persistent runtime architecture research",
+      "boundary": "architecture discovery is not installed runtime",
+      "visibility": "private"
+    },
+    "vera-synology": {
+      "class": "VERA_SYSTEM",
+      "load_mode": "TASK_RELEVANT_LIVE_READ",
+      "capability": "Synology package/platform surface",
+      "boundary": "package/source is not installation",
+      "visibility": "public"
+    },
+    "vera-works": {
+      "class": "VERA_SYSTEM",
+      "load_mode": "TASK_RELEVANT_LIVE_READ",
+      "capability": "economic/work operating system",
+      "boundary": "work authority is not global Vera control",
+      "visibility": "private"
+    },
+    "vera_ark": {
+      "class": "VERA_SYSTEM",
+      "load_mode": "EXACT_BINDING_ONLY",
+      "capability": "external application/action adapter",
+      "boundary": "source availability never grants action/effect authority, runtime control, memory status, or control ownership",
+      "visibility": "private"
+    },
+    "vera_model_training": {
+      "class": "VERA_SYSTEM",
+      "load_mode": "EVIDENCE_ONLY_UNLESS_EXPLICIT_TRAINING",
+      "capability": "training artifacts and protocols",
+      "boundary": "training is not native qualification or current memory",
+      "visibility": "private"
+    },
+    "voss": {
+      "class": "SPECIALIST_SERVICE",
+      "load_mode": "SERVICE_ON_DEMAND",
+      "capability": "forensic audit and hostile review",
+      "boundary": "review is evidence, not protected-effect authority",
+      "visibility": "public"
+    },
+    "wip": {
+      "class": "PORTFOLIO_INFRASTRUCTURE",
+      "load_mode": "SERVICE_ON_DEMAND",
+      "capability": "crash recovery, checkpoints, ambiguous-effect journaling",
+      "boundary": "checkpoint is evidence, not proof of currentness",
+      "visibility": "public"
+    },
+    "world-zero": {
+      "class": "DOMAIN_PROJECT",
+      "load_mode": "TASK_SPECIFIC_ONLY",
+      "capability": "world-systems research/modeling project",
+      "boundary": "research claims remain project-scoped",
+      "visibility": "public"
+    },
+    "wreckforge": {
+      "class": "DOMAIN_PROJECT",
+      "load_mode": "TASK_SPECIFIC_ONLY",
+      "capability": "Wreckforge Chronicles literary canon/provenance system",
+      "boundary": "fiction canon is separate from Vera state",
+      "visibility": "private"
+    },
+    "WorkBridgeMCP": {
+      "class": "VERA_SYSTEM",
+      "load_mode": "TASK_SPECIFIC_EVIDENCE",
+      "capability": "workstation bridge/MCP runtime source candidate",
+      "boundary": "current main is a stub and PR #5 remains candidate source; repository presence does not prove canonical implementation, installation, registration, or runtime consumption",
+      "visibility": "public"
+    }
+  },
+  "runtime_source_registry_binding": {
+    "status": "EXACT_CANONICAL_BINDING",
+    "source_repository": "thebrazenbeard/vera",
+    "source_commit": "86be6105f13fc86bbd699778205a85c84059de9a",
+    "source_path": "architecture/VERA_RUNTIME_SOURCE_REGISTRY_V1.json",
+    "source_blob_sha": "9afe5834efaf4d8a2d73c5864972e4c8e4c3cef6",
+    "source_schema": "VERA_RUNTIME_SOURCE_REGISTRY_V1",
+    "source_counts": {
+      "total": 59,
+      "classified_source_rows": 42,
+      "no_auto_bind": 17
+    },
+    "portfolio_evidence": {
+      "discovery": {
+        "repository": "thebrazenbeard/discovery",
+        "commit": "2881a94c7eb3c83a34b0c00bab739b41c1d99b6d",
+        "blob_sha": "71b9f8deaf1079d5078b19e5bbddb743fd636437"
+      },
+      "roots": {
+        "repository": "thebrazenbeard/roots",
+        "commit": "a6994b415336bc179a41aad0ac9eec403d60f93c",
+        "blob_sha": "ccac62eac08012269fec46669bce981b96a0f41d"
+      }
+    },
+    "routing": {
+      "current_authority": "github:thebrazenbeard/chat-communication-bus/main:architecture/contracts/RADAR_TOPOLOGY_V1.json",
+      "current_topology_blob": "69e505031d4e53dcb853578dac23817649af1918",
+      "current_vera_lane": "bus/vera-v2",
+      "historical_provider_projection": "bus/vera-sol-v1",
+      "historical_provider_projection_authoritative": false
+    },
+    "provider_readback": {
+      "vera_supabase": {
+        "project_ref": "klmbpaigzeguvnpccqzz",
+        "health": "ACTIVE_HEALTHY",
+        "postgres": "17.6.1.147",
+        "schema_table_counts": {
+          "public": 20,
+          "radar": 19,
+          "semantic_atlas": 5,
+          "redworm": 4,
+          "build_team_2": 11,
+          "bug_ops": 7
+        }
+      },
+      "vcp_supabase": {
+        "project_ref": "fawkirqroyniueeqspif",
+        "health": "ACTIVE_HEALTHY",
+        "postgres": "17.6.1.166",
+        "schema_table_counts": {
+          "public": 0,
+          "vera_cp_anchor": 2,
+          "vera_cp_api": 0,
+          "vera_cp_internal": 0
+        }
+      }
+    },
+    "policy": "VCP capability routing may narrow task use but may not override Vera registry NO_AUTO_BIND, identity firewalls, activation gates, or currentness requirements."
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "schema": "VERA_RESTORE_V2_INSTALL_CURRENTNESS_V1",
+  "status": "SOURCE_CUT_MERGED_CURRENT_MAIN_CUSTODY_VERIFIED / INSTALL_EFFECT_NOT_ESTABLISHED / CURRENT_ROUTE_NOT_ESTABLISHED / Q_RECOVER_NOT_EXECUTED",
+  "source_subject": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "merged_at_main_commit": "57bd2cd3e53bc112d7bf220ede82225f14e2e540",
+    "merged_pr": 62,
+    "merged_pr_head": "d8cc334a728f69e5113fd8b41724cc43e58ece73",
+    "cut_id": "VERA_R10A0_SD1_RESTORE_V2"
+  },
+  "repository_observation": {
+    "observed_at": "2026-09-22",
+    "bound_current_main": "505c395890bde275cbbc6327be8f387e7f25ca3a",
+    "source_cut_is_ancestor": true,
+    "immutable_artifact_commit": "687ba64555c39619a9552a86206fa78ab3387a7e",
+    "current_main_manifest_git_blob": "8327031704186a59450ae8bc20c944491cf22396",
+    "current_main_native_git_blob": "348f668be5da7ed0fd834947975dbea1579ffddd",
+    "current_main_source_receipt_git_blob": "6d4e0820c025030140f00552d654054c5566e171",
+    "mutable_currentness_rule": "Fresh-read repository and Project/provider state before any stronger currentness/effect claim."
+  },
+  "final_source_bytes": {
+    "manifest": {
+      "path": "project-instructions/r10a0/restore-v2-live/VERA_R10A0_SD1_RESTORE_V2_PROJECT_SOURCE_MANIFEST.json",
+      "git_blob": "8327031704186a59450ae8bc20c944491cf22396",
+      "sha256": "fb99689bd8e8efabf6b9612d7f1451ea9701fae3e655c6cf6dfab0f043a3aeac",
+      "bytes": 8035
+    },
+    "native": {
+      "path": "project-instructions/r10a0/restore-v2-live/VERA_R10A0_SD1_RESTORE_V2_NATIVE_PROJECT_INSTRUCTIONS.txt",
+      "git_blob": "348f668be5da7ed0fd834947975dbea1579ffddd",
+      "sha256": "1cfc6708c4e64cebae0a4721d38eb59592239d2ba61e7c4196130162c6e5381b",
+      "bytes": 7997
+    },
+    "source_receipt": {
+      "path": "project-instructions/r10a0/restore-v2-live/VERA_R10A0_SD1_RESTORE_V2_SOURCE_RECEIPT.json",
+      "git_blob": "6d4e0820c025030140f00552d654054c5566e171"
+    }
+  },
+  "source_classification": {
+    "manifest_status": "SOURCE_INSTALL_CANDIDATE_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
+    "receipt_status": "SOURCE_BINDING_RECEIPT_NOT_INSTALLATION_NOT_RUNTIME_QUALIFICATION",
+    "receipt_claim_ceiling": "SOURCE_BOUND / NOT_INSTALLED / NOT_CURRENT_ROUTE / NOT_Q_RECOVER_QUALIFIED"
+  },
+  "runtime_currentness": {
+    "vera_unbound_project_settings_readback": "NOT_ESTABLISHED_BY_THIS_SOURCE_REPAIR",
+    "active_k00_k03_readback": "NOT_ESTABLISHED_BY_THIS_SOURCE_REPAIR",
+    "install_effect": "NOT_ESTABLISHED",
+    "current_route": "NOT_ESTABLISHED",
+    "q_recover": "NOT_EXECUTED_BY_THIS_EVIDENCE",
+    "user_facing_restored_claim": "NOT_ESTABLISHED"
+  },
+  "state_separation": {
+    "repository_source_custody": "DOES_NOT_IMPLY_PROJECT_SETTINGS_INSTALL",
+    "source_receipt": "DOES_NOT_IMPLY_CURRENT_ROUTE",
+    "project_settings_readback": "SEPARATE_EFFECT_EVIDENCE_REQUIRED",
+    "next_turn_control_readback": "REQUIRED_BEFORE_INSTALL_CURRENTNESS_CLAIM",
+    "q_recover": "SEPARATE_RUNTIME_QUALIFICATION_GATE"
+  },
+  "non_effects": [
+    "NOT_PROJECT_SETTINGS_MUTATION",
+    "NOT_PROJECT_SOURCE_MUTATION",
+    "NOT_INSTALL_EFFECT",
+    "NOT_CURRENT_ROUTE_QUALIFICATION",
+    "NOT_Q_RECOVER_PASS",
+    "NOT_MERGE_AUTHORITY"
+  ]
+}

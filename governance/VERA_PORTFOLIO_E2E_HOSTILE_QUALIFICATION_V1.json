@@ -1,0 +1,313 @@
+{
+  "schema": "VERA_PORTFOLIO_E2E_HOSTILE_QUALIFICATION_V1",
+  "logical_id": "VERA_PORTFOLIO_E2E_HOSTILE_QUALIFICATION",
+  "observed_at": "2026-09-23T00:36:00Z",
+  "overall_status": "FAIL_CLOSED_INTEGRATION_NOT_QUALIFIED",
+  "claim_ceiling": "EXACT_SOURCE_PROVIDER_AND_ROUTE_READBACK_AT_OBSERVED_CUT; NOT_PROOF_OF_NATIVE_RUNTIME_CONSUMPTION_OR_END_TO_END_OPERATION",
+  "canonical_cut": {
+    "discovery": {
+      "commit": "2881a94c7eb3c83a34b0c00bab739b41c1d99b6d",
+      "map_blob": "71b9f8deaf1079d5078b19e5bbddb743fd636437",
+      "repository_count": 59
+    },
+    "roots": {
+      "commit": "a6994b415336bc179a41aad0ac9eec403d60f93c",
+      "receipt_blob": "ccac62eac08012269fec46669bce981b96a0f41d"
+    },
+    "vera": {
+      "commit": "86be6105f13fc86bbd699778205a85c84059de9a",
+      "registry_blob": "9afe5834efaf4d8a2d73c5864972e4c8e4c3cef6",
+      "source_rows": 42,
+      "no_auto_bind": 17
+    },
+    "vcp": {
+      "commit": "aca3380247b0cb975d88d5b674aff77bbc88d7ba",
+      "capability_registry_blob": "0490f7fe8e1a0bda240e2087704f59a35aec4166"
+    },
+    "bus": {
+      "main": "f9179bd1426bf90c23ab6a4d14d5a8e9b39c66d2",
+      "topology_blob": "69e505031d4e53dcb853578dac23817649af1918",
+      "vera_lane": "bus/vera-v2"
+    }
+  },
+  "native_project": {
+    "status": "SOURCE_MEMBERS_MATCH_CURRENT_VCP_OBSERVABLE_BYTES_KERNEL_BYTE_IDENTITY_NOT_EXPOSED",
+    "exact_observable_member_blobs": {
+      "charter": "cf2a01b67b78a49e00015e7c691e37ddb53fd6d3",
+      "control_source_separation": "88661c71801cdea05f395fcf92803d4e14a6a69f",
+      "coordination": "bab44fd1701c8ad9bca75ccecb30a7bfdd3e4e6b",
+      "interface": "1ad7e5edebabc7570a86e6a1eeb73f53dabf773d",
+      "currentness_recovery": "7465737826209409f00b66c61c42a6d36cf95fce",
+      "task_execution_closeout": "faeacf6eb823b77d8ab1058390d3d9bc714787fb",
+      "memory_privacy": "60dda7d02ee6adb6ecf67f6072eaf21a3b6ced67",
+      "repository_topology": "07278c3dfd19d694fa307a839425c218d8ad2478",
+      "pack_manifest": "5154712054c0256fd433a70112e357158dd4a2d6"
+    },
+    "current_vcp_kernel_blob": "ec8ef141020371c2c53b76670594bf30366d1386",
+    "installed_kernel_blob_observable": false,
+    "qualification": "SOURCE_FIDELITY_PASS_WITH_KERNEL_OBSERVABILITY_GAP"
+  },
+  "provider_state": {
+    "vera_supabase": {
+      "project_ref": "klmbpaigzeguvnpccqzz",
+      "health": "ACTIVE_HEALTHY",
+      "postgres": "17.6.1.147",
+      "schema_table_counts": {
+        "public": 20,
+        "radar": 19,
+        "semantic_atlas": 5,
+        "redworm": 4,
+        "build_team_2": 11,
+        "bug_ops": 7
+      },
+      "github_bus_ingest": {
+        "status": "ACTIVE",
+        "version": 5,
+        "ezbr_sha256": "07a117919e985a8566d2ffa8bab9565c560b630d8448c0987ac29ec16a4b559a"
+      }
+    },
+    "vcp_supabase": {
+      "project_ref": "fawkirqroyniueeqspif",
+      "health": "ACTIVE_HEALTHY",
+      "postgres": "17.6.1.166",
+      "schema_table_counts": {
+        "public": 0,
+        "vera_cp_anchor": 2,
+        "vera_cp_api": 0,
+        "vera_cp_internal": 0
+      }
+    }
+  },
+  "route_and_projection": {
+    "current_routing_authority": "BUS_RADAR_TOPOLOGY_V1",
+    "current_vera_lane": "bus/vera-v2",
+    "historical_supabase_endpoint": "bus/vera-sol-v1",
+    "historical_endpoint_authoritative": false,
+    "historical_endpoint_classification": "HISTORICAL_PROVIDER_PROJECTION_NON_AUTHORITATIVE_FOR_CURRENT_ROUTING",
+    "radar_projection_lane_state_rows": 0,
+    "radar_projection_batch_rows": 0,
+    "latest_projected_vera_message": {
+      "message_id": "vera-v2-0001",
+      "inserted_at": "2026-09-04T15:03:31.828043Z",
+      "source_branch": "bus/vera-v2"
+    },
+    "current_bus_messages_missing_from_radar": [
+      "VERA_PORTFOLIO_DISCOVERY_ROOTS_CANONICAL_20260923_V1",
+      "VERA_PORTFOLIO_REGISTRY_VCP_E2E_CLAIM_20260923_V1"
+    ],
+    "global_projection_observation": "NO_SENDER_HAS_A_RADAR_MESSAGE_PROJECTION_NEWER_THAN_2026-09-04",
+    "qualification": "FAIL_GLOBAL_GITHUB_TO_RADAR_PROJECTION_STALE"
+  },
+  "deployed_edge_source_custody": {
+    "deployed_function": "github-bus-ingest",
+    "deployed_version": 5,
+    "deployed_handler_matches_git": true,
+    "deployed_deno_matches_git": true,
+    "matching_git_subject": {
+      "repository": "thebrazenbeard/chat-communication-bus",
+      "pr": 325,
+      "head": "640b44c4b715d870b6d5efcdb64ff447eec64467",
+      "state": "OPEN_DRAFT_UNMERGED",
+      "handler_blob": "cc7cd56632e21c34ec861797db43b60f83977d9b",
+      "deno_blob": "b717027d0dbca1ed7cf7f362f16a33cfc5c6da99"
+    },
+    "canonical_bus_main": "f9179bd1426bf90c23ab6a4d14d5a8e9b39c66d2",
+    "exact_head_ci": {
+      "run_id": 35785648491,
+      "conclusion": "FAILURE",
+      "jobs": 4,
+      "jobs_with_steps": 0,
+      "classification": "PRIVATE_HOSTED_RUNNER_NO_EXECUTION"
+    },
+    "qualification": "FAIL_DEPLOYED_PROVIDER_SOURCE_NOT_CANONICAL_MAIN"
+  },
+  "workbridge": {
+    "main": "12bcbec3a4bda69e8b9361317feb8e9d9d47b6df",
+    "candidate_pr": 5,
+    "candidate_head": "92c66159d9b610a94f59066ab2bb6416f4513093",
+    "candidate_mergeable": true,
+    "current_head_ci_runs": [
+      {
+        "run_id": 35797931646,
+        "event": "pull_request",
+        "conclusion": "success"
+      },
+      {
+        "run_id": 35797927305,
+        "event": "push",
+        "conclusion": "success"
+      }
+    ],
+    "source_status": "CURRENT_MAIN_STUB_CANDIDATE_IMPLEMENTATION_GREEN_BUT_UNMERGED",
+    "installed_or_registered": false,
+    "qualification": "FAIL_NOT_CANONICAL_NOT_INSTALLED_NOT_RUNTIME_CONSUMED"
+  },
+  "github_actions": {
+    "vera_pr198": {
+      "source_head": "8b23a4b01532426ed98c0d38c64fe594ba0bf910",
+      "run_ids": [
+        35801928634,
+        35801928797,
+        35801928955
+      ],
+      "all_failed_jobs_had_steps_null": true,
+      "classification": "PRIVATE_HOSTED_RUNNER_NO_EXECUTION"
+    },
+    "vcp_pr127": {
+      "source_head": "f1f97062f374a0276fbdf915f58d53eaac4aeb4f",
+      "run_ids": [
+        35802221500,
+        35802221541
+      ],
+      "all_failed_jobs_had_steps_null": true,
+      "classification": "PRIVATE_HOSTED_RUNNER_NO_EXECUTION"
+    },
+    "bus_pr325": {
+      "source_head": "640b44c4b715d870b6d5efcdb64ff447eec64467",
+      "run_id": 35785648491,
+      "all_failed_jobs_had_steps_null": true,
+      "classification": "PRIVATE_HOSTED_RUNNER_NO_EXECUTION"
+    },
+    "qualification": "BLOCKED_NO_EXECUTED_PRIVATE_CI_FOR_VERA_VCP_BUS"
+  },
+  "lineage_and_classification": {
+    "repository_count": 59,
+    "source_rows": 42,
+    "no_auto_bind": 17,
+    "vera_r9a0": "PREDECESSOR_EVIDENCE",
+    "build_team_2_vs_bt2": "DISTINCT_SUBJECTS",
+    "hc_template_canonicality": "UNRESOLVED_SELF_HC_BRAIN_BT2",
+    "voss": "ACTIVE_REVIEW_ONLY",
+    "vera_apk": "EMPTY_STUB_NO_AUTO_BIND",
+    "vera_habitat": "EMPTY_STUB_NO_AUTO_BIND",
+    "redworm_historical_authorship": "UNRESOLVED",
+    "qualification": "PASS_CLASSIFICATION_AND_FAIL_CLOSED_UNRESOLVED_LINEAGE"
+  },
+  "stages": [
+    {
+      "stage": "PROJECT_CONTROL_SOURCE",
+      "status": "PASS_WITH_OBSERVABILITY_GAP",
+      "evidence": "Observable NV2A1 Project member bytes match current VCP source; installed kernel blob is not directly exposed."
+    },
+    {
+      "stage": "DISCOVERY_PORTFOLIO_CLASSIFICATION",
+      "status": "PASS",
+      "evidence": "Canonical Discovery 59-repository map."
+    },
+    {
+      "stage": "ROOTS_LINEAGE_RESOLUTION",
+      "status": "PASS_WITH_EXPLICIT_UNRESOLVED",
+      "evidence": "Canonical Roots receipt preserves HC conflict and Redworm gap."
+    },
+    {
+      "stage": "VERA_RUNTIME_SOURCE_REGISTRY",
+      "status": "PASS_SOURCE_READBACK_NO_EXECUTED_PRIVATE_CI",
+      "evidence": "Canonical Vera 59/42/17 registry."
+    },
+    {
+      "stage": "VCP_ROUTING_BINDING",
+      "status": "PASS_SOURCE_READBACK_NO_EXECUTED_PRIVATE_CI",
+      "evidence": "Canonical VCP exact binding to Vera registry."
+    },
+    {
+      "stage": "BUS_CURRENT_ROUTE",
+      "status": "PASS",
+      "evidence": "Bus topology resolves Vera to bus/vera-v2; Supabase bus/vera-sol-v1 is historical projection."
+    },
+    {
+      "stage": "BUS_TO_RADAR_PROJECTION",
+      "status": "FAIL",
+      "evidence": "No projection lane state or batches; no message projections after September 4."
+    },
+    {
+      "stage": "EDGE_SOURCE_CUSTODY",
+      "status": "FAIL",
+      "evidence": "Active provider function bytes match unmerged Bus PR #325 rather than canonical Bus main."
+    },
+    {
+      "stage": "WORKSTATION_BRIDGE",
+      "status": "FAIL",
+      "evidence": "WorkBridge PR #5 current head CI is green but implementation is unmerged and not installed/registered."
+    },
+    {
+      "stage": "FULL_NATIVE_RUNTIME_CONSUMPTION",
+      "status": "UNQUALIFIED",
+      "evidence": "No evidence closes source→installed native runtime→provider projection→recovery loop end-to-end."
+    }
+  ],
+  "blockers": [
+    {
+      "id": "B1_PRIVATE_GITHUB_ACTIONS_NO_RUNNER",
+      "severity": "HIGH",
+      "owner": "GITHUB_ACCOUNT_OR_RUNNER_CONFIGURATION",
+      "description": "Private Vera/VCP/Bus jobs fail before checkout with steps=null, preventing executed CI qualification."
+    },
+    {
+      "id": "B2_RADAR_PROJECTION_PLANE_STALE",
+      "severity": "CRITICAL",
+      "owner": "thebrazenbeard/chat-communication-bus",
+      "description": "Radar projection lane state and batch tables are empty; latest projected messages are from September 4; current Vera Bus messages are absent."
+    },
+    {
+      "id": "B3_BUS_EDGE_SOURCE_NOT_CANONICAL",
+      "severity": "HIGH",
+      "owner": "thebrazenbeard/chat-communication-bus",
+      "description": "Production github-bus-ingest version 5 exactly matches unmerged draft PR #325 source, not canonical Bus main."
+    },
+    {
+      "id": "B4_WORKBRIDGE_NOT_CANONICAL_OR_INSTALLED",
+      "severity": "MEDIUM",
+      "owner": "thebrazenbeard/WorkBridgeMCP",
+      "description": "PR #5 current head is CI-green but remains unmerged and has no installation/MCP-registration/runtime-consumption evidence."
+    },
+    {
+      "id": "B5_HC_TEMPLATE_CANONICALITY_UNRESOLVED",
+      "severity": "MEDIUM",
+      "owner": "thebrazenbeard/roots",
+      "description": "self, hc-brain, and bt2 retain conflicting current canonical/reusable-template claims."
+    }
+  ],
+  "gaps": [
+    "INSTALLED_NATIVE_KERNEL_BYTE_HASH_NOT_EXPOSED_BY_CURRENT_PROJECT_SURFACE",
+    "REDWORM_HISTORICAL_SOURCE_AUTHORSHIP_UNRESOLVED",
+    "NO_FULL_FRESH_CHAT_TO_SOURCE_TO_BUS_TO_RADAR_TO_PROVIDER_TO_RECOVERY_SUCCESS_PATH"
+  ],
+  "hostile_questions": [
+    {
+      "question": "Does repository availability prove Vera uses all 59 repositories?",
+      "answer": "NO; registry registration is discovery/classification only and activation remains conditional or NO_AUTO_BIND."
+    },
+    {
+      "question": "Does Supabase ACTIVE_HEALTHY prove coordination works?",
+      "answer": "NO; Radar projection is stale despite healthy database/function status."
+    },
+    {
+      "question": "Does deployed edge byte match prove canonical source custody?",
+      "answer": "NO; deployed bytes match an unmerged draft PR, so source custody fails."
+    },
+    {
+      "question": "Does WorkBridge green CI prove Vera can use the workstation bridge?",
+      "answer": "NO; source candidate is unmerged and uninstalled."
+    },
+    {
+      "question": "Can bus/vera-sol-v1 be called a live conflict with bus/vera-v2?",
+      "answer": "NO; current routing authority is Bus topology and the Supabase endpoint is historical projection."
+    },
+    {
+      "question": "Is the whole Vera portfolio end-to-end qualified?",
+      "answer": "NO; fail closed at Bus→Radar projection and downstream runtime-consumption boundaries."
+    }
+  ],
+  "closeout": {
+    "verdict": "FAIL_CLOSED_INTEGRATION_NOT_QUALIFIED",
+    "qualified_portion": "PROJECT_SOURCE_FIDELITY_PLUS_DISCOVERY_ROOTS_VERA_VCP_SOURCE_BINDINGS_PLUS_LIVE_PROVIDER_INVENTORY",
+    "first_hard_failure": "BUS_TO_RADAR_PROJECTION",
+    "next_frontiers": [
+      "Repair private GitHub Actions runner allocation for Vera/VCP/Bus.",
+      "Restore and qualify Bus→Radar projection with current lane-state/batch/message readback.",
+      "Reconcile deployed github-bus-ingest source into canonical Bus main without losing current RLS/security hardening.",
+      "Complete independent review and canonicalization of WorkBridgeMCP PR #5, then separately install/register and read back runtime consumption.",
+      "Resolve HC template canonicality only with provenance evidence; do not guess."
+    ]
+  }
+}

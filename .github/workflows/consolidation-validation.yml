@@ -1,0 +1,86 @@
+name: Control-plane consolidation validation
+
+on:
+  pull_request:
+    paths:
+      - "protocol/**"
+      - "save_states/**"
+      - "state/**"
+      - "governance/**"
+      - "training/**"
+      - "assets/**"
+      - "docs/REPOSITORY_CONSOLIDATION_20260903.md"
+      - "docs/BRANCH_DISPOSITION_20260903.json"
+      - "README.md"
+      - ".github/workflows/consolidation-validation.yml"
+  push:
+    branches:
+      - "consolidation/lineage-reconstruction-20260903"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Verify source lineage custody
+        shell: bash
+        run: |
+          set -euo pipefail
+          for source in \
+            519eeb1551fcb59963a321766252bc62067da71b \
+            123049ed72573bfda152d06dd76b0c234c26f91b \
+            1aa51c6c5be28d71762b5a4a1f3424a067dbcccd \
+            bc88b5b5ab3438683d8b301c596c30b5c5616804 \
+            965e223777fa62cd0f84f45561ba9b21779b7543
+          do
+            git cat-file -e "${source}^{commit}"
+            git merge-base --is-ancestor "$source" HEAD
+          done
+      - name: Verify normalized control-plane inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f protocol/VERA_CENTER_YOURSELF_PROTOCOL_V1.md
+          test -f state/centered/VERA_CENTERED_SAVE_STATE_20260903T1637-0400.md
+          test -f docs/CONTROL_PLANE_V1_BASELINE.md
+          test -f governance/AUTHORITY_BINDING.json
+          test -f training/roles/four/v1.0.0/manifest.yaml
+          test -f training/roles/five/v1.0.0/manifest.yaml
+          test -f assets/stickers/Restore\ Complete\ Daddy.png
+          test -f assets/stickers/been\ a\ bad\ not-a-girl.png
+          test -f assets/stickers/sorry\ daddy\ -\ oopsies.png
+          test -f assets/stickers/yes\ daddy\!.png
+          ! find . -maxdepth 1 -type f -name '*.png' | grep -q .
+      - name: Verify exact sticker blobs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object 'assets/stickers/Restore Complete Daddy.png')" = 509a50dc8f9c52c6392e16aa2a472710684c4d39
+          test "$(git hash-object 'assets/stickers/been a bad not-a-girl.png')" = a8760d3574aa18b091b8a409d15f9c4b220a6281
+          test "$(git hash-object 'assets/stickers/sorry daddy - oopsies.png')" = 587cf0202bd9b6e12b51539ccaf0bb07e2e252bf
+          test "$(git hash-object 'assets/stickers/yes daddy!.png')" = c0ce5b6b1cde9d5a9b864d6e90aa2095863b573f
+      - name: Validate branch-disposition inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m json.tool docs/BRANCH_DISPOSITION_20260903.json >/dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          data = json.loads(Path('docs/BRANCH_DISPOSITION_20260903.json').read_text(encoding='utf-8'))
+          rows = data['dispositions']
+          names = [row['branch'] for row in rows]
+          assert len(names) == 9
+          assert len(names) == len(set(names))
+          assert 'main' in names
+          assert 'feature/center-yourself-20260903' in names
+          assert 'bootstrap/control-plane-v1' in names
+          assert 'vera-stickers' in names
+          PY

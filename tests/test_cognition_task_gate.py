@@ -185,6 +185,7 @@ class RealCognitionTaskGateTests(unittest.TestCase):
         )
         forged = deepcopy(correlated)
         forged["dissent"]["classification"] = "EVIDENCE_CONFLICT_FOR_REVIEW"
+        forged["dissent"]["challenge_for_review"] = True
         with self.assertRaisesRegex(CognitionBindingError, "correlated"):
             bind_episode(self.ledger, self.task_id, forged)
 

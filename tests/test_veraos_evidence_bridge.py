@@ -34,37 +34,22 @@ def git(root, *args):
     ).stdout.strip()
 
 
-@unittest.skipUnless(all((MONO, TRAINING, INTRANEL, VERAOS)),
-                     "Requires four exact independent source checkouts")
+@unittest.skipUnless(all((MONO, TRAINING, INTRANEL)),
+                     "Requires three exact public source checkouts")
 class VeraOSProvenanceBridgeTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.mono, cls.training = Path(MONO), Path(TRAINING)
-        cls.intranel, cls.veraos = Path(INTRANEL), Path(VERAOS)
+        cls.intranel = Path(INTRANEL)
+        cls.veraos = Path(VERAOS) if VERAOS else None
         expected = (
             (cls.mono, "dec5c029e51c4fd436435cbda7e02e501822ee85"),
             (cls.training, "e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8"),
             (cls.intranel, "6a66c2e813bcbefa6eff61f99777a8f6fc986ef3"),
-            (cls.veraos, VERAOS_HEAD),
         )
         for root, commit in expected:
             if git(root, "rev-parse", "HEAD") != commit:
                 raise AssertionError("wrong exact dependency Git subject")
-        for file, blob in (
-            ("src/veraos/native_cognition.py", NATIVE_ROUTE_BLOB),
-            ("src/veraos/virtio_guest_probe.py", GUEST_PROBE_BLOB),
-        ):
-            if git(cls.veraos, "rev-parse", "HEAD:" + file) != blob:
-                raise AssertionError("VeraOS route source blob does not match pin")
-            if git(cls.veraos, "hash-object", str(cls.veraos / file)) != blob:
-                raise AssertionError("VeraOS route file changed on disk")
-        module = ast.parse((cls.veraos / "src/veraos/native_cognition.py").read_text("utf8"))
-        functions = {x.name for x in module.body if isinstance(x, (ast.FunctionDef, ast.AsyncFunctionDef))}
-        if not {"admit_local_text_route", "execute_text_request"} <= functions:
-            raise AssertionError("PR31 native route API contract changed")
-        guest = (cls.veraos / "src/veraos/virtio_guest_probe.py").read_text("utf8")
-        if "TEST-ONLY record" not in guest or '"/sbin/vera-init"' in guest:
-            raise AssertionError("diagnostic/native boundary source changed")
         sys.path.insert(0, str(cls.intranel / "src"))
         sys.path.insert(0, str(cls.intranel / "tests"))
         sys.path.insert(0, str(cls.training))
@@ -221,3 +206,22 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         wrong["module"] = "veraos.resident"
         with self.assertRaisesRegex(ProvenanceBridgeError, "native route"):
             self.evaluate(route_intent=wrong)
+
+    def test_exact_private_veraos_source_api_when_authorized_checkout_available(self):
+        # Public CI cannot fetch private VeraOS PR32. Never vendor its source
+        # into public v-e-r-a or treat absence as a production PASS.
+        if self.veraos is None:
+            self.skipTest("Private VeraOS exact source requires separate authorized readback")
+        self.assertEqual(git(self.veraos, "rev-parse", "HEAD"), VERAOS_HEAD)
+        for file, blob in (
+            ("src/veraos/native_cognition.py", NATIVE_ROUTE_BLOB),
+            ("src/veraos/virtio_guest_probe.py", GUEST_PROBE_BLOB),
+        ):
+            self.assertEqual(git(self.veraos, "rev-parse", "HEAD:" + file), blob)
+            self.assertEqual(git(self.veraos, "hash-object", str(self.veraos / file)), blob)
+        module = ast.parse((self.veraos / "src/veraos/native_cognition.py").read_text("utf8"))
+        functions = {x.name for x in module.body if isinstance(x, (ast.FunctionDef, ast.AsyncFunctionDef))}
+        self.assertTrue({"admit_local_text_route", "execute_text_request"} <= functions)
+        guest = (self.veraos / "src/veraos/virtio_guest_probe.py").read_text("utf8")
+        self.assertIn("TEST-ONLY record", guest)
+

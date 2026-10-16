@@ -127,3 +127,22 @@ All positive local packet/source/task evidence still produces HOLD:
 end-to-end source authentication. Real installed runtime and QEMU developer
 guest proofs belong to their respective exact VeraOS subjects, not this
 classifier.
+
+### Private VeraOS source access is separate from public Integration CI
+
+VeraOS is a PRIVATE repository while v-e-r-a is PUBLIC. The first
+cross-repo GitHub Actions run failed to fetch the VeraOS checkout
+(`Repository not found`, git exit 128) because its public-repository
+token cannot read that private dependency. This is a permission
+boundary; no private source is copied into v-e-r-a, no credential or
+trust grants have been changed, and this limitation is NOT converted
+into a "source verified by public CI" claim.
+
+The bridge tests in public GitHub Actions continue to exercise the
+actual public Intranel receiver, Training source and Vera Mono SQLite
+task state. A separate optional source-API test runs only when an
+authorized checkout of VeraOS PR32 is supplied. The exact private Git
+head `5ddac1459c3a7b06f251721a14048fc26e60bda0`, module names,
+and blob subjects are recorded from read-only GitHub connector evidence
+rather than installed/runtime facts. Public CI must report this optional
+private-source check as SKIPPED, not silently substitute a fake module.

@@ -10,7 +10,7 @@ import json
 import re
 from typing import Any, Mapping
 
-TRAINING_HEAD = "9f365957e78a8f0aa7f019530defbe2e295c78b8"
+TRAINING_HEAD = "e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8"
 TRAINING_SUBJECT = f"git:thebrazenbeard/model-training@{TRAINING_HEAD}"
 _SCHEMA = "VERA_COGNITION_TASK_SOURCE_BINDING_V1"
 _SHA = re.compile(r"^[0-9a-f]{64}$")
@@ -124,6 +124,42 @@ def _episode_dict(episode: Any) -> dict:
             or semantic.get("authorization_effect") != "NONE"
             or semantic.get("semantic_equivalence") != "NOT_ESTABLISHED"):
         raise CognitionBindingError("unverified semantic transfer authority")
+    # Independent source-receipt consistency guard: caller-supplied JSON
+    # must not relabel missing capabilities as an EXACT transfer.
+    required = semantic.get("required_capabilities")
+    missing = semantic.get("missing_capabilities")
+    unresolved = semantic.get("unresolved_capabilities")
+    native = semantic.get("native_capabilities")
+    rewrites = semantic.get("rewrites")
+    arrays = (required, missing, unresolved, native)
+    if any(type(arr) is not list or
+           any(type(x) is not str or not x for x in arr) or
+           len(arr) != len(set(arr)) for arr in arrays):
+        raise CognitionBindingError("invalid semantic capability inventory")
+    if (not set(missing) <= set(required)
+            or not set(native) <= set(required)
+            or set(missing) & set(native)
+            or not set(unresolved) <= set(missing)):
+        raise CognitionBindingError("semantic capability inventory mismatch")
+    labels = {"EXACT": 0, "CONSTRUCTIVE": 1,
+              "LOSSY": 2, "UNREPRESENTABLE": 3}
+    keys = {"source_capability", "rule_name", "fidelity", "description"}
+    if type(rewrites) is not list or any(
+        type(r) is not dict or set(r) != keys or
+        any(type(r[k]) is not str or not r[k] for k in keys) or
+        r["fidelity"] not in labels for r in rewrites
+    ):
+        raise CognitionBindingError("invalid semantic rewrite entries")
+    rewritten = [r["source_capability"] for r in rewrites]
+    if (len(rewritten) != len(set(rewritten))
+            or set(rewritten) | set(unresolved) != set(missing)
+            or set(rewritten) & set(unresolved)):
+        raise CognitionBindingError("semantic rewrite coverage mismatch")
+    severity = ("UNREPRESENTABLE" if unresolved else
+                max(("EXACT", *(r["fidelity"] for r in rewrites)),
+                    key=labels.__getitem__))
+    if semantic.get("fidelity") != severity:
+        raise CognitionBindingError("semantic rewrite fidelity contradicts plan")
     cricket = candidate["cricket_review"]
     if type(cricket) is not dict or cricket.get("disposition") not in (
         "PASS", "CHALLENGE", "BLOCK"

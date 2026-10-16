@@ -280,3 +280,30 @@ class RealCognitionTaskGateTests(unittest.TestCase):
             self.ledger.read(self.task_id).journal_head_digest,
             self.ledger.events(self.task_id)[0].event_digest,
         )
+
+
+    def test_missing_semantic_capability_cannot_be_hidden_by_exact_status(self):
+        forged = deepcopy(self.episode)
+        plan = forged["core_semantic_plan"]
+        plan["required_capabilities"].append("latent:unmapped")
+        plan["missing_capabilities"].append("latent:unmapped")
+        plan["fidelity"] = "EXACT"
+        with self.assertRaisesRegex(CognitionBindingError, "rewrite coverage"):
+            bind_episode(self.ledger, self.task_id, forged)
+
+    def test_well_formed_lossy_semantic_plan_stays_no_effect_observation(self):
+        source = deepcopy(self.episode)
+        plan = source["core_semantic_plan"]
+        plan["required_capabilities"].append("latent:lossy")
+        plan["missing_capabilities"].append("latent:lossy")
+        plan["rewrites"] = [{
+            "source_capability": "latent:lossy",
+            "rule_name": "fixture-rewrite",
+            "fidelity": "LOSSY",
+            "description": "Typed source-only lossy transformation",
+        }]
+        plan["fidelity"] = "LOSSY"
+        bound = bind_episode(self.ledger, self.task_id, source)
+        self.assertEqual(bound["status"], "OBSERVED_UNATTESTED")
+        self.assertFalse(bound["effect_authority"])
+        self.assertFalse(bound["accepted_as_task_result"])

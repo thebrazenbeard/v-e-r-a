@@ -4,7 +4,7 @@
 **Integration owner:** this branch; **Training reviewer:** model-training PR #106 (stacked on #104).
 **Base:** V-E-R-A Integration draft PR #3 at db6c1fee06bf011f66b5ba9b490fc2f9e42cbdfb;
 stacked on PORTAL runtime PR #1 at 7a9ebf5724dff962f5ffbd994678370c00592835.
-**Training subject:** model-training@9f365957e78a8f0aa7f019530defbe2e295c78b8.
+**Training subject:** model-training@e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8.
 **Vera Mono source:** PR #76 at dec5c029e51c4fd436435cbda7e02e501822ee85.
 
 ## Executable, limited behavior
@@ -45,7 +45,7 @@ consumption, schedules, merges and deployment all remain unqualified.
 
 ## Exact Training #106 successor compatibility
 
-Training #106 at `9f365957e78a8f0aa7f019530defbe2e295c78b8` preserves Cricket BLOCK precedence over
+Training #106 at `e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8` preserves Cricket BLOCK precedence over
 semantic unrepresentability and exposes correlated runtime identity claims.
 The consumer retains this BLOCK, forbids a correlated-runtime dissent from
 being treated as an independent evidence conflict, and keeps duplicate-runtime
@@ -69,7 +69,7 @@ can become an accepted task result or effect.
 
 ## Upstream Cricket exact-precedence correction
 
-Training PR #106 at `9f365957e78a8f0aa7f019530defbe2e295c78b8` now rejects claimed PASS,
+Training PR #106 at `e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8` now rejects claimed PASS,
 CHALLENGE or BLOCK dispositions that disagree with the strongest nested
 finding, and uses a real BLOCK finding in its unrepresentable Core fixture.
 This closes Integration's upstream challenge #6221273923 at the source
@@ -89,3 +89,15 @@ an advance after the last read can still occur. Any future accepted
 task-result event must be guarded by the Vera Mono owner's own
 transaction and an explicitly authorized compare-and-swap of the
 journal head. No authorized task-result transition is added here.
+
+## Semantic plan inventory / newest Training cut
+
+Training `e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8` requires all missing source capabilities to be
+accounted for by exactly one typed rewrite or unresolved capability, and
+the fidelity label to equal the worst applied rewrite severity.
+Integration independently rejects forged EXACT receipts hiding missing
+capabilities, but preserves a well-formed LOSSY source report as
+`OBSERVED_UNATTESTED`. This is receipt coherence only, not semantic
+equivalence, accepted cognition, resource qualification, identity
+authentication, or authority. The bounded journal double-read still
+detects some mid-binding races but is not atomic CAS.

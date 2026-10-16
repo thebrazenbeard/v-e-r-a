@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: thebrazenbeard/model-training
-          ref: 9f365957e78a8f0aa7f019530defbe2e295c78b8
+          ref: e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8
           path: model-training
           persist-credentials: false
       - name: Python 3.12
@@ -51,8 +51,8 @@ jobs:
         run: |
           test "$(git -C vera-mono rev-parse HEAD)" = "dec5c029e51c4fd436435cbda7e02e501822ee85"
           test "$(git -C portal rev-parse HEAD)" = "36fa04da4e5eb383fecf463c72a43b94ca47d7e5"
-          test "$(git -C model-training rev-parse HEAD)" = "9f365957e78a8f0aa7f019530defbe2e295c78b8"
-          test "$(git -C model-training rev-parse HEAD:participating_cognition_v1.py)" = "1b0636797deacb4b0285a62f7ccbe7327748461c"
+          test "$(git -C model-training rev-parse HEAD)" = "e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8"
+          test "$(git -C model-training rev-parse HEAD:participating_cognition_v1.py)" = "3adf446e166a6574a5f389c074f86ba10a4483d5"
       - name: Full Integration source and task-journal tests
         working-directory: v-e-r-a
         env:

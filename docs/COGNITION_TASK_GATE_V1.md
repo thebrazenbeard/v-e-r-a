@@ -101,3 +101,29 @@ capabilities, but preserves a well-formed LOSSY source report as
 equivalence, accepted cognition, resource qualification, identity
 authentication, or authority. The bounded journal double-read still
 detects some mid-binding races but is not atomic CAS.
+
+## VeraOS PR31/32 provenance bridge (read-only, source-level)
+
+The Integration-owned bridge `integration/veraos_evidence_bridge.py` is
+a two-source readback classifier, not a runtime or model adapter. It verifies
+an Intranel #12 **receiver-local** PR9 comment packet observation/staging
+marker and compares two Vera Mono task-journal binding readbacks. It
+references exact VeraOS PR32 `5ddac1459c3a7b06f251721a14048fc26e60bda0`
+`veraos.native_cognition.admit_local_text_route` and
+`execute_text_request` by **name**, without importing or invoking them.
+The optional PR32 `virtio_guest_probe` constructs a diagnostic-only
+self-declared PASS provider record for dev:virtio-qwen4b, and the bridge
+records it as `TEST_ONLY_SELF_DECLARED`, never authenticated model identity
+or normal-resident admission. The 2,497,293,803 byte digest-bearing model
+inventory remains developer-reported, not a model blob authenticated here.
+
+Synthetic negative tests forge sender authentication, provide incomplete
+poll coverage, advance the actual task journal, and attempt to treat
+diagnostic PASS as genuine provider qualification or protected effects.
+All positive local packet/source/task evidence still produces HOLD:
+`origin_authenticated=false`, `provider_authenticated=false`,
+`normal_resident_route_admitted=false`, `accepted_as_task_result=false`,
+`executed=false`. It is neither a cross-DB atomic transaction nor
+end-to-end source authentication. Real installed runtime and QEMU developer
+guest proofs belong to their respective exact VeraOS subjects, not this
+classifier.

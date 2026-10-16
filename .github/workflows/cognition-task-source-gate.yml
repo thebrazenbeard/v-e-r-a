@@ -40,6 +40,20 @@ jobs:
           ref: e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8
           path: model-training
           persist-credentials: false
+      - name: Checkout exact Intranel L1 receiver
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: thebrazenbeard/intranel
+          ref: 6a66c2e813bcbefa6eff61f99777a8f6fc986ef3
+          path: intranel
+          persist-credentials: false
+      - name: Checkout exact VeraOS native cognition source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: thebrazenbeard/vera-os
+          ref: 5ddac1459c3a7b06f251721a14048fc26e60bda0
+          path: vera-os
+          persist-credentials: false
       - name: Python 3.12
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
@@ -52,6 +66,11 @@ jobs:
           test "$(git -C vera-mono rev-parse HEAD)" = "dec5c029e51c4fd436435cbda7e02e501822ee85"
           test "$(git -C portal rev-parse HEAD)" = "36fa04da4e5eb383fecf463c72a43b94ca47d7e5"
           test "$(git -C model-training rev-parse HEAD)" = "e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8"
+          test "$(git -C intranel rev-parse HEAD)" = "6a66c2e813bcbefa6eff61f99777a8f6fc986ef3"
+          test "$(git -C vera-os rev-parse HEAD)" = "5ddac1459c3a7b06f251721a14048fc26e60bda0"
+          test "$(git -C vera-os rev-parse HEAD:src/veraos/native_cognition.py)" = "4077908524d2f05c4e076019e34fa3b1a9f59adb"
+          test "$(git -C vera-os rev-parse HEAD:src/veraos/virtio_guest_probe.py)" = "28e4eccb6e8ae108f4980568c1fa10f9bc019d7b"
+          test "$(git -C intranel rev-parse HEAD:src/intranel/four_role_receiver.py)" = "93e66656655b87e668ff4759ceac09350f3d3f14"
           test "$(git -C model-training rev-parse HEAD:participating_cognition_v1.py)" = "3adf446e166a6574a5f389c074f86ba10a4483d5"
       - name: Full Integration source and task-journal tests
         working-directory: v-e-r-a
@@ -59,6 +78,8 @@ jobs:
           VERA_MONO_SOURCE_ROOT: ${{ github.workspace }}/vera-mono
           VERA_TRAINING_SOURCE_ROOT: ${{ github.workspace }}/model-training
           PORTAL_SOURCE_ROOT: ${{ github.workspace }}/portal
+          INTRANEL_SOURCE_ROOT: ${{ github.workspace }}/intranel
+          VERAOS_SOURCE_ROOT: ${{ github.workspace }}/vera-os
           PYTHONDONTWRITEBYTECODE: '1'
         run: python -m unittest discover -s tests -v
       - name: Compile Integration sources

@@ -172,3 +172,17 @@ and `HELD_NORMAL_RESIDENT`; a mismatched telemetry nonce becomes
 reported Ollama digest do not authenticate model bytes, allow normal
 resident inference, accept a task, or authorize effects. These tests
 do not invoke a model or boot VeraOS.
+
+## New Intranel receiver byte-integrity revocation source
+
+This successor pins Intranel #12 at `58714f5f6561b5e44e42dcdbca67e2cb59bfb87b`, receiver Git blob
+`72e88e8d60516ec6655f010f469e936595fe15a6`.
+The previous L1 local comment packet readback compared only staged/observed
+hash fields, not stored message body/envelope bytes. Exact predecessor
+test-only `56a4cc655d740fd23f6533671fbc8cf8ee157fcc` reproduced RED
+by editing stored bytes without touching marker/digest columns.
+Current L1 `58714f5f6561b5e44e42dcdbca67e2cb59bfb87b` rechecks persisted canonical observation
+content and staged envelope in the same local read transaction,
+rejecting either mismatch. The L2 bridge now includes a real SQLite
+staged-envelope tamper negative. No remote attestation, sender verification,
+global snapshot, atomic task acceptance, or route admission results.

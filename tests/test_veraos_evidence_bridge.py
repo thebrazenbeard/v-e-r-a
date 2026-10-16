@@ -45,7 +45,7 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         expected = (
             (cls.mono, "dec5c029e51c4fd436435cbda7e02e501822ee85"),
             (cls.training, "1390fbebbc5d1685a80610796e7ad8c2b955dac1"),
-            (cls.intranel, "fb314b5e30f1ae0279e61e2c821306c3e77199a4"),
+            (cls.intranel, "58714f5f6561b5e44e42dcdbca67e2cb59bfb87b"),
         )
         for root, commit in expected:
             if git(root, "rev-parse", "HEAD") != commit:
@@ -289,3 +289,15 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         )
         self.assertEqual(conflicted.status, "HELD_SOURCE_PROVENANCE")
         self.assertIn("JOINT_SESSION_PROVENANCE_MISMATCH", conflicted.holds)
+
+    def test_mutated_receiver_stage_bytes_cannot_cross_bridge(self):
+        import sqlite3
+        # The exact local source remains hash-stamped, but the staged
+        # envelope bytes are corrupted after the SQLite transaction.
+        with sqlite3.connect(Path(self.temp.name) / "receiver.sqlite3") as db:
+            db.execute(
+                "UPDATE receiver_staged SET envelope=? WHERE message_id='reply-1'",
+                ('{"rewritten":"packet"}',),
+            )
+        with self.assertRaisesRegex(ProvenanceBridgeError, "receiver"):
+            self.evaluate()

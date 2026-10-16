@@ -86,5 +86,54 @@ class SafeComponentExportTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,"source blob/omission provenance mismatch"):
                 v.inspect(Path(repo),commit,verify_source_objects=True)
 
+    def test_repository_root_automation_cannot_be_introduced(self):
+        import subprocess
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            def g(*args):
+                return subprocess.run(["git", "-C", str(repo), *args],
+                                      capture_output=True, text=True, check=True).stdout.strip()
+            g("init", "-q")
+            (repo / "README.md").write_text("fixture\n", encoding="utf8")
+            g("add", ".")
+            g("-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+              "commit", "-qm", "baseline")
+            baseline = g("rev-parse", "HEAD")
+            nested = repo / "components" / "Attune" / ".github"
+            nested.mkdir(parents=True)
+            (nested / "dependabot.yml").write_text("version: 2\n", encoding="utf8")
+            g("add", ".")
+            g("-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+              "commit", "-qm", "nested source only")
+            self.assertEqual(v.changed_root_automation(repo, baseline, "HEAD"), [])
+            active = repo / ".github"
+            active.mkdir()
+            (active / "dependabot.yml").write_text("version: 2\n", encoding="utf8")
+            g("add", ".")
+            g("-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid",
+              "commit", "-qm", "introduce root automation")
+            self.assertIn(".github/dependabot.yml",
+                          v.changed_root_automation(repo, baseline, "HEAD"))
+            with self.assertRaisesRegex(ValueError, "root automation configuration"):
+                v.assert_no_new_root_automation(repo, baseline, "HEAD")
+
+    def test_manifest_base_pin_cannot_hide_root_config_change(self):
+        commit = os.environ.get("VERA_SAFE_EXPORT_TEST_COMMIT")
+        repo = os.environ.get("VERA_SAFE_EXPORT_TEST_REPO")
+        if not commit or not repo:
+            self.skipTest("On-demand exact source commit/root not supplied")
+        original = v.git
+        def forged(repo_path, *args):
+            value = original(repo_path, *args)
+            if args == ("show", commit + ":component-exports.json"):
+                doc = json.loads(value)
+                doc["base_main"] = commit
+                return json.dumps(doc)
+            return value
+        with patch.object(v, "git", side_effect=forged):
+            with self.assertRaisesRegex(ValueError, "unexpected source-preview base"):
+                v.inspect(Path(repo), commit)
+
 if __name__ == "__main__":
     unittest.main()

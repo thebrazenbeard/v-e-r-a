@@ -45,7 +45,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install standalone source-test dependency
-        run: python -m pip install "jsonschema>=4.22,<5"
+        run: python -m pip install "jsonschema>=4.22,<5" "PyYAML>=6,<7"
       - name: Exact Git subject readback
         shell: bash
         run: |

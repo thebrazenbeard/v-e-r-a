@@ -4,7 +4,7 @@
 **Integration owner:** this branch; **Training reviewer:** model-training PR #106 (stacked on #104).
 **Base:** V-E-R-A Integration draft PR #3 at db6c1fee06bf011f66b5ba9b490fc2f9e42cbdfb;
 stacked on PORTAL runtime PR #1 at 7a9ebf5724dff962f5ffbd994678370c00592835.
-**Training subject:** model-training@93e302c4efabec270a8baa53d4ab62d66a77b964.
+**Training subject:** model-training@9f365957e78a8f0aa7f019530defbe2e295c78b8.
 **Vera Mono source:** PR #76 at dec5c029e51c4fd436435cbda7e02e501822ee85.
 
 ## Executable, limited behavior
@@ -45,7 +45,7 @@ consumption, schedules, merges and deployment all remain unqualified.
 
 ## Exact Training #106 successor compatibility
 
-Training #106 at `93e302c4efabec270a8baa53d4ab62d66a77b964` preserves Cricket BLOCK precedence over
+Training #106 at `9f365957e78a8f0aa7f019530defbe2e295c78b8` preserves Cricket BLOCK precedence over
 semantic unrepresentability and exposes correlated runtime identity claims.
 The consumer retains this BLOCK, forbids a correlated-runtime dissent from
 being treated as an independent evidence conflict, and keeps duplicate-runtime
@@ -66,3 +66,12 @@ correlated evidence as `HELD_SOURCE_REVIEW`. Two distinct runtime IDs do
 not cancel a shared evidence-group correlation. This is coherence of
 untrusted source receipts, not independent evidence attestation. No claim
 can become an accepted task result or effect.
+
+## Upstream Cricket exact-precedence correction
+
+Training PR #106 at `9f365957e78a8f0aa7f019530defbe2e295c78b8` now rejects claimed PASS,
+CHALLENGE or BLOCK dispositions that disagree with the strongest nested
+finding, and uses a real BLOCK finding in its unrepresentable Core fixture.
+This closes Integration's upstream challenge #6221273923 at the source
+level. The L2 consumer still holds dissent/effect claims and rechecks
+the current Vera Mono task journal. Not an installed model or effect grant.

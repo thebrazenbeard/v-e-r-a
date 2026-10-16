@@ -53,3 +53,16 @@ observations HELD without claiming model/agent independence. Its stricter
 Cricket disposition/finding consistency guard still rejects a synthetic
 BLOCK with no BLOCK-severity finding, unlike Training's current permissive
 source fixture; independent upstream review is requested.
+
+## Dissent-field coherence and correlated evidence hold
+
+The exact Training #106 dissent receipt carries `classification`,
+`source_digests`, `challenge_for_review`, `accepted_as_fact` and
+`independence_proven`. The consumer checks this exact shape and Training's
+source enumeration, including that only `EVIDENCE_CONFLICT_FOR_REVIEW`
+has a true review challenge flag. It refuses invented states and flag
+contradictions, and retains reviewable conflict, mixed claim types, and
+correlated evidence as `HELD_SOURCE_REVIEW`. Two distinct runtime IDs do
+not cancel a shared evidence-group correlation. This is coherence of
+untrusted source receipts, not independent evidence attestation. No claim
+can become an accepted task result or effect.

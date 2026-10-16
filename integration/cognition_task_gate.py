@@ -14,6 +14,12 @@ TRAINING_HEAD = "93e302c4efabec270a8baa53d4ab62d66a77b964"
 TRAINING_SUBJECT = f"git:thebrazenbeard/model-training@{TRAINING_HEAD}"
 _SCHEMA = "VERA_COGNITION_TASK_SOURCE_BINDING_V1"
 _SHA = re.compile(r"^[0-9a-f]{64}$")
+_DISSENT_CLASSES = frozenset({
+    "EVIDENCE_CONFLICT_FOR_REVIEW", "SAME_CLAIM",
+    "DIFFERENT_PROPOSITION", "DIFFERENT_SCOPE", "DIFFERENT_REVISION",
+    "UNVERIFIED_DISSENT", "MIXED_CLAIM_TYPES",
+    "SELF_OR_CORRELATED_CLAIMS",
+})
 _RECEIPT_KEYS = frozenset({
     "schema", "task_id", "contributions", "dissent", "core_semantic_plan",
     "mosaic_handoff", "cricket_review", "status", "identity_effect",
@@ -96,11 +102,22 @@ def _episode_dict(episode: Any) -> dict:
         digests.append(digest)
     dissent = candidate["dissent"]
     if (type(dissent) is not dict
+            or set(dissent) != {
+                "classification", "source_digests", "challenge_for_review",
+                "accepted_as_fact", "independence_proven",
+            }
             or dissent.get("source_digests") != digests
             or dissent.get("accepted_as_fact") is not False
             or dissent.get("independence_proven") is not False):
         raise CognitionBindingError("dissent provenance/evidence escalation")
-    if correlated_runtime and dissent.get("classification") == "EVIDENCE_CONFLICT_FOR_REVIEW":
+    dissent_class = dissent.get("classification")
+    if (dissent_class not in _DISSENT_CLASSES
+            or type(dissent.get("challenge_for_review")) is not bool
+            or dissent["challenge_for_review"] != (
+                dissent_class == "EVIDENCE_CONFLICT_FOR_REVIEW"
+            )):
+        raise CognitionBindingError("dissent review classification/flag contradiction")
+    if correlated_runtime and dissent_class == "EVIDENCE_CONFLICT_FOR_REVIEW":
         raise CognitionBindingError("correlated runtime cannot supply independent evidence")
     semantic = candidate["core_semantic_plan"]
     if (type(semantic) is not dict
@@ -123,7 +140,6 @@ def _episode_dict(episode: Any) -> dict:
     if cricket["disposition"] != expected_disposition:
         raise CognitionBindingError("Cricket disposition contradicts finding precedence")
     fidelity = semantic.get("fidelity")
-    dissent_class = dissent.get("classification")
     expected_status = ("CRICKET_BLOCKED" if expected_disposition == "BLOCK" else
                        "SEMANTIC_TRANSFER_UNREPRESENTABLE"
                        if fidelity == "UNREPRESENTABLE" else
@@ -156,6 +172,10 @@ def bind_episode(ledger: Any, task_id: str, episode: Any, *,
     digest = sha256(_canonical(current)).hexdigest()
     runtimes = [x["participant"]["runtime_instance_id"] for x in current["contributions"]]
     held = (current["status"] != "SOURCE_EXPERIMENT_ONLY"
+            or current["dissent"]["classification"] in {
+                "EVIDENCE_CONFLICT_FOR_REVIEW",
+                "MIXED_CLAIM_TYPES", "SELF_OR_CORRELATED_CLAIMS",
+            }
             or len(set(runtimes)) != len(runtimes))
     body = {
         "schema": _SCHEMA, "task_id": task_id,

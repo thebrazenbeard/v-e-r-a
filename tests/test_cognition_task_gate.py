@@ -205,3 +205,46 @@ class RealCognitionTaskGateTests(unittest.TestCase):
             "HELD_SOURCE_REVIEW",
         )
 
+
+    def test_dissent_review_flag_is_consistent_with_training_classification(self):
+        forged = deepcopy(self.episode)
+        forged["dissent"]["classification"] = "EVIDENCE_CONFLICT_FOR_REVIEW"
+        forged["dissent"]["challenge_for_review"] = False
+        with self.assertRaisesRegex(CognitionBindingError, "review classification"):
+            bind_episode(self.ledger, self.task_id, forged)
+        forged["dissent"]["challenge_for_review"] = True
+        self.assertEqual(
+            bind_episode(self.ledger, self.task_id, forged)["status"],
+            "HELD_SOURCE_REVIEW",
+        )
+        forged["dissent"]["classification"] = "invented-proof"
+        with self.assertRaisesRegex(CognitionBindingError, "review classification"):
+            bind_episode(self.ledger, self.task_id, forged)
+        forged = deepcopy(self.episode)
+        forged["dissent"]["unexpected_claim"] = "adopted"
+        with self.assertRaisesRegex(CognitionBindingError, "provenance"):
+            bind_episode(self.ledger, self.task_id, forged)
+
+    def test_shared_evidence_group_is_correlated_even_with_separate_runtimes(self):
+        shared = deepcopy(self.episode)
+        self.assertNotEqual(
+            shared["contributions"][0]["participant"]["runtime_instance_id"],
+            shared["contributions"][1]["participant"]["runtime_instance_id"],
+        )
+        shared["dissent"]["classification"] = "SELF_OR_CORRELATED_CLAIMS"
+        shared["dissent"]["challenge_for_review"] = False
+        result = bind_episode(self.ledger, self.task_id, shared)
+        self.assertEqual(result["status"], "HELD_SOURCE_REVIEW")
+        self.assertFalse(result["accepted_as_task_result"])
+        self.assertFalse(result["effect_authority"])
+        for classification in ("MIXED_CLAIM_TYPES", "EVIDENCE_CONFLICT_FOR_REVIEW"):
+            changed = deepcopy(self.episode)
+            changed["dissent"]["classification"] = classification
+            changed["dissent"]["challenge_for_review"] = (
+                classification == "EVIDENCE_CONFLICT_FOR_REVIEW"
+            )
+            self.assertEqual(
+                bind_episode(self.ledger, self.task_id, changed)["status"],
+                "HELD_SOURCE_REVIEW",
+            )
+

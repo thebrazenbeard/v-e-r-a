@@ -100,3 +100,32 @@ remain future production admission gates.
 
 PORTAL leads acceptance, review and adoption of this candidate repair;
 the independent Integration branch changes no PORTAL-owned PR #1 head.
+
+## Integration P0 follow-up: preloaded Python import origins
+
+At exact predecessor PR #3 head e4ccc801d994c1a98aac6081e17d4a30dfe503fe,
+the existing adversarial unit tests for preloaded and forged module origins
+were uncommitted and the implementation did not define their expected guards.
+This successor adds:
+
+- _guard_preloaded_imports() BEFORE adding either source root to sys.path,
+  rejecting already-imported vera_core, portfolio_runtime or portal modules
+  even if the module claims a pinned __file__. A preloaded module's Python
+  code could already have run before origin verification.
+- _verify_import_closure() after source imports: every loaded module in
+  those namespaces must resolve within the exact checked-out source
+  package tree and have a matching import-spec origin.
+- _verify_module_origin() for the four entry modules imported by
+  the Vera-P.O.R.T.A.L. CLI.
+- Tests for foreign preloaded modules, contradictory __file__ origins and
+  FOUR actual separate-process shadow injections with exact Vera Mono and
+  PORTAL sources. Every injection must fail before receiving components.
+
+This closes a narrow current-source module-shadow class. It is NOT a
+hermetic Python environment: native wheels, ambient sitecustomize import
+effects, mutable trusted dependencies, symlink race or malicious meta-path
+loader tricks remain outside this source qualification. A source digest
+alone never authenticates a live physical Executor host or capability route.
+
+No service is deployed or task authority granted. PORTAL remains lead for
+integration and decides how to consume PR #3.

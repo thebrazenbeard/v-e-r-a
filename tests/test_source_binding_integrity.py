@@ -9,6 +9,8 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import types
+from unittest.mock import patch
 import unittest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -52,6 +54,20 @@ class ImportSourceBindingTests(unittest.TestCase):
         self.assertEqual(git(self.root, "status", "--porcelain", "--untracked-files=no"), "")
         with self.assertRaisesRegex(RuntimeError, "untracked|ignored|import"):
             runner.source_check(self.root, self.head, "Vera Mono")
+
+    def test_preloaded_foreign_python_package_rejected(self):
+        fake = types.ModuleType("vera_core")
+        fake.__file__ = str(self.root / "impostor.py")
+        with patch.dict(sys.modules, {"vera_core": fake}):
+            with self.assertRaisesRegex(RuntimeError, "preloaded"):
+                runner._guard_preloaded_imports()
+
+    def test_imported_module_origin_must_match_pinned_path(self):
+        expected = self.root / "packages" / "vera_core" / "src" / "vera_core" / "__init__.py"
+        fake = types.ModuleType("vera_core")
+        fake.__file__ = str(self.root / "impostor.py")
+        with self.assertRaisesRegex(RuntimeError, "origin"):
+            runner._verify_module_origin(fake, expected)
 
     def test_gitignored_python_package_cannot_shadow_pinned_code(self):
         path = self.root / "packages" / "zz_hidden" / "src" / "vera_core"

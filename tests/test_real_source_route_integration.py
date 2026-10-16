@@ -146,6 +146,29 @@ class ActualSourceAdvisoryIntegrationTests(unittest.TestCase):
         self.assertEqual(status, 2, denied)
         self.assertIn("receipt destination exists or has no parent", denied["reason"])
 
+    def test_preloaded_shadow_modules_fail_closed_with_real_source_checkouts(self) -> None:
+        # Separate clean Python processes: attacker loads a module object into
+        # sys.modules BEFORE pinned-source components() gets to import its code.
+        for shadow in ("vera_core", "vera_core.task_execution",
+                       "portfolio_runtime", "portal.route_resolver"):
+            with self.subTest(shadow=shadow):
+                script = (
+                    "import sys,types; from pathlib import Path; "
+                    "from integration import vera_portal_runtime as r; "
+                    "fake=types.ModuleType(sys.argv[3]); "
+                    "fake.__file__=str(Path(sys.argv[1])/'impostor.py'); "
+                    "sys.modules[sys.argv[3]]=fake; "
+                    "r.components(Path(sys.argv[1]),Path(sys.argv[2]))"
+                )
+                proc = subprocess.run(
+                    [sys.executable, "-B", "-c", script,
+                     str(MONO), str(PORTAL), shadow],
+                    cwd=ROOT, text=True, capture_output=True, timeout=40,
+                    env={**os.environ, "PYTHONDONTWRITEBYTE": "1"},
+                )
+                self.assertNotEqual(proc.returncode, 0, shadow)
+                self.assertIn("preloaded", proc.stderr, proc.stderr)
+
     def test_concurrent_open_does_not_create_two_open_events(self) -> None:
         args = [*self.base, "open", "--task", self.task, "--packet", str(PACKET),
                 "--lifecycle-digest", "a" * 64]

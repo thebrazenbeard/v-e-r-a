@@ -45,7 +45,7 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         expected = (
             (cls.mono, "dec5c029e51c4fd436435cbda7e02e501822ee85"),
             (cls.training, "e1fe1bbe3d530f4db3d31b2009a1c109ce3a52f8"),
-            (cls.intranel, "6a66c2e813bcbefa6eff61f99777a8f6fc986ef3"),
+            (cls.intranel, "fb314b5e30f1ae0279e61e2c821306c3e77199a4"),
         )
         for root, commit in expected:
             if git(root, "rev-parse", "HEAD") != commit:
@@ -164,6 +164,7 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         self.assertEqual(result["verdict"], "HOLD_UNATTESTED_SENDER_AND_PROVIDER")
         self.assertFalse(result["normal_resident_route_admitted"])
         self.assertFalse(result["origin_authenticated"])
+        self.assertFalse(result["message_task_causal_link_attested"])
 
     def test_stale_task_journal_head_must_fail(self):
         self.ledger.bind_dependency(self.task_id, "dependency:changed",
@@ -225,3 +226,16 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         guest = (self.veraos / "src/veraos/virtio_guest_probe.py").read_text("utf8")
         self.assertIn("TEST-ONLY record", guest)
 
+
+
+    def test_edited_comment_collision_invalidates_cross_system_source(self):
+        edited = self.reply(self.request())
+        edited["payload"]["finding"] = "conflicting source edit"
+        outcome = self.receiver.receive(
+            self.wrap(self.parse(edited)),
+            "github:thebrazenbeard/intranel#9/comment/82", comment_id=82,
+        )
+        self.assertEqual(outcome["ingest"], "CONFLICT")
+        self.assertEqual(outcome["classification"], "IDENTITY_COLLISION")
+        with self.assertRaisesRegex(ProvenanceBridgeError, "receiver"):
+            self.evaluate()

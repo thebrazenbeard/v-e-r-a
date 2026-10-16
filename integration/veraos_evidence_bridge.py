@@ -166,6 +166,7 @@ def evaluate_source_route_evidence(
         "provider": provider_source,
         "coverage": dict(coverage),
         "origin_authenticated": False,
+        "message_task_causal_link_attested": False,
         "provider_authenticated": False,
         "normal_resident_route_admitted": False,
         "accepted_as_task_result": False,

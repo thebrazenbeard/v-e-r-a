@@ -146,3 +146,15 @@ head `5ddac1459c3a7b06f251721a14048fc26e60bda0`, module names,
 and blob subjects are recorded from read-only GitHub connector evidence
 rather than installed/runtime facts. Public CI must report this optional
 private-source check as SKIPPED, not silently substitute a fake module.
+
+### L1 identity-collision revocation cross-check
+
+The first `read_comment_packet_evidence` returned locally paired records
+even after a later edited comment with the same `message_id` caused an
+Intranel `IDENTITY_COLLISION`. A new L1 RED test reproduced this at
+`9825a172`. Integration L1 corrects its read transaction at
+`fb314b5e30f1ae0279e61e2c821306c3e77199a4` so collided message IDs can no longer yield clean evidence.
+The bridge pins this exact receiver blob and includes a real SQLite
+collision negative. Independently co-presented receiver-message and
+Vera Mono-task evidence do NOT establish a causal message→task identity
+link; `message_task_causal_link_attested=false` remains explicit.

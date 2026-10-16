@@ -201,3 +201,60 @@ than normal resident admission. The four local sample labels are
 NOT signer attestations, anti-replay protection or raw model artifact
 authentication. Training's normal-resident requirements remain
 source requirements owned by Training and PORTAL, not an installed grant.
+
+## Actual Mono task → PORTAL advisory → VeraOS native route candidate (NO EFFECT)
+
+`prepare_source_linked_veraos_route` resides inside the **existing**
+`integration/veraos_evidence_bridge.py` and uses the **existing**
+Vera Mono `TaskExecutionLedger`, Mono
+`export_portal_route_request`/`verify_portal_route_assessment`,
+PORTAL `assess_vera_task_route`, and V-E-R-A
+`vera_portal_runtime.save_receipt`. Nothing is submitted to an
+installed resident, no new task database is created, and no model runs.
+
+The source link is a real durable Mono `TASK_OPENED` event whose
+`lifecycle_evidence_digest` must match the exact locally paired
+Intranel packet `semantic_sha256` recorded in the receiver's SQLite
+journal. This is **a declared source link only** and is not a
+signature, trusted origin, user acceptance, cross-DB transaction,
+or permission. A task opened with an unrelated digest HOLDS.
+
+The task must be OPEN at the exact verified journal head. The adapter
+reserves the *existing* Mono SQLite task ledger with `BEGIN IMMEDIATE`
+during packet/receipt revalidation, real Mono export, real PORTAL
+NO_PROTECTED_EFFECT assessment, and one exclusively-created, fsynced
+JSON advisory receipt. All `TaskExecutionLedger.append()` calls also
+use `BEGIN IMMEDIATE`; the adversarial same-ledger writer test verifies
+a competing real dependency append cannot cross this *source cut*.
+This is **NOT an atomic acceptance CAS**: after release, another task
+append can invalidate the proposal, and the revalidator holds it.
+
+For PORTAL/normal resident integration the proposed call shape is
+`veraos.native_cognition.execute_text_request(admitted,task,request_id,now)`.
+The source adapter supplies only `task` from the immutable open task
+packet and a deterministic `request_id` derived from the actual
+Mono route-request digest and receiver semantic digest. `admitted`
+and `now` are NOT supplied; `admit_local_text_route` is NEVER
+called here. A syntactically matching caller-provided PORTAL
+advertisement yields `ROUTE_PROPOSED_UNATTESTED`; unknown/wrong route
+is `HELD_UNQUALIFIED_ROUTE`, never a default or fallback.
+
+The durable receipt includes exact `portal_request`, authenticated-
+**NOT** `portal_assessment` (advisory only), source packet/task head,
+the **proposed** native call, SHA-256 of canonical receipt, and explicitly
+`accepted_as_task_result=false`,
+`origin_authenticated=false`,
+`normal_resident_route_admitted=false`,
+`executed=false`, `protected_effect_authority=false`.
+`verify_source_linked_veraos_route` cold rereads and recomputes
+it from current real ledgers and refuses stale/tampered/duplicated
+changes. Source only, not a retained authoritative model result.
+
+PORTAL handoff needs: externally verified sender/session/nonce,
+provider-consistent source cursor, a trusted current model admission
+attesting actual artifact and issuer, a **Mono-owner implemented**
+expected-head task CAS/acceptance receipt under the same transaction
+as the accepted decision, an independently authorized resident
+invocation and persisted Pre-Active `event_id/run_id/final_text`
+readback bound to that permit. Until then this adapter is a
+verifiable no-effect vertical slice and not an accepted task result.

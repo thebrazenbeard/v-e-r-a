@@ -439,3 +439,65 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         proposed = self.proposal(ledger, binding)
         self.assertFalse(proposed["coverage"]["coverage_complete"])
         self.assertFalse(proposed["normal_resident_route_admitted"])
+
+    def test_actual_other_writer_waits_until_advisory_sqlite_source_cut_releases(self):
+        # The writer is the REAL Mono bind_dependency() append writer.
+        # During the no-effect advisory construction the SQLite writer
+        # cannot alter the journal; immediately AFTER release it can, and
+        # the advisory receipt must then be rejected before any dispatch.
+        if not PORTAL:
+            self.skipTest("requires pinned PORTAL")
+        import threading
+        from unittest.mock import patch
+        import portal.vera_task_handoff as handoff
+        sys.path.insert(0, str(Path(PORTAL)))
+        ledger, binding = self.linked()
+        receipt = Path(self.temp.name) / "writer-race-advisory.json"
+        started = threading.Event()
+        finished = threading.Event()
+        failures = []
+        writer = None
+        real_assess = handoff.assess_vera_task_route
+        def concurrent_writer():
+            started.set()
+            try:
+                ledger.bind_dependency(
+                    self.task_id, "dependency:concurrent-writer",
+                    kind="COORDINATION_COMMAND", target_id="command:concurrent",
+                )
+            except Exception as exc:
+                failures.append(exc)
+            finally:
+                finished.set()
+        def assess_while_writer_attempts(request, routes):
+            nonlocal writer
+            writer = threading.Thread(target=concurrent_writer, daemon=True)
+            writer.start()
+            self.assertTrue(started.wait(5))
+            self.assertFalse(
+                finished.wait(0.15),
+                "journal writer slipped through SQLite BEGIN IMMEDIATE reservation",
+            )
+            return real_assess(request, routes)
+        try:
+            with patch.object(handoff, "assess_vera_task_route",
+                              side_effect=assess_while_writer_attempts):
+                proposed = self.proposal(ledger, binding, receipt_path=receipt)
+        finally:
+            if writer is not None:
+                writer.join(timeout=15)
+        self.assertFalse(failures, failures)
+        self.assertTrue(finished.is_set())
+        self.assertTrue(receipt.is_file())
+        self.assertNotEqual(
+            ledger.read(self.task_id).journal_head_digest,
+            proposed["portal_request"]["task_journal_head"],
+        )
+        with self.assertRaisesRegex(ProvenanceBridgeError, "task"):
+            verify_source_linked_veraos_route(
+                receipt, receiver=self.receiver, task_ledger=ledger,
+                task_id=self.task_id, episode=self.episode, binding=binding,
+                comment_id=81, message_id="reply-1", coverage=self.coverage,
+                provider=self.provider, route_intent=self.intent,
+                advertisements=(self.advisory_ad(),),
+            )

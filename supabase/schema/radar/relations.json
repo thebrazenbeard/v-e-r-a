@@ -1,0 +1,2854 @@
+{
+  "schema": "VERA_SUPABASE_RELATION_DEFINITION_SNAPSHOT_V1",
+  "project_ref": "klmbpaigzeguvnpccqzz",
+  "database_schema": "radar",
+  "live_rows_included": false,
+  "relations": [
+    {
+      "name": "acknowledgements",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "acknowledgement_id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "message_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "identity_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "acknowledgement_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "evidence_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "acknowledgements_acknowledgement_type_check",
+          "definition": "CHECK ((acknowledgement_type = ANY (ARRAY['DELIVERED'::text, 'READ'::text, 'INCORPORATED'::text, 'REJECTED'::text])))"
+        },
+        {
+          "name": "acknowledgements_identity_id_fkey",
+          "definition": "FOREIGN KEY (identity_id) REFERENCES radar.identities(identity_id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "acknowledgements_message_id_fkey",
+          "definition": "FOREIGN KEY (message_id) REFERENCES radar.messages(message_id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "acknowledgements_message_id_identity_id_acknowledgement_typ_key",
+          "definition": "UNIQUE (message_id, identity_id, acknowledgement_type)"
+        },
+        {
+          "name": "acknowledgements_pkey",
+          "definition": "PRIMARY KEY (acknowledgement_id)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "acknowledgements_identity_id_idx",
+          "definition": "CREATE INDEX acknowledgements_identity_id_idx ON radar.acknowledgements USING btree (identity_id)"
+        },
+        {
+          "name": "acknowledgements_message_id_identity_id_acknowledgement_typ_key",
+          "definition": "CREATE UNIQUE INDEX acknowledgements_message_id_identity_id_acknowledgement_typ_key ON radar.acknowledgements USING btree (message_id, identity_id, acknowledgement_type)"
+        },
+        {
+          "name": "acknowledgements_pkey",
+          "definition": "CREATE UNIQUE INDEX acknowledgements_pkey ON radar.acknowledgements USING btree (acknowledgement_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "assignment_events",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "a",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "assignment_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "event_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "actor",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "from_state",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "to_state",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "predecessor_event_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "operation_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "receipt_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "detail",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "assignment_events_assignment_id_fkey",
+          "definition": "FOREIGN KEY (assignment_id) REFERENCES radar.assignments(assignment_id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "assignment_events_assignment_id_operation_id_key",
+          "definition": "UNIQUE (assignment_id, operation_id)"
+        },
+        {
+          "name": "assignment_events_pkey",
+          "definition": "PRIMARY KEY (event_id)"
+        },
+        {
+          "name": "assignment_events_predecessor_event_id_fkey",
+          "definition": "FOREIGN KEY (predecessor_event_id) REFERENCES radar.assignment_events(event_id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "assignment_events_receipt_sha256_check",
+          "definition": "CHECK ((receipt_sha256 ~ '^[0-9a-f]{64}$'::text))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "assignment_events_assignment_id_operation_id_key",
+          "definition": "CREATE UNIQUE INDEX assignment_events_assignment_id_operation_id_key ON radar.assignment_events USING btree (assignment_id, operation_id)"
+        },
+        {
+          "name": "assignment_events_pkey",
+          "definition": "CREATE UNIQUE INDEX assignment_events_pkey ON radar.assignment_events USING btree (event_id)"
+        },
+        {
+          "name": "assignment_events_predecessor_event_id_idx",
+          "definition": "CREATE INDEX assignment_events_predecessor_event_id_idx ON radar.assignment_events USING btree (predecessor_event_id)"
+        },
+        {
+          "name": "radar_assignment_events_assignment_idx",
+          "definition": "CREATE INDEX radar_assignment_events_assignment_idx ON radar.assignment_events USING btree (assignment_id, event_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "assignment_events_event_id_seq",
+      "kind": "S",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "last_value",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "log_cnt",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "is_called",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": null
+    },
+    {
+      "name": "assignments",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "assignment_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "workflow_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "current_state",
+          "type": "text",
+          "default": "'DRAFTED'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "authority_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "protected_authority",
+          "type": "boolean",
+          "default": "false",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "current_event_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "assignee_identity_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_message_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "assignments_assignee_identity_id_fkey",
+          "definition": "FOREIGN KEY (assignee_identity_id) REFERENCES radar.identities(identity_id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "assignments_current_state_check",
+          "definition": "CHECK ((current_state = ANY (ARRAY['DRAFTED'::text, 'ASSIGNED'::text, 'ACKNOWLEDGED'::text, 'RUNNING'::text, 'REVIEW_PENDING'::text, 'PAUSED_USAGE_EXHAUSTED'::text, 'INTERRUPTED'::text, 'HANDED_OFF'::text, 'CHANGES_REQUESTED'::text, 'STOPPED'::text, 'CONFIRMED'::text, 'SUPERSEDED'::text])))"
+        },
+        {
+          "name": "assignments_pkey",
+          "definition": "PRIMARY KEY (assignment_id)"
+        },
+        {
+          "name": "assignments_source_message_id_fkey",
+          "definition": "FOREIGN KEY (source_message_id) REFERENCES radar.messages(message_id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "radar_assignments_current_event_fk",
+          "definition": "FOREIGN KEY (current_event_id) REFERENCES radar.assignment_events(event_id) ON DELETE RESTRICT"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "assignments_current_event_id_idx",
+          "definition": "CREATE INDEX assignments_current_event_id_idx ON radar.assignments USING btree (current_event_id)"
+        },
+        {
+          "name": "assignments_pkey",
+          "definition": "CREATE UNIQUE INDEX assignments_pkey ON radar.assignments USING btree (assignment_id)"
+        },
+        {
+          "name": "radar_assignments_assignee_state_idx",
+          "definition": "CREATE INDEX radar_assignments_assignee_state_idx ON radar.assignments USING btree (assignee_identity_id, current_state, updated_at DESC)"
+        },
+        {
+          "name": "radar_assignments_source_message_unique_idx",
+          "definition": "CREATE UNIQUE INDEX radar_assignments_source_message_unique_idx ON radar.assignments USING btree (source_message_id) WHERE (source_message_id IS NOT NULL)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "dead_letters",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "item_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "a",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "message_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "failure_stage",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "failure_code",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "envelope",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "diagnostic",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "route_attempted",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "applicability",
+          "type": "text",
+          "default": "'UNKNOWN'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "replay_state",
+          "type": "text",
+          "default": "'PENDING'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "retry_count",
+          "type": "integer",
+          "default": "0",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "dead_letters_applicability_check",
+          "definition": "CHECK ((applicability = ANY (ARRAY['UNKNOWN'::text, 'APPLICABLE'::text, 'NOT_APPLICABLE'::text])))"
+        },
+        {
+          "name": "dead_letters_pkey",
+          "definition": "PRIMARY KEY (item_id)"
+        },
+        {
+          "name": "dead_letters_replay_state_check",
+          "definition": "CHECK ((replay_state = ANY (ARRAY['PENDING'::text, 'REPLAYED'::text, 'DISCARDED'::text])))"
+        },
+        {
+          "name": "dead_letters_retry_count_check",
+          "definition": "CHECK ((retry_count >= 0))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "dead_letters_pkey",
+          "definition": "CREATE UNIQUE INDEX dead_letters_pkey ON radar.dead_letters USING btree (item_id)"
+        },
+        {
+          "name": "radar_dead_letters_pending_idx",
+          "definition": "CREATE INDEX radar_dead_letters_pending_idx ON radar.dead_letters USING btree (replay_state, applicability, created_at)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "dead_letters_item_id_seq",
+      "kind": "S",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "last_value",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "log_cnt",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "is_called",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": null
+    },
+    {
+      "name": "delivery_events",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "a",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "message_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "identity_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "endpoint_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "event_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "outcome",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "detail",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "delivery_events_endpoint_id_fkey",
+          "definition": "FOREIGN KEY (endpoint_id) REFERENCES radar.endpoints(endpoint_id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "delivery_events_identity_id_fkey",
+          "definition": "FOREIGN KEY (identity_id) REFERENCES radar.identities(identity_id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "delivery_events_message_id_fkey",
+          "definition": "FOREIGN KEY (message_id) REFERENCES radar.messages(message_id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "delivery_events_pkey",
+          "definition": "PRIMARY KEY (event_id)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "delivery_events_endpoint_id_idx",
+          "definition": "CREATE INDEX delivery_events_endpoint_id_idx ON radar.delivery_events USING btree (endpoint_id)"
+        },
+        {
+          "name": "delivery_events_identity_id_idx",
+          "definition": "CREATE INDEX delivery_events_identity_id_idx ON radar.delivery_events USING btree (identity_id)"
+        },
+        {
+          "name": "delivery_events_pkey",
+          "definition": "CREATE UNIQUE INDEX delivery_events_pkey ON radar.delivery_events USING btree (event_id)"
+        },
+        {
+          "name": "radar_delivery_message_idx",
+          "definition": "CREATE INDEX radar_delivery_message_idx ON radar.delivery_events USING btree (message_id, event_id)"
+        },
+        {
+          "name": "radar_delivery_projected_identity_unique_idx",
+          "definition": "CREATE UNIQUE INDEX radar_delivery_projected_identity_unique_idx ON radar.delivery_events USING btree (message_id, identity_id, event_type) WHERE ((event_type = 'PROJECTED_FOR_IDENTITY'::text) AND (identity_id IS NOT NULL))"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "delivery_events_event_id_seq",
+      "kind": "S",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "last_value",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "log_cnt",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "is_called",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": null
+    },
+    {
+      "name": "dependencies",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "predecessor_assignment_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "successor_assignment_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "dependencies_check",
+          "definition": "CHECK ((predecessor_assignment_id <> successor_assignment_id))"
+        },
+        {
+          "name": "dependencies_pkey",
+          "definition": "PRIMARY KEY (predecessor_assignment_id, successor_assignment_id)"
+        },
+        {
+          "name": "dependencies_predecessor_assignment_id_fkey",
+          "definition": "FOREIGN KEY (predecessor_assignment_id) REFERENCES radar.assignments(assignment_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "dependencies_successor_assignment_id_fkey",
+          "definition": "FOREIGN KEY (successor_assignment_id) REFERENCES radar.assignments(assignment_id) ON DELETE CASCADE"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "dependencies_pkey",
+          "definition": "CREATE UNIQUE INDEX dependencies_pkey ON radar.dependencies USING btree (predecessor_assignment_id, successor_assignment_id)"
+        },
+        {
+          "name": "radar_dependencies_successor_idx",
+          "definition": "CREATE INDEX radar_dependencies_successor_idx ON radar.dependencies USING btree (successor_assignment_id) WHERE active"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "endpoints",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "endpoint_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "identity_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "node_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "transport",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "address",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'ACTIVE'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "metadata",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "endpoints_identity_id_fkey",
+          "definition": "FOREIGN KEY (identity_id) REFERENCES radar.identities(identity_id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "endpoints_node_id_fkey",
+          "definition": "FOREIGN KEY (node_id) REFERENCES radar.nodes(node_id) ON DELETE SET NULL"
+        },
+        {
+          "name": "endpoints_pkey",
+          "definition": "PRIMARY KEY (endpoint_id)"
+        },
+        {
+          "name": "endpoints_status_check",
+          "definition": "CHECK ((status = ANY (ARRAY['ACTIVE'::text, 'DEGRADED'::text, 'OFFLINE'::text, 'ARCHIVED'::text])))"
+        },
+        {
+          "name": "endpoints_transport_address_key",
+          "definition": "UNIQUE (transport, address)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "endpoints_node_id_idx",
+          "definition": "CREATE INDEX endpoints_node_id_idx ON radar.endpoints USING btree (node_id)"
+        },
+        {
+          "name": "endpoints_pkey",
+          "definition": "CREATE UNIQUE INDEX endpoints_pkey ON radar.endpoints USING btree (endpoint_id)"
+        },
+        {
+          "name": "endpoints_transport_address_key",
+          "definition": "CREATE UNIQUE INDEX endpoints_transport_address_key ON radar.endpoints USING btree (transport, address)"
+        },
+        {
+          "name": "radar_endpoints_identity_idx",
+          "definition": "CREATE INDEX radar_endpoints_identity_idx ON radar.endpoints USING btree (identity_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "github_oidc_replay_guard",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "jti",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "consumed_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "github_oidc_replay_guard_pkey",
+          "definition": "PRIMARY KEY (jti)"
+        },
+        {
+          "name": "radar_github_oidc_replay_guard_jti_nonempty",
+          "definition": "CHECK ((btrim(jti) <> ''::text))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "github_oidc_replay_guard_pkey",
+          "definition": "CREATE UNIQUE INDEX github_oidc_replay_guard_pkey ON radar.github_oidc_replay_guard USING btree (jti)"
+        },
+        {
+          "name": "radar_github_oidc_replay_guard_expiry_idx",
+          "definition": "CREATE INDEX radar_github_oidc_replay_guard_expiry_idx ON radar.github_oidc_replay_guard USING btree (expires_at)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "health_events",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "a",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "identity_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "node_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "event_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "detail",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "health_events_identity_id_fkey",
+          "definition": "FOREIGN KEY (identity_id) REFERENCES radar.identities(identity_id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "health_events_node_id_fkey",
+          "definition": "FOREIGN KEY (node_id) REFERENCES radar.nodes(node_id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "health_events_pkey",
+          "definition": "PRIMARY KEY (event_id)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "health_events_identity_id_idx",
+          "definition": "CREATE INDEX health_events_identity_id_idx ON radar.health_events USING btree (identity_id)"
+        },
+        {
+          "name": "health_events_node_id_idx",
+          "definition": "CREATE INDEX health_events_node_id_idx ON radar.health_events USING btree (node_id)"
+        },
+        {
+          "name": "health_events_pkey",
+          "definition": "CREATE UNIQUE INDEX health_events_pkey ON radar.health_events USING btree (event_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "health_events_event_id_seq",
+      "kind": "S",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "last_value",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "log_cnt",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "is_called",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": null
+    },
+    {
+      "name": "identities",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "identity_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "display_name",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "aliases",
+          "type": "text[]",
+          "default": "'{}'::text[]",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "lifecycle_status",
+          "type": "text",
+          "default": "'ACTIVE'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "metadata",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "identities_lifecycle_status_check",
+          "definition": "CHECK ((lifecycle_status = ANY (ARRAY['ACTIVE'::text, 'PAUSED'::text, 'ARCHIVED'::text])))"
+        },
+        {
+          "name": "identities_pkey",
+          "definition": "PRIMARY KEY (identity_id)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "identities_pkey",
+          "definition": "CREATE UNIQUE INDEX identities_pkey ON radar.identities USING btree (identity_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "identity_message_status_v1",
+      "kind": "v",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "message_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "recipient_identity_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "sender",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "message_created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "requires_ack",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "subject",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "delivery_event_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "delivery_event_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "delivery_outcome",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "delivery_detail",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "reply_evidence_status",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "read_acknowledgement_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "evidence_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "read_evidence_created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_refs",
+          "type": "text[]",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "content_hash",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "projection_status",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": " SELECT d.message_id,\n    d.identity_id AS recipient_identity_id,\n    m.sender,\n    m.created_at AS message_created_at,\n    m.requires_ack,\n    m.payload ->> 'subject'::text AS subject,\n    d.event_id AS delivery_event_id,\n    d.event_type AS delivery_event_type,\n    d.outcome AS delivery_outcome,\n    d.detail AS delivery_detail,\n        CASE\n            WHEN a.acknowledgement_id IS NOT NULL THEN 'EXPLICIT_REPLY_EVIDENCE'::text\n            ELSE 'NO_EXPLICIT_REPLY_EVIDENCE'::text\n        END AS reply_evidence_status,\n    a.acknowledgement_id AS read_acknowledgement_id,\n    a.evidence_ref,\n    a.created_at AS read_evidence_created_at,\n    m.source_refs,\n    m.content_hash,\n    m.projection_status\n   FROM radar.delivery_events d\n     JOIN radar.messages m ON m.message_id = d.message_id\n     LEFT JOIN radar.acknowledgements a ON a.message_id = d.message_id AND a.identity_id = d.identity_id AND a.acknowledgement_type = 'READ'::text\n  WHERE d.event_type = 'PROJECTED_FOR_IDENTITY'::text AND d.outcome = 'INDEXED_NOT_DELIVERED'::text AND d.identity_id IS NOT NULL;"
+    },
+    {
+      "name": "identity_message_status_v2",
+      "kind": "v",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "message_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "recipient_identity_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "sender",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "message_created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "requires_ack",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "subject",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "conversation_closed_by_sender",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "delivery_event_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "delivery_event_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "delivery_outcome",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "delivery_detail",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "conversation_reply_state",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "read_acknowledgement_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "evidence_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "read_evidence_created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_refs",
+          "type": "text[]",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "content_hash",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "projection_status",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": " SELECT d.message_id,\n    d.identity_id AS recipient_identity_id,\n    m.sender,\n    m.created_at AS message_created_at,\n    m.requires_ack,\n    m.payload ->> 'subject'::text AS subject,\n        CASE\n            WHEN (m.payload ->> 'conversation_closed_by_sender'::text) = 'true'::text THEN true\n            ELSE false\n        END AS conversation_closed_by_sender,\n    d.event_id AS delivery_event_id,\n    d.event_type AS delivery_event_type,\n    d.outcome AS delivery_outcome,\n    d.detail AS delivery_detail,\n        CASE\n            WHEN a.acknowledgement_id IS NOT NULL THEN 'REPLY_EVIDENCE_PRESENT'::text\n            WHEN (m.payload ->> 'conversation_closed_by_sender'::text) = 'true'::text THEN 'CLOSED_BY_ENDTHREAD'::text\n            ELSE 'NO_REPLY_EVIDENCE_YET'::text\n        END AS conversation_reply_state,\n    a.acknowledgement_id AS read_acknowledgement_id,\n    a.evidence_ref,\n    a.created_at AS read_evidence_created_at,\n    m.source_refs,\n    m.content_hash,\n    m.projection_status\n   FROM radar.delivery_events d\n     JOIN radar.messages m ON m.message_id = d.message_id\n     LEFT JOIN radar.acknowledgements a ON a.message_id = d.message_id AND a.identity_id = d.identity_id AND a.acknowledgement_type = 'READ'::text\n  WHERE d.event_type = 'PROJECTED_FOR_IDENTITY'::text AND d.outcome = 'INDEXED_NOT_DELIVERED'::text AND d.identity_id IS NOT NULL;"
+    },
+    {
+      "name": "identity_visuals",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "asset_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "identity_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "scope",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "state",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "repository_path",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "claimed_by",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "claim_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "claimed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "style_contract",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "supersedes",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "retired_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "review_after",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "is_current",
+          "type": "boolean",
+          "default": "false",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "is_active_candidate",
+          "type": "boolean",
+          "default": "false",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "identity_visuals_check",
+          "definition": "CHECK (((NOT is_current) OR (state = 'CANONICAL'::text)))"
+        },
+        {
+          "name": "identity_visuals_check1",
+          "definition": "CHECK (((NOT is_active_candidate) OR (state = 'CANDIDATE'::text)))"
+        },
+        {
+          "name": "identity_visuals_check2",
+          "definition": "CHECK (((state <> 'RETIRED'::text) OR (retired_at IS NOT NULL)))"
+        },
+        {
+          "name": "identity_visuals_claim_type_check",
+          "definition": "CHECK ((claim_type = ANY (ARRAY['self'::text, 'operator_override'::text, 'system_placeholder'::text])))"
+        },
+        {
+          "name": "identity_visuals_identity_id_fkey",
+          "definition": "FOREIGN KEY (identity_id) REFERENCES radar.identities(identity_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "identity_visuals_pkey",
+          "definition": "PRIMARY KEY (asset_id)"
+        },
+        {
+          "name": "identity_visuals_scope_check",
+          "definition": "CHECK ((scope = ANY (ARRAY['portrait'::text, 'bus_avatar'::text, 'character'::text])))"
+        },
+        {
+          "name": "identity_visuals_sha256_check",
+          "definition": "CHECK ((sha256 ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "identity_visuals_state_check",
+          "definition": "CHECK ((state = ANY (ARRAY['PLACEHOLDER'::text, 'CANDIDATE'::text, 'CANONICAL'::text, 'RETIRED'::text])))"
+        },
+        {
+          "name": "identity_visuals_style_contract_check",
+          "definition": "CHECK ((style_contract = 'BUS_AVATAR_STYLE_V1'::text))"
+        },
+        {
+          "name": "identity_visuals_supersedes_fkey",
+          "definition": "FOREIGN KEY (supersedes) REFERENCES radar.identity_visuals(asset_id) ON DELETE RESTRICT"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "identity_visuals_pkey",
+          "definition": "CREATE UNIQUE INDEX identity_visuals_pkey ON radar.identity_visuals USING btree (asset_id)"
+        },
+        {
+          "name": "radar_identity_visuals_active_candidate_scope_idx",
+          "definition": "CREATE UNIQUE INDEX radar_identity_visuals_active_candidate_scope_idx ON radar.identity_visuals USING btree (identity_id, scope) WHERE is_active_candidate"
+        },
+        {
+          "name": "radar_identity_visuals_current_scope_idx",
+          "definition": "CREATE UNIQUE INDEX radar_identity_visuals_current_scope_idx ON radar.identity_visuals USING btree (identity_id, scope) WHERE is_current"
+        },
+        {
+          "name": "radar_identity_visuals_identity_idx",
+          "definition": "CREATE INDEX radar_identity_visuals_identity_idx ON radar.identity_visuals USING btree (identity_id, scope, state)"
+        },
+        {
+          "name": "radar_identity_visuals_supersedes_fkey_idx",
+          "definition": "CREATE INDEX radar_identity_visuals_supersedes_fkey_idx ON radar.identity_visuals USING btree (supersedes)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "messages",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "message_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "schema_version",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "sender",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "audience",
+          "type": "text[]",
+          "default": "'{}'::text[]",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "domain",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "intent",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "priority",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "root_task_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "correlation_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "causal_parent_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "requires_ack",
+          "type": "boolean",
+          "default": "false",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "expires_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "authority_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_refs",
+          "type": "text[]",
+          "default": "'{}'::text[]",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "content_hash",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "idempotency_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "projection_status",
+          "type": "text",
+          "default": "'ACCEPTED'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "inserted_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "messages_causal_parent_id_fkey",
+          "definition": "FOREIGN KEY (causal_parent_id) REFERENCES radar.messages(message_id) ON DELETE SET NULL"
+        },
+        {
+          "name": "messages_content_hash_check",
+          "definition": "CHECK ((content_hash ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "messages_pkey",
+          "definition": "PRIMARY KEY (message_id)"
+        },
+        {
+          "name": "messages_priority_check",
+          "definition": "CHECK (((priority >= 0) AND (priority <= 4)))"
+        },
+        {
+          "name": "messages_projection_status_check",
+          "definition": "CHECK ((projection_status = ANY (ARRAY['ACCEPTED'::text, 'DELIVERING'::text, 'DELIVERED'::text, 'DLQ'::text, 'EXPIRED'::text])))"
+        },
+        {
+          "name": "messages_schema_version_check",
+          "definition": "CHECK ((schema_version > 0))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "messages_causal_parent_id_idx",
+          "definition": "CREATE INDEX messages_causal_parent_id_idx ON radar.messages USING btree (causal_parent_id)"
+        },
+        {
+          "name": "messages_pkey",
+          "definition": "CREATE UNIQUE INDEX messages_pkey ON radar.messages USING btree (message_id)"
+        },
+        {
+          "name": "radar_messages_correlation_idx",
+          "definition": "CREATE INDEX radar_messages_correlation_idx ON radar.messages USING btree (correlation_id) WHERE (correlation_id IS NOT NULL)"
+        },
+        {
+          "name": "radar_messages_domain_priority_idx",
+          "definition": "CREATE INDEX radar_messages_domain_priority_idx ON radar.messages USING btree (domain, priority, created_at)"
+        },
+        {
+          "name": "radar_messages_idempotency_idx",
+          "definition": "CREATE INDEX radar_messages_idempotency_idx ON radar.messages USING btree (idempotency_key)"
+        },
+        {
+          "name": "radar_messages_root_task_idx",
+          "definition": "CREATE INDEX radar_messages_root_task_idx ON radar.messages USING btree (root_task_id) WHERE (root_task_id IS NOT NULL)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "nodes",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "node_id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "identity_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "runtime_kind",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'OFFLINE'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "capabilities",
+          "type": "text[]",
+          "default": "'{}'::text[]",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "last_heartbeat",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "metadata",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "lease_expires_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "nodes_identity_id_fkey",
+          "definition": "FOREIGN KEY (identity_id) REFERENCES radar.identities(identity_id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "nodes_pkey",
+          "definition": "PRIMARY KEY (node_id)"
+        },
+        {
+          "name": "nodes_status_check",
+          "definition": "CHECK ((status = ANY (ARRAY['ONLINE'::text, 'IDLE'::text, 'WORKING'::text, 'WAITING_DEPENDENCY'::text, 'DEGRADED'::text, 'OFFLINE'::text, 'PAUSED'::text, 'ARCHIVED'::text])))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "nodes_pkey",
+          "definition": "CREATE UNIQUE INDEX nodes_pkey ON radar.nodes USING btree (node_id)"
+        },
+        {
+          "name": "radar_nodes_identity_idx",
+          "definition": "CREATE INDEX radar_nodes_identity_idx ON radar.nodes USING btree (identity_id)"
+        },
+        {
+          "name": "radar_nodes_status_heartbeat_idx",
+          "definition": "CREATE INDEX radar_nodes_status_heartbeat_idx ON radar.nodes USING btree (status, last_heartbeat)"
+        },
+        {
+          "name": "radar_nodes_status_lease_idx",
+          "definition": "CREATE INDEX radar_nodes_status_lease_idx ON radar.nodes USING btree (status, lease_expires_at)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "open_assignments_v1",
+      "kind": "v",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "assignment_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "workflow_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "current_state",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "assignee_identity_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "authority_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "protected_authority",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_message_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "current_event_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "current_event_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "current_event_actor",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "current_event_from_state",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "current_event_to_state",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "predecessor_event_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "operation_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "receipt_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "current_event_detail",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "current_event_created_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": " WITH assignment_base AS (\n         SELECT a.assignment_id,\n            a.workflow_id,\n            lower(a.current_state) AS current_state,\n            a.assignee_identity_id,\n            a.authority_ref,\n            a.protected_authority,\n            a.source_message_id,\n            a.current_event_id,\n            a.created_at,\n            a.updated_at,\n            e.event_type AS current_event_type,\n            e.actor AS current_event_actor,\n            e.from_state AS current_event_from_state,\n            e.to_state AS current_event_to_state,\n            e.predecessor_event_id,\n            e.operation_id,\n            e.receipt_sha256,\n            e.detail AS current_event_detail,\n            e.created_at AS current_event_created_at\n           FROM radar.assignments a\n             LEFT JOIN radar.assignment_events e ON e.event_id = a.current_event_id\n        )\n SELECT assignment_id,\n    workflow_id,\n    current_state,\n    assignee_identity_id,\n    authority_ref,\n    protected_authority,\n    source_message_id,\n    current_event_id,\n    created_at,\n    updated_at,\n    current_event_type,\n    current_event_actor,\n    current_event_from_state,\n    current_event_to_state,\n    predecessor_event_id,\n    operation_id,\n    receipt_sha256,\n    current_event_detail,\n    current_event_created_at\n   FROM assignment_base\n  WHERE current_state <> ALL (ARRAY['confirmed'::text, 'stopped'::text, 'superseded'::text]);"
+    },
+    {
+      "name": "projection_batch_files",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "batch_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "path",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "state",
+          "type": "text",
+          "default": "'PENDING'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "result_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "projection_batch_files_batch_id_fkey",
+          "definition": "FOREIGN KEY (batch_id) REFERENCES radar.projection_batches(batch_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "projection_batch_files_path_check",
+          "definition": "CHECK ((length(path) > 0))"
+        },
+        {
+          "name": "projection_batch_files_pkey",
+          "definition": "PRIMARY KEY (batch_id, path)"
+        },
+        {
+          "name": "projection_batch_files_state_check",
+          "definition": "CHECK ((state = ANY (ARRAY['PENDING'::text, 'PROJECTED'::text, 'IDEMPOTENT'::text, 'FAILED'::text, 'CONFLICT'::text])))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "projection_batch_files_pkey",
+          "definition": "CREATE UNIQUE INDEX projection_batch_files_pkey ON radar.projection_batch_files USING btree (batch_id, path)"
+        },
+        {
+          "name": "radar_projection_batch_files_state_idx",
+          "definition": "CREATE INDEX radar_projection_batch_files_state_idx ON radar.projection_batch_files USING btree (batch_id, state)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "projection_batches",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "batch_id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "identity_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "branch",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "expected_projected_head_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "target_head_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "control_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "topology_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "claim_token",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "claim_owner",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "claim_expires_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'CLAIMED'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "completed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "projection_batches_claim_owner_check",
+          "definition": "CHECK ((length(claim_owner) > 0))"
+        },
+        {
+          "name": "projection_batches_control_sha_check",
+          "definition": "CHECK ((control_sha ~ '^[0-9a-f]{40}$'::text))"
+        },
+        {
+          "name": "projection_batches_expected_projected_head_sha_check",
+          "definition": "CHECK (((expected_projected_head_sha IS NULL) OR (expected_projected_head_sha ~ '^[0-9a-f]{40}$'::text)))"
+        },
+        {
+          "name": "projection_batches_identity_id_branch_fkey",
+          "definition": "FOREIGN KEY (identity_id, branch) REFERENCES radar.projection_lane_state(identity_id, branch) ON DELETE RESTRICT"
+        },
+        {
+          "name": "projection_batches_pkey",
+          "definition": "PRIMARY KEY (batch_id)"
+        },
+        {
+          "name": "projection_batches_status_check",
+          "definition": "CHECK ((status = ANY (ARRAY['CLAIMED'::text, 'COMPLETE'::text, 'STALE'::text, 'FAILED'::text])))"
+        },
+        {
+          "name": "projection_batches_target_head_sha_check",
+          "definition": "CHECK ((target_head_sha ~ '^[0-9a-f]{40}$'::text))"
+        },
+        {
+          "name": "projection_batches_topology_sha_check",
+          "definition": "CHECK ((topology_sha ~ '^[0-9a-f]{40}$'::text))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "projection_batches_pkey",
+          "definition": "CREATE UNIQUE INDEX projection_batches_pkey ON radar.projection_batches USING btree (batch_id)"
+        },
+        {
+          "name": "radar_projection_batches_lane_created_idx",
+          "definition": "CREATE INDEX radar_projection_batches_lane_created_idx ON radar.projection_batches USING btree (identity_id, branch, created_at DESC)"
+        },
+        {
+          "name": "radar_projection_one_claimed_batch_per_lane",
+          "definition": "CREATE UNIQUE INDEX radar_projection_one_claimed_batch_per_lane ON radar.projection_batches USING btree (identity_id, branch) WHERE (status = 'CLAIMED'::text)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "projection_lane_state",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "identity_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "branch",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "projected_head_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "control_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "topology_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "projection_lane_state_branch_check",
+          "definition": "CHECK ((length(branch) > 0))"
+        },
+        {
+          "name": "projection_lane_state_control_sha_check",
+          "definition": "CHECK (((control_sha IS NULL) OR (control_sha ~ '^[0-9a-f]{40}$'::text)))"
+        },
+        {
+          "name": "projection_lane_state_identity_id_check",
+          "definition": "CHECK ((length(identity_id) > 0))"
+        },
+        {
+          "name": "projection_lane_state_pkey",
+          "definition": "PRIMARY KEY (identity_id, branch)"
+        },
+        {
+          "name": "projection_lane_state_projected_head_sha_check",
+          "definition": "CHECK (((projected_head_sha IS NULL) OR (projected_head_sha ~ '^[0-9a-f]{40}$'::text)))"
+        },
+        {
+          "name": "projection_lane_state_topology_sha_check",
+          "definition": "CHECK (((topology_sha IS NULL) OR (topology_sha ~ '^[0-9a-f]{40}$'::text)))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "projection_lane_state_pkey",
+          "definition": "CREATE UNIQUE INDEX projection_lane_state_pkey ON radar.projection_lane_state USING btree (identity_id, branch)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "reconciliation_events",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "a",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "code",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "repair_class",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "detail",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "reconciliation_events_pkey",
+          "definition": "PRIMARY KEY (event_id)"
+        },
+        {
+          "name": "reconciliation_events_repair_class_check",
+          "definition": "CHECK ((repair_class = ANY (ARRAY['SAFE_PROJECTION_REPAIR'::text, 'AMBIGUOUS_DURABLE_CONFLICT'::text, 'OBSERVATION_ONLY'::text])))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "reconciliation_events_pkey",
+          "definition": "CREATE UNIQUE INDEX reconciliation_events_pkey ON radar.reconciliation_events USING btree (event_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "reconciliation_events_event_id_seq",
+      "kind": "S",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "last_value",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "log_cnt",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "is_called",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": null
+    },
+    {
+      "name": "subscriptions",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "subscription_id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "identity_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "domain",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "intent",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "min_priority",
+          "type": "integer",
+          "default": "3",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "node_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "radar_subscriptions_active_node_bound",
+          "definition": "CHECK (((NOT active) OR (node_id IS NOT NULL)))"
+        },
+        {
+          "name": "subscriptions_identity_id_fkey",
+          "definition": "FOREIGN KEY (identity_id) REFERENCES radar.identities(identity_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "subscriptions_min_priority_check",
+          "definition": "CHECK (((min_priority >= 0) AND (min_priority <= 4)))"
+        },
+        {
+          "name": "subscriptions_node_id_fkey",
+          "definition": "FOREIGN KEY (node_id) REFERENCES radar.nodes(node_id) ON DELETE CASCADE"
+        },
+        {
+          "name": "subscriptions_pkey",
+          "definition": "PRIMARY KEY (subscription_id)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "radar_subscriptions_identity_idx",
+          "definition": "CREATE INDEX radar_subscriptions_identity_idx ON radar.subscriptions USING btree (identity_id)"
+        },
+        {
+          "name": "radar_subscriptions_node_active_idx",
+          "definition": "CREATE INDEX radar_subscriptions_node_active_idx ON radar.subscriptions USING btree (node_id, active, domain, intent, min_priority) WHERE (node_id IS NOT NULL)"
+        },
+        {
+          "name": "radar_subscriptions_node_unique_idx",
+          "definition": "CREATE UNIQUE INDEX radar_subscriptions_node_unique_idx ON radar.subscriptions USING btree (node_id, domain, COALESCE(intent, ''::text), min_priority) WHERE (node_id IS NOT NULL)"
+        },
+        {
+          "name": "subscriptions_pkey",
+          "definition": "CREATE UNIQUE INDEX subscriptions_pkey ON radar.subscriptions USING btree (subscription_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "telemetry",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "a",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "metric",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "value",
+          "type": "double precision",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "labels",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "telemetry_pkey",
+          "definition": "PRIMARY KEY (event_id)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "radar_telemetry_metric_time_idx",
+          "definition": "CREATE INDEX radar_telemetry_metric_time_idx ON radar.telemetry USING btree (metric, created_at DESC)"
+        },
+        {
+          "name": "telemetry_pkey",
+          "definition": "CREATE UNIQUE INDEX telemetry_pkey ON radar.telemetry USING btree (event_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "telemetry_event_id_seq",
+      "kind": "S",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "last_value",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "log_cnt",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "is_called",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": null
+    }
+  ]
+}

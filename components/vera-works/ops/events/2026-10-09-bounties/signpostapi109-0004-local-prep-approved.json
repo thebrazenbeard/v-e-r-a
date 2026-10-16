@@ -1,0 +1,32 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-SIGNPOSTAPI109-0004",
+  "event_type": "OPPORTUNITY_APPROVED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-SIGNPOSTAPI109-BOUNTY-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-09T16:33:03Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SIGNPOSTAPI109-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-SIGNPOSTAPI109-0003",
+  "idempotency_key": "first-dollar:github-bounty:signpost-api-109:local-prep-approved:v1",
+  "from_state": "VERA_DECISION",
+  "to_state": "APPROVED",
+  "payload": {
+    "approved_effect": "On Lappy, refresh Signpost API from public upstream main, implement the #109 wallet-blocklist validation/migration patch, add focused local tests, and run applicable repository validation.",
+    "stop_conditions": [
+      "Stop before any public issue comment, claim, fork, upstream push, pull request, terms, payout, or identity step.",
+      "Stop if implementation requires secrets, spend, production access, destructive external testing, or nonpublic data.",
+      "Stop if a fresh issue check shows the bounty closed or materially claimed before local preparation completes."
+    ],
+    "explicit_exclusions": [
+      "No WorkLaptop.",
+      "No external account creation.",
+      "No terms acceptance.",
+      "No identity, tax, wallet, or payout submission.",
+      "No public GitHub publication.",
+      "No spending."
+    ],
+    "external_effect_not_yet_performed_by_this_event": true
+  },
+  "external_effect": false
+}

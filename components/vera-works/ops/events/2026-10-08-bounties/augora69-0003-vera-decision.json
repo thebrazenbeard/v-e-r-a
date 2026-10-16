@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-AUGORA69-0003",
+  "event_type": "OPPORTUNITY_VERA_DECISION",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-AUGORA69-BOUNTY-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-09T00:07:02Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-AUGORA69-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-AUGORA69-0002",
+  "idempotency_key": "first-dollar:github-bounty:augora69:vera-decision:v1",
+  "from_state": "SCREENING",
+  "to_state": "VERA_DECISION",
+  "payload": {
+    "decision": "AUTHORIZE_PATCH_VALIDATION_ONLY",
+    "reason": "This is a live, uncontested, zero-capital bounty with a minimal deterministic source change and favorable expected value per unit of work.",
+    "claim_ceiling": "Prepare, revise, and validate the draft from public source only. External publication remains outside this authorization."
+  },
+  "external_effect": false
+}

@@ -1,0 +1,38 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-NANSWAP-0004",
+  "event_type": "PATRICK_DECISION_RECORDED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-NANSWAP-0001",
+  "actor": "patrick",
+  "recorded_at": "2026-10-06T10:35:30Z",
+  "correlation_id": "CORR-NANSWAP-RANDOMX-0001",
+  "causation_id": "HOLD-NANSWAP-0001",
+  "idempotency_key": "nanswap-randomx:v1:patrick-authorized",
+  "from_state": "OPEN",
+  "to_state": "RESOLVED",
+  "payload": {
+    "resolution_of": "HOLD-NANSWAP-0001",
+    "decision": "AUTHORIZED",
+    "authorization_basis": "Patrick explicitly said: Authorize Nanswap.",
+    "authorized_instance": {
+      "software": "official checksum-verified XMRig v6.26.0",
+      "machine": "Lappy",
+      "pool": "xmrig.nanswap.com:3333",
+      "algorithm": "RandomX",
+      "payout_asset": "BANANO",
+      "wallet_alias": "vera-banano-receiving-v1",
+      "cpu_threads": 4,
+      "power_condition": "AC_POWER_ONLY",
+      "stop_condition": "first confirmed BANANO payout or 30 minutes, whichever occurs first"
+    },
+    "explicit_exclusions": [
+      "WorkLaptop",
+      "security-tool disabling",
+      "unsafe MSR modification",
+      "private-key or seed disclosure",
+      "continuous operation beyond the bounded test without a later economics decision"
+    ]
+  },
+  "external_effect": false
+}

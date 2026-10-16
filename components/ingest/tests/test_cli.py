@@ -1,0 +1,186 @@
+import io
+import json
+import os
+import tempfile
+import unittest
+from contextlib import redirect_stdout
+from pathlib import Path
+from unittest.mock import patch
+
+from ingest import FileSystemStore, Ingestor, TextSource
+from ingest.cli import main
+
+
+class CliTests(unittest.TestCase):
+    def test_text_default_is_machine_json_and_duplicate_exits_zero(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = io.StringIO()
+            with redirect_stdout(output):
+                first = main(["--store", str(Path(tmp) / ".ingest"), "text", "hello", "--locator", "urn:cli"])
+            payload = json.loads(output.getvalue())
+            self.assertEqual(first, 0)
+            self.assertEqual(payload["status"], "ACCEPTED")
+
+            output = io.StringIO()
+            with redirect_stdout(output):
+                second = main(["--store", str(Path(tmp) / ".ingest"), "text", "hello", "--locator", "urn:cli"])
+            self.assertEqual(second, 0)
+            self.assertEqual(json.loads(output.getvalue())["status"], "DUPLICATE")
+
+    def test_human_mode_is_explicit(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = io.StringIO()
+            with redirect_stdout(output):
+                code = main(["--store", str(Path(tmp) / ".ingest"), "--human", "text", "hello"])
+            self.assertEqual(code, 0)
+            self.assertTrue(output.getvalue().startswith("ACCEPTED "))
+            self.assertNotIn('"schema"', output.getvalue())
+
+    def test_inspect_missing_returns_two(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            output = io.StringIO()
+            with redirect_stdout(output):
+                code = main(["--store", str(Path(tmp) / ".ingest"), "inspect", "f" * 64])
+            self.assertEqual(code, 2)
+            self.assertEqual(json.loads(output.getvalue())["status"], "NOT_FOUND")
+
+    def test_inspect_corrupt_record_is_machine_readable_failure(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / ".ingest"
+            store = FileSystemStore(root)
+            result = Ingestor(store).ingest(
+                TextSource("inspect integrity", locator="urn:inspect-integrity")
+            )
+            blob_path = root / result.raw_artifact.storage_locator
+            blob_path.write_bytes(b"corrupted")
+
+            output = io.StringIO()
+            with redirect_stdout(output):
+                code = main(["--store", str(root), "inspect", result.ingest_id])
+
+            payload = json.loads(output.getvalue())
+            self.assertEqual(code, 2)
+            self.assertEqual(payload["status"], "CORRUPT")
+            self.assertEqual(payload["ingest_id"], result.ingest_id)
+
+
+    def test_audit_records_cli_reports_corruption(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / ".ingest"
+            store = FileSystemStore(root)
+            result = Ingestor(store).ingest(
+                TextSource("audit cli", locator="urn:audit:cli")
+            )
+            (root / result.raw_artifact.storage_locator).write_bytes(
+                b"corrupt"
+            )
+
+            output = io.StringIO()
+            with redirect_stdout(output):
+                code = main(["--store", str(root), "audit-records"])
+
+            payload = json.loads(output.getvalue())
+            self.assertEqual(code, 2)
+            self.assertEqual(payload["schema"], "INGEST_RECORD_AUDIT_V1")
+            self.assertEqual(payload["status"], "CORRUPT")
+            self.assertEqual(payload["records_corrupt"], 1)
+
+    def test_audit_store_cli_reports_inventory_issues(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / ".ingest"
+            store = FileSystemStore(root)
+            orphan, _created = store.put_blob(
+                b"orphan",
+                media_type="application/octet-stream",
+                kind="raw",
+            )
+
+            output = io.StringIO()
+            with redirect_stdout(output):
+                code = main(["--store", str(root), "audit-store"])
+
+            payload = json.loads(output.getvalue())
+            self.assertEqual(code, 2)
+            self.assertEqual(payload["schema"], "INGEST_STORE_AUDIT_V1")
+            self.assertEqual(payload["status"], "ISSUES")
+            self.assertIn(orphan.artifact_id, payload["unreferenced_blobs"])
+
+    def test_file_root_cli_accepts_relative_operator_path(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            previous = os.getcwd()
+            try:
+                os.chdir(tmp)
+                Path("allowed").mkdir()
+                Path("allowed/data.txt").write_text("hello", encoding="utf-8")
+                output = io.StringIO()
+                with redirect_stdout(output):
+                    code = main([
+                        "--store", str(Path(tmp) / ".ingest"),
+                        "file", "allowed/data.txt",
+                        "--root", ".",
+                    ])
+            finally:
+                os.chdir(previous)
+            self.assertEqual(code, 0)
+            self.assertEqual(json.loads(output.getvalue())["status"], "ACCEPTED")
+
+    def test_malformed_message_json_is_machine_readable_rejection(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "bad.json"
+            path.write_text('{"broken":', encoding="utf-8")
+            output = io.StringIO()
+            with redirect_stdout(output):
+                code = main([
+                    "--store", str(Path(tmp) / ".ingest"),
+                    "message", str(path), "--id", "m1",
+                ])
+            payload = json.loads(output.getvalue())
+            self.assertEqual(code, 2)
+            self.assertEqual(payload["status"], "REJECTED")
+            self.assertIn("valid JSON", payload["error"])
+
+    def test_non_object_message_json_is_machine_readable_rejection(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "array.json"
+            path.write_text("[1,2,3]", encoding="utf-8")
+            output = io.StringIO()
+            with redirect_stdout(output):
+                code = main([
+                    "--store", str(Path(tmp) / ".ingest"),
+                    "message", str(path), "--id", "m1",
+                ])
+            payload = json.loads(output.getvalue())
+            self.assertEqual(code, 2)
+            self.assertEqual(payload["status"], "REJECTED")
+            self.assertIn("object", payload["error"])
+
+    def test_stdin_json_read_is_bounded_by_max_bytes(self):
+        class GuardedStdin(io.StringIO):
+            def __init__(self, value):
+                super().__init__(value)
+                self.read_sizes = []
+
+            def read(self, size=-1):
+                self.read_sizes.append(size)
+                if size < 0:
+                    raise AssertionError("stdin was read without a byte bound")
+                return super().read(size)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            stdin = GuardedStdin("abcdef")
+            output = io.StringIO()
+            with patch("sys.stdin", stdin), redirect_stdout(output):
+                code = main([
+                    "--store", str(Path(tmp) / ".ingest"),
+                    "--max-bytes", "5",
+                    "json", "-",
+                ])
+            payload = json.loads(output.getvalue())
+            self.assertEqual(code, 2)
+            self.assertEqual(payload["status"], "REJECTED")
+            self.assertTrue(stdin.read_sizes)
+            self.assertTrue(all(size >= 0 for size in stdin.read_sizes))
+
+
+if __name__ == "__main__":
+    unittest.main()

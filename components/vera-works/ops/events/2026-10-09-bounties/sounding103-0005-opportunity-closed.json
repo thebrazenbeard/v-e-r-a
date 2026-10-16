@@ -1,0 +1,30 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-SOUNDING103-0005",
+  "event_type": "OPPORTUNITY_CLOSED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-SOUNDING103-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T14:36:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SOUNDING103-BOUNTY-0001",
+  "causation_id": "HOLD-BOUNTY-SOUNDING103-0001",
+  "idempotency_key": "first-dollar:github-bounty:sounding103:closed-third-party-claim:v1",
+  "from_state": "APPROVED",
+  "to_state": "CLOSED",
+  "payload": {
+    "outcome": "SOURCE_BOUNTY_CLAIMED_BY_OTHER_BEFORE_PUBLICATION",
+    "source_repository": "Sounding-Labs/sounding",
+    "source_issue_number": 103,
+    "issue_observed_state": "OPEN",
+    "third_party_github_login": "Ljunqiang",
+    "third_party_pull_request": "https://github.com/Sounding-Labs/sounding/pull/117",
+    "third_party_issue_comment": "https://github.com/Sounding-Labs/sounding/issues/103#issuecomment-6071639052",
+    "publication_performed": false,
+    "local_patch_commit_sha": "0fb3405e7d7a3b97fc85b6d0f71f4e906ef40da5",
+    "durable_patch": "ops/artifacts/2026-10-08-sounding103-bounty/sounding-issue-103.patch",
+    "publication_hold": "HOLD-BOUNTY-SOUNDING103-0001",
+    "hold_disposition": "Cancelled by a separate external-invalidation event because a third party has already published a competing solution.",
+    "claim_ceiling": "No Vera Works bounty claim, fork, push, pull request, license assent, payout setup, identity submission, or spend occurred."
+  },
+  "external_effect": false
+}

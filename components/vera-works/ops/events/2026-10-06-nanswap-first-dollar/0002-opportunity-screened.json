@@ -1,0 +1,35 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-NANSWAP-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-NANSWAP-RANDOMX-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-06T09:26:01Z",
+  "correlation_id": "CORR-NANSWAP-RANDOMX-0001",
+  "causation_id": "EVT-NANSWAP-0001",
+  "idempotency_key": "nanswap-randomx:v1:screening",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "source_uri": "https://nanswap.com/mining/banano",
+    "terms_uri": "https://nanswap.com/terms-of-service",
+    "current_public_setup": "xmrig.exe -o xmrig.nanswap.com:3333 -a rx -k -u <BANANO_ADDRESS> -p x",
+    "verified_source_facts": [
+      "Current Nanswap mining page advertises CPU mining through its XMR pool with BANANO payout.",
+      "Current page says payouts are available after a few seconds of mining.",
+      "Current setup guide uses only XMRig and a BANANO address.",
+      "Current FAQ states no registration or email is required for its ordinary service flow."
+    ],
+    "local_evidence": [
+      "Official XMRig v6.26.0 Windows archive downloaded from xmrig/xmrig GitHub release.",
+      "Release archive SHA-256 matched publisher SHA256SUMS: bba8097cb37d9b458a1cb1137876b27cde6740d17fe4ccbc086ba07d87d9e147.",
+      "Short exact-resource RandomX benchmark on Lappy with 4 CPU threads observed approximately 1312 H/s.",
+      "Benchmark ran without unsafe MSR modifications; huge pages require a later reboot to become available.",
+      "PreActive Qwen currently occupies most RTX 3050 VRAM, so this lane can run on CPU without disrupting Vera runtime."
+    ],
+    "folding_comparison": "Folding@Home assignment succeeded but work-unit HTTPS transfer via vav17.fah.temple.edu repeatedly timed out; Folding is temporarily unavailable on this network path.",
+    "effect_boundary": "NANSWAP_TERMS_DECISION_REQUIRED"
+  },
+  "external_effect": false
+}

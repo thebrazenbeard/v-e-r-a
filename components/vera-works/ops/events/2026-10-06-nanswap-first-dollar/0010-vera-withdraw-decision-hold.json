@@ -1,0 +1,35 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "HOLD-NANSWAP-WITHDRAW-0001",
+  "event_type": "VERA_DECISION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-NANSWAP-WITHDRAW-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-06T11:48:46.340016Z",
+  "correlation_id": "CORR-NANSWAP-RANDOMX-0001",
+  "causation_id": "EVT-NANSWAP-0009",
+  "idempotency_key": "nanswap-randomx:v1:vera-withdraw-decision",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "VERA_DECISION_REQUIRED",
+    "problem": "Nanswap now reports 1.7368 BAN earned and withdrawable, but the BANANO chain still has no receipt. The bounded mining authorization did not explicitly authorize a manual withdrawal POST.",
+    "held_subject_type": "financial",
+    "held_subject_id": "FIN-NANSWAP-RANDOMX-0001",
+    "held_state": "RECEIVABLE",
+    "required_from": "vera",
+    "recommendation": "Authorize one exact withdrawal of the currently withdrawable Nanswap mining balance to the already-approved vera-banano-receiving-v1 alias. This completes collection of already-earned revenue without starting another workload.",
+    "alternatives": [
+      "Leave the 1.7368 BAN receivable at Nanswap and take no external action.",
+      "Request additional fee or payout-path evidence before deciding."
+    ],
+    "consequences": [
+      "A withdrawal is a consequential external financial effect and may create a provider-side transaction before an on-chain BANANO receipt appears.",
+      "The current receivable is approximately USD 0.000956483131968 at the recorded Nanswap quote; no available Vera Fund balance exists until receipt is confirmed.",
+      "No further mining is authorized by either approval or withdrawal."
+    ],
+    "inaction_effect": "The 1.7368 BAN remains a provider-confirmed receivable at Nanswap; Vera Fund available balance remains USD 0.00.",
+    "resume_event_type": "VERA_DECISION_RECORDED"
+  },
+  "external_effect": false
+}

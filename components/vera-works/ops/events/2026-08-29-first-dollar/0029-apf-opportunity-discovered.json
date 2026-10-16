@@ -1,0 +1,25 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0029",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0003",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T21:52:05Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0026",
+  "idempotency_key": "first-dollar:opp:0003:discovered",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {
+    "title": "Consultant - Policy Brief to support policy and law reform to eliminate female genital mutilation",
+    "buyer": "Asia Pacific Forum",
+    "channel": "Direct RFQ",
+    "source_url": "https://www.asiapacificforum.net/news/request-for-quotation-consultant-policy-brief-to-support-policy-and-law-reform-to-eliminate-female-genital-mutilation-fgm",
+    "work_requested": "Desk-based mapping and analysis of human-rights recommendations, legal and policy frameworks, and reform opportunities across eight Asia-Pacific countries; produce a policy brief and related presentation/revisions.",
+    "deadline": "2026-09-09 17:00 AEST",
+    "startup_cost_usd": "0",
+    "external_route": "Direct quotation/proposal rather than a worker marketplace account."
+  },
+  "external_effect": false
+}

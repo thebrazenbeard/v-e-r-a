@@ -1,0 +1,43 @@
+{
+  "schema": "VERA_R10A2_SOURCE_RECEIPT_V4",
+  "status": "SOURCE_BINDING_RECEIPT_NOT_INSTALLATION_NOT_RUNTIME_QUALIFICATION",
+  "release": "R10A2",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "publication_direction": "The registry names this deterministic later receipt locator/rule but does not bind this later receipt blob. This receipt binds the exact pre-receipt registry commit/tree and registry blob plus the earlier artifact-binding commit.",
+  "artifact_binding_commit": "23fc671f2387ac890ea3ec06d332bc59e8703a61",
+  "pre_receipt_registry_commit": "544f49a78ff6396ab338282a170c37717586403b",
+  "pre_receipt_tree": "f13cb6f3d88372f3b4463ec1542b087b79d76f91",
+  "registry": {
+    "path": "project-instructions/r10a2/VERA_R10A2_CONTROL_REGISTRY.json",
+    "git_blob": "a3df18dbb6e0c4d1b05708bc4972ae2c23575ee1",
+    "sha256": "b54c552bba7f980dfee26aed5a933a8ec4daeb1d40981eb23186bd2d4e267f3c"
+  },
+  "inherited_recovery_owner": {
+    "source_commit": "2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64",
+    "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+    "git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+    "sha256": "e1fa43fff500d19f74034d5fe572a2cdb08ebe31c6b3e2ed94f6bc4aad9ed00d",
+    "section": "REC_RECOVERY"
+  },
+  "external_topology_binding": {
+    "repository": "thebrazenbeard/chat-communication-bus",
+    "source_commit": "f90d52e66d655e9c3cfac63cb529914ac51d3a88",
+    "path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+    "git_blob": "69e505031d4e53dcb853578dac23817649af1918",
+    "vera_writer_lane": "bus/vera-v2"
+  },
+  "bound_r10a2_artifact_count": 6,
+  "new_regression_frontier": {
+    "highest_case": "RST-24",
+    "incident_date": "2026-09-20",
+    "class": "RESTORE_FALSE_COMPLETION_RELATIONAL_IDENTITY",
+    "hostile_followup": "READBACK_RECEIPT_DIGESTS_RECOMPUTED"
+  },
+  "review_status": "FRESH_EXACT_HEAD_HOSTILE_REREVIEW_REQUIRED",
+  "non_effects": [
+    "not merge authority",
+    "not Project installation",
+    "not activation/current-route evidence",
+    "not runtime qualification"
+  ]
+}

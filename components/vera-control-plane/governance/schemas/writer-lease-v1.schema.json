@@ -1,0 +1,293 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/thebrazenbeard/vera-control-plane/blob/bootstrap/control-plane-v1/governance/schemas/writer-lease-v1.schema.json",
+  "title": "Vera Control Plane Writer Lease v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "lease_id",
+    "repository",
+    "branch",
+    "purpose",
+    "base_state",
+    "writer",
+    "issuer",
+    "scope",
+    "max_effective_repository_commits",
+    "reviewer_patch_authority",
+    "merge_authority",
+    "deployment_authority",
+    "installation_authority",
+    "production_mutation_authority",
+    "credential_authority",
+    "canonical_memory_authority",
+    "transfer_requires_explicit_user_authority",
+    "termination",
+    "supersedes_lease_id",
+    "state",
+    "issued_at",
+    "record_integrity"
+  ],
+  "properties": {
+    "schema": {
+      "const": "VERA_CONTROL_PLANE_WRITER_LEASE_V1"
+    },
+    "lease_id": {
+      "const": "VCP-LEASE-0001"
+    },
+    "repository": {
+      "const": "thebrazenbeard/vera-control-plane"
+    },
+    "branch": {
+      "const": "bootstrap/control-plane-v1"
+    },
+    "purpose": {
+      "const": "INITIAL_GOVERNANCE_BOOTSTRAP"
+    },
+    "base_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "expected_head_sha"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "EMPTY_REPOSITORY",
+            "EXACT_HEAD"
+          ]
+        },
+        "expected_head_sha": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "kind": {
+              "const": "EMPTY_REPOSITORY"
+            },
+            "expected_head_sha": {
+              "type": "null"
+            }
+          }
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "EXACT_HEAD"
+            },
+            "expected_head_sha": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            }
+          }
+        }
+      ]
+    },
+    "writer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subject_kind",
+        "locator",
+        "role"
+      ],
+      "properties": {
+        "subject_kind": {
+          "const": "WORK_TASK"
+        },
+        "locator": {
+          "type": "string",
+          "pattern": "^codex-task://[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/turn/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "role": {
+          "const": "INITIAL_BOOTSTRAP_WRITER"
+        }
+      }
+    },
+    "issuer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "subject",
+        "authority_class",
+        "authority_locator",
+        "authorization_text_sha256"
+      ],
+      "properties": {
+        "subject": {
+          "const": "Patrick"
+        },
+        "authority_class": {
+          "const": "DIRECT_USER_AUTHORITY"
+        },
+        "authority_locator": {
+          "type": "string",
+          "pattern": "^codex-task://[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/turn/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}#item-[0-9]+$"
+        },
+        "authorization_text_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allowed_paths",
+        "allowed_operations",
+        "forbidden_operations"
+      ],
+      "properties": {
+        "allowed_paths": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "governance/AUTHORITY_BINDING.json",
+              "governance/leases/VCP-LEASE-0001.json",
+              "governance/schemas/writer-lease-v1.schema.json",
+              "docs/CONTROL_PLANE_V1_BASELINE.md"
+            ]
+          }
+        },
+        "allowed_operations": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "CREATE_BRANCH",
+              "CREATE",
+              "MODIFY",
+              "COMMIT",
+              "PUSH",
+              "READBACK"
+            ]
+          }
+        },
+        "forbidden_operations": {
+          "type": "array",
+          "minItems": 14,
+          "maxItems": 14,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "MODIFY_OUTSIDE_ALLOWED_PATHS",
+              "MERGE",
+              "REBASE",
+              "FORCE_PUSH",
+              "DEPLOY",
+              "INSTALL",
+              "PRODUCTION_MUTATION",
+              "CREDENTIAL_ACTION",
+              "PAID_SERVICE_ACTION",
+              "DELETE_REMOTE_RESOURCE",
+              "MODEL_TRAINING",
+              "CANONICAL_MEMORY_WRITE",
+              "MODIFY_THEBRAZENBEARD_VERA",
+              "MODIFY_THEBRAZENBEARD_VERA_R9A0"
+            ]
+          }
+        }
+      }
+    },
+    "max_effective_repository_commits": {
+      "const": 1
+    },
+    "reviewer_patch_authority": {
+      "const": false
+    },
+    "merge_authority": {
+      "const": false
+    },
+    "deployment_authority": {
+      "const": false
+    },
+    "installation_authority": {
+      "const": false
+    },
+    "production_mutation_authority": {
+      "const": false
+    },
+    "credential_authority": {
+      "const": false
+    },
+    "canonical_memory_authority": {
+      "const": false
+    },
+    "transfer_requires_explicit_user_authority": {
+      "const": true
+    },
+    "termination": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "scope_completion_terminates_lease",
+        "completion_condition",
+        "unexpected_branch_movement_terminates_or_pauses",
+        "revocation_supported"
+      ],
+      "properties": {
+        "scope_completion_terminates_lease": {
+          "const": true
+        },
+        "completion_condition": {
+          "const": "EXACT_BOOTSTRAP_COMMIT_PROVIDER_READBACK_VERIFIED"
+        },
+        "unexpected_branch_movement_terminates_or_pauses": {
+          "const": true
+        },
+        "revocation_supported": {
+          "const": true
+        }
+      }
+    },
+    "supersedes_lease_id": {
+      "type": "null"
+    },
+    "state": {
+      "enum": [
+        "ACTIVE",
+        "SUPERSEDED",
+        "REVOKED",
+        "EXPIRED_BY_SCOPE_COMPLETION"
+      ]
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "record_integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonicalization",
+        "algorithm",
+        "digest"
+      ],
+      "properties": {
+        "canonicalization": {
+          "const": "RFC8785_JSON_CANONICALIZATION"
+        },
+        "algorithm": {
+          "const": "SHA-256"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    }
+  }
+}

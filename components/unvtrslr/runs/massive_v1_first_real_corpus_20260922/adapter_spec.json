@@ -1,0 +1,29 @@
+{
+  "schema": "UNVTRSLR_MASSIVE_V1_ADAPTER_V1",
+  "dataset_version": "MASSIVE 1.0",
+  "locales": ["en-US", "fr-FR", "de-DE", "sw-KE", "tr-TR"],
+  "source_partition": "train",
+  "holdout_partition": "test",
+  "source_identity": "locale + ':worker:' + worker_id",
+  "content_identity": "id",
+  "operational_semantic_sequence": {
+    "first_atom": "intent:<intent>",
+    "following_atoms": "slot:<slot_type> in left-to-right order of slot annotations in annot_utt",
+    "semantics_status": "EVALUATOR_AUTHORED_OPERATIONAL_CONTROL_NOT_UNIVERSAL_SEMANTICS"
+  },
+  "target_tokens": {
+    "input_field": "utt",
+    "normalization": "Unicode NFC",
+    "segmentation": "Unicode whitespace split only",
+    "language_specific_tokenizer": false
+  },
+  "construction_gate": {
+    "min_sources": 2,
+    "min_positive_per_source": 1
+  },
+  "holdout_selection": {
+    "per_locale": 200,
+    "ranking_key": "SHA256(locale + ':' + id)",
+    "take": "lowest hashes"
+  }
+}

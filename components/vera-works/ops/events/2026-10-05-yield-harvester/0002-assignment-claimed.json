@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-YH-0002",
+  "event_type": "ASSIGNMENT_CLAIMED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-YIELD-HARVESTER-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T16:45:01Z",
+  "correlation_id": "CORR-YIELD-HARVESTER-0001",
+  "causation_id": "EVT-YH-0001",
+  "idempotency_key": "yield-harvester:v1:assignment-claimed:vera-works-operator",
+  "from_state": "CREATED",
+  "to_state": "CLAIMED",
+  "payload": {
+    "lease_action": "CLAIM",
+    "holder": "vera:works-operator",
+    "claimed_at": "2026-10-05T16:45:01Z",
+    "expires_at": null
+  },
+  "external_effect": false
+}

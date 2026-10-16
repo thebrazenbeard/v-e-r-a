@@ -1,0 +1,32 @@
+{
+  "claim_ceiling": "MULTILINGUAL_HELDOUT_BEHAVIOR_WITHIN_DECLARED_CORPORA_AND_SPLITS",
+  "corpus_count": 1,
+  "evaluation_record_count": 1000,
+  "language_count": 5,
+  "leakage_violations": [],
+  "macro_ambiguity_rate": 0.144,
+  "macro_coverage": 0.29300000000000004,
+  "macro_exact_match": 0.009999999999999998,
+  "macro_token_similarity": 0.07234857821916645,
+  "regime": "HELD_OUT_CONTENT",
+  "slices": [
+    {"ambiguity_rate":0.12,"corpus_id":"massive","corpus_version":"1.0","coverage":0.29,"exact_match":0.005,"language_id":"de-DE","mean_token_similarity":0.07243253968253967,"record_count":200},
+    {"ambiguity_rate":0.055,"corpus_id":"massive","corpus_version":"1.0","coverage":0.15,"exact_match":0.0,"language_id":"en-US","mean_token_similarity":0.02315313852813853,"record_count":200},
+    {"ambiguity_rate":0.13,"corpus_id":"massive","corpus_version":"1.0","coverage":0.35,"exact_match":0.015,"language_id":"fr-FR","mean_token_similarity":0.08793055555555557,"record_count":200},
+    {"ambiguity_rate":0.225,"corpus_id":"massive","corpus_version":"1.0","coverage":0.355,"exact_match":0.025,"language_id":"sw-KE","mean_token_similarity":0.1141944444444444,"record_count":200},
+    {"ambiguity_rate":0.19,"corpus_id":"massive","corpus_version":"1.0","coverage":0.32,"exact_match":0.005,"language_id":"tr-TR","mean_token_similarity":0.06403221288515405,"record_count":200}
+  ],
+  "status": "MULTILINGUAL_HOLDOUT_THRESHOLD_NOT_MET",
+  "threshold_failures": [
+    "massive@1.0/de-DE: exact_match=0.005000 < 0.050000",
+    "massive@1.0/de-DE: token_similarity=0.072433 < 0.100000",
+    "massive@1.0/en-US: exact_match=0.000000 < 0.050000",
+    "massive@1.0/en-US: token_similarity=0.023153 < 0.100000",
+    "massive@1.0/fr-FR: exact_match=0.015000 < 0.050000",
+    "massive@1.0/fr-FR: token_similarity=0.087931 < 0.100000",
+    "massive@1.0/sw-KE: exact_match=0.025000 < 0.050000",
+    "massive@1.0/tr-TR: exact_match=0.005000 < 0.050000",
+    "massive@1.0/tr-TR: token_similarity=0.064032 < 0.100000"
+  ],
+  "training_record_count": 57570
+}

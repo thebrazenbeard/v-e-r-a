@@ -1,0 +1,132 @@
+schema_version: on-theo.review-registry.v1
+status: PROPOSED_CANONICAL_CONTRACT
+allowed_results:
+  - PASS_EXACT
+  - PASS_WITH_LIMITATIONS
+  - CHANGES_REQUIRED
+  - FAIL
+  - UNRESOLVED
+  - NOT_REVIEWED
+execution_provenance_types:
+  - SAME_RUNTIME_ROLE_PASS
+  - INDEPENDENT_RUNTIME
+  - EXTERNAL_HUMAN_REVIEW
+  - UNKNOWN
+invariants:
+  - "A review result binds only the exact subject SHA and reviewed paths/claim IDs recorded in the receipt."
+  - "Material subject-head movement invalidates affected receipts until re-review."
+  - "Role separation does not imply independent sampling; execution_provenance must say whether the passes shared one runtime."
+  - "Review approval does not authorize merge or any other protected effect."
+required_fields:
+  - id
+  - repository
+  - subject_sha
+  - review_type
+  - reviewer_role
+  - execution_provenance
+  - result
+  - reviewed_artifacts
+  - findings
+receipts:
+  - id: REV-PR1-MASA-HOSTILE-20260917
+    repository: thebrazenbeard/on-theo
+    pr: 1
+    subject_sha: c1f6df5ea1fee0c5ac8d84a7b5c2b81fb905fd3e
+    review_type: HOSTILE_ALTERNATIVES
+    reviewer_role: Masa
+    execution_provenance: SAME_RUNTIME_ROLE_PASS
+    execution_note: "Executed by the current Vera model/runtime under an isolated Masa hostile-review constraint; not an independent model sample."
+    result: PASS_WITH_LIMITATIONS
+    reviewed_artifacts:
+      - research/packets/panthera-celsus-origen-v1.md
+      - registry/claims.yaml
+      - registry/sources.yaml
+      - registry/transmissions.yaml
+    receipt_artifact:
+      repository: thebrazenbeard/on-theo
+      pr: 5
+      sha: 48a202a2f974f28c4a7484adb5066ed3b1410473
+      path: reviews/pr1/masa-hostile-role-pass.md
+    findings:
+      - id: M-H1
+        severity: limitation
+        summary: "Celsus Jewish-source scholarship is asymmetric; opposing/narrowing scholarship is not yet registered."
+      - id: M-H2
+        severity: limitation
+        summary: "Lost-source identity needs harder direct/indirect access semantics."
+      - id: M-H3
+        severity: limitation
+        summary: "NONE_ESTABLISHED confidence semantics need an explicit epistemic target."
+
+  - id: REV-PR1-MUNE-READBACK-20260917
+    repository: thebrazenbeard/on-theo
+    pr: 1
+    subject_sha: c1f6df5ea1fee0c5ac8d84a7b5c2b81fb905fd3e
+    review_type: CITATION_READBACK
+    reviewer_role: Mune
+    execution_provenance: SAME_RUNTIME_ROLE_PASS
+    execution_note: "Executed by the current Vera model/runtime under an isolated Mune readback constraint; not an independent model sample."
+    result: PASS_WITH_LIMITATIONS
+    reviewed_artifacts:
+      - research/packets/panthera-celsus-origen-v1.md
+      - registry/claims.yaml
+      - registry/sources.yaml
+      - registry/transmissions.yaml
+    receipt_artifact:
+      repository: thebrazenbeard/on-theo
+      pr: 5
+      sha: 48a202a2f974f28c4a7484adb5066ed3b1410473
+      path: reviews/pr1/mune-readback-role-pass.md
+    findings:
+      - id: MU-L1
+        severity: limitation
+        summary: "Blumell/Niehoff argument direction is registered, but detailed claims await full-paper readback."
+      - id: MU-L2
+        severity: limitation
+        summary: "Modern access surfaces must remain distinct from ancient physical witnesses."
+      - id: MU-L3
+        severity: limitation
+        summary: "PR #1 lacked machine-readable review receipts; this registry supplies the successor contract."
+
+  - id: REV-PR1-HEPHAESTUS-ARCH-20260917
+    repository: thebrazenbeard/on-theo
+    pr: 1
+    subject_sha: c1f6df5ea1fee0c5ac8d84a7b5c2b81fb905fd3e
+    review_type: ARCHITECTURE_INTEROPERABILITY
+    reviewer_role: Hephaestus
+    execution_provenance: SAME_RUNTIME_ROLE_PASS
+    execution_note: "Executed by the current Vera model/runtime under an isolated Hephaestus architecture constraint; not an independent model sample."
+    result: CHANGES_REQUIRED
+    reviewed_artifacts:
+      - docs/V1_ARCHITECTURE.md
+      - docs/REVIEW_PROTOCOL_V1.md
+      - registry/sources.yaml
+      - registry/claims.yaml
+      - registry/concepts.yaml
+      - registry/transmissions.yaml
+    receipt_artifact:
+      repository: thebrazenbeard/on-theo
+      pr: 5
+      sha: 48a202a2f974f28c4a7484adb5066ed3b1410473
+      path: reviews/pr1/hephaestus-architecture-role-pass.md
+    findings:
+      - id: H-A1
+        severity: required
+        summary: "Work/source identity and physical-witness identity are collapsed."
+        addressed_by: registry/witnesses.yaml
+      - id: H-A2
+        severity: required
+        summary: "Review receipts lack machine-readable representation."
+        addressed_by: registry/reviews.yaml
+      - id: H-A3
+        severity: required
+        summary: "Lost-source direct/indirect access semantics are under-specified."
+        addressed_by: registry/source-access.yaml
+      - id: H-A4
+        severity: required
+        summary: "Registry extension application/currentness/collision semantics are missing."
+        addressed_by: registry/extension-manifest.yaml
+      - id: H-A5
+        severity: required
+        summary: "Empty concept registry needs explicit coverage/completeness semantics."
+        addressed_by: registry/concepts.yaml

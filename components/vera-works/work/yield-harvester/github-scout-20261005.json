@@ -1,0 +1,127 @@
+{
+  "schema_version": "yield-github-scout-v1",
+  "observed_at": "2026-10-05T18:03:00Z",
+  "scope": "Focused GitHub search for customerless mining, useful-compute, resource-provider, and posted-reward mechanisms. Repository presence is not runtime permission or profitability evidence.",
+  "promoted": [
+    {
+      "repository": "xmrig/xmrig",
+      "role": "OWNED_HARDWARE_MINER_AND_BENCHMARK",
+      "lane": "PROTOCOL_POOL_REWARD",
+      "disposition": "PROMOTE_WITH_P2POOL",
+      "reason": "Actively maintained open-source RandomX/KawPow/CryptoNight/GhostRider miner with built-in RandomX benchmarking. Suitable for exact-resource benchmarking on explicitly owned hardware."
+    },
+    {
+      "repository": "SChernykh/p2pool",
+      "role": "DECENTRALIZED_MONERO_POOL",
+      "lane": "PROTOCOL_POOL_REWARD",
+      "disposition": "PROMOTE",
+      "reason": "Permissionless, trustless Monero pool with direct wallet payouts, 0% pool fee, 0 payout fee and documented small minimum payout. Strongest current first-dollar mining rail once exact owned-hardware economics are measured."
+    },
+    {
+      "repository": "gridcoin-community/Gridcoin-Research",
+      "role": "BOINC_RESEARCH_REWARD_PROTOCOL",
+      "lane": "USEFUL_COMPUTE_REWARD",
+      "disposition": "PROMOTE_TO_BOOTSTRAP_RESEARCH",
+      "reason": "Active codebase whose README states Gridcoin rewards BOINC participation. Could monetize scientific compute instead of pure hashing. Exact newcomer/pool/bootstrap and withdrawability path must be verified before execution."
+    },
+    {
+      "repository": "golemfactory/yagna",
+      "role": "DECENTRALIZED_COMPUTE_PROVIDER",
+      "lane": "MARKETPLACE_COMPUTE",
+      "disposition": "PROMOTE_TO_READ_ONLY_ECONOMICS",
+      "reason": "Provider nodes sell idle compute and receive GLM under pay-as-you-go/pay-per-task payment regimes. No customer acquisition is required, but revenue depends on marketplace demand, so it stays secondary to protocol-paid work."
+    },
+    {
+      "repository": "RainbowMiner/RainbowMiner",
+      "role": "PROFIT_SWITCHING_ORCHESTRATOR",
+      "lane": "MINING_OPTIMIZER",
+      "disposition": "PROMOTE_AS_DESIGN_REFERENCE_ONLY",
+      "reason": "Actively maintained CPU/GPU profit switcher that can incorporate electricity price and stop unprofitable mining. Useful architecture for Yield Harvester, but it automatically manages many third-party miner binaries and charges a developer fee; do not install wholesale without supply-chain review."
+    },
+    {
+      "repository": "ccxt/ccxt",
+      "role": "READ_ONLY_MARKET_AND_LIQUIDITY_LAYER",
+      "lane": "VALUATION_SUPPORT",
+      "disposition": "PROMOTE_AS_ADAPTER",
+      "reason": "Use public market data to convert token rewards into realistic liquid-dollar estimates and identify apparent spreads. No order placement or credentials in the zero-capital lane."
+    }
+  ],
+  "research_only": [
+    {
+      "repository": "BananoCoin/boompow",
+      "lane": "DISTRIBUTED_POW_SERVICE_REWARD",
+      "disposition": "VERIFY_LIVE_SERVICE_BEFORE_USE",
+      "reason": "Repository documents regular BANANO payments for valid distributed proof-of-work solutions, but the repo has not been pushed since 2024. Treat as a potentially valuable customerless compute mechanism only after current service and payout verification."
+    },
+    {
+      "repository": "storj/storj",
+      "lane": "STORAGE_MARKETPLACE",
+      "disposition": "SECONDARY",
+      "reason": "Storage-node payouts exist, but earnings depend on customer storage/egress demand. Evaluate only against genuinely spare owned storage and marginal power/network cost."
+    },
+    {
+      "repository": "SiaFoundation/hostd",
+      "lane": "STORAGE_MARKETPLACE",
+      "disposition": "CAPITAL_AND_NETWORK_BOUNDARY",
+      "reason": "Hostd tracks storage-provider revenue, but Sia hosting uses contract collateral and public network services. Zero-capital bootstrap and network-exposure constraints keep it behind Storj."
+    },
+    {
+      "repository": "mysteriumnetwork/node",
+      "lane": "BANDWIDTH_MARKETPLACE",
+      "disposition": "PATRICK_NETWORK_DECISION_REQUIRED",
+      "reason": "Runs a dVPN provider node and settles provider traffic, but it explicitly requires network exposure and terms acceptance. Residential-IP abuse/property risk keeps this out of automatic execution."
+    },
+    {
+      "repository": "algora-io/algora",
+      "lane": "POSTED_OSS_BOUNTY",
+      "disposition": "PARKED_BY_NO_HUMAN_COMMUNICATION_POLICY",
+      "reason": "Bounties can pay 2-5 days after reward, but claiming requires public issue comments, a PR, and generally a demo video. Valuable posted-money lane, not passive/customerless enough for current priority."
+    }
+  ],
+  "rejected_or_parked": [
+    {
+      "repository": "DesKaOne/Crypto-Cloud-Mining",
+      "disposition": "NOT_A_REVENUE_RUNTIME",
+      "reason": "Current repository contains only a minimal README and PostgreSQL mining-runtime persistence design notes. Its own scope says it does not add a production driver, scheduler, blockchain settlement, payment processing or account provisioning."
+    },
+    {
+      "repository": "MelisaPeteRs2006/Silent-Crypto-Miner",
+      "disposition": "REJECT_UNSAFE_LOADER",
+      "reason": "Source contains concealment/persistence features and an obfuscated remote native-payload loader that downloads encrypted PE bytes, manually maps them into memory and executes them. Do not install or execute."
+    },
+    {
+      "repository": "akash-network/provider",
+      "disposition": "PARK_INFRASTRUCTURE_HEAVY",
+      "reason": "Provider daemon requires a Kubernetes cluster, on-chain provider configuration, bid execution and transaction signing. Not a zero-capital first-dollar path."
+    },
+    {
+      "repository": "hummingbot/hummingbot",
+      "disposition": "PARK_UNTIL_RISK_CAPITAL",
+      "reason": "Useful execution infrastructure for arbitrage/market making, but live strategies require funded positions, credentials and trading risk."
+    },
+    {
+      "repository": "bitcoin/bitcoin",
+      "disposition": "PARK_AS_REVENUE_SOURCE",
+      "reason": "Core protocol client is useful infrastructure but consumer-GPU Bitcoin mining is not a realistic first-dollar lane."
+    },
+    {
+      "repository": "HelloZeroNet/ZeroNet",
+      "disposition": "PARK",
+      "reason": "Decentralized hosting/transport infrastructure without an inherent reward mechanism for serving content."
+    },
+    {
+      "repository": "0xakk0r0kamui/constant-chain",
+      "disposition": "PARK_STALE",
+      "reason": "Historical implementation with no current reward, liquidity or maintained-network evidence established."
+    }
+  ],
+  "next_order": [
+    "Verify current Gridcoin zero-capital newcomer/pool payout path.",
+    "Verify whether BoomPoW contributor payments are still live in 2026.",
+    "Benchmark XMRig RandomX on an explicitly owned CPU only; measure wall-power delta.",
+    "Use P2Pool payout mechanics for first-withdrawable-dollar modeling.",
+    "Add Golem provider economics as a secondary marketplace candidate.",
+    "Use CCXT public data to convert every crypto reward into liquid-dollar and withdrawal-threshold terms."
+  ],
+  "external_effect": false
+}

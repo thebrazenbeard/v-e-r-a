@@ -1,0 +1,35 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "HOLD-NANSWAP-WITHDRAW-ACTION-0001",
+  "event_type": "PATRICK_ACTION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-NANSWAP-WITHDRAW-ACTION-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-06T12:25:17.4763844Z",
+  "correlation_id": "CORR-NANSWAP-RANDOMX-0001",
+  "causation_id": "EVT-NANSWAP-0011",
+  "idempotency_key": "nanswap-randomx:v1:patrick-manual-withdraw-action",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "PATRICK_ACTION_REQUIRED",
+    "problem": "Vera authorized one exact withdrawal of the existing 1.7368 BAN Nanswap receivable, but the platform safety boundary blocked automated execution before any withdrawal POST was sent.",
+    "held_subject_type": "financial",
+    "held_subject_id": "FIN-NANSWAP-RANDOMX-0001",
+    "held_state": "RECEIVABLE",
+    "required_from": "patrick",
+    "recommendation": "On Nanswap mining for BANANO, use the existing vera-banano-receiving-v1 address, confirm the page shows 1.7368 BAN withdrawable to that same address, and click Withdraw exactly once. Do not start mining, change the destination, or repeat the withdrawal if the result is unclear.",
+    "completion_evidence": "Patrick reports that the single Withdraw action was submitted or provides the provider result. Vera Works will independently verify Nanswap withdrawal history and the BANANO chain before recording RECEIVED.",
+    "alternatives": [
+      "Leave the 1.7368 BAN at Nanswap as a receivable; no further action occurs."
+    ],
+    "consequences": [
+      "Provider processing may take time after the click.",
+      "The receivable remains unavailable Vera Fund until chain receipt is independently confirmed.",
+      "If the UI response is ambiguous, do not click again; Vera Works will reconcile provider and chain state first."
+    ],
+    "inaction_effect": "The 1.7368 BAN remains a receivable at Nanswap; available Vera Fund stays USD 0.00; no mining restarts.",
+    "resume_event_type": "PATRICK_ACTION_COMPLETED"
+  },
+  "external_effect": false
+}

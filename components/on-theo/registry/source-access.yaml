@@ -1,0 +1,285 @@
+schema_version: on-theo.source-access-registry.v1
+status: PROPOSED_CANONICAL_CONTRACT
+invariants:
+  - "Source identity is not access identity."
+  - "A lost work may be a source node while remaining inaccessible except through later preservation."
+  - "A modern website, edition, translation, transcription, apparatus, or manuscript image is an access surface, not automatically the ancient source or physical witness."
+  - "Direct access claims require an extant witness or edition representing extant witnesses; indirect preservation must name the intermediary."
+access_states:
+  DIRECT_EXTANT: "The work/artifact is extant in a form directly represented by the registered access surface, subject to normal edition/witness limits."
+  INDIRECT_PRESERVATION: "The source is lost or unavailable directly and is known through a preserving/intermediary source."
+  MATERIAL_TRANSCRIPTION: "The artifact is extant materially; current access is through a transcription/database rather than autopsy."
+  DIGITAL_EDITION: "The work is accessed through a modern digital edition/translation."
+  SCHOLARLY_SUMMARY: "The current claim is accessed only through modern scholarly reporting/summary."
+records:
+  - source_id: SRC-CELSUS-TRUE-DOCTRINE
+    direct_access: false
+    state: INDIRECT_PRESERVATION
+    preserved_by:
+      - SRC-ORIGEN-CONTRA-CELSUM
+    guard: "No proposition may cite Celsus as directly read wording unless it explicitly binds the Origen preservation layer or another independently established witness."
+
+  - source_id: SRC-ORIGEN-CONTRA-CELSUM
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Modern translation/readback supports what the extant Origen tradition says; it does not erase manuscript/editorial history."
+
+  - source_id: MAT-ABDES-PANTERA-INSCRIPTION
+    direct_access: false
+    state: MATERIAL_TRANSCRIPTION
+    guard: "Current V1 access is through institutional/scholarly transcription and metadata, not an autoptic artifact examination."
+
+  - source_id: SRC-BAVLI-SHABBAT-104B
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "The digital edition is an access surface; manuscript/edition-specific differences require witness-level records."
+
+  - source_id: SRC-TOSEFTA-CHULLIN-2-6
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Witness-specific readings must bind a witness_id; the work record does not inherit the date or reading of the Vienna manuscript."
+
+  - source_id: SRC-GOSPEL-MARK
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Critical-text wording is editorial reconstruction; P45-specific readings require witness_id WIT-P45-MARK-6-3."
+
+  - source_id: SRC-GOSPEL-JOHN
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Critical-text/translation access does not by itself resolve semantic interpretation or composition chronology."
+
+  - source_id: SRC-ORIGEN-COMMENTARY-JOHN
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current V1 exact locator comes through Harlow quoting Heine; Greek collation remains pending."
+
+  - source_id: SRC-LXX-HOSEA
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "BiblIndex supplies a modern Greek text surface; manuscript-specific claims require separate witness records."
+
+  - source_id: SRC-LXX-EZEKIEL
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Deutsche Bibelgesellschaft supplies a modern LXX text surface; manuscript-specific claims require separate witness records."
+
+  - source_id: SCH-MALINA-1972-PORNEIA
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current V1 use is limited to publisher metadata/preview-level argument direction."
+
+  - source_id: SCH-JENSEN-1978-PORNEIA
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current V1 use relies on publisher preview/bibliographic access; detailed whole-article argument readback remains bounded."
+
+  - source_id: SCH-HARPER-2012-PORNEIA
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current V1 use is abstract/bibliographic-level and must not be promoted to full-paper verification."
+
+  - source_id: SCH-GLANCY-2015-PORNEIA
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current V1 use is abstract/bibliographic-level and must not be promoted to full-paper verification."
+
+  - source_id: SCH-HARGIS-1999-ANTI-CHRISTIAN-POLEMIC
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current V1 use is publisher metadata plus Blumell's explicit secondary report of Hargis pp. 36-39 as skeptical of authenticity; exact pages have not been independently read."
+
+  - source_id: SCH-TRIGG-1998-ORIGEN
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current V1 use is publisher metadata plus Blumell's explicit secondary report of Trigg p. 58 as skeptical of authenticity; exact page has not been independently read."
+
+  - source_id: SCH-PAGET-2017-CELSUS-JEW
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current V1 use is publisher abstract/institutional metadata; full-article readback remains pending."
+
+  - source_id: SCH-BOYARIN-1998-PANTHERA-WORDPLAY
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "An author-uploaded full-text copy supports Boyarin's actual argument; his Panthera explanation remains scholarly interpretation rather than an ancient derivation witness."
+
+  - source_id: SCH-JAFFE-2008-BEN-PANTERA
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "The current workflow has a repository/SciSpace record and abstract-level description; direct full-text retrieval failed, so detailed derivation claims remain pending."
+
+  - source_id: SCH-MURCIA-2014-PANTHERA-ORIGIN
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Publisher metadata confirms the dedicated status-quaestionis study; secondary descriptions of Murcia's preferred reconstruction are not treated as verified article claims."
+
+  - source_id: SRC-UGARIT-BAAL-CYCLE
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current corpus cut uses publisher descriptions and scholarly synthesis rather than an independently collated full Ugaritic text."
+
+  - source_id: SRC-ENUMA-ELISH
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Current access is an older scholarly English translation; Akkadian witness-level collation remains outside this cut."
+
+  - source_id: SRC-DEUTERONOMY-32
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current variant analysis is mediated by Tov's scholarly comparison of MT, 4QDeutj, and LXX witnesses; no autoptic manuscript read is claimed."
+
+  - source_id: MAT-KUNTILLET-AJRUD-YHWH-ASHERAH
+    direct_access: false
+    state: MATERIAL_TRANSCRIPTION
+    guard: "Current access is through scholarly transcription/discussion, not autopsy of the artifact."
+
+  - source_id: SRC-AVESTA-YASNA-30
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Digital Old Avestan text/translation supports textual analysis subject to significant philological uncertainty."
+
+  - source_id: SRC-BUNDAHISHN
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current V1 use is through scholarly synthesis of later Pahlavi cosmology rather than direct manuscript collation."
+
+  - source_id: SCH-SMITH-2001-BIBLICAL-MONOTHEISM
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Publisher chapter abstracts support bounded argument-level use; full chapter readback is required for consequential detail."
+
+  - source_id: SCH-MET-2009-CANAANITE-GODS
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Institutional museum essay is available in full and functions as secondary synthesis, not primary Ugaritic evidence."
+
+  - source_id: SCH-MET-2009-MESOPOTAMIAN-CREATION
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Institutional museum essay is available in full and functions as secondary synthesis, not primary cuneiform evidence."
+
+  - source_id: SCH-TOV-2023-DEUT32
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Full scholarly essay and witness-comparison table are accessible; manuscript autopsy is not claimed."
+
+  - source_id: SCH-LEWIS-2020-ORIGIN-YAHWEH
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current use is publisher abstract-level historical framing."
+
+  - source_id: SCH-KREYENBROEK-1993-ZORO-COSMOGONY
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Full reference article is accessible; ancient-text assertions remain distinguishable from the author's reconstruction."
+
+  - source_id: SCH-SHAKED-1998-ZORO-ESCHATOLOGY
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Full reference article is accessible; broad influence claims do not prove feature-level direct transmission."
+
+  - source_id: SRC-JOSEPHUS-WAR-2
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Digital public-domain translation permits direct readback of Josephus's representation; Greek-text and manuscript issues remain separate."
+
+  - source_id: SRC-JOSEPHUS-ANTIQUITIES-18
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Digital public-domain translation permits direct readback of Josephus's representation; it remains a later, rhetorically situated account."
+
+  - source_id: SRC-DSS-COMMUNITY-RULE
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Library of Congress provides institutional translation and manuscript context; witness-specific claims should name a manuscript where required."
+
+  - source_id: SRC-HOMERIC-HYMN-DEMETER
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Perseus provides text/translation access; the hymn is literary evidence connected to Eleusis, not a complete transcript of secret rites."
+
+  - source_id: SRC-PLATO-REPUBLIC-10
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Perseus provides direct text/translation access; philosophical myth is not a census of popular Greek belief."
+
+  - source_id: SRC-AUGUSTUS-RES-GESTAE
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Public text/translation supports Augustus's own self-presentation; it is not neutral description of every local imperial cult."
+
+  - source_id: SCH-KNIBB-2011-DSS-APOCALYPTICISM
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current use is publisher abstract-level synthesis of Qumran apocalypticism and messianism."
+
+  - source_id: SCH-LIM-2011-DSS-SCRIPTURE
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current use is publisher abstract-level argument about authoritative literature at Qumran."
+
+  - source_id: SCH-TAYLOR-2026-JOSEPHUS-GROUPS
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current use is publisher abstract-level reassessment of Josephus's Pharisee/Sadducee/Essene categories."
+
+  - source_id: SCH-GASPARRO-2016-DAIMONIC-POWER
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current use is publisher abstract-level semantic/historical synthesis of Greek daimonology."
+
+  - source_id: SCH-GRADEL-2002-EMPEROR-WORSHIP
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current use is publisher abstract and table-of-contents level; detailed local claims require chapter-level readback."
+
+  - source_id: SCH-KAROGLOU-2013-MYSTERY-CULTS
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Metropolitan Museum essay is accessible in full and explicitly warns against a single cohesive mystery-religion model."
+
+  - source_id: SCH-ALGRA-2009-STOIC-THEOLOGY
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current use is publisher abstract-level description of Stoic engagement with myth and traditional cult."
+
+  - source_id: SRC-1ENOCH-WATCHERS
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current V1 uses modern scholarly reconstruction of the Book of the Watchers; exact Aramaic/Greek/Ethiopic witness-level readback remains a next-step requirement."
+
+  - source_id: SRC-DANIEL-7-12
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Sefaria provides Hebrew/Aramaic and translation access; MT-level readback does not erase Old Greek/Proto-Theodotion textual plurality."
+
+  - source_id: SRC-PHILO-DE-OPIFICIO
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "CCEL provides the older Yonge English translation; Greek lexical claims require an exact Greek edition."
+
+  - source_id: SCH-STOKES-2019-SATANOLOGY-WATCHERS
+    direct_access: true
+    state: DIGITAL_EDITION
+    guard: "Publisher-accessible article supports the literary-development synthesis; reconstructed strata remain scholarly interpretation."
+
+  - source_id: SCH-OCD-2022-DANIEL
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current use is Oxford reference-summary level for composition, textual traditions, imperial visions, and reception."
+
+  - source_id: SCH-NIEHOFF-2018-PHILO-LOGOS
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current use is publisher abstract-level reconstruction of Philonic transcendence and Logos development."
+
+  - source_id: SCH-DECHARNEUX-2017-PHILO-POWERS
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current use is publisher abstract-level argument about biblical/Platonic divine-powers synthesis."
+
+  - source_id: SCH-SCHAFER-2020-PHILO-LOGOS
+    direct_access: false
+    state: SCHOLARLY_SUMMARY
+    guard: "Current use is publisher abstract-level description of Philonic Logos and Middle-Platonic setting."

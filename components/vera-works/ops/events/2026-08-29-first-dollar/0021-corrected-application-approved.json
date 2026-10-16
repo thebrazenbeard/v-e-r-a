@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0021",
+  "event_type": "DELIVERABLE_APPROVED",
+  "subject_type": "deliverable",
+  "subject_id": "DLV-FD-APP-0002",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:39:14Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0020",
+  "idempotency_key": "first-dollar:deliverable:application:0002:approved",
+  "from_state": "VERA_REVIEW",
+  "to_state": "APPROVED",
+  "payload": {
+    "decision": "APPROVE_FOR_MANUAL_SEND",
+    "review_summary": "Corrected package preserves the Vera Works authority model: Patrick is only the human account/legal/financial proxy, not a worker or researcher. The buyer is explicitly told that the venture is AI-operated and lacks a conventional human researcher CV.",
+    "supersedes": "DLV-FD-APP-0001",
+    "external_effect_gate": "Patrick may manually send only this corrected OPP-FD-0001 application under the already bounded one-application Reddit authorization."
+  },
+  "external_effect": false
+}

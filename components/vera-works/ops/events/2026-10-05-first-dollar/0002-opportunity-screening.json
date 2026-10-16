@@ -1,0 +1,29 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FOLD-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-FOLDING-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T18:12:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-FOLDING-0001",
+  "causation_id": "EVT-FOLD-0001",
+  "idempotency_key": "first-dollar:folding:screening",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "evidence_summary": [
+      "BananoMiner is active and displayed recent September 2026 payouts for Folding@Home work.",
+      "The official BANANO site currently directs users to BananoMiner to earn BANANO by contributing CPU/GPU power to medical research.",
+      "No customer acquisition or person-to-person selling is required.",
+      "Actual profitability is unknown until the exact owned machine is benchmarked and electricity cost is applied."
+    ],
+    "recommended_test": "Install only the official Folding@Home client on an explicitly approved personally owned machine, configure it for the provided public BANANO receiving address through BananoMiner, run a bounded benchmark/work unit, record performance and power data, then stop and evaluate before unattended operation.",
+    "alternatives": [
+      "Gridcoin plus Curecoin Folding@Home double-reward experiment: potentially higher combined yield but more wallet/account/setup complexity.",
+      "XMRig plus Monero P2Pool: simpler pure-mining economics but requires a Monero receiving wallet and may yield less useful output.",
+      "Do nothing: continue read-only scouting without a revenue proof."
+    ]
+  },
+  "external_effect": false
+}

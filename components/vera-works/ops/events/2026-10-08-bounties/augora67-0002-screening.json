@@ -1,0 +1,30 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-AUGORA67-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-AUGORA67-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T00:03:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-AUGORA67-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-AUGORA67-0001",
+  "idempotency_key": "first-dollar:github-bounty:augora67:screening:v1",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "evidence_summary": [
+      "Direct GitHub issue observed open with zero comments and no assignee.",
+      "Advertised bounty is USD 100 with ETA 24 hours.",
+      "Current frontend/script.js reads network metrics from mainnet Horizon even though wallet/soroban flows are Testnet.",
+      "Current frontend/index.html metric captions do not identify Testnet."
+    ],
+    "prepared_draft_artifact": "ops/artifacts/2026-10-08-augora67-bounty/augora-issue-67.patch",
+    "source_blob_shas": {
+      "script_js": "5251e255391d6420e1f286c9fbec41bf257bfd0e",
+      "index_html": "d5221c048812e80fbacd60f330b1a13de664c427"
+    },
+    "draft_validation_state": "NOT_YET_EXECUTED",
+    "recommendation": "Validate the minimal Testnet metrics patch on Lappy when Executor connectivity returns."
+  },
+  "external_effect": false
+}

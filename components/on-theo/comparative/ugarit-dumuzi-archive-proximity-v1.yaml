@@ -1,0 +1,39 @@
+schema_version: on-theo.ugarit-archive-proximity-control.v1
+status: PASS_CITY_AND_SCRIBAL_NETWORK_PROXIMITY_NO_PASS_NAMED_CARRIER
+subject:
+  predecessor_pr: 56
+  predecessor_head: a6413d69106ef0ee934a6ca3a30516d5a7beb448
+
+archives:
+  - archive_id: ARCH-UGARIT-RAPANU
+    location: "Residential Quarter / House of Rapanu"
+    room: "5"
+    relevant_witness: WIT-UGARIT-WEIDNER-P332950
+    function: SCRIBAL_ARCHIVE_AND_TRAINING_ENVIRONMENT
+    named_person: Rapanu
+
+  - archive_id: ARCH-UGARIT-HIGH-PRIEST
+    location: "Acropolis / House of the High Priest"
+    relevant_witnesses:
+      - WIT-UGARIT-KTU15-AO16641-16642
+      - WIT-UGARIT-KTU16-AO16636
+    function: POETIC_AND_CULTIC_LIBRARY_CONTEXT
+    named_scribe: Ilimilku
+
+relations:
+  same_city: true
+  same_archive: false
+  broader_scribal_network_contact: PLAUSIBLE_AND_MATERIALLY_GROUNDED
+  direct_tablet_transfer: NOT_ESTABLISHED
+  ilimilku_access_to_rs20_123: NOT_ESTABLISHED
+
+carrier_state:
+  institutional_network: SUPPORTED
+  named_carrier_ilimilku: POSSIBLE_BUT_UNPROVEN
+  direct_dumuzid_baal_dependence: NONE_ESTABLISHED
+
+guards:
+  - "same city != same archive"
+  - "same scribal culture != direct tablet transfer"
+  - "Rapanu != Ilimilku"
+  - "archive proximity != named-carrier proof"

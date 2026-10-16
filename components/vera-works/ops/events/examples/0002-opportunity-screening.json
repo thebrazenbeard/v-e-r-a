@@ -1,0 +1,16 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-DRY-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-DRY-0001",
+  "actor": "automation",
+  "recorded_at": "2026-08-29T13:01:00Z",
+  "correlation_id": "CORR-DRY-0001",
+  "causation_id": "EVT-DRY-0001",
+  "idempotency_key": "dry:opp:0001:screening",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {"checks": ["terms", "effort", "payout"]},
+  "external_effect": false
+}

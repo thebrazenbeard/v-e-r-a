@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0050",
+  "event_type": "ASSIGNMENT_RESUMED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FIRST-DOLLAR-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-30T00:29:31Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0049",
+  "idempotency_key": "first-dollar:asg:0001:resumed-after-reddit-decline",
+  "from_state": "HELD",
+  "to_state": "IN_PROGRESS",
+  "payload": {
+    "holder": "vera:works-operator",
+    "resume_reason": "Patrick resolved HOLD-FD-0003 by rejecting the Reddit/job-application channel. Resume only to close the rejected opportunity cleanly; do not replay or replace the external send step.",
+    "replay_external_effect": false
+  },
+  "external_effect": false
+}

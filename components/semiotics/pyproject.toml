@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "semiotics"
+version = "0.2.0"
+description = "Deterministic registry and context-aware query kernel for signs and interpretations."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "thebrazenbeard" }]
+dependencies = []
+
+[project.optional-dependencies]
+test = ["jsonschema>=4.23,<5"]
+
+[project.scripts]
+semiotics = "semiotics.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

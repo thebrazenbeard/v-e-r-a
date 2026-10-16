@@ -1,0 +1,615 @@
+from __future__ import annotations
+
+import re
+from collections.abc import Callable
+from dataclasses import dataclass
+from typing import Any
+
+import sqlglot
+from sqlglot import ErrorLevel, exp
+from sqlglot.dialects import Dialect
+from sqlglot.errors import ParseError, UnsupportedError
+
+from .catalog import DEFAULT_CATALOG, DEFAULT_PARSER_ADAPTERS, ConnectomeCatalog
+from .contracts import expression_contracts
+from .expression_registry import DEFAULT_EXPRESSION_REGISTRY
+from .expression_registry import (
+    inspect_expression_semantics as _inspect_expression_semantics,
+)
+from .ir import IREdge, IRNode, SQLSemanticIR
+from .model import SemanticDimension, TranslationFidelity
+from .planner import plan_translation
+from .semantics import assess_expression_semantics, combined_fidelity
+from .type_system import (
+    assess_type_semantics,
+    dialect_type_graph,
+    explicit_type_semantic,
+    rewrite_type_representations,
+    type_graph_digest,
+)
+
+MAX_SQL_TEXT_CHARS = 50_000
+MAX_SQL_AST_NODES = 10_000
+MAX_SQL_TOKENS = 20_000
+
+SQLGLOT_DIALECTS: dict[str, str] = dict(DEFAULT_PARSER_ADAPTERS)
+
+_EXPRESSION_CAPABILITIES: dict[str, str] = {
+    "Select": "relational_select",
+    "With": "cte",
+    "Window": "window_functions",
+    "Qualify": "qualify",
+    "Lateral": "lateral_join",
+    "Merge": "merge",
+    "Returning": "returning",
+    "Pivot": "pivot",
+    "Array": "arrays",
+    "Struct": "structs",
+    "Map": "maps",
+    "JSONExtract": "json",
+    "JSONExtractScalar": "json",
+    "JSONBExtract": "json",
+}
+
+_SIDE_EFFECT_OPERATIONS = {
+    "alter",
+    "command",
+    "create",
+    "delete",
+    "drop",
+    "grant",
+    "insert",
+    "merge",
+    "revoke",
+    "truncate",
+    "update",
+}
+
+
+class SQLTextError(ValueError):
+    pass
+
+
+def _bounded_text(sql: str) -> str:
+    text = sql.strip()
+    if not text:
+        raise SQLTextError("EMPTY_SQL")
+    if len(text) > MAX_SQL_TEXT_CHARS:
+        raise SQLTextError("SQL_TEXT_TOO_LARGE")
+    return text
+
+
+def _parse_expressions(text: str, parser_dialect: str) -> list[exp.Expression]:
+    dialect = Dialect.get_or_raise(parser_dialect)
+    tokens = dialect.tokenize(text)
+    if len(tokens) > MAX_SQL_TOKENS:
+        raise SQLTextError("SQL_TOKEN_LIMIT_EXCEEDED")
+
+    parser = dialect.parser(error_level=ErrorLevel.RAISE)
+    parser.max_nodes = MAX_SQL_AST_NODES
+
+    try:
+        return [
+            expression
+            for expression in parser.parse(tokens, text)
+            if expression is not None
+        ]
+    except ParseError as exc:
+        raise SQLTextError(f"PARSE_ERROR:{exc}") from exc
+
+
+def _parse_single_expression(text: str, parser_dialect: str) -> exp.Expression:
+    parsed = _parse_expressions(text, parser_dialect)
+    if len(parsed) != 1:
+        raise SQLTextError("SINGLE_STATEMENT_REQUIRED")
+    return parsed[0]
+
+
+@dataclass(frozen=True, slots=True)
+class SQLTextAnalysis:
+    ir: SQLSemanticIR
+    normalized_sql: str
+    parser_dialect: str
+    parser_version: str
+    catalog_digest: str
+    admitted_capabilities: frozenset[str]
+    unadmitted_capabilities: frozenset[str]
+
+    def as_dict(self) -> dict[str, object]:
+        return {
+            "normalized_sql": self.normalized_sql,
+            "catalog_digest": self.catalog_digest,
+            "parser": {
+                "engine": "sqlglot",
+                "version": self.parser_version,
+                "dialect": self.parser_dialect,
+            },
+            "semantic_admission": {
+                "state": (
+                    "FULLY_ADMITTED"
+                    if not self.unadmitted_capabilities
+                    else "UNADMITTED_CAPABILITIES_PRESENT"
+                ),
+                "admitted_capabilities": sorted(self.admitted_capabilities),
+                "unadmitted_capabilities": sorted(self.unadmitted_capabilities),
+            },
+            "ir": _ir_as_dict(self.ir),
+        }
+
+
+def _dialect_adapter(
+    dialect_id_or_alias: str,
+    *,
+    catalog: ConnectomeCatalog = DEFAULT_CATALOG,
+) -> tuple[str, str]:
+    genome = catalog.resolve(dialect_id_or_alias)
+    try:
+        adapter = catalog.parser_adapter(genome.dialect_id)
+    except KeyError as exc:
+        raise SQLTextError(str(exc).strip("'")) from exc
+    return genome.dialect_id, adapter
+
+
+def _extract_capabilities(expression: exp.Expression, source_sql: str) -> frozenset[str]:
+    capabilities: set[str] = set()
+
+    for node in expression.walk():
+        class_name = node.__class__.__name__
+        capability = _EXPRESSION_CAPABILITIES.get(class_name)
+        if capability:
+            capabilities.add(capability)
+
+        if class_name == "With" and bool(node.args.get("recursive")):
+            capabilities.add("recursive_cte")
+
+        if class_name == "Pivot" and bool(node.args.get("unpivot")):
+            capabilities.discard("pivot")
+            capabilities.add("unpivot")
+
+    upper = source_sql.upper()
+    lexical_markers = (
+        (r"\bSELECT\s+TOP\b", "top"),
+        (r"\bCROSS\s+APPLY\b|\bOUTER\s+APPLY\b", "apply"),
+        (r"\bCONNECT\s+BY\b", "connect_by"),
+        (r"\bVARIANT\b", "variant"),
+    )
+    for pattern, capability in lexical_markers:
+        if re.search(pattern, upper):
+            capabilities.add(capability)
+
+    return frozenset(capabilities)
+
+
+def _semantic_dimensions(capabilities: frozenset[str]) -> frozenset[SemanticDimension]:
+    dimensions: set[SemanticDimension] = {SemanticDimension.RELATIONAL}
+
+    if capabilities & {"json", "variant", "objects"}:
+        dimensions.add(SemanticDimension.DOCUMENT_JSON)
+    if capabilities & {"arrays", "structs", "maps", "rows"}:
+        dimensions.add(SemanticDimension.NESTED)
+    if capabilities & {"window_functions", "qualify", "pivot", "unpivot"}:
+        dimensions.add(SemanticDimension.ANALYTICAL)
+    if capabilities & {"stored_procedures", "scripting"}:
+        dimensions.add(SemanticDimension.PROCEDURAL)
+    if "geospatial" in capabilities:
+        dimensions.add(SemanticDimension.GEOSPATIAL)
+    if "federation" in capabilities:
+        dimensions.add(SemanticDimension.FEDERATED)
+
+    return frozenset(dimensions)
+
+
+def _expression_semantic_attributes(
+    node: exp.Expression,
+) -> list[tuple[str, Any]]:
+    expression_class = node.__class__.__name__
+    semantic = DEFAULT_EXPRESSION_REGISTRY.resolve_class(expression_class)
+
+    if semantic is not None:
+        return [
+            ("semantic_state", "REGISTERED"),
+            ("semantic_id", semantic.semantic_id),
+            ("semantic_kind", semantic.kind.value),
+            ("semantic_family", semantic.family),
+            ("semantic_risk_codes", semantic.known_risk_codes),
+        ]
+
+    if isinstance(node, exp.Func):
+        if isinstance(node, exp.Anonymous):
+            source_name = node.name
+        else:
+            sql_name = getattr(node, "sql_name", None)
+            source_name = (
+                str(sql_name())
+                if callable(sql_name)
+                else expression_class
+            )
+        return [
+            ("semantic_state", "UNREGISTERED"),
+            ("semantic_id", None),
+            ("semantic_source_name", source_name),
+        ]
+
+    return []
+
+
+def _type_semantic_attributes(
+    node: exp.Expression,
+    *,
+    parser_dialect: str,
+) -> list[tuple[str, Any]]:
+    if not isinstance(node, exp.DataType):
+        return []
+
+    semantic = explicit_type_semantic(
+        node,
+        parser_dialect=parser_dialect,
+    )
+    return list(semantic.ir_attributes())
+
+
+def _expression_graph(
+    expression: exp.Expression,
+    *,
+    parser_dialect: str,
+    extra_attribute_provider: (
+        Callable[[exp.Expression], list[tuple[str, Any]]] | None
+    ) = None,
+) -> tuple[
+    tuple[str, ...],
+    tuple[IRNode, ...],
+    tuple[IREdge, ...],
+]:
+    nodes: list[IRNode] = []
+    edges: list[IREdge] = []
+
+    def visit(
+        node: exp.Expression,
+        *,
+        parent_id: str | None = None,
+        relation: str = "ROOT",
+    ) -> str:
+        node_id = f"n{len(nodes)}"
+        attributes: list[tuple[str, Any]] = [("expression_key", node.key)]
+        attributes.extend(_expression_semantic_attributes(node))
+        attributes.extend(
+            _type_semantic_attributes(
+                node,
+                parser_dialect=parser_dialect,
+            )
+        )
+        if extra_attribute_provider is not None:
+            attributes.extend(extra_attribute_provider(node))
+
+        if isinstance(node, exp.Table):
+            attributes.append(("name", node.name))
+        elif isinstance(node, exp.Column):
+            attributes.append(("name", node.name))
+
+        nodes.append(
+            IRNode(
+                node_id=node_id,
+                kind=node.__class__.__name__.upper(),
+                attributes=tuple(attributes),
+            )
+        )
+
+        if parent_id is not None:
+            edges.append(IREdge(source=parent_id, target=node_id, relation=relation))
+
+        for arg_name, value in node.args.items():
+            if isinstance(value, exp.Expression):
+                visit(value, parent_id=node_id, relation=arg_name.upper())
+            elif isinstance(value, list):
+                for item in value:
+                    if isinstance(item, exp.Expression):
+                        visit(item, parent_id=node_id, relation=arg_name.upper())
+
+        return node_id
+
+    root = visit(expression)
+    return (root,), tuple(nodes), tuple(edges)
+
+
+def _output_fields(expression: exp.Expression) -> tuple[str, ...]:
+    select = next(expression.find_all(exp.Select), None)
+    if select is None:
+        return ()
+
+    values: list[str] = []
+    for projection in select.expressions:
+        alias = projection.alias_or_name
+        values.append(alias or projection.sql())
+    return tuple(values)
+
+
+def _input_relations(expression: exp.Expression) -> tuple[str, ...]:
+    return tuple(sorted({table.name for table in expression.find_all(exp.Table) if table.name}))
+
+
+def _side_effects(expression: exp.Expression) -> frozenset[str]:
+    operation = expression.key.lower()
+    if operation in _SIDE_EFFECT_OPERATIONS:
+        return frozenset({operation.upper()})
+    return frozenset()
+
+
+def _ir_as_dict(ir: SQLSemanticIR) -> dict[str, object]:
+    return {
+        "operation": ir.operation,
+        "source_dialect": ir.source_dialect,
+        "source_version": ir.source_version,
+        "roots": list(ir.roots),
+        "nodes": [
+            {
+                "node_id": node.node_id,
+                "kind": node.kind,
+                "attributes": dict(node.attributes),
+            }
+            for node in ir.nodes
+        ],
+        "edges": [
+            {
+                "source": edge.source,
+                "target": edge.target,
+                "relation": edge.relation,
+                "attributes": dict(edge.attributes),
+            }
+            for edge in ir.edges
+        ],
+        "semantic_dimensions": sorted(dimension.value for dimension in ir.semantic_dimensions),
+        "required_capabilities": sorted(ir.required_capabilities),
+        "input_relations": list(ir.input_relations),
+        "output_fields": list(ir.output_fields),
+        "type_constraints": list(ir.type_constraints),
+        "side_effects": sorted(ir.side_effects),
+        "semantic_extensions": dict(ir.semantic_extensions),
+        "provenance": list(ir.provenance),
+        "translation_loss": [
+            {
+                "kind": loss.kind,
+                "description": loss.description,
+                "source_fragment": loss.source_fragment,
+            }
+            for loss in ir.translation_loss
+        ],
+    }
+
+
+def parse_sql_text(
+    sql: str,
+    dialect: str,
+    *,
+    catalog: ConnectomeCatalog = DEFAULT_CATALOG,
+) -> SQLTextAnalysis:
+    text = _bounded_text(sql)
+
+    dialect_id, parser_dialect = _dialect_adapter(dialect, catalog=catalog)
+    genome = catalog.dialects[dialect_id]
+    expression = _parse_single_expression(text, parser_dialect)
+    capabilities = _extract_capabilities(expression, text)
+    admitted_capabilities = frozenset(
+        capability for capability in capabilities if genome.supports(capability)
+    )
+    unadmitted_capabilities = frozenset(capabilities - admitted_capabilities)
+
+    source_type_graph_digest = type_graph_digest(
+        dialect_id=dialect_id,
+        parser_dialect=parser_dialect,
+    )
+    roots, nodes, edges = _expression_graph(
+        expression,
+        parser_dialect=parser_dialect,
+    )
+    ir = SQLSemanticIR(
+        operation=expression.key.upper(),
+        source_dialect=dialect_id,
+        source_version=genome.version_selector,
+        roots=roots,
+        nodes=nodes,
+        edges=edges,
+        semantic_dimensions=_semantic_dimensions(capabilities),
+        required_capabilities=capabilities,
+        input_relations=_input_relations(expression),
+        output_fields=_output_fields(expression),
+        side_effects=_side_effects(expression),
+        semantic_extensions=(
+            (
+                "expression_semantic_registry_digest",
+                DEFAULT_EXPRESSION_REGISTRY.digest,
+            ),
+            (
+                "expression_semantic_registry_schema",
+                "SQL_CONNECTOME_EXPRESSION_SEMANTIC_REGISTRY_V1",
+            ),
+            (
+                "source_type_graph_schema",
+                "SQL_CONNECTOME_TYPE_GRAPH_V1",
+            ),
+            (
+                "source_type_graph_digest",
+                source_type_graph_digest,
+            ),
+            (
+                "type_semantic_coverage",
+                "EXPLICIT_TYPES_ONLY",
+            ),
+            (
+                "source_semantic_capability_admission",
+                (
+                    "FULLY_ADMITTED"
+                    if not unadmitted_capabilities
+                    else "UNADMITTED_CAPABILITIES_PRESENT"
+                ),
+            ),
+            (
+                "source_unadmitted_capabilities",
+                tuple(sorted(unadmitted_capabilities)),
+            ),
+        ),
+        provenance=(
+            f"parser:sqlglot:{sqlglot.__version__}",
+            f"dialect:{dialect_id}:{genome.version_selector}",
+            f"expression-registry:{DEFAULT_EXPRESSION_REGISTRY.digest}",
+            f"type-graph:{dialect_id}:{source_type_graph_digest}",
+        ),
+    )
+    ir.validate_graph()
+
+    return SQLTextAnalysis(
+        ir=ir,
+        normalized_sql=expression.sql(dialect=parser_dialect),
+        parser_dialect=parser_dialect,
+        parser_version=sqlglot.__version__,
+        catalog_digest=catalog.digest,
+        admitted_capabilities=admitted_capabilities,
+        unadmitted_capabilities=unadmitted_capabilities,
+    )
+
+
+
+def inspect_expression_registry(
+    sql: str,
+    dialect: str,
+    *,
+    catalog: ConnectomeCatalog = DEFAULT_CATALOG,
+) -> dict[str, object]:
+    text = _bounded_text(sql)
+    dialect_id, parser_dialect = _dialect_adapter(dialect, catalog=catalog)
+    expression = _parse_single_expression(text, parser_dialect)
+    return _inspect_expression_semantics(
+        expression,
+        dialect_id=dialect_id,
+        parser_dialect=parser_dialect,
+        catalog_digest=catalog.digest,
+        registry=DEFAULT_EXPRESSION_REGISTRY,
+    )
+
+
+def inspect_sql_contracts(
+    sql: str,
+    dialect: str,
+    *,
+    catalog: ConnectomeCatalog = DEFAULT_CATALOG,
+) -> dict[str, object]:
+    text = _bounded_text(sql)
+    dialect_id, parser_dialect = _dialect_adapter(dialect, catalog=catalog)
+    expression = _parse_single_expression(text, parser_dialect)
+    result = expression_contracts(
+        expression,
+        dialect_id=dialect_id,
+        parser_dialect=parser_dialect,
+    )
+    result["catalog_digest"] = catalog.digest
+    return result
+
+
+def inspect_type_system(
+    dialect: str,
+    *,
+    catalog: ConnectomeCatalog = DEFAULT_CATALOG,
+) -> dict[str, object]:
+    dialect_id, parser_dialect = _dialect_adapter(dialect, catalog=catalog)
+    result = dialect_type_graph(
+        dialect_id=dialect_id,
+        parser_dialect=parser_dialect,
+    )
+    result["catalog_digest"] = catalog.digest
+    return result
+
+
+def transpile_sql_text(
+    sql: str,
+    source_dialect: str,
+    target_dialect: str,
+    *,
+    allow_lossy: bool = False,
+    catalog: ConnectomeCatalog = DEFAULT_CATALOG,
+) -> dict[str, object]:
+    source = parse_sql_text(sql, source_dialect, catalog=catalog)
+    target_id, target_adapter = _dialect_adapter(target_dialect, catalog=catalog)
+    source_id, source_adapter = _dialect_adapter(source_dialect, catalog=catalog)
+
+    try:
+        plan = plan_translation(
+            source_id,
+            target_id,
+            source.ir.required_capabilities,
+            dialects=catalog.dialects,
+            rewrite_rules=catalog.rewrite_rules,
+        )
+    except ValueError as exc:
+        raise SQLTextError(str(exc)) from exc
+
+    if plan.fidelity is TranslationFidelity.UNREPRESENTABLE:
+        unresolved = ",".join(sorted(plan.unresolved_capabilities))
+        raise SQLTextError(f"UNREPRESENTABLE_TRANSLATION:{unresolved}")
+
+    text = _bounded_text(sql)
+    expression = _parse_single_expression(text, source_adapter)
+    expression_semantics = assess_expression_semantics(
+        expression,
+        source_dialect=source_id,
+        target_dialect=target_id,
+        source_parser_dialect=source_adapter,
+        target_parser_dialect=target_adapter,
+    )
+    type_semantics = assess_type_semantics(
+        expression,
+        source_dialect=source_id,
+        target_dialect=target_id,
+        source_parser_dialect=source_adapter,
+        target_parser_dialect=target_adapter,
+        target_capabilities=catalog.dialects[target_id].capabilities,
+    )
+    expression_fidelity = combined_fidelity(plan.fidelity, expression_semantics)
+    type_fidelity = TranslationFidelity(str(type_semantics["fidelity_ceiling"]))
+    overall_fidelity = max(
+        (expression_fidelity, type_fidelity),
+        key=lambda value: value.severity,
+    )
+
+    if type_fidelity is TranslationFidelity.UNREPRESENTABLE:
+        raise SQLTextError("UNREPRESENTABLE_TYPE_TRANSLATION")
+
+    if overall_fidelity is TranslationFidelity.LOSSY and not allow_lossy:
+        raise SQLTextError("LOSSY_TRANSLATION_REQUIRES_OPT_IN")
+
+    generation_expression = rewrite_type_representations(
+        expression,
+        target_dialect=target_id,
+        target_parser_dialect=target_adapter,
+        target_capabilities=catalog.dialects[target_id].capabilities,
+    )
+
+    try:
+        generated = generation_expression.sql(
+            dialect=target_adapter,
+            unsupported_level=ErrorLevel.RAISE,
+        )
+    except UnsupportedError as exc:
+        raise SQLTextError(f"TRANSPILER_REJECTED:{exc}") from exc
+
+    target = parse_sql_text(generated, target_id, catalog=catalog)
+
+    return {
+        "catalog_digest": catalog.digest,
+        "source": source.as_dict(),
+        "target_sql": generated,
+        "target_parse": target.as_dict(),
+        "plan": plan.as_dict(),
+        "expression_semantics": expression_semantics,
+        "type_semantics": type_semantics,
+        "fidelity_components": {
+            "capability": plan.fidelity.value,
+            "expression_semantics": expression_semantics["fidelity_ceiling"],
+            "types": type_semantics["fidelity_ceiling"],
+        },
+        "combined_fidelity": overall_fidelity.value,
+        "validation": {
+            "source_parse": "PASS",
+            "target_parse": "PASS",
+            "behavioral_equivalence": "NOT_ESTABLISHED",
+            "execution_validation": "NOT_RUN",
+        },
+    }

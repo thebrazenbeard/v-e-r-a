@@ -1,0 +1,66 @@
+schema_version: on-theo.mari-dumuzi-source-verification.v1
+status: PASS_WITH_ASYMMETRIC_SOURCE_CEILINGS
+subject:
+  predecessor_pr: 48
+  predecessor_head: 0c217af3dc4ddad5f9c0738f8306080defb0e1c4
+
+sources:
+  - source_id: SRC-MARI-A1146-DUMUZI
+    publication:
+      author: Pierre Marello
+      title: Vie nomade
+      container: Florilegium marianum I / Mélanges M. Fleury
+      year: 1992
+      pages: 115-126
+      archibab_id: T1011
+    source_state: ORIGINAL_PUBLICATION_PROVENANCE_CONFIRMED
+    dumuzi_passage_state: RECONSTRUCTION_DEPENDENT
+    secure_controls:
+      - "Dumuzi death/return comparison is recognized in scholarly reconstruction."
+      - "Return to Annunitum temple belongs to the accepted reconstruction."
+    unresolved_or_secondary:
+      - "Bracketed spring restoration."
+      - "Exact ritual calendar reconstruction."
+      - "Cult-statue journey interpretation."
+      - "Literal bodily resurrection semantics."
+    evidence_ceiling: PUBLICATION_ID_SECURE_TEXTUAL_RECONSTRUCTION_CAUTION
+
+  - source_id: SRC-MARI-A4540-DUMUZI
+    publication:
+      editor: Antoine Jacquet
+      work: Florilegium Marianum XII. Documents relatifs aux dépenses pour le culte
+      year: 2011
+      locator: "p. 139, A.4540 line 4"
+    source_state: PUBLICATION_PROVENANCE_CONFIRMED
+    direct_control:
+      source_form: "ana te-em-ri-im sha Dumuzi"
+      lexical_sense: "for the burial of Dumuzi"
+      lexical_authority: "Electronic Supplement to the Akkadian Dictionaries, timru II / temru 'burial'"
+    evidence_ceiling: LINE4_BURIAL_READING_HIGH
+    does_not_establish:
+      - RETURN
+      - RESURRECTION
+      - BAAL_TRANSMISSION
+
+  - source_id: SRC-MARI-1987-14-DUMUZI
+    source_state: CURRENT_SCHOLARLY_SYNTHESIS_ONLY
+    current_control:
+      scholar: Noga Ayali-Darshan
+      year: 2024
+      classification: RETURN_OF_DUMUZI
+      chapter: "Chapter 2.C"
+    evidence_ceiling: ORIGINAL_EDITION_RECOVERY_PENDING
+    does_not_establish:
+      - DIRECT_LINE_TEXT_IN_V1
+      - INDEPENDENT_TRANSLATION_IN_V1
+
+contact_field:
+  status: RETAIN
+  revised_statement: "Mari preserves asymmetrical evidence for Dumuzi death/return, burial, and a reported return rite; the three documents are not equally source-controlled."
+
+guards:
+  - "publication provenance != secure restoration of damaged words"
+  - "burial evidence != return evidence"
+  - "calendar context != direct text readback"
+  - "ritual-statue interpretation != primary-text wording"
+  - "three Mari records != one unified rite"

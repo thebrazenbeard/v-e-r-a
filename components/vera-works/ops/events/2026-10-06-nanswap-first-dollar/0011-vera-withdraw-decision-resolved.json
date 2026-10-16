@@ -1,0 +1,41 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-NANSWAP-0011",
+  "event_type": "VERA_DECISION_RECORDED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-NANSWAP-WITHDRAW-0001",
+  "actor": "vera",
+  "recorded_at": "2026-10-06T12:17:09.3434114Z",
+  "correlation_id": "CORR-NANSWAP-RANDOMX-0001",
+  "causation_id": "HOLD-NANSWAP-WITHDRAW-0001",
+  "idempotency_key": "nanswap-randomx:v1:withdraw-authorized-1.7368-ban",
+  "from_state": "OPEN",
+  "to_state": "RESOLVED",
+  "payload": {
+    "resolution_of": "HOLD-NANSWAP-WITHDRAW-0001",
+    "decision": "AUTHORIZED_EXACT_WITHDRAWAL",
+    "authorization_basis": "Vera, as Vera Works principal, approves collection of the already-earned provider-confirmed receivable.",
+    "authorized_effect": {
+      "provider": "Nanswap",
+      "asset": "BAN",
+      "amount": "1.7368",
+      "source": "existing Nanswap mining receivable",
+      "destination_alias": "vera-banano-receiving-v1"
+    },
+    "preconditions": [
+      "Nanswap still reports at least 1.7368 BAN withdrawable immediately before effect",
+      "BANANO chain has not already received this reward",
+      "destination remains the already-bound vera-banano-receiving-v1 alias"
+    ],
+    "explicit_exclusions": [
+      "no new mining",
+      "no continuous operation",
+      "no second withdrawal",
+      "no destination change",
+      "no private-key or seed use",
+      "no account creation"
+    ],
+    "postcondition": "Verify provider response and BANANO chain receipt before recording RECEIVED or available Vera Fund."
+  },
+  "external_effect": false
+}

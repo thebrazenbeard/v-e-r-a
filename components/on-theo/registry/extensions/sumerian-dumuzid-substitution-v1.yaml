@@ -1,0 +1,165 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SUMERIAN-DUMUZID-SUBSTITUTION-V1
+base_registry_head: 1e8597bce25f5ce883833dfbd17a7ea71fca9a8a
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-DUMUZID-GESHTINANA
+    source_roles: [PRIMARY_TEXT]
+    source_kind: sumerian_literary_composition
+    author_or_tradition: Sumerian Inana-Dumuzid tradition
+    title: Dumuzid and Geshtin-ana
+    composition_date: {start: null, end: null, precision: composition-date-reconstructed}
+    physical_witness_date: {start: null, end: null, precision: old-babylonian-witnesses}
+    extant_status: two-currently-listed-cuneiform-witnesses
+    original_language: Sumerian
+    access_mode: CDLI-composite-score-and-ETCSL
+    locators:
+      - url: "https://cdli.earth/artifacts/composites-score/Q000344"
+      - url: "https://etcsl.orinst.ox.ac.uk/cgi-bin/etcsl.cgi?text=c.1.4.1.1"
+    limitations:
+      - "Current CDLI metadata lists two Ur witnesses."
+      - "The aligned P346096 sequence supports the mapped lines directly but does not establish that every composite line is witness-aligned."
+
+scholarly_context_additions:
+  - id: SCH-CDLI-Q000344-DUMUZID-GESHTINANA
+    source_roles: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE]
+    source_kind: digital_composite_and_witness_score
+    author_or_tradition: Cuneiform Digital Library Initiative
+    title: CDLI Q000344 Dumuzid and Geshtin-ana
+    composition_date: {start: "2026", end: "2026", precision: current-digital-access-surface}
+    access_mode: institutional-digital-composite-and-score
+    locators:
+      - url: "https://cdli.earth/artifacts/composites-score/Q000344"
+    limitations:
+      - "Current score exposes a long aligned sequence for Ur witness P346096."
+      - "Witness-specific support must remain line-bounded."
+
+claim_additions:
+  - id: CLM-DUMUZID-GESHTINANA-GALLA-KUR-OPENING
+    proposition: "Dumuzid and Geshtin-ana places galla captors and repeated kur descent language in the same opening sequence, preserving captor-entity and death-realm-place semantics as distinct categories."
+    claim_type: COMPOSITION_LEVEL_TYPE_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-DUMUZID-GESHTINANA
+        locator: "lines 1-10"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: CDLI_SCORE
+      - source_id: SCH-CDLI-Q000344-DUMUZID-GESHTINANA
+        locator: "P346096 aligned opening sequence"
+        relation: ALIGNED_WITNESS_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZID-GESHTINANA-HANDOVER
+    proposition: "The composition directly depicts Inana handing Dumuzid over to the captors; this supports a transfer/substitution transition and should not be silently paraphrased as Inana directly killing Dumuzid."
+    claim_type: NARRATIVE_CAUSAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-DUMUZID-GESHTINANA
+        locator: "line 13"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: CDLI_SCORE
+      - source_id: SCH-CDLI-Q000344-DUMUZID-GESHTINANA
+        locator: "P346096 aligned line 13"
+        relation: ALIGNED_WITNESS_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZID-GESHTINANA-RESTRAINT-EXECUTION-PREP
+    proposition: "The aligned sequence depicts Dumuzid restrained and threatened with weapons, binding, and execution preparation before the explicit substitution passage."
+    claim_type: NARRATIVE_SEQUENCE_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-DUMUZID-GESHTINANA
+        locator: "lines 14-21"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: CDLI_SCORE
+      - source_id: SCH-CDLI-Q000344-DUMUZID-GESHTINANA
+        locator: "P346096 aligned restraint sequence"
+        relation: ALIGNED_WITNESS_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZID-GESHTINANA-SUBSTITUTE-TO-KUR
+    proposition: "The aligned P346096 sequence explicitly represents Dumuzid as being given to kur in Inana's place/as a substitute, providing direct textual support for a mythic substitution-to-death-realm model."
+    claim_type: SUBSTITUTION_MODEL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, HISTORICAL_RECONSTRUCTION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-DUMUZID-GESHTINANA
+        locator: "lines 25-27"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: CDLI_SCORE
+      - source_id: SCH-CDLI-Q000344-DUMUZID-GESHTINANA
+        locator: "P346096 aligned substitution sequence"
+        relation: ALIGNED_WITNESS_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high-for-literary-model
+    contested: false
+    notes:
+      - "This does not establish a universal human afterlife substitution law."
+
+  - id: CLM-DUMUZID-GESHTINANA-ESCAPE-ATTEMPT
+    proposition: "After the substitution passage, Dumuzid asks Utu to transform him and attempts escape from the galla, showing that substitution and capture remain narratively contestable rather than instantaneous."
+    claim_type: NARRATIVE_SEQUENCE_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-DUMUZID-GESHTINANA
+        locator: "lines 29-37"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: CDLI_SCORE
+      - source_id: SCH-CDLI-Q000344-DUMUZID-GESHTINANA
+        locator: "P346096 aligned transformation/escape sequence"
+        relation: ALIGNED_WITNESS_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZID-GESHTINANA-SIBLING-LAMENT
+    proposition: "The aligned sequence depicts Geshtin-ana responding to Dumuzid's arrival with bodily mourning gestures and lament, directly linking the substitution/capture narrative to the sibling-lament tradition."
+    claim_type: LAMENT_SEQUENCE
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-DUMUZID-GESHTINANA
+        locator: "lines 38-45"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: CDLI_SCORE
+      - source_id: SCH-CDLI-Q000344-DUMUZID-GESHTINANA
+        locator: "P346096 aligned Geshtin-ana lament sequence"
+        relation: ALIGNED_WITNESS_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DUMUZID-GALLA-CROSS-COMPOSITION-STABILITY
+    proposition: "galla function as Dumuzid's pursuing/captor beings in both Dumuzid's Dream and Dumuzid and Geshtin-ana, supporting a cross-composition captor semantic role without collapsing the two compositions into one textual witness."
+    claim_type: CROSS_COMPOSITION_SEMANTIC_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SRC-DUMUZID-DREAM
+        locator: "galla pursuit sequences"
+        relation: COMPOSITION_A_SUPPORT
+        access_mode: CDLI_COMPOSITE
+      - source_id: SRC-DUMUZID-GESHTINANA
+        locator: "lines 1-3, 46-51"
+        relation: COMPOSITION_B_SUPPORT
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false

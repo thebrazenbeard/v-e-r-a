@@ -1,0 +1,318 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SECOND-TEMPLE-GRECO-ROMAN-V1
+base_registry_head: 9cc582ecbd19857df41bea818625a4750ad33ae9
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-JOSEPHUS-WAR-2
+    source_roles: [PRIMARY_TEXT]
+    source_kind: ancient_historiography
+    author_or_tradition: Flavius Josephus
+    title: Jewish War Book II
+    composition_date: {start: "0070", end: "0080", precision: approximate-decade}
+    physical_witness_date: {start: null, end: null, precision: later-manuscript-tradition}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Greek
+    access_mode: digital-edition-translation
+    locators:
+      - passage: "Book II, chapter 8"
+        url: "https://penelope.uchicago.edu/josephus/war-2.html"
+    limitations:
+      - "Josephus interprets Jewish groups for a Greco-Roman audience; his philosophical taxonomy is primary evidence for his representation, not exhaustive self-description by each group."
+
+  - id: SRC-JOSEPHUS-ANTIQUITIES-18
+    source_roles: [PRIMARY_TEXT]
+    source_kind: ancient_historiography
+    author_or_tradition: Flavius Josephus
+    title: Antiquities of the Jews Book XVIII
+    composition_date: {start: "0093", end: "0094", precision: approximate-year}
+    physical_witness_date: {start: null, end: null, precision: later-manuscript-tradition}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Greek
+    access_mode: digital-edition-translation
+    locators:
+      - passage: "Book XVIII, Jewish schools discussion"
+        url: "https://penelope.uchicago.edu/josephus/ant-18.html"
+    limitations:
+      - "Later than the events described and rhetorically adapted; must be compared with other Jewish evidence."
+
+  - id: SRC-DSS-COMMUNITY-RULE
+    source_roles: [PRIMARY_TEXT]
+    source_kind: sectarian_rule_text
+    author_or_tradition: Dead Sea Scrolls / yahad-associated tradition
+    title: Community Rule / Serekh ha-Yahad
+    composition_date: {start: null, end: null, precision: second-temple-compositional-history}
+    physical_witness_date: {start: null, end: null, precision: witness-specific}
+    extant_status: multiple-manuscript-witnesses
+    original_language: Hebrew
+    access_mode: institutional-digital-translation
+    locators:
+      - passage: "Community Rule translation"
+        url: "https://www.loc.gov/exhibits/scrolls/trans3.html"
+    limitations:
+      - "A rule text for a particular movement/community configuration; not a universal Jewish creed."
+
+  - id: SRC-HOMERIC-HYMN-DEMETER
+    source_roles: [PRIMARY_TEXT]
+    source_kind: archaic_greek_hymn
+    author_or_tradition: Homeric Hymnic tradition
+    title: Homeric Hymn to Demeter
+    composition_date: {start: null, end: null, precision: archaic-greek-scholarly-range}
+    physical_witness_date: {start: null, end: null, precision: later-manuscript-tradition}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Greek
+    access_mode: digital-edition-translation
+    locators:
+      - url: "https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0138%3Ahymn%3D2"
+    limitations:
+      - "Important evidence for Demeter/Persephone and Eleusinian ideology; not a full transcript of secret initiation rites."
+
+  - id: SRC-PLATO-REPUBLIC-10
+    source_roles: [PRIMARY_TEXT]
+    source_kind: philosophical_text
+    author_or_tradition: Plato
+    title: Republic Book X / Myth of Er
+    composition_date: {start: null, end: null, precision: fourth-century-bce}
+    physical_witness_date: {start: null, end: null, precision: later-manuscript-tradition}
+    extant_status: extant-through-manuscript-tradition
+    original_language: Greek
+    access_mode: digital-edition-translation
+    locators:
+      - passage: "Republic 614b-621d"
+        url: "https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0168%3Abook%3D10"
+    limitations:
+      - "Philosophical myth and argument; not direct evidence that all Greeks shared one afterlife model."
+
+  - id: SRC-AUGUSTUS-RES-GESTAE
+    source_roles: [PRIMARY_TEXT]
+    source_kind: imperial_inscriptional_text
+    author_or_tradition: Augustus / Roman imperial self-presentation
+    title: Res Gestae Divi Augusti
+    composition_date: {start: "0013", end: "0014", precision: late-life-final-form-ce}
+    physical_witness_date: {start: null, end: null, precision: inscriptional-copy-tradition}
+    extant_status: epigraphically-preserved
+    original_language: Latin-and-Greek
+    access_mode: digital-edition-translation
+    locators:
+      - passage: "sections 19-21"
+        url: "https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Augustus/Res_Gestae/4%2A.html"
+    limitations:
+      - "Imperial self-representation, not neutral ethnography of Roman religion."
+
+scholarly_context_additions:
+  - id: SCH-KNIBB-2011-DSS-APOCALYPTICISM
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: handbook_chapter
+    author_or_tradition: Michael A. Knibb
+    title: Apocalypticism and Messianism
+    container: The Oxford Handbook of the Dead Sea Scrolls
+    composition_date: {start: "2011", end: "2011", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - doi: "10.1093/oxfordhb/9780199207237.003.0018"
+        url: "https://academic.oup.com/edited-volume/34366/chapter-abstract/291496380"
+
+  - id: SCH-LIM-2011-DSS-SCRIPTURE
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: handbook_chapter
+    author_or_tradition: Timothy H. Lim
+    title: Authoritative Scriptures and the Dead Sea Scrolls
+    container: The Oxford Handbook of the Dead Sea Scrolls
+    composition_date: {start: "2011", end: "2011", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - url: "https://academic.oup.com/edited-volume/34366/chapter-abstract/291495791"
+
+  - id: SCH-TAYLOR-2026-JOSEPHUS-GROUPS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: handbook_chapter
+    author_or_tradition: Joan E. Taylor
+    title: Pharisees, Sadducees, and Essenes in Josephus' Writings
+    container: The Oxford Handbook of Josephus
+    composition_date: {start: "2026", end: "2026", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - url: "https://academic.oup.com/edited-volume/62350/chapter-abstract/554396710"
+
+  - id: SCH-GASPARRO-2016-DAIMONIC-POWER
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: handbook_chapter
+    author_or_tradition: Giulia Sfameni Gasparro
+    title: Daimonic Power
+    container: The Oxford Handbook of Ancient Greek Religion
+    composition_date: {start: "2016", end: "2016", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - url: "https://academic.oup.com/edited-volume/34261/chapter-abstract/290477393"
+
+  - id: SCH-GRADEL-2002-EMPEROR-WORSHIP
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_monograph
+    author_or_tradition: Ittai Gradel
+    title: Emperor Worship and Roman Religion
+    composition_date: {start: "2002", end: "2002", precision: publication-year}
+    access_mode: publisher-abstract-and-contents
+    locators:
+      - url: "https://academic.oup.com/book/46977"
+
+  - id: SCH-KAROGLOU-2013-MYSTERY-CULTS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: museum_scholarly_essay
+    author_or_tradition: Kiki Karoglou
+    title: Mystery Cults in the Greek and Roman World
+    composition_date: {start: "2013", end: "2013", precision: publication-year}
+    access_mode: institutional-full-text
+    locators:
+      - url: "https://www.metmuseum.org/de/essays/mystery-cults-in-the-greek-and-roman-world"
+
+  - id: SCH-ALGRA-2009-STOIC-THEOLOGY
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_book_chapter
+    author_or_tradition: Keimpe Algra
+    title: Stoic Philosophical Theology and Graeco-Roman Religion
+    composition_date: {start: "2009", end: "2009", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - url: "https://academic.oup.com/book/12508/chapter-abstract/163107615"
+
+claim_additions:
+  - id: CLM-JOSEPHUS-JEWISH-GROUPS-DIFFER
+    proposition: "Josephus distinguishes Pharisees, Sadducees, and Essenes as Jewish schools/groups with materially different teachings and practices."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [second-temple-judaism]
+    supporting_sources:
+      - source_id: SRC-JOSEPHUS-WAR-2
+        locator: "War II.8"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: DIGITAL_EDITION
+      - source_id: SRC-JOSEPHUS-ANTIQUITIES-18
+        locator: "Antiquities XVIII"
+        relation: SAME_AUTHOR_ADDITIONAL_ACCOUNT
+        access_mode: DIGITAL_EDITION
+    opposing_sources: []
+    confidence: high-for-josephus-representation
+    contested: false
+    notes:
+      - "This does not establish that Josephus's taxonomy exhausts Second Temple Jewish diversity."
+
+  - id: CLM-QUMRAN-RULE-TORAH-JUDGMENT-COMMUNITY
+    proposition: "The Community Rule represents a disciplined Jewish community organized around Torah study, graded admission, communal norms, separation, and preparation for divine judgment."
+    claim_type: TEXTUAL_SYSTEM_SUMMARY
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [second-temple-judaism, dead-sea-scrolls]
+    supporting_sources:
+      - source_id: SRC-DSS-COMMUNITY-RULE
+        locator: "Community Rule"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: INSTITUTIONAL_TRANSLATION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DSS-APOCALYPTICISM-NOT-WHOLE-JUDAISM
+    proposition: "Apocalypticism and messianism are significant within Dead Sea Scroll and wider Second Temple Jewish traditions but should not be treated as exhaustive of Second Temple Judaism."
+    claim_type: HISTORICAL_SYNTHESIS
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [second-temple-judaism]
+    supporting_sources:
+      - source_id: SCH-KNIBB-2011-DSS-APOCALYPTICISM
+        locator: "chapter abstract and argument"
+        relation: SCHOLARLY_SYNTHESIS
+        access_mode: PUBLISHER_ABSTRACT
+    opposing_sources: []
+    confidence: high-for-non-exhaustiveness
+    contested: false
+
+  - id: CLM-ELEUSIS-INITIATION-AFTERLIFE
+    proposition: "The Homeric Hymn to Demeter links Eleusinian initiation with a privileged postmortem fate while not disclosing a complete ritual script."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [greek-religion, eleusinian]
+    supporting_sources:
+      - source_id: SRC-HOMERIC-HYMN-DEMETER
+        locator: "closing initiation/afterlife section"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: DIGITAL_EDITION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-PLATO-ER-MORAL-AFTERLIFE
+    proposition: "Plato's Myth of Er presents postmortem judgment, differentiated reward/punishment, future-life choice, and reincarnation within a philosophical myth."
+    claim_type: TEXTUAL_OCCURRENCE
+    evidence_class: [PRIMARY_TEXT]
+    traditions: [greek-philosophy, platonism]
+    supporting_sources:
+      - source_id: SRC-PLATO-REPUBLIC-10
+        locator: "Republic 614b-621d"
+        relation: DIRECT_TEXTUAL_SUPPORT
+        access_mode: DIGITAL_EDITION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-ROMAN-IMPERIAL-CULT-RELIGIOUSLY-EMBEDDED
+    proposition: "Roman emperor worship and imperial honours functioned within existing Roman and provincial religious institutions rather than constituting one wholly foreign, centrally imposed pseudo-religion."
+    claim_type: HISTORICAL_RECONSTRUCTION
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [roman-religion, imperial-cult]
+    supporting_sources:
+      - source_id: SRC-AUGUSTUS-RES-GESTAE
+        locator: "sections 19-21"
+        relation: PRIMARY_IMPERIAL_RELIGIOUS_CONTEXT
+        access_mode: DIGITAL_EDITION
+      - source_id: SCH-GRADEL-2002-EMPEROR-WORSHIP
+        locator: "book argument"
+        relation: SCHOLARLY_SYNTHESIS
+        access_mode: PUBLISHER_ABSTRACT_AND_CONTENTS
+    opposing_sources: []
+    confidence: high-for-embeddedness
+    contested: false
+
+  - id: CLM-GREEK-DAIMON-NOT-EQUAL-CHRISTIAN-DEMON
+    proposition: "Greek daimon terminology covers historically diverse intermediary/superhuman meanings and is not semantically identical by default to later Christian 'demon'."
+    claim_type: SEMANTIC_HISTORICAL_INFERENCE
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [greek-religion, christianity]
+    supporting_sources:
+      - source_id: SCH-GASPARRO-2016-DAIMONIC-POWER
+        locator: "chapter abstract and synthesis"
+        relation: SCHOLARLY_SEMANTIC_HISTORY
+        access_mode: PUBLISHER_ABSTRACT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-MYSTERY-CULTS-ONE-UNIFORM-RELIGION
+    proposition: "Greek and Roman mystery cults formed one cohesive religion with a single theology, ritual grammar, and salvation doctrine."
+    claim_type: HISTORICAL_GENERALIZATION
+    evidence_class: [UNKNOWN]
+    traditions: [greco-roman]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SCH-KAROGLOU-2013-MYSTERY-CULTS
+        locator: "essay"
+        relation: WARNS_AGAINST_COHESIVE_CATEGORY
+        access_mode: INSTITUTIONAL_FULL_TEXT
+    confidence: low
+    contested: true
+
+transmission_additions:
+  - id: TR-JEWISH-GREEK-DAIMON-CONTACT
+    from_source: SRC-DSS-COMMUNITY-RULE
+    to_source: SRC-PLATO-REPUBLIC-10
+    relation: STRUCTURAL_PARALLEL
+    confidence: unresolved-for-direct-lineage
+    evidence:
+      - source_id: SCH-GASPARRO-2016-DAIMONIC-POWER
+        locator: "daimonology historical range"
+    limitation: "Jewish angel/spirit traditions and Greek daimonology share a contact field but are not modeled as direct derivation here."
+
+  - id: TR-JEWISH-GRECO-ROMAN-CONTACT-FIELD
+    from_source: SRC-JOSEPHUS-WAR-2
+    to_source: SRC-AUGUSTUS-RES-GESTAE
+    relation: STRUCTURAL_PARALLEL
+    confidence: high-for-shared-imperial-environment-unresolved-for-specific-doctrine
+    evidence: []
+    limitation: "The sources document overlapping Roman imperial environments, not one direct textual dependence."

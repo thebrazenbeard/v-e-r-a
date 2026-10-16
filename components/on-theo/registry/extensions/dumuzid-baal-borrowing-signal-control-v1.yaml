@@ -1,0 +1,89 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-DUMUZID-BAAL-BORROWING-SIGNAL-CONTROL-V1
+base_registry_head: 6d9004a17dc04d5dd399407c4a37e48c7766bcaa
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-DEWRELL-RS942406-ILIMILKU-URTENU
+    source_roles: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    source_kind: current_scholarly_edition
+    author_or_tradition: Heath D. Dewrell
+    title: "The Anger of the Queen Has Gone Forth: Ilimilku's Warning to Urtenu in a Ugaritic Piggyback Letter (RS 94.2406 [KTU3 2.88])"
+    composition_date: {start: "2025", end: "2025", precision: publication-year}
+    access_mode: scholarly-journal
+    locators:
+      - doi: "10.1086/737943"
+    limitations:
+      - "The letter establishes Ilimilku-to-Urtenu communication but does not identify access to P332950 or a Dumuzi narrative."
+      - "Personal-name identity must remain tied to the edition's Ilimilku identification."
+
+  - id: SCH-AYALI-DARSHAN-DYING-RISING-GODS-2024
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_monograph
+    author_or_tradition: Noga Ayali-Darshan
+    title: "Dying and Rising Gods: The History of a Mythologem in West Asia of the Second Millennium BCE"
+    composition_date: {start: "2024", end: "2024", precision: publication-year}
+    access_mode: scholarly-monograph
+    locators:
+      - isbn: "978-3-96327-196-0"
+      - doi: "10.2307/jj.21154991"
+    limitations:
+      - "The monograph's directionality reconstruction is a scholarly model, not primary-text fact."
+      - "Its challenge to a Dumuzi-prototype model does not by itself prove a Baal-to-Dumuzi transmission route."
+
+claim_additions:
+  - id: CLM-ILIMILKU-URTENU-DIRECT-COMMUNICATION
+    proposition: "RS 94.2406 / KTU3 2.88 preserves a letter from Ilimilku to Urtenu appended to a queen-to-Urtenu letter, strengthening the documented communication network around Ilimilku."
+    claim_type: NAMED_SCRIBAL_NETWORK_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic]
+    supporting_sources:
+      - source_id: SCH-DEWRELL-RS942406-ILIMILKU-URTENU
+        locator: "RS 94.2406 / KTU3 2.88"
+        relation: DIRECT_COMMUNICATION_EVIDENCE
+        access_mode: SCHOLARLY_EDITION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-ILIMILKU-URTENU-NOT-P332950-BRIDGE
+    proposition: "The Ilimilku-to-Urtenu letter strengthens network capacity but does not establish Rapanu-to-Urtenu transfer, Ilimilku or Attenu access to P332950, or transmission of a Dumuzi death-return source."
+    claim_type: CARRIER_SCOPE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-DEWRELL-RS942406-ILIMILKU-URTENU
+        locator: "scope of RS 94.2406"
+        relation: NETWORK_POSITIVE_SOURCE_EDGE_ABSENT
+        access_mode: SCHOLARLY_EDITION
+    opposing_sources: []
+    confidence: high-for-current-evidence-state
+    contested: false
+
+  - id: CLM-DUMUZID-BAAL-DISTINCTIVE-SEQUENCE-NOT-ESTABLISHED
+    proposition: "The controlled Dumuzid and Baal materials share high-level death/absence and renewed-presence motifs, but the current corpus does not establish a shared distinctive mechanism-level sequence sufficient to identify direct borrowing."
+    claim_type: SOURCE_SPECIFIC_BORROWING_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian, akkadian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-AYALI-DARSHAN-DYING-RISING-GODS-2024
+        locator: "comparative second-millennium dying/rising-god reconstruction"
+        relation: COUNTERMODEL_TO_DUMUZI_PROTOTYPE_ASSUMPTION
+        access_mode: SCHOLARLY_MONOGRAPH
+    opposing_sources: []
+    confidence: high-for-current-controlled-corpus
+    contested: true
+
+  - id: CLM-DUMUZID-BAAL-DIRECT-BORROWING-NONE-ESTABLISHED
+    proposition: "Chronology, contact, Ugaritic Dumuzi scholastic exposure, and scribal-network capacity are supported, but relevant narrative-source exposure, a named source carrier, a distinctive shared sequence, lexical/calque dependence, and directional borrowing evidence remain unestablished; direct Dumuzid-to-Baal borrowing is therefore not established in the current corpus."
+    claim_type: TRANSMISSION_GATE_SYNTHESIS
+    evidence_class: [MATERIAL_EVIDENCE, PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian, akkadian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-AYALI-DARSHAN-DYING-RISING-GODS-2024
+        locator: "directionality countermodel"
+        relation: SCHOLARLY_COUNTERMODEL
+        access_mode: SCHOLARLY_MONOGRAPH
+    opposing_sources: []
+    confidence: high-for-current-evidence-state
+    contested: true

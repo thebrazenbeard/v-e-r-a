@@ -1,0 +1,49 @@
+{
+  "schema_version": "claim-harvester-public-source-observation-v1",
+  "observed_at": "2026-10-05T15:36:00Z",
+  "external_effect": false,
+  "observations": [
+    {
+      "source_id": "ncua-unclaimed-deposits",
+      "source_dataset_date": "2026-07-13",
+      "query_subject": "surname-only public scan",
+      "result": "NO_SURNAME_MATCH",
+      "claim_ceiling": "NEGATIVE_DISCOVERY_EVIDENCE_ONLY",
+      "notes": "The current NCUA public list contained no Sims entry. This does not establish absence from other unclaimed-property systems."
+    },
+    {
+      "source_id": "indiana-unclaimed-property",
+      "result": "SEARCH_NOT_EXECUTED",
+      "blocker": "CLOUDFLARE_TURNSTILE",
+      "claim_ceiling": "UNKNOWN",
+      "notes": "The official search page was inspected, but no owner search was performed because the live result path requires interactive anti-bot verification. Failed automation is not a negative result."
+    },
+    {
+      "source_id": "missing-money",
+      "result": "SEARCH_NOT_EXECUTED",
+      "blocker": "BOT_BLOCKED",
+      "claim_ceiling": "UNKNOWN",
+      "notes": "Automated fetch was blocked. This is not evidence that no property exists."
+    },
+    {
+      "source_id": "fdic-unclaimed-funds",
+      "result": "SEARCH_NOT_EXECUTED",
+      "blocker": "RECAPTCHA",
+      "claim_ceiling": "UNKNOWN",
+      "notes": "The official public form accepts name searches but requires reCAPTCHA. No bypass was attempted."
+    },
+    {
+      "source_id": "pbgc-unclaimed-retirement",
+      "result": "SEARCH_NOT_EXECUTED",
+      "blocker": "LAST_NAME_PLUS_LAST4_SSN_REQUIRED",
+      "claim_ceiling": "UNKNOWN",
+      "notes": "No SSN fragment was requested, inferred, or stored."
+    },
+    {
+      "source_id": "dol-workers-owed-wages",
+      "result": "SOURCE_QUALIFIED_SEARCH_PENDING",
+      "claim_ceiling": "UNKNOWN",
+      "notes": "Official employer-first search is confirmed. The JavaScript-mediated result route still needs read-only endpoint qualification before unattended querying."
+    }
+  ]
+}

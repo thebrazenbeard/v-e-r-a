@@ -1,0 +1,211 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-UGARIT-MESOPOTAMIAN-SCRIBAL-EXPOSURE-V1
+base_registry_head: c5879edfedb5108916bd9f97d5c5e45a5a83b703
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-GILGAMESH-AKKADIAN-EPIC
+    source_roles: [PRIMARY_TEXT]
+    source_kind: akkadian_literary_composition_tradition
+    author_or_tradition: Mesopotamian Gilgamesh tradition
+    title: Akkadian Gilgamesh Epic tradition
+    composition_date: {start: null, end: null, precision: multi-stage-second-millennium-and-later-tradition}
+    physical_witness_date: {start: null, end: null, precision: multiple-cuneiform-witnesses}
+    extant_status: multiple-cuneiform-witnesses
+    original_language: Akkadian
+    access_mode: critical-editions-and-digital-witness-catalogs
+    limitations:
+      - "This node represents the Akkadian literary tradition, not one recension or one physical tablet."
+
+witness_additions:
+  - id: WIT-UGARIT-GILGAMESH-P500683
+    witness_of: SRC-GILGAMESH-AKKADIAN-EPIC
+    witness_kind: clay_literary_tablet
+    common_name: Gilgamesh MB Ugarit 1
+    shelfmark: "RS 94.2066"
+    witness_date: {start: "-1400", end: "-1100", precision: cdli-middle-babylonian-broad-range}
+    provenance_note: "Excavated at Ugarit / Ras Shamra; National Museum of Syria."
+    access_mode: CDLI-digital-catalog
+    locators:
+      - cdli: "P500683"
+        url: "https://cdli.earth/artifacts/500683"
+    limitations:
+      - "Current CDLI catalog controls material, language, genre, period and provenience; no image-based collation is claimed."
+
+  - id: WIT-UGARIT-GILGAMESH-P500685
+    witness_of: SRC-GILGAMESH-AKKADIAN-EPIC
+    witness_kind: clay_literary_tablet
+    common_name: Gilgamesh MB Ugarit 3
+    shelfmark: "RS 94.2082"
+    witness_date: {start: "-1400", end: "-1100", precision: cdli-middle-babylonian-broad-range}
+    provenance_note: "Excavated at Ugarit / Ras Shamra; National Museum of Syria."
+    access_mode: CDLI-digital-catalog
+    locators:
+      - cdli: "P500685"
+        url: "https://cdli.earth/P500685"
+    limitations:
+      - "Current CDLI catalog controls material, language, genre, period and provenience."
+
+  - id: WIT-UGARIT-GILGAMESH-P500686
+    witness_of: SRC-GILGAMESH-AKKADIAN-EPIC
+    witness_kind: clay_literary_tablet
+    common_name: Gilgamesh MB Ugarit 4
+    shelfmark: "RS 94.2083"
+    witness_date: {start: "-1400", end: "-1100", precision: cdli-middle-babylonian-broad-range}
+    provenance_note: "Excavated at Ugarit / Ras Shamra; National Museum of Syria."
+    access_mode: CDLI-digital-catalog
+    locators:
+      - cdli: "P500686"
+        url: "https://cdli.earth/P500686"
+    limitations:
+      - "Current CDLI catalog controls material, language, genre, period and provenience."
+
+scholarly_context_additions:
+  - id: SCH-CDLI-UGARIT-GILGAMESH-CORPUS
+    source_roles: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    source_kind: digital_cuneiform_catalog
+    author_or_tradition: Cuneiform Digital Library Initiative
+    title: Middle Babylonian Gilgamesh witnesses from Ugarit
+    composition_date: {start: "2026", end: "2026", precision: current-digital-catalog}
+    access_mode: institutional-digital-catalog
+    locators:
+      - url: "https://cdli.earth/artifacts/500683"
+      - url: "https://cdli.earth/P500685"
+      - url: "https://cdli.earth/P500686"
+    limitations:
+      - "Catalog evidence establishes physical presence of Akkadian literary tablets at Ugarit, not their readership by any named scribe."
+
+  - id: SCH-ORACC-UGARIT-LEXICAL-SCHOOL
+    source_roles: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    source_kind: digital_cuneiform_lexical_corpus
+    author_or_tradition: ORACC / DCCLT
+    title: Middle Babylonian lexical and school texts from Ugarit
+    composition_date: {start: "2026", end: "2026", precision: current-digital-corpus}
+    access_mode: institutional-digital-corpus
+    locators:
+      - url: "https://oracc.museum.upenn.edu/dcclt/P347890"
+      - url: "https://oracc.museum.upenn.edu/dcclt/P347900"
+    limitations:
+      - "Examples establish cuneiform scholastic activity at Ugarit but do not map one specific curriculum to Ilimilku."
+
+  - id: SCH-SCHNIEDEWIND-HUNT-UGARIT-SCRIBAL-CENTER
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: academic_textbook
+    author_or_tradition: William M. Schniedewind and Joel H. Hunt
+    title: A Primer on Ugaritic
+    composition_date: {start: "2007", end: "2007", precision: publication-year}
+    access_mode: publisher-excerpt
+    limitations:
+      - "Used for synthesis of Ugarit as multilingual scribal-training center and the coexistence of lexicographic and Gilgamesh materials."
+
+claim_additions:
+  - id: CLM-UGARIT-AKKADIAN-GILGAMESH-MATERIAL
+    proposition: "Multiple Middle Babylonian Akkadian Gilgamesh literary tablets are physically attested from Ugarit, establishing direct material evidence that Mesopotamian narrative literature circulated at the site."
+    claim_type: MATERIAL_LITERARY_CONTACT_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, PRIMARY_TEXT, SCHOLARLY_INTERPRETATION]
+    traditions: [mesopotamian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-CDLI-UGARIT-GILGAMESH-CORPUS
+        witness_id: WIT-UGARIT-GILGAMESH-P500683
+        locator: "P500683 / RS 94.2066"
+        relation: UGARIT_AKKADIAN_LITERARY_WITNESS
+        access_mode: CDLI
+      - source_id: SCH-CDLI-UGARIT-GILGAMESH-CORPUS
+        witness_id: WIT-UGARIT-GILGAMESH-P500685
+        locator: "P500685 / RS 94.2082"
+        relation: UGARIT_AKKADIAN_LITERARY_WITNESS
+        access_mode: CDLI
+      - source_id: SCH-CDLI-UGARIT-GILGAMESH-CORPUS
+        witness_id: WIT-UGARIT-GILGAMESH-P500686
+        locator: "P500686 / RS 94.2083"
+        relation: UGARIT_AKKADIAN_LITERARY_WITNESS
+        access_mode: CDLI
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UGARIT-CUNEIFORM-SCRIBAL-TRAINING
+    proposition: "Middle Babylonian lexical and school texts from Ugarit provide material evidence for local participation in the cuneiform scholastic tradition."
+    claim_type: SCRIBAL_ENVIRONMENT_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-ORACC-UGARIT-LEXICAL-SCHOOL
+        locator: "P347890, P347900 and related Ugarit lexical texts"
+        relation: CUNEIFORM_SCHOOL_EVIDENCE
+        access_mode: ORACC_DCCLT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UGARIT-MESOPOTAMIAN-CONTACT-CAPACITY
+    proposition: "The combination of Akkadian literary tablets and cuneiform scholastic materials at Ugarit establishes a historically plausible institutional carrier environment for Mesopotamian literary influence."
+    claim_type: TRANSMISSION_CARRIER_ENVIRONMENT
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-CDLI-UGARIT-GILGAMESH-CORPUS
+        locator: "Akkadian Gilgamesh tablets at Ugarit"
+        relation: LITERARY_CONTACT
+        access_mode: CDLI
+      - source_id: SCH-ORACC-UGARIT-LEXICAL-SCHOOL
+        locator: "cuneiform scholastic texts at Ugarit"
+        relation: SCRIBAL_CAPACITY
+        access_mode: ORACC_DCCLT
+      - source_id: SCH-SCHNIEDEWIND-HUNT-UGARIT-SCRIBAL-CENTER
+        locator: "discussion of Ugarit as scribal-training center"
+        relation: SCHOLARLY_SYNTHESIS
+        access_mode: PUBLISHER_EXCERPT
+    opposing_sources: []
+    confidence: high-for-general-capacity
+    contested: false
+
+  - id: CLM-UGARIT-DUMUZID-SOURCE-NOT-IDENTIFIED
+    proposition: "V1 has not identified a Sumerian Dumuzid or Akkadian Tammuz literary source excavated at Ugarit, so general Mesopotamian scribal contact cannot be promoted to specific Dumuzid-source exposure."
+    claim_type: TRANSMISSION_SOURCE_CONTROL
+    evidence_class: [PROJECT_INFERENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-CDLI-UGARIT-GILGAMESH-CORPUS
+        locator: "positive control: Gilgamesh material"
+        relation: GENERAL_CONTACT_CONTROL
+        access_mode: CDLI
+    opposing_sources: []
+    confidence: high-for-v1-search-state
+    contested: false
+
+  - id: CLM-ILIMILKU-MESOPOTAMIAN-ACCESS-POSSIBLE-NOT-PROVEN
+    proposition: "Ugarit's scribal environment makes Mesopotamian literary exposure plausible for Ugaritic scribes in general, but V1 does not establish that Ilimilku personally read a specific Mesopotamian or Dumuzid text."
+    claim_type: NAMED_CARRIER_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-SCHNIEDEWIND-HUNT-UGARIT-SCRIBAL-CENTER
+        locator: "multilingual scribal environment"
+        relation: INSTITUTIONAL_CAPACITY
+        access_mode: PUBLISHER_EXCERPT
+      - source_id: SCH-EUPT-ILIMILKU-COLOPHON
+        locator: "Ilimilku scribal identity"
+        relation: NAMED_TARGET_SCRIBE
+        access_mode: CRITICAL_EDITION_PROJECT
+    opposing_sources: []
+    confidence: high-for-distinction
+    contested: false
+
+  - id: CLM-DUMUZID-BAAL-CARRIER-CAPACITY-UPGRADED
+    proposition: "The Dumuzid-to-Baal transmission model can now mark Ugaritic scribal institutions as materially grounded plausible carrier capacity while retaining direct Dumuzid source contact and Ilimilku-specific transmission as unestablished."
+    claim_type: TRANSMISSION_CARRIER_CONTROL
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-CDLI-UGARIT-GILGAMESH-CORPUS
+        locator: "Mesopotamian literature physically present at Ugarit"
+        relation: CONTACT_CAPACITY
+        access_mode: CDLI
+      - source_id: SCH-ORACC-UGARIT-LEXICAL-SCHOOL
+        locator: "cuneiform education at Ugarit"
+        relation: SCRIBAL_CAPACITY
+        access_mode: ORACC_DCCLT
+    opposing_sources: []
+    confidence: high-for-capacity-low-for-specific-lineage
+    contested: false

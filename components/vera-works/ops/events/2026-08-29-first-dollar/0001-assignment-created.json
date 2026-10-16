@@ -1,0 +1,24 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0001",
+  "event_type": "ASSIGNMENT_CREATED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FIRST-DOLLAR-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:15:54Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": null,
+  "idempotency_key": "first-dollar:asg:0001:created",
+  "from_state": null,
+  "to_state": "CREATED",
+  "payload": {
+    "objective": "Find and screen the first realistic Vera Works revenue opportunity under the $0 seed-capital constraint using fresh evidence, then advance the best viable candidate to the next valid operating state.",
+    "scope": "Current market discovery, platform-rule verification, opportunity screening, and recommendation/selection. No external application, account creation, spending, contract acceptance, or customer communication is authorized by this event.",
+    "acceptance_criteria": [
+      "At least one concrete current revenue opportunity or one evidence-backed outbound channel is screened against compensation, fees, AI/platform rules, deadline/acceptance criteria, IP/privacy, human/legal requirements, effort, expected net revenue, and payment likelihood.",
+      "Obviously invalid, stale, inaccessible, policy-conflicting, or economically irrational candidates are rejected mechanically.",
+      "The best viable candidate is persisted as canonical operating state before any external effect is requested."
+    ]
+  },
+  "external_effect": false
+}

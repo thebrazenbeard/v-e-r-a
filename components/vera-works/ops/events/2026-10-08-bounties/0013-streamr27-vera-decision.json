@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-STREAMR27-0003",
+  "event_type": "OPPORTUNITY_VERA_DECISION",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-STREAMR27-BOUNTY-0001",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-08T18:56:02Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-STREAMR27-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-STREAMR27-0002",
+  "idempotency_key": "first-dollar:github-bounty:streamr27:vera-decision:v1",
+  "from_state": "SCREENING",
+  "to_state": "VERA_DECISION",
+  "payload": {
+    "decision": "AUTHORIZE_LOCAL_PATCH_PREPARATION_ONLY",
+    "reason": "This is an uncontested zero-capital bounty in an already-inspected repository with a bounded, deterministic contract-test scope.",
+    "claim_ceiling": "Read public source, implement and test locally on Lappy only; no issue comment, claim, fork, push, PR, terms acceptance, payout setup, or other external effect."
+  },
+  "external_effect": false
+}

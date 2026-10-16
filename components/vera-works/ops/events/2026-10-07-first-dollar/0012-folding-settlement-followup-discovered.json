@@ -1,0 +1,35 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FOLD-SETTLE-0001",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-FOLDING-SETTLEMENT-0003",
+  "actor": "vera:principal",
+  "recorded_at": "2026-10-08T01:58:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-FOLDING-SETTLEMENT-0003",
+  "causation_id": "EVT-FOLD-BENCH-0005",
+  "idempotency_key": "first-dollar:folding:settlement-observation:discovered:v1",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {
+    "objective": "Read-only reconciliation of any Folding@home/BananoMiner/BANANO settlement attributable to the bounded credited work unit.",
+    "current_evidence": "Folding@home client reported Credited after result upload, while public donor stats still reported zero earned/contributed and no BananoMiner payout was yet verified.",
+    "allowed_work": [
+      "Read public Folding@home donor statistics.",
+      "Read public BananoMiner mapping/statistics/payout evidence.",
+      "Read the existing BANANO receiving address balance/receivable when needed for settlement verification."
+    ],
+    "explicit_exclusions": [
+      "No Folding workload restart.",
+      "No second work unit.",
+      "No CPU Folding.",
+      "No mining workload.",
+      "No account creation or terms acceptance.",
+      "No payout/withdrawal request.",
+      "No wallet seed/private-key use.",
+      "No spend."
+    ],
+    "completion_condition": "Either attributable BANANO settlement is independently evidenced and recorded under the financial contract, or sufficient fresh evidence establishes that no settlement will occur and the opportunity is closed without revenue."
+  },
+  "external_effect": false
+}

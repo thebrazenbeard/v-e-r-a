@@ -1,0 +1,40 @@
+{
+  "schema": "VERA_SUPABASE_ROUTINE_DEFINITION_SNAPSHOT_V1",
+  "project_ref": "klmbpaigzeguvnpccqzz",
+  "database_schema": "build_team_2",
+  "routines": [
+    {
+      "schema_name": "build_team_2",
+      "name": "one_bootstrap_snapshot",
+      "args": "",
+      "definition": "CREATE OR REPLACE FUNCTION build_team_2.one_bootstrap_snapshot()\n RETURNS jsonb\n LANGUAGE sql\n STABLE\n SET search_path TO 'build_team_2', 'public', 'extensions'\nAS $function$\nwith pkg as (\n  select * from build_team_2.role_training_current_resolved where role_key='one'\n), quals as (\n  select coalesce(jsonb_agg(jsonb_build_object(\n    'qualification_id',qualification_id,\n    'result',qualification_result,\n    'evaluator_class',evaluator_class,\n    'evaluator_ref',evaluator_ref,\n    'base_binding_ref',base_binding_ref,\n    'package_version',package_version,\n    'source_set_digest_sha256',source_set_digest_sha256,\n    'created_at',created_at\n  ) order by qualification_id), '[]'::jsonb) as items,\n  count(*) filter (where qualification_result='PASS') as pass_count\n  from build_team_2.role_training_qualifications where role_key='one'\n), cp as (\n  select to_jsonb(c) - 'checkpoint_payload_text' || jsonb_build_object(\n    'checkpoint_payload', c.checkpoint_payload_text::jsonb,\n    'digest_recomputed_sha256', encode(extensions.digest(convert_to(c.checkpoint_payload_text,'UTF8'),'sha256'),'hex'),\n    'digest_matches', c.checkpoint_sha256 = encode(extensions.digest(convert_to(c.checkpoint_payload_text,'UTF8'),'sha256'),'hex')\n  ) as item\n  from build_team_2.role_operational_checkpoint_current c\n  where c.role_key='one'\n), gov as (\n  select jsonb_build_object(\n    'scope_key',scope_key,'identity_name',identity_name,'numerical_identity',numerical_identity,\n    'revision',revision,'source_event_id',source_event_id,'updated_at',updated_at\n  ) as item\n  from build_team_2.one_working_laws_current where scope_key='BT2_ONE_WORKING_LAWS'\n)\nselect jsonb_build_object(\n  'schema','BT2_ONE_BOOTSTRAP_SNAPSHOT_V1',\n  'role','one',\n  'training_package',(select to_jsonb(pkg) from pkg),\n  'qualification_receipts',(select items from quals),\n  'qualification_pass_count',(select pass_count from quals),\n  'startup_state',case when (select pass_count from quals)=0 then 'TRAINING_REQUIRED' else 'BASE_BINDING_REQUIRED' end,\n  'current_checkpoint',(select item from cp),\n  'governance',(select item from gov),\n  'rules',jsonb_build_array(\n    'A fresh chat must prove an exact qualified-base binding or train before operational work.',\n    'Checkpoint state never substitutes for training and must be freshly currentness-checked.',\n    'Repository/tool access never grants mutation authority.'\n  )\n);\n$function$\n",
+      "security_definer": false,
+      "volatility": "s"
+    },
+    {
+      "schema_name": "build_team_2",
+      "name": "prevent_memory_event_mutation",
+      "args": "",
+      "definition": "CREATE OR REPLACE FUNCTION build_team_2.prevent_memory_event_mutation()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'pg_catalog'\nAS $function$\nbegin\n    raise exception 'build_team_2.memory_events is append-only';\nend;\n$function$\n",
+      "security_definer": false,
+      "volatility": "v"
+    },
+    {
+      "schema_name": "build_team_2",
+      "name": "reject_training_history_mutation",
+      "args": "",
+      "definition": "CREATE OR REPLACE FUNCTION build_team_2.reject_training_history_mutation()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'pg_catalog', 'build_team_2'\nAS $function$\nbegin\n  raise exception 'BT2 training/checkpoint history is append-only';\nend;\n$function$\n",
+      "security_definer": false,
+      "volatility": "v"
+    },
+    {
+      "schema_name": "build_team_2",
+      "name": "validate_checkpoint_qualification_binding",
+      "args": "",
+      "definition": "CREATE OR REPLACE FUNCTION build_team_2.validate_checkpoint_qualification_binding()\n RETURNS trigger\n LANGUAGE plpgsql\n SET search_path TO 'pg_catalog', 'build_team_2'\nAS $function$\ndeclare q record;\nbegin\n  if new.qualification_id is null then\n    return new;\n  end if;\n  select role_key, package_version, source_set_digest_sha256, qualification_result\n    into q\n    from build_team_2.role_training_qualifications\n    where qualification_id = new.qualification_id;\n  if not found then\n    raise exception 'qualification % not found', new.qualification_id;\n  end if;\n  if q.qualification_result <> 'PASS'\n     or q.role_key <> new.role_key\n     or q.package_version <> new.training_package_version\n     or q.source_set_digest_sha256 <> new.training_source_set_digest_sha256 then\n    raise exception 'checkpoint qualification binding mismatch';\n  end if;\n  return new;\nend;\n$function$\n",
+      "security_definer": false,
+      "volatility": "v"
+    }
+  ],
+  "contains_live_table_rows": false
+}

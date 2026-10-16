@@ -1,0 +1,137 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SUMERIAN-DEATH-LINE-REVALIDATION-V1
+base_registry_head: 74ce2094ad8e45368bd51f8c559046b8b6f2c763
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-CDLI-Q000364-CURRENT-SCORE
+    source_roles: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE]
+    source_kind: digital_composite_and_witness_score
+    author_or_tradition: Cuneiform Digital Library Initiative
+    title: CDLI Literary 000364 / Q000364 Gilgamesh, Enkidu and the Netherworld
+    composition_date: {start: "2024", end: "2026", precision: current-digital-access-surface}
+    access_mode: institutional-digital-composite-and-score
+    locators:
+      - url: "https://cdli.earth/artifacts/469670"
+      - url: "https://cdli.earth/artifacts/composites-score/Q000364"
+    limitations:
+      - "The composite is a current digital research surface, not itself a replacement for Gadotti 2014's full critical edition."
+      - "Only three witnesses are currently aligned to the composite on the score surface."
+
+  - id: SCH-ATTINGER-2019-GIEN-COLLATION
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: philological_translation_and_collation
+    author_or_tradition: Pascal Attinger
+    title: Bilgameš, Enkidu et le monde infernal
+    composition_date: {start: "2008", end: "2019", precision: original-and-update-range}
+    access_mode: open-access-philological-pdf
+    locators:
+      - url: "https://anarkia333data.center/sites/default/files/2019-04/gilgamesh_enkidu_et_le_monde_infernal_attinger.pdf"
+    limitations:
+      - "Used for line-specific collation cautions and comparison with Gadotti; not treated as an independent full replacement edition."
+
+claim_additions:
+  - id: CLM-GEN-L166-GANZER-KUR-WITNESS-CONFIRMED
+    proposition: "CDLI Q000364 preserves line 166 with Ganzer and kur in the composite and in aligned Ur witness P346141, independently strengthening the claim that the two lexemes co-occur as distinct terms in the same death-realm scene."
+    claim_type: LINE_LEVEL_WITNESS_REVALIDATION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000364-CURRENT-SCORE
+        locator: "line 166 / P346141 rev. 4"
+        relation: ALIGNED_WITNESS_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-GEN-L174-179-KUR-GANZER-PAIR-WITNESS-CONFIRMED
+    proposition: "CDLI Q000364 preserves the kur/Ganzer object-and-retrieval alternation at lines 174-179 in both the composite and aligned Ur witness P346141."
+    claim_type: LINE_LEVEL_WITNESS_REVALIDATION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000364-CURRENT-SCORE
+        locator: "lines 174-179 / P346141 rev. 12-17"
+        relation: ALIGNED_WITNESS_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-GEN-L292-GIDIM-WITNESS-CONFIRMED
+    proposition: "CDLI Q000364 preserves gidim in the no-funerary-offerings passage at line 292 in both the composite and aligned Ur witness P346143."
+    claim_type: LINE_LEVEL_WITNESS_REVALIDATION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000364-CURRENT-SCORE
+        locator: "line 292 / P346143 obv. 14"
+        relation: ALIGNED_WITNESS_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-GEN-L303-GIDIM-WITNESS-VARIANT-CONFIRMED
+    proposition: "CDLI Q000364 preserves gidim-a-ni at line 303 in both the composite and aligned Ur witness P346143, while the witness has variant word order/continuation."
+    claim_type: LINE_LEVEL_WITNESS_REVALIDATION
+    evidence_class: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000364-CURRENT-SCORE
+        locator: "line 303 / P346143 rev. 4"
+        relation: ALIGNED_WITNESS_WITH_VARIANT_SYNTAX
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-GEN-L213-GIDIM-COMPOSITE-ONLY
+    proposition: "The current CDLI composite reads gidim at line 213, but the score surface does not show an aligned witness for that exact line in this pass, so the occurrence remains composite-confirmed rather than witness-upgraded."
+    claim_type: LINE_LEVEL_EVIDENCE_CEILING
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000364-CURRENT-SCORE
+        locator: "composite line 213"
+        relation: CURRENT_COMPOSITE_CONFIRMATION
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high-for-current-composite
+    contested: false
+
+  - id: CLM-GEN-ATTINGER-UDUG-GIDIM-KITIM-QUARANTINE
+    proposition: "Attinger flags lines 192, 214, 229, and 237 in his numbering as problematic for udug/gidim sign classification and criticizes Gadotti's treatment; those loci require manuscript-level control before being added to a normalized gidim occurrence set."
+    claim_type: PHILOLOGICAL_DISPUTE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-ATTINGER-2019-GIEN-COLLATION
+        locator: "discussion of lines 192, 214, 229, 237 and Gadotti 2014:280"
+        relation: LATER_COLLATION_CAUTION
+        access_mode: OPEN_ACCESS_PHILOLOGICAL_PDF
+    opposing_sources: []
+    confidence: high-for-dispute-existence
+    contested: true
+    alternatives:
+      - "Gadotti's udug/gidim treatment."
+      - "Attinger's preference for kitim in photographed cases."
+
+  - id: CLM-GEN-MAPPED-GIDIM-NOT-WHOLESALE-DOWNGRADED
+    proposition: "The later udug/gidim/kitim dispute does not justify downgrading every mapped gidim occurrence in c.1.8.1.4; line 292 and 303 have current aligned-witness support and line 213 remains current-composite supported."
+    claim_type: EVIDENCE_SCOPE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000364-CURRENT-SCORE
+        locator: "lines 213, 292, 303 and aligned witnesses"
+        relation: CURRENT_DIGITAL_REVALIDATION
+        access_mode: CDLI_SCORE
+      - source_id: SCH-ATTINGER-2019-GIEN-COLLATION
+        locator: "disputed loci 192, 214, 229, 237"
+        relation: DISPUTE_BOUNDARY
+        access_mode: OPEN_ACCESS_PHILOLOGICAL_PDF
+    opposing_sources: []
+    confidence: high
+    contested: false

@@ -1,0 +1,22 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0009",
+  "event_type": "ASSIGNMENT_HELD",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FIRST-DOLLAR-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:23:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0008",
+  "idempotency_key": "first-dollar:asg:0001:held:hold-0001",
+  "from_state": "IN_PROGRESS",
+  "to_state": "HELD",
+  "payload": {
+    "holder": "vera:works-operator",
+    "hold_id": "HOLD-FD-0001",
+    "hold_event_id": "EVT-FD-0008",
+    "reason": "Approved first-dollar candidate reached Patrick's Reddit account/privacy/willingness boundary.",
+    "resume_condition": "Resolve HOLD-FD-0001 with event type PATRICK_REDDIT_ACCOUNT_DECISION_RECORDED, then resume this assignment deterministically without replaying discovery/screening."
+  },
+  "external_effect": false
+}

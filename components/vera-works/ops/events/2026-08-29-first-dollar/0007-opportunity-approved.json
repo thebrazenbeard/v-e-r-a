@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0007",
+  "event_type": "OPPORTUNITY_APPROVED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:22:58Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0006",
+  "idempotency_key": "first-dollar:opp:0001:approved",
+  "from_state": "VERA_DECISION",
+  "to_state": "APPROVED",
+  "payload": {
+    "decision": "PURSUE",
+    "decision_basis": "Best currently screened zero-upfront candidate for the first-dollar objective.",
+    "constraints": ["Application must be truthful and transparent about AI-assisted Vera Works production.", "Patrick is the human/legal/account contact; Vera is not represented as a legal person or human account holder.", "Buyer must confirm AI-assisted research is acceptable before substantive production begins.", "No application, linking, training, or other fee will be paid.", "Scope, compensation, IP/license, payment method, and payment timing must be confirmed before accepting work.", "No fabricated resume history, credentials, testimonials, or LinkedIn profile."]
+  },
+  "external_effect": false
+}

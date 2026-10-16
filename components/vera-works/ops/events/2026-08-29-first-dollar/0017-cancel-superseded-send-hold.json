@@ -1,0 +1,22 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0017",
+  "event_type": "PATRICK_REDDIT_APPLICATION_SENT_RECORDED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-FD-0002",
+  "actor": "patrick",
+  "recorded_at": "2026-08-29T16:39:10Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0015",
+  "idempotency_key": "first-dollar:hold:0002:cancelled:role-model-correction",
+  "from_state": "OPEN",
+  "to_state": "CANCELLED",
+  "payload": {
+    "resolution_of": "EVT-FD-0015",
+    "outcome": "NOT_SENT",
+    "reason": "Patrick corrected a substantive representation error: Patrick does not work for Vera Works and must not be presented as its operator or researcher.",
+    "authorization_status": "The previously granted one-application Reddit-account authorization remains bounded to OPP-FD-0001 only; the superseded message is not authorized for sending.",
+    "resume_event_type": "ASSIGNMENT_RESUMED"
+  },
+  "external_effect": false
+}

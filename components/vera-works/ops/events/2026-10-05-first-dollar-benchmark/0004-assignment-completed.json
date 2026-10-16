@@ -1,0 +1,31 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FDBENCH-0004",
+  "event_type": "ASSIGNMENT_COMPLETED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FIRST-DOLLAR-BENCH-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T18:26:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-BENCH-0001",
+  "causation_id": "EVT-FDBENCH-0003",
+  "idempotency_key": "first-dollar-benchmark:v1:completed",
+  "from_state": "IN_PROGRESS",
+  "to_state": "COMPLETED",
+  "payload": {
+    "completion_scope": "Deterministic analysis-only first-dollar benchmark harness, CLI, contract, tests, documentation, and synthetic input.",
+    "evidence": [
+      "SOURCE_ESTIMATE, EXACT_RESOURCE_MEASURED, and REALIZED_REWARD evidence are distinguished.",
+      "Source estimates never emit workload authorization.",
+      "Stale quotes and malformed metrics fail closed.",
+      "Incremental electricity uses workload watts minus baseline watts and Decimal arithmetic.",
+      "Warmup compute is charged as operating cost even before rewards accrue.",
+      "Payout threshold, payout fee, warmup, payout lag, liquidity discount, first-payout cash, first-payout net profit, and electricity break-even are explicit.",
+      "Ranking prefers realized evidence, then exact-resource measurement, then source estimates.",
+      "GitHub Ops Spine run #232 passed on hardened source/test head d7a20a5afd846523b39dd5b0bf75d6f694455606."
+    ],
+    "claim_ceiling": "No miner, Folding@Home, BOINC, provider, storage, bandwidth, or trading workload was installed or started. No wallet/account was created, no terms accepted, no transaction signed, no capital deployed, and no reward was received.",
+    "held_workflow": "HOLD-FIRST-DOLLAR-0001 remains OPEN and is not resolved by this tooling assignment.",
+    "next_frontier": "When Patrick completes HOLD-FIRST-DOLLAR-0001, collect exact owned-resource performance and wall-power observations and feed them into the harness before any continuous-operation decision."
+  },
+  "external_effect": false
+}

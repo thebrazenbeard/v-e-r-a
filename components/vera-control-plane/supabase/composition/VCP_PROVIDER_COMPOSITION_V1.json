@@ -1,0 +1,35 @@
+{
+  "schema": "VCP_SUPABASE_PROVIDER_COMPOSITION_V1",
+  "project": {
+    "name": "Vera Control Plane",
+    "ref": "fawkirqroyniueeqspif"
+  },
+  "composition_repository": "thebrazenbeard/vera-control-plane",
+  "baseline": {
+    "provider_inventory": "supabase/provider-custody/fawkirqroyniueeqspif/VCP_PROVIDER_LEDGER_CUSTODY_V1.json",
+    "provider_migration_count": 6,
+    "first_version": "20260912170153",
+    "last_version": "20260921200623",
+    "executable_directory": "supabase/migrations",
+    "invariant": "EXECUTABLE_BASELINE_IDENTITIES_AND_BYTES_EQUAL_PROVIDER_LEDGER"
+  },
+  "quarantine": {
+    "path": "supabase/drafts/pre-provider-composition-20260922",
+    "preserved_count": 3,
+    "filenames": [
+      "20260919195000_create_sd1_causal_secondary_anchor.sql",
+      "20260921173000_revoke_internal_rls_guard_public_execute.sql",
+      "20260921201000_make_anchor_deny_all_rls_explicit_v1.sql"
+    ],
+    "semantics": "AUDIT_ONLY_NOT_EXECUTABLE_MIGRATION_INPUT"
+  },
+  "future_migrations": {
+    "declaration_file": "supabase/composition/PENDING_MIGRATIONS_V1.json",
+    "provider_apply_and_readback_are_separate_effects": true
+  },
+  "claim_ceiling": [
+    "EXACT_PROVIDER_RECONSTRUCTION_BASELINE",
+    "NO_PROVIDER_REPLAY_BY_GIT_REPAIR",
+    "NO_RUNTIME_AUTHORITY_PROMOTION"
+  ]
+}

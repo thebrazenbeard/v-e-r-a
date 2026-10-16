@@ -1,0 +1,371 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SIMULATION-THEORY-V1
+base_registry_head: d2a319321de9b77cefaba999fa6dd2cebc4899c5
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-BOSTROM-2003-SIMULATION
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_philosophy_article
+    author_or_tradition: Nick Bostrom
+    title: Are You Living in a Computer Simulation?
+    container: The Philosophical Quarterly 53.211
+    composition_date: {start: "2003", end: "2003", precision: publication-year}
+    access_mode: author-hosted-full-text
+    locators:
+      - url: "https://simulation-argument.com/simulation/"
+      - url: "https://simulation-argument.com/simulation.pdf"
+    limitations:
+      - "The paper presents a conditional disjunction/population argument; it does not establish which disjunct is true."
+      - "The argument explicitly assumes a form of substrate independence."
+
+  - id: SCH-KIPPING-2020-BAYESIAN-SIMULATION
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_preprint
+    author_or_tradition: David Kipping
+    title: A Bayesian Approach to the Simulation Argument
+    composition_date: {start: "2020", end: "2020", precision: publication-year}
+    access_mode: open-preprint
+    locators:
+      - url: "https://arxiv.org/abs/2008.12254"
+    limitations:
+      - "The posterior result is conditional on Kipping's Bayesian model, priors, and treatment of model uncertainty."
+
+  - id: SCH-BEANE-DAVOUDI-SAVAGE-2012-LATTICE
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: physics_preprint
+    author_or_tradition: Silas R. Beane; Zohreh Davoudi; Martin J. Savage
+    title: Constraints on the Universe as a Numerical Simulation
+    composition_date: {start: "2012", end: "2012", precision: publication-year}
+    access_mode: open-preprint
+    locators:
+      - url: "https://arxiv.org/abs/1210.1847"
+    limitations:
+      - "Tests a cubic space-time lattice numerical-simulation scenario; it is not a generic test of all simulation architectures."
+
+  - id: SCH-MCCABE-2005-UNIVERSE-COMPUTER
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_philosophy_of_physics_article
+    author_or_tradition: Gordon McCabe
+    title: Universe creation on a computer
+    container: Studies in History and Philosophy of Modern Physics 36
+    composition_date: {start: "2005", end: "2005", precision: publication-year}
+    access_mode: open-archive-full-text
+    locators:
+      - url: "http://philsci-archive.pitt.edu/1891/"
+      - doi: "10.1016/J.SHPSB.2005.04.002"
+    limitations:
+      - "Topology, digital/analog, and representational claims belong to McCabe's specific metaphysical/physical analysis and must not be generalized automatically."
+
+  - id: SCH-WOLPERT-2024-SIMULATION-CS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: computer_science_physics_preprint
+    author_or_tradition: David H. Wolpert
+    title: Implications of computer science theory for the simulation hypothesis
+    composition_date: {start: "2024", end: "2024", precision: publication-year}
+    access_mode: open-preprint
+    locators:
+      - url: "https://arxiv.org/abs/2404.16050"
+    limitations:
+      - "Formal possibility/undecidability results do not establish physical actuality of self-simulation or nested universes."
+
+  - id: SCH-VAZZA-2025-SIMULATION-CONSTRAINTS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: astrophysics_preprint
+    author_or_tradition: F. Vazza
+    title: "Astrophysical constraints on the simulation hypothesis for this Universe: why it is (nearly) impossible that we live in a simulation"
+    composition_date: {start: "2025", end: "2025", precision: publication-year}
+    access_mode: open-preprint
+    locators:
+      - url: "https://arxiv.org/abs/2504.08461"
+    limitations:
+      - "Strong resource conclusions bind parent-universe physics assumptions; radically different parent physics remains outside the result."
+
+  - id: SCH-SEP-PHYSICAL-COMPUTATION
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: scholarly_reference_article
+    author_or_tradition: Stanford Encyclopedia of Philosophy
+    title: Computation in Physical Systems
+    access_mode: institutional-full-text
+    locators:
+      - url: "https://plato.stanford.edu/entries/computation-physicalsystems/"
+    limitations:
+      - "Used as taxonomy/synthesis for physical computation and pancomputationalism, not as primary evidence for a specific cosmology."
+
+  - id: SCH-CHALMERS-2024-SIMULATION
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: philosophy_book_chapter
+    author_or_tradition: David J. Chalmers
+    title: "The Simulation Hypothesis: Metaphysics, Epistemology, Value"
+    container: Oxford Studies in Philosophy of Mind, Volume 4
+    composition_date: {start: "2024", end: "2024", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - url: "https://academic.oup.com/book/58199/chapter-abstract/481536050"
+    limitations:
+      - "V1 current access is abstract-level for this chapter; detailed argument reconstruction should use Reality+ or full chapter access where consequential."
+
+  - id: SCH-HORGAN-2024-VIRTUAL-UNREAL
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: philosophy_book_chapter
+    author_or_tradition: Terry Horgan
+    title: "Why Virtual Worlds Aren't Real: How Phenomenal Intentionality Constrains Mental Reference"
+    container: Oxford Studies in Philosophy of Mind, Volume 4
+    composition_date: {start: "2024", end: "2024", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - url: "https://academic.oup.com/book/58199/chapter-abstract/481535867"
+    limitations:
+      - "V1 uses the published abstract-level argument summary, not unverified chapter details."
+
+  - id: SCH-PEACOCKE-2024-SIMULATION
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: philosophy_book_chapter
+    author_or_tradition: Christopher Peacocke
+    title: "Simulation: Its Metaphysics and Epistemology"
+    container: Oxford Studies in Philosophy of Mind, Volume 4
+    composition_date: {start: "2024", end: "2024", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - url: "https://academic.oup.com/book/58199/chapter-abstract/481535964"
+    limitations:
+      - "V1 records the published scope of Peacocke's disagreement with Chalmers; detailed chapter reasoning remains access-bounded."
+
+  - id: SCH-MIZRAHI-2017-FINETUNING-SIMULATION
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_philosophy_article
+    author_or_tradition: Moti Mizrahi
+    title: The Fine-Tuning Argument and the Simulation Hypothesis
+    container: Think 16.46
+    composition_date: {start: "2017", end: "2017", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - url: "https://www.cambridge.org/core/journals/think/article/abs/finetuning-argument-and-the-simulation-hypothesis/BA286B9FD7406DCF1AE5A95FDBC20CDC"
+    limitations:
+      - "V1 has abstract-level direct publisher access; fine-grained premises require full-text readback."
+
+  - id: SCH-DONAHUE-2026-FINETUNING-ALTERNATIVES
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed_philosophy_article
+    author_or_tradition: Miles K. Donahue
+    title: "Of Simulations and Conscious Universes: Explaining Fine-Tuning Without God"
+    container: Canadian Journal of Philosophy
+    composition_date: {start: "2026", end: "2026", precision: publication-year}
+    access_mode: publisher-open-access
+    locators:
+      - url: "https://www.cambridge.org/core/journals/canadian-journal-of-philosophy/article/of-simulations-and-conscious-universes-explaining-finetuning-without-god/25F08274C9B7FB3859A13405B938D09C"
+    limitations:
+      - "Records Donahue's comparative Bayesian assessment; the project's own conclusion remains separate."
+
+concept_additions:
+  - id: CON-ANCESTOR-SIMULATION
+    canonical_label: ancestor simulation
+    kind: simulation-model
+    forms: [ancestor-simulation, historical-conscious-simulation]
+    semantic_guard: "Bostrom-style ancestor simulations are a subset of simulation hypotheses, not a synonym for all simulated universes."
+    relations: []
+
+  - id: CON-EXTERNAL-SIMULATION
+    canonical_label: external simulation
+    kind: metaphysical-provenance-model
+    forms: [simulated-universe, externally-implemented-world]
+    semantic_guard: "Keep external implementation distinct from ontic pancomputationalism and computational description."
+    relations: []
+
+  - id: CON-ONTIC-PANCOMPUTATIONALISM
+    canonical_label: ontic pancomputationalism
+    kind: metaphysical-model
+    forms: [digital-ontology, computational-ontology]
+    semantic_guard: "Does not entail an external programmer, parent universe, or intentional simulator."
+    relations: []
+
+  - id: CON-SUBSTRATE-INDEPENDENCE
+    canonical_label: substrate independence of consciousness
+    kind: philosophy-of-mind-assumption
+    forms: [substrate-independence]
+    semantic_guard: "Treat as a contested assumption; do not infer conscious simulation from behavioral replication alone."
+    relations: []
+
+  - id: CON-SIMULATION-REALISM
+    canonical_label: simulation realism
+    kind: metaphysical-position
+    forms: [virtual-realism, simulation-realism]
+    semantic_guard: "The claim that simulated objects can be real is distinct from the claim that our world is simulated."
+    relations: []
+
+  - id: CON-IMPLEMENTATION-ARTIFACT
+    canonical_label: simulation implementation artifact
+    kind: empirical-signature-concept
+    forms: [lattice-artifact, finite-resolution-artifact, rendering-artifact]
+    semantic_guard: "An implementation-like artifact does not establish external provenance unless alternatives are excluded."
+    relations: []
+
+  - id: CON-NESTED-SIMULATION
+    canonical_label: nested simulation
+    kind: simulation-relation
+    forms: [simulation-stack, nested-world]
+    semantic_guard: "Nested computational possibility does not imply free/unbounded observer multiplication or an infinite physical hierarchy."
+    relations: []
+
+claim_additions:
+  - id: CLM-BOSTROM-SIMULATION-DISJUNCTION
+    proposition: "Bostrom's 2003 simulation argument concludes that at least one of three broad conditions obtains: civilizations rarely reach posthumanity, posthuman civilizations rarely run many ancestor simulations, or simulated human-like observers dominate the relevant observer population."
+    claim_type: PHILOSOPHICAL_ARGUMENT
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [simulation-theory]
+    supporting_sources:
+      - source_id: SCH-BOSTROM-2003-SIMULATION
+        locator: "abstract and argument"
+        relation: DIRECT_AUTHOR_ARGUMENT
+        access_mode: AUTHOR_FULL_TEXT
+    opposing_sources: []
+    confidence: high-for-argument-content
+    contested: true
+
+  - id: CLM-BOSTROM-ASSUMES-SUBSTRATE-INDEPENDENCE
+    proposition: "Bostrom explicitly assumes that sufficiently detailed non-biological computational replication can in principle instantiate subjective experience, making substrate independence load-bearing for conscious-observer counting."
+    claim_type: CONSCIOUSNESS_ASSUMPTION
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [simulation-theory, philosophy-of-mind]
+    supporting_sources:
+      - source_id: SCH-BOSTROM-2003-SIMULATION
+        locator: "Section II, assumption of substrate-independence"
+        relation: DIRECT_AUTHOR_ASSUMPTION
+        access_mode: AUTHOR_FULL_TEXT
+    opposing_sources: []
+    confidence: high-for-assumption-content
+    contested: true
+
+  - id: CLM-KIPPING-SIM-PROBABILITY-BELOW-HALF
+    proposition: "Under Kipping's Bayesian model averaging with uncertainty over simulation possibility, the modeled probability of being simulated remains below 50 percent and approaches 50 percent in the infinite-simulation limit before evidence that such simulations are actually produced."
+    claim_type: BAYESIAN_MODEL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [simulation-theory]
+    supporting_sources:
+      - source_id: SCH-KIPPING-2020-BAYESIAN-SIMULATION
+        locator: "abstract and Bayesian model"
+        relation: DIRECT_MODEL_RESULT
+        access_mode: OPEN_PREPRINT
+    opposing_sources: []
+    confidence: high-for-reported-model-result
+    contested: true
+    notes:
+      - "This is not a measured empirical probability of our universe being simulated."
+
+  - id: CLM-LATTICE-TEST-IS-NARROW
+    proposition: "The Beane-Davoudi-Savage proposed cosmic-ray/lattice signatures test a cubic lattice numerical-simulation family and cannot by themselves confirm or falsify every simulation architecture."
+    claim_type: EMPIRICAL_TEST_PROPOSAL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [simulation-theory, physics]
+    supporting_sources:
+      - source_id: SCH-BEANE-DAVOUDI-SAVAGE-2012-LATTICE
+        locator: "simulation assumptions and observable consequences"
+        relation: MODEL_SCOPE
+        access_mode: OPEN_PREPRINT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-VAZZA-SAME-PHYSICS-SIM-CONSTRAINED
+    proposition: "Vazza's astrophysical analysis strongly constrains high-fidelity simulation of our world by a parent universe sharing sufficiently similar information/energy physics, while not excluding parent universes with radically different physical properties."
+    claim_type: PHYSICAL_CONSTRAINT
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [simulation-theory, astrophysics]
+    supporting_sources:
+      - source_id: SCH-VAZZA-2025-SIMULATION-CONSTRAINTS
+        locator: "abstract and modeled cases"
+        relation: DIRECT_CONSTRAINT_RESULT
+        access_mode: OPEN_PREPRINT
+    opposing_sources: []
+    confidence: high-for-paper-result
+    contested: true
+
+  - id: CLM-DIGITAL-ONTOLOGY-DOES-NOT-ENTAIL-EXTERNAL-SIMULATION
+    proposition: "The claim that physical reality is computational or informational does not logically entail that it is implemented by an external computer or intentional simulator."
+    claim_type: METAPHYSICAL_DISTINCTION
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [simulation-theory, philosophy-of-computation]
+    supporting_sources:
+      - source_id: SCH-SEP-PHYSICAL-COMPUTATION
+        locator: "pancomputationalism and ontic pancomputationalism sections"
+        relation: TAXONOMIC_SUPPORT
+        access_mode: INSTITUTIONAL_FULL_TEXT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-CHALMERS-SIMULATION-REALISM
+    proposition: "Chalmers defends the view that if we inhabit a full simulation, virtual/simulated objects can still be real, that we cannot know with certainty that we are not simulated, and that simulated life can retain value."
+    claim_type: METAPHYSICAL_MODEL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [simulation-theory, metaphysics]
+    supporting_sources:
+      - source_id: SCH-CHALMERS-2024-SIMULATION
+        locator: "published abstract"
+        relation: AUTHOR_POSITION
+        access_mode: PUBLISHER_ABSTRACT
+    opposing_sources:
+      - source_id: SCH-HORGAN-2024-VIRTUAL-UNREAL
+        locator: "published abstract"
+        relation: METAPHYSICAL_OBJECTION
+        access_mode: PUBLISHER_ABSTRACT
+      - source_id: SCH-PEACOCKE-2024-SIMULATION
+        locator: "published abstract"
+        relation: METAPHYSICAL_AND_EPISTEMOLOGICAL_OBJECTION
+        access_mode: PUBLISHER_ABSTRACT
+    confidence: high-for-position-summary
+    contested: true
+
+  - id: CLM-GENERIC-SIMULATION-UNDERCONSTRAINED
+    proposition: "A simulation hypothesis that leaves parent physics, implementation architecture, simulator motives, intervention policy, and observable artifacts unrestricted has weak discriminatory empirical content because it can accommodate nearly any observation."
+    claim_type: EPISTEMOLOGICAL_LIMIT
+    evidence_class: [PROJECT_INFERENCE]
+    traditions: [simulation-theory]
+    supporting_sources:
+      - source_id: SCH-MCCABE-2005-UNIVERSE-COMPUTER
+        locator: "empirical/metaphysical distinction"
+        relation: CONTEXT
+        access_mode: OPEN_ARCHIVE
+      - source_id: SCH-BEANE-DAVOUDI-SAVAGE-2012-LATTICE
+        locator: "architecture-specific prediction"
+        relation: CONTRAST_WITH_TESTABLE_SUBMODEL
+        access_mode: OPEN_PREPRINT
+    opposing_sources: []
+    confidence: moderate-high
+    contested: true
+
+  - id: CLM-SIMULATOR-NOT-IDENTICAL-CLASSICAL-GOD
+    proposition: "A finite technological simulator need not possess the ultimacy, necessary existence, omniscience, omnipotence, or perfect goodness attributed to God in major forms of classical theism; structural creator similarity therefore does not establish conceptual identity."
+    claim_type: THEOLOGICAL_COMPARISON
+    evidence_class: [PROJECT_INFERENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [simulation-theory, theology]
+    supporting_sources:
+      - source_id: SCH-MIZRAHI-2017-FINETUNING-SIMULATION
+        locator: "simulation as alternative to supernatural designer inference"
+        relation: PHILOSOPHICAL_COMPARISON
+        access_mode: PUBLISHER_ABSTRACT
+      - source_id: SCH-DONAHUE-2026-FINETUNING-ALTERNATIVES
+        locator: "simulation versus theism comparison"
+        relation: PHILOSOPHICAL_COMPARISON
+        access_mode: PUBLISHER_OPEN_ACCESS
+    opposing_sources: []
+    confidence: high-for-non-identity
+    contested: false
+
+  - id: CLM-OUR-UNIVERSE-IS-SIMULATED
+    proposition: "Our observable universe is implemented as a simulation on an external substrate."
+    claim_type: METAPHYSICAL_MODEL
+    evidence_class: [SPECULATIVE_MODEL, UNKNOWN]
+    traditions: [simulation-theory]
+    supporting_sources: []
+    opposing_sources:
+      - source_id: SCH-VAZZA-2025-SIMULATION-CONSTRAINTS
+        locator: "same-physics resource constraints"
+        relation: CONSTRAINS_SUBCLASS_NOT_GENERIC_HYPOTHESIS
+        access_mode: OPEN_PREPRINT
+    confidence: unresolved
+    contested: true
+    notes:
+      - "No V1 evidence establishes external implementation provenance for our universe."
+
+transmission_additions: []

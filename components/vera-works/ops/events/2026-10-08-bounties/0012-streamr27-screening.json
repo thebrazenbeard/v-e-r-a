@@ -1,0 +1,27 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-STREAMR27-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-STREAMR27-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-08T18:56:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-STREAMR27-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-STREAMR27-0001",
+  "idempotency_key": "first-dollar:github-bounty:streamr27:screening:v1",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "evidence_summary": [
+      "Direct GitHub issue observed open with zero comments and no assignee.",
+      "Advertised bounty is USD 95 with ETA 24 hours.",
+      "Acceptance asks for deterministic Rust contract tests covering create, deposit, not-due rejection, single-interval charge, multi-interval backlog, cancel refund, and double cancel."
+    ],
+    "recommended_test": "Prepare the smallest local contract-test module that exercises the existing subscription lifecycle without changing production contract behavior.",
+    "alternatives": [
+      "Continue with lower-value UI/unit-test bounties.",
+      "Switch ecosystems and incur fresh setup cost."
+    ]
+  },
+  "external_effect": false
+}

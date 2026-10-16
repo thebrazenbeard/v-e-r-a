@@ -1,0 +1,197 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SUMERIAN-AFTERLIFE-LEXICON-V1
+base_registry_head: de5f1f0c88b49fb4c654eb87e25c021396957b0a
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SCH-EPSD2-GIDIM-GHOST
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: digital_lexical_database
+    author_or_tradition: ePSD2 / ORACC
+    title: "gidim [GHOST] (N)"
+    composition_date: {start: "2024", end: "2024", precision: database-build}
+    access_mode: institutional-digital-lexicon
+    locators:
+      - url: "https://oracc.museum.upenn.edu/epsd2/o0028131"
+    limitations:
+      - "Lexical sense classification does not establish unchanged ritual practice across all attested periods."
+
+  - id: SCH-EPSD2-KUR-MOUNTAIN
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: digital_lexical_database
+    author_or_tradition: ePSD2 / ORACC
+    title: "kur [MOUNTAIN] (N)"
+    composition_date: {start: "2024", end: "2024", precision: database-build}
+    access_mode: institutional-digital-lexicon
+    locators:
+      - url: "https://oracc.museum.upenn.edu/epsd2/earlylit/o0032654"
+    limitations:
+      - "Sense counts are corpus-dependent; contextual interpretation remains required."
+
+  - id: SCH-EPSD2-ARALI-EARTH
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: digital_lexical_database
+    author_or_tradition: ePSD2 / ORACC
+    title: "arali [EARTH] (N)"
+    composition_date: {start: "2024", end: "2024", precision: database-build}
+    access_mode: institutional-digital-lexicon
+    locators:
+      - url: "https://oracc.museum.upenn.edu/epsd2/cbd/sux/o0024401.html"
+      - url: "https://oracc.museum.upenn.edu/epsd2/admin/ur3/cbd/sux/summaries.html"
+    limitations:
+      - "Full-corpus and administrative-subcorpus sense distributions are not interchangeable."
+
+  - id: SCH-EPSD2-GANZER-EARTH
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: digital_lexical_database
+    author_or_tradition: ePSD2 / ORACC
+    title: "ganzer [EARTH] (N)"
+    composition_date: {start: "2024", end: "2024", precision: database-build}
+    access_mode: institutional-digital-lexicon
+    locators:
+      - url: "https://oracc.museum.upenn.edu/epsd2/cbd/sux/o0027881.html"
+    limitations:
+      - "Surviving attestations in the current entry begin in the Old Babylonian period; this is not proof of first historical use."
+
+  - id: SCH-EPSD2-KURNUGI-NETHERWORLD
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: digital_lexical_database
+    author_or_tradition: ePSD2 / ORACC
+    title: "kurnugi [NETHERWORLD] (N)"
+    composition_date: {start: "2024", end: "2024", precision: database-build}
+    access_mode: institutional-digital-lexicon
+    locators:
+      - url: "https://oracc.museum.upenn.edu/epsd2/o0032704"
+    limitations:
+      - "The fixed expression is semantically more specific than bare kur; component morphology does not license global equivalence."
+
+claim_additions:
+  - id: CLM-GIDIM-DECEASED-GHOST-SEMANTIC-CORE
+    proposition: "ePSD2 classifies gidim as the spirit of a deceased person or ghost across its attested corpus, including Early Dynastic and Ur III occurrences."
+    claim_type: LEXICAL_SEMANTIC_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-EPSD2-GIDIM-GHOST
+        locator: "sense and period distribution"
+        relation: LEXICAL_DATABASE
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-GIDIM-NOT-GENERIC-SUPERNATURAL
+    proposition: "gidim should not be normalized as a generic supernatural-being term; its ePSD2 semantic core is specifically the ghost or spirit of a deceased person."
+    claim_type: LEXICAL_SCOPE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-EPSD2-GIDIM-GHOST
+        locator: "gidim [GHOST] sense"
+        relation: LEXICAL_DATABASE
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-KUR-POLYSEMOUS-NOT-UNDERWORLD-DEFAULT
+    proposition: "kur is polysemous across land/country, mountain, and underworld senses and cannot be globally translated as underworld."
+    claim_type: LEXICAL_SCOPE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-EPSD2-KUR-MOUNTAIN
+        locator: "early-literary sense distribution"
+        relation: LEXICAL_DATABASE
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-ARALI-UNDERWORLD-MINORITY-SENSE
+    proposition: "The ePSD2 arali entry includes a real underworld sense, but most classified occurrences are earth/land rather than underworld."
+    claim_type: LEXICAL_SEMANTIC_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-EPSD2-ARALI-EARTH
+        locator: "81-instance full entry: earth/land and underworld senses"
+        relation: LEXICAL_DATABASE
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-ARALI-URIII-ADMIN-EARTH-LAND
+    proposition: "In the cited ePSD2 Ur III administrative subcorpus, surviving arali attestations are classified as earth/land rather than underworld."
+    claim_type: CORPUS_SPECIFIC_LEXICAL_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-EPSD2-ARALI-EARTH
+        locator: "Ur III administrative summary"
+        relation: SUBCORPUS_LEXICAL_DATABASE
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high-for-subcorpus
+    contested: false
+
+  - id: CLM-GANZER-UNDERWORLD-GATE-ORIENTED
+    proposition: "ganzer is strongly associated in ePSD2 with netherworld, underworld, or gate-to-the-underworld senses, while retaining some earth/land uses."
+    claim_type: LEXICAL_SEMANTIC_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-EPSD2-GANZER-EARTH
+        locator: "sense distribution and bilingual lexical associations"
+        relation: LEXICAL_DATABASE
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-GANZER-SURVIVING-ATTESTATION-OB-PLUS
+    proposition: "The current ePSD2 ganzer entry has surviving attestations beginning in the Old Babylonian period, so an Old Babylonian literary use does not by itself establish identical Early Dynastic usage."
+    claim_type: DIACHRONIC_LEXICAL_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-EPSD2-GANZER-EARTH
+        locator: "period distribution"
+        relation: LEXICAL_DATABASE
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high-for-surviving-corpus
+    contested: false
+
+  - id: CLM-KURNUGI-NETHERWORLD-SPECIFIC
+    proposition: "ePSD2 classifies kurnugi as a netherworld noun in all occurrences in its current entry, with surviving attestations from Old Babylonian onward."
+    claim_type: LEXICAL_SEMANTIC_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-EPSD2-KURNUGI-NETHERWORLD
+        locator: "sense and period distribution"
+        relation: LEXICAL_DATABASE
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high-for-current-entry
+    contested: false
+
+  - id: CLM-KUR-NOT-EQUIVALENT-KURNUGI
+    proposition: "Bare kur and the fixed term kurnugi must be represented as separate lexical units; the underworld sense of kurnugi does not make every kur occurrence an underworld reference."
+    claim_type: LEXICAL_SCOPE_CONTROL
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-EPSD2-KUR-MOUNTAIN
+        locator: "kur polysemy"
+        relation: LEXICAL_DATABASE
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+      - source_id: SCH-EPSD2-KURNUGI-NETHERWORLD
+        locator: "kurnugi fixed netherworld term"
+        relation: LEXICAL_DATABASE
+        access_mode: INSTITUTIONAL_DIGITAL_LEXICON
+    opposing_sources: []
+    confidence: high
+    contested: false

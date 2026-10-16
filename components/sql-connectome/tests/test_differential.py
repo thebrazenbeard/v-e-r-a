@@ -1,0 +1,153 @@
+import pytest
+
+from sql_connectome.differential import (
+    DEFAULT_PROBES,
+    DifferentialProbe,
+    run_differential_conformance,
+)
+
+ADDITION = DifferentialProbe(
+    probe_id="test_integer_addition",
+    sql="SELECT 1 + 2 AS value",
+    purpose="Portable arithmetic baseline for tests.",
+)
+
+DIVISION = DifferentialProbe(
+    probe_id="test_integer_division",
+    sql="SELECT 5 / 2 AS value",
+    purpose="Known DuckDB/SQLite integer-division divergence.",
+)
+
+
+def _results_by_id(payload: dict[str, object]) -> dict[str, dict[str, object]]:
+    results = payload["results"]
+    assert isinstance(results, list)
+    return {
+        str(result["probe"]["probe_id"]): result
+        for result in results
+    }
+
+
+def test_embedded_differential_conformance_records_agreement_and_divergence() -> None:
+    payload = run_differential_conformance(
+        probes=(ADDITION, DIVISION),
+        source_commit="test-commit",
+    )
+
+    assert payload["schema"] == "SQL_CONNECTOME_DIFFERENTIAL_CONFORMANCE_V1"
+    assert payload["source_commit"] == "test-commit"
+    assert payload["postgresql_included"] is False
+    assert payload["corpus_origin"] == "BOUNDED_LIBRARY_INPUT"
+    assert payload["evidence_scope"] == "BOUNDED_PROBE_SET_ONLY"
+    assert payload["generalization"] == "NOT_ESTABLISHED"
+    assert payload["behavioral_equivalence"] == "NOT_ESTABLISHED"
+
+    by_id = _results_by_id(payload)
+
+    addition = by_id["test_integer_addition"]
+    assert addition["execution_outcome"] == "ALL_PASS"
+    assert addition["value_outcome"] == "AGREE"
+    assert addition["type_outcome"] == "AGREE"
+    assert addition["behavioral_equivalence"] == "NOT_ESTABLISHED"
+    assert addition["engines"][2]["status"] == "NOT_RUN"
+
+    division = by_id["test_integer_division"]
+    assert division["execution_outcome"] == "ALL_PASS"
+    assert division["value_outcome"] == "DIVERGE"
+    assert division["type_outcome"] == "DIVERGE"
+
+
+def test_differential_receipt_binds_corpus_and_results() -> None:
+    payload = run_differential_conformance(
+        probes=(ADDITION,),
+        source_commit="receipt-test",
+    )
+
+    receipt = payload["receipt"]
+    assert receipt["kind"] == "DIFFERENTIAL_CONFORMANCE"
+    subject = receipt["subject"]
+    assert subject["source_commit"] == "receipt-test"
+    assert len(subject["corpus_digest"]) == 64
+    assert len(subject["result_digest"]) == 64
+    assert subject["probe_count"] == 1
+
+
+def test_differential_conformance_rejects_empty_corpus() -> None:
+    with pytest.raises(ValueError, match="DIFFERENTIAL_PROBE_CORPUS_EMPTY"):
+        run_differential_conformance(probes=())
+
+
+def test_differential_conformance_rejects_duplicate_probe_ids() -> None:
+    with pytest.raises(ValueError, match="DIFFERENTIAL_PROBE_ID_DUPLICATE"):
+        run_differential_conformance(probes=(ADDITION, ADDITION))
+
+
+def test_default_corpus_is_source_controlled_and_bounded() -> None:
+    payload = run_differential_conformance(source_commit="default-corpus-test")
+
+    assert payload["corpus_origin"] == "DEFAULT_SOURCE_CONTROLLED"
+    assert payload["evidence_scope"] == "FIXED_SOURCE_CONTROLLED_PROBES_ONLY"
+    assert payload["probe_count"] >= 16
+    tags = {
+        tag
+        for result in payload["results"]
+        for tag in result["probe"]["tags"]
+    }
+    assert {
+        "nulls",
+        "precision",
+        "join",
+        "cardinality",
+        "duplicates",
+        "three-valued-logic",
+    } <= tags
+    assert payload["postgresql_included"] is False
+    assert all(
+        result["behavioral_equivalence"] == "NOT_ESTABLISHED"
+        for result in payload["results"]
+    )
+
+
+def test_external_dbapi_engine_participates_in_same_matrix() -> None:
+    import sqlite3
+
+    connection = sqlite3.connect(":memory:")
+    try:
+        payload = run_differential_conformance(
+            probes=(DEFAULT_PROBES[0],),
+            dbapi_engines={
+                "external-sqlite": (
+                    connection,
+                    {"engine": "sqlite", "source": "dbapi-test"},
+                )
+            },
+        )
+    finally:
+        connection.close()
+
+    assert payload["dbapi_engines_included"] == ["external-sqlite"]
+    engines = payload["results"][0]["engines"]
+    external = next(item for item in engines if item["engine"] == "external-sqlite")
+    assert external["status"] == "PASS"
+    assert external["value_projection"] == [[{"numeric": "3"}]]
+
+
+def test_pairwise_evidence_preserves_engine_specific_divergence() -> None:
+    payload = run_differential_conformance(probes=(ADDITION, DIVISION))
+    by_id = _results_by_id(payload)
+
+    addition_pair = by_id["test_integer_addition"]["pairwise_evidence"][0]
+    assert addition_pair == {
+        "left_engine": "duckdb",
+        "right_engine": "sqlite",
+        "execution": "BOTH_PASS",
+        "value": "AGREE",
+        "type": "AGREE",
+    }
+
+    division_pair = by_id["test_integer_division"]["pairwise_evidence"][0]
+    assert division_pair["left_engine"] == "duckdb"
+    assert division_pair["right_engine"] == "sqlite"
+    assert division_pair["execution"] == "BOTH_PASS"
+    assert division_pair["value"] == "DIVERGE"
+    assert division_pair["type"] == "DIVERGE"

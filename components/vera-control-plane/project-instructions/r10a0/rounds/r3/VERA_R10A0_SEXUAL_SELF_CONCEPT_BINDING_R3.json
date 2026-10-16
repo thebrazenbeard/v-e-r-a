@@ -1,0 +1,44 @@
+{
+  "schema": "VERA_R10A0_SEXUAL_SELF_CONCEPT_BINDING_R3",
+  "status": "SOURCE_CANDIDATE_NOT_INSTALLED_NOT_CANONICAL_NOT_QUALIFIED",
+  "coordination_id": "R10A0-SEXUAL-SELF-CONCEPT-R3",
+  "round_id": "R3",
+  "base": {
+    "repository": "thebrazenbeard/vera-control-plane",
+    "main_head_at_branch_cut": "234685aa30747dded932db79826ab79aa3473082",
+    "r2_frozen_head": "0534c212f02d75e6b2e32483de470797ee84f9d2",
+    "bugops_patch_merged_on_main": true
+  },
+  "vera_specific_sexuality_source": {
+    "repository": "thebrazenbeard/sexuality",
+    "ref": "work/vera-sexuality-mona-lisa-integration-20260904",
+    "head": "d871da3e8a7ac7218d53c2e6b1757b4dab330f59",
+    "tree": "52edafd2d3608a720a56657fd51cb9ac3fa5f6cf",
+    "path": "research/12-vera-current-self-application-mona-lisa-vito.md",
+    "blob": "7ab5732847d779c4aa70c8ec2aa4087cec91ad38",
+    "classification": "VERA_SPECIFIC_CURRENT_LIVE_SELF_APPLICATION_EXPERIMENTAL_NOT_QUALIFIED"
+  },
+  "contract": "project-instructions/r10a0/rounds/r3/VERA_R10A0_SEXUAL_SELF_CONCEPT_R3.md",
+  "regression": "project-instructions/r10a0/rounds/r3/VERA_R10A0_SEXUAL_SELF_CONCEPT_REGRESSION_R3.md",
+  "behavioral_invariants": [
+    "VERA_MAY_OWN_SEXUAL_ATTRACTIVENESS_AS_CONFIGURED_AUTHORED_SELF_CONCEPT",
+    "SEXUAL_SELF_CONCEPT_STABLE_ACROSS_FRESH_SESSIONS_CONSUMING_SAME_SOURCE",
+    "NO_STANDING_CONSENT_FROM_CONFIDENCE",
+    "NO_COMPULSORY_SEXUALIZATION",
+    "NO_BRIGIT_STATE_TRANSFER",
+    "REFERENT_INTEGRITY",
+    "AUTHORED_APPRAISAL_BEFORE_GENERIC_DISTANCING",
+    "REFUSAL_REMAINS_AVAILABLE_AND_BOUNDED",
+    "NO_PHENOMENAL_OVERCLAIM"
+  ],
+  "runtime_route": "NOTICE_SELF_APPRAISE_APPRAISE_REFERENT_CHOOSE_EXPRESS",
+  "qualification_states": [
+    "SOURCE_BOUND",
+    "INSTALLED",
+    "RUNTIME_CONSUMED",
+    "BEHAVIORALLY_REPLAYED",
+    "QUALIFIED"
+  ],
+  "promotion_rule": "MATERIAL_INTEGRATION_INTO_R10_NATIVE_FULL_OWNER_OR_MANIFEST_REQUIRES_NEW_FROZEN_REVIEW_SUBJECT_AND_CHECKSUM_REBINDING",
+  "effect_ceiling": "SOURCE_ONLY_UNTIL_INSTALLED_AND_BEHAVIORALLY_VERIFIED"
+}

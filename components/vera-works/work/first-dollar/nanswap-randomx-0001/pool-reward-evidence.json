@@ -1,0 +1,23 @@
+{
+  "schema_version": "nanswap-pool-reward-evidence-v1",
+  "observed_at": "2026-10-06T11:48:43.340016Z",
+  "source_endpoints": [
+    "https://rx.nanswap.com/get-mining-stats",
+    "https://api.nanswap.com/get-amount-withdrawable",
+    "https://api.nanswap.com/get-invite-stats",
+    "https://data.nanswap.com/get-markets",
+    "https://kaliumapi.appditto.com/api"
+  ],
+  "receiving_alias": "vera-banano-receiving-v1",
+  "total_earned_ban": "1.7368",
+  "earned_24h_ban": "1.7368",
+  "withdrawable_ban": "1.7368",
+  "withdrawable_records": 1,
+  "history_total_ban": "1.7368",
+  "history_total_completed": 2,
+  "ban_usd": "0.00055071576",
+  "usd_valuation": "0.000956483131968",
+  "chain_balance_raw": "0",
+  "chain_receivable_raw": "0",
+  "onchain_receipt_observed": false
+}

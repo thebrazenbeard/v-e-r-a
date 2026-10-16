@@ -1,0 +1,12 @@
+{
+  "schema": "VERA_BUS_RADAR_ACTIONS_CONTINUATION_POINTER_V1",
+  "restore_command": "VERA::RESTORE_AND_RUN::BUS_RADAR_ACTIONS_CONTINUATION_20260923_V1",
+  "primary_repository": "thebrazenbeard/chat-communication-bus",
+  "primary_main_at_save": "0d47644171283e0a46d2e759c67ef4a5bf0b72ff",
+  "primary_markdown": "docs/checkpoints/VERA_BUS_RADAR_ACTIONS_CONTINUATION_20260923_V1.md",
+  "primary_markdown_blob": "4b1b3c879ca453c5a2eae39c48a3c6beabcb4076",
+  "primary_json": "docs/checkpoints/VERA_BUS_RADAR_ACTIONS_CONTINUATION_20260923_V1.json",
+  "primary_json_blob": "fc2d6656bdd814bd2f6cb02332b16cdadab44a7e",
+  "state": "CANONICAL_BUS_SOURCE_CUSTODY_REPAIRED / RUNNER_ACCOUNT_BLOCKED / CENTRAL_DISPATCHER_NOT_EXECUTED / RADAR_PROJECTION_STALE",
+  "rule": "Fresh chat must read the primary checkpoint and refresh all mutable heads/provider state before resuming."
+}

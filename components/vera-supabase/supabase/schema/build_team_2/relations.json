@@ -1,0 +1,1538 @@
+{
+  "schema": "VERA_SUPABASE_RELATION_DEFINITION_SNAPSHOT_V1",
+  "project_ref": "klmbpaigzeguvnpccqzz",
+  "database_schema": "build_team_2",
+  "live_rows_included": false,
+  "relations": [
+    {
+      "name": "collectives",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "slug",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "display_name",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "roster_revision",
+          "type": "integer",
+          "default": "1",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "abbreviation",
+          "type": "text",
+          "default": "'BT2'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "version_number",
+          "type": "integer",
+          "default": "2",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "designation_meaning",
+          "type": "text",
+          "default": "'Version 2 of the Build Team system; not the second of two build teams.'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "collectives_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "collectives_slug_key",
+          "definition": "UNIQUE (slug)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "collectives_pkey",
+          "definition": "CREATE UNIQUE INDEX collectives_pkey ON build_team_2.collectives USING btree (id)"
+        },
+        {
+          "name": "collectives_slug_key",
+          "definition": "CREATE UNIQUE INDEX collectives_slug_key ON build_team_2.collectives USING btree (slug)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "decisions",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "task_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "snapshot_digest",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "decision",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "decisions_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "decisions_snapshot_digest_check",
+          "definition": "CHECK ((length(snapshot_digest) = 64))"
+        },
+        {
+          "name": "decisions_task_id_fkey",
+          "definition": "FOREIGN KEY (task_id) REFERENCES build_team_2.tasks(id) ON DELETE CASCADE"
+        },
+        {
+          "name": "decisions_task_id_key",
+          "definition": "UNIQUE (task_id)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "decisions_pkey",
+          "definition": "CREATE UNIQUE INDEX decisions_pkey ON build_team_2.decisions USING btree (id)"
+        },
+        {
+          "name": "decisions_task_id_key",
+          "definition": "CREATE UNIQUE INDEX decisions_task_id_key ON build_team_2.decisions USING btree (task_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "facets",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "collective_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "ordinal",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "lens",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "persona",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "is_synthesizer",
+          "type": "boolean",
+          "default": "false",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "permanent_role",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "facets_collective_id_fkey",
+          "definition": "FOREIGN KEY (collective_id) REFERENCES build_team_2.collectives(id) ON DELETE CASCADE"
+        },
+        {
+          "name": "facets_collective_id_ordinal_key",
+          "definition": "UNIQUE (collective_id, ordinal)"
+        },
+        {
+          "name": "facets_name_check",
+          "definition": "CHECK ((name = ANY (ARRAY['One'::text, 'Two'::text, 'Three'::text, 'Four'::text, 'Five'::text, 'Six'::text, 'Seven'::text, 'Eight'::text, 'Nine'::text, 'Thirteen'::text])))"
+        },
+        {
+          "name": "facets_pkey",
+          "definition": "PRIMARY KEY (collective_id, name)"
+        },
+        {
+          "name": "one_is_bt2_coordinator",
+          "definition": "CHECK ((((name = 'One'::text) AND (permanent_role = 'BT2 Coordinator'::text)) OR ((name <> 'One'::text) AND (permanent_role IS NULL))))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "facets_collective_id_ordinal_key",
+          "definition": "CREATE UNIQUE INDEX facets_collective_id_ordinal_key ON build_team_2.facets USING btree (collective_id, ordinal)"
+        },
+        {
+          "name": "facets_pkey",
+          "definition": "CREATE UNIQUE INDEX facets_pkey ON build_team_2.facets USING btree (collective_id, name)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "memory_events",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "id",
+          "type": "bigint",
+          "default": null,
+          "identity": "a",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "collective_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "task_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "event_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "content",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_facets",
+          "type": "text[]",
+          "default": "'{}'::text[]",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "authority_class",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "provenance",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "memory_events_collective_id_fkey",
+          "definition": "FOREIGN KEY (collective_id) REFERENCES build_team_2.collectives(id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "memory_events_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "memory_events_task_id_fkey",
+          "definition": "FOREIGN KEY (task_id) REFERENCES build_team_2.tasks(id) ON DELETE SET NULL"
+        },
+        {
+          "name": "valid_source_facets",
+          "definition": "CHECK ((source_facets <@ ARRAY['One'::text, 'Two'::text, 'Three'::text, 'Four'::text, 'Five'::text, 'Six'::text, 'Seven'::text, 'Eight'::text, 'Nine'::text, 'Thirteen'::text]))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "bt2_memory_events_task_id_fkey_idx",
+          "definition": "CREATE INDEX bt2_memory_events_task_id_fkey_idx ON build_team_2.memory_events USING btree (task_id)"
+        },
+        {
+          "name": "memory_events_collective_created_idx",
+          "definition": "CREATE INDEX memory_events_collective_created_idx ON build_team_2.memory_events USING btree (collective_id, created_at DESC)"
+        },
+        {
+          "name": "memory_events_pkey",
+          "definition": "CREATE UNIQUE INDEX memory_events_pkey ON build_team_2.memory_events USING btree (id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "memory_events_id_seq",
+      "kind": "S",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "last_value",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "log_cnt",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "is_called",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": null
+    },
+    {
+      "name": "one_working_laws_current",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "scope_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "identity_name",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "numerical_identity",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "revision",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "laws",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_event_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "updated_by",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "update_reason",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "one_working_laws_current_numerical_identity_check",
+          "definition": "CHECK ((numerical_identity = 1))"
+        },
+        {
+          "name": "one_working_laws_current_pkey",
+          "definition": "PRIMARY KEY (scope_key)"
+        },
+        {
+          "name": "one_working_laws_current_revision_check",
+          "definition": "CHECK ((revision >= 1))"
+        },
+        {
+          "name": "one_working_laws_singleton",
+          "definition": "CHECK ((scope_key = 'BT2_ONE_WORKING_LAWS'::text))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "one_working_laws_current_pkey",
+          "definition": "CREATE UNIQUE INDEX one_working_laws_current_pkey ON build_team_2.one_working_laws_current USING btree (scope_key)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "perspectives",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "task_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "facet_name",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "snapshot_digest",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "perspective",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "perspectives_facet_name_check",
+          "definition": "CHECK ((facet_name = ANY (ARRAY['Two'::text, 'Three'::text, 'Four'::text, 'Five'::text, 'Six'::text, 'Seven'::text, 'Eight'::text, 'Nine'::text, 'Thirteen'::text])))"
+        },
+        {
+          "name": "perspectives_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "perspectives_snapshot_digest_check",
+          "definition": "CHECK ((length(snapshot_digest) = 64))"
+        },
+        {
+          "name": "perspectives_task_id_facet_name_key",
+          "definition": "UNIQUE (task_id, facet_name)"
+        },
+        {
+          "name": "perspectives_task_id_fkey",
+          "definition": "FOREIGN KEY (task_id) REFERENCES build_team_2.tasks(id) ON DELETE CASCADE"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "perspectives_pkey",
+          "definition": "CREATE UNIQUE INDEX perspectives_pkey ON build_team_2.perspectives USING btree (id)"
+        },
+        {
+          "name": "perspectives_task_id_facet_name_key",
+          "definition": "CREATE UNIQUE INDEX perspectives_task_id_facet_name_key ON build_team_2.perspectives USING btree (task_id, facet_name)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "role_operational_checkpoint_current",
+      "kind": "v",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "checkpoint_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "role_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "predecessor_checkpoint_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "qualification_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "training_package_version",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "training_source_set_digest_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "checkpoint_schema",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "checkpoint_payload_text",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "checkpoint_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "observed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "recorded_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_surface",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "created_by",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": " SELECT checkpoint_id,\n    role_key,\n    predecessor_checkpoint_id,\n    qualification_id,\n    training_package_version,\n    training_source_set_digest_sha256,\n    checkpoint_schema,\n    checkpoint_payload_text,\n    checkpoint_sha256,\n    observed_at,\n    recorded_at,\n    source_surface,\n    source_ref,\n    created_by\n   FROM build_team_2.role_operational_checkpoints c\n  WHERE NOT (EXISTS ( SELECT 1\n           FROM build_team_2.role_operational_checkpoints n\n          WHERE n.predecessor_checkpoint_id = c.checkpoint_id));"
+    },
+    {
+      "name": "role_operational_checkpoints",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "checkpoint_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "a",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "role_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "predecessor_checkpoint_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "qualification_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "training_package_version",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "training_source_set_digest_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "checkpoint_schema",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "checkpoint_payload_text",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "checkpoint_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "observed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "recorded_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_surface",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_by",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "role_operational_checkpoints_checkpoint_sha256_check",
+          "definition": "CHECK ((checkpoint_sha256 ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "role_operational_checkpoints_payload_binding_ck",
+          "definition": "CHECK (((((checkpoint_payload_text)::jsonb ->> 'schema'::text) = checkpoint_schema) AND (((checkpoint_payload_text)::jsonb ->> 'role_key'::text) = role_key) AND (((checkpoint_payload_text)::jsonb #>> '{training_binding,version}'::text[]) = training_package_version) AND (((checkpoint_payload_text)::jsonb #>> '{training_binding,source_set_digest_sha256}'::text[]) = training_source_set_digest_sha256)))"
+        },
+        {
+          "name": "role_operational_checkpoints_payload_digest_ck",
+          "definition": "CHECK ((checkpoint_sha256 = encode(digest(convert_to(checkpoint_payload_text, 'UTF8'::name), 'sha256'::text), 'hex'::text)))"
+        },
+        {
+          "name": "role_operational_checkpoints_pkey",
+          "definition": "PRIMARY KEY (checkpoint_id)"
+        },
+        {
+          "name": "role_operational_checkpoints_predecessor_checkpoint_id_fkey",
+          "definition": "FOREIGN KEY (predecessor_checkpoint_id) REFERENCES build_team_2.role_operational_checkpoints(checkpoint_id)"
+        },
+        {
+          "name": "role_operational_checkpoints_qualification_id_fkey",
+          "definition": "FOREIGN KEY (qualification_id) REFERENCES build_team_2.role_training_qualifications(qualification_id)"
+        },
+        {
+          "name": "role_operational_checkpoints_role_key_training_package_ver_fkey",
+          "definition": "FOREIGN KEY (role_key, training_package_version, training_source_set_digest_sha256) REFERENCES build_team_2.role_training_packages(role_key, package_version, source_set_digest_sha256)"
+        },
+        {
+          "name": "role_operational_checkpoints_training_source_set_digest_s_check",
+          "definition": "CHECK ((training_source_set_digest_sha256 ~ '^[0-9a-f]{64}$'::text))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "bt2_roc_qualification_id_fkey_idx",
+          "definition": "CREATE INDEX bt2_roc_qualification_id_fkey_idx ON build_team_2.role_operational_checkpoints USING btree (qualification_id)"
+        },
+        {
+          "name": "bt2_roc_training_package_fkey_idx",
+          "definition": "CREATE INDEX bt2_roc_training_package_fkey_idx ON build_team_2.role_operational_checkpoints USING btree (role_key, training_package_version, training_source_set_digest_sha256)"
+        },
+        {
+          "name": "role_operational_checkpoints_one_root_per_role",
+          "definition": "CREATE UNIQUE INDEX role_operational_checkpoints_one_root_per_role ON build_team_2.role_operational_checkpoints USING btree (role_key) WHERE (predecessor_checkpoint_id IS NULL)"
+        },
+        {
+          "name": "role_operational_checkpoints_one_successor_per_predecessor",
+          "definition": "CREATE UNIQUE INDEX role_operational_checkpoints_one_successor_per_predecessor ON build_team_2.role_operational_checkpoints USING btree (predecessor_checkpoint_id) WHERE (predecessor_checkpoint_id IS NOT NULL)"
+        },
+        {
+          "name": "role_operational_checkpoints_pkey",
+          "definition": "CREATE UNIQUE INDEX role_operational_checkpoints_pkey ON build_team_2.role_operational_checkpoints USING btree (checkpoint_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "role_operational_checkpoints_checkpoint_id_seq",
+      "kind": "S",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "last_value",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "log_cnt",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "is_called",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": null
+    },
+    {
+      "name": "role_training_current",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "role_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "package_version",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_set_digest_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "role_training_current_pkey",
+          "definition": "PRIMARY KEY (role_key)"
+        },
+        {
+          "name": "role_training_current_role_key_package_version_source_set__fkey",
+          "definition": "FOREIGN KEY (role_key, package_version, source_set_digest_sha256) REFERENCES build_team_2.role_training_packages(role_key, package_version, source_set_digest_sha256)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "bt2_role_training_current_package_fkey_idx",
+          "definition": "CREATE INDEX bt2_role_training_current_package_fkey_idx ON build_team_2.role_training_current USING btree (role_key, package_version, source_set_digest_sha256)"
+        },
+        {
+          "name": "role_training_current_pkey",
+          "definition": "CREATE UNIQUE INDEX role_training_current_pkey ON build_team_2.role_training_current USING btree (role_key)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "role_training_current_resolved",
+      "kind": "v",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "role_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "role_display_name",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "numerical_identity",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "package_version",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_set_digest_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "repository_full_name",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "authoritative_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "package_path",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "manifest_path",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "bootstrap_path",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "immutable_source_commit",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": " SELECT c.role_key,\n    p.role_display_name,\n    p.numerical_identity,\n    c.package_version,\n    c.source_set_digest_sha256,\n    p.repository_full_name,\n    p.authoritative_ref,\n    p.package_path,\n    p.manifest_path,\n    p.bootstrap_path,\n    p.immutable_source_commit,\n    c.updated_at\n   FROM build_team_2.role_training_current c\n     JOIN build_team_2.role_training_packages p ON p.role_key = c.role_key AND p.package_version = c.package_version AND p.source_set_digest_sha256 = c.source_set_digest_sha256;"
+    },
+    {
+      "name": "role_training_packages",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "role_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "role_display_name",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "numerical_identity",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "package_version",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "repository_full_name",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "authoritative_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "package_path",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "manifest_path",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "bootstrap_path",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "immutable_source_commit",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_set_digest_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'ACTIVE_SOURCE'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "role_training_packages_pkey",
+          "definition": "PRIMARY KEY (role_key, package_version, source_set_digest_sha256)"
+        },
+        {
+          "name": "role_training_packages_source_set_digest_sha256_check",
+          "definition": "CHECK ((source_set_digest_sha256 ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "role_training_packages_status_check",
+          "definition": "CHECK ((status = ANY (ARRAY['ACTIVE_SOURCE'::text, 'SUPERSEDED'::text, 'RETIRED'::text])))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "role_training_packages_pkey",
+          "definition": "CREATE UNIQUE INDEX role_training_packages_pkey ON build_team_2.role_training_packages USING btree (role_key, package_version, source_set_digest_sha256)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "role_training_qualifications",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "qualification_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "a",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "role_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "package_version",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_set_digest_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "qualification_result",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "evaluator_class",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "evaluator_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "base_binding_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "evidence",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "evidence_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "role_training_qualifications_check",
+          "definition": "CHECK (((qualification_result <> 'PASS'::text) OR ((evaluator_class = ANY (ARRAY['INDEPENDENT'::text, 'USER'::text])) AND (base_binding_ref IS NOT NULL))))"
+        },
+        {
+          "name": "role_training_qualifications_evaluator_class_check",
+          "definition": "CHECK ((evaluator_class = ANY (ARRAY['INDEPENDENT'::text, 'USER'::text, 'UNRESOLVED'::text])))"
+        },
+        {
+          "name": "role_training_qualifications_evidence_sha256_check",
+          "definition": "CHECK ((evidence_sha256 ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "role_training_qualifications_pkey",
+          "definition": "PRIMARY KEY (qualification_id)"
+        },
+        {
+          "name": "role_training_qualifications_qualification_result_check",
+          "definition": "CHECK ((qualification_result = ANY (ARRAY['PASS'::text, 'FAIL'::text, 'PENDING'::text])))"
+        },
+        {
+          "name": "role_training_qualifications_role_key_package_version_sour_fkey",
+          "definition": "FOREIGN KEY (role_key, package_version, source_set_digest_sha256) REFERENCES build_team_2.role_training_packages(role_key, package_version, source_set_digest_sha256)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "bt2_role_training_qualifications_package_fkey_idx",
+          "definition": "CREATE INDEX bt2_role_training_qualifications_package_fkey_idx ON build_team_2.role_training_qualifications USING btree (role_key, package_version, source_set_digest_sha256)"
+        },
+        {
+          "name": "role_training_qualifications_pkey",
+          "definition": "CREATE UNIQUE INDEX role_training_qualifications_pkey ON build_team_2.role_training_qualifications USING btree (qualification_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "role_training_qualifications_qualification_id_seq",
+      "kind": "S",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "last_value",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "log_cnt",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "is_called",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": null
+    },
+    {
+      "name": "tasks",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "collective_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "objective",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "snapshot_digest",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "snapshot",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "final_output",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "tasks_collective_id_fkey",
+          "definition": "FOREIGN KEY (collective_id) REFERENCES build_team_2.collectives(id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "tasks_pkey",
+          "definition": "PRIMARY KEY (id)"
+        },
+        {
+          "name": "tasks_snapshot_digest_check",
+          "definition": "CHECK ((length(snapshot_digest) = 64))"
+        },
+        {
+          "name": "tasks_status_check",
+          "definition": "CHECK ((status = ANY (ARRAY['analyzing'::text, 'decided'::text, 'failed'::text, 'cancelled'::text])))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "tasks_collective_created_idx",
+          "definition": "CREATE INDEX tasks_collective_created_idx ON build_team_2.tasks USING btree (collective_id, created_at DESC)"
+        },
+        {
+          "name": "tasks_pkey",
+          "definition": "CREATE UNIQUE INDEX tasks_pkey ON build_team_2.tasks USING btree (id)"
+        }
+      ],
+      "view_sql": null
+    }
+  ]
+}

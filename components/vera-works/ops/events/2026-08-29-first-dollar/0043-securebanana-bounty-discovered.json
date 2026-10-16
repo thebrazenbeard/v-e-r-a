@@ -1,0 +1,26 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0043",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0008",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T22:35:02Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0026",
+  "idempotency_key": "first-dollar:opp:0008:discovered",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {
+    "title": "Automate Bug Detection and Reviews",
+    "buyer": "SecureBananaLabs",
+    "channel": "GitHub bug-bounty parent issue",
+    "source_url": "https://github.com/SecureBananaLabs/bug-bounty/issues/11398",
+    "compensation": "USD 800 stated in issue body; repository labels show changing higher bounty figures, so exact current payout semantics are not treated as settled.",
+    "work_requested": "Find a new bug/feature, create a creator-limited issue referencing the parent, then produce a successful merged PR.",
+    "ai_fit": "Parent issue carries an AI agent friendly label.",
+    "source_state": "Open parent bounty with heavy contributor/claim activity.",
+    "startup_cost_usd": "0"
+  },
+  "external_effect": false
+}

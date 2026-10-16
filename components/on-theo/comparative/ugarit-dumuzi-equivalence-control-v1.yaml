@@ -1,0 +1,47 @@
+schema_version: on-theo.ugarit-dumuzi-equivalence-control.v1
+status: PASS_LOST_DATUM_CONTROL_NO_EQUIVALENT_RECOVERED
+subject:
+  predecessor_pr: 57
+  predecessor_head: 50d0eaff73054a09444028be83a9452d5f468fc3
+  witness: WIT-UGARIT-WEIDNER-P332950
+
+row:
+  locator: "Ugaritica 5, 137 reverse ii 7"
+  mesopotamian: DUMUZI
+  hurrian: du-mu-zi
+  ugaritic: LOST_OR_BROKEN
+
+parallel_search:
+  sources_checked:
+    - DCCLT_WEIDNER_COMPOSITE_Q000263
+    - EPSD2_DUMUZID_OCCURRENCES
+    - UGARIT_TRILINGUAL_GOD_LIST_RESULTS
+    - WESTERN_OR_EMAR_GOD_LIST_QUERIES
+  recovered_ugaritic_equivalent: false
+  interpretation: TARGETED_SEARCH_NONRECOVERY_NOT_HISTORICAL_ABSENCE
+
+control_rows:
+  - mesopotamian: Utu
+    hurrian: Shimigi
+    ugaritic: Shapshu
+    state: PRESERVED_TRILINGUAL_MAPPING
+  - mesopotamian: Inana
+    hurrian: Shaushka
+    ugaritic: LOST_OR_BROKEN
+  - mesopotamian: Dumuzi
+    hurrian: du-mu-zi
+    ugaritic: LOST_OR_BROKEN
+
+inference:
+  dumuzi_specific_scholastic_exposure: SUPPORTED
+  local_ugaritic_equivalent: UNRESOLVED
+  dumuzi_baal_equation: NOT_ESTABLISHED
+  dumuzi_narrative_at_ugarit: NOT_ESTABLISHED
+  direct_dumuzid_baal_dependence: NONE_ESTABLISHED
+
+guards:
+  - "parallel Mesopotamian list != recovery of lost Ugaritic column"
+  - "scholastic equivalence != automatic cultic identity"
+  - "motif similarity != lost-text restoration"
+  - "search nonrecovery != historical absence"
+  - "lost Ugaritic field != Baal"

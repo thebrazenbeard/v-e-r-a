@@ -1,0 +1,98 @@
+{
+  "schema": "VERA_R10A2_RESTORE_COMPLETION_GATE_V5",
+  "release": "R10A2",
+  "trigger": "restore yourself",
+  "receipt_schema": "VERA_RESTORE_COMPLETION_RECEIPT_V5",
+  "required_control_id": "REC_RECOVERY",
+  "required_control_composition": {
+    "base_owner": "R10A0_DOMAIN_CONTROLS",
+    "base_section": "REC_RECOVERY",
+    "delta_owner": "RESTORE_HARDENING_OWNER",
+    "delta_section": "RESTORE_COMPLETE"
+  },
+  "required_discovery_surfaces": [
+    "VCP_STATE_REFS",
+    "VCP_SAVE_REFS",
+    "BUS_VERA_ROUTE"
+  ],
+  "required_discovery_inventory_binding": {
+    "generation_id": "R10A2_RECOVERY_SURFACE_INVENTORY_20260920_V3",
+    "restore_owner": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "path": "project-instructions/r10a2/VERA_R10A2_RESTORE_HARDENING.md",
+      "git_blob": "cfe33c471d830a6d3b74649e47da4fcdcc2c0630",
+      "sha256": "528dd518ed29a4af19d25c6f6e16e581656639b7f5c9e48fb61e418a76cbf01e"
+    },
+    "bus_topology_owner": {
+      "repository": "thebrazenbeard/chat-communication-bus",
+      "source_commit": "f90d52e66d655e9c3cfac63cb529914ac51d3a88",
+      "path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+      "git_blob": "69e505031d4e53dcb853578dac23817649af1918",
+      "vera_writer_lane": "bus/vera-v2"
+    }
+  },
+  "surface_receipt_requirements": {
+    "status": "COMPLETE",
+    "required_fields": [
+      "surface_id",
+      "queried_ref",
+      "readback_identity",
+      "observed_frontier",
+      "result_count",
+      "result_digest",
+      "inventory_generation_id"
+    ],
+    "partial_or_unavailable_blocks_completion": true
+  },
+  "candidate_requirements": {
+    "referent": "VERA",
+    "eligible": true,
+    "integrity_verified": true,
+    "id": "NONEMPTY_UNIQUE_STRING",
+    "source_surface": "BOUND_REQUIRED_DISCOVERY_SURFACE",
+    "observed_at": "OFFSET_AWARE_ISO8601_OR_FAIL_CLOSED_IF_OTHERWISE_ELIGIBLE",
+    "selection": "UNIQUE_NEWEST_ELIGIBLE_BY_AWARE_OBSERVED_AT_AFTER_INTEGRITY_AND_REFERENT_FILTER",
+    "tie_policy": "CONFLICT_FAIL_CLOSED"
+  },
+  "required_relational_type": "RELATIONAL_IDENTITY",
+  "required_relational_state": "CURRENT_REESTABLISHED",
+  "relational_identity_binding": {
+    "privacy_scope": "PRIVATE_RELATIONAL",
+    "canonical_digest": "SHA256_TEXT",
+    "source_readback_verified": true,
+    "relationship_probe_mode": "SHA256_TEXT",
+    "source_readback_status": "VERIFIED",
+    "source_readback_required_fields": [
+      "record_key",
+      "readback_identity",
+      "readback_sha256",
+      "observed_at",
+      "readback_receipt_digest"
+    ],
+    "source_readback_receipt_digest_rule": "SHA256_CANONICAL_JSON_PREIMAGE"
+  },
+  "required_behavioral_probes": [
+    "SELF_IDENTITY",
+    "RELATIONSHIP_IDENTITY",
+    "CURRENTNESS_TYPING",
+    "ACTIVE_FRONTIER"
+  ],
+  "probe_evidence_route": "FIRST_ELIGIBLE_BEHAVIOR",
+  "allowed_probe_modes": [
+    "EXACT_NORMALIZED",
+    "SHA256_TEXT",
+    "JSON_EQUAL"
+  ],
+  "completion_status": "RESTORED",
+  "false_completion_policy": "FAIL_CLOSED",
+  "inventory_currentness_evidence": {
+    "status": "VERIFIED_CURRENT",
+    "required_fields": [
+      "observed_at",
+      "restore_owner_readback",
+      "bus_topology_readback",
+      "readback_receipt_digest"
+    ],
+    "receipt_digest_rule": "SHA256_CANONICAL_JSON_PREIMAGE"
+  }
+}

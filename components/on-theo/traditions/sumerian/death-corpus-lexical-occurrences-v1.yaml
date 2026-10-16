@@ -1,0 +1,306 @@
+schema_version: on-theo.lexical-occurrence-research.v1
+status: TARGETED_HIGH_VALUE_NOT_EXHAUSTIVE
+subject:
+  predecessor_pr: 37
+  predecessor_head: fdbcb961ba1d32f5442db497f6f61199ccae9605
+  research_branch: research/sumerian-afterlife-composition-map-v1-20260918
+
+method:
+  access_surface: ETCSL transliteration/translation/glossing
+  lexical_control: ePSD2/ORACC
+  rule: "Each record preserves source form, composition, line, and local function. English translation is never treated as the source lexeme."
+  negative_search_rule: "not_found applies only to the searched ETCSL access surface and never proves historical nonexistence."
+
+semantic_types:
+  - DEAD_PERSON_GHOST
+  - BROAD_DEATH_REALM
+  - GATE_OR_THRESHOLD
+  - NAMED_UNDERWORLD_LOCATION
+  - ROYAL_UNDERWORLD_OFFICE
+  - GEOGRAPHIC_LAND_OR_MOUNTAIN
+  - UNRESOLVED
+
+occurrences:
+  - occurrence_id: OCC-C141-L73-GANZER
+    composition_id: c.1.4.1
+    line_ref: "73"
+    source_form: ganzer-ce3
+    normalized_lexeme: ganzer
+    local_syntax: "e2-gal ganzer-ce3"
+    translation_surface: "palace Ganzer"
+    semantic_type: NAMED_UNDERWORLD_LOCATION
+    confidence: high
+
+  - occurrence_id: OCC-C141-L74-KUR
+    composition_id: c.1.4.1
+    line_ref: "74"
+    source_form: kur-ra-ka
+    normalized_lexeme: kur
+    local_syntax: "jic-ig kur-ra-ka"
+    translation_surface: "door of the underworld"
+    semantic_type: GATE_OR_THRESHOLD
+    confidence: high
+    ambiguity_notes: "ETCSL glosses kur as '(mountain) land' while the paragraph translation uses underworld."
+
+  - occurrence_id: OCC-C141-L75-KUR
+    composition_id: c.1.4.1
+    line_ref: "75"
+    source_form: kur-ra-ka
+    normalized_lexeme: kur
+    local_syntax: "abula kur-ra-ka"
+    translation_surface: "gate of the underworld"
+    semantic_type: GATE_OR_THRESHOLD
+    confidence: high
+
+  - occurrence_id: OCC-C141-L98-GANZER
+    composition_id: c.1.4.1
+    line_ref: "98"
+    source_form: ganzer-ce3
+    normalized_lexeme: ganzer
+    local_syntax: "e2-gal ganzer-ce3"
+    translation_surface: "palace Ganzer"
+    semantic_type: NAMED_UNDERWORLD_LOCATION
+    confidence: high
+
+  - occurrence_id: OCC-C141-L99-KUR
+    composition_id: c.1.4.1
+    line_ref: "99"
+    source_form: kur-ra-ka
+    normalized_lexeme: kur
+    local_syntax: "jic-ig kur-ra-ka"
+    translation_surface: "door of the underworld"
+    semantic_type: GATE_OR_THRESHOLD
+    confidence: high
+
+  - occurrence_id: OCC-C141-L119-KUR
+    composition_id: c.1.4.1
+    line_ref: "119"
+    source_form: kur-ra
+    normalized_lexeme: kur
+    local_syntax: "abula kur-ra 7-bi"
+    translation_surface: "seven gates of the underworld"
+    semantic_type: GATE_OR_THRESHOLD
+    confidence: high
+
+  - occurrence_id: OCC-C141-L120-GANZER
+    composition_id: c.1.4.1
+    line_ref: "120"
+    source_form: ganzer
+    normalized_lexeme: ganzer
+    local_syntax: "e2-gal ganzer"
+    translation_surface: "palace Ganzer"
+    semantic_type: NAMED_UNDERWORLD_LOCATION
+    confidence: high
+
+  - occurrence_id: OCC-C1814-L166-GANZER
+    composition_id: c.1.8.1.4
+    line_ref: "166"
+    source_form: ganzer
+    normalized_lexeme: ganzer
+    local_syntax: "abula ganzer igi kur-ra-ka"
+    translation_surface: "gate of Ganzer before/at the netherworld"
+    semantic_type: GATE_OR_THRESHOLD
+    confidence: high
+
+  - occurrence_id: OCC-C1814-L166-KUR
+    composition_id: c.1.8.1.4
+    line_ref: "166"
+    source_form: kur-ra-ka
+    normalized_lexeme: kur
+    local_syntax: "abula ganzer igi kur-ra-ka"
+    translation_surface: "netherworld realm"
+    semantic_type: BROAD_DEATH_REALM
+    confidence: high
+
+  - occurrence_id: OCC-C1814-L178-KUR
+    composition_id: c.1.8.1.4
+    line_ref: "178"
+    source_form: kur-ta
+    normalized_lexeme: kur
+    local_syntax: "kur-ta ... ed3"
+    translation_surface: "bring up from the netherworld"
+    semantic_type: BROAD_DEATH_REALM
+    confidence: high
+
+  - occurrence_id: OCC-C1814-L179-GANZER
+    composition_id: c.1.8.1.4
+    line_ref: "179"
+    source_form: ganzer-ta
+    normalized_lexeme: ganzer
+    local_syntax: "ganzer-ta ... ed3"
+    translation_surface: "bring up from Ganzer"
+    semantic_type: NAMED_UNDERWORLD_LOCATION
+    confidence: high
+
+  - occurrence_id: OCC-C1814-L224-KUR-GANZER
+    composition_id: c.1.8.1.4
+    line_ref: "224"
+    source_form: "kur-ce3 / ganzer-ce3"
+    normalized_lexeme: "kur + ganzer"
+    local_syntax: "parallel objects fall to kur and Ganzer"
+    translation_surface: "netherworld / Ganzer"
+    semantic_type: UNRESOLVED
+    confidence: high
+    ambiguity_notes: "Paired use is evidentially stronger than treating the terms as synonyms."
+
+  - occurrence_id: OCC-C1814-L292-GIDIM
+    composition_id: c.1.8.1.4
+    line_ref: "292 and parallels"
+    source_form: gidim
+    normalized_lexeme: gidim
+    local_syntax: "gidim lu2 ninda ki-sig10-ga nu-tuku"
+    translation_surface: "spirit of a person with no funerary offerings"
+    semantic_type: DEAD_PERSON_GHOST
+    confidence: high
+
+  - occurrence_id: OCC-C1814-L303-GIDIM
+    composition_id: c.1.8.1.4
+    line_ref: "303 and parallels"
+    source_form: gidim-a-ni
+    normalized_lexeme: gidim
+    local_syntax: "gidim-a-ni ... ki-a nu-ub-tuc"
+    translation_surface: "his ghost has no place"
+    semantic_type: DEAD_PERSON_GHOST
+    confidence: high
+
+  - occurrence_id: OCC-C1813-L38-GIDIM
+    composition_id: c.1.8.1.3
+    line_ref: "38 / parallel 131"
+    source_form: gidim-bi-ta
+    normalized_lexeme: gidim
+    local_syntax: "Gilgamesh gidim-bi-ta ki-ta ug5-ga"
+    translation_surface: "Gilgamesh as a ghost among/below the dead"
+    semantic_type: DEAD_PERSON_GHOST
+    confidence: high
+
+  - occurrence_id: OCC-C1813-L39-GIDIM
+    composition_id: c.1.8.1.3
+    line_ref: "39 / parallel 132"
+    source_form: gidim
+    normalized_lexeme: gidim
+    local_syntax: "palil gidim"
+    translation_surface: "pre-eminent among the ghosts"
+    semantic_type: DEAD_PERSON_GHOST
+    confidence: high
+
+  - occurrence_id: OCC-C1813-L39-KUR
+    composition_id: c.1.8.1.3
+    line_ref: "39 / parallel 132"
+    source_form: kur-ra
+    normalized_lexeme: kur
+    local_syntax: "cagina kur-ra"
+    translation_surface: "governor of the netherworld"
+    semantic_type: ROYAL_UNDERWORLD_OFFICE
+    confidence: high
+
+  - occurrence_id: OCC-C1813-L166-ARALI
+    composition_id: c.1.8.1.3
+    line_ref: "166"
+    source_form: a-ra-li
+    normalized_lexeme: arali
+    local_syntax: "iri-gal a-ra-li"
+    translation_surface: "Great City Arali"
+    semantic_type: NAMED_UNDERWORLD_LOCATION
+    confidence: high
+
+  - occurrence_id: OCC-C2411-L62-ARALI
+    composition_id: c.2.4.1.1
+    line_ref: "62"
+    source_form: a-ra-li
+    normalized_lexeme: arali
+    local_syntax: "a-ra-li ki saj-ki kalam-ma-ce3"
+    translation_surface: "Arali, pre-eminent place of the Land"
+    semantic_type: NAMED_UNDERWORLD_LOCATION
+    confidence: high
+
+  - occurrence_id: OCC-C2411-L65-KUR-GEOGRAPHIC
+    composition_id: c.2.4.1.1
+    line_ref: "65"
+    source_form: kur
+    normalized_lexeme: kur
+    local_syntax: "dilmun-ki-gin7 kur ki nu-zu-na"
+    translation_surface: "land foreign/unknown to them"
+    semantic_type: GEOGRAPHIC_LAND_OR_MOUNTAIN
+    confidence: high
+
+  - occurrence_id: OCC-C2411-L73-KUR
+    composition_id: c.2.4.1.1
+    line_ref: "73"
+    source_form: kur-ra
+    normalized_lexeme: kur
+    local_syntax: "kaskal kur-ra"
+    translation_surface: "journey to the netherworld"
+    semantic_type: BROAD_DEATH_REALM
+    confidence: high
+
+  - occurrence_id: OCC-C2411-L76-KUR
+    composition_id: c.2.4.1.1
+    line_ref: "76"
+    source_form: kur-ra
+    normalized_lexeme: kur
+    local_syntax: "i3-du8 gal kur-ra 7-bi"
+    translation_surface: "seven great gatekeepers of the netherworld"
+    semantic_type: GATE_OR_THRESHOLD
+    confidence: high
+
+  - occurrence_id: OCC-C2411-L95-KUR
+    composition_id: c.2.4.1.1
+    line_ref: "95"
+    source_form: kur-ra
+    normalized_lexeme: kur
+    local_syntax: "Gilgamesh lugal kur-ra-ke4"
+    translation_surface: "Gilgamesh, king of the netherworld"
+    semantic_type: ROYAL_UNDERWORLD_OFFICE
+    confidence: high
+
+  - occurrence_id: OCC-C2411-L127-ARALI
+    composition_id: c.2.4.1.1
+    line_ref: "127"
+    source_form: a-ra-li
+    normalized_lexeme: arali
+    local_syntax: "Ninazimua ... a-ra-li-ra"
+    translation_surface: "denizen of Arali"
+    semantic_type: NAMED_UNDERWORLD_LOCATION
+    confidence: high
+
+  - occurrence_id: OCC-C2411-L136-KUR
+    composition_id: c.2.4.1.1
+    line_ref: "136-144"
+    source_form: kur-ra
+    normalized_lexeme: kur
+    local_syntax: "barag gal kur-ra / ki-tuc / di kur-ra"
+    translation_surface: "great dais, dwelling, and judgments of the netherworld"
+    semantic_type: BROAD_DEATH_REALM
+    confidence: high
+
+negative_searches:
+  - composition_id: c.1.4.1
+    lexeme: gidim
+    result: not_found_on_ETCSL_transliteration_search
+  - composition_id: c.1.4.1
+    lexeme: arali
+    result: not_found_on_ETCSL_transliteration_search
+  - composition_id: c.1.4.1
+    lexeme: kurnugi
+    result: not_found_on_ETCSL_transliteration_search
+  - composition_id: c.1.8.1.4
+    lexeme: arali
+    result: not_found_on_ETCSL_transliteration_search
+  - composition_id: c.1.8.1.4
+    lexeme: kurnugi
+    result: not_found_on_ETCSL_transliteration_search
+  - composition_id: c.1.8.1.3
+    lexeme: ganzer
+    result: not_found_on_ETCSL_transliteration_search
+  - composition_id: c.1.8.1.3
+    lexeme: kurnugi
+    result: not_found_on_ETCSL_transliteration_search
+  - composition_id: c.2.4.1.1
+    lexeme: gidim
+    result: not_found_on_ETCSL_transliteration_search
+  - composition_id: c.2.4.1.1
+    lexeme: ganzer
+    result: not_found_on_ETCSL_transliteration_search
+  - composition_id: c.2.4.1.1
+    lexeme: kurnugi
+    result: not_found_on_ETCSL_transliteration_search

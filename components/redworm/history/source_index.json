@@ -1,0 +1,110 @@
+{
+  "schema": "redworm.source_index.v1",
+  "status": "CANDIDATE_HISTORY_NOT_INGESTED",
+  "generated_for": "thebrazenbeard/redworm v0.1 initial source custody",
+  "disclaimer": "These are pointers to historical WORKING_PROJECT evidence, not autobiographical memories, current authority, runtime experiences or provider verification. No private conversation text is embedded.",
+  "items": [
+    {
+      "id": "rw-history-001",
+      "kind": "HISTORICAL_ASSIGNMENT",
+      "source": "Project Library: Pasted text.txt",
+      "source_locator": "library://Pasted text.txt / REDWORM ASSIGNMENT",
+      "source_time": null,
+      "observed_context": "Historical assignment assigned W/W 4 coordinator and integrity-auditor responsibilities; holder authority expressly excluded.",
+      "provenance": "HISTORICAL_ASSIGNMENT_TEXT",
+      "claim_modality": "REPORTED",
+      "current_authority": false,
+      "verification": "SEARCH_SNIPPET_ONLY",
+      "memory_class": "WORKING_PROJECT",
+      "privacy": "INTERNAL",
+      "admission": "NOT_ADMITTED"
+    },
+    {
+      "id": "rw-history-002",
+      "kind": "HISTORICAL_CAPSULE",
+      "source": "Project Library: REDWORM_G0002_SUCCESSION_CAPSULE(1).json",
+      "source_locator": "library://REDWORM_G0002_SUCCESSION_CAPSULE(1).json",
+      "source_time": "2026-08-10T09:11:00-04:00",
+      "observed_context": "G0002 succession capsule described IN_TRANSIT transition and ledger-readback prerequisites at the time it was authored; no current holder claim.",
+      "provenance": "HISTORICAL_ARTIFACT",
+      "claim_modality": "REPORTED",
+      "current_authority": false,
+      "verification": "SEARCH_SNIPPET_ONLY",
+      "memory_class": "WORKING_PROJECT",
+      "privacy": "INTERNAL",
+      "admission": "NOT_ADMITTED"
+    },
+    {
+      "id": "rw-history-003",
+      "kind": "ARCHITECTURAL_AUDIT",
+      "source": "thebrazenbeard/vera-R9A0 issue #5",
+      "source_locator": "https://github.com/thebrazenbeard/vera-R9A0/issues/5",
+      "source_time": "2026-08-10T13:20:40Z",
+      "observed_context": "Compatibility review required stable Vera identity with Red/White episode provenance, default-deny White succession, durable admission evidence and contradiction preservation. Original issue was closed later; issue closure does not prove this implementation qualified.",
+      "provenance": "GITHUB_ISSUE",
+      "claim_modality": "OBSERVED",
+      "current_authority": false,
+      "verification": "LIVE_ISSUE_READBACK",
+      "memory_class": "WORKING_PROJECT",
+      "privacy": "INTERNAL",
+      "admission": "NOT_ADMITTED"
+    },
+    {
+      "id": "rw-history-004",
+      "kind": "PROVIDER_AUDIT",
+      "source": "thebrazenbeard/vera issue #56",
+      "source_locator": "https://github.com/thebrazenbeard/vera/issues/56",
+      "source_time": "2026-09-02T01:51:52Z",
+      "observed_context": "Dated 2026-09-01 audit reported four redworm provider tables, denied direct client grants despite disabled RLS, and missing exact migration-to-Git custody. No claim made about current provider status.",
+      "provenance": "GITHUB_ISSUE",
+      "claim_modality": "REPORTED",
+      "current_authority": false,
+      "verification": "LIVE_ISSUE_READBACK_ONLY_NOT_PROVIDER",
+      "memory_class": "HISTORICAL_AUDIT",
+      "privacy": "INTERNAL",
+      "admission": "NOT_ADMITTED"
+    },
+    {
+      "id": "rw-history-005",
+      "kind": "SOURCE_IMPLEMENTATION",
+      "source": "Redworm initialization commit",
+      "source_locator": "https://github.com/thebrazenbeard/redworm/commit/6235e42643ecac96f59207d510adaf580a5aeb8b",
+      "source_time": "2026-10-13",
+      "observed_context": "Source repository bootstrap (not runtime deployment or historical Redworm holder event).",
+      "provenance": "GITHUB_COMMIT",
+      "claim_modality": "OBSERVED",
+      "current_authority": false,
+      "verification": "GITHUB_COMMIT_SHA_RETURNED",
+      "memory_class": "WORKING_PROJECT",
+      "privacy": "INTERNAL",
+      "admission": "NOT_ADMITTED"
+    }
+  ],
+  "coverage": [
+    {
+      "episode_scope": "historical chat transcripts",
+      "status": "PARTIAL",
+      "limitation": "Search snippets and selected older Redworm source artifacts only; full conversation corpus has not been systematically replayed"
+    },
+    {
+      "episode_scope": "earlier holder lineages",
+      "status": "PARTIAL",
+      "limitation": "G0002 capsule metadata indexed; successor/ledger state not reconstructed at current provider cut"
+    },
+    {
+      "episode_scope": "White Worm 1/2/3 outputs",
+      "status": "MISSING",
+      "limitation": "Worker-produced primary evidence and approvals not ingested by this build"
+    },
+    {
+      "episode_scope": "Supabase runtime lineage",
+      "status": "UNKNOWN",
+      "limitation": "September audit is historical; live provider state unverified and untouched"
+    },
+    {
+      "episode_scope": "autobiographical continuity",
+      "status": "NOT_ADMITTED",
+      "limitation": "No private autobiographical data copied or promoted; exact privacy authorization and verification required"
+    }
+  ]
+}

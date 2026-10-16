@@ -1,0 +1,1031 @@
+{
+  "schema": "VERA_SUPABASE_RELATION_DEFINITION_SNAPSHOT_V1",
+  "project_ref": "klmbpaigzeguvnpccqzz",
+  "database_schema": "bug_ops",
+  "live_rows_included": false,
+  "relations": [
+    {
+      "name": "bug_events",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "bug_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "state_version",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "routing_revision",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "event_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "actor",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "operation_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "request_digest",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "request_payload",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "details",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "dispatch_queue",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "dispatch_msg_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "clock_timestamp()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "dispatch_revision",
+          "type": "bigint",
+          "default": "1",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "dispatch_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "dispatch_snapshot",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "dispatch_payload_digest",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "bug_events_bug_id_fkey",
+          "definition": "FOREIGN KEY (bug_id) REFERENCES bug_ops.bug_reports(bug_id)"
+        },
+        {
+          "name": "bug_events_bug_id_state_version_key",
+          "definition": "UNIQUE (bug_id, state_version)"
+        },
+        {
+          "name": "bug_events_check",
+          "definition": "CHECK ((((dispatch_queue IS NULL) AND (dispatch_msg_id IS NULL)) OR ((dispatch_queue IS NOT NULL) AND (dispatch_msg_id IS NOT NULL))))"
+        },
+        {
+          "name": "bug_events_details_check",
+          "definition": "CHECK ((jsonb_typeof(details) = 'object'::text))"
+        },
+        {
+          "name": "bug_events_dispatch_bundle_v2_check",
+          "definition": "CHECK ((((dispatch_id IS NULL) AND (dispatch_snapshot IS NULL) AND (dispatch_payload_digest IS NULL)) OR ((dispatch_id IS NOT NULL) AND (jsonb_typeof(dispatch_snapshot) = 'object'::text) AND (dispatch_payload_digest ~ '^[0-9a-f]{64}$'::text))))"
+        },
+        {
+          "name": "bug_events_dispatch_revision_check",
+          "definition": "CHECK ((dispatch_revision >= 1))"
+        },
+        {
+          "name": "bug_events_event_type_check",
+          "definition": "CHECK ((event_type = ANY (ARRAY['REPORTED'::text, 'ROUTED'::text, 'STATUS_CHANGED'::text, 'REOPENED'::text])))"
+        },
+        {
+          "name": "bug_events_operation_id_key",
+          "definition": "UNIQUE (operation_id)"
+        },
+        {
+          "name": "bug_events_pkey",
+          "definition": "PRIMARY KEY (event_id)"
+        },
+        {
+          "name": "bug_events_request_digest_check",
+          "definition": "CHECK ((request_digest ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "bug_events_request_payload_check",
+          "definition": "CHECK ((jsonb_typeof(request_payload) = 'object'::text))"
+        },
+        {
+          "name": "bug_events_routing_revision_check",
+          "definition": "CHECK ((routing_revision >= 1))"
+        },
+        {
+          "name": "bug_events_state_version_check",
+          "definition": "CHECK ((state_version >= 1))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "bug_events_bug_id_state_version_key",
+          "definition": "CREATE UNIQUE INDEX bug_events_bug_id_state_version_key ON bug_ops.bug_events USING btree (bug_id, state_version)"
+        },
+        {
+          "name": "bug_events_bug_idx",
+          "definition": "CREATE INDEX bug_events_bug_idx ON bug_ops.bug_events USING btree (bug_id, created_at)"
+        },
+        {
+          "name": "bug_events_dispatch_id_v2_idx",
+          "definition": "CREATE UNIQUE INDEX bug_events_dispatch_id_v2_idx ON bug_ops.bug_events USING btree (dispatch_id) WHERE (dispatch_id IS NOT NULL)"
+        },
+        {
+          "name": "bug_events_dispatch_idx",
+          "definition": "CREATE UNIQUE INDEX bug_events_dispatch_idx ON bug_ops.bug_events USING btree (dispatch_queue, dispatch_msg_id) WHERE (dispatch_msg_id IS NOT NULL)"
+        },
+        {
+          "name": "bug_events_operation_id_key",
+          "definition": "CREATE UNIQUE INDEX bug_events_operation_id_key ON bug_ops.bug_events USING btree (operation_id)"
+        },
+        {
+          "name": "bug_events_pkey",
+          "definition": "CREATE UNIQUE INDEX bug_events_pkey ON bug_ops.bug_events USING btree (event_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "bug_reports",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "bug_id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "home_project",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "intake_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "intake_digest",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "default": "''::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "severity",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "component",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "reported_by",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "assigned_role",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "state_version",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "routing_revision",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "evidence",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "clock_timestamp()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "clock_timestamp()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "closed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "dispatch_revision",
+          "type": "bigint",
+          "default": "1",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "bug_reports_assigned_role_check",
+          "definition": "CHECK ((assigned_role = ANY (ARRAY['MUNE'::text, 'MASA'::text, 'VOSS'::text, 'ONE'::text])))"
+        },
+        {
+          "name": "bug_reports_check",
+          "definition": "CHECK ((((status = 'CLOSED'::text) AND (closed_at IS NOT NULL)) OR ((status <> 'CLOSED'::text) AND (closed_at IS NULL))))"
+        },
+        {
+          "name": "bug_reports_dispatch_revision_check",
+          "definition": "CHECK ((dispatch_revision >= 1))"
+        },
+        {
+          "name": "bug_reports_evidence_check",
+          "definition": "CHECK ((jsonb_typeof(evidence) = 'object'::text))"
+        },
+        {
+          "name": "bug_reports_home_project_check",
+          "definition": "CHECK ((home_project = ANY (ARRAY['VERA'::text, 'BT2'::text])))"
+        },
+        {
+          "name": "bug_reports_intake_digest_check",
+          "definition": "CHECK ((intake_digest ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "bug_reports_intake_key_check",
+          "definition": "CHECK (((length(btrim(intake_key)) >= 1) AND (length(btrim(intake_key)) <= 200)))"
+        },
+        {
+          "name": "bug_reports_intake_key_key",
+          "definition": "UNIQUE (intake_key)"
+        },
+        {
+          "name": "bug_reports_no_steady_reopened",
+          "definition": "CHECK ((status <> 'REOPENED'::text))"
+        },
+        {
+          "name": "bug_reports_pkey",
+          "definition": "PRIMARY KEY (bug_id)"
+        },
+        {
+          "name": "bug_reports_routing_revision_check",
+          "definition": "CHECK ((routing_revision >= 1))"
+        },
+        {
+          "name": "bug_reports_severity_check",
+          "definition": "CHECK ((severity = ANY (ARRAY['LOW'::text, 'MEDIUM'::text, 'HIGH'::text, 'CRITICAL'::text])))"
+        },
+        {
+          "name": "bug_reports_state_version_check",
+          "definition": "CHECK ((state_version >= 1))"
+        },
+        {
+          "name": "bug_reports_status_check",
+          "definition": "CHECK ((status = ANY (ARRAY['NEW'::text, 'TRIAGED'::text, 'IN_PROGRESS'::text, 'BLOCKED'::text, 'FIXED'::text, 'VERIFYING'::text, 'CLOSED'::text, 'REOPENED'::text])))"
+        },
+        {
+          "name": "bug_reports_title_check",
+          "definition": "CHECK (((length(btrim(title)) >= 1) AND (length(btrim(title)) <= 300)))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "bug_reports_intake_key_key",
+          "definition": "CREATE UNIQUE INDEX bug_reports_intake_key_key ON bug_ops.bug_reports USING btree (intake_key)"
+        },
+        {
+          "name": "bug_reports_open_role_idx",
+          "definition": "CREATE INDEX bug_reports_open_role_idx ON bug_ops.bug_reports USING btree (assigned_role, status, state_version) WHERE (status <> 'CLOSED'::text)"
+        },
+        {
+          "name": "bug_reports_pkey",
+          "definition": "CREATE UNIQUE INDEX bug_reports_pkey ON bug_ops.bug_reports USING btree (bug_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "dispatch_events",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "dispatch_event_id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "queue_name",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "msg_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "classification",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "bug_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_event_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "handled_event_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "observed_message",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "note",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "clock_timestamp()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "dispatch_events_classification_check",
+          "definition": "CHECK ((classification = ANY (ARRAY['HANDLED'::text, 'STALE'::text, 'POISON'::text, 'CLOSED'::text, 'WRONG_TARGET'::text])))"
+        },
+        {
+          "name": "dispatch_events_pkey",
+          "definition": "PRIMARY KEY (dispatch_event_id)"
+        },
+        {
+          "name": "dispatch_events_queue_name_msg_id_key",
+          "definition": "UNIQUE (queue_name, msg_id)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "dispatch_events_pkey",
+          "definition": "CREATE UNIQUE INDEX dispatch_events_pkey ON bug_ops.dispatch_events USING btree (dispatch_event_id)"
+        },
+        {
+          "name": "dispatch_events_queue_name_msg_id_key",
+          "definition": "CREATE UNIQUE INDEX dispatch_events_queue_name_msg_id_key ON bug_ops.dispatch_events USING btree (queue_name, msg_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "dispatch_events_v2",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "dispatch_event_id",
+          "type": "uuid",
+          "default": "gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "dispatch_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "queue_name",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "msg_id",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "event_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "bug_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "bug_event_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "handled_event_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "target_role",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "payload_digest",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "observed_message",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "note",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "clock_timestamp()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "claim_read_ct",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "dispatch_events_v2_claim_read_ct_check",
+          "definition": "CHECK (((claim_read_ct IS NULL) OR (claim_read_ct >= 1)))"
+        },
+        {
+          "name": "dispatch_events_v2_event_type_check",
+          "definition": "CHECK ((event_type = ANY (ARRAY['ENQUEUED'::text, 'HANDLED'::text, 'STALE'::text, 'POISON'::text, 'CLOSED'::text, 'WRONG_TARGET'::text, 'UNKNOWN_TARGET_ROLE'::text])))"
+        },
+        {
+          "name": "dispatch_events_v2_payload_digest_check",
+          "definition": "CHECK (((payload_digest IS NULL) OR (payload_digest ~ '^[0-9a-f]{64}$'::text)))"
+        },
+        {
+          "name": "dispatch_events_v2_pkey",
+          "definition": "PRIMARY KEY (dispatch_event_id)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "dispatch_events_v2_carrier_idx",
+          "definition": "CREATE UNIQUE INDEX dispatch_events_v2_carrier_idx ON bug_ops.dispatch_events_v2 USING btree (queue_name, msg_id, event_type)"
+        },
+        {
+          "name": "dispatch_events_v2_enqueued_idx",
+          "definition": "CREATE UNIQUE INDEX dispatch_events_v2_enqueued_idx ON bug_ops.dispatch_events_v2 USING btree (dispatch_id) WHERE ((dispatch_id IS NOT NULL) AND (event_type = 'ENQUEUED'::text))"
+        },
+        {
+          "name": "dispatch_events_v2_pkey",
+          "definition": "CREATE UNIQUE INDEX dispatch_events_v2_pkey ON bug_ops.dispatch_events_v2 USING btree (dispatch_event_id)"
+        },
+        {
+          "name": "dispatch_events_v2_terminal_idx",
+          "definition": "CREATE UNIQUE INDEX dispatch_events_v2_terminal_idx ON bug_ops.dispatch_events_v2 USING btree (dispatch_id) WHERE ((dispatch_id IS NOT NULL) AND (event_type <> 'ENQUEUED'::text))"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "operation_receipts",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "operation_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "request_digest",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "operation_kind",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "bug_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "controlling_event_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "result_payload",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "result_digest",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "clock_timestamp()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "operation_receipts_operation_kind_check",
+          "definition": "CHECK ((operation_kind = ANY (ARRAY['REPORT'::text, 'ROUTE'::text, 'STATUS'::text])))"
+        },
+        {
+          "name": "operation_receipts_pkey",
+          "definition": "PRIMARY KEY (operation_id)"
+        },
+        {
+          "name": "operation_receipts_request_digest_check",
+          "definition": "CHECK ((request_digest ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "operation_receipts_result_digest_check",
+          "definition": "CHECK ((result_digest ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "operation_receipts_result_payload_check",
+          "definition": "CHECK ((jsonb_typeof(result_payload) = 'object'::text))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "operation_receipts_pkey",
+          "definition": "CREATE UNIQUE INDEX operation_receipts_pkey ON bug_ops.operation_receipts USING btree (operation_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "role_registry",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "role_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "registry_revision",
+          "type": "bigint",
+          "default": "1",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "clock_timestamp()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "clock_timestamp()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "role_registry_pkey",
+          "definition": "PRIMARY KEY (role_key)"
+        },
+        {
+          "name": "role_registry_registry_revision_check",
+          "definition": "CHECK ((registry_revision >= 1))"
+        },
+        {
+          "name": "role_registry_role_key_check",
+          "definition": "CHECK (((role_key = upper(role_key)) AND (length(role_key) > 0)))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "role_registry_pkey",
+          "definition": "CREATE UNIQUE INDEX role_registry_pkey ON bug_ops.role_registry USING btree (role_key)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "system_config",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "singleton",
+          "type": "boolean",
+          "default": "true",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "project_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "project_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "coordinator_role",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "active_queue_name",
+          "type": "text",
+          "default": "'bug_dispatch'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "active_dispatch_ledger",
+          "type": "text",
+          "default": "'dispatch_events_v2'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "role_registry_revision",
+          "type": "bigint",
+          "default": "1",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "pgmq_contract_version",
+          "type": "text",
+          "default": "'1.5.1'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "pgmq_read_signature",
+          "type": "text",
+          "default": "'pgmq.read(text,integer,integer,jsonb)'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "pgmq_read_definition_sha256",
+          "type": "text",
+          "default": "'98ccde1cd0b2887b986b09d40e68cfba56bd0281aff8607308af05cde7067a55'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "initial_install_artifacts_state",
+          "type": "text",
+          "default": "'DEPRECATED_INACTIVE_V1_INITIAL_INSTALL'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "system_config_coordinator_role_check",
+          "definition": "CHECK ((coordinator_role = ANY (ARRAY['MUNE'::text, 'MASA'::text, 'VOSS'::text, 'ONE'::text])))"
+        },
+        {
+          "name": "system_config_pkey",
+          "definition": "PRIMARY KEY (singleton)"
+        },
+        {
+          "name": "system_config_project_key_check",
+          "definition": "CHECK ((project_key = ANY (ARRAY['VERA'::text, 'BT2'::text])))"
+        },
+        {
+          "name": "system_config_project_ref_key",
+          "definition": "UNIQUE (project_ref)"
+        },
+        {
+          "name": "system_config_singleton_check",
+          "definition": "CHECK (singleton)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "system_config_pkey",
+          "definition": "CREATE UNIQUE INDEX system_config_pkey ON bug_ops.system_config USING btree (singleton)"
+        },
+        {
+          "name": "system_config_project_ref_key",
+          "definition": "CREATE UNIQUE INDEX system_config_project_ref_key ON bug_ops.system_config USING btree (project_ref)"
+        }
+      ],
+      "view_sql": null
+    }
+  ]
+}

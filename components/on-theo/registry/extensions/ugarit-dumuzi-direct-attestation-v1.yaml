@@ -1,0 +1,174 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-UGARIT-DUMUZI-DIRECT-ATTESTATION-V1
+base_registry_head: 118bd970361f0fa47290f979341f3092722b011e
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+source_additions:
+  - id: SRC-WEIDNER-GOD-LIST
+    source_roles: [PRIMARY_TEXT]
+    source_kind: mesopotamian_lexical_god_list_tradition
+    author_or_tradition: Mesopotamian scribal-school tradition
+    title: Weidner God List
+    composition_date: {start: null, end: null, precision: multi-period-scribal-tradition}
+    physical_witness_date: {start: null, end: null, precision: multiple-witnesses}
+    extant_status: multiple-cuneiform-witnesses
+    original_language: Sumerian_Akkadian_with_multilingual_adaptations
+    access_mode: digital-lexical-composites-and-physical-witnesses
+    limitations:
+      - "This node represents the scribal composition tradition, not one local recension or one tablet."
+
+witness_additions:
+  - id: WIT-UGARIT-WEIDNER-P332950
+    witness_of: SRC-WEIDNER-GOD-LIST
+    witness_kind: clay_lexical_tablet
+    common_name: Ugaritica 5, 137 / RS 20.123+
+    shelfmark: NMSD_05294
+    witness_date: {start: "-1400", end: "-1100", precision: cdli-middle-babylonian-broad-range}
+    provenance_note: "Excavated at Ugarit / Ras Shamra; current CDLI P332950."
+    access_mode: CDLI-and-ORACC-DCCLT
+    locators:
+      - cdli: P332950
+        url: "https://cdli.earth/P332950"
+      - oracc: P332950
+        url: "https://oracc.museum.upenn.edu/dcclt/P332950"
+    limitations:
+      - "Dumuzi row is directly preserved, but the Ugaritic-equivalent column at that row is lost/broken."
+      - "Lexical-school attestation does not establish local cult or narrative transmission."
+
+scholarly_context_additions:
+  - id: SCH-CDLI-P332950-UGARITICA5-137
+    source_roles: [MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    source_kind: digital_artifact_catalog_and_transliteration
+    author_or_tradition: Cuneiform Digital Library Initiative
+    title: Ugaritica 5, 137 / P332950
+    composition_date: {start: "2024", end: "2026", precision: current-digital-surface}
+    access_mode: institutional-digital-catalog-and-text
+    locators:
+      - url: "https://cdli.earth/P332950"
+    limitations:
+      - "No image is currently exposed on the CDLI record."
+      - "Textual identification is based on current transliteration and linked lexical tradition."
+
+  - id: SCH-ORACC-DUMUZID-P332950
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: digital_sumerian_lexicon_and_occurrence_index
+    author_or_tradition: ORACC ePSD2
+    title: Dumuzid lexical entry with Ugaritica 5, 137 occurrence
+    composition_date: {start: "2024", end: "2026", precision: current-digital-lexicon}
+    access_mode: institutional-digital-lexicon
+    locators:
+      - url: "https://oracc2.museum.upenn.edu/epsd2/cbd/sux/o0043861.html"
+    limitations:
+      - "Used to independently index the Dumuzi occurrence at Ugaritica 5, 137 r ii 7."
+
+  - id: SCH-DCCLT-WEIDNER-UGARIT-P332950
+    source_roles: [SCHOLARLY_INTERPRETATION, MATERIAL_EVIDENCE]
+    source_kind: digital_lexical_text_edition
+    author_or_tradition: ORACC Digital Corpus of Cuneiform Lexical Texts
+    title: Ugaritica 5, 137 / Weidner God List witness
+    composition_date: {start: "2026", end: "2026", precision: current-digital-corpus}
+    access_mode: institutional-digital-lexical-edition
+    locators:
+      - url: "https://oracc.museum.upenn.edu/dcclt/P332950.140"
+    limitations:
+      - "The Ugaritic-equivalent column is fragmentary and specifically lost at the Dumuzi row."
+
+claim_additions:
+  - id: CLM-UGARIT-DUMUZI-DIRECT-SCRIBAL-ATTESTATION
+    proposition: "A Middle Babylonian lexical tablet excavated at Ugarit, RS 20.123+ / Ugaritica 5, 137 / P332950, directly preserves Dumuzi at reverse ii 7."
+    claim_type: DIRECT_SCRIBAL_ATTESTATION
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [mesopotamian, ugaritic, hurrian]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "reverse ii 7"
+        relation: DIRECT_ARTIFACT_AND_TEXT_CONTROL
+        access_mode: CDLI
+      - source_id: SCH-ORACC-DUMUZID-P332950
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "Ugaritica 5, 137 r ii 7"
+        relation: INDEPENDENT_LEXICAL_OCCURRENCE_INDEX
+        access_mode: ORACC_EPSD2
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UGARIT-DUMUZI-HURRIAN-COLUMN
+    proposition: "The Dumuzi row in the Ugarit trilingual lexical witness preserves Hurrian du-mu-zi alongside the Mesopotamian Dumuzi entry."
+    claim_type: MULTILINGUAL_SCRIBAL_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [mesopotamian, hurrian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-DCCLT-WEIDNER-UGARIT-P332950
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "reverse ii 7"
+        relation: MULTILINGUAL_LEXICAL_ROW
+        access_mode: ORACC_DCCLT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UGARIT-DUMUZI-UGARITIC-EQUIVALENT-LOST
+    proposition: "The Ugaritic-equivalent column at the Dumuzi row of P332950 is broken/lost, so the surviving witness does not identify a local Ugaritic deity as Dumuzi's equivalent."
+    claim_type: TEXTUAL_ABSENCE_BOUNDARY
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-DCCLT-WEIDNER-UGARIT-P332950
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "reverse ii 7, Ugaritic column"
+        relation: DAMAGED_COLUMN_CONTROL
+        access_mode: ORACC_DCCLT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UGARIT-DUMUZI-CONTACT-UPGRADE
+    proposition: "Ugarit's Mesopotamian-contact model must be upgraded from general literary capacity to direct Dumuzi-specific scholastic exposure, while keeping narrative, cultic, and Ilimilku-specific Dumuzi transmission unestablished."
+    claim_type: TRANSMISSION_CARRIER_CORRECTION
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "Dumuzi row"
+        relation: SPECIFIC_SOURCE_CONTACT
+        access_mode: CDLI
+      - source_id: SCH-ORACC-UGARIT-LEXICAL-SCHOOL
+        locator: "Ugarit lexical-school corpus"
+        relation: INSTITUTIONAL_SCRIBAL_CONTEXT
+        access_mode: ORACC_DCCLT
+    opposing_sources: []
+    confidence: high-for-scholastic-exposure
+    contested: false
+
+  - id: CLM-UGARIT-DUMUZI-NARRATIVE-NOT-ESTABLISHED
+    proposition: "The Ugarit Dumuzi lexical attestation does not establish that a Dumuzi death-return narrative, lament, ritual, or cult text was present at Ugarit."
+    claim_type: TRANSMISSION_SCOPE_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "lexical genre and Dumuzi row"
+        relation: SOURCE_GENRE_BOUNDARY
+        access_mode: CDLI
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UGARIT-DUMUZI-BAAL-EQUIVALENCE-NOT-ESTABLISHED
+    proposition: "Because the Ugaritic-equivalent column is lost at the Dumuzi row, P332950 supplies no textual basis for identifying Baal or another Ugaritic deity as Dumuzi's equivalent."
+    claim_type: COMPARATIVE_IDENTITY_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, PROJECT_INFERENCE]
+    traditions: [ugaritic, mesopotamian]
+    supporting_sources:
+      - source_id: SCH-DCCLT-WEIDNER-UGARIT-P332950
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "reverse ii 7"
+        relation: LOST_EQUIVALENCE_FIELD
+        access_mode: ORACC_DCCLT
+    opposing_sources: []
+    confidence: high
+    contested: false

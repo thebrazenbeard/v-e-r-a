@@ -1,0 +1,13 @@
+{
+  "name": "FIRST_REAL_CORPUS_EXPLORATORY_GATE_V1",
+  "frozen_before_execution": true,
+  "regime": "HELD_OUT_CONTENT",
+  "min_corpora": 1,
+  "min_languages": 5,
+  "min_records_per_slice": 200,
+  "min_coverage": 0.10,
+  "min_exact_match": 0.05,
+  "min_token_similarity": 0.10,
+  "max_ambiguity_rate": 0.25,
+  "interpretation": "Exploratory preregistered gate for the first MASSIVE 1.0 target-construction run. These values are not universal or project-canonical scientific thresholds."
+}

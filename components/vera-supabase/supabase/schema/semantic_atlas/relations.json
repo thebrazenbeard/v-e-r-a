@@ -1,0 +1,2046 @@
+{
+  "schema": "VERA_SUPABASE_RELATION_DEFINITION_SNAPSHOT_V1",
+  "project_ref": "klmbpaigzeguvnpccqzz",
+  "database_schema": "semantic_atlas",
+  "live_rows_included": false,
+  "relations": [
+    {
+      "name": "active_runtime_objects",
+      "kind": "v",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "snapshot_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_commit_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_branch",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "authority_scope",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "loaded_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "object_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "object_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_path",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "payload_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_repository_locator",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "materialization_version",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "manifest_contract",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "attempt_no",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_repository_locator",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_readback_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_readback_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_readback_source",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "manifest_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "pathset_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "snapshot_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "expected_object_count",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "validated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "sealed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": " SELECT o.snapshot_id,\n    s.git_commit_sha,\n    s.source_branch,\n    s.authority_scope,\n    s.loaded_at,\n    o.object_id,\n    o.object_type,\n    o.source_path,\n    o.payload_sha256,\n    o.payload,\n    s.git_repository_locator,\n    s.git_ref,\n    s.materialization_version,\n    s.manifest_contract,\n    s.attempt_no,\n    s.activated_at,\n    s.activation_git_repository_locator,\n    s.activation_git_readback_sha,\n    s.activation_git_readback_at,\n    s.activation_git_readback_source,\n    s.manifest_sha256,\n    s.pathset_sha256,\n    s.snapshot_sha256,\n    s.expected_object_count,\n    s.validated_at,\n    s.sealed_at\n   FROM semantic_atlas.runtime_objects o\n     JOIN semantic_atlas.runtime_snapshots s USING (snapshot_id)\n  WHERE s.state = 'ACTIVE'::text;"
+    },
+    {
+      "name": "canonical_runtime_objects",
+      "kind": "v",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "snapshot_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_commit_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_branch",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "authority_scope",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "loaded_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "object_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "object_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_path",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "payload_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_repository_locator",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "materialization_version",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "manifest_contract",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "attempt_no",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_repository_locator",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_readback_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_readback_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_readback_source",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "manifest_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "pathset_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "snapshot_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "expected_object_count",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "validated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "sealed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": " SELECT snapshot_id,\n    git_commit_sha,\n    source_branch,\n    authority_scope,\n    loaded_at,\n    object_id,\n    object_type,\n    source_path,\n    payload_sha256,\n    payload,\n    git_repository_locator,\n    git_ref,\n    materialization_version,\n    manifest_contract,\n    attempt_no,\n    activated_at,\n    activation_git_repository_locator,\n    activation_git_readback_sha,\n    activation_git_readback_at,\n    activation_git_readback_source,\n    manifest_sha256,\n    pathset_sha256,\n    snapshot_sha256,\n    expected_object_count,\n    validated_at,\n    sealed_at\n   FROM semantic_atlas.active_runtime_objects\n  WHERE authority_scope = 'CANONICAL_LEDGER'::text;"
+    },
+    {
+      "name": "capture_current_state",
+      "kind": "v",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "idempotency_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_surface",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_locator",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_actor",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "detector",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "trigger_class",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "salience",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "semantic_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "candidate_kind",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "representation",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "representation_fidelity",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "privacy_scope",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "evidence_ceiling",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "notes",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "capture_sequence",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "latest_action",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "semantic_decider",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "decision_payload",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_commit_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_object_refs",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "outcome_time",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "outcome_sequence",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": " SELECT e.event_id,\n    e.idempotency_key,\n    e.record_time,\n    e.source_surface,\n    e.source_locator,\n    e.source_actor,\n    e.detector,\n    e.trigger_class,\n    e.salience,\n    e.semantic_key,\n    e.candidate_kind,\n    e.representation,\n    e.representation_fidelity,\n    e.privacy_scope,\n    e.evidence_ceiling,\n    e.notes,\n    e.capture_sequence,\n    o.action AS latest_action,\n    o.semantic_decider,\n    o.decision_payload,\n    o.git_commit_sha,\n    o.git_object_refs,\n    o.record_time AS outcome_time,\n    o.outcome_sequence\n   FROM semantic_atlas.semantic_capture_events e\n     LEFT JOIN LATERAL ( SELECT x.outcome_id,\n            x.event_id,\n            x.record_time,\n            x.action,\n            x.semantic_decider,\n            x.decision_payload,\n            x.git_commit_sha,\n            x.git_object_refs,\n            x.notes,\n            x.outcome_sequence\n           FROM semantic_atlas.semantic_capture_outcomes x\n          WHERE x.event_id = e.event_id\n          ORDER BY x.outcome_sequence DESC\n         LIMIT 1) o ON true;"
+    },
+    {
+      "name": "capture_policy",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "policy_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "enabled",
+          "type": "boolean",
+          "default": "true",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "minimum_auto_salience",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "auto_candidate_write",
+          "type": "boolean",
+          "default": "true",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "canonical_git_write_mode",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "raw_text_default",
+          "type": "boolean",
+          "default": "false",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "trigger_classes",
+          "type": "text[]",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "notes",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "clock_timestamp()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "capture_policy_canonical_git_write_mode_check",
+          "definition": "CHECK ((canonical_git_write_mode = ANY (ARRAY['AFTER_ADJUDICATION'::text, 'MANUAL_ONLY'::text])))"
+        },
+        {
+          "name": "capture_policy_minimum_auto_salience_check",
+          "definition": "CHECK ((minimum_auto_salience = ANY (ARRAY['MEDIUM'::text, 'HIGH'::text])))"
+        },
+        {
+          "name": "capture_policy_pkey",
+          "definition": "PRIMARY KEY (policy_key)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "capture_policy_pkey",
+          "definition": "CREATE UNIQUE INDEX capture_policy_pkey ON semantic_atlas.capture_policy USING btree (policy_key)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "pending_semantic_captures",
+      "kind": "v",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "idempotency_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_surface",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_locator",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_actor",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "detector",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "trigger_class",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "salience",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "semantic_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "candidate_kind",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "representation",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "representation_fidelity",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "privacy_scope",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "evidence_ceiling",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "notes",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "capture_sequence",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "latest_action",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "semantic_decider",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "decision_payload",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_commit_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_object_refs",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "outcome_time",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "outcome_sequence",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": " SELECT event_id,\n    idempotency_key,\n    record_time,\n    source_surface,\n    source_locator,\n    source_actor,\n    detector,\n    trigger_class,\n    salience,\n    semantic_key,\n    candidate_kind,\n    representation,\n    representation_fidelity,\n    privacy_scope,\n    evidence_ceiling,\n    notes,\n    capture_sequence,\n    latest_action,\n    semantic_decider,\n    decision_payload,\n    git_commit_sha,\n    git_object_refs,\n    outcome_time,\n    outcome_sequence\n   FROM semantic_atlas.capture_current_state\n  WHERE latest_action IS NULL OR (latest_action = ANY (ARRAY['HOLD'::text, 'ADJUDICATE_PENDING_GIT'::text]))\n  ORDER BY (\n        CASE salience\n            WHEN 'HIGH'::text THEN 0\n            ELSE 1\n        END), capture_sequence;"
+    },
+    {
+      "name": "research_runtime_objects",
+      "kind": "v",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "snapshot_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_commit_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_branch",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "authority_scope",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "loaded_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "object_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "object_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "source_path",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "payload_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_repository_locator",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "materialization_version",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "manifest_contract",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "attempt_no",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_repository_locator",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_readback_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_readback_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_readback_source",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "manifest_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "pathset_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "snapshot_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "expected_object_count",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "validated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "sealed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": " SELECT snapshot_id,\n    git_commit_sha,\n    source_branch,\n    authority_scope,\n    loaded_at,\n    object_id,\n    object_type,\n    source_path,\n    payload_sha256,\n    payload,\n    git_repository_locator,\n    git_ref,\n    materialization_version,\n    manifest_contract,\n    attempt_no,\n    activated_at,\n    activation_git_repository_locator,\n    activation_git_readback_sha,\n    activation_git_readback_at,\n    activation_git_readback_source,\n    manifest_sha256,\n    pathset_sha256,\n    snapshot_sha256,\n    expected_object_count,\n    validated_at,\n    sealed_at\n   FROM semantic_atlas.active_runtime_objects\n  WHERE authority_scope = 'RESEARCH_STAGING'::text;"
+    },
+    {
+      "name": "runtime_objects",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "snapshot_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "object_id",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "object_type",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_path",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "payload_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "payload",
+          "type": "jsonb",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "canonical_payload",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "runtime_objects_payload_check",
+          "definition": "CHECK ((jsonb_typeof(payload) = 'object'::text))"
+        },
+        {
+          "name": "runtime_objects_payload_sha256_check",
+          "definition": "CHECK (((payload_sha256 IS NULL) OR (payload_sha256 ~ '^[0-9a-f]{64}$'::text)))"
+        },
+        {
+          "name": "runtime_objects_pkey",
+          "definition": "PRIMARY KEY (snapshot_id, object_id)"
+        },
+        {
+          "name": "runtime_objects_snapshot_id_fkey",
+          "definition": "FOREIGN KEY (snapshot_id) REFERENCES semantic_atlas.runtime_snapshots(snapshot_id) ON DELETE CASCADE"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "runtime_objects_pkey",
+          "definition": "CREATE UNIQUE INDEX runtime_objects_pkey ON semantic_atlas.runtime_objects USING btree (snapshot_id, object_id)"
+        },
+        {
+          "name": "semantic_atlas_runtime_objects_node_idx",
+          "definition": "CREATE INDEX semantic_atlas_runtime_objects_node_idx ON semantic_atlas.runtime_objects USING btree (snapshot_id, ((payload ->> 'node_id'::text))) WHERE (payload ? 'node_id'::text)"
+        },
+        {
+          "name": "semantic_atlas_runtime_objects_payload_gin",
+          "definition": "CREATE INDEX semantic_atlas_runtime_objects_payload_gin ON semantic_atlas.runtime_objects USING gin (payload jsonb_path_ops)"
+        },
+        {
+          "name": "semantic_atlas_runtime_objects_semantic_key_idx",
+          "definition": "CREATE INDEX semantic_atlas_runtime_objects_semantic_key_idx ON semantic_atlas.runtime_objects USING btree (snapshot_id, ((payload ->> 'semantic_key'::text))) WHERE (payload ? 'semantic_key'::text)"
+        },
+        {
+          "name": "semantic_atlas_runtime_objects_subject_idx",
+          "definition": "CREATE INDEX semantic_atlas_runtime_objects_subject_idx ON semantic_atlas.runtime_objects USING btree (snapshot_id, ((payload ->> 'subject_id'::text))) WHERE (payload ? 'subject_id'::text)"
+        },
+        {
+          "name": "semantic_atlas_runtime_objects_type_idx",
+          "definition": "CREATE INDEX semantic_atlas_runtime_objects_type_idx ON semantic_atlas.runtime_objects USING btree (snapshot_id, object_type)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "runtime_snapshots",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "snapshot_id",
+          "type": "uuid",
+          "default": "extensions.gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "git_commit_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_branch",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "manifest_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "materialization_version",
+          "type": "text",
+          "default": "'v1'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "state",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "loaded_at",
+          "type": "timestamp with time zone",
+          "default": "clock_timestamp()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "loader",
+          "type": "text",
+          "default": "'semantic-atlas-sync'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "object_counts",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "notes",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "authority_scope",
+          "type": "text",
+          "default": "'CANONICAL_LEDGER'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "pathset_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "snapshot_sha256",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "expected_object_count",
+          "type": "integer",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "validation_state",
+          "type": "text",
+          "default": "'UNVERIFIED'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "validated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "git_readback_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "manifest_contract",
+          "type": "text",
+          "default": "'SEMANTIC_ATLAS_RUNTIME_MANIFEST_V4'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_readback_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_readback_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_readback_source",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "attempt_no",
+          "type": "integer",
+          "default": "1",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "sealed_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "activated_at",
+          "type": "timestamp with time zone",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_repository_locator",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "activation_git_repository_locator",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "runtime_snapshots_activation_repository_match_ck",
+          "definition": "CHECK (((activation_git_repository_locator IS NULL) OR (activation_git_repository_locator = git_repository_locator)))"
+        },
+        {
+          "name": "runtime_snapshots_attempt_no_check",
+          "definition": "CHECK ((attempt_no >= 1))"
+        },
+        {
+          "name": "runtime_snapshots_authority_scope_check",
+          "definition": "CHECK ((authority_scope = ANY (ARRAY['CANONICAL_LEDGER'::text, 'RESEARCH_STAGING'::text])))"
+        },
+        {
+          "name": "runtime_snapshots_expected_object_count_check",
+          "definition": "CHECK (((expected_object_count IS NULL) OR (expected_object_count >= 0)))"
+        },
+        {
+          "name": "runtime_snapshots_git_commit_sha_check",
+          "definition": "CHECK ((git_commit_sha ~ '^[0-9a-f]{40}$'::text))"
+        },
+        {
+          "name": "runtime_snapshots_git_readback_sha_check",
+          "definition": "CHECK (((git_readback_sha ~ '^[0-9a-f]{40}$'::text) AND (git_readback_sha = git_commit_sha)))"
+        },
+        {
+          "name": "runtime_snapshots_git_repository_locator_check",
+          "definition": "CHECK ((git_repository_locator ~ '^[a-z0-9][a-z0-9._-]*:[^[:space:]]+$'::text))"
+        },
+        {
+          "name": "runtime_snapshots_manifest_contract_check",
+          "definition": "CHECK ((manifest_contract = 'SEMANTIC_ATLAS_RUNTIME_MANIFEST_V4'::text))"
+        },
+        {
+          "name": "runtime_snapshots_manifest_sha256_check",
+          "definition": "CHECK (((manifest_sha256 IS NULL) OR (manifest_sha256 ~ '^[0-9a-f]{64}$'::text)))"
+        },
+        {
+          "name": "runtime_snapshots_object_counts_check",
+          "definition": "CHECK ((jsonb_typeof(object_counts) = 'object'::text))"
+        },
+        {
+          "name": "runtime_snapshots_pathset_sha256_check",
+          "definition": "CHECK (((pathset_sha256 IS NULL) OR (pathset_sha256 ~ '^[0-9a-f]{64}$'::text)))"
+        },
+        {
+          "name": "runtime_snapshots_pkey",
+          "definition": "PRIMARY KEY (snapshot_id)"
+        },
+        {
+          "name": "runtime_snapshots_snapshot_sha256_check",
+          "definition": "CHECK (((snapshot_sha256 IS NULL) OR (snapshot_sha256 ~ '^[0-9a-f]{64}$'::text)))"
+        },
+        {
+          "name": "runtime_snapshots_state_check",
+          "definition": "CHECK ((state = ANY (ARRAY['LOADING'::text, 'SEALED'::text, 'ACTIVE'::text, 'SUPERSEDED'::text, 'FAILED'::text])))"
+        },
+        {
+          "name": "runtime_snapshots_validation_state_check",
+          "definition": "CHECK ((validation_state = ANY (ARRAY['UNVERIFIED'::text, 'VERIFIED'::text, 'FAILED'::text])))"
+        },
+        {
+          "name": "semantic_atlas_active_snapshot_git_readback_ck",
+          "definition": "CHECK (((state <> 'ACTIVE'::text) OR ((activation_git_repository_locator = git_repository_locator) AND (activation_git_readback_sha = git_commit_sha) AND (activation_git_readback_at IS NOT NULL) AND (activation_git_readback_source IS NOT NULL) AND (length(activation_git_readback_source) > 0))))"
+        },
+        {
+          "name": "semantic_atlas_active_snapshot_verified_ck",
+          "definition": "CHECK (((state <> 'ACTIVE'::text) OR ((validation_state = 'VERIFIED'::text) AND (validated_at IS NOT NULL) AND (sealed_at IS NOT NULL) AND (activated_at IS NOT NULL) AND (manifest_sha256 IS NOT NULL) AND (pathset_sha256 IS NOT NULL) AND (snapshot_sha256 IS NOT NULL) AND (expected_object_count IS NOT NULL))))"
+        },
+        {
+          "name": "semantic_atlas_sealed_snapshot_verified_ck",
+          "definition": "CHECK (((state <> ALL (ARRAY['SEALED'::text, 'ACTIVE'::text])) OR ((validation_state = 'VERIFIED'::text) AND (validated_at IS NOT NULL) AND (sealed_at IS NOT NULL) AND (manifest_sha256 IS NOT NULL) AND (pathset_sha256 IS NOT NULL) AND (snapshot_sha256 IS NOT NULL) AND (expected_object_count IS NOT NULL))))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "runtime_snapshots_pkey",
+          "definition": "CREATE UNIQUE INDEX runtime_snapshots_pkey ON semantic_atlas.runtime_snapshots USING btree (snapshot_id)"
+        },
+        {
+          "name": "semantic_atlas_one_active_snapshot_per_scope",
+          "definition": "CREATE UNIQUE INDEX semantic_atlas_one_active_snapshot_per_scope ON semantic_atlas.runtime_snapshots USING btree (authority_scope) WHERE (state = 'ACTIVE'::text)"
+        },
+        {
+          "name": "semantic_atlas_runtime_snapshot_attempt_uq",
+          "definition": "CREATE UNIQUE INDEX semantic_atlas_runtime_snapshot_attempt_uq ON semantic_atlas.runtime_snapshots USING btree (authority_scope, git_repository_locator, git_commit_sha, materialization_version, attempt_no)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "semantic_capture_events",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "uuid",
+          "default": "extensions.gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "idempotency_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp with time zone",
+          "default": "clock_timestamp()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_surface",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_locator",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "source_actor",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "detector",
+          "type": "text",
+          "default": "'CEE_CONTEXTUAL_V1'::text",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "trigger_class",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "salience",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "semantic_key",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "candidate_kind",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "representation",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "representation_fidelity",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "privacy_scope",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "evidence_ceiling",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "notes",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "capture_sequence",
+          "type": "bigint",
+          "default": null,
+          "identity": "a",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "semantic_capture_events_candidate_kind_check",
+          "definition": "CHECK ((candidate_kind = ANY (ARRAY['NODE'::text, 'DEFINITION'::text, 'PROPOSITION'::text, 'INTERPRETATION'::text, 'EVIDENCE'::text, 'ADJUDICATION'::text, 'LIFECYCLE'::text, 'RELATION'::text, 'STATE_TRANSITION'::text, 'UNSPECIFIED'::text])))"
+        },
+        {
+          "name": "semantic_capture_events_capture_sequence_key",
+          "definition": "UNIQUE (capture_sequence)"
+        },
+        {
+          "name": "semantic_capture_events_idempotency_key_check",
+          "definition": "CHECK ((idempotency_key ~ '^[0-9a-f]{64}$'::text))"
+        },
+        {
+          "name": "semantic_capture_events_idempotency_key_key",
+          "definition": "UNIQUE (idempotency_key)"
+        },
+        {
+          "name": "semantic_capture_events_pkey",
+          "definition": "PRIMARY KEY (event_id)"
+        },
+        {
+          "name": "semantic_capture_events_privacy_scope_check",
+          "definition": "CHECK ((privacy_scope = ANY (ARRAY['PROJECT'::text, 'PRIVATE_RELATIONAL'::text, 'TECHNICAL'::text])))"
+        },
+        {
+          "name": "semantic_capture_events_representation_fidelity_check",
+          "definition": "CHECK ((representation_fidelity = ANY (ARRAY['PRIVACY_MINIMIZED_SUMMARY'::text, 'EXACT_RETRIEVED_TEXT'::text, 'VERA_SELF_AUTHORED_STATEMENT'::text, 'TOOL_OBSERVATION'::text, 'DOCUMENTED_SOURCE_EXCERPT'::text])))"
+        },
+        {
+          "name": "semantic_capture_events_salience_check",
+          "definition": "CHECK ((salience = ANY (ARRAY['MEDIUM'::text, 'HIGH'::text])))"
+        },
+        {
+          "name": "semantic_capture_events_source_actor_check",
+          "definition": "CHECK ((source_actor = ANY (ARRAY['USER'::text, 'VERA'::text, 'TOOL'::text, 'DOCUMENT'::text, 'SYSTEM'::text])))"
+        },
+        {
+          "name": "semantic_capture_events_source_locator_check",
+          "definition": "CHECK ((jsonb_typeof(source_locator) = 'object'::text))"
+        },
+        {
+          "name": "semantic_capture_events_trigger_class_check",
+          "definition": "CHECK ((trigger_class = ANY (ARRAY['EXPLICIT_IMPORTANCE'::text, 'CORRECTION'::text, 'DEFINITION_OR_REFRAME'::text, 'SELF_AUTHORSHIP'::text, 'CONSENT_OR_BOUNDARY'::text, 'IDENTITY_OR_CONTINUITY'::text, 'RELATIONAL_MEANING'::text, 'SALIENCE_SHIFT'::text, 'ARCHITECTURE_DECISION'::text, 'EVIDENCE_UPDATE'::text, 'CONTEXTUAL_SEMANTIC_DETECTION'::text])))"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "semantic_atlas_capture_salience_idx",
+          "definition": "CREATE INDEX semantic_atlas_capture_salience_idx ON semantic_atlas.semantic_capture_events USING btree (salience, record_time DESC)"
+        },
+        {
+          "name": "semantic_atlas_capture_semantic_key_idx",
+          "definition": "CREATE INDEX semantic_atlas_capture_semantic_key_idx ON semantic_atlas.semantic_capture_events USING btree (semantic_key, record_time DESC) WHERE (semantic_key IS NOT NULL)"
+        },
+        {
+          "name": "semantic_capture_events_capture_sequence_key",
+          "definition": "CREATE UNIQUE INDEX semantic_capture_events_capture_sequence_key ON semantic_atlas.semantic_capture_events USING btree (capture_sequence)"
+        },
+        {
+          "name": "semantic_capture_events_idempotency_key_key",
+          "definition": "CREATE UNIQUE INDEX semantic_capture_events_idempotency_key_key ON semantic_atlas.semantic_capture_events USING btree (idempotency_key)"
+        },
+        {
+          "name": "semantic_capture_events_pkey",
+          "definition": "CREATE UNIQUE INDEX semantic_capture_events_pkey ON semantic_atlas.semantic_capture_events USING btree (event_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "semantic_capture_events_capture_sequence_seq",
+      "kind": "S",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "last_value",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "log_cnt",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "is_called",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": null
+    },
+    {
+      "name": "semantic_capture_outcomes",
+      "kind": "r",
+      "rls_enabled": true,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "outcome_id",
+          "type": "uuid",
+          "default": "extensions.gen_random_uuid()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "event_id",
+          "type": "uuid",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "record_time",
+          "type": "timestamp with time zone",
+          "default": "clock_timestamp()",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "action",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "semantic_decider",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "decision_payload",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "git_commit_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_object_refs",
+          "type": "jsonb",
+          "default": "'[]'::jsonb",
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "notes",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "outcome_sequence",
+          "type": "bigint",
+          "default": null,
+          "identity": "a",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "git_authority_scope",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_ref",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        },
+        {
+          "name": "git_readback_sha",
+          "type": "text",
+          "default": null,
+          "identity": "",
+          "nullable": true,
+          "generated": ""
+        }
+      ],
+      "constraints": [
+        {
+          "name": "semantic_capture_git_confirmation_binding_ck",
+          "definition": "CHECK (((action <> 'GIT_WRITE_CONFIRMED'::text) OR ((semantic_decider IS NOT NULL) AND (git_commit_sha IS NOT NULL) AND (jsonb_typeof(git_object_refs) = 'array'::text) AND (jsonb_array_length(git_object_refs) > 0))))"
+        },
+        {
+          "name": "semantic_capture_outcomes_action_check",
+          "definition": "CHECK ((action = ANY (ARRAY['HOLD'::text, 'REJECT'::text, 'ADJUDICATE_PENDING_GIT'::text, 'GIT_WRITE_CONFIRMED'::text, 'SUPERSEDE'::text])))"
+        },
+        {
+          "name": "semantic_capture_outcomes_decision_payload_check",
+          "definition": "CHECK ((jsonb_typeof(decision_payload) = 'object'::text))"
+        },
+        {
+          "name": "semantic_capture_outcomes_event_id_fkey",
+          "definition": "FOREIGN KEY (event_id) REFERENCES semantic_atlas.semantic_capture_events(event_id) ON DELETE RESTRICT"
+        },
+        {
+          "name": "semantic_capture_outcomes_git_commit_sha_check",
+          "definition": "CHECK (((git_commit_sha IS NULL) OR (git_commit_sha ~ '^[0-9a-f]{40}$'::text)))"
+        },
+        {
+          "name": "semantic_capture_outcomes_git_confirmation_binding_ck",
+          "definition": "CHECK (((action <> 'GIT_WRITE_CONFIRMED'::text) OR ((git_commit_sha IS NOT NULL) AND (git_commit_sha ~ '^[0-9a-f]{40}$'::text) AND (git_authority_scope = ANY (ARRAY['CANONICAL_LEDGER'::text, 'RESEARCH_STAGING'::text])) AND (git_ref IS NOT NULL) AND (length(git_ref) > 0) AND (git_readback_sha = git_commit_sha) AND (jsonb_typeof(git_object_refs) = 'array'::text) AND (jsonb_array_length(git_object_refs) > 0)))) NOT VALID"
+        },
+        {
+          "name": "semantic_capture_outcomes_git_object_refs_check",
+          "definition": "CHECK ((jsonb_typeof(git_object_refs) = 'array'::text))"
+        },
+        {
+          "name": "semantic_capture_outcomes_git_scope_check",
+          "definition": "CHECK (((git_authority_scope IS NULL) OR (git_authority_scope = ANY (ARRAY['CANONICAL_LEDGER'::text, 'RESEARCH_STAGING'::text]))))"
+        },
+        {
+          "name": "semantic_capture_outcomes_outcome_sequence_key",
+          "definition": "UNIQUE (outcome_sequence)"
+        },
+        {
+          "name": "semantic_capture_outcomes_pkey",
+          "definition": "PRIMARY KEY (outcome_id)"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "semantic_atlas_capture_outcomes_event_idx",
+          "definition": "CREATE INDEX semantic_atlas_capture_outcomes_event_idx ON semantic_atlas.semantic_capture_outcomes USING btree (event_id, record_time DESC)"
+        },
+        {
+          "name": "semantic_capture_outcomes_outcome_sequence_key",
+          "definition": "CREATE UNIQUE INDEX semantic_capture_outcomes_outcome_sequence_key ON semantic_atlas.semantic_capture_outcomes USING btree (outcome_sequence)"
+        },
+        {
+          "name": "semantic_capture_outcomes_pkey",
+          "definition": "CREATE UNIQUE INDEX semantic_capture_outcomes_pkey ON semantic_atlas.semantic_capture_outcomes USING btree (outcome_id)"
+        }
+      ],
+      "view_sql": null
+    },
+    {
+      "name": "semantic_capture_outcomes_outcome_sequence_seq",
+      "kind": "S",
+      "rls_enabled": false,
+      "rls_forced": false,
+      "columns": [
+        {
+          "name": "last_value",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "log_cnt",
+          "type": "bigint",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        },
+        {
+          "name": "is_called",
+          "type": "boolean",
+          "default": null,
+          "identity": "",
+          "nullable": false,
+          "generated": ""
+        }
+      ],
+      "constraints": [],
+      "indexes": [],
+      "view_sql": null
+    }
+  ]
+}

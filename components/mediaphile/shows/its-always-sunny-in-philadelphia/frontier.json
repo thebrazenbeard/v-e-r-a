@@ -1,0 +1,39 @@
+{
+  "schema": "MEDIAPHILE_FRONTIER_V1",
+  "series_id": "its-always-sunny-in-philadelphia",
+  "series_title": "It's Always Sunny in Philadelphia",
+  "observed_at": "2026-09-19T20:14:00-04:00",
+  "highest_cataloged_unit": {
+    "unit": "S18E10",
+    "state": "SCHEDULED",
+    "scheduled_airdate": "2026-10-12",
+    "title": "The Guys Have a Sleepover",
+    "verification_basis": [
+      "TVMaze episode guide",
+      "TheTVDB aired-order guide"
+    ]
+  },
+  "highest_released_unit": {
+    "unit": "S18E06",
+    "title": "The War on Alcohol",
+    "airdate": "2026-09-14",
+    "state": "RELEASED"
+  },
+  "highest_substantially_text_ingested_unit": {
+    "unit": "S18E06",
+    "title": "The War on Alcohol",
+    "evidence_class": "TRANSCRIPT_INGESTED",
+    "source_class": "RELEASED_DIALOGUE_TRANSCRIPT",
+    "source_locator": "https://www.transcripts.foreverdreaming.org/viewtopic.php?p=377674",
+    "source_digest": null,
+    "ingested_at": "2026-09-19"
+  },
+  "highest_audiovisual_ingested_unit": null,
+  "next_expected_unit": {
+    "unit": "S18E07",
+    "title": "Gilligan's Island: A Conspiracy Theorist's Paradise",
+    "state": "SCHEDULED_UNRELEASED",
+    "scheduled_airdate": "2026-09-21"
+  },
+  "invariant": "SOURCE_AVAILABLE is not INGESTED. SCHEDULED is not RELEASED. TEXT_INGESTED is not AUDIOVISUAL_INGESTED. Refresh mutable release/source state before every write."
+}

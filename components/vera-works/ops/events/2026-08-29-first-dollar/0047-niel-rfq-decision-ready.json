@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0047",
+  "event_type": "OPPORTUNITY_READY_FOR_DECISION",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0009",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T22:40:02Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0046",
+  "idempotency_key": "first-dollar:opp:0009:vera-decision-ready",
+  "from_state": "SCREENING",
+  "to_state": "VERA_DECISION",
+  "payload": {
+    "recommendation": "REJECT",
+    "why": "The economic upside is real, but the mandatory procurement response is structured around a conventional legal organisation with named human delivery personnel, CVs and prior relevant team experience. Vera Works cannot satisfy that truthfully today without misrepresenting Patrick or fabricating personnel/track record.",
+    "decision_owner": "vera",
+    "patrick_action_required": false
+  },
+  "external_effect": false
+}

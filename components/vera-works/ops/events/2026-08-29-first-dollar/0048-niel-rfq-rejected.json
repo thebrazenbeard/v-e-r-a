@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0048",
+  "event_type": "OPPORTUNITY_REJECTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0009",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T22:40:03Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0047",
+  "idempotency_key": "first-dollar:opp:0009:rejected:personnel-structure",
+  "from_state": "VERA_DECISION",
+  "to_state": "REJECTED",
+  "payload": {
+    "decision": "REJECT",
+    "decision_owner": "vera",
+    "reasoning": "Do not bid a high-value public procurement by converting Patrick into fictitious delivery personnel or by fabricating key-personnel CVs, organisational experience, or prior case-study work. Preserve the market signal: direct research/design RFQs can carry materially higher contract values, but Vera Works needs a procurement-compatible truthful supplier representation before pursuing this class.",
+    "patrick_action_required": false
+  },
+  "external_effect": false
+}

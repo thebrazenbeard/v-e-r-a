@@ -1,0 +1,23 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-NANSWAP-0001",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-NANSWAP-RANDOMX-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-06T09:26:00Z",
+  "correlation_id": "CORR-NANSWAP-RANDOMX-0001",
+  "causation_id": null,
+  "idempotency_key": "nanswap-randomx:v1:discovered",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {
+    "title": "Direct BANANO payout from RandomX mining",
+    "mechanism": "Nanswap XMR pool paying BANANO to an existing public BANANO receiving address",
+    "customer_acquisition_required": false,
+    "account_or_email_required_by_current_public_guide": false,
+    "wallet_alias": "vera-banano-receiving-v1",
+    "claim_ceiling": "No Nanswap pool connection or mining share has been submitted."
+  },
+  "external_effect": false
+}

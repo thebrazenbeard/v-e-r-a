@@ -1,0 +1,148 @@
+From 00c114096ad2af873db961de3b4c4954c4de7d09 Mon Sep 17 00:00:00 2001
+From: Patrick Sims <234958733+thebrazenbeard@users.noreply.github.com>
+Date: Fri, 9 Oct 2026 13:03:50 -0400
+Subject: [PATCH] signpostapi109-wallet-blocklist-constraints
+
+---
+ db/033_wallet_blocklist_constraints.sql       | 23 +++++++
+ ..._wallet_blocklist_constraints_postgres.sql |  7 ++
+ src/services/walletBlocklist.ts               |  7 ++
+ tests/services/walletBlocklist.test.ts        | 64 +++++++++++++++++++
+ 4 files changed, 101 insertions(+)
+ create mode 100644 db/033_wallet_blocklist_constraints.sql
+ create mode 100644 db/033_wallet_blocklist_constraints_postgres.sql
+ create mode 100644 tests/services/walletBlocklist.test.ts
+
+diff --git a/db/033_wallet_blocklist_constraints.sql b/db/033_wallet_blocklist_constraints.sql
+new file mode 100644
+index 0000000..c749287
+--- /dev/null
++++ b/db/033_wallet_blocklist_constraints.sql
+@@ -0,0 +1,23 @@
++-- Migration 033: constrain wallet blocklist inputs (#109)
++--
++-- SQLite cannot add CHECK constraints to an existing table, so rebuild the
++-- table inside the migration transaction. Copying existing rows through the
++-- constrained table deliberately makes the migration fail if deployed data
++-- already violates the new invariant rather than silently discarding it.
++
++ALTER TABLE wallet_blocklist RENAME TO wallet_blocklist_unconstrained;
++
++CREATE TABLE wallet_blocklist (
++  wallet     TEXT    PRIMARY KEY CHECK (length(wallet) > 0),
++  reason     TEXT    CHECK (reason IS NULL OR length(reason) <= 500),
++  blocked_at INTEGER NOT NULL
++);
++
++INSERT INTO wallet_blocklist (wallet, reason, blocked_at)
++SELECT wallet, reason, blocked_at
++FROM wallet_blocklist_unconstrained;
++
++DROP TABLE wallet_blocklist_unconstrained;
++
++CREATE INDEX IF NOT EXISTS idx_wallet_blocklist_blocked_at
++  ON wallet_blocklist (blocked_at);
+diff --git a/db/033_wallet_blocklist_constraints_postgres.sql b/db/033_wallet_blocklist_constraints_postgres.sql
+new file mode 100644
+index 0000000..77e7dec
+--- /dev/null
++++ b/db/033_wallet_blocklist_constraints_postgres.sql
+@@ -0,0 +1,7 @@
++-- Migration 033: constrain wallet blocklist inputs (#109)
++
++ALTER TABLE wallet_blocklist
++  ADD CONSTRAINT wallet_blocklist_wallet_nonempty
++    CHECK (length(wallet) > 0),
++  ADD CONSTRAINT wallet_blocklist_reason_max_length
++    CHECK (reason IS NULL OR length(reason) <= 500);
+diff --git a/src/services/walletBlocklist.ts b/src/services/walletBlocklist.ts
+index c989717..0954ac0 100644
+--- a/src/services/walletBlocklist.ts
++++ b/src/services/walletBlocklist.ts
+@@ -81,6 +81,13 @@ async function refreshWallet(wallet: string): Promise<boolean> {
+  * and notifies local subscribers (SSE connections) synchronously.
+  */
+ export async function blocklistWallet(wallet: string, reason: string | null = null): Promise<void> {
++  if (wallet.length === 0) {
++    throw new Error('wallet must not be empty');
++  }
++  if (reason !== null && reason.length > 500) {
++    throw new Error('blocklist reason must be 500 characters or fewer');
++  }
++
+   try {
+     await blockWalletDb(wallet, reason);
+     blockedCache.set(wallet, Date.now());
+diff --git a/tests/services/walletBlocklist.test.ts b/tests/services/walletBlocklist.test.ts
+new file mode 100644
+index 0000000..bc5dfcb
+--- /dev/null
++++ b/tests/services/walletBlocklist.test.ts
+@@ -0,0 +1,64 @@
++import { getDriver } from '../../src/db';
++import {
++  _resetWalletBlocklistForTests,
++  blocklistWallet,
++} from '../../src/services/walletBlocklist';
++
++describe('walletBlocklist input constraints', () => {
++  beforeEach(async () => {
++    _resetWalletBlocklistForTests();
++    await getDriver().run('DELETE FROM wallet_blocklist', []);
++  });
++
++  it('rejects an empty wallet before persistence', async () => {
++    await expect(blocklistWallet('', 'abuse')).rejects.toThrow(
++      'wallet must not be empty',
++    );
++
++    const rows = await getDriver().all<{ wallet: string }>(
++      'SELECT wallet FROM wallet_blocklist',
++    );
++    expect(rows).toEqual([]);
++  });
++
++  it('rejects a reason longer than 500 characters before persistence', async () => {
++    await expect(blocklistWallet('GWALLET', 'x'.repeat(501))).rejects.toThrow(
++      'blocklist reason must be 500 characters or fewer',
++    );
++
++    const rows = await getDriver().all<{ wallet: string }>(
++      'SELECT wallet FROM wallet_blocklist',
++    );
++    expect(rows).toEqual([]);
++  });
++
++  it('enforces the same empty-wallet rule at the SQLite layer', async () => {
++    await expect(
++      getDriver().run(
++        'INSERT INTO wallet_blocklist (wallet, reason, blocked_at) VALUES (?, ?, ?)',
++        ['', null, 1],
++      ),
++    ).rejects.toThrow();
++  });
++
++  it('enforces the same reason-length rule at the SQLite layer', async () => {
++    await expect(
++      getDriver().run(
++        'INSERT INTO wallet_blocklist (wallet, reason, blocked_at) VALUES (?, ?, ?)',
++        ['GWALLET', 'x'.repeat(501), 1],
++      ),
++    ).rejects.toThrow();
++  });
++
++  it('allows a 500-character reason', async () => {
++    const reason = 'x'.repeat(500);
++
++    await expect(blocklistWallet('GWALLET', reason)).resolves.toBeUndefined();
++
++    const row = await getDriver().get<{ reason: string }>(
++      'SELECT reason FROM wallet_blocklist WHERE wallet = ?',
++      ['GWALLET'],
++    );
++    expect(row?.reason).toBe(reason);
++  });
++});
+-- 
+2.55.0.windows.4
+

@@ -1,0 +1,51 @@
+diff --git a/frontend/soroban.js b/frontend/soroban.js
+--- a/frontend/soroban.js
++++ b/frontend/soroban.js
+@@ -109,12 +109,12 @@ export async function placeBet({ address, marketId, isYes, amountXlm, signTransac
+ 
+   const amount = xlmToStroops(amountXlm);
+   const sdk = await loadSdk();
+-  const { BASE_FEE, Contract, Networks, TransactionBuilder, nativeToScVal, rpc } = sdk;
++  const { BASE_FEE, Contract, TransactionBuilder, nativeToScVal, rpc } = sdk;
+   const server = new rpc.Server(TESTNET.rpcUrl);
+ 
+   onStatus?.("Loading Testnet account");
+   const source = await server.getAccount(address);
+   const contract = new Contract(TESTNET.predictionMarketContract);
+   const transaction = new TransactionBuilder(source, {
+     fee: BASE_FEE,
+-    networkPassphrase: Networks.TESTNET,
++    networkPassphrase: TESTNET.networkPassphrase,
+   })
+@@ -145,7 +145,7 @@ export async function placeBet({ address, marketId, isYes, amountXlm, signTransac
+   });
+   if (!signed?.signedTxXdr) throw new Error(signed?.error?.message || "Transaction signing was cancelled.");
+ 
+-  const signedTransaction = TransactionBuilder.fromXDR(signed.signedTxXdr, Networks.TESTNET);
++  const signedTransaction = TransactionBuilder.fromXDR(signed.signedTxXdr, TESTNET.networkPassphrase);
+   onStatus?.("Submitting to Testnet");
+   const submission = await server.sendTransaction(signedTransaction);
+@@ -180,7 +180,7 @@ export async function reducePosition({ address, marketId, amountXlm, signTransact
+ 
+   const amount = xlmToStroops(amountXlm);
+   const sdk = await loadSdk();
+-  const { BASE_FEE, Contract, Networks, TransactionBuilder, nativeToScVal, rpc } = sdk;
++  const { BASE_FEE, Contract, TransactionBuilder, nativeToScVal, rpc } = sdk;
+   const server = new rpc.Server(TESTNET.rpcUrl);
+   onStatus?.("Loading Testnet account");
+   const source = await server.getAccount(address);
+@@ -188,7 +188,7 @@ export async function reducePosition({ address, marketId, amountXlm, signTransact
+   const contract = new Contract(TESTNET.predictionMarketContract);
+   const transaction = new TransactionBuilder(source, {
+     fee: BASE_FEE,
+-    networkPassphrase: Networks.TESTNET,
++    networkPassphrase: TESTNET.networkPassphrase,
+   })
+@@ -217,7 +217,7 @@ export async function reducePosition({ address, marketId, amountXlm, signTransact
+   });
+   if (!signed?.signedTxXdr) throw new Error(signed?.error?.message || "Wallet signing was cancelled.");
+ 
+-  const signedTransaction = TransactionBuilder.fromXDR(signed.signedTxXdr, Networks.TESTNET);
++  const signedTransaction = TransactionBuilder.fromXDR(signed.signedTxXdr, TESTNET.networkPassphrase);
+   onStatus?.("Submitting sell to Testnet");
+   const submission = await server.sendTransaction(signedTransaction);

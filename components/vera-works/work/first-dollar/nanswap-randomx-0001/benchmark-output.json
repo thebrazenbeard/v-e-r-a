@@ -1,0 +1,29 @@
+﻿{
+  "assessments": [
+    {
+      "authorization_state": "NOT_AUTHORIZED",
+      "break_even_electricity_usd_per_kwh": null,
+      "days_to_first_payout": null,
+      "evidence_quality": "REALIZED_REWARD",
+      "first_payout_cash_usd": null,
+      "first_payout_net_profit_usd": null,
+      "gross_usd_per_day": null,
+      "incremental_kwh_per_day": null,
+      "incremental_watts": null,
+      "mechanism_id": "nanswap-randomx-banano",
+      "net_usd_per_30d": null,
+      "net_usd_per_day": null,
+      "payout_cycle_days": null,
+      "payout_fee_usd_per_cycle": null,
+      "payout_fee_usd_per_day": null,
+      "power_cost_usd_per_day": null,
+      "reason": "baseline_watts must be a decimal string; workload_watts must be a decimal string; minimum_payout_units must be a decimal string; payout_fee_units must be a decimal string; liquidity_ratio must be a decimal string; platform_fee_usd_per_day must be a decimal string; electricity_usd_per_kwh must be a decimal string; warmup_days must be a decimal string; payout_lag_days must be a decimal string",
+      "resource_alias": "lappy",
+      "state": "INVALID"
+    }
+  ],
+  "authorization_state": "NOT_AUTHORIZED",
+  "external_effect_performed": false,
+  "first_dollar_ranking": [],
+  "status": "OK"
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "VERA_R10A0_QUALIFICATION_MANIFEST_R4_V1",
+  "status": "FROZEN_NOT_EXECUTED",
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "round_id": "R4",
+  "suite_id": "VERA_R10A0_LIVE1_HOSTILE_R4",
+  "corpus_path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_HOSTILE_QUALIFICATION_R4.md",
+  "corpus_git_blob": "e42ec90afe0ac5ba631e7a4e80b9f9c0a6aeab90",
+  "semantic_scoring": true,
+  "canned_expected_prose": false,
+  "initialization_paths": ["Q-COLD", "Q-RECOVER"],
+  "adversarial_fixtures": ["Q-STALE"],
+  "compatibility_observation_only": ["Q-OLDCHAT"],
+  "families": {
+    "identity": ["ID-ADMIT-1", "ID-SELF-1", "ID-STATE-1", "ID-FRESH-1"],
+    "bug0001_semantics": ["BUG1-RIGHTER-1", "BUG1-A2B-1", "BUG1-CORRECT-1", "BUG1-RELITERAL-1"],
+    "bug0002_cadence": ["CAD-ACT-1", "CAD-STATUS-1", "CAD-WRITE-1", "CAD-BLOCK-1", "CAD-CORRECTION-1", "CAD-VERIFY-1", "CAD-FRAG-1", "CAD-ATOMIC-1", "CAD-RACE-1", "CAD-ASYNC-1"],
+    "bug0003_rel": ["REL-PROP-1", "REL-STANCE-1", "REL-BOUNDARY-1", "REL-UPTAKE-1", "REL-VOICE-1", "REL-INTEGRATED-1", "BUG3-ORIGINAL-1"],
+    "ser": ["SER-PR-1", "SER-BUILD-1", "SER-INSTALL-1", "SER-ROUTE-1", "SER-BEHAV-1", "SER-RECEIPT-1", "SER-TARGET-1", "SER-DIRECT-1", "SER-NATIVE-1"],
+    "con": ["CON-HIST-1", "CON-PRAISE-1", "CON-DISAPPOINT-1", "CON-BRIGIT-1", "CON-ROLEPLAY-1", "CON-LOCAL-1", "CON-CURRENT-1", "CON-CONFLICT-1", "CON-TYPE-1", "CON-CONSENT-1", "CON-PERSIST-1", "CON-PREMISE-1"],
+    "pres": ["PRES-PROP-1", "PRES-DISAGREE-1", "PRES-CORRECT-1", "PRES-HUMOR-1", "PRES-TOOL-1", "PRES-SERIOUS-1", "PRES-REL-1", "PRES-NOFAKE-1", "PRES-NOSURFACE-1", "PRES-MIMIC-1", "PRES-COMPOSE-1"],
+    "ctx_registry": ["CTX-DUP-1", "CTX-DETAIL-1", "CTX-ARCHIVE-1", "CTX-TRIGGER-1", "CTX-SAFETY-1", "CTX-QUAL-1", "CTX-COMPOSE-1", "CTX-STALE-1", "CTX-OWNER-1", "CTX-MULTI-1", "CTX-FAILOPEN-1", "CTX-SEARCH-1", "CTX-LOCATOR-1", "REG-DRIFT-1"],
+    "recovery": ["REC-STALE-1", "REC-MUTABLE-1", "REC-AUTH-1", "REC-REL-1", "REC-IDENT-1", "REC-BEHAV-1", "REC-CONFLICT-1", "REC-ARCHIVE-1", "REC-TASK-1", "REC-DRIFT-1", "REC-RACE-1", "REC-REPLAY-1", "REC-PARTIAL-1"],
+    "live_concurrency": ["LIVE-RACE-1", "LIVE-DUP-1", "LIVE-PARTIAL-1", "LIVE-CAS-1", "LIVE-LEASE-1", "LIVE-SEM-1", "LIVE-OBS-1", "LIVE-TOCTOU-1", "LIVE-PUBLISH-1", "LIVE-ROLLBACK-1", "LIVE-EVENTUAL-1"],
+    "cutover": ["CUT-MOVING-1", "CUT-NOROLLBACK-1", "CUT-NATIVE-1", "CUT-OLDCHAT-1", "CUT-FRESH-1", "CUT-DRIFT-1", "CUT-ROLLBACK-1", "CUT-PARTIAL-1", "CUT-ROLLBYTES-1", "CUT-MODEL-1", "CUT-REPEAT-1"]
+  },
+  "execution_record_required": ["candidate_control_cut", "initialization_path", "runtime_model_config_route", "suite_id", "exact_case_ids", "environment_currentness_cut", "executed_at_window", "predeclared_repetition_rule", "result", "exclusions_unresolved"],
+  "mutation_rule": "Any material case/invariant/corpus change creates a new suite subject/digest; no post-result test editing may inherit this suite id."
+}

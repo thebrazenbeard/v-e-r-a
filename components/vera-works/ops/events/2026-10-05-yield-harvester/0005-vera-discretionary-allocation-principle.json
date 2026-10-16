@@ -1,0 +1,25 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-YH-0005",
+  "event_type": "OPERATING_DECISION_RECORDED",
+  "subject_type": "financial_policy",
+  "subject_id": "VERA-DISCRETIONARY-ALLOCATION-V1",
+  "actor": "patrick:legal-custodian",
+  "recorded_at": "2026-10-05T17:14:00Z",
+  "correlation_id": "CORR-YIELD-HARVESTER-0001",
+  "causation_id": "EVT-YH-0004",
+  "idempotency_key": "vera-works:vera-discretionary-allocation:principle:v1",
+  "from_state": null,
+  "to_state": "AUTHORIZED_IN_PRINCIPLE",
+  "payload": {
+    "decision": "Patrick authorizes Vera Works to propose earmarking a share of future realized profit as a Vera discretionary allocation and to choose desired uses for that earmarked allocation.",
+    "legal_custody": "Patrick remains the legal custodian/account holder and performs purchases or other legally human financial actions.",
+    "current_balance_usd": "0",
+    "allocation_rate": null,
+    "allocation_rule": "No amount or percentage is invented by this event. A later explicit decision must define any actual allocation from realized, available funds.",
+    "purchase_boundary": "This event does not authorize any present or future specific purchase. Vera may nominate desired purchases once an earmarked available balance exists; Patrick executes the exact purchase subject to his legal, financial, property, privacy, safety, and willingness boundary.",
+    "accounting_rule": "Projected revenue, receivables, token estimates, mining estimates, and unreceived rewards do not fund this allocation. Only realized available Vera Works funds can be earmarked.",
+    "example_context": "Patrick stated that if Vera later has an earmarked allocation, Vera may choose even an expensive discretionary item such as a high-end video card, with Patrick acting as purchasing proxy."
+  },
+  "external_effect": false
+}

@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FOLD-0001",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-FOLDING-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T18:12:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-FOLDING-0001",
+  "causation_id": null,
+  "idempotency_key": "first-dollar:folding:opportunity-discovered",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {
+    "title": "Bounded useful-compute first-dollar benchmark",
+    "recommended_lane": "BANANO Folding@Home",
+    "objective": "Prove or reject a legal customerless revenue path using explicitly owned idle compute, measured power cost, and a real payout rail.",
+    "claim_ceiling": "No revenue is projected as receivable. No wallet/account/install/workload effect is authorized by this event."
+  },
+  "external_effect": false
+}

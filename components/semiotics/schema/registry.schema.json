@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/thebrazenbeard/semiotics/blob/main/schema/registry.schema.json",
+  "title": "Semiotics registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "signs",
+    "sources",
+    "interpretations"
+  ],
+  "properties": {
+    "signs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sign"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "interpretations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/interpretation"
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/relation"
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": ".*\\S.*"
+    },
+    "tagList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      },
+      "uniqueItems": true
+    },
+    "sign": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "form",
+        "modality"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "form": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "modality": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "description"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "description": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "locator": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "citation": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "published_year": {
+          "type": "integer"
+        }
+      }
+    },
+    "interpretation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "sign_id",
+        "meaning",
+        "source_id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "sign_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "meaning": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "source_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "required_tags": {
+          "$ref": "#/$defs/tagList"
+        },
+        "excluded_tags": {
+          "$ref": "#/$defs/tagList"
+        },
+        "supersedes_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "left_id",
+        "right_id",
+        "kind",
+        "source_id"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "left_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "right_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "contrasts_with",
+            "contradicts",
+            "supports",
+            "refines"
+          ]
+        },
+        "source_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    }
+  }
+}

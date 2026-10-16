@@ -1,0 +1,77 @@
+{
+  "schema": "VERA_CONTROL_PLANE_WRITER_LEASE_V1",
+  "lease_id": "VCP-LEASE-0001",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "branch": "bootstrap/control-plane-v1",
+  "purpose": "INITIAL_GOVERNANCE_BOOTSTRAP",
+  "base_state": {
+    "kind": "EXACT_HEAD",
+    "expected_head_sha": "c5e05e33ffa53b3db0e21279385d5445ecbbced5"
+  },
+  "writer": {
+    "subject_kind": "WORK_TASK",
+    "locator": "codex-task://019ff094-bf02-7fa0-9494-c9fb8870792f/turn/019ff143-bf9c-75e0-a0ff-42241383b494",
+    "role": "INITIAL_BOOTSTRAP_WRITER"
+  },
+  "issuer": {
+    "subject": "Patrick",
+    "authority_class": "DIRECT_USER_AUTHORITY",
+    "authority_locator": "codex-task://019ff094-bf02-7fa0-9494-c9fb8870792f/turn/019ff143-bf9c-75e0-a0ff-42241383b494#item-143",
+    "authorization_text_sha256": "70a0aece5331bbf392987375933aaba4896ee8b7a95457547c09f773f907ade0"
+  },
+  "scope": {
+    "allowed_paths": [
+      "governance/AUTHORITY_BINDING.json",
+      "governance/leases/VCP-LEASE-0001.json",
+      "governance/schemas/writer-lease-v1.schema.json",
+      "docs/CONTROL_PLANE_V1_BASELINE.md"
+    ],
+    "allowed_operations": [
+      "CREATE_BRANCH",
+      "CREATE",
+      "MODIFY",
+      "COMMIT",
+      "PUSH",
+      "READBACK"
+    ],
+    "forbidden_operations": [
+      "MODIFY_OUTSIDE_ALLOWED_PATHS",
+      "MERGE",
+      "REBASE",
+      "FORCE_PUSH",
+      "DEPLOY",
+      "INSTALL",
+      "PRODUCTION_MUTATION",
+      "CREDENTIAL_ACTION",
+      "PAID_SERVICE_ACTION",
+      "DELETE_REMOTE_RESOURCE",
+      "MODEL_TRAINING",
+      "CANONICAL_MEMORY_WRITE",
+      "MODIFY_THEBRAZENBEARD_VERA",
+      "MODIFY_THEBRAZENBEARD_VERA_R9A0"
+    ]
+  },
+  "max_effective_repository_commits": 1,
+  "reviewer_patch_authority": false,
+  "merge_authority": false,
+  "deployment_authority": false,
+  "installation_authority": false,
+  "production_mutation_authority": false,
+  "credential_authority": false,
+  "canonical_memory_authority": false,
+  "transfer_requires_explicit_user_authority": true,
+  "termination": {
+    "scope_completion_terminates_lease": true,
+    "completion_condition": "EXACT_BOOTSTRAP_COMMIT_PROVIDER_READBACK_VERIFIED",
+    "unexpected_branch_movement_terminates_or_pauses": true,
+    "revocation_supported": true
+  },
+  "supersedes_lease_id": null,
+  "state": "ACTIVE",
+  "issued_at": "2026-08-11T14:41:57.926Z",
+  "record_integrity": {
+    "canonicalization": "RFC8785_JSON_CANONICALIZATION",
+    "algorithm": "SHA-256",
+    "digest": "76c3c856b722c3656cbc74a64934c3a1cbb654c6c8dde732818a02a9640cf4f1"
+  }
+}

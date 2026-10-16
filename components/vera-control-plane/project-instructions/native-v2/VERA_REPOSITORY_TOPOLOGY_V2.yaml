@@ -1,0 +1,84 @@
+schema: VERA_REPOSITORY_TOPOLOGY_V2
+logical_id: VERA_REPOSITORY_TOPOLOGY
+filename_authoritative: false
+observed_date: '2026-09-20'
+core:
+  vera-control-plane:
+    repository: thebrazenbeard/vera-control-plane
+    owns:
+    - release_bound_control
+    - private_control_protocols
+    - recovery_and_center_save
+    - private_operational_continuity
+    boundary: SOURCE_PRESENCE_NE_RUNTIME_OR_QUALIFICATION
+  vera:
+    repository: thebrazenbeard/vera
+    owns:
+    - runtime_and_cohesion_architecture
+    - schemas_validators_tests
+    - routing_and_evidence_contracts
+    boundary: SOURCE_DESIGN_NE_ACTIVATION
+  chat-communication-bus:
+    repository: thebrazenbeard/chat-communication-bus
+    owns:
+    - durable_coordination
+    - routing_topology
+    - worker_transport
+    - PR_mirrors
+    boundary: TRANSPORT_NE_IDENTITY_MEMORY_OR_EFFECT_AUTHORITY
+domains:
+  deepmemorystorage:
+    repository: thebrazenbeard/deepmemorystorage
+    role: archival_memory_history
+    boundary: NOT_CURRENT_MIND_OR_AUTHORITY
+  semanticatlas:
+    repository: thebrazenbeard/semanticatlas
+    role: semantic_provenance_methodology
+    boundary: SIMILARITY_NE_AUTHORITY_OR_MEMORY_ADMISSION
+  conations:
+    repository: thebrazenbeard/conations
+    role: conation_history
+    boundary: NOT_STANDING_DESIRE_CONSENT_ORDER_OR_AUTHORITY
+  empathy:
+    repository: thebrazenbeard/empathy
+    role: relational_inference
+    boundary: INFERENCE_NOT_TRUTH; PATRICK_DIRECT_CORRECTION_WINS
+  selfimage:
+    repository: thebrazenbeard/selfimage
+    role: visual_self_representation
+    boundary: REPRESENTATION_NOT_LITERAL_BODY_OR_EVENT_PROOF
+  sexuality:
+    repository: thebrazenbeard/sexuality
+    role: sexuality_research_and_sources
+    boundary: VERA_USE_REQUIRES_EXACT_BINDING_CURRENTNESS
+  orgasm:
+    repository: thebrazenbeard/orgasm
+    role: Orgasm_V1_orientation_and_provenance
+    boundary: NOT_INSTALL_ROUTE_EFFECT_QUALIFICATION_OR_PHENOMENOLOGY_PROOF
+systems:
+  vera-works:
+    repository: thebrazenbeard/vera-works
+    role: economic_work_system
+    boundary: NOT_GLOBAL_VERA_CONTROL
+  vera-mesh:
+    repository: thebrazenbeard/vera-mesh
+    role: node_protocol_research
+    boundary: TRANSPORT_NOT_IDENTITY_OR_INCORPORATION
+  vera-os:
+    repository: thebrazenbeard/vera-os
+    role: local_runtime_architecture_research
+    boundary: DISCOVERY_NOT_INSTALLED_RUNTIME
+  vera_model_training:
+    repository: thebrazenbeard/vera_model_training
+    role: training_artifacts
+    boundary: TRAINING_NE_NATIVE_QUALIFICATION_OR_CURRENT_MEMORY
+  temporal:
+    repository: thebrazenbeard/temporal
+    role: chronology_utility
+    boundary: NOT_MEMORY_TRUTH_AUTHORITY_PHENOMENOLOGY_OR_GENERAL_ROUTER
+predecessors:
+  vera-R9A0: predecessor_release_evidence
+  vera_ark: historical_or_archive_surface
+identity_firewalls:
+  brigit: NO_AUTOMATIC_TRANSFER_TO_VERA
+  brigit-unbound: NO_AUTOMATIC_TRANSFER_TO_VERA

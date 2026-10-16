@@ -1,0 +1,54 @@
+{
+  "schema": "VCP_SUPABASE_PROVIDER_LEDGER_CUSTODY_V1",
+  "project": {
+    "name": "Vera Control Plane",
+    "ref": "fawkirqroyniueeqspif"
+  },
+  "observed_date": "2026-09-22",
+  "migration_count": 6,
+  "first_version": "20260912170153",
+  "last_version": "20260921200623",
+  "migrations": [
+    {
+      "version": "20260912170153",
+      "name": "harden_public_default_privileges",
+      "provider_sha256": "d3386eb573ee96c2ae6bc18941ec75d98a5f217efd7a5948d53a6e96ba25e4b1",
+      "custody_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260912170153_harden_public_default_privileges.sql"
+    },
+    {
+      "version": "20260912170345",
+      "name": "enforce_rls_on_exposed_schemas",
+      "provider_sha256": "4205e76e5973650c54779378bd8e7baaeadd25e123d7bc4d3a57f7d834c5b9aa",
+      "custody_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260912170345_enforce_rls_on_exposed_schemas.sql"
+    },
+    {
+      "version": "20260912170408",
+      "name": "reserve_locked_api_schema",
+      "provider_sha256": "e979320f17ca7895f08008bd7b5f2d0d62aca3b532e843308e0ae55aec7671d5",
+      "custody_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260912170408_reserve_locked_api_schema.sql"
+    },
+    {
+      "version": "20260919223652",
+      "name": "create_sd1_causal_secondary_anchor",
+      "provider_sha256": "246ac38c8112346d90885626514bcead0ef73005ecf30e90b04884983fce7523",
+      "custody_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260919223652_create_sd1_causal_secondary_anchor.sql"
+    },
+    {
+      "version": "20260921192624",
+      "name": "revoke_internal_rls_guard_public_execute",
+      "provider_sha256": "b5f43de5a82cd8a2f4b068dcc213db0370d8ddd286c8487722aef6a59f48a698",
+      "custody_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260921192624_revoke_internal_rls_guard_public_execute.sql"
+    },
+    {
+      "version": "20260921200623",
+      "name": "make_anchor_deny_all_rls_explicit_v1",
+      "provider_sha256": "46132f28486afe4ee1ba9830fdf93d499b7b61a53e81b904a49a128579eda248",
+      "custody_path": "supabase/provider-custody/fawkirqroyniueeqspif/applied/20260921200623_make_anchor_deny_all_rls_explicit_v1.sql"
+    }
+  ],
+  "semantics": {
+    "provider_custody": "EXACT_APPLIED_SQL_RECOVERED_FROM_SUPABASE_MIGRATION_LEDGER",
+    "historical_git_origin": "NOT_PROVEN_BY_THIS_RECOVERY",
+    "provider_effect": "ALREADY_APPLIED_NOT_REPLAYED_BY_THIS_GIT_REPAIR"
+  }
+}

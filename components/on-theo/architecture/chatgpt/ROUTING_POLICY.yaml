@@ -1,0 +1,60 @@
+schema_version: nature-of-existence.routing-policy.v1
+
+rules:
+  - when:
+      any_of:
+        - primary_sources
+        - manuscripts
+        - archaeology
+        - inscriptions
+        - historical_claims
+        - theology
+        - religious_traditions
+        - chronology
+        - comparison
+        - transmission
+        - empirical_testing
+        - speculative_explanatory_models
+        - evidence_confidence
+    route:
+      repositories:
+        - thebrazenbeard/on-theo
+
+  - when:
+      any_of:
+        - scenes
+        - narrative
+        - characterization
+        - dialogue
+        - literary_voice
+        - pacing
+        - story_structure
+        - fictional_synthesis
+    route:
+      repositories:
+        - thebrazenbeard/testament
+
+  - when:
+      mixed_research_and_creative: true
+    route:
+      ordered:
+        - resolve_on_theo_constraint
+        - preserve_exact_provenance
+        - perform_testament_creation
+
+  - when:
+      forensic_review_or_adversarial_analysis: true
+    optional_adjacent:
+      - thebrazenbeard/voss
+
+  - when:
+      controller_simulation_or_engineering_model: true
+    optional_adjacent:
+      - thebrazenbeard/god-brain
+
+loading:
+  default: SMALLEST_REPOSITORY_SET_NECESSARY
+  prohibit:
+    - load_testament_for_pure_on_theo_research
+    - load_all_on_theo_for_bounded_testament_task
+    - load_adjacent_repo_without_material_reason

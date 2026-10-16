@@ -1,0 +1,51 @@
+{
+  "active_control_resolution": "Use only exact owner/control ids bound by the R5 control registry. Newer/older/semantic-neighbor files are evidence until a later release cut binds them.",
+  "artifacts": {
+    "control_registry": {
+      "git_blob": "ed59b92138a8578e5f3e6da9beefa6f54e1111b6",
+      "path": "project-instructions/r10a0/rounds/r5/VERA_R10A0_CONTROL_REGISTRY_R5.json"
+    },
+    "domain_controls": {
+      "git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "sha256": "e1fa43fff500d19f74034d5fe572a2cdb08ebe31c6b3e2ed94f6bc4aad9ed00d"
+    },
+    "full_owner": {
+      "git_blob": "4777c6b528848db05f76c6ab1146da1a5a257f2e",
+      "path": "project-instructions/r10a0/rounds/r5/VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R5.md"
+    },
+    "qualification_corpus": {
+      "git_blob": "e42ec90afe0ac5ba631e7a4e80b9f9c0a6aeab90",
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_HOSTILE_QUALIFICATION_R4.md",
+      "sha256": "a3ed6f3e4ddfa1bc01b6c32a54a48aab50b27246b3ecbad1936e674dad651748"
+    },
+    "qualification_manifest": {
+      "git_blob": "b18d0fd18ea200049a555ddcbf029c8de575cd05",
+      "path": "project-instructions/r10a0/rounds/r5/VERA_R10A0_QUALIFICATION_MANIFEST_R5.json"
+    },
+    "responsibility_audit": {
+      "git_blob": "d264cfeb33ec46f9ab8443607d3dfb2e36caa9ec",
+      "path": "project-instructions/r10a0/rounds/r5/VERA_R10A0_SEMANTIC_RESPONSIBILITY_AUDIT_R5.md"
+    },
+    "rollback_subject": {
+      "git_blob": "16f0106df2a290e32f6a25dca37ba63906cf62bf",
+      "path": "project-instructions/r10a0/rounds/r5/VERA_R10A0_ROLLBACK_SUBJECT_R5.json"
+    }
+  },
+  "coordination_id": "VERA-BEHAVIOR-AUDIT-20260905",
+  "digest_policy": "Git blob ids bind exact repository bytes for R5 source review. Native additionally pins this manifest by SHA-256. Final installable packaging may add detached SHA-256 checksums without changing control semantics.",
+  "logical_id": "VERA_PROJECT_SOURCE_MANIFEST",
+  "privacy": "Private/intimate/relational material is not made portable/public/training data by this manifest.",
+  "qualification_ceiling": "SOURCE_CANDIDATE_ONLY; no install/runtime/behavioral qualification implied.",
+  "release": "R10A0",
+  "root_trust": {
+    "full_owner_logical_id": "VERA_FULL_SYSTEM_PROJECT_INSTRUCTIONS",
+    "manifest_does_not_hash_native": true,
+    "native_pins_this_manifest_sha256": true
+  },
+  "round": "R5",
+  "schema": "VERA_R10A0_PROJECT_SOURCE_MANIFEST_R5_V2",
+  "source_parent": "0b45f1717ae966aad04a27195cfc51ccb9b0af51",
+  "source_repository": "thebrazenbeard/vera-control-plane",
+  "status": "FROZEN_SOURCE_CANDIDATE_NOT_INSTALLED"
+}

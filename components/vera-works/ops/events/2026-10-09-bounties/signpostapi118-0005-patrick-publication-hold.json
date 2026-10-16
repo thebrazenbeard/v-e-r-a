@@ -1,0 +1,54 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "HOLD-BOUNTY-SIGNPOSTAPI118-0001",
+  "event_type": "PATRICK_DECISION_REQUIRED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-BOUNTY-SIGNPOSTAPI118-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-09T14:40:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SIGNPOSTAPI118-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-SIGNPOSTAPI118-0004",
+  "idempotency_key": "first-dollar:github-bounty:signpost-api-118:patrick-publication-decision:v1",
+  "from_state": null,
+  "to_state": "OPEN",
+  "payload": {
+    "hold_kind": "PATRICK_DECISION_REQUIRED",
+    "problem": "The local Signpost API #118 bounty patch is complete and validated, but claiming the bounty and publishing the contribution require public actions through Patrick's GitHub identity. Current canonical authorization stops before issue comments, claims, forks, upstream pushes, pull requests, terms, or payout steps.",
+    "held_subject_type": "opportunity",
+    "held_subject_id": "OPP-FIRST-DOLLAR-SIGNPOSTAPI118-BOUNTY-0001",
+    "held_state": "APPROVED",
+    "required_from": "patrick",
+    "recommendation": "Authorize this exact instance: use Patrick's GitHub identity to comment on Signpost-Labs/signpost-api issue #118 requesting assignment/claim, create or use a fork only if required, publish the prepared commit as a narrowly scoped branch, and open one PR referencing Closes #118. Do not accept new bounty-platform terms, submit tax/identity/payment information, configure payout rails, or spend money without a separate Patrick-owned decision.",
+    "alternatives": [
+      "Decline publication and keep the validated patch archived internally; no public GitHub action occurs.",
+      "Authorize only the issue claim comment, then hold again before fork/push/PR.",
+      "Wait, accepting the risk another contributor takes the USD 85 bounty."
+    ],
+    "consequences": [
+      "Patrick's GitHub account will make a public commercial contribution and may be associated with a bounty claim.",
+      "The advertised reward is USD 85 but payment is not guaranteed until maintainers accept/merge under their bounty process.",
+      "Fresh GitHub check immediately before local freeze found issue #118 open with zero comments and no assignee.",
+      "The targeted adminActionsPostgresParity suite passes 6 tests with 2 live-Postgres tests intentionally skipped.",
+      "TypeScript typecheck, touched-file ESLint, git diff checks, the repository's normal commit hook, and full npm run test all pass.",
+      "The patch removes the duplicate convertPlaceholders implementation, makes the production translatePlaceholders retain stricter single/double-quote handling, updates parity tests to the production function, and adds a quoted-question-mark regression assertion.",
+      "No spend, secrets, production access, payout setup, or customer data are required to publish the code contribution itself."
+    ],
+    "inaction_effect": "The validated patch remains preserved in Vera Works and locally, but Signpost API #118 remains unclaimed by Vera Works and another contributor may claim or complete the USD 85 bounty.",
+    "resume_event_type": "PATRICK_SIGNPOSTAPI118_PUBLICATION_DECISION_RECORDED",
+    "completion_evidence_requested": "Patrick records AUTHORIZE or DECLINE for public GitHub claim/fork/push/PR actions for Signpost-Labs/signpost-api issue #118. No GitHub credential, password, token, wallet, tax identifier, or payout account detail belongs in the event store.",
+    "prepared_deliverable": {
+      "upstream_repository": "Signpost-Labs/signpost-api",
+      "upstream_issue": 118,
+      "advertised_reward_usd": "85",
+      "upstream_base_sha": "175a8c1db9856598d943c62180861afed0c6e45c",
+      "local_commit_sha": "4ccc3a4503017ae736dc3f9d1f97877796093321",
+      "durable_patch": "ops/artifacts/2026-10-09-signpostapi118-bounty/signpost-api-issue-118.patch",
+      "targeted_test": "node node_modules/jest/bin/jest.js --runInBand --runTestsByPath tests/db/adminActionsPostgresParity.test.ts",
+      "targeted_result": "6 passed, 2 skipped, 0 failed",
+      "full_test": "npm run test",
+      "full_test_result": "exit 0",
+      "typecheck_result": "node node_modules/typescript/bin/tsc --noEmit: exit 0"
+    }
+  },
+  "external_effect": false
+}

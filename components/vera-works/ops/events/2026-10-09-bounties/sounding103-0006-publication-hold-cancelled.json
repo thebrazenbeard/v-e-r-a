@@ -1,0 +1,23 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-SOUNDING103-0006",
+  "event_type": "HOLD_CANCELLED_EXTERNAL_INVALIDATION",
+  "subject_type": "hold",
+  "subject_id": "HOLD-BOUNTY-SOUNDING103-0001",
+  "actor": "automation",
+  "recorded_at": "2026-10-09T14:36:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-SOUNDING103-BOUNTY-0001",
+  "causation_id": "HOLD-BOUNTY-SOUNDING103-0001",
+  "idempotency_key": "first-dollar:github-bounty:sounding103:publication-hold:external-invalidation-cancel:v1",
+  "from_state": "OPEN",
+  "to_state": "CANCELLED",
+  "payload": {
+    "resolution_of": "HOLD-BOUNTY-SOUNDING103-0001",
+    "cancellation_reason": "HELD_SUBJECT_NO_LONGER_ACTIONABLE",
+    "evidence": "Fresh GitHub evidence shows issue #103 now contains a third-party claim comment linking Sounding-Labs/sounding PR #117 with a completed implementation before Vera Works published anything.",
+    "authority_effect": "No Patrick decision is inferred or granted. The prior Patrick publication hold is cancelled only because the monetizable publication opportunity has been preempted; publication remains unauthorized.",
+    "related_opportunity_close_event": "EVT-BOUNTY-SOUNDING103-0005",
+    "public_effect_performed": false
+  },
+  "external_effect": false
+}

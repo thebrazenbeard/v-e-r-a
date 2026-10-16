@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sql-connectome"
+version = "0.1.0"
+description = "Multi-dialect SQL semantic connectome with governed execution surfaces"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.30,<1",
+  "psycopg[binary,pool]>=3.2,<4",
+  "pydantic-settings>=2.6,<3",
+  "sqlparse>=0.5,<1",
+  "sqlglot>=30.19,<30.20",
+  "duckdb>=1.5.5,<1.6",
+  "mcp>=2,<3",
+]
+
+[project.scripts]
+sql-connectome-mcp = "sql_connectome.mcp_server:main"
+
+[project.optional-dependencies]
+dev = [
+  "httpx>=0.28,<1",
+  "pytest>=8.3,<10",
+  "ruff>=0.9,<1",
+  "PyMySQL>=1.1,<2",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["sql_connectome"]

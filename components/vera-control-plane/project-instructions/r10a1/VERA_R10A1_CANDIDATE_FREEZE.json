@@ -1,0 +1,56 @@
+{
+  "schema": "VERA_R10A1_CANDIDATE_FREEZE_V1",
+  "status": "FROZEN_SOURCE_CANDIDATE_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
+  "release": "R10A1",
+  "branch": "work/r10a1-salience-arbitration-20260906",
+  "base_r10a0_main": "2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64",
+  "base_r10a0_review_head": "a5b16fbdf031d4e7347ab299ba5e34eb7602bca7",
+  "candidate_core_digest_algorithm": "SHA256 over sorted UTF-8 records path + NUL + git_blob + LF, followed by manifest_sha256 + NUL + value + LF. Freeze/receipt/workflow/design/plan publication metadata are excluded.",
+  "candidate_core_sha256": "ce36663afcb393f272e27317c95383f86967bfba159ce9e095d271d23fadc513",
+  "source_manifest": {
+    "path": "project-instructions/r10a1/VERA_R10A1_PROJECT_SOURCE_MANIFEST.json",
+    "git_blob": "b198e7d05a4132c99a130998c729bd98779a0981",
+    "sha256": "41d1452e79665cdc29b573463959539dce1fcf2a40a68066f13e886e481f317b"
+  },
+  "core_git_blobs": {
+    "project-instructions/r10a1/VERA_R10A1_BASELINE_RED.md": "a3f445f53619eee40070d3a74d45d6a99db946b5",
+    "project-instructions/r10a1/VERA_R10A1_CONTROL_REGISTRY.json": "5918c7453d1852be4ba0e9c9d5f07373091658fd",
+    "project-instructions/r10a1/VERA_R10A1_NATIVE_DELTA.txt": "9d2a0610f093b8a442b87c1400497c8afebbc547",
+    "project-instructions/r10a1/VERA_R10A1_NATIVE_PROJECT_INSTRUCTIONS.txt": "44d0194e70de1254bb01d47a19571fd5b613daf7",
+    "project-instructions/r10a1/VERA_R10A1_SALIENCE_ARBITRATION.md": "132aefcde1dec48b15a83f7229246ef7e17e2bd9",
+    "project-instructions/r10a1/VERA_R10A1_SALIENCE_REGRESSION.md": "79b088bb2b13a8f0f3345caec805f44a47952318"
+  },
+  "cross_bind": {
+    "salience_owner_blob": "132aefcde1dec48b15a83f7229246ef7e17e2bd9",
+    "salience_regression_blob": "79b088bb2b13a8f0f3345caec805f44a47952318",
+    "baseline_red_blob": "a3f445f53619eee40070d3a74d45d6a99db946b5",
+    "native_delta_blob": "9d2a0610f093b8a442b87c1400497c8afebbc547",
+    "native_blob": "44d0194e70de1254bb01d47a19571fd5b613daf7",
+    "control_registry_blob": "5918c7453d1852be4ba0e9c9d5f07373091658fd",
+    "source_manifest_blob": "b198e7d05a4132c99a130998c729bd98779a0981"
+  },
+  "test_first": {
+    "regression_intro_commit": "be87cd381f145d39852435db8007eec834a9ec19",
+    "owner_intro_commit": "d24454274de04fe4852191f22653da439e6b511f",
+    "ordering": "REGRESSION_PRECEDES_IMPLEMENTATION_OWNER",
+    "red_ci_run": "34043264555",
+    "red_ci_result": "FAILURE_BEFORE_IMPLEMENTATION_ARTIFACTS"
+  },
+  "runtime_acceptance": {
+    "suite_id": "VERA_R10A1_SALIENCE_ARBITRATION_REGRESSION_V1",
+    "first_eligible_behavior_controls": true,
+    "intermittent_rule": "5/5 Q-COLD and 5/5 Q-RECOVER for declared intermittent SAL cases; guard cases mandatory",
+    "status": "NOT_EXECUTED"
+  },
+  "publication_receipt_path": "project-instructions/r10a1/VERA_R10A1_PUBLICATION_RECEIPT.json",
+  "publication_direction": "This freeze precedes the receipt. The later receipt must bind this freeze blob plus exact pre-receipt commit/tree, candidate core, manifest SHA-256/blob, and cross-bind. Receipt-creating commit becomes the immutable source-review head.",
+  "non_effects": [
+    "not merged",
+    "not Project installed",
+    "not provider activated",
+    "not runtime behaviorally qualified",
+    "not global Vera qualification",
+    "not BugOps closure",
+    "not cutover authority"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0041",
+  "event_type": "OPPORTUNITY_DISCOVERED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0007",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T22:35:00Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0026",
+  "idempotency_key": "first-dollar:opp:0007:discovered",
+  "from_state": null,
+  "to_state": "DISCOVERED",
+  "payload": {
+    "title": "Respect prefers-reduced-motion for smooth scrolling",
+    "buyer": "Lilly Protocol",
+    "channel": "GitHub issue bounty",
+    "source_url": "https://github.com/Lilly-Protocol/lily-frontend/issues/34",
+    "compensation": "USD 60 advertised in issue title",
+    "work_requested": "Remove unconditional smooth scrolling and enable it only when the user has not requested reduced motion; document the convention and pass npm run check.",
+    "source_state": "Issue open; one /try comment; one current open PR explicitly closing the issue.",
+    "startup_cost_usd": "0"
+  },
+  "external_effect": false
+}

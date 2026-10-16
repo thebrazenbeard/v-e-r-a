@@ -1,0 +1,141 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SIMULATION-DISCRIMINABILITY-V2
+base_registry_head: a6a1f16c3c35df86565a2cc502671e3893ae3131
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-SWAZO-2015-CRITICAL-SIMULATION
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: philosophy-of-science-paper
+    author_or_tradition: Norman K. Swazo
+    title: A Critical Engagement of Bostrom's Computer Simulation Hypothesis
+    composition_date: {start: "2015", end: "2015", precision: publication-year}
+    access_mode: open-archive-metadata-and-abstract
+    locators:
+      - url: "http://philsci-archive.pitt.edu/11537/"
+    limitations:
+      - "Registers Swazo's falsifiability critique; it does not establish that every constrained simulation model is untestable."
+
+  - id: SCH-PARODI-2022-SIM-LIKELIHOOD
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: philosophy-book-chapter
+    author_or_tradition: Pietro Parodi
+    title: Is It Likely that We Are Living in a Computer Simulation?
+    composition_date: {start: "2022", end: "2022", precision: publication-year}
+    access_mode: indexed-abstract
+    locators:
+      - doi: "10.1007/978-3-031-09153-7_16"
+    limitations:
+      - "Used for the critique that Bostrom's probability depends on additional background assumptions including machine consciousness and substrate independence."
+
+  - id: SCH-HARRIS-2023-SIM-RECONSIDERED
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed-philosophy-article
+    author_or_tradition: Keith Raymond Harris
+    title: The simulation argument reconsidered
+    container: Analysis
+    composition_date: {start: "2023", end: "2023", precision: publication-year}
+    access_mode: publisher-abstract
+    locators:
+      - doi: "10.1093/analys/anad048"
+    limitations:
+      - "Harris attacks expected simulator behavior rather than empirically measuring posthuman civilizations."
+
+  - id: SCH-CRAWFORD-2013-FREAK-OBSERVERS
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: peer_reviewed-philosophy-article
+    author_or_tradition: Lyle Crawford
+    title: Freak Observers and the Simulation Argument
+    container: Ratio
+    composition_date: {start: "2013", end: "2013", precision: publication-year}
+    access_mode: indexed-abstract
+    locators:
+      - doi: "10.1111/RATI.12009"
+    limitations:
+      - "Used to register a self-location/reference-class objection, not as a settled refutation of anthropic reasoning."
+
+concept_additions:
+  - id: CON-SIM-PROVENANCE-DISCRIMINABILITY
+    canonical_label: simulation provenance discriminability
+    kind: epistemic-test-concept
+    forms: [provenance-discriminability, simulation-detectability]
+    semantic_guard: "Distinguish detecting regularity or implementation artifacts from establishing external provenance."
+    relations: []
+
+  - id: CON-EXTERNAL-INTERVENTION
+    canonical_label: external intervention in an embedded world
+    kind: causal-model
+    forms: [simulator-intervention, extra-system-intervention]
+    semantic_guard: "Compatibility with an event is not evidence that intervention occurred."
+    relations: []
+
+claim_additions:
+  - id: CLM-GENERIC-SIMULATION-WEAK-FALSIFIABILITY
+    proposition: "An unconstrained simulation hypothesis has weak scientific discriminability because arbitrary simulator choices can accommodate a very wide range of possible observations."
+    claim_type: EPISTEMIC_MODEL_ASSESSMENT
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [simulation-theory]
+    supporting_sources:
+      - {source_id: SCH-SWAZO-2015-CRITICAL-SIMULATION, locator: "abstract/conclusion", relation: FALSIFIABILITY_CRITIQUE, access_mode: OPEN_ARCHIVE}
+    opposing_sources: []
+    confidence: high-for-unconstrained-model
+    contested: true
+
+  - id: CLM-SIM-MODEL-SPECIFIC-TESTING-POSSIBLE
+    proposition: "Specific simulation architectures can make testable predictions even when the generic simulation hypothesis does not; falsification of one implementation family does not falsify simulation generally."
+    claim_type: EMPIRICAL_TEST_SCOPE
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [simulation-theory, physics]
+    supporting_sources:
+      - {source_id: SCH-BEANE-DAVOUDI-SAVAGE-2012-LATTICE, locator: "model assumptions and observable consequences", relation: SPECIFIC_IMPLEMENTATION_TEST, access_mode: OPEN_PREPRINT}
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-OBSERVER-COUNTING-NONNEUTRAL
+    proposition: "Simulation-argument probabilities depend on contestable choices about observer reference classes, machine consciousness, simulator behavior and self-location; population dominance alone does not settle the probability that a given observer is simulated."
+    claim_type: BAYESIAN_ANTHROPIC_CRITIQUE
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [simulation-theory]
+    supporting_sources:
+      - {source_id: SCH-PARODI-2022-SIM-LIKELIHOOD, locator: "abstract", relation: BACKGROUND_ASSUMPTION_CRITIQUE, access_mode: INDEXED_ABSTRACT}
+      - {source_id: SCH-HARRIS-2023-SIM-RECONSIDERED, locator: "abstract", relation: SIMULATOR_BEHAVIOR_CRITIQUE, access_mode: PUBLISHER_ABSTRACT}
+      - {source_id: SCH-CRAWFORD-2013-FREAK-OBSERVERS, locator: "abstract", relation: SELF_LOCATION_CRITIQUE, access_mode: INDEXED_ABSTRACT}
+      - {source_id: SCH-KIPPING-2020-BAYESIAN-SIMULATION, locator: "Bayesian model", relation: MODEL_UNCERTAINTY_CONTROL, access_mode: OPEN_PREPRINT}
+    opposing_sources: []
+    confidence: high-for-dependency-claim
+    contested: true
+
+  - id: CLM-OBSERVATIONAL-EQUIVALENCE-PROVENANCE-UNDERDETERMINED
+    proposition: "If a simulated world and a non-simulated world generate exactly the same observer-accessible evidence, internal observation alone underdetermines which provenance obtains."
+    claim_type: EPISTEMIC_PROJECT_INFERENCE
+    evidence_class: [PROJECT_INFERENCE]
+    traditions: [simulation-theory, epistemology]
+    supporting_sources: []
+    opposing_sources: []
+    confidence: high-as-conditional
+    contested: true
+
+  - id: CLM-SIM-COMPATIBILITY-NOT-EVIDENCE
+    proposition: "The fact that an external simulator could reproduce a miracle, revelation, incarnation-like avatar, resurrection or eschatological transformation does not by itself increase the historical probability that the reported event occurred or that simulation caused it."
+    claim_type: COMPARATIVE_EPISTEMIC_GUARD
+    evidence_class: [PROJECT_INFERENCE]
+    traditions: [simulation-theory, christianity, historical-jesus]
+    supporting_sources: []
+    opposing_sources: []
+    confidence: high-as-inference-rule
+    contested: false
+
+  - id: CLM-YESHUA-SIMULATION-SPECIFIC-EVIDENCE-NONE
+    proposition: "The current On-Theo Yeshua corpus contains no established feature that is more specifically predicted by a simulation/intervention model than by historically available Jewish apocalyptic, prophetic, healing, resurrection, literary-memory or ordinary causal alternatives."
+    claim_type: NEGATIVE_COMPARATIVE_FINDING
+    evidence_class: [PROJECT_INFERENCE, UNKNOWN]
+    traditions: [historical-jesus, simulation-theory]
+    supporting_sources: []
+    opposing_sources: []
+    confidence: provisional
+    contested: true
+    notes:
+      - "This claim is intentionally revisable if a genuinely discriminating feature is identified."
+
+transmission_additions: []

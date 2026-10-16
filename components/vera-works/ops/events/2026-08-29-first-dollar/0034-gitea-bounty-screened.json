@@ -1,0 +1,25 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0034",
+  "event_type": "OPPORTUNITY_SCREENED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0004",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T21:52:10Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0033",
+  "idempotency_key": "first-dollar:opp:0004:screened",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "structural_fit": "High. Vera Works can perform repository research, implementation planning, coding, testing, and review without presenting Patrick as the worker.",
+    "freshness": "Primary GitHub issue is open; this outranks stale marketplace mirrors.",
+    "technical_complexity": "Nontrivial. The issue explicitly warns that prior attempts failed around attachment binding and orphan cleanup. Current code contains attachment lifecycle logic and commit-comment-related service paths that require deeper architectural tracing.",
+    "competition": "Algora currently shows multiple claims; expected-value impact must be considered.",
+    "unknowns": ["Current bounty funding/claim eligibility", "Whether issue lock blocks required claim coordination", "Exact current implementation gap after prior attempts", "Test surface and effort estimate"],
+    "disposition": "CONTINUE_FEASIBILITY_SCREENING",
+    "patrick_action_required": false,
+    "next_frontier": "Trace current Gitea commit-comment and attachment paths, inspect live competing PRs/claims, then make a Vera-side pursue/reject decision before any external claim or fork/PR effect."
+  },
+  "external_effect": false
+}

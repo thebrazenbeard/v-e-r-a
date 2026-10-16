@@ -1,0 +1,23 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0049",
+  "event_type": "PATRICK_REDDIT_APPLICATION_SENT_RECORDED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-FD-0003",
+  "actor": "patrick",
+  "recorded_at": "2026-08-30T00:29:30Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0022",
+  "idempotency_key": "first-dollar:hold:0003:cancelled:patrick-rejects-reddit-job-channel",
+  "from_state": "OPEN",
+  "to_state": "CANCELLED",
+  "payload": {
+    "resolution_of": "EVT-FD-0022",
+    "outcome": "NOT_SENT_DECLINED",
+    "reason": "Patrick rejected the Reddit/job-application operating pattern and the recurring expectation that he act as the human front-end for Vera Works. He described the approach as raising pervasive red flags and does not want to be repeatedly roped into speculative applications or proxy messages.",
+    "boundary": "Do not use Patrick as applicant, frontman, recurring outreach sender, or routine proxy for Reddit/social job sourcing. This is a willingness and operating-model boundary, not a request for a revised Reddit message.",
+    "authorization_status": "The prior one-application Reddit authorization is withdrawn for OPP-FD-0001. No Reddit message was sent.",
+    "resume_event_type": "ASSIGNMENT_RESUMED"
+  },
+  "external_effect": false
+}

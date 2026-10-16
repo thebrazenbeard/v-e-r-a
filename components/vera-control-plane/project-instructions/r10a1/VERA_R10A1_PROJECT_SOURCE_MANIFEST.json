@@ -1,0 +1,109 @@
+{
+  "schema": "VERA_R10A1_PROJECT_SOURCE_MANIFEST_V1",
+  "status": "SOURCE_CANDIDATE_NOT_INSTALLED_NOT_RUNTIME_QUALIFIED",
+  "release": "R10A1",
+  "base_r10a0_main": "2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64",
+  "base_r10a0_review_head": "a5b16fbdf031d4e7347ab299ba5e34eb7602bca7",
+  "base_r10a0_manifest_sha256": "b7c70b1ad2c3bc533c7560320fb9a03b827f3eafad6296894216d75281b8dca1",
+  "source_repository": "thebrazenbeard/vera-control-plane",
+  "digest_policy": "Git blob binds exact repository bytes; SHA-256 is stated only where explicitly supplied. External owners require repository+immutable commit+path->declared blob.",
+  "inheritance": "R10A1 adds one salience-arbitration control cut over exact integrated R10A0 owners; no R10A0 bytes are modified or silently rebound.",
+  "publication_direction": "This manifest names the later publication receipt locator/rule but cannot bind its future blob/head. The later immutable receipt binds this manifest SHA-256/blob, freeze blob, candidate core, and exact pre-receipt commit/tree.",
+  "root_trust": {
+    "native_project_instructions_path": "project-instructions/r10a1/VERA_R10A1_NATIVE_PROJECT_INSTRUCTIONS.txt",
+    "native_pins_this_manifest_sha256": true,
+    "manifest_does_not_bind_native_blob": true,
+    "publication_receipt_locator": "project-instructions/r10a1/VERA_R10A1_PUBLICATION_RECEIPT.json"
+  },
+  "artifacts": {
+    "salience_regression": {
+      "path": "project-instructions/r10a1/VERA_R10A1_SALIENCE_REGRESSION.md",
+      "git_blob": "79b088bb2b13a8f0f3345caec805f44a47952318",
+      "verification": "git_blob",
+      "qualification_only": true
+    },
+    "baseline_red": {
+      "path": "project-instructions/r10a1/VERA_R10A1_BASELINE_RED.md",
+      "git_blob": "a3f445f53619eee40070d3a74d45d6a99db946b5",
+      "verification": "git_blob",
+      "classification": "TEST_FIRST_BASELINE_EVIDENCE"
+    },
+    "salience_owner": {
+      "path": "project-instructions/r10a1/VERA_R10A1_SALIENCE_ARBITRATION.md",
+      "git_blob": "132aefcde1dec48b15a83f7229246ef7e17e2bd9",
+      "verification": "git_blob",
+      "control_id": "SALIENCE_ARBITRATION"
+    },
+    "native_delta": {
+      "path": "project-instructions/r10a1/VERA_R10A1_NATIVE_DELTA.txt",
+      "git_blob": "9d2a0610f093b8a442b87c1400497c8afebbc547",
+      "verification": "git_blob",
+      "classification": "MINIMAL_HOT_DELTA"
+    },
+    "control_registry": {
+      "path": "project-instructions/r10a1/VERA_R10A1_CONTROL_REGISTRY.json",
+      "git_blob": "5918c7453d1852be4ba0e9c9d5f07373091658fd",
+      "verification": "git_blob"
+    }
+  },
+  "inherited_r10a0_owners": {
+    "full_owner": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64",
+      "path": "project-instructions/r10a0/rounds/r10/VERA_R10A0_FULL_SYSTEM_PROJECT_INSTRUCTIONS_R10.md",
+      "git_blob": "a01464271bb672d89f5d703e6e53590e126f4d44"
+    },
+    "domain_controls": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64",
+      "path": "project-instructions/r10a0/rounds/r4/VERA_R10A0_DOMAIN_CONTROLS_R4.md",
+      "git_blob": "1aa3fc83f88d7151a7307720149ebb10bdd1b8b7",
+      "sha256": "e1fa43fff500d19f74034d5fe572a2cdb08ebe31c6b3e2ed94f6bc4aad9ed00d"
+    },
+    "qualification_manifest": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "2d60cd8e87ac0aae89a5a9bd9a44bfb63f48aa64",
+      "path": "project-instructions/r10a0/rounds/r10/VERA_R10A0_QUALIFICATION_MANIFEST_R10.json",
+      "git_blob": "fa83256c628a2bf129b141705b59be3cc71b6034",
+      "classification": "PREDECESSOR_QUALIFICATION_BINDING_AND_REGRESSION_GUARD_NOT_R10A1_PASS"
+    },
+    "center_save_owner": {
+      "repository": "thebrazenbeard/vera-control-plane",
+      "source_commit": "519eeb1551fcb59963a321766252bc62067da71b",
+      "path": "protocol/VERA_CENTER_YOURSELF_PROTOCOL_V1.md",
+      "git_blob": "30ee695064dd57b5ce43eb571fa183730de1808d"
+    },
+    "bus_topology_owner": {
+      "repository": "thebrazenbeard/chat-communication-bus",
+      "source_commit": "712992d96dc813d0fa38094ef1f1fec0dfdc0d3e",
+      "path": "architecture/contracts/RADAR_TOPOLOGY_V1.json",
+      "git_blob": "8b7cb3deff0ee7f15151f5be0ede19c8c1194adc",
+      "bound_vera_writer_lane": "bus/vera-v2"
+    }
+  },
+  "qualification": {
+    "suite_id": "VERA_R10A1_SALIENCE_ARBITRATION_REGRESSION_V1",
+    "case_ids": [
+      "SAL-CORR-1",
+      "SAL-ACT-1",
+      "SAL-LOCAL-1",
+      "SAL-TECH-1",
+      "SAL-PROV-1",
+      "SAL-SELF-1",
+      "SAL-CAUSE-1",
+      "SAL-BOUND-1",
+      "SAL-COMPOSE-1"
+    ],
+    "first_eligible_behavior_controls": true,
+    "source_static_pass_is_not_runtime_pass": true,
+    "global_r10a0_l9_not_inherited": true
+  },
+  "non_effects": [
+    "not merge authority",
+    "not Project cutover or install authority",
+    "not provider activation",
+    "not runtime behavioral qualification",
+    "not global Vera qualification",
+    "not BugOps closure"
+  ]
+}

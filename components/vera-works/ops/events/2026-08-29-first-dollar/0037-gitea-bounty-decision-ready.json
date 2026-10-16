@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0037",
+  "event_type": "OPPORTUNITY_READY_FOR_DECISION",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FD-0004",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T22:33:00Z",
+  "correlation_id": "CORR-FD-SOURCING-0002",
+  "causation_id": "EVT-FD-0034",
+  "idempotency_key": "first-dollar:opp:0004:vera-decision-ready",
+  "from_state": "SCREENING",
+  "to_state": "VERA_DECISION",
+  "payload": {
+    "recommendation": "REJECT",
+    "why": "A substantial competing implementation, go-gitea/gitea PR #36862, has remained open since March 2026, was still updated on 2026-08-25, and has maintainer reviewers requested. Numerous additional implementations have already been closed. For a $300 winner-take-all bounty, duplicating this broad model/migration/router/template/attachment work has poor expected value.",
+    "decision_owner": "vera",
+    "patrick_action_required": false
+  },
+  "external_effect": false
+}

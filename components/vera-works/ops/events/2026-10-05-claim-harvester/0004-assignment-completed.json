@@ -1,0 +1,26 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-CH-0004",
+  "event_type": "ASSIGNMENT_COMPLETED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-CLAIM-HARVESTER-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-05T15:48:00Z",
+  "correlation_id": "CORR-CLAIM-HARVESTER-0001",
+  "causation_id": "EVT-CH-0003",
+  "idempotency_key": "claim-harvester:v1:assignment-completed:source-build",
+  "from_state": "IN_PROGRESS",
+  "to_state": "COMPLETED",
+  "payload": {
+    "completion_scope": "Claim Harvester V1 source implementation and GitHub CI qualification only.",
+    "evidence": [
+      "Deterministic eligibility, source-quality, beneficiary, claim-window, economic-value, communication, and protected-effect gates are implemented.",
+      "Candidate feed schema, CLI boundary, source registry, runtime-only wallet configuration, append-only assessment ledger, tests, documentation, and privacy-preserving observations are present.",
+      "Hostile review found and repaired fail-open malformed-candidate handling and future-window misclassification.",
+      "GitHub Ops Spine run 166 passed on repaired source/test head b7f363253b5ff6843073defb578316de3dd81be9."
+    ],
+    "claim_ceiling": "This completion does not claim local Project Runner execution, unattended Pre-Active operation, deployed runtime state, automatic claim execution, or any received/receivable funds.",
+    "next_frontier": "Qualify the merged source through Project Runner when the workstation route is available, then implement read-only DOL Workers Owed Wages and other authoritative source adapters."
+  },
+  "external_effect": false
+}

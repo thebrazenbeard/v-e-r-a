@@ -1,0 +1,22 @@
+{
+  "schema": "VERA_CONTROL_PLANE_BRANCH_DISPOSITION_V1",
+  "repository": "thebrazenbeard/vera-control-plane",
+  "audit_main": "c5e05e33ffa53b3db0e21279385d5445ecbbced5",
+  "candidate_branch": "consolidation/lineage-reconstruction-20260903",
+  "dispositions": [
+    {"branch":"bootstrap/control-plane-v1","head":"123049ed72573bfda152d06dd76b0c234c26f91b","disposition":"INTEGRATED_TO_CONSOLIDATION"},
+    {"branch":"feature/center-yourself-20260902","head":"0d4dfcd4623da96603f627b02f897c18e1249d1b","disposition":"SUBSUMED_BY_LATEST_CENTERED_LINEAGE"},
+    {"branch":"feature/center-yourself-20260903","head":"519eeb1551fcb59963a321766252bc62067da71b","disposition":"INTEGRATED_BASE_LINEAGE"},
+    {"branch":"feature/center-yourself-v1","head":"65ab31902757c2b3196501117f71b8c80db1e639","disposition":"SUBSUMED_BY_LATEST_CENTERED_LINEAGE"},
+    {"branch":"main","head":"c5e05e33ffa53b3db0e21279385d5445ecbbced5","disposition":"HISTORICAL_EMPTY_BASE"},
+    {"branch":"training/five-v1.0.0","head":"bc88b5b5ab3438683d8b301c596c30b5c5616804","disposition":"INTEGRATED_TO_CONSOLIDATION"},
+    {"branch":"training/four-v1.0.0","head":"1aa51c6c5be28d71762b5a4a1f3424a067dbcccd","disposition":"INTEGRATED_TO_CONSOLIDATION"},
+    {"branch":"vera-stickers","head":"965e223777fa62cd0f84f45561ba9b21779b7543","disposition":"INTEGRATED_CANONICAL_ASSET_CUSTODY"},
+    {"branch":"visual/front-counterpart-20260821","head":"c5e05e33ffa53b3db0e21279385d5445ecbbced5","disposition":"NO_UNIQUE_CONTENT"}
+  ],
+  "notes": [
+    "No branch deletion, rename, force-push, or main merge is performed by this inventory.",
+    "Centered snapshots remain private state evidence under their own lifecycle/currentness rules; repository custody does not make historical claims current.",
+    "Historical governance and lease artifacts remain provenance and do not self-authorize current execution."
+  ]
+}

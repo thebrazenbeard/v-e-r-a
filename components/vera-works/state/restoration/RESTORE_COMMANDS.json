@@ -1,0 +1,13 @@
+{
+  "schema_version": "vera-works-restore-index-v1",
+  "updated_at": "2026-10-06T10:44:00Z",
+  "restores": {
+    "VERA_WORKS::RESTORE::FIRST_DOLLAR_20261006_0641_ET": {
+      "path": "state/restoration/VERA_WORKS_CHAT_RESTORE_20261006T0641-0400.md",
+      "project": "Vera Works",
+      "purpose": "Resume the first-dollar revenue workflow from the Nanswap bounded experiment without replaying effects.",
+      "snapshot_source_main": "99213b4d56739a2a67767ed24ddf8ee90dd37aff",
+      "priority": "CURRENT"
+    }
+  }
+}

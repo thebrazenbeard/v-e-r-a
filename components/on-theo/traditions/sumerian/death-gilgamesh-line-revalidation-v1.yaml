@@ -1,0 +1,58 @@
+schema_version: on-theo.line-revalidation-research.v1
+status: PARTIAL_PASS_WITH_VERSION_SPLIT_AND_ALIGNMENT_CEILING
+subject:
+  predecessor_pr: 41
+  predecessor_head: a60d4ba8af209ddef7e6f42ecf01cade64e8a87a
+  composition_id: c.1.8.1.3
+  cdli_composite: Q000363
+  cdli_witness_count: 12
+  cdli_aligned_witness_count: 0
+
+rules:
+  - "Current composite confirmation is not witness-aligned confirmation."
+  - "Nippur and Me-Turan textual versions must remain separately provenance-tagged."
+  - "Absence from the current Nippur composite does not prove absence from every witness."
+
+records:
+  - occurrence_group: DEATH-GILGAMESH-NIPPUR-KUR-DARK-PLACE
+    version: NIPPUR_VERSION
+    line_ref: "Q000363 88'"
+    lexeme: kur
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    witness_alignment: pending
+
+  - occurrence_group: DEATH-GILGAMESH-NIPPUR-GIDIM-FESTIVAL
+    version: NIPPUR_VERSION
+    line_ref: "Q000363 93'"
+    lexeme: gidim
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED
+    witness_alignment: pending
+
+  - occurrence_group: DEATH-GILGAMESH-NIPPUR-ROYAL-OFFICE
+    version: NIPPUR_VERSION
+    line_ref: "Q000363 145'-146'"
+    lexeme: "kur + gidim"
+    evidence_state: CURRENT_COMPOSITE_CONFIRMED_WITH_DAMAGE
+    witness_alignment: pending
+    note: "Composite preserves nam-szagina kur-ra and gidim-zu in adjacent damaged lines."
+
+  - occurrence_group: DEATH-GILGAMESH-METURAN-GIDIM-GOVERNOR
+    version: ME_TURAN_VERSION
+    line_ref: "ETCSL Me-Turan 38-39; parallel 131-132"
+    lexeme: "gidim + kur"
+    evidence_state: ETCSL_ME_TURAN_VERSION_CONFIRMED
+    witness_alignment: pending
+    edition_lineage: Cavigneaux_al_Rawi_2000
+
+  - occurrence_group: DEATH-GILGAMESH-METURAN-ARALI
+    version: ME_TURAN_VERSION
+    line_ref: "ETCSL Me-Turan 166"
+    lexeme: arali
+    evidence_state: ETCSL_ME_TURAN_VERSION_CONFIRMED
+    witness_alignment: pending
+    edition_lineage: Cavigneaux_al_Rawi_2000
+
+remaining_dependency:
+  edition: Cavigneaux_al_Rawi_2000_CM19
+  state: DIRECT_SCORE_OR_PLATE_RECHECK_REQUIRED
+  reason: "Current CDLI Q000363 has zero aligned witnesses."

@@ -1,0 +1,65 @@
+{
+  "schema": "VERA_NATIVE_PROJECT_PACK_MANIFEST_V2",
+  "logical_id": "VERA_NATIVE_PROJECT_PACK_MANIFEST",
+  "status": "DRAFT_NATIVE_PROJECT_PACKAGE_FOR_INSTALL_REVIEW",
+  "generated_date": "2026-09-22",
+  "native_kernel_chars": 7995,
+  "filename_semantics": "NON_AUTHORITATIVE",
+  "resolution_order": [
+    "logical_id",
+    "schema_or_role",
+    "verified_content_binding",
+    "filename_hint"
+  ],
+  "files": [
+    "VERA_NATIVE_PROJECT_KERNEL_V2.txt",
+    "VERA_NATIVE_PROJECT_INTERFACE_V2.yaml",
+    "VERA_NATIVE_CHARTER_V2.md",
+    "VERA_CONTROL_SOURCE_SEPARATION_V2.md",
+    "VERA_CURRENTNESS_AND_RECOVERY_V2.md",
+    "VERA_REPOSITORY_TOPOLOGY_V2.yaml",
+    "VERA_MEMORY_AND_PRIVACY_V2.md",
+    "VERA_COORDINATION_V2.md",
+    "VERA_TASK_EXECUTION_AND_CLOSEOUT_V2.md",
+    "VERA_NATIVE_PROJECT_PACK_MANIFEST_V2.json"
+  ],
+  "release_sources_resolved_by_identity": [
+    {
+      "logical_id": "VERA_FULL_SYSTEM_PROJECT_INSTRUCTIONS"
+    },
+    {
+      "logical_id": "VERA_PROJECT_SOURCE_MANIFEST",
+      "schema": "VERA_R10A0_PROJECT_SOURCE_MANIFEST_R10_V1"
+    },
+    {
+      "schema": "VERA_R10A0_SD1_PROJECT_SOURCE_MANIFEST_V1"
+    }
+  ],
+  "mutable_truth_not_embedded": [
+    "current Git heads/PRs",
+    "current Bus topology/messages",
+    "current assignments",
+    "provider/install state",
+    "reviews after subject movement"
+  ],
+  "install_artifact_naming": {
+    "successor_basename_policy": "NEW_RELEASE_SCOPED_UNUSED_NAMESPACE",
+    "loose_installable_chat_artifacts": "FORBIDDEN",
+    "handoff": "ONE_VERIFIED_ZIP",
+    "existing_upload_suffix_semantics": "NON_AUTHORITATIVE"
+  },
+  "delivery_release_id": "VERA_NATIVE_V2A1_20260922_PROJECT_SOURCE_FIX",
+  "delivery_filename_namespace": "VERA_NV2A1_20260922",
+  "delivery_filename_map": {
+    "VERA_NATIVE_PROJECT_KERNEL_V2.txt": "VERA_NV2A1_20260922_KERNEL.txt",
+    "VERA_NATIVE_PROJECT_INTERFACE_V2.yaml": "VERA_NV2A1_20260922_INTERFACE.yaml",
+    "VERA_NATIVE_CHARTER_V2.md": "VERA_NV2A1_20260922_CHARTER.md",
+    "VERA_CONTROL_SOURCE_SEPARATION_V2.md": "VERA_NV2A1_20260922_CONTROL_SOURCE_SEPARATION.md",
+    "VERA_CURRENTNESS_AND_RECOVERY_V2.md": "VERA_NV2A1_20260922_CURRENTNESS_RECOVERY.md",
+    "VERA_REPOSITORY_TOPOLOGY_V2.yaml": "VERA_NV2A1_20260922_REPOSITORY_TOPOLOGY.yaml",
+    "VERA_MEMORY_AND_PRIVACY_V2.md": "VERA_NV2A1_20260922_MEMORY_PRIVACY.md",
+    "VERA_COORDINATION_V2.md": "VERA_NV2A1_20260922_COORDINATION.md",
+    "VERA_TASK_EXECUTION_AND_CLOSEOUT_V2.md": "VERA_NV2A1_20260922_TASK_EXECUTION_CLOSEOUT.md",
+    "VERA_NATIVE_PROJECT_PACK_MANIFEST_V2.json": "VERA_NV2A1_20260922_PACK_MANIFEST.json"
+  }
+}

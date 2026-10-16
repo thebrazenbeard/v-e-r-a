@@ -1,0 +1,27 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-BOUNTY-AUGORA68-0002",
+  "event_type": "OPPORTUNITY_SCREENING_STARTED",
+  "subject_type": "opportunity",
+  "subject_id": "OPP-FIRST-DOLLAR-AUGORA68-BOUNTY-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-10-08T23:58:01Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-AUGORA68-BOUNTY-0001",
+  "causation_id": "EVT-BOUNTY-AUGORA68-0001",
+  "idempotency_key": "first-dollar:github-bounty:augora68:screening:v1",
+  "from_state": "DISCOVERED",
+  "to_state": "SCREENING",
+  "payload": {
+    "evidence_summary": [
+      "Direct GitHub issue observed open with zero comments and no assignee.",
+      "Advertised bounty is USD 85 with ETA 24 hours.",
+      "Current public frontend/soroban.js contains four Networks.TESTNET references across placeBet and reducePosition while TESTNET.networkPassphrase already exists in the same module.",
+      "The requested source change is four constant replacements plus removal of the now-unused Networks destructuring, with no network, credentials, spend, or production access needed to prepare it."
+    ],
+    "prepared_draft_artifact": "ops/artifacts/2026-10-08-augora68-bounty/augora-issue-68.patch",
+    "source_blob_sha": "510c2422c680bf8a256a834f13e477f4397f5bd7",
+    "draft_validation_state": "NOT_YET_EXECUTED",
+    "recommendation": "Apply the minimal draft to fresh Augora main and run node scripts/validate-frontend.mjs on Lappy when Executor connectivity returns."
+  },
+  "external_effect": false
+}

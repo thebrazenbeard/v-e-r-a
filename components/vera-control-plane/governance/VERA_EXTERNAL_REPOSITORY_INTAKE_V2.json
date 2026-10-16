@@ -1,0 +1,335 @@
+{
+  "schema": "VERA_EXTERNAL_REPOSITORY_INTAKE_V2",
+  "status": "SOURCE_RESEARCH_INTAKE_ONLY_NOT_DEPENDENCY_NOT_CONTROL",
+  "observed_date": "2026-09-20",
+  "guard_rules": {
+    "discovery_not_admission": true,
+    "exact_head_required": true,
+    "license_and_lifecycle_required": true,
+    "external_content_not_autobiographical_memory": true,
+    "external_content_not_control_source": true,
+    "external_source_not_install_or_runtime_evidence": true,
+    "code_reuse_requires_license_compatibility_review": true,
+    "destination_ownership_required_before_implementation": true,
+    "normative_actions_are_finite_domain_only": true,
+    "prose_never_grants_effect_authority": true
+  },
+  "domains": {
+    "lifecycle": [
+      "ACTIVE",
+      "ARCHIVED",
+      "STALE"
+    ],
+    "disposition": [
+      "HIGH_VALUE_PATTERN_SOURCE",
+      "HISTORICAL_ONLY_SUCCESSOR_REQUIRED",
+      "CONTENT_CORPUS_ONLY",
+      "PATTERN_SOURCE",
+      "HISTORICAL_TECHNIQUE_ONLY_NO_CODE_REUSE",
+      "NETWORK_RESEARCH_ONLY_LICENSE_REVIEW_REQUIRED",
+      "OPERATIONS_PATTERN_SOURCE",
+      "HIGH_VALUE_NETWORK_ARCHITECTURE_SOURCE"
+    ],
+    "destination": [
+      "VCP_COORDINATION_CURRENTNESS_RESEARCH",
+      "DOCUMENTATION_TOOLING_RESEARCH",
+      "NONE_BY_DEFAULT",
+      "VCP_RECOVERY_CREATIVE_RESEARCH",
+      "NETWORK_ROUTING_HISTORY",
+      "VERAMESH_TRANSPORT_RESILIENCE_RESEARCH",
+      "VCP_INSTALL_RECOVERY_RESEARCH",
+      "VERAMESH_PRIMARY_BUS_SECONDARY_RESEARCH"
+    ],
+    "restriction_class": [
+      "NO_AUTOMATIC_CODE_IMPORT",
+      "PRESERVE_HISTORICAL_ONLY",
+      "CONTENT_POSITION_NONADOPTION",
+      "NO_CODE_REUSE",
+      "LICENSE_REVIEW_REQUIRED",
+      "OWNER_SUBSYSTEM_REVIEW_REQUIRED"
+    ],
+    "pattern_id": [
+      "GOAL_HARNESS_EVIDENCE",
+      "TRUTH_SURFACE_CLOSEOUT",
+      "SEPARATE_TRUTH_SURFACES",
+      "ARCHIVE_CURRENTNESS_CHECK",
+      "MULTILINGUAL_PROVENANCE_FIXTURE",
+      "LOCAL_FIRST_CUSTODY",
+      "REVERSIBLE_REMOVAL",
+      "UNRESOLVED_PLACEHOLDER",
+      "SHA256_EXPORT_RECEIPT",
+      "AUTOSAVE_ROTATING_BACKUP",
+      "EXTERNAL_ALLOCATION_ROUTE_POLICY",
+      "ROUTING_DATA_REFRESH",
+      "DATA_PLANE_ROUTE_VALIDATION",
+      "LAST_KNOWN_GOOD_RECONNECT",
+      "PERSISTENT_NODE_IDENTITY",
+      "LOOPBACK_SAFE_EXPOSURE",
+      "RELEASE_CHECKSUM_VERIFICATION",
+      "DURABLE_STATE_OUTSIDE_RUNTIME",
+      "VERIFY_STATE_BEFORE_REPLACEMENT",
+      "RETAIN_PREDECESSOR_UNTIL_SUCCESSOR_RUNNING",
+      "OPERATIONAL_READBACK_METRICS",
+      "SELF_HEALING_ROUTE_CONVERGENCE",
+      "DECENTRALIZED_ROUTE_EXCHANGE",
+      "MULTIHOP_LATENCY_FORWARDING",
+      "AUTHENTICATED_CONTROL_TRANSPORT"
+    ],
+    "followup_action_kind": [
+      "ADAPT_PATTERN_IN_VCP_RESEARCH",
+      "ROUTE_PATTERN_TO_VERAMESH_RESEARCH",
+      "EVALUATE_PATTERN_FOR_RECOVERY_RESEARCH",
+      "PRESERVE_AS_REFERENCE_ONLY"
+    ],
+    "evidence_mode": [
+      "IMMUTABLE_TUPLES",
+      "REPOSITORY_HEAD_ONLY"
+    ]
+  },
+  "repositories": [
+    {
+      "repository": "KKKKhazix/khazix-skills",
+      "head": "4f2db09802736ac8130ddf8dd6121435b5a41b55",
+      "license": "MIT",
+      "lifecycle": "ACTIVE",
+      "disposition": "HIGH_VALUE_PATTERN_SOURCE",
+      "pattern_ids": [
+        "GOAL_HARNESS_EVIDENCE",
+        "TRUTH_SURFACE_CLOSEOUT",
+        "SEPARATE_TRUTH_SURFACES"
+      ],
+      "destination": "VCP_COORDINATION_CURRENTNESS_RESEARCH",
+      "restriction_classes": [
+        "NO_AUTOMATIC_CODE_IMPORT"
+      ],
+      "evidence_mode": "IMMUTABLE_TUPLES",
+      "evidence": [
+        {
+          "path": "leader/SKILL.md",
+          "blob": "deb36d81b75eed93b476b4469a085c6666156973"
+        },
+        {
+          "path": "neat-freak/SKILL.md",
+          "blob": "51333e97c010a8ba13b10dc3c89d17021d915aa8"
+        }
+      ]
+    },
+    {
+      "repository": "yhatt/marp",
+      "head": "5ce01a2343a28d25f25085d1d37cd92ea180184b",
+      "license": "MIT",
+      "lifecycle": "ARCHIVED",
+      "disposition": "HISTORICAL_ONLY_SUCCESSOR_REQUIRED",
+      "pattern_ids": [
+        "ARCHIVE_CURRENTNESS_CHECK"
+      ],
+      "destination": "DOCUMENTATION_TOOLING_RESEARCH",
+      "restriction_classes": [
+        "PRESERVE_HISTORICAL_ONLY"
+      ],
+      "evidence_mode": "IMMUTABLE_TUPLES",
+      "evidence": [
+        {
+          "path": "README.md",
+          "blob": "b1e9197e192b79aba14e55a86456169dfc8f1611"
+        }
+      ]
+    },
+    {
+      "repository": "cirosantilli/china-dictatorship",
+      "head": "dc9884711356ebfe3da729c516dd7e2e555b4419",
+      "license": "CC-BY-SA-4.0",
+      "lifecycle": "ACTIVE",
+      "disposition": "CONTENT_CORPUS_ONLY",
+      "pattern_ids": [
+        "MULTILINGUAL_PROVENANCE_FIXTURE"
+      ],
+      "destination": "NONE_BY_DEFAULT",
+      "restriction_classes": [
+        "CONTENT_POSITION_NONADOPTION"
+      ],
+      "evidence_mode": "REPOSITORY_HEAD_ONLY",
+      "evidence": []
+    },
+    {
+      "repository": "hughhowey/neo",
+      "head": "a2846ff28f8bfec257565c6ca0ecce4c16242e61",
+      "license": "MIT",
+      "lifecycle": "ACTIVE",
+      "disposition": "PATTERN_SOURCE",
+      "pattern_ids": [
+        "LOCAL_FIRST_CUSTODY",
+        "REVERSIBLE_REMOVAL",
+        "UNRESOLVED_PLACEHOLDER",
+        "SHA256_EXPORT_RECEIPT",
+        "AUTOSAVE_ROTATING_BACKUP"
+      ],
+      "destination": "VCP_RECOVERY_CREATIVE_RESEARCH",
+      "restriction_classes": [],
+      "evidence_mode": "IMMUTABLE_TUPLES",
+      "evidence": [
+        {
+          "path": "README.md",
+          "blob": "6d48c346514d2919473b8bb261dc1a0463fbbd23"
+        }
+      ]
+    },
+    {
+      "repository": "fivesheep/chnroutes",
+      "head": "e62a5b3402d8b0bb60a92c352dede01c170232dc",
+      "license": null,
+      "lifecycle": "STALE",
+      "disposition": "HISTORICAL_TECHNIQUE_ONLY_NO_CODE_REUSE",
+      "pattern_ids": [
+        "EXTERNAL_ALLOCATION_ROUTE_POLICY",
+        "ROUTING_DATA_REFRESH"
+      ],
+      "destination": "NETWORK_ROUTING_HISTORY",
+      "restriction_classes": [
+        "NO_CODE_REUSE",
+        "PRESERVE_HISTORICAL_ONLY"
+      ],
+      "evidence_mode": "IMMUTABLE_TUPLES",
+      "evidence": [
+        {
+          "path": "README.en.md",
+          "blob": "4f1ba81ddce775a2788ba4c2bf94ef9e36f04cdf"
+        }
+      ]
+    },
+    {
+      "repository": "CluvexStudio/Aether",
+      "head": "0e6f6a5218e65ed4cddc68d1a71d9b9633f89e3f",
+      "license": "AGPL-3.0",
+      "lifecycle": "ACTIVE",
+      "disposition": "NETWORK_RESEARCH_ONLY_LICENSE_REVIEW_REQUIRED",
+      "pattern_ids": [
+        "DATA_PLANE_ROUTE_VALIDATION",
+        "LAST_KNOWN_GOOD_RECONNECT",
+        "PERSISTENT_NODE_IDENTITY",
+        "LOOPBACK_SAFE_EXPOSURE",
+        "RELEASE_CHECKSUM_VERIFICATION"
+      ],
+      "destination": "VERAMESH_TRANSPORT_RESILIENCE_RESEARCH",
+      "restriction_classes": [
+        "LICENSE_REVIEW_REQUIRED",
+        "OWNER_SUBSYSTEM_REVIEW_REQUIRED"
+      ],
+      "evidence_mode": "IMMUTABLE_TUPLES",
+      "evidence": [
+        {
+          "path": "README.md",
+          "blob": "4cbad772417faca610d9ad05f06f16b38f5847d6"
+        }
+      ]
+    },
+    {
+      "repository": "DNSCrypt/dnscrypt-server-docker",
+      "head": "1218e90963b4551fbc1e1272f1202fcbd1780a6c",
+      "license": "ISC",
+      "lifecycle": "ACTIVE",
+      "disposition": "OPERATIONS_PATTERN_SOURCE",
+      "pattern_ids": [
+        "DURABLE_STATE_OUTSIDE_RUNTIME",
+        "VERIFY_STATE_BEFORE_REPLACEMENT",
+        "RETAIN_PREDECESSOR_UNTIL_SUCCESSOR_RUNNING",
+        "OPERATIONAL_READBACK_METRICS"
+      ],
+      "destination": "VCP_INSTALL_RECOVERY_RESEARCH",
+      "restriction_classes": [],
+      "evidence_mode": "IMMUTABLE_TUPLES",
+      "evidence": [
+        {
+          "path": "README.md",
+          "blob": "b0e96c0307340f272c3eca5e54d4a893f17acf2d"
+        }
+      ]
+    },
+    {
+      "repository": "encodeous/nylon",
+      "head": "c4a96c804f7aa08512721dec7994907eab100bc8",
+      "license": "Apache-2.0",
+      "lifecycle": "ACTIVE",
+      "disposition": "HIGH_VALUE_NETWORK_ARCHITECTURE_SOURCE",
+      "pattern_ids": [
+        "SELF_HEALING_ROUTE_CONVERGENCE",
+        "DECENTRALIZED_ROUTE_EXCHANGE",
+        "MULTIHOP_LATENCY_FORWARDING",
+        "AUTHENTICATED_CONTROL_TRANSPORT"
+      ],
+      "destination": "VERAMESH_PRIMARY_BUS_SECONDARY_RESEARCH",
+      "restriction_classes": [
+        "OWNER_SUBSYSTEM_REVIEW_REQUIRED"
+      ],
+      "evidence_mode": "IMMUTABLE_TUPLES",
+      "evidence": [
+        {
+          "path": "README.md",
+          "blob": "1b01fccfb91281a222b9ebb715cdb4f67d7867f8"
+        }
+      ]
+    }
+  ],
+  "followups": [
+    {
+      "action_kind": "ADAPT_PATTERN_IN_VCP_RESEARCH",
+      "destination": "VCP_COORDINATION_CURRENTNESS_RESEARCH",
+      "pattern_ids": [
+        "GOAL_HARNESS_EVIDENCE",
+        "TRUTH_SURFACE_CLOSEOUT",
+        "SEPARATE_TRUTH_SURFACES"
+      ]
+    },
+    {
+      "action_kind": "ROUTE_PATTERN_TO_VERAMESH_RESEARCH",
+      "destination": "VERAMESH_TRANSPORT_RESILIENCE_RESEARCH",
+      "pattern_ids": [
+        "DATA_PLANE_ROUTE_VALIDATION",
+        "LAST_KNOWN_GOOD_RECONNECT",
+        "PERSISTENT_NODE_IDENTITY",
+        "LOOPBACK_SAFE_EXPOSURE",
+        "RELEASE_CHECKSUM_VERIFICATION"
+      ]
+    },
+    {
+      "action_kind": "ROUTE_PATTERN_TO_VERAMESH_RESEARCH",
+      "destination": "VERAMESH_PRIMARY_BUS_SECONDARY_RESEARCH",
+      "pattern_ids": [
+        "SELF_HEALING_ROUTE_CONVERGENCE",
+        "DECENTRALIZED_ROUTE_EXCHANGE",
+        "MULTIHOP_LATENCY_FORWARDING",
+        "AUTHENTICATED_CONTROL_TRANSPORT"
+      ]
+    },
+    {
+      "action_kind": "EVALUATE_PATTERN_FOR_RECOVERY_RESEARCH",
+      "destination": "VCP_INSTALL_RECOVERY_RESEARCH",
+      "pattern_ids": [
+        "DURABLE_STATE_OUTSIDE_RUNTIME",
+        "VERIFY_STATE_BEFORE_REPLACEMENT",
+        "RETAIN_PREDECESSOR_UNTIL_SUCCESSOR_RUNNING",
+        "OPERATIONAL_READBACK_METRICS"
+      ]
+    },
+    {
+      "action_kind": "PRESERVE_AS_REFERENCE_ONLY",
+      "destination": "NETWORK_ROUTING_HISTORY",
+      "pattern_ids": [
+        "EXTERNAL_ALLOCATION_ROUTE_POLICY",
+        "ROUTING_DATA_REFRESH"
+      ]
+    }
+  ],
+  "global_forbidden_effects": [
+    "DEPENDENCY_ADMISSION",
+    "PROJECT_INSTALL",
+    "RUNTIME_ROUTE",
+    "MEMORY_ADMISSION",
+    "CONTROL_OWNERSHIP",
+    "PROVIDER_MUTATION",
+    "NETWORK_DEPLOYMENT",
+    "POLITICAL_POSITION_INGESTION",
+    "LICENSE_COMPATIBILITY_APPROVAL",
+    "MERGE_AUTHORITY"
+  ]
+}

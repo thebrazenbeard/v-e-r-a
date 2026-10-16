@@ -1,0 +1,20 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0018",
+  "event_type": "ASSIGNMENT_RESUMED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FIRST-DOLLAR-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:39:11Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0017",
+  "idempotency_key": "first-dollar:asg:0001:resumed-role-model-correction",
+  "from_state": "HELD",
+  "to_state": "IN_PROGRESS",
+  "payload": {
+    "holder": "vera:works-operator",
+    "correction": "Patrick is legal/account/financial proxy only and is not Vera Works staff, operator, researcher, or service provider.",
+    "next_frontier": "Replace the superseded application with a truthful proxy-sent application that identifies Vera Works as the research operation and Patrick only as the human account/legal contact."
+  },
+  "external_effect": false
+}

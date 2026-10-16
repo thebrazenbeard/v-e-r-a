@@ -1,0 +1,45 @@
+schema_version: on-theo.ilimilku-attenu-carrier-control.v1
+status: NAMED_SCRIBAL_NETWORK_SUPPORTED_RELEVANT_SOURCE_CARRIER_NOT_ESTABLISHED
+subject:
+  predecessor_pr: 72
+  predecessor_head: c82601e33df54f7d2d15863df68540fd7a6b25d1
+
+named_people:
+  - person: Ilimilku
+    role: SCRIBE
+    direct_colophon: true
+    teacher: Attenu
+    archive_contexts:
+      - HOUSE_OF_HIGH_PRIEST
+      - HOUSE_OF_URTENU
+
+  - person: Attenu
+    role: prln_DIVINER
+    teacher_of_ilimilku: true
+    hurrian_professional_etymology: SUPPORTED
+    scribe_of_babylon: UNCERTAIN_OLD_RESTORATION
+    babylonian_training: NOT_ESTABLISHED
+
+carrier_gate:
+  named_target_scribe: PASS
+  named_teacher: PASS
+  cross_archive_ilimilku_presence: PASS
+  general_multilingual_scribal_network: PASS
+  direct_rapanu_urtenu_transfer: NOT_ESTABLISHED
+  ilimilku_access_to_p332950: NOT_ESTABLISHED
+  attenu_access_to_p332950: NOT_ESTABLISHED
+  named_carrier_of_dumuzi_death_return_source: NOT_ESTABLISHED
+  overall: PARTIAL_NETWORK_IDENTIFIED_RELEVANT_SOURCE_CARRIER_NOT_ESTABLISHED
+
+uncertain_restoration:
+  text: KTU_1_179_RS_92_2016
+  proposed: ATTENU_SCRIBE_OF_BABYLON
+  state: NOT_SECURE_PRIMARY_TEXT
+  modern_readable_state: FRAGMENTARY
+
+guards:
+  - "teacher-student link != Dumuzi source transmission"
+  - "Hurrian professional title != Babylonian training"
+  - "uncertain restoration != carrier evidence"
+  - "cross-archive presence != direct tablet transfer"
+  - "same personal name in administrative texts != automatic identity with poet-scribe"

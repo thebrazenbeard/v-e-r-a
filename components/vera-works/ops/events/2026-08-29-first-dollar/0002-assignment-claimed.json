@@ -1,0 +1,21 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FD-0002",
+  "event_type": "ASSIGNMENT_CLAIMED",
+  "subject_type": "assignment",
+  "subject_id": "ASG-FIRST-DOLLAR-0001",
+  "actor": "vera:works-operator",
+  "recorded_at": "2026-08-29T16:15:55Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-0001",
+  "causation_id": "EVT-FD-0001",
+  "idempotency_key": "first-dollar:asg:0001:claimed:vera-works-operator",
+  "from_state": "CREATED",
+  "to_state": "CLAIMED",
+  "payload": {
+    "lease_action": "CLAIM",
+    "holder": "vera:works-operator",
+    "claimed_at": "2026-08-29T16:15:55Z",
+    "expires_at": null
+  },
+  "external_effect": false
+}

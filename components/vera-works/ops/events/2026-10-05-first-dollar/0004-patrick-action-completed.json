@@ -1,0 +1,27 @@
+{
+  "schema_version": "event-v1",
+  "event_id": "EVT-FOLD-0004",
+  "event_type": "PATRICK_ACTION_COMPLETED",
+  "subject_type": "hold",
+  "subject_id": "HOLD-FIRST-DOLLAR-0001",
+  "actor": "patrick",
+  "recorded_at": "2026-10-05T19:41:00Z",
+  "correlation_id": "CORR-FIRST-DOLLAR-FOLDING-0001",
+  "causation_id": "HOLD-FIRST-DOLLAR-0001",
+  "idempotency_key": "first-dollar:folding:patrick-action-completed:v1",
+  "from_state": "OPEN",
+  "to_state": "RESOLVED",
+  "payload": {
+    "resolution_of": "HOLD-FIRST-DOLLAR-0001",
+    "outcome": "AUTHORIZED_BOUNDED_BENCHMARK",
+    "authorization_basis": "Patrick supplied a replacement public BANANO receiving address and explicitly instructed Vera Works to start making money.",
+    "authorized_target": "Lappy",
+    "excluded_target": "WorkLaptop",
+    "wallet_alias": "vera-banano-receiving-v1",
+    "private_key_or_seed_received": false,
+    "authorized_effect": "Use the official Folding@Home client on Lappy for a bounded first-dollar benchmark under the BananoMiner identity, measure actual behavior/economics, and stop or finish the bounded unit before any continuous-operation decision.",
+    "hardware_title_claim": "No claim is made here about legal title to Lappy beyond Patrick's authorization to use this machine for the bounded benchmark.",
+    "resume_event_type": "PATRICK_ACTION_COMPLETED"
+  },
+  "external_effect": false
+}

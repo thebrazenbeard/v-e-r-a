@@ -1,0 +1,32 @@
+{
+  "schema": "redworm.event.v2",
+  "producer": {
+    "identity": "Vera",
+    "worm": "WHITE",
+    "designation": "W/W 3",
+    "episode_id": "synthetic-ww3-unplaced"
+  },
+  "event_time": {
+    "precision": "UNKNOWN",
+    "earliest_at": null,
+    "latest_at": null,
+    "basis": "UNAVAILABLE"
+  },
+  "recorded_at": "2026-10-13T15:00:00-04:00",
+  "source": {
+    "locator": "synthetic://metadata-only",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "observed_by": "synthetic-fixture",
+    "verification": "UNVERIFIED"
+  },
+  "evidence_kind": "DERIVED",
+  "memory_class": "HISTORICAL_AUDIT",
+  "privacy": "INTERNAL",
+  "claim": {
+    "text": "Synthetic event with unknown original message time.",
+    "type": "EVENT",
+    "modality": "REPORTED",
+    "subject": "synthetic-time-example",
+    "valid_at": null
+  }
+}

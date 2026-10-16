@@ -1,0 +1,58 @@
+schema_version: on-theo.buddhism-research-state.v1
+status: FOUNDATION_RESEARCH_ACTIVE
+
+method:
+  early_parallel_first: true
+  composition_witness_separation: true
+  later_school_backprojection_forbidden: true
+
+evidence_layers:
+  - EARLY_PARALLEL_TEXT
+  - PHYSICAL_MANUSCRIPT
+  - INSCRIPTION
+  - MATERIAL_EVIDENCE
+  - HISTORICAL_RECONSTRUCTION
+  - LATER_COMMENTARY
+  - SCHOLARLY_INTERPRETATION
+
+source_surfaces:
+  suttacentral:
+    role: PARALLEL_TEXT_ACCESS
+    includes:
+      - PALI_NIKAYA
+      - CHINESE_AGAMA
+      - SANSKRIT_FRAGMENT
+      - TIBETAN_PARALLEL
+
+  gandharan_buddhist_texts:
+    role: EARLY_PHYSICAL_MANUSCRIPT_CONTROL
+    examples:
+      - BAJAUR_KHAROSTHI_MAHAYANA
+      - BRITISH_LIBRARY_FRAGMENT_28_ABHIDHARMA
+
+  material_history:
+    role: ARCHAEOLOGICAL_AND_INSCRIPTIONAL_CONTROL
+    priorities:
+      - ASHOKAN_INSCRIPTIONS
+      - STUPA
+      - RELIC_CULT
+      - EARLY_ICONOGRAPHY
+
+priority_topics:
+  - NON_SELF
+  - DEPENDENT_ARISING
+  - NIRVANA
+  - KARMA
+  - REBIRTH
+  - JHANA
+  - VINAYA
+  - EARLY_MAHAYANA
+  - ABHIDHARMA
+
+guards:
+  - "Pali canon != sole direct transcript of earliest Buddhism"
+  - "manuscript date != composition date"
+  - "later commentary != contemporary event record"
+  - "nirvana != automatically heaven or nonexistence"
+  - "non-self != annihilationism"
+  - "Mahayana != one simultaneous doctrinal event"

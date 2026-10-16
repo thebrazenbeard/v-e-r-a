@@ -1,0 +1,14 @@
+{
+  "checked_out_sha":"65e46eda379d7470acfe755aff79dbdd5431c382",
+  "claim_ceiling":"MASSIVE_V1_TARGET_CONSTRUCTION_GENERALIZATION_WITHIN_DECLARED_OPERATIONAL_ADAPTER",
+  "dataset_sha256":"7df623fd2d300a4d235d6ee5bd396c9a28258d3a0ccb29abdb054506eba153f8",
+  "evaluation_record_count":1000,
+  "languages":["en-US","fr-FR","de-DE","sw-KE","tr-TR"],
+  "leakage_violations":[],
+  "multilingual_report_status":"MULTILINGUAL_HOLDOUT_THRESHOLD_NOT_MET",
+  "pr_head_sha":"b938d13c7293f72c6b769b95934b124d9c2901aa",
+  "run_id":"MASSIVE_V1_FIRST_REAL_CORPUS_20260922",
+  "status":"MULTILINGUAL_HOLDOUT_THRESHOLD_NOT_MET",
+  "threshold_failure_count":9,
+  "training_record_count":57570
+}

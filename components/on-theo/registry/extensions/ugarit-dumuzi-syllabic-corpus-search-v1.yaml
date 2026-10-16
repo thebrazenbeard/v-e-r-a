@@ -1,0 +1,88 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-UGARIT-DUMUZI-SYLLABIC-CORPUS-SEARCH-V1
+base_registry_head: 89920c8e281b97a2806708a21c16e0115f884f64
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+scholarly_context_additions:
+  - id: SCH-ORACC-UGARIT-SYLLABIC-CORPUS-SEARCH-V1
+    source_roles: [SCHOLARLY_INTERPRETATION]
+    source_kind: bounded_digital_corpus_search
+    author_or_tradition: ORACC AEMW Ugarit / DCCLT
+    title: Targeted Ugarit syllabic Dumuzi corpus search V1
+    composition_date: {start: "2026", end: "2026", precision: current-search-state}
+    access_mode: institutional-digital-corpus-search
+    locators:
+      - url: "https://oracc.museum.upenn.edu/aemw/ugarit/hub.html"
+      - url: "https://oracc.museum.upenn.edu/dcclt/hub.html"
+      - url: "https://oracc.museum.upenn.edu/dcclt/P332950.140"
+    limitations:
+      - "Search nonrecovery is bounded to currently accessible/indexed surfaces and does not prove historical absence."
+      - "Broad search results can collapse neighboring glossary entries and must be checked against exact tablet rows."
+
+claim_additions:
+  - id: CLM-UGARIT-DUMUZI-SYLLABIC-ONE-CONTROLLED-WITNESS-V1
+    proposition: "In the targeted accessible Ugarit syllabic/lexical corpus search, P332950 is the only controlled physical witness recovered with a direct Dumuzi divine-name occurrence."
+    claim_type: BOUNDED_CORPUS_SEARCH_STATE
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mesopotamian, ugaritic, hurrian]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "reverse ii 7"
+        relation: CONTROLLED_POSITIVE_WITNESS
+        access_mode: CDLI
+      - source_id: SCH-ORACC-UGARIT-SYLLABIC-CORPUS-SEARCH-V1
+        locator: "targeted current corpus search"
+        relation: SEARCH_STATE_CONTROL
+        access_mode: ORACC
+    opposing_sources: []
+    confidence: high-for-targeted-v1-search-state
+    contested: false
+
+  - id: CLM-UGARIT-DUMUZI-SYLLABIC-SECOND-WITNESS-NOT-FOUND
+    proposition: "No second controlled Ugarit syllabic tablet preserving Dumuzi as a divine name was recovered in the targeted V1 search; this does not establish that P332950 was historically unique."
+    claim_type: BOUNDED_SEARCH_STATE
+    evidence_class: [SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mesopotamian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-ORACC-UGARIT-SYLLABIC-CORPUS-SEARCH-V1
+        locator: "DUMU.ZI / dumu-zi / dumu-zid / du-mu-zi / Dumuzi / Tammuz searches"
+        relation: SEARCH_NONRECOVERY
+        access_mode: ORACC_AND_INDEXED_WEB
+    opposing_sources: []
+    confidence: high-for-v1-search-state
+    contested: false
+
+  - id: CLM-UGARIT-DADMIS-NOT-SECOND-DUMUZI-HIT
+    proposition: "Dadmiš/Tadmiš cannot be counted as a second Dumuzi occurrence in P332950: Dumuzi occurs at reverse ii 7, while Šuzianna/Tadmiš/Dadmišu occupies a separate row at column iii 15'."
+    claim_type: SEARCH_FALSE_POSITIVE_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mesopotamian, hurrian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "reverse ii 7 and column iii 15'"
+        relation: SAME_WITNESS_ROW_SEPARATION
+        access_mode: CDLI_TEXT
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-UGARIT-DUMUZI-NARRATIVE-GATE-UNCHANGED-AFTER-SYLLABIC-SEARCH
+    proposition: "The broader syllabic search does not upgrade the narrative-source gate: direct Dumuzi exposure at Ugarit remains lexical/scholastic, with no controlled Dumuzi death-return narrative recovered."
+    claim_type: TRANSMISSION_GATE_CONTROL
+    evidence_class: [PRIMARY_TEXT, MATERIAL_EVIDENCE, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [mesopotamian, ugaritic]
+    supporting_sources:
+      - source_id: SCH-CDLI-P332950-UGARITICA5-137
+        witness_id: WIT-UGARIT-WEIDNER-P332950
+        locator: "lexical genre and Dumuzi row"
+        relation: POSITIVE_GENRE_CEILING
+        access_mode: CDLI
+      - source_id: SCH-ORACC-UGARIT-SYLLABIC-CORPUS-SEARCH-V1
+        locator: "targeted corpus search state"
+        relation: NO_SECOND_NARRATIVE_SOURCE
+        access_mode: ORACC
+    opposing_sources: []
+    confidence: high-for-v1-state
+    contested: false

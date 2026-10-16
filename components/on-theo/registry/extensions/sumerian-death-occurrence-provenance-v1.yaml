@@ -1,0 +1,77 @@
+schema_version: on-theo.registry-extension.v1
+extension_id: EXT-SUMERIAN-DEATH-OCCURRENCE-PROVENANCE-V1
+base_registry_head: 1c1019d6f2eda3bd442349ec1c896e6270a2e100
+status: PROPOSED_RESEARCH_DELTA_REVIEW_REQUIRED
+
+claim_additions:
+  - id: CLM-DEATH-OCCURRENCE-EVIDENCE-CURRENTNESS-ORTHOGONAL
+    proposition: "For the 25 targeted Sumerian death-corpus lexical occurrences, evidence state and edition/currentness state are independent dimensions: witness alignment does not waive a later-edition dependency, and a current composite does not imply witness-level confirmation."
+    claim_type: PROVENANCE_MODEL_CONTROL
+    evidence_class: [PROJECT_INFERENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000343-CURRENT-SCORE
+        locator: "Inana score with 44 aligned witnesses"
+        relation: WITNESS_ALIGNMENT_EXAMPLE
+        access_mode: CDLI_SCORE
+      - source_id: SCH-CDLI-Q000363-CURRENT-COMPOSITE
+        locator: "Death of Gilgamesh score with zero aligned witnesses"
+        relation: ALIGNMENT_CEILING_EXAMPLE
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DEATH-OCCURRENCE-MIXED-EVIDENCE-CEILINGS
+    proposition: "The targeted 25-occurrence Sumerian death-corpus map contains mixed evidence ceilings, including witness-aligned, current-composite-only, version-specific, and current-recheck-pending records; they must not be treated as a uniformly verified set."
+    claim_type: PROVENANCE_MODEL_CONTROL
+    evidence_class: [PROJECT_INFERENCE, SCHOLARLY_INTERPRETATION]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000364-CURRENT-SCORE
+        locator: "Gilgamesh/Enkidu witness-aligned occurrence controls"
+        relation: WITNESS_ALIGNED_EXAMPLE
+        access_mode: CDLI_SCORE
+      - source_id: SCH-CDLI-Q000386-CURRENT-COMPOSITE
+        locator: "Ur-Namma current-composite controls"
+        relation: COMPOSITE_ONLY_EXAMPLE
+        access_mode: CDLI_COMPOSITE
+      - source_id: SCH-CDLI-Q000363-CURRENT-COMPOSITE
+        locator: "Death of Gilgamesh version/alignment ceiling"
+        relation: VERSION_AND_ALIGNMENT_EXAMPLE
+        access_mode: CDLI_SCORE
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-DEATH-GILGAMESH-OCCURRENCES-VERSION-SPECIFIC
+    proposition: "The four mapped Death of Gilgamesh occurrences in the targeted V1 set require Me-Turan-version provenance in the checked surfaces and cannot be silently promoted to version-neutral or current-Nippur-witness evidence."
+    claim_type: VERSION_PROVENANCE_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000363-CURRENT-COMPOSITE
+        locator: "current Nippur composite; zero aligned witnesses"
+        relation: CURRENT_VERSION_CEILING
+        access_mode: CDLI_SCORE
+      - source_id: SRC-ETCSL-DEATH-GILGAMESH
+        locator: "Me-Turan lines 38-39, 131-132, 166"
+        relation: VERSION_SPECIFIC_TEXTUAL_SUPPORT
+        access_mode: ETCSL_TRANSLITERATION
+    opposing_sources: []
+    confidence: high
+    contested: false
+
+  - id: CLM-URNAMMA-KUR-POLYSEMY-EVIDENCE-CEILING
+    proposition: "Ur-Namma's internal kur polysemy is directly current-composite confirmed, but remains below witness-aligned status because witness-score readback was unavailable in the current runtime."
+    claim_type: EVIDENCE_CEILING_CONTROL
+    evidence_class: [PRIMARY_TEXT, SCHOLARLY_INTERPRETATION, PROJECT_INFERENCE]
+    traditions: [sumerian]
+    supporting_sources:
+      - source_id: SCH-CDLI-Q000386-CURRENT-COMPOSITE
+        locator: "line 65 geographic kur versus line 73 onward death-realm kur"
+        relation: CURRENT_COMPOSITE_INTERNAL_CONTRAST
+        access_mode: CDLI_COMPOSITE
+    opposing_sources: []
+    confidence: high
+    contested: false

@@ -1,0 +1,183 @@
+name: build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-and-package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.27.0'
+          cache: true
+      - name: Test
+        run: |
+          go test ./...
+          go vet ./...
+          python3 -m py_compile tools/build_spk.py tools/verify_spk.py tools/update_package_source.py tools/release_hygiene.py tools/release_hygiene_test.py tools/desktop_package_test.py tools/spk_lifecycle_test.py tools/spk_multiarch_test.py
+          python3 -m unittest tools.release_hygiene_test tools.desktop_package_test tools.spk_lifecycle_test tools.spk_multiarch_test
+          python3 tools/release_hygiene.py --check .
+          for script in spk/scripts/*; do sh -n "$script"; done
+          node package-source/test.js
+          cmp internal/server/tattler-icon.png package-source/public/icons/PACKAGE_ICON_256.PNG
+      - name: Build DSM Linux targets twice
+        run: |
+          mkdir -p dist
+
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GOAMD64=v1 \
+            go build -trimpath -buildvcs=false -ldflags='-s -w -buildid=' -o dist/tattler-x86_64-a ./cmd/tattler
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GOAMD64=v1 \
+            go build -trimpath -buildvcs=false -ldflags='-s -w -buildid=' -o dist/tattler-x86_64-b ./cmd/tattler
+          cmp dist/tattler-x86_64-a dist/tattler-x86_64-b
+          mv dist/tattler-x86_64-a dist/tattler-linux-x86_64
+          rm dist/tattler-x86_64-b
+
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 \
+            go build -trimpath -buildvcs=false -ldflags='-s -w -buildid=' -o dist/tattler-armv7-a ./cmd/tattler
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm GOARM=7 \
+            go build -trimpath -buildvcs=false -ldflags='-s -w -buildid=' -o dist/tattler-armv7-b ./cmd/tattler
+          cmp dist/tattler-armv7-a dist/tattler-armv7-b
+          mv dist/tattler-armv7-a dist/tattler-linux-armv7
+          rm dist/tattler-armv7-b
+
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 GOARM64=v8.0 \
+            go build -trimpath -buildvcs=false -ldflags='-s -w -buildid=' -o dist/tattler-armv8-a ./cmd/tattler
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 GOARM64=v8.0 \
+            go build -trimpath -buildvcs=false -ldflags='-s -w -buildid=' -o dist/tattler-armv8-b ./cmd/tattler
+          cmp dist/tattler-armv8-a dist/tattler-armv8-b
+          mv dist/tattler-armv8-a dist/tattler-linux-armv8
+          rm dist/tattler-armv8-b
+
+      - name: Build and verify all SPKs twice
+        run: |
+          for arch in x86_64 armv7 armv8; do
+            python3 tools/build_spk.py --arch "$arch" --binary "dist/tattler-linux-$arch" --output "dist/Tattler-$arch-a.spk"
+            python3 tools/build_spk.py --arch "$arch" --binary "dist/tattler-linux-$arch" --output "dist/Tattler-$arch-b.spk"
+            python3 tools/verify_spk.py "dist/Tattler-$arch-a.spk"
+            python3 tools/verify_spk.py "dist/Tattler-$arch-b.spk"
+            cmp "dist/Tattler-$arch-a.spk" "dist/Tattler-$arch-b.spk"
+            mv "dist/Tattler-$arch-a.spk" "dist/Tattler-$arch.spk"
+            rm "dist/Tattler-$arch-b.spk"
+          done
+
+      - name: Independent DSM 7.2.2 package verification
+        run: |
+          git clone -q https://github.com/thebrazenbeard/spk-packager.git /tmp/spk-packager
+          git -C /tmp/spk-packager checkout -q 89085efb9e439dfd05f26ad56d857ef71f2d52b1
+          for arch in x86_64 armv7 armv8; do
+            PYTHONPATH=/tmp/spk-packager/src python -m spk_packager.cli verify "dist/Tattler-$arch.spk" --json
+          done
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tattler-x86_64-spk
+          path: dist/Tattler-x86_64.spk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tattler-armv7-spk
+          path: dist/Tattler-armv7.spk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tattler-armv8-spk
+          path: dist/Tattler-armv8.spk
+
+      - name: Verify published package source binds exact SPKs
+        run: |
+          tmp="$(mktemp -d)"
+          mkdir -p "$tmp/api" "$tmp/public/releases" "$tmp/public/icons"
+          cp package-source/api/catalog.js "$tmp/api/catalog.js"
+          cp package-source/package.json package-source/test.js package-source/vercel.json "$tmp/"
+          python3 tools/update_package_source.py \
+            --spk dist/Tattler-x86_64.spk \
+            --spk dist/Tattler-armv7.spk \
+            --spk dist/Tattler-armv8.spk \
+            --output "$tmp" --icons-dir spk
+          cmp package-source/release.json "$tmp/release.json"
+          cmp package-source/public/icons/PACKAGE_ICON.PNG "$tmp/public/icons/PACKAGE_ICON.PNG"
+          cmp package-source/public/icons/PACKAGE_ICON_256.PNG "$tmp/public/icons/PACKAGE_ICON_256.PNG"
+          for release_file in $(python3 -c 'import json; print(" ".join(item["filename"] for item in json.load(open("package-source/release.json"))["releases"]))'); do
+            cmp "package-source/public/releases/$release_file" "$tmp/public/releases/$release_file"
+          done
+          (cd "$tmp" && node test.js)
+  windows-agent:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.27.0'
+          cache: true
+      - name: Test native Windows collector
+        shell: pwsh
+        run: |
+          go test ./...
+          go vet ./...
+      - name: Build Windows AMD64 twice
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          go build -trimpath -buildvcs=false -ldflags="-s -w -buildid=" -o dist/tattler-windows-amd64-a.exe ./cmd/tattler
+          go build -trimpath -buildvcs=false -ldflags="-s -w -buildid=" -o dist/tattler-windows-amd64-b.exe ./cmd/tattler
+          $a = (Get-FileHash dist/tattler-windows-amd64-a.exe -Algorithm SHA256).Hash
+          $b = (Get-FileHash dist/tattler-windows-amd64-b.exe -Algorithm SHA256).Hash
+          if ($a -ne $b) { throw "Windows builds are not deterministic" }
+          Move-Item dist/tattler-windows-amd64-a.exe dist/tattler-windows-amd64.exe
+          Remove-Item dist/tattler-windows-amd64-b.exe
+      - name: Native runtime smoke
+        shell: pwsh
+        run: |
+          $state = Join-Path $env:RUNNER_TEMP "tattler-state"
+          $p = Start-Process -FilePath ".\dist\tattler-windows-amd64.exe" -ArgumentList @("--listen","127.0.0.1:9147","--state-dir",$state,"--poll","250ms","--metrics-interval","1s") -PassThru
+          try {
+            $status = $null
+            1..40 | ForEach-Object {
+              if (-not $status) {
+                Start-Sleep -Milliseconds 250
+                try { $status = Invoke-RestMethod "http://127.0.0.1:9147/api/v1/status" -TimeoutSec 1 } catch {}
+              }
+            }
+            if (-not $status) { throw "Tattler did not become ready" }
+            if ($status.collector -ne "windows-ip-helper") { throw "wrong collector: $($status.collector)" }
+            if ($status.latest_system.platform -ne "windows") { throw "wrong platform: $($status.latest_system.platform)" }
+            $icon = Invoke-WebRequest -UseBasicParsing "http://127.0.0.1:9147/assets/tattler-icon.png"
+            if ($icon.Headers["Content-Type"] -ne "image/png") { throw "icon route is not PNG" }
+          } finally {
+            if ($p -and -not $p.HasExited) { Stop-Process -Id $p.Id -Force }
+          }
+      - name: Test Windows desktop companion
+        shell: pwsh
+        run: |
+          Push-Location desktop
+          go test ./...
+          go vet ./...
+          Pop-Location
+      - name: Build Windows desktop companion
+        shell: pwsh
+        run: |
+          go install github.com/wailsapp/wails/v2/cmd/wails@v2.14.0
+          $wails = Join-Path (go env GOPATH) "bin\wails.exe"
+          Push-Location desktop
+          & $wails build -clean -platform windows/amd64 -trimpath -webview2 browser
+          Pop-Location
+      - name: Package Windows desktop with agent
+        shell: pwsh
+        run: |
+          $bundle = "dist\tattler-desktop-package"
+          Remove-Item -LiteralPath $bundle -Recurse -Force -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force $bundle | Out-Null
+          Copy-Item "desktop\build\bin\tattler-desktop-windows-amd64.exe" $bundle
+          Copy-Item "dist\tattler-windows-amd64.exe" $bundle
+          Compress-Archive -Path "$bundle\*" -DestinationPath "dist\tattler-desktop-windows-amd64.zip" -Force
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tattler-windows-amd64
+          path: dist/tattler-windows-amd64.exe
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tattler-desktop-windows-amd64
+          path: dist/tattler-desktop-windows-amd64.zip

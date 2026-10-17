@@ -586,3 +586,66 @@ class LocalCognitionFlowTests(unittest.TestCase):
         self.assertEqual(len(calls),1,"crash replay must not invoke worker again")
         with self.assertRaises(ProvenanceBridgeError):
             cold_handler("altered task under original request ID","crash-msg-1")
+
+
+    def test_opt_in_cold_reconcile_records_one_held_completed_source_without_redispatch(self):
+        # PRE-ACTIVE COMPLETED, but process died BEFORE the second Mono CAS.
+        # Reconcile by durable readback; never re-run the stub / grant display.
+        i=self.intake("reconcile-conv","m1","A literal bounded question")
+        a=self.accept(i)
+        pre=self.result(i,a,"synthetic fixed response")
+        mono_path=self.ledger.path
+        pre_path=Path(self.tmp.name)/"pre.sqlite3"
+        self.store.close()
+        cold=self.Store(pre_path)
+        try:
+            ledger=self.Ledger(mono_path)
+            original=recover_local_cognition_observation(
+                ledger=ledger,store=cold,conversation_id="reconcile-conv",
+                message_id="m1",
+            )
+            self.assertEqual(original["status"],"OUTCOME_UNKNOWN_NO_REDISPATCH")
+            reconciled=recover_local_cognition_observation(
+                ledger=ledger,store=cold,conversation_id="reconcile-conv",
+                message_id="m1",reconcile_completed=True,
+            )
+            self.assertEqual(reconciled["status"],"SOURCE_OBSERVATION_REVALIDATED")
+            self.assertFalse(reconciled["display_authorized"])
+            self.assertFalse(reconciled["accepted_as_task_result"])
+            self.assertEqual(reconciled["response_candidate"]["run_id"],pre["run_id"])
+            self.assertEqual(reconciled["response_candidate"]["text"],"synthetic fixed response")
+            events=ledger.events(i["task_id"])
+            self.assertEqual([e.event_type for e in events],
+                             ["TASK_OPENED","TASK_CHECKPOINT","TASK_CHECKPOINT"])
+            replay=recover_local_cognition_observation(
+                ledger=self.Ledger(mono_path),store=cold,
+                conversation_id="reconcile-conv",message_id="m1",
+                reconcile_completed=True,
+            )
+            self.assertEqual(replay,reconciled)
+            self.assertEqual(len(self.Ledger(mono_path).events(i["task_id"])),3)
+        finally:
+            cold.close()
+
+    def test_opt_in_reconcile_holds_pending_and_conflicting_event_before_mono_CAS(self):
+        i=self.intake("reconcile-invalid","m7","fixed request")
+        a=self.accept(i)
+        outcome=recover_local_cognition_observation(
+            ledger=self.ledger,store=self.store,
+            conversation_id="reconcile-invalid",message_id="m7",
+            reconcile_completed=True,
+        )
+        self.assertEqual(outcome["status"],"OUTCOME_UNKNOWN_NO_REDISPATCH")
+        self.assertEqual(len(self.ledger.events(i["task_id"])),2)
+        complete=self.result(i,a)
+        # A terminal run without a DONE event is not a completed source.
+        self.store.connection.execute(
+            "UPDATE events SET status='PENDING' WHERE id=?",(complete["event_id"],)
+        )
+        with self.assertRaises(ProvenanceBridgeError):
+            recover_local_cognition_observation(
+                ledger=self.ledger,store=self.store,
+                conversation_id="reconcile-invalid",message_id="m7",
+                reconcile_completed=True,
+            )
+        self.assertEqual(len(self.ledger.events(i["task_id"])),2)

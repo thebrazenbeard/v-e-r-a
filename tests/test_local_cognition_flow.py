@@ -584,6 +584,20 @@ class LocalCognitionFlowTests(unittest.TestCase):
         self.assertEqual(repeat["status"],"BLOCKED")
         self.assertIsNone(repeat["final_text"])
         self.assertEqual(len(calls),1,"crash replay must not invoke worker again")
+        # A legitimate callback retry can RECOVER the previously completed
+        # event/run into a held Mono observation WITHOUT re-inference.
+        recovered_store=self.Store(pre)
+        try:
+            sealed=recover_local_cognition_observation(
+                ledger=self.Ledger(mono), store=recovered_store,
+                conversation_id="crash-local-conv",message_id="crash-msg-1",
+            )
+            self.assertEqual(sealed["status"],"SOURCE_OBSERVATION_REVALIDATED")
+            self.assertFalse(sealed["display_authorized"])
+            self.assertEqual(len(self.Ledger(mono).events()),3)
+            self.assertEqual(len(calls),1)
+        finally:
+            recovered_store.close()
         with self.assertRaises(ProvenanceBridgeError):
             cold_handler("altered task under original request ID","crash-msg-1")
 

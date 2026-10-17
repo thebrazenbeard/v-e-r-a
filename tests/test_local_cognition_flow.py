@@ -1,6 +1,7 @@
 """Real Mono, PORTAL, Pre-Active local GUI fixture correlation; NO model or resident."""
 import hashlib
 import json
+import gc
 import os
 from pathlib import Path
 import sys
@@ -42,7 +43,11 @@ class LocalCognitionFlowTests(unittest.TestCase):
 
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory()
+        # LIFO cleanup: close the store, drop ledger refs, collect SQLite
+        # connection objects, then remove the temp directory on Windows.
         self.addCleanup(self.tmp.cleanup)
+        self.addCleanup(gc.collect)
+        self.addCleanup(lambda: setattr(self,"ledger",None))
         self.ledger=self.Ledger(Path(self.tmp.name)/"mono.sqlite3")
         self.store=self.Store(Path(self.tmp.name)/"pre.sqlite3")
         self.addCleanup(self.store.close)

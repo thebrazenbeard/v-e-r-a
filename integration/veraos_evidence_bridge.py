@@ -1009,11 +1009,18 @@ def make_local_resident_fixture_handler(
     authorization, resident admission, and real display after exact review.
     """
     from pathlib import Path
+    from threading import Lock
     from vera_core.task_execution import TaskExecutionLedger
     from pre_active.store import Store
     if not callable(source_only_executor):
         raise ProvenanceBridgeError("source-only executor callback required")
     ledger_file, store_file = Path(ledger_path), Path(store_path)
+    # Same in-process serialization as PR37 fixture_lock. Without this,
+    # a competing independent task can advance Mono's GLOBAL route advisory
+    # readback between export and verify, causing spurious single-task HOLD.
+    # Canonical Mono expected_task_head CAS still provides durable integrity
+    # across processes; this lock is NOT a trust or execution grant.
+    callback_gate = Lock()
 
     def handle(
         task: str, request_id: str, worker_store: Any = None,
@@ -1023,6 +1030,7 @@ def make_local_resident_fixture_handler(
         # New PR37 source_fixture_execute(task, request_id, worker_store)
         # gives us its already-opened Store. No second database/connection,
         # and the resident caller retains ownership of closing it.
+        ledger = TaskExecutionLedger(ledger_file)
         own_store = worker_store is None
         if own_store:
             store = Store(store_file)
@@ -1033,7 +1041,6 @@ def make_local_resident_fixture_handler(
                     "PR37 worker Store path/type does not match canonical Pre-Active state"
                 )
             store = worker_store
-        ledger = TaskExecutionLedger(ledger_file)
         try:
             intake = open_local_cognition_fixture(
                 ledger=ledger, conversation_id=conversation_id,
@@ -1079,4 +1086,10 @@ def make_local_resident_fixture_handler(
             if own_store:
                 store.close()
 
-    return handle
+    def serialized_handle(
+        task: str, request_id: str, worker_store: Any = None,
+    ) -> dict:
+        with callback_gate:
+            return handle(task, request_id, worker_store)
+
+    return serialized_handle

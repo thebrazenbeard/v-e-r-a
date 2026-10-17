@@ -144,17 +144,21 @@ class LocalCognitionFlowTests(unittest.TestCase):
     def test_duplicate_ids_stale_journal_pending_and_cross_task_isolation(self):
         i=self.intake();self.assertEqual(self.intake(),i)
         with self.assertRaises(Exception):self.intake(text="changed same message")
-        j=self.intake(conv="conv-b",msg="m1",text="Second request")
-        self.assertNotEqual(j["task_id"],i["task_id"])
         a=self.accept(i)
         with self.assertRaises(ProvenanceBridgeError):self.accept(i)
-        # The first current task head cannot be reused after a second task opened.
-        with self.assertRaises(ProvenanceBridgeError):self.accept(j if j["opened_journal_head"]==i["opened_journal_head"] else i)
+        j=self.intake(conv="conv-b",msg="m1",text="Second request")
+        self.assertNotEqual(j["task_id"],i["task_id"])
+        # The first task's exact previous head cannot be reused after a
+        # second task opens; the second one may accept its OWN live head.
+        with self.assertRaises(ProvenanceBridgeError):self.accept(i)
+        b=self.accept(j)
+        self.assertEqual(b["conversation_id"],"conv-b")
+        self.assertNotEqual(b["request_id"],a["request_id"])
         unfinished={"status":"PENDING","event_id":"pending","run_id":None,
-                    "final_text":None,"route_id":a["route_id"],"provider_id":a["route_id"]}
+                    "final_text":None,"route_id":b["route_id"],"provider_id":b["route_id"]}
         with self.assertRaises(ProvenanceBridgeError):
             record_local_cognition_result(
-                ledger=self.ledger,store=self.store,intake=i,acceptance=a,
+                ledger=self.ledger,store=self.store,intake=j,acceptance=b,
                 resident_result=unfinished,
             )
 
@@ -163,3 +167,59 @@ class LocalCognitionFlowTests(unittest.TestCase):
         self.ledger.bind_dependency(i["task_id"],"dep:late",
              kind="COORDINATION_COMMAND",target_id="command:late")
         with self.assertRaises(ProvenanceBridgeError):self.accept(i)
+
+
+    def test_task_mutated_after_fixture_acceptance_cannot_commit_cognition_result(self):
+        i=self.intake();a=self.accept(i);result=self.result(i,a)
+        self.ledger.bind_dependency(
+            i["task_id"],"dependency:changed-after-request",
+            kind="COORDINATION_COMMAND",target_id="command:changed",
+        )
+        with self.assertRaises(ProvenanceBridgeError):
+            record_local_cognition_result(
+                ledger=self.ledger,store=self.store,intake=i,acceptance=a,
+                resident_result=result,
+            )
+        self.assertEqual(len([
+            e for e in self.ledger.events(i["task_id"])
+            if e.event_type=="TASK_CHECKPOINT",
+        ]),1)
+
+    def test_incomplete_and_contradictory_pre_active_outcomes_are_never_completed(self):
+        i=self.intake();a=self.accept(i);result=self.result(i,a)
+        for bad in [
+            {**result,"status":"FAILED"},
+            {**result,"event_id":"other-event"},
+            {**result,"run_id":"wrong-run"},
+            {**result,"route_id":"untrusted-route"},
+            {**result,"final_text":"replaced body"},
+            {**result,"provider_id":"unknown-model"},
+        ]:
+            with self.subTest(bad=bad):
+                with self.assertRaises(ProvenanceBridgeError):
+                    record_local_cognition_result(
+                        ledger=self.ledger,store=self.store,intake=i,acceptance=a,
+                        resident_result=bad,
+                    )
+        self.store.update_run(result["run_id"],now=9,status="CANCELLED")
+        with self.assertRaises(ProvenanceBridgeError):
+            record_local_cognition_result(
+                ledger=self.ledger,store=self.store,intake=i,acceptance=a,
+                resident_result=result,
+            )
+        self.assertEqual(len([
+            e for e in self.ledger.events(i["task_id"])
+            if e.event_type=="TASK_CHECKPOINT",
+        ]),1)
+
+    def test_parallel_same_message_opens_exactly_one_canonical_task(self):
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            receipts=list(pool.map(
+                lambda n:self.intake(conv="conv-a",msg="same",text="one literal request"),
+                (0,1),
+            ))
+        self.assertEqual(receipts[0]["task_id"],receipts[1]["task_id"])
+        self.assertEqual(receipts[0]["source_digest"],receipts[1]["source_digest"])
+        reopened=self.Ledger(self.ledger.path)
+        events=reopened.events(receipts[0]["task_id"])
+        self.assertEqual([e.event_type for e in events],["TASK_OPENED"])

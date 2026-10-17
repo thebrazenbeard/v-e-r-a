@@ -874,6 +874,7 @@ def read_local_cognition_response(
 
 def recover_local_cognition_observation(
     *, ledger: Any, store: Any, conversation_id: str, message_id: str,
+    reconcile_completed: bool = False,
 ) -> dict:
     """Cold recovery from existing Mono events and Pre-Active run, no new DB.
 
@@ -882,6 +883,8 @@ def recover_local_cognition_observation(
     """
     import json
     import re
+    if type(reconcile_completed) is not bool:
+        raise ProvenanceBridgeError("invalid source reconciliation mode")
     for name, value in (("conversation_id", conversation_id),
                         ("message_id", message_id)):
         if type(value) is not str or re.fullmatch(
@@ -958,10 +961,64 @@ def recover_local_cognition_observation(
         "effect_authority": False, "executed": False,
     }
     if len(events) == 2:
-        return {
+        held = {
             "status": "OUTCOME_UNKNOWN_NO_REDISPATCH",
             "task_id": task_id, "display_authorized": False,
         }
+        if not reconcile_completed:
+            return held
+        # A real Pre-Active worker MAY already have committed its run before
+        # Mono's second checkpoint. Reconcile the EXISTING exact event; NEVER
+        # enqueue another event or invoke a model to resolve uncertainty.
+        rows = store.connection.execute(
+            "SELECT id,status FROM events WHERE dedup_key=?",
+            ("veraos-text:" + accepted["request_id"],),
+        ).fetchall()
+        if not rows:
+            return held
+        if len(rows) != 1:
+            raise ProvenanceBridgeError("duplicate Pre-Active request identities")
+        event_id = str(rows[0]["id"])
+        run_rows = store.connection.execute(
+            "SELECT id,status,final_text FROM runs WHERE source_event_id=?",
+            (event_id,),
+        ).fetchall()
+        if len(run_rows) > 1:
+            raise ProvenanceBridgeError("ambiguous Pre-Active run association")
+        if not run_rows:
+            return held
+        run = run_rows[0]
+        if str(rows[0]["status"]) != "DONE":
+            if str(run["status"]) == "COMPLETED":
+                raise ProvenanceBridgeError(
+                    "contradictory Pre-Active completed run with unfinished event"
+                )
+            return held
+        if str(run["status"]) != "COMPLETED":
+            return held
+        # Reuse the *existing* complete event/run/route/terminal verifier and
+        # the Mono task-scoped expected-head CAS. No alternate result store.
+        observation = record_local_cognition_result(
+            ledger=ledger, store=store, intake=intake, acceptance=accepted,
+            resident_result={
+                "status": "COMPLETED", "event_id": event_id,
+                "run_id": str(run["id"]), "final_text": run["final_text"],
+                "route_id": accepted["route_id"],
+                "provider_id": accepted["route_id"],
+            },
+        )
+        recovered = recover_local_cognition_observation(
+            ledger=ledger, store=store,
+            conversation_id=conversation_id, message_id=message_id,
+        )
+        if (recovered["status"] != "SOURCE_OBSERVATION_REVALIDATED"
+                or recovered["response_candidate"]["event_id"] != event_id
+                or recovered["response_candidate"]["run_id"] != str(run["id"])
+                or observation["accepted_as_task_result"] is not False):
+            raise ProvenanceBridgeError(
+                "reconciled fixture result did not survive durable readback"
+            )
+        return recovered
     if len(events) != 3 or events[2].event_type != "TASK_CHECKPOINT":
         return {"status": "HELD_TASK_CHANGED", "display_authorized": False}
     result_event = events[2]

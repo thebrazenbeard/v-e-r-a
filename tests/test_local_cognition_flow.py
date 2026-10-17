@@ -244,3 +244,34 @@ class LocalCognitionFlowTests(unittest.TestCase):
         reopened=self.Ledger(self.ledger.path)
         events=reopened.events(receipts[0]["task_id"])
         self.assertEqual([e.event_type for e in events],["TASK_OPENED"])
+
+
+    def test_two_interleaved_tasks_complete_under_task_scoped_cas(self):
+        a=self.intake(conv="first",msg="one",text="first text")
+        b=self.intake(conv="second",msg="two",text="second text")
+        aa=self.accept(a);bb=self.accept(b)
+        self.assertNotEqual(aa["checkpoint_journal_head"],bb["checkpoint_journal_head"])
+        out_b=self.result(b,bb,output="second fixture")
+        obs_b=record_local_cognition_result(
+            ledger=self.ledger,store=self.store,intake=b,acceptance=bb,
+            resident_result=out_b,
+        )
+        # First accepted task is NOT stale merely because another task
+        # opened, accepted and recorded a result on the global journal.
+        # This pre-active test runner can only serialize real stub execution;
+        # actual model concurrency is solely the OS resident's business.
+        out_a=self.result(a,aa,output="first fixture")
+        obs_a=record_local_cognition_result(
+            ledger=self.ledger,store=self.store,intake=a,acceptance=aa,
+            resident_result=out_a,
+        )
+        for intake,accepted,observed,expected in (
+            (a,aa,obs_a,"first fixture"),(b,bb,obs_b,"second fixture"),
+        ):
+            preview=read_local_cognition_response(
+                ledger=self.ledger,store=self.store,intake=intake,
+                acceptance=accepted,observation=observed,
+                conversation_id=intake["conversation_id"],message_id=intake["message_id"],
+            )
+            self.assertEqual(preview["text"],expected)
+            self.assertFalse(preview["display_authorized"])

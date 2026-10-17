@@ -587,7 +587,7 @@ def accept_local_cognition_fixture(
             protected_effects_still_gated=("COGNITION_TURN",),
             next_frontier="no-effect synthetic Pre-Active source fixture",
             lifecycle_evidence_digest=source_receipt,
-            expected_head=request["task_journal_head"],
+            expected_task_head=request["task_journal_head"],
         )
         event_id = intake["task_id"] + ":CHECKPOINT:" + checkpoint_id
         event = [x for x in ledger.events(intake["task_id"]) if x.event_id == event_id]
@@ -662,7 +662,6 @@ def _check_local_acceptance(ledger: Any, intake: dict, acceptance: dict) -> None
             state.packet.packet_digest != intake["task_packet_digest"] or
             state.packet.subject != intake["text"] or
             state.journal_head_digest != acceptance["checkpoint_journal_head"] or
-            ledger.head != acceptance["checkpoint_journal_head"] or
             state.latest_checkpoint is None or
             state.latest_checkpoint["lifecycle_evidence_digest"] !=
             acceptance["source_receipt_sha256"] or
@@ -767,7 +766,7 @@ def record_local_cognition_result(
             protected_effects_still_gated=("COGNITION_TURN",),
             next_frontier="trusted OS UI correlation and resident admission required",
             lifecycle_evidence_digest=result_digest,
-            expected_head=acceptance["checkpoint_journal_head"],
+            expected_task_head=acceptance["checkpoint_journal_head"],
         )
     except (TaskExecutionError, ValueError, KeyError) as exc:
         raise ProvenanceBridgeError("stale task result acceptance CAS denied") from exc
@@ -812,7 +811,6 @@ def read_local_cognition_response(
             current.opened_lifecycle_evidence_digest != intake["source_digest"] or
             current.packet.packet_digest != intake["task_packet_digest"] or
             current.journal_head_digest != observation["result_journal_head"] or
-            ledger.head != observation["result_journal_head"] or
             current.latest_checkpoint is None or
             current.latest_checkpoint["lifecycle_evidence_digest"] !=
             observation["result_sha256"] or

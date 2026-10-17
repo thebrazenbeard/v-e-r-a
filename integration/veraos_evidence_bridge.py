@@ -574,11 +574,24 @@ def accept_local_cognition_fixture(
             "request_id": rid,
         })
         checkpoint_id = "local-fixture-" + rid
+        # Keep the verified source intake and route seed inside the existing
+        # immutable Mono checkpoint, so a cold process can recover and bind
+        # the same message without a third database or a volatile dict.
+        import json
+        acceptance_seed = {
+            "intake": intake, "request_id": rid,
+            "route_id": route["route_id"],
+            "source_receipt_sha256": source_receipt,
+            "predecessor_journal_head": request["task_journal_head"],
+        }
+        seed_json = json.dumps(acceptance_seed, sort_keys=True,
+                               separators=(",", ":"), ensure_ascii=False)
         latest = ledger.checkpoint(
             intake["task_id"], checkpoint_id,
             completed_evidence=(
                 "ui-source:" + intake["source_digest"],
                 "portal-advisory:" + verified["assessment_digest"],
+                "local-source-seed-json:" + seed_json,
             ),
             blockers=(
                 "local user identity unverified", "resident provider not admitted",
@@ -760,6 +773,10 @@ def record_local_cognition_result(
                 "pre-active-event:" + observed["event_id"],
                 "pre-active-run:" + observed["run_id"],
                 "pre-active-observation-sha256:" + result_digest,
+                "pre-active-source-json:" + __import__("json").dumps(
+                    observed, sort_keys=True, separators=(",", ":"),
+                    ensure_ascii=False,
+                ),
             ),
             blockers=("synthetic output is NOT accepted task completion",
                       "GUI session and provider remain unauthenticated"),

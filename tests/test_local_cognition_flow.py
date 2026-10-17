@@ -398,6 +398,81 @@ class LocalCognitionFlowTests(unittest.TestCase):
             self.assertFalse(recovered["display_authorized"])
         finally:cold_store.close()
 
+
+    def test_new_pr37_three_argument_worker_store_uses_original_pre_active_file(self):
+        # PR37 owner head 52f24410 changed source_fixture_execute to
+        # (task, request_id, SAME opened worker_store). A temporary second
+        # Pre-Active DB connection must not become another authority/store.
+        calls=[]
+        def offline(*,store,task,request_id,route_id):
+            calls.append((store,task,request_id))
+            class Model:
+                def respond(_, *, messages, tools):
+                    assert tools==[]
+                    assert any(m["role"]=="user" and task in m["content"]
+                               for m in messages)
+                    return self.ModelResponse(final_text="source-only worker result")
+            engine=self.Engine(
+                store=store,model=Model(),tools=self.Tools(store),
+                context=self.Context(store,max_chars=4096),
+                system_prompt="offline fixture no network",worker_id="pr37-worker",
+                max_steps=2,max_autonomous_turns_per_run=0,
+                max_consecutive_endogenous_turns=0,
+            )
+            event=store.enqueue_event(
+                kind="task.requested",payload={"task":task,"capabilities":[]},
+                priority=0,dedup_key="veraos-text:"+request_id,now=1,
+            )
+            store.append_journal(
+                event_type="VERAOS_COGNITION_ROUTE_SELECTED",subject_id=event,
+                payload={"adapter_id":"pre-active-openai-compatible",
+                         "route_id":route_id,"provider_id":route_id,
+                         "model":"qwen3:4b-instruct","effect_class":"COGNITION_ONLY"},
+                now=1,
+            )
+            for n in range(4):engine.run_once(now=2+n*.02)
+            run=store.connection.execute(
+                "SELECT id FROM runs WHERE source_event_id=?",(event,),
+            ).fetchone()
+            assert run is not None
+            return {"status":"COMPLETED","event_id":event,"run_id":run["id"],
+                    "final_text":"source-only worker result","route_id":route_id,
+                    "provider_id":route_id}
+        mono=Path(self.tmp.name)/"mono-pr37-worker.sqlite3"
+        pre=Path(self.tmp.name)/"pre-pr37-worker.sqlite3"
+        handler=make_local_resident_fixture_handler(
+            ledger_path=mono,store_path=pre,conversation_id="pr37-worker-conversation",
+            advertisements=self.ads,source_only_executor=offline,
+        )
+        owner_store=self.Store(pre)
+        try:
+            reply=handler("exact UI task","pr37-id-1",owner_store)
+            self.assertEqual(reply["status"],"BLOCKED")
+            self.assertIsNone(reply["final_text"])
+            self.assertEqual(len(calls),1)
+            self.assertIs(calls[0][0],owner_store)
+            self.assertEqual(calls[0][1],"exact UI task")
+            # The caller owns closing this Store; Integration must not close it.
+            self.assertEqual(owner_store.connection.execute(
+                "SELECT COUNT(*) AS n FROM runs WHERE status='COMPLETED'"
+            ).fetchone()["n"],1)
+            repeat=handler("exact UI task","pr37-id-1",owner_store)
+            self.assertEqual(repeat["status"],"BLOCKED")
+            self.assertEqual(len(calls),1)
+        finally:
+            owner_store.close()
+        alien=self.Store(Path(self.tmp.name)/"wrong-preactive.sqlite3")
+        try:
+            with self.assertRaises(ProvenanceBridgeError):
+                handler("another task","pr37-id-2",alien)
+            self.assertEqual(len(calls),1)
+        finally:
+            alien.close()
+        cold=self.Ledger(mono)
+        self.assertEqual(len([
+            e for e in cold.events() if e.event_type=="TASK_OPENED"
+        ]),1)
+
     def test_concurrent_distinct_http_source_callbacks_each_have_unique_task(self):
         ids=[]
         def unexecuted(*,store,task,request_id,route_id):

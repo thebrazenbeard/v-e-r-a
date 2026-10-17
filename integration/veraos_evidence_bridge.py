@@ -870,3 +870,197 @@ def read_local_cognition_response(
         "display_authorized": False, "accepted_as_task_result": False,
         "effect_authority": False,
     }
+
+
+
+def recover_local_cognition_observation(
+    *, ledger: Any, store: Any, conversation_id: str, message_id: str,
+) -> dict:
+    """Cold recovery from existing Mono events and Pre-Active run, no new DB.
+
+    Return a held state unless the source observation is fully reconstructed
+    and reverified. A recovered response is NOT an authenticated UI display.
+    """
+    import json
+    import re
+    for name, value in (("conversation_id", conversation_id),
+                        ("message_id", message_id)):
+        if type(value) is not str or re.fullmatch(
+            r"[A-Za-z0-9][A-Za-z0-9._:-]{0,95}", value
+        ) is None:
+            raise ProvenanceBridgeError("invalid local recovery message identity")
+    task_id = "ui-" + _local_json_digest({
+        "schema": "VERAOS_LOCAL_MESSAGE_KEY_V1",
+        "conversation_id": conversation_id, "message_id": message_id,
+    })
+    events = ledger.events(task_id)
+    if not events:
+        return {"status": "NO_CANONICAL_TASK", "display_authorized": False}
+    if events[0].event_type != "TASK_OPENED":
+        raise ProvenanceBridgeError("recovery has no valid task opener")
+    state = ledger.read(task_id)
+    if state.closed or state.active_dependencies or state.unresolved_correction_ids:
+        return {"status": "HELD_TASK_CHANGED", "display_authorized": False}
+    if len(events) == 1:
+        return {"status": "NOT_ACCEPTED", "display_authorized": False}
+    acceptance_event = events[1]
+    if acceptance_event.event_type != "TASK_CHECKPOINT":
+        return {"status": "HELD_TASK_CHANGED", "display_authorized": False}
+
+    def one_json(event, prefix):
+        fields = event.payload.get("completed_evidence", [])
+        found = [s[len(prefix):] for s in fields
+                 if type(s) is str and s.startswith(prefix)]
+        if len(found) != 1:
+            raise ProvenanceBridgeError("missing unique canonical recovery evidence")
+        try:
+            value = json.loads(found[0])
+        except (ValueError, TypeError) as exc:
+            raise ProvenanceBridgeError("invalid durable recovery JSON") from exc
+        if type(value) is not dict:
+            raise ProvenanceBridgeError("recovery evidence must be an object")
+        return value
+
+    seed = one_json(acceptance_event, "local-source-seed-json:")
+    if set(seed) != {
+        "intake", "request_id", "route_id", "source_receipt_sha256",
+        "predecessor_journal_head",
+    }:
+        raise ProvenanceBridgeError("recovery seed has unknown keys")
+    intake = seed["intake"]
+    _check_local_intake(intake)
+    if (intake["conversation_id"] != conversation_id or
+            intake["message_id"] != message_id or
+            intake["task_id"] != task_id or
+            intake["opened_journal_head"] != events[0].event_digest or
+            intake["text"] != state.packet.subject or
+            intake["source_digest"] != state.opened_lifecycle_evidence_digest or
+            intake["task_packet_digest"] != state.packet.packet_digest or
+            seed["route_id"] != "dev:virtio-qwen4b" or
+            acceptance_event.event_id != task_id + ":CHECKPOINT:local-fixture-" + seed["request_id"] or
+            acceptance_event.payload.get("lifecycle_evidence_digest") != seed["source_receipt_sha256"] or
+            acceptance_event.payload.get("protected_effects_still_gated") != ["COGNITION_TURN"] or
+            acceptance_event.event_digest == events[0].event_digest):
+        raise ProvenanceBridgeError("stored local source/advisory is inconsistent")
+    accepted = {
+        "schema": "VERAOS_LOCAL_COGNITION_FIXTURE_ACCEPTANCE_V1",
+        "task_id": task_id, "task_packet_digest": intake["task_packet_digest"],
+        "source_digest": intake["source_digest"],
+        "conversation_id": conversation_id, "message_id": message_id,
+        "task": intake["text"], "request_id": seed["request_id"],
+        "route_id": seed["route_id"],
+        "source_receipt_sha256": seed["source_receipt_sha256"],
+        "predecessor_journal_head": seed["predecessor_journal_head"],
+        "checkpoint_event_id": acceptance_event.event_id,
+        "checkpoint_journal_head": acceptance_event.event_digest,
+        "requested_effect": "NO_PROTECTED_EFFECT",
+        "fixture_only": True, "dispatch_accepted": False,
+        "provider_authenticated": False, "accepted_as_task_result": False,
+        "effect_authority": False, "executed": False,
+    }
+    if len(events) == 2:
+        return {
+            "status": "OUTCOME_UNKNOWN_NO_REDISPATCH",
+            "task_id": task_id, "display_authorized": False,
+        }
+    if len(events) != 3 or events[2].event_type != "TASK_CHECKPOINT":
+        return {"status": "HELD_TASK_CHANGED", "display_authorized": False}
+    result_event = events[2]
+    if result_event.event_id != (
+        task_id + ":CHECKPOINT:source-result-" + seed["request_id"]
+    ):
+        return {"status": "HELD_TASK_CHANGED", "display_authorized": False}
+    observed = one_json(result_event, "pre-active-source-json:")
+    digest = _local_json_digest(observed)
+    if (result_event.payload.get("lifecycle_evidence_digest") != digest or
+            result_event.payload.get("protected_effects_still_gated") != ["COGNITION_TURN"] or
+            result_event.event_digest != state.journal_head_digest):
+        raise ProvenanceBridgeError("result journal and source digest mismatch")
+    observation = {
+        "schema": "VERAOS_LOCAL_COGNITION_RESULT_OBSERVATION_V1",
+        "source": observed, "result_sha256": digest,
+        "checkpoint_event_id": result_event.event_id,
+        "result_journal_head": result_event.event_digest,
+        "accepted_as_task_result": False, "display_authorized": False,
+        "effect_authority": False, "real_model_attested": False,
+    }
+    reply = read_local_cognition_response(
+        ledger=ledger, store=store, intake=intake, acceptance=accepted,
+        observation=observation,
+        conversation_id=conversation_id, message_id=message_id,
+    )
+    return {
+        "status": "SOURCE_OBSERVATION_REVALIDATED",
+        "task_id": task_id, "response_candidate": reply,
+        "display_authorized": False, "accepted_as_task_result": False,
+    }
+
+
+def make_local_resident_fixture_handler(
+    *, ledger_path: Any, store_path: Any, conversation_id: str,
+    advertisements: tuple, source_only_executor: Any,
+):
+    """Exact PR37 conversation_handler(task, request_id) source-only binding.
+
+    The executable must be a caller-injected in-memory synthetic fixture.
+    This adapter is NOT registered in VeraOS, is not a provider verifier, and
+    never returns COMPLETED to the graphical HTTP handler. PORTAL must own
+    authorization, resident admission, and real display after exact review.
+    """
+    from pathlib import Path
+    from vera_core.task_execution import TaskExecutionLedger
+    from pre_active.store import Store
+    if not callable(source_only_executor):
+        raise ProvenanceBridgeError("source-only executor callback required")
+    ledger_file, store_file = Path(ledger_path), Path(store_path)
+
+    def handle(task: str, request_id: str) -> dict:
+        if type(task) is not str or type(request_id) is not str:
+            raise ProvenanceBridgeError("invalid PR37 two-argument callback")
+        ledger = TaskExecutionLedger(ledger_file)
+        store = Store(store_file)
+        try:
+            intake = open_local_cognition_fixture(
+                ledger=ledger, conversation_id=conversation_id,
+                message_id=request_id, text=task,
+            )
+            prior = recover_local_cognition_observation(
+                ledger=ledger, store=store,
+                conversation_id=conversation_id, message_id=request_id,
+            )
+            if prior["status"] != "NOT_ACCEPTED":
+                # Cold readback is available through the explicit recovery
+                # API, never automatic re-execution or UI output.
+                return {
+                    "status": "BLOCKED", "run_id": None, "final_text": None,
+                }
+            acceptance = accept_local_cognition_fixture(
+                ledger=ledger, intake=intake, advertisements=advertisements,
+            )
+            # This callback is explicitly a synthetic no-model-source test
+            # seam. Calling a real endpoint here would violate the contract.
+            source_result = source_only_executor(
+                store=store, task=acceptance["task"],
+                request_id=acceptance["request_id"],
+                route_id=acceptance["route_id"],
+            )
+            record_local_cognition_result(
+                ledger=ledger, store=store, intake=intake,
+                acceptance=acceptance, resident_result=source_result,
+            )
+            checked = recover_local_cognition_observation(
+                ledger=ledger, store=store,
+                conversation_id=conversation_id, message_id=request_id,
+            )
+            if checked["status"] != "SOURCE_OBSERVATION_REVALIDATED":
+                raise ProvenanceBridgeError("synthetic run not durably correlated")
+            # IMPORTANT: PR37 HTTP would display status COMPLETED; this
+            # unqualified source adapter deliberately returns BLOCKED.
+            return {
+                "status": "BLOCKED", "run_id": checked["response_candidate"]["run_id"],
+                "final_text": None,
+            }
+        finally:
+            store.close()
+
+    return handle

@@ -999,8 +999,10 @@ def make_local_resident_fixture_handler(
     *, ledger_path: Any, store_path: Any, conversation_id: str,
     advertisements: tuple, source_only_executor: Any,
 ):
-    """Exact PR37 conversation_handler(task, request_id) source-only binding.
+    """No-effect PR37 source fixture callback: old 2-arg and new 3-arg ABI.
 
+    The PR37 resident owns worker_store and passes it as the third argument.
+    It must be the EXACT existing Pre-Active database, not a second store.
     The executable must be a caller-injected in-memory synthetic fixture.
     This adapter is NOT registered in VeraOS, is not a provider verifier, and
     never returns COMPLETED to the graphical HTTP handler. PORTAL must own
@@ -1013,11 +1015,25 @@ def make_local_resident_fixture_handler(
         raise ProvenanceBridgeError("source-only executor callback required")
     ledger_file, store_file = Path(ledger_path), Path(store_path)
 
-    def handle(task: str, request_id: str) -> dict:
+    def handle(
+        task: str, request_id: str, worker_store: Any = None,
+    ) -> dict:
         if type(task) is not str or type(request_id) is not str:
-            raise ProvenanceBridgeError("invalid PR37 two-argument callback")
+            raise ProvenanceBridgeError("invalid PR37 fixture callback arguments")
+        # New PR37 source_fixture_execute(task, request_id, worker_store)
+        # gives us its already-opened Store. No second database/connection,
+        # and the resident caller retains ownership of closing it.
+        own_store = worker_store is None
+        if own_store:
+            store = Store(store_file)
+        else:
+            if (not isinstance(worker_store, Store)
+                    or Path(worker_store.path).resolve() != store_file.resolve()):
+                raise ProvenanceBridgeError(
+                    "PR37 worker Store path/type does not match canonical Pre-Active state"
+                )
+            store = worker_store
         ledger = TaskExecutionLedger(ledger_file)
-        store = Store(store_file)
         try:
             intake = open_local_cognition_fixture(
                 ledger=ledger, conversation_id=conversation_id,
@@ -1060,6 +1076,7 @@ def make_local_resident_fixture_handler(
                 "final_text": None,
             }
         finally:
-            store.close()
+            if own_store:
+                store.close()
 
     return handle

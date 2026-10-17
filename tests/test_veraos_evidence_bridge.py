@@ -18,6 +18,7 @@ from integration.cognition_task_gate import bind_episode
 from integration.veraos_evidence_bridge import (
     evaluate_source_route_evidence, ProvenanceBridgeError,
     prepare_source_linked_veraos_route, verify_source_linked_veraos_route,
+    checkpoint_source_linked_fixture,
     VERAOS_HEAD, NATIVE_ROUTE_BLOB, GUEST_PROBE_BLOB,
 )
 
@@ -648,3 +649,68 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         )
         with self.assertRaisesRegex(ProvenanceBridgeError, "task"):
             self.proposal(ledger, binding)
+
+
+    def fixture_checkpoint(self, ledger, binding, receipt):
+        return checkpoint_source_linked_fixture(
+            receipt, receiver=self.receiver, task_ledger=ledger,
+            task_id=self.task_id, episode=self.episode, binding=binding,
+            comment_id=81, message_id="reply-1", coverage=self.coverage,
+            provider=self.provider, route_intent=self.intent,
+            advertisements=(self.advisory_ad(),),
+        )
+
+    def test_real_mono_expected_head_cas_records_only_no_effect_fixture(self):
+        if not PORTAL:
+            self.skipTest("requires exact PORTAL source")
+        sys.path.insert(0, str(Path(PORTAL)))
+        ledger, binding = self.linked()
+        path = Path(self.temp.name) / "cas-source-proposal.json"
+        proposed = self.proposal(ledger, binding, receipt_path=path)
+        before = proposed["portal_request"]["task_journal_head"]
+        decision = self.fixture_checkpoint(ledger, binding, path)
+        self.assertEqual(decision["status"], "SOURCE_FIXTURE_CHECKPOINT_RECORDED")
+        self.assertEqual(decision["predecessor_journal_head"], before)
+        self.assertNotEqual(decision["checkpoint_journal_head"], before)
+        self.assertEqual(decision["task_id"], self.task_id)
+        self.assertEqual(decision["source_digest"],
+                         proposed["source_evidence"]["message"]["semantic_sha256"])
+        self.assertEqual(decision["request_id"], proposed["native_call"]["request_id"])
+        self.assertEqual(decision["route_id"], "dev:virtio-qwen4b")
+        self.assertEqual(decision["requested_effect"], "NO_PROTECTED_EFFECT")
+        for forbidden in ("dispatch_accepted", "model_admitted",
+                          "accepted_as_task_result", "effect_authority", "executed"):
+            self.assertIs(decision[forbidden], False)
+        reopened = self.Ledger(ledger.path)
+        current = reopened.read(self.task_id)
+        self.assertEqual(current.journal_head_digest,
+                         decision["checkpoint_journal_head"])
+        self.assertEqual(current.latest_checkpoint["lifecycle_evidence_digest"],
+                         proposed["receipt_sha256"])
+        self.assertIn("COGNITION_TURN",
+                      current.latest_checkpoint["protected_effects_still_gated"])
+        # Duplicate no-effect request ID must not append another checkpoint.
+        count = len(reopened.events(self.task_id))
+        with self.assertRaisesRegex(ProvenanceBridgeError, "stale|expected|task"):
+            self.fixture_checkpoint(reopened, binding, path)
+        self.assertEqual(len(reopened.events(self.task_id)), count)
+
+    def test_cas_rejects_interleaved_task_mutation_after_source_verification(self):
+        if not PORTAL:
+            self.skipTest("requires exact PORTAL source")
+        from unittest.mock import patch
+        sys.path.insert(0, str(Path(PORTAL)))
+        ledger, binding = self.linked()
+        path = Path(self.temp.name) / "interleaved-proposal.json"
+        self.proposal(ledger, binding, receipt_path=path)
+        checkpoint = ledger.checkpoint
+        def concurrent_checkpoint(*args, **kwargs):
+            ledger.bind_dependency(
+                self.task_id, "dependency:cas-contender",
+                kind="COORDINATION_COMMAND", target_id="command:other-writer",
+            )
+            return checkpoint(*args, **kwargs)
+        with patch.object(ledger, "checkpoint", side_effect=concurrent_checkpoint):
+            with self.assertRaisesRegex(ProvenanceBridgeError, "stale|expected"):
+                self.fixture_checkpoint(ledger, binding, path)
+        self.assertIsNone(ledger.read(self.task_id).latest_checkpoint)

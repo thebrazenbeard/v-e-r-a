@@ -426,3 +426,88 @@ class LocalCognitionFlowTests(unittest.TestCase):
             prior=handler(text,msg)
             self.assertEqual(prior["status"],"BLOCKED")
         self.assertEqual(len(ids),2)
+
+
+    def test_crash_after_pre_active_completion_before_mono_observation_never_redispatches(self):
+        # A durable completed run alone is not a canonical task result.
+        # Crash between the Pre-Active commit and Mono result checkpoint:
+        # cold restart must preserve ambiguity with NO duplicate execution.
+        calls=[]
+        def crash_after_completed_run(*,store,task,request_id,route_id):
+            calls.append(request_id)
+            class Model:
+                def respond(_, *, messages, tools):
+                    assert not tools
+                    assert any(m["role"]=="user" and task in m["content"]
+                               for m in messages)
+                    return self.ModelResponse(final_text="unadopted synthetic text")
+            engine=self.Engine(
+                store=store, model=Model(), tools=self.Tools(store),
+                context=self.Context(store,max_chars=4096),
+                system_prompt="Crash fixture only, no model",
+                worker_id="crash-source-only", max_steps=2,
+                max_autonomous_turns_per_run=0,
+                max_consecutive_endogenous_turns=0,
+            )
+            event=store.enqueue_event(
+                kind="task.requested",
+                payload={"task":task,"capabilities":[]},priority=0,
+                dedup_key="veraos-text:"+request_id,now=1.0,
+            )
+            store.append_journal(
+                event_type="VERAOS_COGNITION_ROUTE_SELECTED",
+                subject_id=event, payload={
+                    "adapter_id":"pre-active-openai-compatible",
+                    "route_id":route_id,"provider_id":route_id,
+                    "model":"qwen3:4b-instruct","effect_class":"COGNITION_ONLY",
+                }, now=1.0,
+            )
+            for n in range(4):
+                engine.run_once(now=2.0+n*0.02)
+            run=store.connection.execute(
+                "SELECT id,status,final_text FROM runs WHERE source_event_id=?",
+                (event,),
+            ).fetchone()
+            assert run is not None and run["status"]=="COMPLETED"
+            assert run["final_text"]=="unadopted synthetic text"
+            raise RuntimeError("simulated process loss before Mono result observation")
+        mono=Path(self.tmp.name)/"crash-mono.sqlite3"
+        pre=Path(self.tmp.name)/"crash-pre.sqlite3"
+        h=make_local_resident_fixture_handler(
+            ledger_path=mono, store_path=pre,
+            conversation_id="crash-local-conv",
+            advertisements=self.ads, source_only_executor=crash_after_completed_run,
+        )
+        with self.assertRaisesRegex(RuntimeError,"simulated process loss"):
+            h("one literal task","crash-msg-1")
+        self.assertEqual(len(calls),1)
+        cold_mono=self.Ledger(mono)
+        cold_store=self.Store(pre)
+        try:
+            self.assertEqual(len([e for e in cold_mono.events()
+                if e.event_type=="TASK_OPENED"]),1)
+            self.assertEqual(len([e for e in cold_mono.events()
+                if e.event_type=="TASK_CHECKPOINT"]),1)
+            outcome=recover_local_cognition_observation(
+                ledger=cold_mono,store=cold_store,
+                conversation_id="crash-local-conv",message_id="crash-msg-1",
+            )
+            self.assertEqual(outcome["status"],"OUTCOME_UNKNOWN_NO_REDISPATCH")
+            self.assertFalse(outcome["display_authorized"])
+            row=cold_store.connection.execute(
+                "SELECT COUNT(*) AS n FROM runs WHERE status='COMPLETED'"
+            ).fetchone()
+            self.assertEqual(row["n"],1)
+        finally:
+            cold_store.close()
+        cold_handler=make_local_resident_fixture_handler(
+            ledger_path=mono,store_path=pre,
+            conversation_id="crash-local-conv",advertisements=self.ads,
+            source_only_executor=crash_after_completed_run,
+        )
+        repeat=cold_handler("one literal task","crash-msg-1")
+        self.assertEqual(repeat["status"],"BLOCKED")
+        self.assertIsNone(repeat["final_text"])
+        self.assertEqual(len(calls),1,"crash replay must not invoke worker again")
+        with self.assertRaises(ProvenanceBridgeError):
+            cold_handler("altered task under original request ID","crash-msg-1")

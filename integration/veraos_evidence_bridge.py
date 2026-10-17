@@ -328,3 +328,95 @@ def verify_source_linked_veraos_route(
     if stored != current:
         raise ProvenanceBridgeError("receipt tampered, stale or substituted")
     return current
+
+
+def checkpoint_source_linked_fixture(
+    receipt_path: Any, *, receiver: Any, task_ledger: Any,
+    task_id: str, episode: Any, binding: Mapping[str, Any],
+    comment_id: int, message_id: str, coverage: Mapping[str, Any],
+    provider: Mapping[str, Any], route_intent: Mapping[str, Any],
+    advertisements: tuple[Any, ...],
+) -> dict:
+    """CAS-append a canonical Mono checkpoint for SYNTHETIC SOURCE use only.
+
+    This function does NOT accept a route for execution or grant provider,
+    model, identity, protected effect, or task-result authority. The final
+    currentness check is conservative: any concurrent post-CAS journal
+    advance revokes the returned source fixture eligibility immediately.
+    """
+    from vera_core.task_execution import TaskExecutionError
+    proposed = verify_source_linked_veraos_route(
+        receipt_path, receiver=receiver, task_ledger=task_ledger,
+        task_id=task_id, episode=episode, binding=binding,
+        comment_id=comment_id, message_id=message_id, coverage=coverage,
+        provider=provider, route_intent=route_intent,
+        advertisements=advertisements,
+    )
+    call = proposed["native_call"]
+    request = proposed["portal_request"]
+    if (proposed["status"] != "ROUTE_PROPOSED_UNATTESTED"
+            or type(call) is not dict
+            or proposed["portal_assessment"]["state"] != "ROUTE_PROPOSED"
+            or request["requested_effect"] != "NO_PROTECTED_EFFECT"
+            or any(proposed[flag] is not False for flag in (
+                "origin_authenticated", "advertisements_authenticated",
+                "normal_resident_route_admitted",
+                "accepted_as_task_result", "protected_effect_authority",
+                "executed",
+            ))):
+        raise ProvenanceBridgeError(
+            "source checkpoint requires exact non-authoritative advisory"
+        )
+    event_id = f"{task_id}:CHECKPOINT:source-fixture-{call['request_id']}"
+    # Existing canonical Mono TASK_CHECKPOINT journal; no new store, router,
+    # event type, worker or scheduler. The expected-head check lives INSIDE
+    # Mono.append's BEGIN IMMEDIATE transaction, not in an unlocked read.
+    try:
+        state = task_ledger.checkpoint(
+            task_id, f"source-fixture-{call['request_id']}",
+            completed_evidence=(
+                "receiver-local:" + proposed["source_evidence"]["message"]["semantic_sha256"],
+                "portal-advisory:" + proposed["portal_assessment"]["assessment_digest"],
+            ),
+            blockers=(
+                "source sender/provider not authenticated",
+                "real resident admission and dispatch authority not granted",
+            ),
+            protected_effects_still_gated=("COGNITION_TURN",),
+            next_frontier="synthetic no-effect Pre-Active source fixture only",
+            lifecycle_evidence_digest=proposed["receipt_sha256"],
+            expected_head=request["task_journal_head"],
+        )
+    except (TaskExecutionError, ValueError, KeyError) as exc:
+        raise ProvenanceBridgeError(
+            "stale expected task journal head; source fixture CAS denied"
+        ) from exc
+    events = [event for event in task_ledger.events(task_id)
+              if event.event_id == event_id]
+    if (len(events) != 1 or events[0].event_type != "TASK_CHECKPOINT"
+            or state.journal_head_digest != events[0].event_digest
+            or task_ledger.head != events[0].event_digest):
+        raise ProvenanceBridgeError(
+            "stale task journal after fixture CAS; no dispatch eligible"
+        )
+    return {
+        "schema": "VERA_MONO_SOURCE_FIXTURE_CHECKPOINT_V1",
+        "status": "SOURCE_FIXTURE_CHECKPOINT_RECORDED",
+        "task_id": task_id,
+        "task_packet_digest": request["task_packet_digest"],
+        "source_digest": proposed["source_evidence"]["message"]["semantic_sha256"],
+        "predecessor_journal_head": request["task_journal_head"],
+        "checkpoint_event_id": event_id,
+        "checkpoint_journal_head": events[0].event_digest,
+        "request_id": call["request_id"],
+        "route_id": proposed["portal_assessment"]["route"]["route_id"],
+        "task": call["task"],
+        "requested_effect": "NO_PROTECTED_EFFECT",
+        "advisory_state": "ROUTE_PROPOSED",
+        "fixture_only": True,
+        "dispatch_accepted": False,
+        "model_admitted": False,
+        "accepted_as_task_result": False,
+        "effect_authority": False,
+        "executed": False,
+    }

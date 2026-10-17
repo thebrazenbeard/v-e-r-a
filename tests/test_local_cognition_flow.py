@@ -175,6 +175,21 @@ class LocalCognitionFlowTests(unittest.TestCase):
         with self.assertRaises(ProvenanceBridgeError):self.accept(i)
 
 
+    def test_forged_acceptance_id_and_predecessor_never_rebind_model_result(self):
+        i=self.intake();a=self.accept(i);result=self.result(i,a)
+        altered=[
+            {**a,"request_id":"ui-"+"f"*64},
+            {**a,"checkpoint_event_id":"ui-forged:CHECKPOINT:local-fixture-"+a["request_id"]},
+            {**a,"predecessor_journal_head":"e"*64},
+        ]
+        for fake in altered:
+            with self.subTest(fake=fake):
+                with self.assertRaises(ProvenanceBridgeError):
+                    record_local_cognition_result(
+                        ledger=self.ledger,store=self.store,intake=i,
+                        acceptance=fake,resident_result=result,
+                    )
+
     def test_task_mutated_after_fixture_acceptance_cannot_commit_cognition_result(self):
         i=self.intake();a=self.accept(i);result=self.result(i,a)
         self.ledger.bind_dependency(

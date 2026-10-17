@@ -628,7 +628,20 @@ def _check_local_acceptance(ledger: Any, intake: dict, acceptance: dict) -> None
         "accepted_as_task_result", "effect_authority", "executed",
     }:
         raise ProvenanceBridgeError("unknown or modified local acceptance shape")
+    import re
     state = ledger.read(intake["task_id"])
+    events = ledger.events(intake["task_id"])
+    expected_event = (intake["task_id"] + ":CHECKPOINT:local-fixture-" +
+                      str(acceptance["request_id"]))
+    if (type(acceptance["request_id"]) is not str or
+            re.fullmatch(r"ui-[0-9a-f]{64}", acceptance["request_id"]) is None or
+            acceptance["checkpoint_event_id"] != expected_event or
+            type(acceptance["source_receipt_sha256"]) is not str or
+            re.fullmatch(r"[0-9a-f]{64}", acceptance["source_receipt_sha256"]) is None or
+            not events or events[-1].event_id != expected_event or
+            events[-1].predecessor_digest !=
+            acceptance["predecessor_journal_head"]):
+        raise ProvenanceBridgeError("forged fixture acceptance identity or predecessor")
     if (acceptance["schema"] != "VERAOS_LOCAL_COGNITION_FIXTURE_ACCEPTANCE_V1" or
             acceptance["task_id"] != intake["task_id"] or
             acceptance["task_packet_digest"] != intake["task_packet_digest"] or

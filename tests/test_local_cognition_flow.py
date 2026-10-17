@@ -13,6 +13,7 @@ from integration.veraos_evidence_bridge import (
     ProvenanceBridgeError, open_local_cognition_fixture,
     accept_local_cognition_fixture, record_local_cognition_result,
     read_local_cognition_response,
+    recover_local_cognition_observation, make_local_resident_fixture_handler,
 )
 
 MONO=os.environ.get("VERA_MONO_SOURCE_ROOT")
@@ -275,3 +276,153 @@ class LocalCognitionFlowTests(unittest.TestCase):
             )
             self.assertEqual(preview["text"],expected)
             self.assertFalse(preview["display_authorized"])
+
+
+    def test_cold_recovery_statuses_never_fabricate_history_or_completion(self):
+        empty=recover_local_cognition_observation(
+            ledger=self.ledger,store=self.store,conversation_id="none",message_id="never",
+        )
+        self.assertEqual(empty["status"],"NO_CANONICAL_TASK")
+        i=self.intake()
+        opened=recover_local_cognition_observation(
+            ledger=self.ledger,store=self.store,conversation_id="conv-a",message_id="m1",
+        )
+        self.assertEqual(opened["status"],"NOT_ACCEPTED")
+        a=self.accept(i)
+        unfinished=recover_local_cognition_observation(
+            ledger=self.ledger,store=self.store,conversation_id="conv-a",message_id="m1",
+        )
+        self.assertEqual(unfinished["status"],"OUTCOME_UNKNOWN_NO_REDISPATCH")
+        outcome=self.result(i,a)
+        obs=record_local_cognition_result(
+            ledger=self.ledger,store=self.store,intake=i,acceptance=a,
+            resident_result=outcome,
+        )
+        cold_ledger=self.Ledger(self.ledger.path)
+        cold_store=self.Store(Path(self.tmp.name)/"pre.sqlite3")
+        try:
+            restored=recover_local_cognition_observation(
+                ledger=cold_ledger,store=cold_store,
+                conversation_id="conv-a",message_id="m1",
+            )
+            self.assertEqual(restored["status"],"SOURCE_OBSERVATION_REVALIDATED")
+            self.assertEqual(restored["response_candidate"]["text"],outcome["final_text"])
+            self.assertFalse(restored["display_authorized"])
+            self.assertFalse(restored["accepted_as_task_result"])
+            with self.assertRaises(ProvenanceBridgeError):
+                recover_local_cognition_observation(
+                    ledger=cold_ledger,store=cold_store,
+                    conversation_id="conv-other",message_id="m1",
+                ) if False else read_local_cognition_response(
+                    ledger=cold_ledger,store=cold_store,intake=i,acceptance=a,
+                    observation=obs,conversation_id="conv-other",message_id="m1",
+                )
+            self.store.update_run(outcome["run_id"],now=100,final_text="tampered")
+            with self.assertRaises(ProvenanceBridgeError):
+                recover_local_cognition_observation(
+                    ledger=cold_ledger,store=cold_store,
+                    conversation_id="conv-a",message_id="m1",
+                )
+        finally:
+            cold_store.close()
+
+    def test_exact_pr37_two_argument_callback_keeps_synthetic_output_off_ui(self):
+        calls=[]
+        def synthetic_only(*,store,task,request_id,route_id):
+            calls.append((task,request_id,route_id))
+            class Fake:
+                def respond(_self, *, messages, tools):
+                    assert not tools
+                    assert any(m["role"]=="user" and task in m["content"] for m in messages)
+                    return self.ModelResponse(final_text="fixture response - not admitted")
+            engine=self.Engine(
+                store=store,model=Fake(),tools=self.Tools(store),
+                context=self.Context(store,max_chars=4096),
+                system_prompt="Synthetic only, no real model",
+                worker_id="test-only",max_steps=2,max_autonomous_turns_per_run=0,
+                max_consecutive_endogenous_turns=0,
+            )
+            event=store.enqueue_event(
+                kind="task.requested",payload={"task":task,"capabilities":[]},
+                priority=0,dedup_key="veraos-text:"+request_id,now=1,
+            )
+            store.append_journal(
+                event_type="VERAOS_COGNITION_ROUTE_SELECTED",subject_id=event,
+                payload={"adapter_id":"pre-active-openai-compatible",
+                         "route_id":route_id,"provider_id":route_id,
+                         "model":"qwen3:4b-instruct","effect_class":"COGNITION_ONLY"},
+                now=1,
+            )
+            for n in range(4):engine.run_once(now=2+n*.02)
+            row=store.connection.execute(
+                "SELECT id FROM runs WHERE source_event_id=?",(event,),
+            ).fetchone()
+            assert row is not None
+            return {"status":"COMPLETED","event_id":event,"run_id":row["id"],
+                    "route_id":route_id,"provider_id":route_id,
+                    "final_text":"fixture response - not admitted"}
+        mono=Path(self.tmp.name)/"mono-handler.sqlite3"
+        pre=Path(self.tmp.name)/"pre-handler.sqlite3"
+        h=make_local_resident_fixture_handler(
+            ledger_path=mono,store_path=pre,
+            conversation_id="scoped-local-fixture",advertisements=self.ads,
+            source_only_executor=synthetic_only,
+        )
+        first=h("exact task input","http-msg-1")
+        self.assertEqual(first["status"],"BLOCKED")
+        self.assertIsNone(first["final_text"])
+        self.assertEqual(len(calls),1)
+        recovered=h("exact task input","http-msg-1")
+        self.assertEqual(recovered["status"],"BLOCKED")
+        self.assertEqual(len(calls),1)
+        with self.assertRaises(ProvenanceBridgeError):
+            h("different task same request id","http-msg-1")
+        # A new Python callable simulates resident main() restart with only
+        # original Mono and Pre-Active SQLite paths.
+        after_restart=make_local_resident_fixture_handler(
+            ledger_path=mono,store_path=pre,
+            conversation_id="scoped-local-fixture",advertisements=self.ads,
+            source_only_executor=synthetic_only,
+        )
+        self.assertEqual(after_restart("exact task input","http-msg-1")["status"],"BLOCKED")
+        self.assertEqual(len(calls),1)
+        cold_ledger=self.Ledger(mono);cold_store=self.Store(pre)
+        try:
+            recovered=recover_local_cognition_observation(
+                ledger=cold_ledger,store=cold_store,
+                conversation_id="scoped-local-fixture",message_id="http-msg-1",
+            )
+            self.assertEqual(recovered["status"],"SOURCE_OBSERVATION_REVALIDATED")
+            self.assertEqual(recovered["response_candidate"]["text"],
+                             "fixture response - not admitted")
+            self.assertFalse(recovered["display_authorized"])
+        finally:cold_store.close()
+
+    def test_concurrent_distinct_http_source_callbacks_each_have_unique_task(self):
+        ids=[]
+        def unexecuted(*,store,task,request_id,route_id):
+            ids.append(request_id)
+            raise RuntimeError("synthetic worker interruption")
+        mono=Path(self.tmp.name)/"mono-parallel.sqlite3"
+        pre=Path(self.tmp.name)/"pre-parallel.sqlite3"
+        handler=make_local_resident_fixture_handler(
+            ledger_path=mono,store_path=pre,conversation_id="local-scope",
+            advertisements=self.ads,source_only_executor=unexecuted,
+        )
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            futures=[
+                pool.submit(handler,"first request","m1"),
+                pool.submit(handler,"second request","m2"),
+            ]
+            for f in futures:
+                with self.assertRaises((RuntimeError,ProvenanceBridgeError)):
+                    f.result()
+        ledger=self.Ledger(mono)
+        self.assertEqual(len([e for e in ledger.events() if e.event_type=="TASK_OPENED"]),2)
+        self.assertEqual(len([e for e in ledger.events() if e.event_type=="TASK_CHECKPOINT"]),2)
+        # The first request was accepted before an uncertain failure. A
+        # replay must HOLD without a second synthetic call.
+        for msg,text in (("m1","first request"),("m2","second request")):
+            prior=handler(text,msg)
+            self.assertEqual(prior["status"],"BLOCKED")
+        self.assertEqual(len(ids),2)

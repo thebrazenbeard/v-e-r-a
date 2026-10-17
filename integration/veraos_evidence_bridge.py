@@ -513,8 +513,14 @@ def open_local_cognition_fixture(
     if (state.packet.subject != text or
             state.opened_lifecycle_evidence_digest != candidate["source_digest"]):
         raise ProvenanceBridgeError("local source intake task identity mismatch")
+    opening = ledger.events(candidate["task_id"])
+    if not opening or opening[0].event_type != "TASK_OPENED":
+        raise ProvenanceBridgeError("local message has no canonical opening event")
     candidate["task_packet_digest"] = state.packet.packet_digest
-    candidate["opened_journal_head"] = state.journal_head_digest
+    # Always return the actual immutable opening event's head, NOT a fresh
+    # global head after a replay. Re-opening a completed task cannot mint a
+    # second route checkpoint by laundering the new head as an old opening.
+    candidate["opened_journal_head"] = opening[0].event_digest
     return candidate
 
 
@@ -533,6 +539,8 @@ def accept_local_cognition_fixture(
     try:
         state = ledger.read(intake["task_id"])
         if (state.closed or state.active_dependencies or
+                state.latest_checkpoint is not None or
+                len(ledger.events(intake["task_id"])) != 1 or
                 state.unresolved_correction_ids or
                 state.opened_lifecycle_evidence_digest != intake["source_digest"] or
                 state.packet.packet_digest != intake["task_packet_digest"] or

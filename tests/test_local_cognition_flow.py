@@ -183,7 +183,7 @@ class LocalCognitionFlowTests(unittest.TestCase):
             )
         self.assertEqual(len([
             e for e in self.ledger.events(i["task_id"])
-            if e.event_type=="TASK_CHECKPOINT",
+            if e.event_type=="TASK_CHECKPOINT"
         ]),1)
 
     def test_incomplete_and_contradictory_pre_active_outcomes_are_never_completed(self):
@@ -210,7 +210,7 @@ class LocalCognitionFlowTests(unittest.TestCase):
             )
         self.assertEqual(len([
             e for e in self.ledger.events(i["task_id"])
-            if e.event_type=="TASK_CHECKPOINT",
+            if e.event_type=="TASK_CHECKPOINT"
         ]),1)
 
     def test_parallel_same_message_opens_exactly_one_canonical_task(self):

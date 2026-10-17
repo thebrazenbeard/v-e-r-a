@@ -376,3 +376,23 @@ Task-scoped Mono CAS: checkpoint(expected_task_head=...) performs task head comp
 
 
 Latest Mono per-task CAS and snapshot-qualified verify_chain() separate source-task currentness from the global audit head. PR37 test-only callback still cannot authorize real model dispatch or graphical COMPLETED.
+
+## Restart reconciliation in the existing PR37 worker callback (SOURCE ONLY)
+
+`recover_local_cognition_observation(reconcile_completed=True)` performs
+optional source-level crash recovery when Pre-Active's `task.requested`
+event was already DONE and its unique run persisted COMPLETED but Mono
+has only the first source/route checkpoint. It DOES NOT enqueue or execute
+another task. It checks the same request dedup key, persisted event/run,
+route-selected journal and exact literal text, then calls Mono's existing
+`checkpoint(expected_task_head=...)` to append one held result observation.
+A second readback must reconstruct the identical event, run, source
+and held response candidate. Contradictory DONE/status, duplicate run
+linkage and tampered output HOLD; incomplete activity remains
+`OUTCOME_UNKNOWN_NO_REDISPATCH`. The existing source-only
+`make_local_resident_fixture_handler` now opts in to that reconciliation
+on a repeated PR37 callback (same worker Store), and ALWAYS returns
+`BLOCKED` without a displayable `final_text`, even after sealed
+recovery. The ordinary read-only recovery default is unchanged. No
+trusted UI identity, provider/model authority or real installed resident
+is inferred from the recovered source data.

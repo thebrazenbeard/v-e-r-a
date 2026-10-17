@@ -1106,6 +1106,10 @@ def make_local_resident_fixture_handler(
             prior = recover_local_cognition_observation(
                 ledger=ledger, store=store,
                 conversation_id=conversation_id, message_id=request_id,
+                # Only this explicitly synthetic callback may source-seal an
+                # already COMPLETED persisted Pre-Active run on a retry.
+                # No new enqueue/inference; still return BLOCKED to HTTP.
+                reconcile_completed=True,
             )
             if prior["status"] != "NOT_ACCEPTED":
                 # Cold readback is available through the explicit recovery

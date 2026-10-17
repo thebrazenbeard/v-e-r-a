@@ -434,6 +434,26 @@ def _local_json_digest(value: dict) -> str:
     ).encode("utf8")).hexdigest()
 
 
+def _local_route_metadata(route_id: str) -> dict:
+    # Explicitly non-production SOURCE-ONLY route vectors. This is neither
+    # a live provider permit nor a registration with the installed resident.
+    supported = {
+        "dev:virtio-qwen4b": {
+            "adapter_id": "pre-active-openai-compatible",
+            "model": "qwen3:4b-instruct",
+            "target_id": "qwen3:4b-instruct",
+        },
+        "offline-fixture": {
+            "adapter_id": "pre-active-offline-fixture",
+            "model": "offline-deterministic",
+            "target_id": "offline-deterministic",
+        },
+    }
+    if type(route_id) is not str or route_id not in supported:
+        raise ProvenanceBridgeError("unsupported source-only route identity")
+    return supported[route_id]
+
+
 def _check_local_intake(intake: Any) -> None:
     import re
     keys = {"schema", "conversation_id", "message_id", "text", "task_id",
@@ -526,16 +546,28 @@ def open_local_cognition_fixture(
 
 def accept_local_cognition_fixture(
     *, ledger: Any, intake: dict, advertisements: tuple,
+    offline_route: bool = False,
 ) -> dict:
-    """Durable fixture-only Mono CAS after the real P.O.R.T.A.L. advisory."""
+    """Durable fixture-only Mono CAS after exact P.O.R.T.A.L. advisory."""
     from vera_core.task_execution import TaskExecutionError
     from vera_core.portal_task_handoff import (
         export_portal_route_request, verify_portal_route_assessment,
     )
     from portal.vera_task_handoff import assess_vera_task_route
     _check_local_intake(intake)
-    if type(advertisements) is not tuple:
-        raise ProvenanceBridgeError("invalid advisory source collection")
+    if type(advertisements) is not tuple or type(offline_route) is not bool:
+        raise ProvenanceBridgeError("invalid advisory source/route declaration")
+    route_id = "offline-fixture" if offline_route else "dev:virtio-qwen4b"
+    fixture = _local_route_metadata(route_id)
+    if offline_route and (
+        len(advertisements) != 1
+        or advertisements[0].route_id != route_id
+        or advertisements[0].adapter_id != fixture["adapter_id"]
+        or advertisements[0].target_id != fixture["target_id"]
+        or tuple(advertisements[0].authorized_effects) != ("NO_PROTECTED_EFFECT",)
+        or tuple(advertisements[0].effect_capabilities) != ("NO_PROTECTED_EFFECT",)
+    ):
+        raise ProvenanceBridgeError("offline source advisory cannot advertise cognition/effects")
     try:
         state = ledger.read(intake["task_id"])
         if (state.closed or state.active_dependencies or
@@ -549,7 +581,7 @@ def accept_local_cognition_fixture(
             raise ProvenanceBridgeError("local task changed or dependencies not resolved")
         request = export_portal_route_request(
             ledger, intake["task_id"], node_id="veraos",
-            target_kind="MODEL", target_id="qwen3:4b-instruct",
+            target_kind="MODEL", target_id=fixture["target_id"],
             required_capabilities=("text",),
         )
         assessed = assess_vera_task_route(request, advertisements)
@@ -557,8 +589,8 @@ def accept_local_cognition_fixture(
         route = verified["route"]
         if (verified["state"] != "ROUTE_PROPOSED" or
                 route != {
-                    "adapter_id": "pre-active-openai-compatible",
-                    "route_id": "dev:virtio-qwen4b",
+                    "adapter_id": fixture["adapter_id"],
+                    "route_id": route_id,
                 } or request["requested_effect"] != "NO_PROTECTED_EFFECT"):
             raise ProvenanceBridgeError("no exact no-effect synthetic advisory route")
         if ledger.events(intake["task_id"])[-1].event_digest != intake["opened_journal_head"]:
@@ -661,7 +693,7 @@ def _check_local_acceptance(ledger: Any, intake: dict, acceptance: dict) -> None
             acceptance["conversation_id"] != intake["conversation_id"] or
             acceptance["message_id"] != intake["message_id"] or
             acceptance["task"] != intake["text"] or
-            acceptance["route_id"] != "dev:virtio-qwen4b" or
+            acceptance["route_id"] not in ("dev:virtio-qwen4b", "offline-fixture") or
             acceptance["requested_effect"] != "NO_PROTECTED_EFFECT" or
             acceptance["fixture_only"] is not True or
             any(acceptance[x] is not False for x in (
@@ -727,10 +759,11 @@ def _inspect_local_pre_active(
         "SELECT payload_json FROM journal WHERE subject_id=? AND event_type='VERAOS_COGNITION_ROUTE_SELECTED'",
         (event_id,),
     ).fetchall()
+    fixture = _local_route_metadata(acceptance["route_id"])
     expected = {
-        "adapter_id": "pre-active-openai-compatible",
+        "adapter_id": fixture["adapter_id"],
         "route_id": acceptance["route_id"],
-        "provider_id": acceptance["route_id"], "model": "qwen3:4b-instruct",
+        "provider_id": acceptance["route_id"], "model": fixture["model"],
         "effect_class": "COGNITION_ONLY",
     }
     if len(selected) != 1 or json.loads(selected[0]["payload_json"]) != expected:
@@ -938,7 +971,7 @@ def recover_local_cognition_observation(
             intake["text"] != state.packet.subject or
             intake["source_digest"] != state.opened_lifecycle_evidence_digest or
             intake["task_packet_digest"] != state.packet.packet_digest or
-            seed["route_id"] != "dev:virtio-qwen4b" or
+            seed["route_id"] not in ("dev:virtio-qwen4b", "offline-fixture") or
             acceptance_event.event_id != task_id + ":CHECKPOINT:local-fixture-" + seed["request_id"] or
             acceptance_event.payload.get("lifecycle_evidence_digest") != seed["source_receipt_sha256"] or
             acceptance_event.payload.get("protected_effects_still_gated") != ["COGNITION_TURN"] or
@@ -1055,6 +1088,7 @@ def recover_local_cognition_observation(
 def make_local_resident_fixture_handler(
     *, ledger_path: Any, store_path: Any, conversation_id: str,
     advertisements: tuple, source_only_executor: Any,
+    offline_route: bool = False,
 ):
     """No-effect PR37 source fixture callback: old 2-arg and new 3-arg ABI.
 
@@ -1069,8 +1103,8 @@ def make_local_resident_fixture_handler(
     from threading import Lock
     from vera_core.task_execution import TaskExecutionLedger
     from pre_active.store import Store
-    if not callable(source_only_executor):
-        raise ProvenanceBridgeError("source-only executor callback required")
+    if not callable(source_only_executor) or type(offline_route) is not bool:
+        raise ProvenanceBridgeError("source-only executor and route mode required")
     ledger_file, store_file = Path(ledger_path), Path(store_path)
     # Same in-process serialization as PR37 fixture_lock. Without this,
     # a competing independent task can advance Mono's GLOBAL route advisory
@@ -1119,6 +1153,7 @@ def make_local_resident_fixture_handler(
                 }
             acceptance = accept_local_cognition_fixture(
                 ledger=ledger, intake=intake, advertisements=advertisements,
+                offline_route=offline_route,
             )
             # This callback is explicitly a synthetic no-model-source test
             # seam. Calling a real endpoint here would violate the contract.

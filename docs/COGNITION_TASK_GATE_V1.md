@@ -298,3 +298,38 @@ accepted task, a completed real cognition turn, or canonical memory.
 The normal resident can only use a separately authorized admitted route,
 Mono-owned expected-head acceptance transaction, and durable
 event/run/result readback with identity and current-source checks.
+
+## Canonical Mono task fixture acceptance — journal CAS (source-only)
+
+Actual Vera Mono Draft #76 exact source `d95533abd5dce2fd86d66c0f70790f25f2e10cfd`,
+`TaskExecutionLedger.append(expected_head=...)` and
+`checkpoint(expected_head=...)`, Git blob
+`aa06baf223993850dbaf8cabf44515b6b22720c2`,
+compare the expected journal head **inside the canonical
+BEGIN IMMEDIATE append transaction**. This is not a second SQLite store,
+admission proxy or route resolver. Stale advice loses the CAS to a
+competing Mono writer. Replayed IDs with stale heads cannot resurrect
+fixture eligibility. Concurrent writers targeting one head permit
+at most one checkpoint.
+
+New `checkpoint_source_linked_fixture` in the EXISTING Integration
+VeraOS source bridge first revalidates the fsynced source proposal.
+It then CAS-appends a canonical `TASK_CHECKPOINT` whose
+`lifecycle_evidence_digest` equals the source proposal's SHA-256.
+The post-CAS receipt exposes exact task_id, immutable task packet
+digest, receiver-local source digest, predecessor journal head, post-CAS
+canonical event/head digest, request_id, PORTAL advisory route_id and
+literal bounded task. It says fixture_only=true, dispatch_accepted=false,
+model_admitted=false, accepted_as_task_result=false, effect_authority=false,
+executed=false and requested_effect=NO_PROTECTED_EFFECT.
+The source checkpoint records an eligible **synthetic** task fixture,
+not a resident's authorization to invoke or accept an inference result.
+
+Because Mono #76 task checkpoint and VeraOS Pre-Active Store are separate
+transactions, NO atomic across-database dispatch/result acceptance or
+identity signature follows. PORTAL/OS must perform current qualified
+model admission with a new exact-head handoff permit under Mono ownership;
+its independently authorized resident must record actual Pre-Active
+event/run/result and Mono must separately accept a real result by
+expected-head transaction. Training synthetic provider status HOLD
+cannot become a model admission. No merge, real model or protected effect.

@@ -301,10 +301,10 @@ event/run/result readback with identity and current-source checks.
 
 ## Canonical Mono task fixture acceptance — journal CAS (source-only)
 
-Actual Vera Mono Draft #76 exact source `d95533abd5dce2fd86d66c0f70790f25f2e10cfd`,
+Actual Vera Mono Draft #76 exact source `62b982371778fcc41b3a35bc04fe1d07af2fbad3`,
 `TaskExecutionLedger.append(expected_head=...)` and
 `checkpoint(expected_head=...)`, Git blob
-`aa06baf223993850dbaf8cabf44515b6b22720c2`,
+`9d09b3f38cf50100d257a55b384ee4aa91dbbac0`,
 compare the expected journal head **inside the canonical
 BEGIN IMMEDIATE append transaction**. This is not a second SQLite store,
 admission proxy or route resolver. Stale advice loses the CAS to a

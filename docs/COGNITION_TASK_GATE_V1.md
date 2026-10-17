@@ -333,3 +333,40 @@ its independently authorized resident must record actual Pre-Active
 event/run/result and Mono must separately accept a real result by
 expected-head transaction. Training synthetic provider status HOLD
 cannot become a model admission. No merge, real model or protected effect.
+
+## Local message / Mono task / Pre-Active result correlation: source-only fixture
+
+Added four functions inside the EXISTING integration/veraos_evidence_bridge.py:
+open_local_cognition_fixture, accept_local_cognition_fixture,
+record_local_cognition_result, read_local_cognition_response.
+These are NOT installed in VeraOS, Mono or graphical Cog. No new conversation
+database, task ledger, router, scheduler, or actual model endpoint.
+
+Local conversation_id/message_id plus literal bounded text opens one real
+Vera Mono TASK_OPENED with deterministic task ID and source digest. Replays
+reuse the immutable opening event head, never a later head after checkpoint.
+Different text at the same message identity is a collision and must HOLD.
+Existing Mono export_portal_route_request, real PORTAL assessment and verifier
+remain advisory. Mono checkpoint(expected_head=...) transactionally accepts
+only a synthetic no-effect fixture, COGNITION_TURN still gated.
+
+Actual Pre-Active Store/Engine and empty ToolRegistry tests send the exact
+Mono task packet subject to a literal in-memory test response. Source readback
+checks event dedup identity, event payload, run task/capabilities/status/final
+text, route journal and source_event_id -> run_id linkage. A second Mono
+expected-head checkpoint records only the result observation digest,
+not task closeout, signed output or canonical memory.
+Cold readback recomputes both Mono and Pre-Active results for an exact
+conversation/message and refuses substituted output, terminal rewrites,
+pending/cancelled runs, stale heads and changed dependencies.
+The reply is a RESPONSE CANDIDATE: display_authorized=false,
+accepted_as_task_result=false, effect_authority=false.
+
+VeraOS PR36 source head 79b2562cb2b30fafae712e64a1d260bcaea2baaf
+has only an in-process opt-in Python cognition_request+fixture verifier;
+normal PID1 has NO authenticated graphical message intake and its resident
+socket is read-only. PORTAL owns actual UI authority, resident provider
+admission, and real guest/message result delivery. This source branch
+does not invoke PR36, a model, QEMU, or external effects.
+Pre-Active terminal low-level rows remain mutable; subsequent readback
+detects mismatch but does not establish trusted terminal immutability.

@@ -145,6 +145,7 @@ class LocalCognitionFlowTests(unittest.TestCase):
         i=self.intake();self.assertEqual(self.intake(),i)
         with self.assertRaises(Exception):self.intake(text="changed same message")
         a=self.accept(i)
+        self.assertEqual(self.intake(),i)  # replay cannot mint a new head
         with self.assertRaises(ProvenanceBridgeError):self.accept(i)
         j=self.intake(conv="conv-b",msg="m1",text="Second request")
         self.assertNotEqual(j["task_id"],i["task_id"])

@@ -420,3 +420,417 @@ def checkpoint_source_linked_fixture(
         "effect_authority": False,
         "executed": False,
     }
+
+
+# Local graphical input is an IN-PROCESS SYNTHETIC source fixture, NOT a
+# registered OS endpoint, signed user session, model grant or installed UI.
+# It deliberately does not require any remote GitHub/ChatGPT message.
+def _local_json_digest(value: dict) -> str:
+    import hashlib
+    import json
+    return hashlib.sha256(json.dumps(
+        value, sort_keys=True, ensure_ascii=False, separators=(",", ":"),
+        allow_nan=False,
+    ).encode("utf8")).hexdigest()
+
+
+def _check_local_intake(intake: Any) -> None:
+    import re
+    keys = {"schema", "conversation_id", "message_id", "text", "task_id",
+            "source_digest", "task_packet_digest", "opened_journal_head",
+            "origin_authenticated", "fixture_only"}
+    if type(intake) is not dict or set(intake) != keys:
+        raise ProvenanceBridgeError("local UI intake has unknown or missing fields")
+    for key in ("conversation_id", "message_id"):
+        value = intake[key]
+        if type(value) is not str or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._:-]{0,95}", value) is None:
+            raise ProvenanceBridgeError("invalid local UI conversation/message locator")
+    text = intake["text"]
+    if type(text) is not str or not text.strip() or text != text.strip() or len(text) > 2048:
+        raise ProvenanceBridgeError("local UI text is not an exact bounded request")
+    ident = _local_json_digest({
+        "schema": "VERAOS_LOCAL_MESSAGE_KEY_V1",
+        "conversation_id": intake["conversation_id"],
+        "message_id": intake["message_id"],
+    })
+    source = _local_json_digest({
+        "schema": "VERAOS_LOCAL_UI_INTAKE_SOURCE_V1",
+        "conversation_id": intake["conversation_id"],
+        "message_id": intake["message_id"], "text": text,
+    })
+    if (intake["schema"] != "VERAOS_LOCAL_UI_INTAKE_V1" or
+            intake["task_id"] != "ui-" + ident or intake["source_digest"] != source or
+            intake["origin_authenticated"] is not False or
+            intake["fixture_only"] is not True or
+            type(intake["opened_journal_head"]) is not str or
+            len(intake["opened_journal_head"]) != 64):
+        raise ProvenanceBridgeError("local UI intake identity/source substitution")
+
+
+def open_local_cognition_fixture(
+    *, ledger: Any, conversation_id: str, message_id: str, text: str,
+) -> dict:
+    """Open/replay ONE canonical Vera Mono task, never a conversation store."""
+    from vera_core.task_execution import TaskPacket, TaskExecutionError
+    candidate = {
+        "schema": "VERAOS_LOCAL_UI_INTAKE_V1",
+        "conversation_id": conversation_id, "message_id": message_id,
+        "text": text,
+        "task_id": "ui-" + _local_json_digest({
+            "schema": "VERAOS_LOCAL_MESSAGE_KEY_V1",
+            "conversation_id": conversation_id, "message_id": message_id,
+        }),
+        "source_digest": _local_json_digest({
+            "schema": "VERAOS_LOCAL_UI_INTAKE_SOURCE_V1",
+            "conversation_id": conversation_id, "message_id": message_id,
+            "text": text,
+        }),
+        "task_packet_digest": "0" * 64,
+        "opened_journal_head": ledger.head,
+        "origin_authenticated": False, "fixture_only": True,
+    }
+    _check_local_intake(candidate)
+    packet = TaskPacket(
+        purpose="Source-only local text cognition fixture",
+        subject=text,
+        completion_state="Observed synthetic response held pending trusted resident acceptance",
+        evidence_requirements=("current canonical task", "Pre-Active run readback"),
+        writable_scope=(),
+        non_targets=("model installation", "protected effect", "canonical memory"),
+        forbidden_shortcuts_or_effects=("no real provider admission", "no dispatch by advisory"),
+        priority_order=("task provenance", "request fidelity", "fail-closed replay"),
+        unknowns=("UI identity not authenticated", "model admission not installed"),
+        return_shape=("event_id", "run_id", "literal synthetic text", "HOLD"),
+        relevant_surfaces=("source", "workspace/coordination"),
+    )
+    try:
+        state = ledger.open_task(
+            candidate["task_id"], packet,
+            lifecycle_evidence_digest=candidate["source_digest"],
+        )
+    except (TaskExecutionError, ValueError, KeyError) as exc:
+        raise ProvenanceBridgeError("local message identity/text collision") from exc
+    if (state.packet.subject != text or
+            state.opened_lifecycle_evidence_digest != candidate["source_digest"]):
+        raise ProvenanceBridgeError("local source intake task identity mismatch")
+    candidate["task_packet_digest"] = state.packet.packet_digest
+    candidate["opened_journal_head"] = state.journal_head_digest
+    return candidate
+
+
+def accept_local_cognition_fixture(
+    *, ledger: Any, intake: dict, advertisements: tuple,
+) -> dict:
+    """Durable fixture-only Mono CAS after the real P.O.R.T.A.L. advisory."""
+    from vera_core.task_execution import TaskExecutionError
+    from vera_core.portal_task_handoff import (
+        export_portal_route_request, verify_portal_route_assessment,
+    )
+    from portal.vera_task_handoff import assess_vera_task_route
+    _check_local_intake(intake)
+    if type(advertisements) is not tuple:
+        raise ProvenanceBridgeError("invalid advisory source collection")
+    try:
+        state = ledger.read(intake["task_id"])
+        if (state.closed or state.active_dependencies or
+                state.unresolved_correction_ids or
+                state.opened_lifecycle_evidence_digest != intake["source_digest"] or
+                state.packet.packet_digest != intake["task_packet_digest"] or
+                state.packet.subject != intake["text"] or
+                state.journal_head_digest != intake["opened_journal_head"]):
+            raise ProvenanceBridgeError("local task changed or dependencies not resolved")
+        request = export_portal_route_request(
+            ledger, intake["task_id"], node_id="veraos",
+            target_kind="MODEL", target_id="qwen3:4b-instruct",
+            required_capabilities=("text",),
+        )
+        assessed = assess_vera_task_route(request, advertisements)
+        verified = verify_portal_route_assessment(ledger, request, assessed)
+        route = verified["route"]
+        if (verified["state"] != "ROUTE_PROPOSED" or
+                route != {
+                    "adapter_id": "pre-active-openai-compatible",
+                    "route_id": "dev:virtio-qwen4b",
+                } or request["requested_effect"] != "NO_PROTECTED_EFFECT"):
+            raise ProvenanceBridgeError("no exact no-effect synthetic advisory route")
+        if request["task_journal_head"] != intake["opened_journal_head"]:
+            raise ProvenanceBridgeError("stale task head at route assessment")
+        rid = "ui-" + _local_json_digest({
+            "task_id": intake["task_id"], "source_digest": intake["source_digest"],
+            "request_digest": request["request_digest"],
+            "route_id": route["route_id"],
+        })
+        source_receipt = _local_json_digest({
+            "schema": "VERAOS_LOCAL_COGNITION_SOURCE_DECISION_V1",
+            "intake": intake, "portal_request": request, "assessment": verified,
+            "request_id": rid,
+        })
+        checkpoint_id = "local-fixture-" + rid
+        latest = ledger.checkpoint(
+            intake["task_id"], checkpoint_id,
+            completed_evidence=(
+                "ui-source:" + intake["source_digest"],
+                "portal-advisory:" + verified["assessment_digest"],
+            ),
+            blockers=(
+                "local user identity unverified", "resident provider not admitted",
+                "result cannot update canonical task authority",
+            ),
+            protected_effects_still_gated=("COGNITION_TURN",),
+            next_frontier="no-effect synthetic Pre-Active source fixture",
+            lifecycle_evidence_digest=source_receipt,
+            expected_head=request["task_journal_head"],
+        )
+        event_id = intake["task_id"] + ":CHECKPOINT:" + checkpoint_id
+        event = [x for x in ledger.events(intake["task_id"]) if x.event_id == event_id]
+        if (len(event) != 1 or latest.journal_head_digest != event[0].event_digest or
+                ledger.head != event[0].event_digest):
+            raise ProvenanceBridgeError("task checkpoint advanced; no synthetic route")
+    except (TaskExecutionError, KeyError, ValueError, TypeError) as exc:
+        raise ProvenanceBridgeError("stale local fixture CAS or forged route") from exc
+    return {
+        "schema": "VERAOS_LOCAL_COGNITION_FIXTURE_ACCEPTANCE_V1",
+        "task_id": intake["task_id"],
+        "task_packet_digest": intake["task_packet_digest"],
+        "source_digest": intake["source_digest"],
+        "conversation_id": intake["conversation_id"],
+        "message_id": intake["message_id"],
+        "task": intake["text"],
+        "request_id": rid,
+        "route_id": route["route_id"],
+        "source_receipt_sha256": source_receipt,
+        "predecessor_journal_head": request["task_journal_head"],
+        "checkpoint_event_id": event_id,
+        "checkpoint_journal_head": event[0].event_digest,
+        "requested_effect": "NO_PROTECTED_EFFECT",
+        "fixture_only": True, "dispatch_accepted": False,
+        "provider_authenticated": False, "accepted_as_task_result": False,
+        "effect_authority": False, "executed": False,
+    }
+
+
+def _check_local_acceptance(ledger: Any, intake: dict, acceptance: dict) -> None:
+    _check_local_intake(intake)
+    if type(acceptance) is not dict or set(acceptance) != {
+        "schema", "task_id", "task_packet_digest", "source_digest",
+        "conversation_id", "message_id", "task", "request_id", "route_id",
+        "source_receipt_sha256", "predecessor_journal_head",
+        "checkpoint_event_id", "checkpoint_journal_head", "requested_effect",
+        "fixture_only", "dispatch_accepted", "provider_authenticated",
+        "accepted_as_task_result", "effect_authority", "executed",
+    }:
+        raise ProvenanceBridgeError("unknown or modified local acceptance shape")
+    state = ledger.read(intake["task_id"])
+    if (acceptance["schema"] != "VERAOS_LOCAL_COGNITION_FIXTURE_ACCEPTANCE_V1" or
+            acceptance["task_id"] != intake["task_id"] or
+            acceptance["task_packet_digest"] != intake["task_packet_digest"] or
+            acceptance["source_digest"] != intake["source_digest"] or
+            acceptance["conversation_id"] != intake["conversation_id"] or
+            acceptance["message_id"] != intake["message_id"] or
+            acceptance["task"] != intake["text"] or
+            acceptance["route_id"] != "dev:virtio-qwen4b" or
+            acceptance["requested_effect"] != "NO_PROTECTED_EFFECT" or
+            acceptance["fixture_only"] is not True or
+            any(acceptance[x] is not False for x in (
+                "dispatch_accepted", "provider_authenticated",
+                "accepted_as_task_result", "effect_authority", "executed",
+            )) or
+            state.closed or state.active_dependencies or
+            state.unresolved_correction_ids or
+            state.opened_lifecycle_evidence_digest != intake["source_digest"] or
+            state.packet.packet_digest != intake["task_packet_digest"] or
+            state.packet.subject != intake["text"] or
+            state.journal_head_digest != acceptance["checkpoint_journal_head"] or
+            ledger.head != acceptance["checkpoint_journal_head"] or
+            state.latest_checkpoint is None or
+            state.latest_checkpoint["lifecycle_evidence_digest"] !=
+            acceptance["source_receipt_sha256"] or
+            "COGNITION_TURN" not in
+            state.latest_checkpoint["protected_effects_still_gated"]):
+        raise ProvenanceBridgeError("stale or forged local fixture acceptance")
+    ev = ledger.events(intake["task_id"])
+    if (not ev or ev[-1].event_id != acceptance["checkpoint_event_id"] or
+            ev[-1].event_digest != acceptance["checkpoint_journal_head"]):
+        raise ProvenanceBridgeError("replaced local fixture journal head")
+
+
+def _inspect_local_pre_active(
+    *, store: Any, intake: dict, acceptance: dict, resident_result: dict,
+) -> dict:
+    import json
+    if (type(resident_result) is not dict or set(resident_result) !=
+            {"status", "event_id", "run_id", "final_text", "route_id", "provider_id"} or
+            resident_result["status"] != "COMPLETED" or
+            resident_result["route_id"] != acceptance["route_id"] or
+            resident_result["provider_id"] != acceptance["route_id"] or
+            type(resident_result["event_id"]) is not str or
+            type(resident_result["run_id"]) is not str or
+            type(resident_result["final_text"]) is not str or
+            len(resident_result["final_text"]) > 8192):
+        raise ProvenanceBridgeError("incomplete, conflicting or unqualified result")
+    event_id, run_id = resident_result["event_id"], resident_result["run_id"]
+    event = store.connection.execute(
+        "SELECT id,kind,payload_json,dedup_key,status FROM events WHERE id=?",
+        (event_id,),
+    ).fetchone()
+    run = store.connection.execute(
+        """SELECT id,task,status,capabilities_json,final_text,last_error,
+                  source_event_id,failed_event_id,control_action FROM runs WHERE id=?""",
+        (run_id,),
+    ).fetchone()
+    if (event is None or run is None or event["kind"] != "task.requested" or
+            event["status"] != "DONE" or
+            event["dedup_key"] != "veraos-text:" + acceptance["request_id"] or
+            json.loads(event["payload_json"]) !=
+            {"task": intake["text"], "capabilities": []} or
+            run["source_event_id"] != event_id or
+            run["task"] != intake["text"] or
+            run["status"] != "COMPLETED" or
+            json.loads(run["capabilities_json"]) != [] or
+            run["final_text"] != resident_result["final_text"] or
+            run["last_error"] is not None or run["failed_event_id"] is not None or
+            run["control_action"] is not None):
+        raise ProvenanceBridgeError("Pre-Active event/run/text mismatch")
+    selected = store.connection.execute(
+        "SELECT payload_json FROM journal WHERE subject_id=? AND event_type='VERAOS_COGNITION_ROUTE_SELECTED'",
+        (event_id,),
+    ).fetchall()
+    expected = {
+        "adapter_id": "pre-active-openai-compatible",
+        "route_id": acceptance["route_id"],
+        "provider_id": acceptance["route_id"], "model": "qwen3:4b-instruct",
+        "effect_class": "COGNITION_ONLY",
+    }
+    if len(selected) != 1 or json.loads(selected[0]["payload_json"]) != expected:
+        raise ProvenanceBridgeError("missing or substituted Pre-Active route evidence")
+    return {
+        "schema": "VERAOS_LOCAL_PRE_ACTIVE_RESULT_SOURCE_V1",
+        "task_id": intake["task_id"], "source_digest": intake["source_digest"],
+        "conversation_id": intake["conversation_id"],
+        "message_id": intake["message_id"],
+        "task": intake["text"],
+        "request_id": acceptance["request_id"],
+        "route_id": acceptance["route_id"],
+        "event_id": event_id, "run_id": run_id,
+        "status": "COMPLETED", "final_text": str(run["final_text"]),
+    }
+
+
+def record_local_cognition_result(
+    *, ledger: Any, store: Any, intake: dict, acceptance: dict,
+    resident_result: dict,
+) -> dict:
+    """Canonical Mono CAS-append a readback of PRE-ACTIVE SYNTHETIC result.
+
+    A COMPLETED Pre-Active source row means neither human identity nor real
+    model admission; no task closeout/effect, and no installed display grant.
+    """
+    from vera_core.task_execution import TaskExecutionError
+    _check_local_acceptance(ledger, intake, acceptance)
+    observed = _inspect_local_pre_active(
+        store=store, intake=intake, acceptance=acceptance,
+        resident_result=resident_result,
+    )
+    result_digest = _local_json_digest(observed)
+    checkpoint_id = "source-result-" + acceptance["request_id"]
+    try:
+        state = ledger.checkpoint(
+            intake["task_id"], checkpoint_id,
+            completed_evidence=(
+                "pre-active-event:" + observed["event_id"],
+                "pre-active-run:" + observed["run_id"],
+                "pre-active-observation-sha256:" + result_digest,
+            ),
+            blockers=("synthetic output is NOT accepted task completion",
+                      "GUI session and provider remain unauthenticated"),
+            protected_effects_still_gated=("COGNITION_TURN",),
+            next_frontier="trusted OS UI correlation and resident admission required",
+            lifecycle_evidence_digest=result_digest,
+            expected_head=acceptance["checkpoint_journal_head"],
+        )
+    except (TaskExecutionError, ValueError, KeyError) as exc:
+        raise ProvenanceBridgeError("stale task result acceptance CAS denied") from exc
+    event_id = intake["task_id"] + ":CHECKPOINT:" + checkpoint_id
+    e = [x for x in ledger.events(intake["task_id"]) if x.event_id == event_id]
+    if len(e) != 1 or e[0].event_digest != state.journal_head_digest:
+        raise ProvenanceBridgeError("result checkpoint substituted or changed")
+    return {
+        "schema": "VERAOS_LOCAL_COGNITION_RESULT_OBSERVATION_V1",
+        "source": observed,
+        "result_sha256": result_digest,
+        "checkpoint_event_id": event_id,
+        "result_journal_head": e[0].event_digest,
+        "accepted_as_task_result": False, "display_authorized": False,
+        "effect_authority": False, "real_model_attested": False,
+    }
+
+
+def read_local_cognition_response(
+    *, ledger: Any, store: Any, intake: dict, acceptance: dict,
+    observation: dict, conversation_id: str, message_id: str,
+) -> dict:
+    """Recheck persisted two-store fixture evidence; NO authorization to display."""
+    if (conversation_id != intake.get("conversation_id") or
+            message_id != intake.get("message_id") or
+            type(observation) is not dict or
+            set(observation) != {
+                "schema", "source", "result_sha256", "checkpoint_event_id",
+                "result_journal_head", "accepted_as_task_result",
+                "display_authorized", "effect_authority", "real_model_attested",
+            } or observation["schema"] != "VERAOS_LOCAL_COGNITION_RESULT_OBSERVATION_V1" or
+            any(observation[x] is not False for x in (
+                "accepted_as_task_result", "display_authorized",
+                "effect_authority", "real_model_attested",
+            ))):
+        raise ProvenanceBridgeError("wrong conversation, message or authority")
+    _check_local_intake(intake)
+    current = ledger.read(intake["task_id"])
+    if (current.closed or current.active_dependencies or
+            current.unresolved_correction_ids or
+            current.packet.subject != intake["text"] or
+            current.opened_lifecycle_evidence_digest != intake["source_digest"] or
+            current.packet.packet_digest != intake["task_packet_digest"] or
+            current.journal_head_digest != observation["result_journal_head"] or
+            ledger.head != observation["result_journal_head"] or
+            current.latest_checkpoint is None or
+            current.latest_checkpoint["lifecycle_evidence_digest"] !=
+            observation["result_sha256"] or
+            ledger.events(intake["task_id"])[-1].event_id !=
+            observation["checkpoint_event_id"]):
+        raise ProvenanceBridgeError("stale or changed task result journal")
+    supplied = observation["source"]
+    if type(supplied) is not dict:
+        raise ProvenanceBridgeError("invalid saved result source")
+    # Validate source input against original accepted fixture fields without
+    # requiring the earlier checkpoint still to be the latest state.
+    required = (
+        supplied.get("task_id") == acceptance.get("task_id") == intake["task_id"] and
+        supplied.get("source_digest") == acceptance.get("source_digest") == intake["source_digest"] and
+        supplied.get("conversation_id") == intake["conversation_id"] and
+        supplied.get("message_id") == intake["message_id"] and
+        supplied.get("task") == acceptance.get("task") == intake["text"] and
+        supplied.get("request_id") == acceptance.get("request_id") and
+        supplied.get("route_id") == acceptance.get("route_id")
+    )
+    if not required:
+        raise ProvenanceBridgeError("source task or conversation substituted")
+    now = _inspect_local_pre_active(
+        store=store, intake=intake, acceptance=acceptance,
+        resident_result={
+            "status": supplied["status"], "event_id": supplied["event_id"],
+            "run_id": supplied["run_id"], "final_text": supplied["final_text"],
+            "route_id": supplied["route_id"], "provider_id": supplied["route_id"],
+        },
+    )
+    if (now != supplied or
+            _local_json_digest(now) != observation["result_sha256"]):
+        raise ProvenanceBridgeError("stored Pre-Active output replaced since receipt")
+    return {
+        "schema": "VERAOS_LOCAL_UI_RESPONSE_CANDIDATE_V1",
+        "conversation_id": conversation_id, "message_id": message_id,
+        "task_id": intake["task_id"], "event_id": now["event_id"],
+        "run_id": now["run_id"], "text": now["final_text"],
+        "source_digest": intake["source_digest"],
+        "display_authorized": False, "accepted_as_task_result": False,
+        "effect_authority": False,
+    }

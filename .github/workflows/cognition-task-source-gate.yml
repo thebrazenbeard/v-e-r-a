@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           repository: thebrazenbeard/vera-mono
-          ref: 0c45349cc5432e1770304b69b793036d69546dcc
+          ref: 36ae11802808bc1b1392a361716109d1022ee6af
           path: vera-mono
           persist-credentials: false
       - name: Checkout exact PORTAL advisory contracts
@@ -63,8 +63,8 @@ jobs:
       - name: Exact Git subject readback
         shell: bash
         run: |
-          test "$(git -C vera-mono rev-parse HEAD)" = "0c45349cc5432e1770304b69b793036d69546dcc"
-          test "$(git -C vera-mono rev-parse HEAD:packages/vera_core/src/vera_core/task_execution.py)" = "4ea96d08be891e680b8c3208961e6e5677221a1c"
+          test "$(git -C vera-mono rev-parse HEAD)" = "36ae11802808bc1b1392a361716109d1022ee6af"
+          test "$(git -C vera-mono rev-parse HEAD:packages/vera_core/src/vera_core/task_execution.py)" = "e51982dcc4d53fbe67a53dc4176aecfd8fbccdeb"
           test "$(git -C portal rev-parse HEAD)" = "36fa04da4e5eb383fecf463c72a43b94ca47d7e5"
           test "$(git -C model-training rev-parse HEAD)" = "a242df78155ca20b36dbde8cbb7448dad43a5e55"
           test "$(git -C intranel rev-parse HEAD)" = "58714f5f6561b5e44e42dcdbca67e2cb59bfb87b"

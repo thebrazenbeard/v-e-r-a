@@ -39,7 +39,7 @@ class RealCognitionTaskGateTests(unittest.TestCase):
     def setUpClass(cls):
         cls.mono = Path(MONO)
         cls.training = Path(TRAINING)
-        cls.mono_head = "0c45349cc5432e1770304b69b793036d69546dcc"
+        cls.mono_head = "36ae11802808bc1b1392a361716109d1022ee6af"
         if git(cls.training, "rev-parse", "HEAD") != TRAINING_HEAD:
             raise AssertionError("wrong Training source HEAD")
         if git(cls.mono, "rev-parse", "HEAD") != cls.mono_head:

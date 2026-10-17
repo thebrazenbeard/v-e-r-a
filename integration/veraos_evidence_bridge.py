@@ -545,7 +545,7 @@ def accept_local_cognition_fixture(
                 state.opened_lifecycle_evidence_digest != intake["source_digest"] or
                 state.packet.packet_digest != intake["task_packet_digest"] or
                 state.packet.subject != intake["text"] or
-                state.journal_head_digest != intake["opened_journal_head"]):
+                ledger.events(intake["task_id"])[-1].event_digest != intake["opened_journal_head"]):
             raise ProvenanceBridgeError("local task changed or dependencies not resolved")
         request = export_portal_route_request(
             ledger, intake["task_id"], node_id="veraos",
@@ -561,7 +561,7 @@ def accept_local_cognition_fixture(
                     "route_id": "dev:virtio-qwen4b",
                 } or request["requested_effect"] != "NO_PROTECTED_EFFECT"):
             raise ProvenanceBridgeError("no exact no-effect synthetic advisory route")
-        if request["task_journal_head"] != intake["opened_journal_head"]:
+        if ledger.events(intake["task_id"])[-1].event_digest != intake["opened_journal_head"]:
             raise ProvenanceBridgeError("stale task head at route assessment")
         rid = "ui-" + _local_json_digest({
             "task_id": intake["task_id"], "source_digest": intake["source_digest"],
@@ -582,7 +582,7 @@ def accept_local_cognition_fixture(
             "intake": intake, "request_id": rid,
             "route_id": route["route_id"],
             "source_receipt_sha256": source_receipt,
-            "predecessor_journal_head": request["task_journal_head"],
+            "advisory_global_head": request["task_journal_head"],
         }
         seed_json = json.dumps(acceptance_seed, sort_keys=True,
                                separators=(",", ":"), ensure_ascii=False)
@@ -600,12 +600,11 @@ def accept_local_cognition_fixture(
             protected_effects_still_gated=("COGNITION_TURN",),
             next_frontier="no-effect synthetic Pre-Active source fixture",
             lifecycle_evidence_digest=source_receipt,
-            expected_task_head=request["task_journal_head"],
+            expected_task_head=intake["opened_journal_head"],
         )
         event_id = intake["task_id"] + ":CHECKPOINT:" + checkpoint_id
         event = [x for x in ledger.events(intake["task_id"]) if x.event_id == event_id]
-        if (len(event) != 1 or latest.journal_head_digest != event[0].event_digest or
-                ledger.head != event[0].event_digest):
+        if (len(event) != 1 or ledger.events(intake["task_id"])[-1].event_digest != event[0].event_digest):
             raise ProvenanceBridgeError("task checkpoint advanced; no synthetic route")
     except (TaskExecutionError, KeyError, ValueError, TypeError) as exc:
         raise ProvenanceBridgeError("stale local fixture CAS or forged route") from exc
@@ -620,7 +619,7 @@ def accept_local_cognition_fixture(
         "request_id": rid,
         "route_id": route["route_id"],
         "source_receipt_sha256": source_receipt,
-        "predecessor_journal_head": request["task_journal_head"],
+        "predecessor_journal_head": event[0].predecessor_digest,
         "checkpoint_event_id": event_id,
         "checkpoint_journal_head": event[0].event_digest,
         "requested_effect": "NO_PROTECTED_EFFECT",
@@ -674,7 +673,7 @@ def _check_local_acceptance(ledger: Any, intake: dict, acceptance: dict) -> None
             state.opened_lifecycle_evidence_digest != intake["source_digest"] or
             state.packet.packet_digest != intake["task_packet_digest"] or
             state.packet.subject != intake["text"] or
-            state.journal_head_digest != acceptance["checkpoint_journal_head"] or
+            events[-1].event_digest != acceptance["checkpoint_journal_head"] or
             state.latest_checkpoint is None or
             state.latest_checkpoint["lifecycle_evidence_digest"] !=
             acceptance["source_receipt_sha256"] or
@@ -789,7 +788,7 @@ def record_local_cognition_result(
         raise ProvenanceBridgeError("stale task result acceptance CAS denied") from exc
     event_id = intake["task_id"] + ":CHECKPOINT:" + checkpoint_id
     e = [x for x in ledger.events(intake["task_id"]) if x.event_id == event_id]
-    if len(e) != 1 or e[0].event_digest != state.journal_head_digest:
+    if len(e) != 1 or ledger.events(intake["task_id"])[-1].event_digest != e[0].event_digest:
         raise ProvenanceBridgeError("result checkpoint substituted or changed")
     return {
         "schema": "VERAOS_LOCAL_COGNITION_RESULT_OBSERVATION_V1",
@@ -827,7 +826,7 @@ def read_local_cognition_response(
             current.packet.subject != intake["text"] or
             current.opened_lifecycle_evidence_digest != intake["source_digest"] or
             current.packet.packet_digest != intake["task_packet_digest"] or
-            current.journal_head_digest != observation["result_journal_head"] or
+            ledger.events(intake["task_id"])[-1].event_digest != observation["result_journal_head"] or
             current.latest_checkpoint is None or
             current.latest_checkpoint["lifecycle_evidence_digest"] !=
             observation["result_sha256"] or
@@ -924,7 +923,7 @@ def recover_local_cognition_observation(
     seed = one_json(acceptance_event, "local-source-seed-json:")
     if set(seed) != {
         "intake", "request_id", "route_id", "source_receipt_sha256",
-        "predecessor_journal_head",
+        "advisory_global_head",
     }:
         raise ProvenanceBridgeError("recovery seed has unknown keys")
     intake = seed["intake"]
@@ -950,7 +949,7 @@ def recover_local_cognition_observation(
         "task": intake["text"], "request_id": seed["request_id"],
         "route_id": seed["route_id"],
         "source_receipt_sha256": seed["source_receipt_sha256"],
-        "predecessor_journal_head": seed["predecessor_journal_head"],
+        "predecessor_journal_head": acceptance_event.predecessor_digest,
         "checkpoint_event_id": acceptance_event.event_id,
         "checkpoint_journal_head": acceptance_event.event_digest,
         "requested_effect": "NO_PROTECTED_EFFECT",
@@ -974,7 +973,7 @@ def recover_local_cognition_observation(
     digest = _local_json_digest(observed)
     if (result_event.payload.get("lifecycle_evidence_digest") != digest or
             result_event.payload.get("protected_effects_still_gated") != ["COGNITION_TURN"] or
-            result_event.event_digest != state.journal_head_digest):
+            result_event.event_digest != events[-1].event_digest):
         raise ProvenanceBridgeError("result journal and source digest mismatch")
     observation = {
         "schema": "VERAOS_LOCAL_COGNITION_RESULT_OBSERVATION_V1",

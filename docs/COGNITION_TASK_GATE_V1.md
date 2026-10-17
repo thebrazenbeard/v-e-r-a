@@ -301,10 +301,10 @@ event/run/result readback with identity and current-source checks.
 
 ## Canonical Mono task fixture acceptance — journal CAS (source-only)
 
-Actual Vera Mono Draft #76 exact source `0c45349cc5432e1770304b69b793036d69546dcc`,
+Actual Vera Mono Draft #76 exact source `36ae11802808bc1b1392a361716109d1022ee6af`,
 `TaskExecutionLedger.append(expected_head=...)` and
 `checkpoint(expected_head=...)`, Git blob
-`4ea96d08be891e680b8c3208961e6e5677221a1c`,
+`e51982dcc4d53fbe67a53dc4176aecfd8fbccdeb`,
 compare the expected journal head **inside the canonical
 BEGIN IMMEDIATE append transaction**. This is not a second SQLite store,
 admission proxy or route resolver. Stale advice loses the CAS to a
@@ -373,3 +373,6 @@ detects mismatch but does not establish trusted terminal immutability.
 
 
 Task-scoped Mono CAS: checkpoint(expected_task_head=...) performs task head comparison inside the canonical BEGIN IMMEDIATE append transaction. Independent conversation tasks may progress without invalidating an unchanged per-task head. A mutation to that task still fails its CAS; neither advisory nor synthetic fixture implies dispatch authority.
+
+
+Latest Mono per-task CAS and snapshot-qualified verify_chain() separate source-task currentness from the global audit head. PR37 test-only callback still cannot authorize real model dispatch or graphical COMPLETED.

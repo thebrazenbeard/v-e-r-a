@@ -47,7 +47,7 @@ class VeraOSProvenanceBridgeTests(unittest.TestCase):
         cls.intranel = Path(INTRANEL)
         cls.veraos = Path(VERAOS) if VERAOS else None
         expected = (
-            (cls.mono, "0c45349cc5432e1770304b69b793036d69546dcc"),
+            (cls.mono, "36ae11802808bc1b1392a361716109d1022ee6af"),
             (cls.training, "a242df78155ca20b36dbde8cbb7448dad43a5e55"),
             (cls.intranel, "58714f5f6561b5e44e42dcdbca67e2cb59bfb87b"),
         )

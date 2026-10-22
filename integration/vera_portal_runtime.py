@@ -51,7 +51,85 @@ def source_check(root: Path, expected: str, label: str) -> None:
         raise RuntimeError(f"{label} is not at the exact source-bound head")
     if _git(root, "status", "--porcelain", "--untracked-files=no"):
         raise RuntimeError(f"{label} has tracked modifications")
+    # Git HEAD does not cover untracked files or ignored Python import shadows.
+    # The exact source root must not admit extra executable packages, including
+    # ignored ones, from any directory later added to sys.path.
+    import_scopes = {"Vera Mono": ("packages",), "PORTAL": ("portal",)}
+    if label not in import_scopes:
+        raise RuntimeError("unrecognized component import scope")
+    if _git(root, "status", "--porcelain", "--untracked-files=all",
+            "--ignored=matching", "--", *import_scopes[label]):
+        raise RuntimeError(f"{label} import roots contain untracked or ignored files")
 
+
+
+def _guard_preloaded_imports() -> None:
+    """Reject any component module admitted before our source-head checks.
+
+    No attempt to bless a preloaded module merely because it claims a matching
+    __file__: its import-time code may already have run before validation.
+    """
+    prefixes = ("vera_core", "portfolio_runtime", "portal")
+    polluted = sorted(name for name in sys.modules
+                      if any(name == prefix or name.startswith(prefix + ".")
+                             for prefix in prefixes))
+    if polluted:
+        raise RuntimeError("preloaded component imports are not source-bound: "
+                           + ", ".join(polluted[:8]))
+
+
+def _verify_module_origin(module: Any, expected: Path) -> None:
+    """Verify the loaded module really resolves into a bound source checkout."""
+    filename = getattr(module, "__file__", None)
+    if not isinstance(filename, str) or not filename:
+        raise RuntimeError("component module has no verifiable source origin")
+    try:
+        observed = Path(filename).resolve(strict=True)
+        wanted = expected.resolve(strict=True)
+    except (OSError, RuntimeError) as exc:
+        raise RuntimeError("component origin cannot be verified") from exc
+    if observed != wanted:
+        raise RuntimeError("component module origin is outside pinned source: " + str(observed))
+    spec = getattr(module, "__spec__", None)
+    spec_origin = getattr(spec, "origin", None)
+    if not isinstance(spec_origin, str):
+        raise RuntimeError("component module import specification has no origin")
+    try:
+        if Path(spec_origin).resolve(strict=True) != wanted:
+            raise RuntimeError("component module spec origin is outside pinned source")
+    except OSError as exc:
+        raise RuntimeError("component module spec origin cannot be verified") from exc
+
+
+def _verify_import_closure(mono: Path, portal: Path) -> None:
+    """Reject *all* loaded component packages that resolve out of either root.
+
+    Git HEAD and path status pin bytes; this closes import-origin confusion
+    for ordinary source modules but is NOT a hermetic dependency/runtime build.
+    """
+    from pathlib import Path
+    scopes = {
+        "vera_core": (mono / "packages").resolve(strict=True),
+        "portfolio_runtime": (mono / "packages").resolve(strict=True),
+        "portal": (portal / "portal").resolve(strict=True),
+    }
+    for name, module in tuple(sys.modules.items()):
+        for prefix, allowed_root in scopes.items():
+            if name != prefix and not name.startswith(prefix + "."):
+                continue
+            filename = getattr(module, "__file__", None)
+            spec = getattr(module, "__spec__", None)
+            origin = getattr(spec, "origin", None)
+            if not isinstance(filename, str) or not isinstance(origin, str):
+                raise RuntimeError("loaded component origin unavailable: " + name)
+            try:
+                file_path = Path(filename).resolve(strict=True)
+                spec_path = Path(origin).resolve(strict=True)
+            except (OSError, RuntimeError) as exc:
+                raise RuntimeError("loaded component origin unreadable: " + name) from exc
+            if not file_path.is_relative_to(allowed_root) or file_path != spec_path:
+                raise RuntimeError("loaded component origin is outside bound checkout: " + name)
+            break
 
 def components(mono: Path, portal: Path) -> tuple[Any, ...]:
     bindings = load_json(MANIFEST)
@@ -60,6 +138,7 @@ def components(mono: Path, portal: Path) -> tuple[Any, ...]:
     refs = bindings["components"]
     source_check(mono, refs["vera_mono"]["exact_head"], "Vera Mono")
     source_check(portal, refs["portal"]["exact_head"], "PORTAL")
+    _guard_preloaded_imports()
     for path in sorted((mono / "packages").glob("*/src")):
         if path.is_dir():
             sys.path.insert(0, str(path))
@@ -70,6 +149,17 @@ def components(mono: Path, portal: Path) -> tuple[Any, ...]:
     )
     from portal.vera_task_handoff import assess_vera_task_route
     from portal.route_resolver import PortalRouteAdvertisement
+    _verify_import_closure(mono, portal)
+    for module_name, expected_path in (
+        ("vera_core.task_execution", mono / "packages/vera_core/src/vera_core/task_execution.py"),
+        ("vera_core.portal_task_handoff", mono / "packages/vera_core/src/vera_core/portal_task_handoff.py"),
+        ("portal.vera_task_handoff", portal / "portal/vera_task_handoff.py"),
+        ("portal.route_resolver", portal / "portal/route_resolver.py"),
+    ):
+        module = sys.modules.get(module_name)
+        if module is None:
+            raise RuntimeError("expected source module not loaded: " + module_name)
+        _verify_module_origin(module, expected_path)
     return (TaskExecutionLedger, TaskPacket, export_portal_route_request,
             verify_portal_route_assessment, assess_vera_task_route,
             PortalRouteAdvertisement)

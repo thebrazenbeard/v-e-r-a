@@ -1,0 +1,89 @@
+name: cognition-task-source-gate
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-source-contract:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout Integration subject
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: v-e-r-a
+      - name: Checkout exact Vera Mono task ledger
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: thebrazenbeard/vera-mono
+          ref: 36ae11802808bc1b1392a361716109d1022ee6af
+          path: vera-mono
+          persist-credentials: false
+      - name: Checkout exact PORTAL advisory contracts
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: thebrazenbeard/portal
+          ref: 36fa04da4e5eb383fecf463c72a43b94ca47d7e5
+          path: portal
+          persist-credentials: false
+      - name: Checkout exact Training peer contract
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: thebrazenbeard/model-training
+          ref: a242df78155ca20b36dbde8cbb7448dad43a5e55
+          path: model-training
+          persist-credentials: false
+      - name: Checkout exact Pre-Active source kernel for synthetic-only tests
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: thebrazenbeard/pre-active
+          ref: 1f23a809d7274df506e03e2d9052525538c3bcf6
+          path: pre-active
+          persist-credentials: false
+      - name: Checkout exact Intranel L1 receiver
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: thebrazenbeard/intranel
+          ref: 58714f5f6561b5e44e42dcdbca67e2cb59bfb87b
+          path: intranel
+          persist-credentials: false
+      - name: Python 3.12
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Install standalone source-test dependency
+        run: python -m pip install "jsonschema>=4.22,<5" "PyYAML>=6,<7"
+      - name: Exact Git subject readback
+        shell: bash
+        run: |
+          test "$(git -C vera-mono rev-parse HEAD)" = "36ae11802808bc1b1392a361716109d1022ee6af"
+          test "$(git -C vera-mono rev-parse HEAD:packages/vera_core/src/vera_core/task_execution.py)" = "e51982dcc4d53fbe67a53dc4176aecfd8fbccdeb"
+          test "$(git -C portal rev-parse HEAD)" = "36fa04da4e5eb383fecf463c72a43b94ca47d7e5"
+          test "$(git -C model-training rev-parse HEAD)" = "a242df78155ca20b36dbde8cbb7448dad43a5e55"
+          test "$(git -C intranel rev-parse HEAD)" = "58714f5f6561b5e44e42dcdbca67e2cb59bfb87b"
+          test "$(git -C pre-active rev-parse HEAD)" = "1f23a809d7274df506e03e2d9052525538c3bcf6"
+          test "$(git -C pre-active rev-parse HEAD:src/pre_active/store.py)" = "4612d4c621e01ce4ee69ad5702c4ca37fa7e3402"
+          test "$(git -C intranel rev-parse HEAD:src/intranel/four_role_receiver.py)" = "72e88e8d60516ec6655f010f469e936595fe15a6"
+          test "$(git -C model-training rev-parse HEAD:participating_cognition_v1.py)" = "3adf446e166a6574a5f389c074f86ba10a4483d5"
+          test "$(git -C model-training rev-parse HEAD:veraos_development_evidence_v1.py)" = "bde78d71972f26c6e896b621fe1cd467d59e55ee"
+          test "$(git -C model-training rev-parse HEAD:controlled_resident_trial_v1.py)" = "94e2b04063da37e30e7a2c515261d5444a60aa16"
+      - name: Full Integration source and task-journal tests
+        working-directory: v-e-r-a
+        env:
+          VERA_MONO_SOURCE_ROOT: ${{ github.workspace }}/vera-mono
+          VERA_TRAINING_SOURCE_ROOT: ${{ github.workspace }}/model-training
+          PORTAL_SOURCE_ROOT: ${{ github.workspace }}/portal
+          PRE_ACTIVE_SOURCE_ROOT: ${{ github.workspace }}/pre-active
+          INTRANEL_SOURCE_ROOT: ${{ github.workspace }}/intranel
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python -m unittest discover -s tests -v
+      - name: Compile Integration sources
+        working-directory: v-e-r-a
+        run: python -m compileall -q integration tests

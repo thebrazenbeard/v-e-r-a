@@ -102,6 +102,10 @@ class InterfaceTests(unittest.TestCase):
         self.assertEqual(len(LocalModel.requests), 1)
         self.assertNotIn("tools", LocalModel.requests[0])
         self.assertEqual(LocalModel.requests[0]["messages"][-1]["role"], "user")
+        system_note = LocalModel.requests[0]["messages"][0]["content"]
+        self.assertIn("opt-in persistent memory", system_note)
+        self.assertIn("technically possible", system_note)
+        self.assertIn("none are connected here", system_note)
 
     def test_browser_session_and_local_status(self):
         status, _, raw = self.request("/api/session")
@@ -110,7 +114,9 @@ class InterfaceTests(unittest.TestCase):
         session_header = {"X-Vera-Session": self.app.session_token}
         status, _, raw = self.request("/api/status", headers=session_header)
         self.assertEqual(status, 200)
-        self.assertEqual(json.loads(raw)["pre_active"], "not_connected")
+        boundaries = json.loads(raw)
+        for item in ("pre_active", "durable_memory", "live_observations", "external_actions"):
+            self.assertEqual(boundaries[item], "not_connected")
         status, _, raw = self.request("/api/models", headers=session_header)
         self.assertEqual(status, 200)
         self.assertEqual(json.loads(raw)["models"], ["vera-local:latest"])

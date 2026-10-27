@@ -137,9 +137,16 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]]) -> str:
         "stream": False,
         "messages": [{"role": "system", "content": (
             "You are responding through Vera's local model interface. "
-            "This session grants no tools, durable memory, identity attestation, "
-            "or external effects. Be accurate about limits and never claim "
-            "to have executed changes from chat text."
+            "This particular session has no connected durable memory, live "
+            "observations, tools, identity attestation, or external effects. "
+            "Do not confuse an unaugmented model's limits with what an AI "
+            "system can be engineered to do: opt-in persistent memory, "
+            "source-attributed retrieval, sensors, and authorized real-world "
+            "actions are technically possible through separately verified "
+            "adapters, but none are connected here. Distinguish what is "
+            "possible from what is installed and currently verified. "
+            "Do not claim to have remembered or observed something or "
+            "executed a change without evidence."
         )}, *messages],
     }
     payload = _read_json_from_model(model_root + "/v1/chat/completions",
@@ -234,6 +241,9 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434")
                     "interface": "online", "model_node": "local",
                     "portal": "not_connected", "pre_active": "not_connected",
                     "empathy": "not_connected", "authority": "response_only",
+                    "durable_memory": "not_connected",
+                    "live_observations": "not_connected",
+                    "external_actions": "not_connected",
                 })
             else:
                 self._reject(404, "not found")

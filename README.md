@@ -2,6 +2,33 @@
 
 **The virtual environment for reciprocal agency.**
 
+## Vera's own local interface (response-only V1)
+
+`main` now includes an independently runnable local chat-and-status interface in
+[`interface/`](interface/), without changing the 44 component mirrors or taking
+over their runtime responsibilities. Python 3.10+ is sufficient; there is no
+frontend build system or package install. With Ollama already running locally:
+
+```sh
+python -m interface --port 8765 --ollama-url http://127.0.0.1:11434
+```
+
+Open `http://127.0.0.1:8765/` **on that same machine**. The backend reads the
+actual installed Ollama model list and sends response-only chat to the selected
+model. It never grants tools or invokes PORTAL, Pre-Active, Empathy, Volition,
+or a remote device. Conversation text is held in the current browser tab, not
+stored by the interface. The local model service has its own logging policy.
+
+Security boundaries: loopback-only listener and model target, strict Host and
+Origin checks, fresh per-launch session token, limited request/response size,
+socket-operation timeout and one in-flight inference. Displayed model text is never
+interpreted as HTML. The panel says **not connected** for privileged systems
+because their installation or source availability is not interface admission.
+
+See [interface architecture and qualification](docs/VERA_INTERFACE_V1.md).
+Run `python -m unittest discover -s tests -v` to test the interface and source
+materializer together. A passed unit test is not a Lappy installation claim.
+
 This public repository is the source collection and integration workspace for Vera's constituent systems. Its original repositories remain authoritative.
 
 **The source collection is populated.** All **44 named component branches are populated**: **38 exact Git-tree mirrors**, **5 security-sanitized GitHub source snapshots**, and **1 source-definition snapshot of the live Vera Supabase project**. No named branch remains at the original placeholder commit. Exact versus non-exact status is recorded in the source registry and each branch's provenance. `main` contains the registry, workspace assembly tool, and regression tests needed to use them together.

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Vera · Local Interface</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <aside class="rail" aria-label="Vera systems">
+      <div class="mark" aria-label="Vera">V<span>·</span></div>
+      <div class="rail-spacer"></div>
+      <div class="rail-node" title="This interface does not have action authority">◎</div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <div class="brand"><span class="overline">VIRTUAL ENVIRONMENT FOR RECIPROCAL AGENCY</span>
+          <h1>Vera <span class="muted">/ Interface</span></h1></div>
+        <div class="live-indicator"><span class="pulse"></span><span id="connection">Checking local model</span></div>
+      </header>
+      <div class="content">
+        <main class="main">
+          <div class="intro" id="intro">
+            <div class="eyebrow">LOCAL INTELLIGENCE · RESPONSE MODE</div>
+            <h2>One place to<br><em>think things through.</em></h2>
+            <p>A first interface for Vera, connected to models on this device. No hidden tools, no automatic actions, no assumed memories.</p>
+            <div class="prompt-grid" aria-label="Suggested prompts">
+              <button class="suggestion" data-prompt="Help me reason through a difficult engineering decision."><span>01 / ANALYZE</span>Think through a decision <b>↗</b></button>
+              <button class="suggestion" data-prompt="Challenge the assumptions in my current plan."><span>02 / CHALLENGE</span>Find the weak assumptions <b>↗</b></button>
+              <button class="suggestion" data-prompt="Let's explore a new idea together."><span>03 / EXPLORE</span>Explore an idea <b>↗</b></button>
+            </div>
+          </div>
+          <div class="transcript" id="transcript" role="log" aria-live="polite" aria-label="Conversation"></div>
+          <div class="composer-wrap">
+            <div class="composer-head"><span>NEW MESSAGE</span><span class="scope">● RESPONSE ONLY</span></div>
+            <form id="chat-form" class="composer">
+              <label for="prompt" class="sr-only">Message Vera</label>
+              <textarea id="prompt" rows="2" maxlength="4000" placeholder="What are we thinking about?" required></textarea>
+              <div class="composer-controls"><span>Enter to send · Shift+Enter for a new line</span>
+                <button id="send" type="submit" aria-label="Send message">Send <span>↑</span></button></div>
+            </form>
+            <p class="footnote">Conversation stays in this browser tab. The selected model service may apply its own logging policy.</p>
+          </div>
+        </main>
+        <aside class="panel" aria-label="System connections">
+          <div class="panel-heading"><span>SYSTEM / STATUS</span><button id="refresh" class="refresh" type="button">↻ Refresh</button></div>
+          <section class="system-card">
+            <div class="card-title">INFERENCE NODE <span class="tag">LOCAL</span></div>
+            <label class="field-label" for="model">Active model</label>
+            <select id="model" aria-label="Local model"><option value="">Discovering installed models…</option></select>
+            <p id="model-detail">Only installed models on this device appear here.</p>
+          </section>
+          <section class="system-card boundaries">
+            <div class="card-title">RUNTIME BOUNDARIES</div>
+            <div class="boundary"><span>Model chat</span><strong class="good">Response only</strong></div>
+            <div class="boundary"><span>Portal</span><strong>Not connected</strong></div>
+            <div class="boundary"><span>Pre-Active</span><strong>Not connected</strong></div>
+            <div class="boundary"><span>Empathy</span><strong>Not connected</strong></div>
+            <p>These are interface connections, not assertions about installed services. Source collection and runtime operation are separate.</p>
+          </section>
+          <section class="system-card notice"><span class="notice-icon">◇</span><div><div class="card-title">CONTROLLED BY DESIGN</div>
+            <p>No scheduling, file access, execution, or external effects are exposed to chat. Future action adapters require explicit admission and verified receipts.</p></div></section>
+          <button class="new-chat" id="clear" type="button">＋ New conversation</button>
+          <div class="panel-footer">V-E-R-A / LOCAL CONSOLE <span>01</span></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

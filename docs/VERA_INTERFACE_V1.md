@@ -35,6 +35,33 @@ person identity. Do not bind the server to a non-loopback address or expose it
 via a public reverse proxy. Model-serving logs remain outside this app's
 privacy guarantee. UI conversation exists in current tab memory only.
 
+## Memory and real-world scope are integration capabilities, not impossibilities
+
+An unaugmented model does not independently retain chat history or acquire
+external observations. This is a limitation of the current execution contract,
+**not** proof that persistent memory, observation, or authorized action cannot
+be engineered into the surrounding system. An earlier local-model response
+incorrectly described these as categorically impossible. The gateway now
+distinguishes *not connected in this session* from *technically impossible*.
+
+Minimum admission requirements before adding an adapter:
+
+1. **Memory:** explicit opt-in capture, source and timestamp, confidence and
+   possible contradiction, scoped retrieval, retention/deletion controls,
+   authenticated ownership, and a separate audit trail. Do not silently
+   remember every utterance or treat recalled text as truth.
+2. **Observation:** named device/source, timestamp and freshness, operator
+   permission, typed data contract, and read-time failure status. A model's
+   inference is not a verified sensor measurement.
+3. **Action:** narrowly granted capability, human or established authority,
+   confirmation for protected effects, actual execution receipt, and later
+   reconciliation. Proposals and language about action are not action.
+
+In this v1, all three status fields are `not_connected` and none of the
+adapter permissions exist. The immediate future seam is provenance-tagged,
+read-only retrieval from a qualified memory provider; persistent writes and
+external effects must be qualified separately.
+
 ## Intended architecture across nodes (not deployed by V1)
 
 1. A dedicated trusted host authenticates the operator and conversation; it

@@ -13,6 +13,7 @@ from pathlib import Path
 import secrets
 import sqlite3
 from threading import BoundedSemaphore
+import time
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
@@ -27,6 +28,9 @@ MAX_MODEL_BYTES = 1024 * 1024
 MAX_MODELS_BYTES = 256 * 1024
 CHAT_TIMEOUT_SECONDS = 90
 MODELS_TIMEOUT_SECONDS = 6
+CLIENT_READ_TIMEOUT_SECONDS = 8
+CLIENT_BODY_DEADLINE_SECONDS = 12
+MAX_REQUEST_THREADS = 16
 _ASSETS = {
     "/": ("index.html", "text/html; charset=utf-8"),
     "/app.js": ("app.js", "text/javascript; charset=utf-8"),
@@ -42,6 +46,26 @@ class GatewayError(Exception):
 class _NoRedirect(HTTPRedirectHandler):
     def redirect_request(self, *args, **kwargs):
         raise GatewayError("model endpoint redirect refused")
+
+
+class _BoundedHTTPServer(ThreadingHTTPServer):
+    """Reject excess local connections instead of starting unlimited threads."""
+
+    def process_request(self, request, client_address):
+        if not self.request_slots.acquire(blocking=False):
+            self.shutdown_request(request)
+            return
+        try:
+            super().process_request(request, client_address)
+        except BaseException:
+            self.request_slots.release()
+            raise
+
+    def process_request_thread(self, request, client_address):
+        try:
+            super().process_request_thread(request, client_address)
+        finally:
+            self.request_slots.release()
 
 
 # Never send private chat prompts through environment-configured HTTP proxies.
@@ -270,6 +294,10 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
     class Handler(BaseHTTPRequestHandler):
         server_version = "VeraLocalInterface/1"
 
+        def setup(self):
+            super().setup()
+            self.connection.settimeout(self.server.read_timeout_seconds)
+
         def log_message(self, *_args):
             # Never accidentally log prompts or session tokens.
             pass
@@ -305,11 +333,36 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
 
         def _send(self, code: int, payload: dict):
             raw = json.dumps(payload, ensure_ascii=False).encode("utf-8")
-            self._headers(code, "application/json; charset=utf-8", len(raw))
-            self.wfile.write(raw)
+            try:
+                self._headers(code, "application/json; charset=utf-8", len(raw))
+                self.wfile.write(raw)
+            except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                # A local client can disconnect while a bounded error is sent.
+                self.close_connection = True
 
         def _reject(self, code: int, message: str):
             self._send(code, {"error": message})
+
+        def _read_bounded_body(self, length: int) -> bytes:
+            """Require whole request body before a wall-clock deadline.
+
+            A socket timeout alone only limits inactivity: a byte-by-byte
+            client could otherwise hold a handler indefinitely.
+            """
+            deadline = time.monotonic() + self.server.body_deadline_seconds
+            remaining = length
+            chunks = []
+            while remaining:
+                budget = deadline - time.monotonic()
+                if budget <= 0:
+                    raise TimeoutError("body deadline exceeded")
+                self.connection.settimeout(min(self.server.read_timeout_seconds, budget))
+                piece = self.rfile.read1(min(remaining, 4096))
+                if not piece:
+                    raise ValueError("incomplete body")
+                chunks.append(piece)
+                remaining -= len(piece)
+            return b"".join(chunks)
 
         def do_GET(self):
             if not self._host_ok():
@@ -321,7 +374,10 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                 filename, mime = _ASSETS[path.path]
                 raw = (STATIC / filename).read_bytes()
                 self._headers(200, mime, len(raw))
-                self.wfile.write(raw)
+                try:
+                    self.wfile.write(raw)
+                except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                    self.close_connection = True
             elif path.path == "/api/session":
                 self._send(200, {"token": self.server.session_token, "mode": "response_only"})
             elif path.path == "/api/models":
@@ -393,7 +449,7 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                 return self._reject(413, "request exceeds limit")
             if self.path == "/api/transcript":
                 try:
-                    payload = _decode_json(self.rfile.read(length))
+                    payload = _decode_json(self._read_bounded_body(length))
                     if type(payload) is not dict or set(payload) != {"messages", "expected_revision"}:
                         raise ValueError("expected revision required")
                     entries = _valid_history({"messages": payload["messages"]})
@@ -403,13 +459,16 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                         entries, payload["expected_revision"]))
                 except TranscriptConflict:
                     self._reject(409, "vault changed; reload before retrying")
+                except TimeoutError:
+                    self.close_connection = True
+                    self._reject(408, "request body timed out")
                 except (UnicodeError, ValueError):
                     self._reject(400, "invalid transcript request")
                 except (OSError, sqlite3.Error):
                     self._reject(503, "local transcript unavailable")
                 return
             try:
-                payload = _decode_json(self.rfile.read(length))
+                payload = _decode_json(self._read_bounded_body(length))
                 recall = (type(payload) is dict
                           and set(payload) == {"model", "messages", "recall_saved"}
                           and payload["recall_saved"] is True)
@@ -418,6 +477,9 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                 normalized = ({"model": payload["model"], "messages": payload["messages"]}
                               if recall else payload)
                 model, messages = _valid_chat(normalized)
+            except TimeoutError:
+                self.close_connection = True
+                return self._reject(408, "request body timed out")
             except (UnicodeError, ValueError):
                 return self._reject(400, "invalid chat request")
             if not self.server.model_slots.acquire(blocking=False):
@@ -472,8 +534,11 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
         def do_OPTIONS(self):
             self._reject(403, "cross-origin interface access disabled")
 
-    server = ThreadingHTTPServer(("127.0.0.1", port), Handler)
+    server = _BoundedHTTPServer(("127.0.0.1", port), Handler)
     server.daemon_threads = True
+    server.request_slots = BoundedSemaphore(MAX_REQUEST_THREADS)
+    server.read_timeout_seconds = CLIENT_READ_TIMEOUT_SECONDS
+    server.body_deadline_seconds = CLIENT_BODY_DEADLINE_SECONDS
     server.session_token = secrets.token_urlsafe(32)
     server.model_root = model_root
     server.model_slots = BoundedSemaphore(1)

@@ -231,6 +231,15 @@ input messages to 12/16,000 characters, and uses a 90-second socket timeout
 is no generation cancellation/streaming API in V1; those require separately
 verified client abort and backend cleanup semantics.
 
+The loopback server permits at most 16 simultaneous HTTP request threads and
+sets an 8-second inbound socket inactivity timeout plus a 12-second absolute
+deadline for reading a POST body. Connections above the cap are closed without
+spawning worker threads; an authenticated client that stalls or slowly drips
+its declared POST body receives HTTP 408. Header parsing still relies on the
+socket inactivity timeout, so a sufficiently slow header stream may occupy one
+of the 16 slots; these bounds reduce but do not eliminate local denial-of-service
+risk and do not authenticate other local OS processes.
+
 ## Rollback
 
 Stop the `python -m interface` process. No daemon, scheduler, saved prompts,

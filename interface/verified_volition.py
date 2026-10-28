@@ -17,6 +17,7 @@ import os
 from pathlib import Path
 import sqlite3
 import stat
+import sys
 from threading import Lock
 from typing import Any
 
@@ -208,33 +209,82 @@ def _read_private(path: Path, *, max_bytes: int) -> bytes:
     return raw
 
 
-def _runtime_fingerprint() -> tuple[type, str]:
-    """Import real Volition restoration; pin package source files as a set."""
+def _source_fingerprint() -> tuple[Path, str]:
+    """Hash a Volition source installation without importing executable code.
+
+    `find_spec("volition.operational_drive")` is not safe for this preflight:
+    Python may execute the parent package initializer while resolving it.
+    Only plain filesystem packages on the import path are supported here.
+    """
     try:
-        mod = importlib.import_module("volition.operational_drive")
-        eng = importlib.import_module("volition.engine")
-        model = getattr(mod, "OperationalMotivation")
-        if not isinstance(model, type) or not callable(model.from_snapshot):
-            raise AttributeError("Volition operational restore unavailable")
-        root = Path(mod.__file__).resolve(strict=True).parent
-        if root != Path(eng.__file__).resolve(strict=True).parent:
-            raise GoalViewError("Volition modules are from different source roots")
+        root = None
+        for entry in sys.path:
+            try:
+                base = Path(entry or os.getcwd()).resolve(strict=True)
+            except (OSError, ValueError):
+                continue
+            candidate = base / "volition"
+            if candidate.is_symlink():
+                raise GoalViewError("Volition source directory symlinked")
+            if all((candidate / leaf).is_file() for leaf in
+                   ("__init__.py", "operational_drive.py", "engine.py")):
+                root = candidate.resolve(strict=True)
+                break
+        if root is None:
+            raise GoalViewError("pinned Volition source installation unavailable")
+        if any(path.is_symlink() for path in root.rglob("*")):
+            raise GoalViewError("Volition source contains symlinks")
         paths = sorted(root.rglob("*.py"))
-        if not paths or any(path.is_symlink() for path in paths):
-            raise GoalViewError("Volition source file missing or symlinked")
+        if not paths:
+            raise GoalViewError("Volition source file missing")
         digests = [(path.relative_to(root).as_posix(), hashlib.sha256(path.read_bytes()).hexdigest())
                    for path in paths]
-        return model, hashlib.sha256(_canonical({
+        return root, hashlib.sha256(_canonical({
             "source_root_package": "volition",
             "source_files_sha256": digests,
         })).hexdigest()
+    except (OSError, ValueError, TypeError) as exc:
+        raise GoalViewError("pinned Volition restoration is unavailable") from exc
+
+
+def _runtime_fingerprint(expected_runtime_sha256: str) -> tuple[type, str]:
+    """Reject source-pin mismatches *before* importing optional Volition code.
+
+    Source hashing does not attest in-memory Python code or a privileged host's
+    installation trust. A separate host-controlled installation boundary is
+    required before this adapter can carry privileged effects.
+    """
+    root, digest = _source_fingerprint()
+    if not hmac.compare_digest(digest, expected_runtime_sha256):
+        raise GoalViewError("pinned Volition module revision mismatch")
+    for name, leaf in (("volition", "__init__.py"),
+                       ("volition.operational_drive", "operational_drive.py"),
+                       ("volition.engine", "engine.py")):
+        loaded = sys.modules.get(name)
+        if loaded is not None:
+            try:
+                path = Path(loaded.__file__).resolve(strict=True)
+                if path != root / leaf:
+                    raise GoalViewError("preloaded Volition module source mismatch")
+            except (AttributeError, OSError, TypeError) as exc:
+                raise GoalViewError("preloaded Volition module cannot be verified") from exc
+    try:
+        mod = importlib.import_module("volition.operational_drive")
+        eng = importlib.import_module("volition.engine")
+        if (Path(mod.__file__).resolve(strict=True) != root / "operational_drive.py"
+                or Path(eng.__file__).resolve(strict=True) != root / "engine.py"):
+            raise GoalViewError("Volition modules are from different source roots")
+        model = getattr(mod, "OperationalMotivation")
+        if not isinstance(model, type) or not callable(model.from_snapshot):
+            raise AttributeError("Volition operational restore unavailable")
+        return model, digest
     except (ImportError, AttributeError, OSError, TypeError) as exc:
         raise GoalViewError("pinned Volition restoration is unavailable") from exc
 
 
 def fingerprint_installed_volition() -> str:
     """Read-only installer aid; the operator must pin the resulting digest."""
-    return _runtime_fingerprint()[1]
+    return _source_fingerprint()[1]
 
 
 def seal_host_state(*, snapshot: dict[str, Any], owner_id: str,
@@ -321,7 +371,7 @@ class VerifiedVolitionGoalProvider:
             raise GoalViewError("invalid signed host time") from exc
         if captured - now > MAX_FUTURE_SKEW or now - captured > MAX_CURRENT_AGE:
             raise GoalViewError("signed host state is stale")
-        restorer, runtime_sha = _runtime_fingerprint()
+        restorer, runtime_sha = _runtime_fingerprint(self._runtime_sha)
         if runtime_sha != self._runtime_sha:
             raise GoalViewError("unexpected Volition module revision")
         try:

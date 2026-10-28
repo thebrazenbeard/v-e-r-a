@@ -36,9 +36,25 @@ def _windows_private_dacl(path: Path, *, directory: bool = False,
         sid_text = win32security.ConvertSidToStringSid
         current_sid = sid_text(current)
         trusted_owners = {current_sid, "S-1-5-18", "S-1-5-32-544"}
-        if sid_text(owner) not in trusted_owners:
+        # Windows can assign its system-volume root to TrustedInstaller.  Its
+        # service SID is a fixed, documented operating-system principal; this
+        # exception applies to that *exact* SID on a local drive root only,
+        # never to an arbitrary service SID or a lower directory/file.  The
+        # DACL is still checked for all foreign replacement/write rights.
+        trustedinstaller_sid = (
+            "S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464"
+        )
+        local_volume_root = (directory and ancestor and path.is_absolute()
+                             and len(path.drive) == 2 and path.drive[1] == ":"
+                             and path == type(path)(path.anchor))
+        owner_sid = sid_text(owner)
+        trusted_owner = owner_sid in trusted_owners or (
+            local_volume_root and owner_sid == trustedinstaller_sid)
+        if not trusted_owner:
             raise ValueError("Windows vault path is owned by another identity")
-        allowed = trusted_owners | {"S-1-3-0"}
+        # OWNER RIGHTS (S-1-3-4) is the rights-bearing SID for this object's
+        # already-checked owner.  It is not an additional foreign identity.
+        allowed = trusted_owners | {"S-1-3-0", "S-1-3-4"}
         has_trusted_allow = False
         # The immediate parent must not permit another identity to create,
         # delete, or replace entries in the vault's directory. For higher

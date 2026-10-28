@@ -47,10 +47,113 @@ def _ident(value: object) -> bool:
             and all(33 <= ord(c) <= 126 for c in value))
 
 
+def _windows_private_handle(path: Path, *, directory: bool = False, read: bool = False):
+    """Open one NTFS object without following a terminal reparse point.
+
+    The returned handle owns an exclusive file share or a directory share that
+    refuses deletion; callers close it. We inspect the DACL *on that handle*,
+    not a pathname that could be replaced between inspection and the read.
+    """
+    try:
+        import win32api
+        import win32con
+        import win32file
+        import win32security
+    except ImportError as exc:
+        raise GoalViewError("Windows source/key ACL inspection requires pywin32") from exc
+    handle = None
+    try:
+        path = path.absolute()
+        if ".." in path.parts or path.drive.startswith("\\\\"):
+            raise GoalViewError("Windows host evidence path must be local and normalized")
+        if win32file.GetDriveType(path.anchor) != win32file.DRIVE_FIXED:
+            raise GoalViewError("Windows host evidence must use a local fixed volume")
+        # A protected leaf is not sufficient if a grandparent can delete and
+        # replace its whole directory. Reuse the vault's ancestor custody rule,
+        # which distinguishes traversal rights from DELETE_CHILD/ACL mutation.
+        from .vault_acl import _windows_verify_directory_chain
+        try:
+            _windows_verify_directory_chain(path.parent, label="Volition host evidence")
+        except ValueError as exc:
+            raise GoalViewError("Windows host evidence ancestor custody refused") from exc
+        share = (win32con.FILE_SHARE_READ | win32con.FILE_SHARE_WRITE) if directory else 0
+        access = win32con.READ_CONTROL | win32con.FILE_READ_ATTRIBUTES
+        if read:
+            access |= win32con.FILE_READ_DATA
+        flags = win32con.FILE_FLAG_OPEN_REPARSE_POINT
+        if directory:
+            flags |= win32con.FILE_FLAG_BACKUP_SEMANTICS
+        handle = win32file.CreateFile(str(path), access, share, None,
+                                      win32con.OPEN_EXISTING, flags, None)
+        attrs = win32file.GetFileInformationByHandle(handle)[0]
+        if (attrs & win32con.FILE_ATTRIBUTE_REPARSE_POINT
+                or bool(attrs & win32con.FILE_ATTRIBUTE_DIRECTORY) != directory):
+            raise GoalViewError("Windows host evidence must be a non-reparse file or directory")
+        sd = win32security.GetSecurityInfo(handle, win32security.SE_FILE_OBJECT,
+                win32security.OWNER_SECURITY_INFORMATION |
+                win32security.DACL_SECURITY_INFORMATION)
+        owner, dacl = sd.GetSecurityDescriptorOwner(), sd.GetSecurityDescriptorDacl()
+        current = win32security.GetTokenInformation(
+            win32security.OpenProcessToken(win32api.GetCurrentProcess(), win32con.TOKEN_QUERY),
+            win32security.TokenUser)[0]
+        if owner is None or dacl is None or current is None:
+            raise GoalViewError("Windows host evidence has no trustworthy owner/DACL")
+        sid = win32security.ConvertSidToStringSid
+        trusted = {sid(current), "S-1-5-18", "S-1-5-32-544"}
+        if sid(owner) not in trusted:
+            raise GoalViewError("Windows host evidence owner is untrusted")
+        # ACEs for Everyone, Authenticated Users, Users, etc. are *never*
+        # trusted here, even when their effective rights look read-only.
+        # This directory contains both an HMAC-protected record and the durable
+        # high-water mark; no other principal may view or mutate either object.
+        accepted = trusted | {"S-1-3-0"}  # CREATOR_OWNER; owner checked above
+        has_allow = False
+        for index in range(dacl.GetAceCount()):
+            ace = dacl.GetAce(index)
+            if ace[0][0] == win32security.ACCESS_DENIED_ACE_TYPE:
+                continue
+            if ace[0][0] != win32security.ACCESS_ALLOWED_ACE_TYPE:
+                raise GoalViewError("Windows host evidence has unsupported ACE type")
+            if sid(ace[2]) not in accepted:
+                raise GoalViewError("Windows host evidence ACL grants another identity")
+            has_allow = True
+        if not has_allow:
+            raise GoalViewError("Windows host evidence has no trusted allow ACE")
+        return handle
+    except GoalViewError:
+        if handle is not None:
+            win32file.CloseHandle(handle)
+        raise
+    except Exception as exc:
+        if handle is not None:
+            win32file.CloseHandle(handle)
+        raise GoalViewError("Windows source/key ACL verification failed closed") from exc
+
+
 def _private_regular(path: Path, *, allow_missing: bool = False) -> Path:
-    """Refuse ambiguous and shared POSIX custody; Windows ACLs are not qualified."""
+    """Refuse ambiguous/shared ownership on both supported host platforms."""
     if os.name == "nt":
-        raise GoalViewError("Windows source/key ACL verification not implemented; refuse host adapter")
+        supplied = path.expanduser()
+        parent_handle = _windows_private_handle(supplied.parent, directory=True)
+        try:
+            # exists() follows links, so a dangling symlink could otherwise
+            # look like an unoccupied ledger pathname during first creation.
+            if supplied.is_symlink() or (hasattr(supplied, "is_junction")
+                                         and supplied.is_junction()):
+                raise GoalViewError("Windows host evidence symlink/reparse refused")
+            if not supplied.exists():
+                if not allow_missing:
+                    raise GoalViewError("missing host evidence")
+                return supplied
+            handle = _windows_private_handle(supplied)
+            try:
+                return supplied
+            finally:
+                import win32file
+                win32file.CloseHandle(handle)
+        finally:
+            import win32file
+            win32file.CloseHandle(parent_handle)
     if path.is_symlink():
         raise GoalViewError("host evidence symlink refused")
     resolved = path.resolve(strict=not allow_missing)
@@ -70,6 +173,22 @@ def _private_regular(path: Path, *, allow_missing: bool = False) -> Path:
 
 def _read_private(path: Path, *, max_bytes: int) -> bytes:
     """Open once with NOFOLLOW and fstat, never read through a raced path."""
+    if os.name == "nt":
+        parent_handle = _windows_private_handle(path.parent, directory=True)
+        try:
+            handle = _windows_private_handle(path, read=True)
+            try:
+                import win32file
+                _status, raw = win32file.ReadFile(handle, max_bytes + 1)
+                if not 0 < len(raw) <= max_bytes:
+                    raise GoalViewError("host evidence file exceeds budget")
+                return bytes(raw)
+            finally:
+                import win32file
+                win32file.CloseHandle(handle)
+        finally:
+            import win32file
+            win32file.CloseHandle(parent_handle)
     _private_regular(path)
     flags = os.O_RDONLY | getattr(os, "O_CLOEXEC", 0) | getattr(os, "O_NOFOLLOW", 0)
     try:

@@ -18,6 +18,7 @@ import sqlite3
 from threading import Lock
 
 from .vault_acl import require_private_regular_file, require_protected_parent_directory
+from .rollback_anchor import RollbackAnchor
 
 
 _ENCRYPTED_PREFIX = "v1.aes256gcm."
@@ -29,7 +30,8 @@ class TranscriptConflict(Exception):
 
 
 class TranscriptStore:
-    def __init__(self, path: str | Path, secret: str):
+    def __init__(self, path: str | Path, secret: str,
+                 rollback_anchor_path: str | Path | None = None):
         if (type(secret) is not str or len(secret) < 32 or len(secret) > 256
                 or not secret.isascii() or not secret.isprintable()):
             raise ValueError("transcript encryption key must be 32..256 printable ASCII characters")
@@ -46,7 +48,13 @@ class TranscriptStore:
         require_protected_parent_directory(supplied, label="transcript DB")
         if self.path.exists() and not self.path.is_file():
             raise ValueError("transcript DB must be regular file")
-        if not self.path.exists():
+        # Validate the separate witness's custody and path policy before
+        # creating the database. An invalid anchor must not strand an empty
+        # SQLite file that the next explicit attempt cannot initialize.
+        self._rollback_anchor = (RollbackAnchor(rollback_anchor_path, self.path)
+                                 if rollback_anchor_path is not None else None)
+        created_now = not self.path.exists()
+        if created_now:
             flags = os.O_CREAT | os.O_EXCL | os.O_RDWR
             if hasattr(os, "O_NOFOLLOW"):
                 flags |= os.O_NOFOLLOW
@@ -74,6 +82,18 @@ class TranscriptStore:
                        "slot INTEGER PRIMARY KEY CHECK(slot=1), "
                        "version INTEGER NOT NULL, salt BLOB NOT NULL, "
                        "key_check TEXT NOT NULL)")
+            db.execute("CREATE TABLE IF NOT EXISTS vault_anchor_policy ("
+                       "slot INTEGER PRIMARY KEY CHECK(slot=1), "
+                       "required INTEGER NOT NULL CHECK(required=1))")
+            policy = db.execute("SELECT required FROM vault_anchor_policy WHERE slot=1").fetchone()
+            if policy is not None and policy != (1,):
+                raise ValueError("invalid vault rollback-witness requirement")
+            if policy is not None and self._rollback_anchor is None:
+                raise ValueError("vault requires its configured rollback witness")
+            if self._rollback_anchor is not None and policy is None:
+                if not created_now:
+                    raise ValueError("existing vault requires reviewed migration before rollback witness")
+                db.execute("INSERT INTO vault_anchor_policy (slot,required) VALUES (1,1)")
             # Do not migrate old plaintext data implicitly or silently delete it.
             existing = db.execute("SELECT body FROM transcript WHERE slot=1").fetchone()
             if existing and (type(existing[0]) is not str
@@ -89,6 +109,8 @@ class TranscriptStore:
                 raise ValueError("invalid transcript encryption metadata")
             material = hashlib.scrypt(secret.encode("ascii"), salt=salt,
                                       n=2 ** 14, r=8, p=1, dklen=32)
+            if self._rollback_anchor is not None:
+                self._rollback_anchor.bind_scrypt_material(material)
             key_check = hmac.new(material, b"vera.local-transcript.key-check.v1",
                                  hashlib.sha256).hexdigest()
             if crypto is None:
@@ -97,6 +119,14 @@ class TranscriptStore:
             elif not hmac.compare_digest(key_check, crypto[2]):
                 raise ValueError("transcript encryption key authentication failed")
             self._cipher = AESGCM(material)
+            if self._rollback_anchor is not None:
+                # A rolled-back encrypted row must be denied by its external
+                # witness *before* decrypting the old transcript into memory.
+                fingerprint = self._fingerprint(db)
+                if created_now:
+                    self._rollback_anchor.initialize(fingerprint)
+                else:
+                    self._rollback_anchor.verify(self._revision(db), fingerprint)
             if existing:
                 # A wrong key must not quietly open a vault that later appears
                 # empty or corrupt. Authenticate active data before serving.
@@ -144,6 +174,29 @@ class TranscriptStore:
         return db.execute("SELECT revision FROM vault_revision WHERE slot=1").fetchone()[0]
 
     @staticmethod
+    def _fingerprint(db) -> str:
+        """Bind the independent witness to this DB's actual encrypted row."""
+        crypto = db.execute("SELECT version,salt,key_check FROM vault_crypto WHERE slot=1").fetchone()
+        row = db.execute("SELECT body,sha256,saved_at FROM transcript WHERE slot=1").fetchone()
+        payload = {"revision": TranscriptStore._revision(db),
+                   "version": crypto[0], "salt": crypto[1].hex(),
+                   "key_check": crypto[2], "row": row,
+                   "anchor_required": db.execute("SELECT required FROM vault_anchor_policy "
+                                                 "WHERE slot=1").fetchone()}
+        return hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(",", ":"),
+                                         ensure_ascii=True).encode("ascii")).hexdigest()
+
+    def _verify_anchor(self, db) -> None:
+        if self._rollback_anchor is not None:
+            self._rollback_anchor.verify(self._revision(db), self._fingerprint(db))
+
+    def _advance_anchor(self, db, revision: int) -> None:
+        if self._rollback_anchor is not None:
+            # A witness written ahead of SQLite commits can deny an interrupted
+            # operation, but cannot silently allow an old DB snapshot to return.
+            self._rollback_anchor.advance(revision, self._fingerprint(db))
+
+    @staticmethod
     def _check_revision(db, expected_revision):
         if type(expected_revision) is not int or not 0 <= expected_revision <= 9223372036854775806:
             raise ValueError("invalid expected vault revision")
@@ -160,6 +213,7 @@ class TranscriptStore:
         # could be used for offline dictionary guesses about short messages.
         with self._lock, closing(self._connect()) as db, db:
             db.execute("BEGIN IMMEDIATE")
+            self._verify_anchor(db)
             revision = self._check_revision(db, expected_revision)
             wrapped = self._encrypt(raw.encode("utf-8"), revision)
             digest = hashlib.sha256(wrapped.encode("ascii")).hexdigest()
@@ -169,6 +223,7 @@ class TranscriptStore:
             db.execute("UPDATE vault_revision SET revision=? WHERE slot=1", (revision,))
             db.execute("INSERT INTO audit (action, occurred_at) VALUES "
                        "('operator_save',strftime('%Y-%m-%dT%H:%M:%fZ','now'))")
+            self._advance_anchor(db, revision)
         return {"sha256": digest, "status": "saved", "revision": revision}
 
     def read(self) -> dict:
@@ -176,6 +231,7 @@ class TranscriptStore:
             db.execute("BEGIN")
             revision = self._revision(db)
             row = db.execute("SELECT body,sha256,saved_at FROM transcript WHERE slot=1").fetchone()
+            self._verify_anchor(db)
         if row is None:
             return {"status": "empty", "messages": [], "revision": revision}
         body, digest, saved_at = row
@@ -189,11 +245,13 @@ class TranscriptStore:
     def delete(self, expected_revision: int) -> dict:
         with self._lock, closing(self._connect()) as db, db:
             db.execute("BEGIN IMMEDIATE")
+            self._verify_anchor(db)
             revision = self._check_revision(db, expected_revision)
             db.execute("DELETE FROM transcript WHERE slot=1")
             db.execute("UPDATE vault_revision SET revision=? WHERE slot=1", (revision,))
             db.execute("INSERT INTO audit (action, occurred_at) VALUES "
                        "('operator_delete',strftime('%Y-%m-%dT%H:%M:%fZ','now'))")
+            self._advance_anchor(db, revision)
         # This removes the active row. SQLite freelists, journals/WAL, snapshots,
         # filesystem history, and backups may still retain bytes. NOT secure erase.
         return {"status": "removed_from_active_vault", "forensic_erasure": False,

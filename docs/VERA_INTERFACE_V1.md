@@ -182,6 +182,38 @@ forensic erasure, protection against a compromised running account, or
 proof of true operator identity.** Rolling back the entire SQLite database
 to an earlier valid snapshot also remains possible without an external
 monotonic audit anchor; revisional AAD only stops partial ciphertext replay.
+An **optional, limited external rollback witness** may be enabled with
+`--memory-rollback-anchor /separate/private/highwater.json` alongside the vault
+arguments. The witness is an owner-private, HMAC-authenticated revision and
+ciphertext fingerprint file in a **different protected directory** from the
+SQLite database. Its MAC key is domain-separated from the vault's existing
+per-database salted scrypt output; it **does not** create a fast HMAC oracle
+from the raw operator credential. It advances before database commit, and a restored database
+with a stale revision or different ciphertext then fails closed on startup,
+read, save, and delete. The path must belong to a separate trusted backup
+boundary: keep it out of the vault's automatic sync, snapshot, and restore
+jobs. If enabling the witness for an existing vault, an operator must perform
+a separately reviewed fresh-vault migration; the software intentionally refuses
+to invent a witness for existing data. Newly anchored databases persist a
+`vault_anchor_policy` requirement: restarting the same database without the
+witness argument is refused, instead of silently disabling rollback checking.
+This marker is in SQLite and **is not itself tamper-resistant**; rolling back
+the whole database to a pre-marker image is outside the guarantee.
+Loss or tampering of the witness also
+refuses the vault, not silently resets its revision. A crash between updating
+the witness and committing the SQLite transaction may leave the vault locked;
+recover only after investigating authoritative backups and keys, not by lowering
+the witness to match an older database.
+
+**Crucial limit:** this protects against *database-only* rollback, not a
+whole-device/whole-backup restore, malicious action under the operator identity,
+reinstallation with both an old database and old witness, or reintroduction of
+an old decryption secret. Windows witness filesystem durability and ACL
+behavior have not been qualified on Lappy. The feature is not a hardware
+monotonic counter, key-shredding service, forensic erasure, or a claim that
+deleted ciphertext cannot be recovered from historical copies. The included
+regressions intentionally demonstrate both database-only refusal **and**
+whole-pair rollback recovery of old text.
 Vault mutations use an incrementing SQLite revision, checked inside each
 transaction. The browser serializes vault operations per tab; concurrent tabs
 or delayed requests with an outdated revision receive HTTP `409` and must

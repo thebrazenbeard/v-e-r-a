@@ -14,7 +14,7 @@ import tempfile
 import unittest
 
 from interface.local_transcript import TranscriptStore
-from interface.vault_acl import require_private_regular_file
+from interface.vault_acl import require_private_regular_file, require_protected_parent_directory
 
 
 @contextmanager
@@ -49,6 +49,41 @@ def _windows_private_directory():
 
 @unittest.skipUnless(os.name == "nt", "native Windows DACL qualification")
 class NativeWindowsEncryptedVaultTests(unittest.TestCase):
+    def test_leaf_symlink_cannot_impersonate_a_private_file(self):
+        with _windows_private_directory() as private:
+            target = private / "actual.sqlite3"
+            target.write_bytes(b"synthetic-test-content")
+            alias = private / "alias.sqlite3"
+            try:
+                alias.symlink_to(target)
+            except (OSError, NotImplementedError) as exc:
+                self.skipTest(f"Windows runner cannot create test symlink: {exc}")
+            with self.assertRaisesRegex(ValueError, "symlink|reparse point refused"):
+                require_private_regular_file(alias, label="vault")
+
+    def test_shared_delete_child_on_grandparent_blocks_private_vault(self):
+        import win32security
+
+        with _windows_private_directory() as private:
+            private_child = private / "child"
+            private_child.mkdir()
+            security = win32security.GetFileSecurity(str(private),
+                win32security.DACL_SECURITY_INFORMATION)
+            dacl = security.GetSecurityDescriptorDacl()
+            world = win32security.ConvertStringSidToSid("S-1-1-0")
+            # FILE_DELETE_CHILD on the grandparent can replace a private
+            # child even when that child's own DACL is owner-only.
+            dacl.AddAccessAllowedAceEx(win32security.ACL_REVISION, 0, 0x40, world)
+            win32security.SetNamedSecurityInfo(str(private),
+                win32security.SE_FILE_OBJECT,
+                win32security.DACL_SECURITY_INFORMATION |
+                win32security.PROTECTED_DACL_SECURITY_INFORMATION,
+                None, None, dacl, None)
+
+            with self.assertRaisesRegex(ValueError, "grants access"):
+                require_protected_parent_directory(private_child / "vault.sqlite3",
+                                                   label="vault")
+
     def test_encrypted_save_restart_delete_under_private_inherited_dacl(self):
         marker = "PRIVATE-NATIVE-WINDOWS-VAULT-MARKER-873492"
         key = "test-native-win-vault-secret-0123456789"

@@ -238,6 +238,7 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                 goal_access_token: str | None = None,
                 memory_db_path: str | Path | None = None,
                 memory_secret: str | None = None,
+                memory_rollback_anchor_path: str | Path | None = None,
                 acknowledge_plaintext_vault_risk: bool = False) -> ThreadingHTTPServer:
     """Create the restricted server without launching services or models."""
     if type(port) is not int or not 0 <= port <= 65535:
@@ -253,6 +254,8 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
         raise ValueError("invalid private goal-view capability configuration")
     if (memory_db_path is None) != (memory_secret is None):
         raise ValueError("opt-in transcript DB and secret must be configured together")
+    if memory_rollback_anchor_path is not None and memory_db_path is None:
+        raise ValueError("rollback anchor requires an explicitly configured vault")
     # Kept for launch-call compatibility, but no flag may relax at-rest
     # encryption or file custody checks. It is a deprecated no-op.
     if memory_secret is not None and (
@@ -260,7 +263,8 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
             or len(memory_secret) > 256 or not memory_secret.isascii()
             or not memory_secret.isprintable()):
         raise ValueError("transcript secret must be 32..256 printable ASCII characters")
-    memory = (TranscriptStore(memory_db_path, memory_secret)
+    memory = (TranscriptStore(memory_db_path, memory_secret,
+                              rollback_anchor_path=memory_rollback_anchor_path)
               if memory_db_path is not None else None)
 
     class Handler(BaseHTTPRequestHandler):

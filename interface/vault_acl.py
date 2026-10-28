@@ -12,7 +12,10 @@ from pathlib import Path
 import stat
 
 
-def _windows_private_dacl(path: Path, *, directory: bool = False) -> None:
+def _windows_private_dacl(path: Path, *, directory: bool = False,
+                          ancestor: bool = False) -> None:
+    if ancestor and not directory:
+        raise ValueError("Windows vault ancestor must be a directory")
     try:
         import win32api
         import win32con
@@ -37,14 +40,25 @@ def _windows_private_dacl(path: Path, *, directory: bool = False) -> None:
             raise ValueError("Windows vault path is owned by another identity")
         allowed = trusted_owners | {"S-1-3-0"}
         has_trusted_allow = False
-        # A directory can allow other identities to list/traverse, but never
-        # to replace this vault's files, rename them, or rewrite its ACL.
-        directory_write_mask = (0x40000000 | 0x10000000 | 0x02000000 |
-                                0x00010000 | 0x00040000 | 0x00080000 |
-                                0x00000002 | 0x00000004 | 0x00000010 |
-                                0x00000040 | 0x00000100)
+        # The immediate parent must not permit another identity to create,
+        # delete, or replace entries in the vault's directory. For higher
+        # ancestors, merely creating a sibling subdirectory (0x00000004)
+        # does not allow replacing the existing protected child. Mutation of
+        # the ancestor itself (including setting a reparse point) or deleting
+        # its protected child remains forbidden.
+        ancestor_mutation_mask = (0x40000000 | 0x10000000 | 0x02000000 |
+                                  0x00010000 | 0x00040000 | 0x00080000 |
+                                  0x00000002 | 0x00000010 | 0x00000040 |
+                                  0x00000100)
+        immediate_parent_mask = ancestor_mutation_mask | 0x00000004
+        directory_write_mask = (ancestor_mutation_mask if ancestor else
+                                immediate_parent_mask)
         for idx in range(dacl.GetAceCount()):
             ace = dacl.GetAce(idx)
+            # INHERIT_ONLY_ACE applies to descendants, not this object. The
+            # descendant is checked separately as the chain is traversed.
+            if ace[0][1] & 0x08:
+                continue
             ace_type = ace[0][0]
             if ace_type == win32security.ACCESS_DENIED_ACE_TYPE:
                 continue
@@ -64,12 +78,56 @@ def _windows_private_dacl(path: Path, *, directory: bool = False) -> None:
         raise ValueError("Windows vault ACL verification failed closed") from exc
 
 
+def _windows_is_reparse(path: Path) -> bool:
+    """Inspect the native file attributes; symlink/junction checks alone miss tags."""
+    try:
+        import win32api
+        import win32con
+    except ImportError as exc:
+        raise ValueError("Windows vault reparse inspection requires pywin32") from exc
+    try:
+        return bool(win32api.GetFileAttributes(str(path)) &
+                    win32con.FILE_ATTRIBUTE_REPARSE_POINT)
+    except Exception as exc:
+        raise ValueError("Windows vault reparse inspection failed closed") from exc
+
+
+def _windows_reject_reparse(path: Path, *, label: str) -> None:
+    if _windows_is_reparse(path):
+        raise ValueError(f"{label} reparse point refused")
+
+
+def _windows_verify_directory_chain(parent: Path, *, label: str) -> None:
+    """Guard every ancestor against hostile replacement of a protected child.
+
+    Checking only the immediate parent is insufficient on Windows: a principal
+    with DELETE_CHILD or ACL-write rights on a grandparent may replace the
+    *entire* protected directory. Stop at the filesystem anchor, including it.
+    """
+    current = parent
+    immediate = True
+    while True:
+        if current.is_symlink() or _windows_is_reparse(current):
+            raise ValueError(f"{label} ancestor reparse point refused")
+        _windows_private_dacl(current, directory=True, ancestor=not immediate)
+        immediate = False
+        ancestor = current.parent
+        if ancestor == current:
+            break
+        current = ancestor
+
+
 def require_private_regular_file(path: str | Path, *, label: str) -> Path:
     """Require a regular, non-symlink owner-private file; never change its ACL."""
     supplied = Path(path).expanduser()
     require_protected_parent_directory(supplied, label=label)
     if supplied.is_symlink():
         raise ValueError(f"{label} symlink refused")
+    if os.name == "nt":
+        # Native attributes cover junctions and other reparse tags that are
+        # not necessarily reported by Path.is_symlink(). Check the supplied
+        # name before resolving it and the resulting file before trusting it.
+        _windows_reject_reparse(supplied, label=label)
     try:
         resolved = supplied.resolve(strict=True)
         mode = resolved.stat().st_mode
@@ -78,6 +136,7 @@ def require_private_regular_file(path: str | Path, *, label: str) -> Path:
     if not stat.S_ISREG(mode):
         raise ValueError(f"{label} must be regular file")
     if os.name == "nt":
+        _windows_reject_reparse(resolved, label=label)
         _windows_private_dacl(resolved)
     else:
         if mode & 0o077:
@@ -101,6 +160,11 @@ def require_protected_parent_directory(path: str | Path, *, label: str) -> None:
     if not stat.S_ISDIR(mode):
         raise ValueError(f"{label} parent must be a directory")
     if os.name == "nt":
-        _windows_private_dacl(resolved, directory=True)
+        # Check the operator-supplied path (including ancestor reparse points)
+        # as well as the resolved path. A writable grandparent can otherwise
+        # replace the private directory after its immediate DACL was checked.
+        _windows_verify_directory_chain(parent, label=label)
+        if resolved != parent:
+            _windows_verify_directory_chain(resolved, label=label)
     elif mode & 0o022:
         raise ValueError(f"{label} parent must not be group/world writable")

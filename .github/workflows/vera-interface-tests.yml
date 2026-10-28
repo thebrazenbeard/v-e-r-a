@@ -50,6 +50,11 @@ jobs:
           tests.test_windows_vault_store_real
           tests.test_vault_acl_windows_emulated
           -q
+      - name: Windows real Volition source and ledger custody contracts
+        if: runner.os == 'Windows'
+        env:
+          PYTHONPATH: ${{ github.workspace }}/volition-src/src
+        run: python -m unittest tests.test_verified_volition_windows -q
       - name: Windows platform-independent goal provenance contracts
         if: runner.os == 'Windows'
         run: >-

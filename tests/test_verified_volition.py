@@ -20,6 +20,7 @@ from urllib.request import Request, urlopen
 from interface.goal_view import GoalViewError
 from interface.server import make_server
 from interface.verified_volition import (VerifiedVolitionGoalProvider,
+                                        _windows_private_handle,
                                         fingerprint_installed_volition,
                                         seal_host_state)
 
@@ -120,11 +121,12 @@ class VerifiedVolitionTests(unittest.TestCase):
             self._provider()
 
     def test_windows_acl_unavailable_and_symlink_not_trusted(self):
-        # These checks intentionally block a Lappy rollout without a qualified
-        # native Windows ACL implementation and host-managed secret custody.
-        with patch("interface.verified_volition.os.name", "nt"):
+        # Native Windows custody needs pywin32; a missing ACL reader must be
+        # rejected rather than using POSIX modes or trusting the pathname.
+        with patch.dict("sys.modules", {"win32api": None, "win32con": None,
+                                       "win32file": None, "win32security": None}):
             with self.assertRaisesRegex(GoalViewError, "Windows source/key ACL"):
-                self._provider()
+                _windows_private_handle(self.path)
         self.path.unlink()
         self.path.symlink_to(self.ledger)
         with self.assertRaisesRegex(GoalViewError, "symlink"):

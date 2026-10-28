@@ -13,10 +13,11 @@ from threading import BoundedSemaphore
 import time
 import unittest
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from unittest.mock import patch
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
-from interface.server import _model_root, make_server
+from interface.server import GatewayError, _model_root, _read_json_from_model, make_server
 from interface.local_transcript import TranscriptConflict, TranscriptStore
 from tests.windows_acl_fixture import private_test_temporary_directory
 
@@ -123,6 +124,205 @@ class InterfaceTests(unittest.TestCase):
         self.assertIn("technically possible", system_note)
         self.assertIn("none are connected here", system_note)
 
+    def test_model_response_trickle_cannot_extend_absolute_deadline(self):
+        class TrickleModel(BaseHTTPRequestHandler):
+            def log_message(self, *_args):
+                pass
+
+            def do_GET(self):
+                body = b'{"models":[]}' + b" " * 40
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                for byte in body:
+                    try:
+                        self.wfile.write(bytes((byte,)))
+                        self.wfile.flush()
+                    except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                        return
+                    time.sleep(0.02)
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), TrickleModel)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        self.addCleanup(server.server_close)
+        self.addCleanup(server.shutdown)
+        start = time.monotonic()
+        with self.assertRaises(TimeoutError):
+            _read_json_from_model(f"http://127.0.0.1:{server.server_port}/api/tags",
+                                  limit=1024, timeout=0.15)
+        self.assertLess(time.monotonic() - start, 0.65)
+
+    def test_model_response_header_trickle_cannot_extend_absolute_deadline(self):
+        class TrickleHeaders(BaseHTTPRequestHandler):
+            def log_message(self, *_args):
+                pass
+
+            def do_GET(self):
+                self.wfile.write(b"HTTP/1.1 200 OK\r\nX-Trickle: ")
+                self.wfile.flush()
+                for _ in range(80):
+                    try:
+                        self.wfile.write(b"a")
+                        self.wfile.flush()
+                    except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                        return
+                    time.sleep(0.02)
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), TrickleHeaders)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        self.addCleanup(server.server_close)
+        self.addCleanup(server.shutdown)
+        start = time.monotonic()
+        with self.assertRaises(TimeoutError):
+            _read_json_from_model(f"http://127.0.0.1:{server.server_port}/api/tags",
+                                  limit=1024, timeout=0.15)
+        self.assertLess(time.monotonic() - start, 0.65)
+
+    def test_model_response_without_bounded_socket_fails_closed(self):
+        class UnsupportedResponse:
+            fp = object()
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *_args):
+                pass
+
+            def read1(self, _size):
+                raise AssertionError("unbounded response read must not be attempted")
+
+        with patch("interface.server._LOCAL_OPENER.open", return_value=UnsupportedResponse()):
+            with self.assertRaisesRegex(GatewayError, "response socket unavailable"):
+                _read_json_from_model("http://127.0.0.1:12345/api/tags", limit=1024, timeout=1)
+
+    def test_truncated_model_content_length_is_rejected(self):
+        class TruncatedModel(BaseHTTPRequestHandler):
+            def log_message(self, *_args):
+                pass
+
+            def do_GET(self):
+                body = b'{"models":[]}'
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.send_header("Content-Length", str(len(body) + 10))
+                self.end_headers()
+                self.wfile.write(body)
+                self.wfile.flush()
+                self.close_connection = True
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), TruncatedModel)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        self.addCleanup(server.server_close)
+        self.addCleanup(server.shutdown)
+        with self.assertRaisesRegex(GatewayError, "truncated model response"):
+            _read_json_from_model(f"http://127.0.0.1:{server.server_port}/api/tags",
+                                  limit=1024, timeout=1)
+
+    def test_giant_decimal_model_content_length_fails_with_json_error(self):
+        class GiantLengthModel(BaseHTTPRequestHandler):
+            def log_message(self, *_args):
+                pass
+
+            def do_GET(self):
+                self.send_response(200)
+                self.send_header("Content-Length", "9" * 5000)
+                self.end_headers()
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), GiantLengthModel)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        self.addCleanup(server.server_close)
+        self.addCleanup(server.shutdown)
+        model_url = f"http://127.0.0.1:{server.server_port}"
+        with self.assertRaisesRegex(GatewayError, "invalid model response length"):
+            _read_json_from_model(model_url + "/api/tags", limit=1024, timeout=1)
+        self.app.model_root = model_url
+        status, _, raw = self.request("/api/models", headers={
+            "X-Vera-Session": self.app.session_token,
+        })
+        self.assertEqual(status, 503)
+        self.assertEqual(json.loads(raw)["models"], [])
+
+    def test_deep_json_is_rejected_for_client_and_model(self):
+        nested_json = b"[" * 1500 + b"0" + b"]" * 1500
+        client_request = Request(self.base + "/api/chat", data=nested_json, method="POST",
+                                 headers={"Content-Type": "application/json",
+                                          "Origin": self.base,
+                                          "X-Vera-Session": self.app.session_token})
+        with self.assertRaises(HTTPError) as caught:
+            urlopen(client_request, timeout=5)
+        self.assertEqual(caught.exception.code, 400)
+        self.assertEqual(LocalModel.requests, [])
+
+        class DeepModel(BaseHTTPRequestHandler):
+            def log_message(self, *_args):
+                pass
+
+            def do_GET(self):
+                self.send_response(200)
+                self.send_header("Content-Length", str(len(nested_json)))
+                self.end_headers()
+                self.wfile.write(nested_json)
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), DeepModel)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        self.addCleanup(server.server_close)
+        self.addCleanup(server.shutdown)
+        self.app.model_root = f"http://127.0.0.1:{server.server_port}"
+        status, _, raw = self.request("/api/models", headers={
+            "X-Vera-Session": self.app.session_token,
+        })
+        self.assertEqual(status, 503)
+        self.assertEqual(json.loads(raw)["models"], [])
+
+    def test_valid_model_json_with_whitespace_in_supported_framings(self):
+        def model_handler(framing):
+            class FramedModel(BaseHTTPRequestHandler):
+                def log_message(self, *_args):
+                    pass
+
+                def do_GET(self):
+                    body = b'{"models":[]} \n'
+                    if framing == "continue":
+                        self.wfile.write(b"HTTP/1.1 100 Continue\r\n\r\n")
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/json")
+                    if framing in ("length", "continue"):
+                        self.send_header("Content-Length", str(len(body)))
+                    elif framing == "chunked":
+                        self.send_header("Transfer-Encoding", "chunked")
+                    else:
+                        self.send_header("Connection", "close")
+                    self.end_headers()
+                    if framing == "chunked":
+                        for chunk in (body[:7], body[7:]):
+                            self.wfile.write(f"{len(chunk):X}\r\n".encode("ascii"))
+                            self.wfile.write(chunk + b"\r\n")
+                        self.wfile.write(b"0\r\n\r\n")
+                    else:
+                        self.wfile.write(body)
+                        self.close_connection = True
+                    self.wfile.flush()
+
+            return FramedModel
+
+        for framing in ("length", "chunked", "close", "continue"):
+            with self.subTest(framing=framing):
+                server = ThreadingHTTPServer(("127.0.0.1", 0), model_handler(framing))
+                thread = threading.Thread(target=server.serve_forever, daemon=True)
+                thread.start()
+                try:
+                    result = _read_json_from_model(
+                        f"http://127.0.0.1:{server.server_port}/api/tags",
+                        limit=1024, timeout=1,
+                    )
+                    self.assertEqual(result, {"models": []})
+                finally:
+                    server.shutdown()
+                    server.server_close()
+
     def test_browser_session_and_local_status(self):
         status, _, raw = self.request("/api/session")
         self.assertEqual(status, 200)
@@ -184,6 +384,38 @@ class InterfaceTests(unittest.TestCase):
             except (ConnectionResetError, ConnectionAbortedError):
                 pass
         self.assertEqual(self.chat()[0], 200)
+
+    def test_slow_drip_request_headers_release_all_worker_slots(self):
+        self.app.read_timeout_seconds = 1
+        self.app.header_deadline_seconds = 0.25
+        self.app.request_slots = BoundedSemaphore(2)
+        clients = []
+        try:
+            for _ in range(2):
+                client = socket.create_connection(("127.0.0.1", self.app.server_port), timeout=2)
+                client.settimeout(2)
+                clients.append(client)
+                client.sendall(b"GET / HTTP/1.1\r\nX-Drip: ")
+            until = time.monotonic() + 2
+            while self.app.request_slots._value and time.monotonic() < until:
+                time.sleep(0.01)
+            self.assertEqual(self.app.request_slots._value, 0)
+            start = time.monotonic()
+            while time.monotonic() - start < 0.4:
+                for client in clients:
+                    try:
+                        client.sendall(b"a")
+                    except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                        pass
+                time.sleep(0.025)
+            until = time.monotonic() + 1
+            while self.app.request_slots._value < 2 and time.monotonic() < until:
+                time.sleep(0.01)
+            self.assertEqual(self.app.request_slots._value, 2)
+            self.assertEqual(self.request("/api/session")[0], 200)
+        finally:
+            for client in clients:
+                client.close()
 
     def test_request_thread_limit_recovers_after_stalled_clients_exit(self):
         self.app.request_slots = BoundedSemaphore(2)
@@ -440,7 +672,9 @@ class InterfaceTests(unittest.TestCase):
             first = start()
             try:
                 base_chat = {"model": "vera-local:latest", "messages": current}
-                self.assertEqual(request(first, "/api/chat", base_chat)[1]["reply"], "UNKNOWN")
+                status, reply = request(first, "/api/chat", base_chat)
+                self.assertEqual(status, 200, reply)
+                self.assertEqual(reply["reply"], "UNKNOWN")
                 self.assertEqual(request(first, "/api/transcript", {
                     "messages": saved, "expected_revision": 0})[1]["revision"], 1)
             finally:
@@ -475,7 +709,9 @@ class InterfaceTests(unittest.TestCase):
                 before = len(LocalModel.requests)
                 self.assertEqual(request(second, "/api/chat", recall_chat, recall=True)[0], 409)
                 self.assertEqual(len(LocalModel.requests), before)
-                self.assertEqual(request(second, "/api/chat", base_chat)[1]["reply"], "UNKNOWN")
+                status, reply = request(second, "/api/chat", base_chat)
+                self.assertEqual(status, 200, reply)
+                self.assertEqual(reply["reply"], "UNKNOWN")
             finally:
                 second.shutdown()
                 second.server_close()

@@ -7,6 +7,8 @@ remote-node capability. Those require authenticated adapters and receipts.
 from __future__ import annotations
 
 import hmac
+from functools import partial
+from http.client import HTTPConnection, HTTPResponse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 from pathlib import Path
@@ -16,7 +18,7 @@ from threading import BoundedSemaphore
 import time
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
-from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
+from urllib.request import HTTPHandler, HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
 from .local_transcript import TranscriptConflict, TranscriptStore
 from .verified_volition import VerifiedVolitionGoalProvider
@@ -30,6 +32,8 @@ CHAT_TIMEOUT_SECONDS = 90
 MODELS_TIMEOUT_SECONDS = 6
 CLIENT_READ_TIMEOUT_SECONDS = 8
 CLIENT_BODY_DEADLINE_SECONDS = 12
+CLIENT_HEADER_DEADLINE_SECONDS = 12
+MAX_HEADER_BYTES = 16 * 1024
 MAX_REQUEST_THREADS = 16
 _ASSETS = {
     "/": ("index.html", "text/html; charset=utf-8"),
@@ -46,6 +50,92 @@ class GatewayError(Exception):
 class _NoRedirect(HTTPRedirectHandler):
     def redirect_request(self, *args, **kwargs):
         raise GatewayError("model endpoint redirect refused")
+
+
+class _DeadlineHeaderReader:
+    """Read HTTP header lines with an actual wall-clock deadline.
+
+    Socket timeouts only bound each individual recv. In particular, a peer
+    sending one byte per timeout can keep BufferedReader.readline() alive
+    indefinitely. Read exactly one byte at a time so a body already buffered
+    by Python's reader remains available to the ordinary body parser.
+    """
+
+    def __init__(self, reader, sock, deadline: float, idle_timeout: float):
+        self.reader = reader
+        self.sock = sock
+        self.deadline = deadline
+        self.idle_timeout = idle_timeout
+        self.count = 0
+
+    def readline(self, limit: int = -1) -> bytes:
+        line = bytearray()
+        while limit < 0 or len(line) < limit:
+            budget = self.deadline - time.monotonic()
+            if budget <= 0:
+                raise TimeoutError("HTTP header deadline exceeded")
+            self.sock.settimeout(min(self.idle_timeout, budget))
+            byte = self.reader.read1(1)
+            if not byte:
+                break
+            line.extend(byte)
+            self.count += len(byte)
+            if self.count > MAX_HEADER_BYTES:
+                raise TimeoutError("HTTP header byte budget exceeded")
+            if byte == b"\n":
+                break
+        return bytes(line)
+
+    def __getattr__(self, name):
+        return getattr(self.reader, name)
+
+
+class _DeadlineHTTPResponse(HTTPResponse):
+    """Bound urllib's status line and header parsing, not just body reads."""
+
+    def __init__(self, sock, *args, deadline: float, idle_timeout: float, **kwargs):
+        super().__init__(sock, *args, **kwargs)
+        self._header_socket = sock
+        self._header_deadline = deadline
+        self._header_idle_timeout = idle_timeout
+
+    def begin(self):
+        if self.headers is not None:
+            return
+        reader = self.fp
+        self.fp = _DeadlineHeaderReader(reader, self._header_socket,
+                                        self._header_deadline, self._header_idle_timeout)
+        try:
+            super().begin()
+        finally:
+            self.fp = reader
+
+
+class _DeadlineHTTPConnection(HTTPConnection):
+    def __init__(self, *args, deadline: float, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._deadline = deadline
+        self._idle_timeout = self.timeout
+        self.response_class = partial(_DeadlineHTTPResponse, deadline=deadline,
+                                      idle_timeout=self._idle_timeout)
+
+    def send(self, data):
+        budget = self._deadline - time.monotonic()
+        if budget <= 0:
+            raise TimeoutError("local model request deadline exceeded")
+        if self.sock is None:
+            self.timeout = min(self._idle_timeout, budget)
+        else:
+            self.sock.settimeout(min(self._idle_timeout, budget))
+        return super().send(data)
+
+
+class _DeadlineHTTPHandler(HTTPHandler):
+    def http_open(self, req):
+        deadline = getattr(req, "_vera_deadline", None)
+        if deadline is None:
+            raise GatewayError("model request deadline unavailable")
+        return self.do_open(partial(_DeadlineHTTPConnection, deadline=deadline), req)
 
 
 class _BoundedHTTPServer(ThreadingHTTPServer):
@@ -69,7 +159,7 @@ class _BoundedHTTPServer(ThreadingHTTPServer):
 
 
 # Never send private chat prompts through environment-configured HTTP proxies.
-_LOCAL_OPENER = build_opener(ProxyHandler({}), _NoRedirect())
+_LOCAL_OPENER = build_opener(ProxyHandler({}), _NoRedirect(), _DeadlineHTTPHandler())
 
 
 def _reject_duplicate_keys(pairs):
@@ -82,8 +172,13 @@ def _reject_duplicate_keys(pairs):
 
 
 def _decode_json(raw):
-    return json.loads(raw.decode("utf-8"), object_pairs_hook=_reject_duplicate_keys,
-                      parse_constant=lambda _: (_ for _ in ()).throw(ValueError("nonfinite JSON")))
+    try:
+        return json.loads(raw.decode("utf-8"), object_pairs_hook=_reject_duplicate_keys,
+                          parse_constant=lambda _: (_ for _ in ()).throw(ValueError("nonfinite JSON")))
+    except RecursionError as exc:
+        # A small byte budget still permits thousands of nested arrays. Keep
+        # parser-depth exhaustion inside the ordinary malformed-JSON boundary.
+        raise ValueError("JSON nesting exceeds limit") from exc
 
 
 def _model_root(url: str) -> str:
@@ -105,8 +200,54 @@ def _read_json_from_model(url: str, *, payload: dict | None = None,
     raw_body = None if payload is None else json.dumps(payload, ensure_ascii=False).encode("utf-8")
     req = Request(url, data=raw_body, headers={"Content-Type": "application/json"}
                   if raw_body is not None else {}, method="POST" if raw_body else "GET")
+    deadline = time.monotonic() + timeout
+    req._vera_deadline = deadline
     with _LOCAL_OPENER.open(req, timeout=timeout) as response:
-        raw = response.read(limit + 1)
+        # Validate the bounded local HTTP socket before interpreting framing.
+        # Unsupported response implementations must fail closed.
+        sock = getattr(getattr(getattr(response, "fp", None), "raw", None), "_sock", None)
+        if response.fp is not None and sock is None:
+            raise GatewayError("model response socket unavailable")
+        declared_lengths = response.headers.get_all("Content-Length", [])
+        if len(declared_lengths) > 1:
+            raise GatewayError("ambiguous model response length")
+        declared_length = None
+        if declared_lengths:
+            value = declared_lengths[0].strip()
+            # A giant digit-only field can raise ValueError in Python's int()
+            # safety limit, outside a GET handler's model-error catch. Every
+            # response is small, so there is no reason to accept huge lengths.
+            if len(value) > 20 or not value.isascii() or not value.isdecimal():
+                raise GatewayError("invalid model response length")
+            declared_length = int(value)
+            if declared_length > limit:
+                raise GatewayError("model response exceeded limit")
+        if declared_length is not None and response.headers.get("Transfer-Encoding"):
+            raise GatewayError("ambiguous model response framing")
+        chunks = []
+        remaining = limit + 1
+        while remaining:
+            if response.fp is None:
+                break
+            budget = deadline - time.monotonic()
+            if budget <= 0:
+                raise TimeoutError("local model response deadline exceeded")
+            # urlopen's timeout is per socket operation. A model that drips
+            # bytes can otherwise hold the worker indefinitely. HTTPResponse
+            # read1 returns available data without filling the requested size.
+            # This adapter accepts only local HTTP; fail closed if a Python
+            # response implementation does not expose its socket timeout.
+            sock.settimeout(budget)
+            chunk = response.read1(min(remaining, 4096))
+            if time.monotonic() >= deadline:
+                raise TimeoutError("local model response deadline exceeded")
+            if not chunk:
+                break
+            chunks.append(chunk)
+            remaining -= len(chunk)
+        raw = b"".join(chunks)
+        if declared_length is not None and len(raw) != declared_length:
+            raise GatewayError("truncated model response")
     if len(raw) > limit:
         raise GatewayError("model response exceeded limit")
     try:
@@ -301,6 +442,21 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
         def setup(self):
             super().setup()
             self.connection.settimeout(self.server.read_timeout_seconds)
+
+        def handle_one_request(self):
+            # BaseHTTPRequestHandler reads the request line and all headers
+            # before dispatching do_GET/do_POST. Cover that phase as well as
+            # the separately bounded request body, including header trickles.
+            original_reader = self.rfile
+            self.rfile = _DeadlineHeaderReader(
+                original_reader, self.connection,
+                time.monotonic() + self.server.header_deadline_seconds,
+                self.server.read_timeout_seconds)
+            try:
+                super().handle_one_request()
+            finally:
+                self.rfile = original_reader
+                self.connection.settimeout(self.server.read_timeout_seconds)
 
         def log_message(self, *_args):
             # Never accidentally log prompts or session tokens.
@@ -542,6 +698,7 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
     server.daemon_threads = True
     server.request_slots = BoundedSemaphore(MAX_REQUEST_THREADS)
     server.read_timeout_seconds = CLIENT_READ_TIMEOUT_SECONDS
+    server.header_deadline_seconds = CLIENT_HEADER_DEADLINE_SECONDS
     server.body_deadline_seconds = CLIENT_BODY_DEADLINE_SECONDS
     server.session_token = secrets.token_urlsafe(32)
     server.model_root = model_root

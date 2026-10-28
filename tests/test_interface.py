@@ -116,6 +116,7 @@ class InterfaceTests(unittest.TestCase):
         self.assertEqual(body["mode"], "response_only")
         self.assertEqual(len(LocalModel.requests), 1)
         self.assertNotIn("tools", LocalModel.requests[0])
+        self.assertEqual(LocalModel.requests[0]["max_tokens"], 512)
         self.assertEqual(LocalModel.requests[0]["messages"][-1]["role"], "user")
         system_note = LocalModel.requests[0]["messages"][0]["content"]
         self.assertIn("opt-in persistent memory", system_note)

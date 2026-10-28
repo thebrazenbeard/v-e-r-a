@@ -217,6 +217,10 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]],
     request = {
         "model": model,
         "stream": False,
+        # A small local CPU/GPU can otherwise spend the entire HTTP deadline
+        # generating an unbounded reply. Ollama's OpenAI-compatible endpoint
+        # accepts this response-token cap; it grants no additional authority.
+        "max_tokens": 512,
         "messages": [{"role": "system", "content": (
             "You are responding through Vera's local model interface. "
             "This particular session has no live "

@@ -154,6 +154,32 @@ class InterfaceTests(unittest.TestCase):
                                   limit=1024, timeout=0.15)
         self.assertLess(time.monotonic() - start, 0.65)
 
+    def test_model_response_header_trickle_cannot_extend_absolute_deadline(self):
+        class TrickleHeaders(BaseHTTPRequestHandler):
+            def log_message(self, *_args):
+                pass
+
+            def do_GET(self):
+                self.wfile.write(b"HTTP/1.1 200 OK\r\nX-Trickle: ")
+                self.wfile.flush()
+                for _ in range(80):
+                    try:
+                        self.wfile.write(b"a")
+                        self.wfile.flush()
+                    except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                        return
+                    time.sleep(0.02)
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), TrickleHeaders)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        self.addCleanup(server.server_close)
+        self.addCleanup(server.shutdown)
+        start = time.monotonic()
+        with self.assertRaises(TimeoutError):
+            _read_json_from_model(f"http://127.0.0.1:{server.server_port}/api/tags",
+                                  limit=1024, timeout=0.15)
+        self.assertLess(time.monotonic() - start, 0.65)
+
     def test_model_response_without_bounded_socket_fails_closed(self):
         class UnsupportedResponse:
             fp = object()
@@ -195,6 +221,62 @@ class InterfaceTests(unittest.TestCase):
             _read_json_from_model(f"http://127.0.0.1:{server.server_port}/api/tags",
                                   limit=1024, timeout=1)
 
+    def test_giant_decimal_model_content_length_fails_with_json_error(self):
+        class GiantLengthModel(BaseHTTPRequestHandler):
+            def log_message(self, *_args):
+                pass
+
+            def do_GET(self):
+                self.send_response(200)
+                self.send_header("Content-Length", "9" * 5000)
+                self.end_headers()
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), GiantLengthModel)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        self.addCleanup(server.server_close)
+        self.addCleanup(server.shutdown)
+        model_url = f"http://127.0.0.1:{server.server_port}"
+        with self.assertRaisesRegex(GatewayError, "invalid model response length"):
+            _read_json_from_model(model_url + "/api/tags", limit=1024, timeout=1)
+        self.app.model_root = model_url
+        status, _, raw = self.request("/api/models", headers={
+            "X-Vera-Session": self.app.session_token,
+        })
+        self.assertEqual(status, 503)
+        self.assertEqual(json.loads(raw)["models"], [])
+
+    def test_deep_json_is_rejected_for_client_and_model(self):
+        nested_json = b"[" * 1500 + b"0" + b"]" * 1500
+        client_request = Request(self.base + "/api/chat", data=nested_json, method="POST",
+                                 headers={"Content-Type": "application/json",
+                                          "Origin": self.base,
+                                          "X-Vera-Session": self.app.session_token})
+        with self.assertRaises(HTTPError) as caught:
+            urlopen(client_request, timeout=5)
+        self.assertEqual(caught.exception.code, 400)
+        self.assertEqual(LocalModel.requests, [])
+
+        class DeepModel(BaseHTTPRequestHandler):
+            def log_message(self, *_args):
+                pass
+
+            def do_GET(self):
+                self.send_response(200)
+                self.send_header("Content-Length", str(len(nested_json)))
+                self.end_headers()
+                self.wfile.write(nested_json)
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), DeepModel)
+        threading.Thread(target=server.serve_forever, daemon=True).start()
+        self.addCleanup(server.server_close)
+        self.addCleanup(server.shutdown)
+        self.app.model_root = f"http://127.0.0.1:{server.server_port}"
+        status, _, raw = self.request("/api/models", headers={
+            "X-Vera-Session": self.app.session_token,
+        })
+        self.assertEqual(status, 503)
+        self.assertEqual(json.loads(raw)["models"], [])
+
     def test_valid_model_json_with_whitespace_in_supported_framings(self):
         def model_handler(framing):
             class FramedModel(BaseHTTPRequestHandler):
@@ -203,9 +285,11 @@ class InterfaceTests(unittest.TestCase):
 
                 def do_GET(self):
                     body = b'{"models":[]} \n'
+                    if framing == "continue":
+                        self.wfile.write(b"HTTP/1.1 100 Continue\r\n\r\n")
                     self.send_response(200)
                     self.send_header("Content-Type", "application/json")
-                    if framing == "length":
+                    if framing in ("length", "continue"):
                         self.send_header("Content-Length", str(len(body)))
                     elif framing == "chunked":
                         self.send_header("Transfer-Encoding", "chunked")
@@ -224,7 +308,7 @@ class InterfaceTests(unittest.TestCase):
 
             return FramedModel
 
-        for framing in ("length", "chunked", "close"):
+        for framing in ("length", "chunked", "close", "continue"):
             with self.subTest(framing=framing):
                 server = ThreadingHTTPServer(("127.0.0.1", 0), model_handler(framing))
                 thread = threading.Thread(target=server.serve_forever, daemon=True)
@@ -300,6 +384,38 @@ class InterfaceTests(unittest.TestCase):
             except (ConnectionResetError, ConnectionAbortedError):
                 pass
         self.assertEqual(self.chat()[0], 200)
+
+    def test_slow_drip_request_headers_release_all_worker_slots(self):
+        self.app.read_timeout_seconds = 1
+        self.app.header_deadline_seconds = 0.25
+        self.app.request_slots = BoundedSemaphore(2)
+        clients = []
+        try:
+            for _ in range(2):
+                client = socket.create_connection(("127.0.0.1", self.app.server_port), timeout=2)
+                client.settimeout(2)
+                clients.append(client)
+                client.sendall(b"GET / HTTP/1.1\r\nX-Drip: ")
+            until = time.monotonic() + 2
+            while self.app.request_slots._value and time.monotonic() < until:
+                time.sleep(0.01)
+            self.assertEqual(self.app.request_slots._value, 0)
+            start = time.monotonic()
+            while time.monotonic() - start < 0.4:
+                for client in clients:
+                    try:
+                        client.sendall(b"a")
+                    except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                        pass
+                time.sleep(0.025)
+            until = time.monotonic() + 1
+            while self.app.request_slots._value < 2 and time.monotonic() < until:
+                time.sleep(0.01)
+            self.assertEqual(self.app.request_slots._value, 2)
+            self.assertEqual(self.request("/api/session")[0], 200)
+        finally:
+            for client in clients:
+                client.close()
 
     def test_request_thread_limit_recovers_after_stalled_clients_exit(self):
         self.app.request_slots = BoundedSemaphore(2)

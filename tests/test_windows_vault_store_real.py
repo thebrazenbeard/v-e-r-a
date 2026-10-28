@@ -6,7 +6,7 @@ emulated Windows ACL test does not qualify real file custody.
 
 from __future__ import annotations
 
-from contextlib import contextmanager
+from contextlib import closing, contextmanager
 import os
 from pathlib import Path
 import sqlite3
@@ -103,8 +103,13 @@ class NativeWindowsEncryptedVaultTests(unittest.TestCase):
             self.assertEqual(require_private_regular_file(db_path, label="vault"),
                              db_path.resolve())
             self.assertNotIn(marker.encode("utf-8"), db_path.read_bytes())
-            with sqlite3.connect(db_path) as database:
+            # sqlite3.Connection.__exit__ handles the transaction, not the
+            # underlying handle.  On Windows a live reader locks the fixture
+            # DB and makes TemporaryDirectory cleanup fail with WinError 32.
+            with closing(sqlite3.connect(db_path)) as database:
                 stored = database.execute("SELECT body FROM transcript WHERE slot=1").fetchone()[0]
+            with self.assertRaises(sqlite3.ProgrammingError):
+                database.execute("SELECT 1")
             self.assertTrue(stored.startswith("v1.aes256gcm."))
 
             reopened = TranscriptStore(db_path, key)

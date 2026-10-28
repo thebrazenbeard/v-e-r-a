@@ -14,6 +14,7 @@ from urllib.request import Request, urlopen
 from interface.goal_view import GoalViewError, project_volition_goal, read_goal_envelope
 from interface.server import make_server
 from interface.verified_volition import VerifiedVolitionGoalProvider
+from tests.windows_acl_fixture import private_test_temporary_directory
 
 
 def envelope(now):
@@ -170,7 +171,7 @@ class GoalViewTests(unittest.TestCase):
         now = datetime.now(timezone.utc)
         vault_key = "distinct-local-transcript-secret-0123456789"
         goal_key = "distinct-private-goal-view-secret-0123456789"
-        with tempfile.TemporaryDirectory() as root:
+        with private_test_temporary_directory() as root:
             server = make_server(
                 port=0, goal_provider=_RouteOnlyVerifiedProviderDouble(now), goal_access_token=goal_key,
                 memory_db_path=Path(root) / "vault.sqlite3", memory_secret=vault_key,

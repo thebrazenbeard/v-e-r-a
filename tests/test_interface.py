@@ -7,7 +7,6 @@ from contextlib import closing
 from pathlib import Path
 import shutil
 import sqlite3
-import tempfile
 import socket
 import threading
 from threading import BoundedSemaphore
@@ -19,6 +18,7 @@ from urllib.request import Request, urlopen
 
 from interface.server import _model_root, make_server
 from interface.local_transcript import TranscriptConflict, TranscriptStore
+from tests.windows_acl_fixture import private_test_temporary_directory
 
 
 class LocalModel(BaseHTTPRequestHandler):
@@ -291,7 +291,7 @@ class InterfaceTests(unittest.TestCase):
 
     def test_opt_in_vault_persists_only_explicit_user_transcript_after_restart(self):
         key = "operator-test-secret-0123456789abcdef"
-        with tempfile.TemporaryDirectory() as root:
+        with private_test_temporary_directory() as root:
             db = Path(root) / "conversation.sqlite3"
             transcript = [
                 {"role": "user", "content": "Remember this transcript only if I save it."},
@@ -395,7 +395,7 @@ class InterfaceTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "secret must"):
             make_server(port=0, memory_db_path="/tmp/not-connected.sqlite3",
                         memory_secret="too short", acknowledge_plaintext_vault_risk=True)
-        with tempfile.TemporaryDirectory() as folder:
+        with private_test_temporary_directory() as folder:
             target = Path(folder) / "notes.sqlite3"
             service = make_server(port=0, memory_db_path=target,
                                   memory_secret="operator-test-secret-0123456789abcdef")
@@ -407,7 +407,7 @@ class InterfaceTests(unittest.TestCase):
         key = "test-secret-source-recall-0123456789abcdef"
         current = [{"role": "user", "content": "What is the operator's synthetic marker?"}]
         saved = [{"role": "user", "content": "My synthetic test marker is violet-finch-731."}]
-        with tempfile.TemporaryDirectory() as directory:
+        with private_test_temporary_directory() as directory:
             path = Path(directory) / "operator-saved.sqlite3"
 
             def start():
@@ -491,7 +491,7 @@ class InterfaceTests(unittest.TestCase):
         self.assertIn('messages.length = 0;', ui)
 
     def test_concurrent_vault_writes_and_tombstone_prevent_stale_revival(self):
-        with tempfile.TemporaryDirectory() as root:
+        with private_test_temporary_directory() as root:
             store = TranscriptStore(Path(root) / "test.sqlite3", "operator-test-secret-0123456789abcdef")
             # secure_delete is per connection; the vault configures every own connection.
             with closing(store._connect()) as inspector:
@@ -532,7 +532,7 @@ class InterfaceTests(unittest.TestCase):
     def test_encrypted_vault_never_writes_a_plaintext_marker_and_rejects_wrong_key(self):
         key = "operator-test-secret-0123456789abcdef"
         marker = "UNIQUE-PRIVATE-TRANSCRIPT-SENTINEL-5928471"
-        with tempfile.TemporaryDirectory() as folder:
+        with private_test_temporary_directory() as folder:
             path = Path(folder) / "private.sqlite3"
             store = TranscriptStore(path, key)
             with self.assertRaisesRegex(ValueError, "key|authentication"):
@@ -571,7 +571,7 @@ class InterfaceTests(unittest.TestCase):
     def test_known_limitation_restoring_entire_old_database_recovers_deleted_ciphertext(self):
         """Record an intentionally unclosed rollback risk, not a passing security control."""
         key = "operator-test-secret-0123456789abcdef"
-        with tempfile.TemporaryDirectory() as folder:
+        with private_test_temporary_directory() as folder:
             db = Path(folder) / "private.sqlite3"
             snapshot = Path(folder) / "old-copy.sqlite3"
             store = TranscriptStore(db, key)

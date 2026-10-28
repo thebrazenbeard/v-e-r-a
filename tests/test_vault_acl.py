@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from tests.windows_acl_fixture import private_test_temporary_directory
 
 from interface.vault_acl import require_private_regular_file, require_protected_parent_directory
 
@@ -23,7 +24,7 @@ class VaultAclTests(unittest.TestCase):
                 require_private_regular_file(path, label="vault key")
 
     def test_symlink_is_never_a_secret_file(self):
-        with tempfile.TemporaryDirectory() as folder:
+        with private_test_temporary_directory() as folder:
             path = Path(folder) / "secret.txt"
             path.write_text("only a harmless test secret")
             link = Path(folder) / "shortcut.txt"

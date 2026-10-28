@@ -1,5 +1,7 @@
 """Test-only Windows custody fixture helpers, never production ACL changes."""
 
+from contextlib import contextmanager
+import os
 from pathlib import Path
 import tempfile
 
@@ -15,6 +17,44 @@ def private_profile_temporary_directory():
     if not profile.is_dir() or profile.is_symlink():
         raise RuntimeError("Windows runner has no ordinary user-profile directory")
     return tempfile.TemporaryDirectory(prefix="vera-private-acl-", dir=profile)
+
+
+@contextmanager
+def private_test_temporary_directory():
+    """Disposable private parent on either platform, with real Windows DACLs.
+
+    Windows TEMP commonly permits other identities to modify its children.
+    POSIX chmod does not repair that DACL.  For affirmative vault/custody
+    tests, create a protected inheritable user/SYSTEM/Administrators DACL
+    underneath the operator profile, and let production verify every ancestor.
+    This helper is a fixture, not a permission bypass or a product fallback.
+    """
+    if os.name != "nt":
+        with tempfile.TemporaryDirectory() as folder:
+            yield folder
+        return
+
+    import win32api
+    import win32con
+    import win32security
+
+    with private_profile_temporary_directory() as folder:
+        token = win32security.OpenProcessToken(win32api.GetCurrentProcess(),
+                                               win32con.TOKEN_QUERY)
+        current = win32security.GetTokenInformation(token, win32security.TokenUser)[0]
+        dacl = win32security.ACL()
+        inherited = win32con.OBJECT_INHERIT_ACE | win32con.CONTAINER_INHERIT_ACE
+        for sid in (current,
+                    win32security.ConvertStringSidToSid("S-1-5-18"),
+                    win32security.ConvertStringSidToSid("S-1-5-32-544")):
+            dacl.AddAccessAllowedAceEx(win32security.ACL_REVISION, inherited,
+                                       win32con.GENERIC_ALL, sid)
+        win32security.SetNamedSecurityInfo(
+            folder, win32security.SE_FILE_OBJECT,
+            win32security.DACL_SECURITY_INFORMATION |
+            win32security.PROTECTED_DACL_SECURITY_INFORMATION,
+            None, None, dacl, None)
+        yield folder
 
 
 def describe_windows_acl_chain(path: Path) -> str:

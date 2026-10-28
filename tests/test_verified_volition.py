@@ -10,7 +10,6 @@ import importlib.util
 import json
 import os
 from pathlib import Path
-import tempfile
 import threading
 import unittest
 from unittest.mock import patch
@@ -23,6 +22,7 @@ from interface.verified_volition import (VerifiedVolitionGoalProvider,
                                         _windows_private_handle,
                                         fingerprint_installed_volition,
                                         seal_host_state)
+from tests.windows_acl_fixture import private_test_temporary_directory
 
 
 @unittest.skipUnless(importlib.util.find_spec("volition"),
@@ -32,9 +32,7 @@ class VerifiedVolitionTests(unittest.TestCase):
         from volition import (DriveKind, ModelWantProposal, ObservationClaim,
                               ObservationVerifier, OperationalMotivation)
 
-        folder = tempfile.TemporaryDirectory()
-        self.addCleanup(folder.cleanup)
-        self.folder = Path(folder.name)
+        self.folder = Path(self.enterContext(private_test_temporary_directory()))
         self.path = self.folder / "current-goal.json"
         self.ledger = self.folder / "highwater.sqlite3"
         self.key = b"test-private-host-key-not-a-production-secret-20261027"
@@ -116,6 +114,9 @@ class VerifiedVolitionTests(unittest.TestCase):
     def test_module_pin_and_file_permissions_fail_closed(self):
         with self.assertRaisesRegex(GoalViewError, "module revision"):
             self._provider(expected_runtime_sha256="0" * 64).read_projection(now=self.now)
+
+    @unittest.skipIf(os.name == "nt", "POSIX mode bits have no Windows DACL custody semantics; native Windows ACL negatives cover this")
+    def test_posix_group_read_file_permission_is_refused(self):
         os.chmod(self.path, 0o644)
         with self.assertRaises(GoalViewError):
             self._provider()
@@ -132,6 +133,7 @@ class VerifiedVolitionTests(unittest.TestCase):
         with self.assertRaisesRegex(GoalViewError, "symlink"):
             self._provider()
 
+    @unittest.skipIf(os.name == "nt", "POSIX UID ownership is replaced by native Windows DACL owner and ACE checks")
     def test_foreign_uid_custody_not_accepted_even_when_mode_private(self):
         # Root privileges do not make a different owner's 0600 file
         # equivalent to a host-owned source of truth.

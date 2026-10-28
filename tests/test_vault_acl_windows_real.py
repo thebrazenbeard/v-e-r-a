@@ -11,6 +11,7 @@ import os
 import unittest
 
 from interface.vault_acl import (
+    _windows_is_local_fixed_volume_root,
     require_private_regular_file,
     require_protected_parent_directory,
 )
@@ -21,6 +22,11 @@ from tests.windows_acl_fixture import (
 
 @unittest.skipUnless(os.name == "nt", "real Windows DACL integration test")
 class WindowsVaultAclIntegrationTests(unittest.TestCase):
+    def test_runner_system_drive_is_a_real_native_fixed_volume(self):
+        # Qualify the Windows runner's volume identity before interpreting its
+        # root-owner exception. No system ACL or mount mapping is modified.
+        self.assertTrue(_windows_is_local_fixed_volume_root(Path(Path.home().anchor)))
+
     def setUp(self):
         import win32api
         import win32con

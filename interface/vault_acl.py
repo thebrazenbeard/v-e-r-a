@@ -9,7 +9,44 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+import re
 import stat
+
+
+def _windows_is_local_fixed_volume_root(path: Path) -> bool:
+    """Refuse mapped or SUBST roots as a shortcut past actual ancestors.
+
+    A drive-letter spelling alone does not establish a volume anchor: SUBST
+    can map X: to an ordinary (potentially replaceable) directory.  Accept
+    only a fixed drive whose DOS device target is a native volume device.
+    Unknown mappings fail closed; this is not a race-free handle binding.
+    """
+    if (not path.is_absolute() or len(path.drive) != 2
+            or path.drive[1] != ":" or path != type(path)(path.anchor)):
+        return False
+    try:
+        import ctypes
+
+        kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+        drive_type = kernel.GetDriveTypeW
+        drive_type.argtypes = [ctypes.c_wchar_p]
+        drive_type.restype = ctypes.c_uint
+        if drive_type(str(path.anchor)) != 3:  # DRIVE_FIXED
+            return False
+        query = kernel.QueryDosDeviceW
+        query.argtypes = [ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_uint]
+        query.restype = ctypes.c_uint
+        buffer = ctypes.create_unicode_buffer(4096)
+        size = query(str(path.drive), buffer, len(buffer))
+        if not size:
+            return False
+        targets = [target for target in buffer[:size].split("\0") if target]
+        return bool(targets) and all(
+            re.fullmatch(r"\\Device\\HarddiskVolume\d+", target, re.IGNORECASE)
+            for target in targets
+        )
+    except Exception:
+        return False
 
 
 def _windows_private_dacl(path: Path, *, directory: bool = False,
@@ -46,7 +83,8 @@ def _windows_private_dacl(path: Path, *, directory: bool = False,
         )
         local_volume_root = (directory and ancestor and path.is_absolute()
                              and len(path.drive) == 2 and path.drive[1] == ":"
-                             and path == type(path)(path.anchor))
+                             and path == type(path)(path.anchor)
+                             and _windows_is_local_fixed_volume_root(path))
         owner_sid = sid_text(owner)
         trusted_owner = owner_sid in trusted_owners or (
             local_volume_root and owner_sid == trustedinstaller_sid)
@@ -54,7 +92,7 @@ def _windows_private_dacl(path: Path, *, directory: bool = False,
             raise ValueError("Windows vault path is owned by another identity")
         # OWNER RIGHTS (S-1-3-4) is the rights-bearing SID for this object's
         # already-checked owner.  It is not an additional foreign identity.
-        allowed = trusted_owners | {"S-1-3-0", "S-1-3-4"}
+        allowed = trusted_owners | {owner_sid, "S-1-3-0", "S-1-3-4"}
         has_trusted_allow = False
         # The immediate parent must not permit another identity to create,
         # delete, or replace entries in the vault's directory. For higher

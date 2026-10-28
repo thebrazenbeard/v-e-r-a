@@ -5,6 +5,7 @@ return values. They cannot establish filesystem custody on Lappy.
 """
 
 from pathlib import Path, PureWindowsPath
+import ctypes
 import sys
 import tempfile
 from types import SimpleNamespace
@@ -12,6 +13,7 @@ import unittest
 from unittest.mock import patch
 
 from interface.vault_acl import (
+    _windows_is_local_fixed_volume_root,
     _windows_is_reparse, _windows_private_dacl, _windows_reject_reparse,
     _windows_verify_directory_chain,
 )
@@ -49,8 +51,32 @@ class _SecurityDescriptor:
 
 
 class WindowsAclEmulationTests(unittest.TestCase):
+    def test_volume_identity_rejects_subst_and_remote_drive_targets(self):
+        def inspect(target: str, drive_type: int) -> bool:
+            def get_drive_type(_root):
+                return drive_type
+
+            def query(_name, buffer, _size):
+                buffer.value = target
+                return len(target) + 2
+
+            kernel = SimpleNamespace(GetDriveTypeW=get_drive_type,
+                                     QueryDosDeviceW=query)
+            with patch.object(ctypes, "WinDLL", return_value=kernel, create=True):
+                return _windows_is_local_fixed_volume_root(PureWindowsPath("X:/"))
+
+        self.assertTrue(inspect(r"\Device\HarddiskVolume3", 3))
+        for target, drive_type in (
+            (r"\??\C:\sensitive\subdir", 3),  # SUBST points into directory
+            (r"\Device\Mup\server\share", 4),  # Mapped SMB share
+            (r"\Device\HarddiskVolume3\ordinary-subdir", 3),
+            (r"\Device\HarddiskVolume3", 4),
+        ):
+            with self.subTest(target=target):
+                self.assertFalse(inspect(target, drive_type))
+
     def _inspect(self, *, aces, owner=CURRENT, directory=False, ancestor=False,
-                 has_dacl=True, path=None):
+                 has_dacl=True, path=None, native_volume=True):
         sd = _SecurityDescriptor(aces, owner=owner, has_dacl=has_dacl)
         security = SimpleNamespace(
             OWNER_SECURITY_INFORMATION=1, DACL_SECURITY_INFORMATION=4,
@@ -67,7 +93,8 @@ class WindowsAclEmulationTests(unittest.TestCase):
             "win32security": security,
             "win32api": win32api,
             "win32con": win32con,
-        }):
+        }), patch("interface.vault_acl._windows_is_local_fixed_volume_root",
+                 return_value=native_volume):
             _windows_private_dacl(path or Path("X:/private/vault"), directory=directory,
                                   ancestor=ancestor)
 
@@ -79,6 +106,11 @@ class WindowsAclEmulationTests(unittest.TestCase):
         self._inspect(path=volume, directory=True, ancestor=True,
                       owner=TRUSTED_INSTALLER,
                       aces=[own, ordinary_reader, sibling_creator])
+        # TrustedInstaller's own full-control ACE is owner-bound, not an
+        # unrelated trustee merely because it is absent from the default set.
+        self._inspect(path=volume, directory=True, ancestor=True,
+                      owner=TRUSTED_INSTALLER,
+                      aces=[own, ((0, 0), 0x001F01FF, TRUSTED_INSTALLER)])
         for path, ancestor in (
             (PureWindowsPath("X:/private"), True),
             (volume, False),
@@ -92,6 +124,10 @@ class WindowsAclEmulationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "owned by another"):
             self._inspect(path=volume, directory=True, ancestor=True,
                           owner="S-1-5-80-123456", aces=[own])
+        with self.assertRaisesRegex(ValueError, "owned by another"):
+            self._inspect(path=volume, directory=True, ancestor=True,
+                          owner=TRUSTED_INSTALLER, aces=[own],
+                          native_volume=False)
 
     def test_trustedinstaller_root_does_not_hide_foreign_destructive_ace(self):
         volume = PureWindowsPath("X:/")

@@ -1,0 +1,8 @@
+.system-card input[type="password"]{width:100%;min-width:0;color:#e5f1ec;background:#0d191e;border:1px solid #476066;border-radius:7px;padding:12px 9px;font-size:13px}
+.vault-controls{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}
+.vault-controls button{background:#29443d;color:#dbf0e5;border:1px solid #44695c;border-radius:7px;padding:8px 6px;font-size:11px}
+.vault-controls button:last-child{grid-column:span 2;background:transparent;color:#e4b2ab;border-color:#624a48}
+.vault-controls button:disabled{opacity:.42;cursor:default}
+.system-card input:focus-visible,.vault-controls button:focus-visible{outline:2px solid #a7d8ca;outline-offset:3px}
+.vault-recall-control{display:flex;align-items:flex-start;gap:8px;margin-top:11px;color:#dcebe5;font-size:11px;line-height:1.5}
+.vault-recall-control input{flex:none;margin-top:2px}

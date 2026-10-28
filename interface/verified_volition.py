@@ -1,0 +1,411 @@
+"""Read-only, fail-closed bridge from a *host-sealed* Volition state.
+
+The host, not the model or browser, owns the HMAC key and is responsible for
+verifying observations before sealing a snapshot. This module verifies exact
+key custody, owner/source, freshness, monotonic publication and restoration
+through Volition's real OperationalMotivation class. None grants effects.
+"""
+
+from __future__ import annotations
+
+from contextlib import closing
+from datetime import datetime, timezone
+import hashlib
+import hmac
+import importlib
+import json
+import os
+from pathlib import Path
+import sqlite3
+import stat
+import sys
+from threading import Lock
+from typing import Any
+
+from .goal_view import (GoalViewError, MAX_CURRENT_AGE, MAX_FUTURE_SKEW,
+                        MAX_ENVELOPE_BYTES, project_volition_goal)
+
+
+SCHEMA = "vera.host-sealed-volition.v1"
+MAC_PREFIX = b"vera.host-sealed-volition.v1\x00"
+
+
+def _canonical(payload: dict[str, Any]) -> bytes:
+    return json.dumps(payload, sort_keys=True, ensure_ascii=False,
+                      separators=(",", ":"), allow_nan=False).encode("utf-8")
+
+
+def _pairs_once(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    found: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in found:
+            raise GoalViewError("duplicate sealed state key")
+        found[key] = value
+    return found
+
+
+def _ident(value: object) -> bool:
+    return (type(value) is str and 0 < len(value) <= 128 and value.strip() == value
+            and all(33 <= ord(c) <= 126 for c in value))
+
+
+def _windows_private_handle(path: Path, *, directory: bool = False, read: bool = False):
+    """Open one NTFS object without following a terminal reparse point.
+
+    The returned handle owns an exclusive file share or a directory share that
+    refuses deletion; callers close it. We inspect the DACL *on that handle*,
+    not a pathname that could be replaced between inspection and the read.
+    """
+    try:
+        import ntsecuritycon
+        import win32api
+        import win32con
+        import win32file
+        import win32security
+    except ImportError as exc:
+        raise GoalViewError("Windows source/key ACL inspection requires pywin32") from exc
+    handle = None
+    try:
+        path = path.absolute()
+        if ".." in path.parts or path.drive.startswith("\\\\"):
+            raise GoalViewError("Windows host evidence path must be local and normalized")
+        if win32file.GetDriveType(path.anchor) != win32file.DRIVE_FIXED:
+            raise GoalViewError("Windows host evidence must use a local fixed volume")
+        # A protected leaf is not sufficient if a grandparent can delete and
+        # replace its whole directory. Reuse the vault's ancestor custody rule,
+        # which distinguishes traversal rights from DELETE_CHILD/ACL mutation.
+        from .vault_acl import _windows_verify_directory_chain
+        try:
+            _windows_verify_directory_chain(path.parent, label="Volition host evidence")
+        except ValueError as exc:
+            raise GoalViewError("Windows host evidence ancestor custody refused") from exc
+        share = (win32con.FILE_SHARE_READ | win32con.FILE_SHARE_WRITE) if directory else 0
+        access = win32con.READ_CONTROL | ntsecuritycon.FILE_READ_ATTRIBUTES
+        if read:
+            access |= ntsecuritycon.FILE_READ_DATA
+        flags = win32file.FILE_FLAG_OPEN_REPARSE_POINT
+        if directory:
+            flags |= win32con.FILE_FLAG_BACKUP_SEMANTICS
+        handle = win32file.CreateFile(str(path), access, share, None,
+                                      win32con.OPEN_EXISTING, flags, None)
+        attrs = win32file.GetFileInformationByHandle(handle)[0]
+        if (attrs & win32con.FILE_ATTRIBUTE_REPARSE_POINT
+                or bool(attrs & win32con.FILE_ATTRIBUTE_DIRECTORY) != directory):
+            raise GoalViewError("Windows host evidence must be a non-reparse file or directory")
+        sd = win32security.GetSecurityInfo(handle, win32security.SE_FILE_OBJECT,
+                win32security.OWNER_SECURITY_INFORMATION |
+                win32security.DACL_SECURITY_INFORMATION)
+        owner, dacl = sd.GetSecurityDescriptorOwner(), sd.GetSecurityDescriptorDacl()
+        current = win32security.GetTokenInformation(
+            win32security.OpenProcessToken(win32api.GetCurrentProcess(), win32con.TOKEN_QUERY),
+            win32security.TokenUser)[0]
+        if owner is None or dacl is None or current is None:
+            raise GoalViewError("Windows host evidence has no trustworthy owner/DACL")
+        sid = win32security.ConvertSidToStringSid
+        trusted = {sid(current), "S-1-5-18", "S-1-5-32-544"}
+        if sid(owner) not in trusted:
+            raise GoalViewError("Windows host evidence owner is untrusted")
+        # ACEs for Everyone, Authenticated Users, Users, etc. are *never*
+        # trusted here, even when their effective rights look read-only.
+        # This directory contains both an HMAC-protected record and the durable
+        # high-water mark; no other principal may view or mutate either object.
+        accepted = trusted | {"S-1-3-0"}  # CREATOR_OWNER; owner checked above
+        has_allow = False
+        for index in range(dacl.GetAceCount()):
+            ace = dacl.GetAce(index)
+            if ace[0][0] == win32security.ACCESS_DENIED_ACE_TYPE:
+                continue
+            if ace[0][0] != win32security.ACCESS_ALLOWED_ACE_TYPE:
+                raise GoalViewError("Windows host evidence has unsupported ACE type")
+            if sid(ace[2]) not in accepted:
+                raise GoalViewError("Windows host evidence ACL grants another identity")
+            has_allow = True
+        if not has_allow:
+            raise GoalViewError("Windows host evidence has no trusted allow ACE")
+        return handle
+    except GoalViewError:
+        if handle is not None:
+            win32file.CloseHandle(handle)
+        raise
+    except Exception as exc:
+        if handle is not None:
+            win32file.CloseHandle(handle)
+        raise GoalViewError("Windows source/key ACL verification failed closed") from exc
+
+
+def _private_regular(path: Path, *, allow_missing: bool = False) -> Path:
+    """Refuse ambiguous/shared ownership on both supported host platforms."""
+    if os.name == "nt":
+        supplied = path.expanduser()
+        parent_handle = _windows_private_handle(supplied.parent, directory=True)
+        try:
+            # exists() follows links, so a dangling symlink could otherwise
+            # look like an unoccupied ledger pathname during first creation.
+            if supplied.is_symlink() or (hasattr(supplied, "is_junction")
+                                         and supplied.is_junction()):
+                raise GoalViewError("Windows host evidence symlink/reparse refused")
+            if not supplied.exists():
+                if not allow_missing:
+                    raise GoalViewError("missing host evidence")
+                return supplied
+            handle = _windows_private_handle(supplied)
+            try:
+                return supplied
+            finally:
+                import win32file
+                win32file.CloseHandle(handle)
+        finally:
+            import win32file
+            win32file.CloseHandle(parent_handle)
+    if path.is_symlink():
+        raise GoalViewError("host evidence symlink refused")
+    resolved = path.resolve(strict=not allow_missing)
+    parent_info = resolved.parent.stat()
+    if (not stat.S_ISDIR(parent_info.st_mode) or parent_info.st_mode & 0o077
+            or parent_info.st_uid != os.geteuid()):
+        raise GoalViewError("host evidence directory must be same-owner private")
+    if resolved.exists():
+        info = resolved.stat()
+        if (not stat.S_ISREG(info.st_mode) or info.st_mode & 0o077
+                or info.st_uid != os.geteuid()):
+            raise GoalViewError("host evidence must be same-owner private regular file")
+    elif not allow_missing:
+        raise GoalViewError("missing host evidence")
+    return resolved
+
+
+def _read_private(path: Path, *, max_bytes: int) -> bytes:
+    """Open once with NOFOLLOW and fstat, never read through a raced path."""
+    if os.name == "nt":
+        parent_handle = _windows_private_handle(path.parent, directory=True)
+        try:
+            handle = _windows_private_handle(path, read=True)
+            try:
+                import win32file
+                _status, raw = win32file.ReadFile(handle, max_bytes + 1)
+                if not 0 < len(raw) <= max_bytes:
+                    raise GoalViewError("host evidence file exceeds budget")
+                return bytes(raw)
+            finally:
+                import win32file
+                win32file.CloseHandle(handle)
+        finally:
+            import win32file
+            win32file.CloseHandle(parent_handle)
+    _private_regular(path)
+    flags = os.O_RDONLY | getattr(os, "O_CLOEXEC", 0) | getattr(os, "O_NOFOLLOW", 0)
+    try:
+        fd = os.open(path, flags)
+        with os.fdopen(fd, "rb") as stream:
+            info = os.fstat(stream.fileno())
+            if (not stat.S_ISREG(info.st_mode) or info.st_mode & 0o077
+                    or info.st_uid != os.geteuid()):
+                raise GoalViewError("host evidence file ownership changed")
+            if not 0 < info.st_size <= max_bytes:
+                raise GoalViewError("host evidence file exceeds budget")
+            raw = stream.read(max_bytes + 1)
+    except OSError as exc:
+        raise GoalViewError("host evidence unavailable") from exc
+    if len(raw) > max_bytes:
+        raise GoalViewError("host evidence exceeded byte budget")
+    return raw
+
+
+def _source_fingerprint() -> tuple[Path, str]:
+    """Hash a Volition source installation without importing executable code.
+
+    `find_spec("volition.operational_drive")` is not safe for this preflight:
+    Python may execute the parent package initializer while resolving it.
+    Only plain filesystem packages on the import path are supported here.
+    """
+    try:
+        root = None
+        for entry in sys.path:
+            try:
+                base = Path(entry or os.getcwd()).resolve(strict=True)
+            except (OSError, ValueError):
+                continue
+            candidate = base / "volition"
+            if candidate.is_symlink():
+                raise GoalViewError("Volition source directory symlinked")
+            if all((candidate / leaf).is_file() for leaf in
+                   ("__init__.py", "operational_drive.py", "engine.py")):
+                root = candidate.resolve(strict=True)
+                break
+        if root is None:
+            raise GoalViewError("pinned Volition source installation unavailable")
+        if any(path.is_symlink() for path in root.rglob("*")):
+            raise GoalViewError("Volition source contains symlinks")
+        paths = sorted(root.rglob("*.py"))
+        if not paths:
+            raise GoalViewError("Volition source file missing")
+        digests = [(path.relative_to(root).as_posix(), hashlib.sha256(path.read_bytes()).hexdigest())
+                   for path in paths]
+        return root, hashlib.sha256(_canonical({
+            "source_root_package": "volition",
+            "source_files_sha256": digests,
+        })).hexdigest()
+    except (OSError, ValueError, TypeError) as exc:
+        raise GoalViewError("pinned Volition restoration is unavailable") from exc
+
+
+def _runtime_fingerprint(expected_runtime_sha256: str) -> tuple[type, str]:
+    """Reject source-pin mismatches *before* importing optional Volition code.
+
+    Source hashing does not attest in-memory Python code or a privileged host's
+    installation trust. A separate host-controlled installation boundary is
+    required before this adapter can carry privileged effects.
+    """
+    root, digest = _source_fingerprint()
+    if not hmac.compare_digest(digest, expected_runtime_sha256):
+        raise GoalViewError("pinned Volition module revision mismatch")
+    for name, leaf in (("volition", "__init__.py"),
+                       ("volition.operational_drive", "operational_drive.py"),
+                       ("volition.engine", "engine.py")):
+        loaded = sys.modules.get(name)
+        if loaded is not None:
+            try:
+                path = Path(loaded.__file__).resolve(strict=True)
+                if path != root / leaf:
+                    raise GoalViewError("preloaded Volition module source mismatch")
+            except (AttributeError, OSError, TypeError) as exc:
+                raise GoalViewError("preloaded Volition module cannot be verified") from exc
+    try:
+        mod = importlib.import_module("volition.operational_drive")
+        eng = importlib.import_module("volition.engine")
+        if (Path(mod.__file__).resolve(strict=True) != root / "operational_drive.py"
+                or Path(eng.__file__).resolve(strict=True) != root / "engine.py"):
+            raise GoalViewError("Volition modules are from different source roots")
+        model = getattr(mod, "OperationalMotivation")
+        if not isinstance(model, type) or not callable(model.from_snapshot):
+            raise AttributeError("Volition operational restore unavailable")
+        return model, digest
+    except (ImportError, AttributeError, OSError, TypeError) as exc:
+        raise GoalViewError("pinned Volition restoration is unavailable") from exc
+
+
+def fingerprint_installed_volition() -> str:
+    """Read-only installer aid; the operator must pin the resulting digest."""
+    return _source_fingerprint()[1]
+
+
+def seal_host_state(*, snapshot: dict[str, Any], owner_id: str,
+                    source_id: str, publication: int, captured_at: datetime,
+                    key: bytes) -> dict[str, Any]:
+    """Trusted host helper; NOT an observation attestation or model tool."""
+    if (not _ident(owner_id) or not _ident(source_id)
+            or type(publication) is not int or not 1 <= publication < 2 ** 63
+            or not isinstance(captured_at, datetime) or captured_at.tzinfo is None
+            or type(key) is not bytes or len(key) < 32):
+        raise GoalViewError("invalid host sealing parameters")
+    record = {"schema": SCHEMA, "owner_id": owner_id, "source_id": source_id,
+              "publication": publication,
+              "captured_at_utc": captured_at.astimezone(timezone.utc).isoformat(),
+              "snapshot": snapshot}
+    raw = _canonical(record)
+    record["mac"] = "sha256:" + hmac.new(key, MAC_PREFIX + raw, hashlib.sha256).hexdigest()
+    return record
+
+
+class VerifiedVolitionGoalProvider:
+    """Exact owner/source + HMAC + restored Volition + durable replay gate."""
+
+    def __init__(self, *, record_path: str | Path, ledger_path: str | Path,
+                 key: bytes, owner_id: str, source_id: str,
+                 expected_runtime_sha256: str):
+        if (type(key) is not bytes or len(key) < 32
+                or not _ident(owner_id) or not _ident(source_id)
+                or type(expected_runtime_sha256) is not str
+                or len(expected_runtime_sha256) != 64
+                or any(c not in "0123456789abcdef" for c in expected_runtime_sha256)):
+            raise GoalViewError("invalid trusted provider configuration")
+        self.record_path = _private_regular(Path(record_path).expanduser())
+        self.ledger_path = _private_regular(Path(ledger_path).expanduser(), allow_missing=True)
+        if self.record_path == self.ledger_path:
+            raise GoalViewError("host record and replay ledger must be separate")
+        self._key = key
+        self._owner = owner_id
+        self._source = source_id
+        self._runtime_sha = expected_runtime_sha256
+        self._lock = Lock()
+        if not self.ledger_path.exists():
+            flags = os.O_CREAT | os.O_EXCL | os.O_RDWR | getattr(os, "O_NOFOLLOW", 0)
+            fd = os.open(self.ledger_path, flags, 0o600)
+            os.close(fd)
+        with closing(sqlite3.connect(self.ledger_path)) as db:
+            with db:
+                db.execute("CREATE TABLE IF NOT EXISTS seen ("
+                           "owner TEXT NOT NULL, source TEXT NOT NULL, "
+                           "publication INTEGER NOT NULL, digest TEXT NOT NULL, "
+                           "PRIMARY KEY(owner,source))")
+
+    def read_projection(self, *, now: datetime | None = None) -> dict[str, Any]:
+        now = datetime.now(timezone.utc) if now is None else now
+        if not isinstance(now, datetime) or now.tzinfo is None:
+            raise GoalViewError("aware host clock required")
+        now = now.astimezone(timezone.utc)
+        raw = _read_private(self.record_path, max_bytes=MAX_ENVELOPE_BYTES)
+        try:
+            record = json.loads(raw, object_pairs_hook=_pairs_once,
+                                parse_constant=lambda _: (_ for _ in ()).throw(GoalViewError("nonfinite JSON")))
+        except GoalViewError:
+            raise
+        except (UnicodeError, ValueError) as exc:
+            raise GoalViewError("malformed host-sealed state") from exc
+        if (not isinstance(record, dict) or set(record) != {
+                "schema", "owner_id", "source_id", "publication", "captured_at_utc", "snapshot", "mac"}
+                or record["schema"] != SCHEMA
+                or record["owner_id"] != self._owner or record["source_id"] != self._source
+                or type(record["publication"]) is not int or not 1 <= record["publication"] < 2 ** 63
+                or not isinstance(record["snapshot"], dict)):
+            raise GoalViewError("host owner/source/publication mismatch")
+        claimed_mac = record.pop("mac")
+        if (type(claimed_mac) is not str or not claimed_mac.startswith("sha256:")
+                or len(claimed_mac) != 71 or any(c not in "0123456789abcdef" for c in claimed_mac[7:])
+                or not hmac.compare_digest(claimed_mac[7:],
+                    hmac.new(self._key, MAC_PREFIX + _canonical(record), hashlib.sha256).hexdigest())):
+            raise GoalViewError("untrusted host signature")
+        try:
+            captured = datetime.fromisoformat(record["captured_at_utc"].replace("Z", "+00:00"))
+            if captured.tzinfo is None:
+                raise ValueError("naive time")
+            captured = captured.astimezone(timezone.utc)
+        except (TypeError, ValueError) as exc:
+            raise GoalViewError("invalid signed host time") from exc
+        if captured - now > MAX_FUTURE_SKEW or now - captured > MAX_CURRENT_AGE:
+            raise GoalViewError("signed host state is stale")
+        restorer, runtime_sha = _runtime_fingerprint(self._runtime_sha)
+        if runtime_sha != self._runtime_sha:
+            raise GoalViewError("unexpected Volition module revision")
+        try:
+            restored = restorer.from_snapshot(record["snapshot"])
+            verified = restored.snapshot()
+            if _canonical(verified) != _canonical(record["snapshot"]):
+                raise ValueError("Volition restore changed snapshot content")
+        except (TypeError, ValueError, KeyError) as exc:
+            raise GoalViewError("Volition state restoration rejected") from exc
+        envelope = {"schema": "vera.volition-view-envelope.v1",
+                    "captured_at_utc": record["captured_at_utc"],
+                    "source_ref": "host-sealed:" + self._source,
+                    "snapshot": verified}
+        projection = project_volition_goal(envelope, now=now)
+        digest = hashlib.sha256(raw).hexdigest()
+        publication = record["publication"]
+        # A separate owner-only high-water mark survives restarts. Replaying an
+        # older sealed publication after a later one is rejected even inside TTL.
+        with self._lock:
+            _private_regular(self.ledger_path)
+            with closing(sqlite3.connect(self.ledger_path, timeout=5)) as db:
+                with db:
+                    db.execute("BEGIN IMMEDIATE")
+                    old = db.execute("SELECT publication,digest FROM seen WHERE owner=? AND source=?",
+                                     (self._owner, self._source)).fetchone()
+                    if old is not None and (publication < old[0]
+                                            or (publication == old[0] and digest != old[1])):
+                        raise GoalViewError("host publication rolled back or equivocated")
+                    if old is None or publication > old[0]:
+                        db.execute("INSERT INTO seen(owner,source,publication,digest) VALUES(?,?,?,?) "
+                                   "ON CONFLICT(owner,source) DO UPDATE SET "
+                                   "publication=excluded.publication,digest=excluded.digest",
+                                   (self._owner, self._source, publication, digest))
+        return projection

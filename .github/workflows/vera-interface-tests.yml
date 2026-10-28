@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   interface:
-    name: Interface contracts (${{ matrix.os }})
+    name: Interface qualification (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 12
     strategy:
@@ -31,10 +31,37 @@ jobs:
           node-version: '20'
       - name: Install private-vault test dependencies
         run: python -m pip install --disable-pip-version-check -r requirements-vault.txt
-      - name: Python interface and pinned Volition contracts
+      # Linux exercises the full integration suite, including POSIX custody
+      # and the pinned real Volition source. The Windows host-source adapter
+      # deliberately refuses qualification until real source/key ACL support
+      # exists; default Windows temp dirs are not private-vault fixtures.
+      - name: Linux full interface and pinned Volition contracts
+        if: runner.os == 'Linux'
         env:
           PYTHONPATH: ${{ github.workspace }}/volition-src/src
         run: python -m unittest discover -s tests -q
+      # Windows must independently prove real pywin32 file/parent DACL custody
+      # rather than passing mocked checks or pretending POSIX tests apply.
+      - name: Windows real and emulated vault ACL contracts
+        if: runner.os == 'Windows'
+        run: >-
+          python -m unittest
+          tests.test_vault_acl_windows_real
+          tests.test_windows_vault_store_real
+          tests.test_vault_acl_windows_emulated
+          -q
+      - name: Windows platform-independent goal provenance contracts
+        if: runner.os == 'Windows'
+        run: >-
+          python -m unittest
+          tests.test_goal_view.GoalViewTests.test_current_verified_projection_is_only_proposal_without_effect_authority
+          tests.test_goal_view.GoalViewTests.test_stale_goal_is_not_reissued_as_current
+          tests.test_goal_view.GoalViewTests.test_mismatched_or_privileged_choice_holds
+          tests.test_goal_view.GoalViewTests.test_model_provenance_cannot_be_relabelled_self_authored_or_user_directed
+          tests.test_goal_view.GoalViewTests.test_self_authored_source_cannot_be_claimed_by_envelope_alone
+          tests.test_goal_view.GoalViewTests.test_model_class_without_model_origin_claim_holds
+          tests.test_goal_view.GoalViewTests.test_no_active_goal_does_not_invent_one
+          -q
       - name: Browser revocation regression
         run: node --test tests/test_vault_ui_state.mjs
       - name: Static compilation and syntax

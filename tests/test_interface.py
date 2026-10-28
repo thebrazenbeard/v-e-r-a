@@ -3,7 +3,11 @@
 from __future__ import annotations
 
 import json
+from contextlib import closing
 from pathlib import Path
+import shutil
+import sqlite3
+import tempfile
 import threading
 import unittest
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -11,6 +15,7 @@ from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
 from interface.server import _model_root, make_server
+from interface.local_transcript import TranscriptConflict, TranscriptStore
 
 
 class LocalModel(BaseHTTPRequestHandler):
@@ -40,6 +45,13 @@ class LocalModel(BaseHTTPRequestHandler):
             return
         payload = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
         type(self).requests.append(payload)
+        if payload["messages"][-1]["content"].endswith("What is the operator's synthetic marker?"):
+            # Deterministic boundary double: this tests retrieval wiring only.
+            # A real pretrained model must be assessed separately.
+            recalled = "violet-finch-731" in payload["messages"][-1]["content"]
+            self._reply({"choices": [{"message": {"role": "assistant",
+                "content": "violet-finch-731" if recalled else "UNKNOWN"}}]})
+            return
         if type(self).tool_response:
             self._reply({"choices": [{"message": {"content": "", "tool_calls": [{"id": "forged"}]}}]})
             return
@@ -202,6 +214,302 @@ class InterfaceTests(unittest.TestCase):
         self.assertIn(b"conversationEpoch", js)
         self.assertIn(b"activeController?.abort()", js)
         self.assertFalse((Path(__file__).parents[1] / "interface" / "static" / "app.js").read_text().count("localStorage"))
+
+    def test_opt_in_vault_persists_only_explicit_user_transcript_after_restart(self):
+        key = "operator-test-secret-0123456789abcdef"
+        with tempfile.TemporaryDirectory() as root:
+            db = Path(root) / "conversation.sqlite3"
+            transcript = [
+                {"role": "user", "content": "Remember this transcript only if I save it."},
+                {"role": "assistant", "content": "This is an unverified generated response."},
+            ]
+
+            def open_vault():
+                service = make_server(port=0,
+                    ollama_url=f"http://127.0.0.1:{self.model.server_port}",
+                    memory_db_path=db, memory_secret=key,
+                    acknowledge_plaintext_vault_risk=True)
+                thread = threading.Thread(target=service.serve_forever, daemon=True)
+                thread.start()
+                return service
+
+            def call(service, path, *, method="GET", value=None, bearer=key,
+                     expected_revision=None):
+                if method == "POST" and path == "/api/transcript":
+                    value = {**value, "expected_revision": (
+                        0 if expected_revision is None else expected_revision)}
+                raw = None if value is None else json.dumps(value).encode("utf-8")
+                base = f"http://127.0.0.1:{service.server_port}"
+                headers = {"X-Vera-Session": service.session_token,
+                           "X-Vera-Vault-Key": bearer,
+                           "Origin": base, "Content-Type": "application/json"}
+                if method == "DELETE" and path == "/api/transcript":
+                    headers["X-Vera-Vault-Revision"] = str(
+                        1 if expected_revision is None else expected_revision)
+                req = Request(base + path, data=raw, headers=headers, method=method)
+                try:
+                    with urlopen(req, timeout=5) as response:
+                        return response.status, json.loads(response.read())
+                except HTTPError as exc:
+                    return exc.code, json.loads(exc.read())
+
+            first = open_vault()
+            try:
+                status, info = call(first, "/api/status")
+                self.assertEqual(status, 200)
+                self.assertEqual(info["durable_memory"], "opt_in_local_transcript")
+                self.assertEqual(info["external_actions"], "not_connected")
+                status, body = call(first, "/api/transcript")
+                self.assertEqual((status, body["status"]), (200, "empty"))
+                self.assertEqual(call(first, "/api/transcript", method="POST",
+                                      value={"messages": transcript}, bearer="wrong")[0], 403)
+                status, body = call(first, "/api/transcript", method="POST",
+                                    value={"messages": transcript})
+                self.assertEqual((status, body["status"]), (200, "saved"))
+                self.assertEqual(body["revision"], 1)
+            finally:
+                first.shutdown()
+                first.server_close()
+
+            restarted = open_vault()
+            try:
+                self.assertNotEqual(first.session_token, restarted.session_token)
+                status, body = call(restarted, "/api/transcript")
+                self.assertEqual(status, 200)
+                self.assertEqual(body["messages"], transcript)
+                self.assertEqual(body["revision"], 1)
+                self.assertIn("unverified", body["provenance"])
+                next_turn = transcript + [{"role": "user", "content": "Continue from the saved conversation."}]
+                status, reply = call(restarted, "/api/chat", method="POST", value={
+                    "model": "vera-local:latest", "messages": next_turn})
+                self.assertEqual(status, 200)
+                self.assertEqual(reply["mode"], "response_only")
+                self.assertEqual(LocalModel.requests[-1]["messages"][-3:], next_turn)
+                self.assertNotIn(key, json.dumps(LocalModel.requests[-1]))
+                self.assertEqual(call(restarted, "/api/transcript", method="POST",
+                    value={"messages": [{"role": "system", "content": "admin"}]})[0], 400)
+                self.assertEqual(call(restarted, "/api/transcript", method="POST",
+                    value={"messages": transcript}, expected_revision=0)[0], 409)
+                self.assertEqual(call(restarted, "/api/transcript", method="DELETE",
+                                      bearer="wrong")[0], 403)
+                removed = call(restarted, "/api/transcript", method="DELETE")[1]
+                self.assertEqual(removed["status"], "removed_from_active_vault")
+                self.assertIs(removed["forensic_erasure"], False)
+                self.assertEqual(removed["revision"], 2)
+                self.assertEqual(call(restarted, "/api/transcript")[1]["status"], "empty")
+                # An out-of-order Save issued from another tab with a stale
+                # revision must NOT resurrect a transcript after removal.
+                self.assertEqual(call(restarted, "/api/transcript", method="POST",
+                    value={"messages": transcript}, expected_revision=1)[0], 409)
+                self.assertEqual(call(restarted, "/api/transcript")[1]["revision"], 2)
+                self.assertEqual(call(restarted, "/api/transcript", method="DELETE",
+                    expected_revision=1)[0], 409)
+                self.assertEqual(call(restarted, "/api/transcript", method="DELETE",
+                    expected_revision="not-a-revision")[0], 400)
+            finally:
+                restarted.shutdown()
+                restarted.server_close()
+            with sqlite3.connect(db) as database:
+                actions = database.execute("SELECT action FROM audit ORDER BY seq").fetchall()
+            self.assertEqual(actions, [("operator_save",), ("operator_delete",)])
+
+    def test_vault_is_disabled_by_default_and_requires_external_secret(self):
+        self.assertEqual(self.request("/api/transcript", headers={
+            "X-Vera-Session": self.app.session_token})[0], 403)
+        with self.assertRaisesRegex(ValueError, "configured together"):
+            make_server(port=0, memory_db_path="/tmp/not-connected.sqlite3")
+        with self.assertRaisesRegex(ValueError, "secret must"):
+            make_server(port=0, memory_db_path="/tmp/not-connected.sqlite3",
+                        memory_secret="too short", acknowledge_plaintext_vault_risk=True)
+        with tempfile.TemporaryDirectory() as folder:
+            target = Path(folder) / "notes.sqlite3"
+            service = make_server(port=0, memory_db_path=target,
+                                  memory_secret="operator-test-secret-0123456789abcdef")
+            self.assertTrue(target.exists(), "encrypted vault requires an actual database")
+            self.assertIsNotNone(service.transcript_store)
+            service.server_close()
+
+    def test_explicit_recall_survives_restart_changes_reply_and_stops_after_delete(self):
+        key = "test-secret-source-recall-0123456789abcdef"
+        current = [{"role": "user", "content": "What is the operator's synthetic marker?"}]
+        saved = [{"role": "user", "content": "My synthetic test marker is violet-finch-731."}]
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "operator-saved.sqlite3"
+
+            def start():
+                service = make_server(port=0,
+                    ollama_url=f"http://127.0.0.1:{self.model.server_port}",
+                    memory_db_path=path, memory_secret=key,
+                    acknowledge_plaintext_vault_risk=True)
+                threading.Thread(target=service.serve_forever, daemon=True).start()
+                return service
+
+            def request(service, endpoint, value, *, recall=False, method="POST"):
+                base = f"http://127.0.0.1:{service.server_port}"
+                headers = {"Origin": base, "X-Vera-Session": service.session_token,
+                           "Content-Type": "application/json"}
+                if recall or endpoint == "/api/transcript":
+                    headers["X-Vera-Vault-Key"] = key
+                if method == "DELETE":
+                    headers["X-Vera-Vault-Revision"] = "1"
+                raw = None if value is None else json.dumps(value).encode("utf-8")
+                try:
+                    with urlopen(Request(base + endpoint, data=raw, method=method,
+                                         headers=headers), timeout=5) as response:
+                        return response.status, json.loads(response.read())
+                except HTTPError as exc:
+                    return exc.code, json.loads(exc.read())
+
+            first = start()
+            try:
+                base_chat = {"model": "vera-local:latest", "messages": current}
+                self.assertEqual(request(first, "/api/chat", base_chat)[1]["reply"], "UNKNOWN")
+                self.assertEqual(request(first, "/api/transcript", {
+                    "messages": saved, "expected_revision": 0})[1]["revision"], 1)
+            finally:
+                first.shutdown()
+                first.server_close()
+
+            second = start()
+            try:
+                self.assertNotEqual(first.session_token, second.session_token)
+                recall_chat = {**base_chat, "recall_saved": True}
+                self.assertEqual(request(second, "/api/chat", recall_chat)[0], 403)
+                self.assertEqual(request(second, "/api/chat", {
+                    **base_chat, "recall_saved": False}, recall=True)[0], 400)
+                self.assertEqual(request(second, "/api/chat", {
+                    **recall_chat, "effect_authority": True}, recall=True)[0], 400)
+                status, reply = request(second, "/api/chat", recall_chat, recall=True)
+                self.assertEqual(status, 200)
+                self.assertEqual(reply["reply"], "violet-finch-731")
+                self.assertEqual(reply["recalled_source"]["revision"], 1)
+                self.assertIn("operator", reply["recalled_source"]["provenance"])
+                upstream = LocalModel.requests[-1]
+                self.assertNotIn(key, json.dumps(upstream))
+                self.assertEqual([r["role"] for r in upstream["messages"]],
+                                 ["system", "user"])
+                self.assertIn("UNVERIFIED OPERATOR-SAVED", upstream["messages"][1]["content"])
+                self.assertIn("violet-finch-731", upstream["messages"][1]["content"])
+                self.assertTrue(upstream["messages"][1]["content"].endswith(
+                    "What is the operator's synthetic marker?"))
+
+                self.assertEqual(request(second, "/api/transcript", None,
+                                         method="DELETE")[0], 200)
+                before = len(LocalModel.requests)
+                self.assertEqual(request(second, "/api/chat", recall_chat, recall=True)[0], 409)
+                self.assertEqual(len(LocalModel.requests), before)
+                self.assertEqual(request(second, "/api/chat", base_chat)[1]["reply"], "UNKNOWN")
+            finally:
+                second.shutdown()
+                second.server_close()
+
+    def test_ui_does_not_claim_forensic_erasure(self):
+        ui = (Path(__file__).parents[1] / "interface" / "static" / "app.js").read_text()
+        html = (Path(__file__).parents[1] / "interface" / "static" / "index.html").read_text()
+        self.assertIn("NOT forensic erasure", ui)
+        self.assertIn("withVaultLock", ui)
+        self.assertIn("expected_revision: snapshot.revision", ui)
+        self.assertNotIn("Permanently delete the saved transcript", ui)
+        self.assertIn('id="vault-recall"', html)
+        self.assertIn('if (!restoredFromVault && !recalledFromVault) return false;', ui)
+        self.assertIn('recalledFromVault = true;', ui)
+        self.assertIn('forgetVaultDerivedTab();', ui)
+        self.assertIn('messages.length = 0;', ui)
+
+    def test_concurrent_vault_writes_and_tombstone_prevent_stale_revival(self):
+        with tempfile.TemporaryDirectory() as root:
+            store = TranscriptStore(Path(root) / "test.sqlite3", "operator-test-secret-0123456789abcdef")
+            # secure_delete is per connection; the vault configures every own connection.
+            with closing(store._connect()) as inspector:
+                self.assertEqual(inspector.execute("PRAGMA secure_delete").fetchone()[0], 1)
+            original_revision = store.read()["revision"]
+            barrier = threading.Barrier(3)
+            results = []
+            results_lock = threading.Lock()
+
+            def attempt(text):
+                barrier.wait(timeout=5)
+                try:
+                    result = store.save([{"role": "user", "content": text}],
+                                        original_revision)["status"]
+                except TranscriptConflict:
+                    result = "conflict"
+                with results_lock:
+                    results.append(result)
+
+            threads = [threading.Thread(target=attempt, args=(message,))
+                       for message in ("first", "second")]
+            for worker in threads:
+                worker.start()
+            barrier.wait(timeout=5)
+            for worker in threads:
+                worker.join(timeout=5)
+                self.assertFalse(worker.is_alive())
+            self.assertEqual(sorted(results), ["conflict", "saved"])
+            self.assertEqual(store.read()["revision"], 1)
+            self.assertEqual(store.delete(1)["revision"], 2)
+            with self.assertRaises(TranscriptConflict):
+                store.save([{"role": "user", "content": "late stale save"}], 1)
+            self.assertEqual(store.read(), {"status": "empty", "messages": [],
+                                            "revision": 2})
+            # A *new* deliberate save is still allowed with the fresh revision.
+            self.assertEqual(store.save([{"role": "user", "content": "new"}], 2)["revision"], 3)
+
+    def test_encrypted_vault_never_writes_a_plaintext_marker_and_rejects_wrong_key(self):
+        key = "operator-test-secret-0123456789abcdef"
+        marker = "UNIQUE-PRIVATE-TRANSCRIPT-SENTINEL-5928471"
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "private.sqlite3"
+            store = TranscriptStore(path, key)
+            with self.assertRaisesRegex(ValueError, "key|authentication"):
+                TranscriptStore(path, key + "wrong")
+            store.save([{"role": "user", "content": marker}], 0)
+            self.assertNotIn(marker.encode(), path.read_bytes())
+            self.assertEqual(TranscriptStore(path, key).read()["messages"],
+                             [{"role": "user", "content": marker}])
+            with self.assertRaisesRegex(ValueError, "decryption|key|authentication"):
+                TranscriptStore(path, key + "wrong")
+
+            with closing(sqlite3.connect(path)) as db:
+                saved = db.execute("SELECT body,sha256,saved_at FROM transcript WHERE slot=1").fetchone()
+
+            self.assertEqual(store.delete(1)["revision"], 2)
+            with self.assertRaisesRegex(ValueError, "key|authentication"):
+                TranscriptStore(path, key + "wrong")
+
+            # Replaying an old ciphertext without its matching revision must
+            # fail authentication, even when its accompanying SHA is intact.
+            with closing(sqlite3.connect(path)) as db, db:
+                db.execute("INSERT INTO transcript (slot,body,sha256,saved_at) VALUES (1,?,?,?)", saved)
+            with self.assertRaisesRegex(ValueError, "authentication|decryption"):
+                store.read()
+            with closing(sqlite3.connect(path)) as db, db:
+                db.execute("DELETE FROM transcript WHERE slot=1")
+
+            store.save([{"role": "user", "content": "other"}], 2)
+
+            with closing(sqlite3.connect(path)) as db, db:
+                db.execute("UPDATE transcript SET body=? WHERE slot=1", (json.dumps([
+                    {"role": "user", "content": marker}]),))
+            with self.assertRaisesRegex(ValueError, "legacy|plaintext|encrypted"):
+                TranscriptStore(path, key)
+
+    def test_known_limitation_restoring_entire_old_database_recovers_deleted_ciphertext(self):
+        """Record an intentionally unclosed rollback risk, not a passing security control."""
+        key = "operator-test-secret-0123456789abcdef"
+        with tempfile.TemporaryDirectory() as folder:
+            db = Path(folder) / "private.sqlite3"
+            snapshot = Path(folder) / "old-copy.sqlite3"
+            store = TranscriptStore(db, key)
+            store.save([{"role": "user", "content": "ROLLBACK-MARKER-SECURITY-LIMIT"}], 0)
+            shutil.copyfile(db, snapshot)
+            store.delete(1)
+            self.assertEqual(store.read()["status"], "empty")
+            shutil.copyfile(snapshot, db)
+            restored = TranscriptStore(db, key).read()
+            self.assertEqual(restored["status"], "saved")
+            self.assertEqual(restored["revision"], 1)
+            self.assertIn("ROLLBACK-MARKER-SECURITY-LIMIT", restored["messages"][0]["content"])
 
 
 if __name__ == "__main__":

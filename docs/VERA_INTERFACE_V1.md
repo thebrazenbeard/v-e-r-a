@@ -13,7 +13,7 @@ repositories, or unmerged integration Draft PR #1.
 same-machine browser (untrusted text)
     | Same-Origin + fresh session header
     v
-interface.server : 127.0.0.1 (no persistence or action APIs)
+interface.server : 127.0.0.1 (response-only; opt-in local transcript vault)
     | fixed localhost HTTP URL; installed-model allowlist
     v
 Ollama on this machine (model response only)
@@ -24,7 +24,7 @@ Ollama on this machine (model response only)
 - `GET /api/models`: current installed model names from Ollama `/api/tags`,
   only after a valid same-origin session header.
 - `GET /api/status`: reports disconnected privileged subsystems, also session-gated.
-- `POST /api/chat`: accepts exactly `model` and bounded user/assistant `messages`.
+- `POST /api/chat`: normally accepts exactly `model` and bounded user/assistant `messages`.
   Strict Origin, Host, session, JSON, model-name and body-size gates precede
   inference. An explicit system note denies tools/memory/external effects; no
   tool specs are passed to the model, and any tool-call response fails closed.
@@ -95,6 +95,103 @@ person-scoped Empathy, task execution, or deployed Lappy service state.
 "New conversation" aborts the browser request and prevents late old replies
 from appearing in a cleared conversation. It does **not** claim to cancel
 already-running model computation on the backend.
+
+## Experimental opt-in local transcript vault (not deployed by V1)
+
+The interface can now be launched with **both** `--memory-db` and
+`--memory-secret-file` to enable a separate, operator-unlocked AES-256-GCM
+encrypted transcript vault. Install the opt-in dependencies in
+`requirements-vault.txt` in its own environment first. Neither has a default. The obsolete
+`--acknowledge-plaintext-vault-risk` argument remains a deprecated no-op for
+launch-script compatibility; it cannot disable encryption or private-file checks.
+With either path missing, storage remains
+disabled and `/api/status` reports `durable_memory=not_connected`.
+
+The secret file must be a private operator-supplied, high-entropy ASCII token
+(at least 32 characters). The vault rejects Unix mode bits exposing the file to
+other users; on Windows it requires the `pywin32` inspection backend and denies
+files whose DACL grants access outside the owner/current user/SYSTEM/Administrators,
+and it rejects writable access by other identities on the immediate parent
+directory. Unix checks require owner-only file access, the current effective
+user as file owner, and no group/world-writable immediate parent.
+Files with unknown or unsupported ACL entries fail closed. The browser never writes it to localStorage, and the
+gateway never sends it to Ollama. The operator enters it in the UI for
+explicit **Save recent**, **Restore**, or **Remove active saved entry** actions. The vault
+stores at most 12 bounded, alternating user/assistant messages in local SQLite;
+it does not automatically capture chat or infer long-term facts. Saved content
+includes a timestamp, source label, and SHA-256 integrity check over ciphertext,
+and its active
+row can be removed. **Removal is not secure erasure:** old data may survive in
+SQLite freelists/journals/WAL, filesystem snapshots, cloud sync, and backups.
+SQLite's `secure_delete=ON` is enabled per connection as a best-effort reduction
+of page-level remnants; it does not make removal forensic erasure or control
+other retained copies.
+The server records save/remove event types without transcript text.
+
+Restoration is a conscious operator action. Restored messages are unverified
+text and may be included by that operator in a later model request as ordinary
+conversation history; they are not new model weights, consciousness evidence,
+fresh observations, authenticated memories, or authorized actions.
+
+**Explicit model-time recall (experimental local seam):** The operator may
+select *Use saved context on Send* in the browser after entering the private
+vault key. Only then may `/api/chat` accept an exact `recall_saved:true` flag
+alongside one fresh user question. The server must authenticate the separate
+`X-Vera-Vault-Key` on **that very request**, read the current saved revision,
+and pass the stored transcript as a quoted, unverified user-context message
+alongside the current question in one lower-trust user turn, without creating
+adjacent duplicate user roles that some chat templates reject.
+The browser session token alone can never retrieve or inject private text.
+The response identifies the source label, save time, revision, and content
+digest, never the bearer secret. Ordinary chat does not read the vault. A
+deleted/empty entry fails closed with 409; the server does not silently fall
+back to stale browser history. The toggle intentionally replaces unsaved tab
+context for that single model call (apart from the new question). Content
+larger than the bounded recalled-context limit is refused; use manual Restore
+for such cases. An already in-flight model call cannot retract text the server
+previously transmitted before a later Delete completed.
+Removing a saved row also clears this browser tab if its conversation was
+Restored from the vault **or a model reply used explicit saved context**, so
+ordinary follow-on chat does not unknowingly retransmit the derived text.
+Changing the entered vault credential (even to another nonempty value) likewise
+clears derived tab history and cancels a pending private recall locally. Late
+responses are ignored, but an already transmitted model request cannot be
+retracted from the model runtime.
+Other tabs, prior completed model calls, and manually retyped copies are
+outside that guarantee.
+
+The local fake-model integration regression demonstrates save → interface
+restart → source-attributed recalled request → changed deterministic mock
+answer → delete → no later recall. This is **software-path verification**, not
+evidence a pretrained model learned or an actual Ollama endpoint ran. A live
+checkpoint needs a distinct bounded real-model, same-owner, restart and
+delete/no-recall demonstration with independent execution receipts.
+
+This is **not** a qualified general-purpose durable-memory service: active
+transcript bytes are encrypted using a fresh 96-bit random nonce per save, a
+per-database scrypt salt derived from the operator secret, and authenticated
+encryption bound to the saved revision. The SQLite file contains encrypted
+text, not plaintext or plaintext hashes. Wrong keys and legacy plaintext
+database rows are rejected; there is **no automatic unsafe migration**.
+The ciphertext hash is not an authenticity signature, no multi-person identity
+exists, and there is no separate tamper-resistant audit or backup/retention
+authority. Restrict the DB and secret path using host ACLs; do not put them in
+Git, cloud sync, shared drives, or a network-exposed UI. The Windows ACL code
+has not been independently tested on Lappy. **At-rest protection is not
+forensic erasure, protection against a compromised running account, or
+proof of true operator identity.** Rolling back the entire SQLite database
+to an earlier valid snapshot also remains possible without an external
+monotonic audit anchor; revisional AAD only stops partial ciphertext replay.
+Vault mutations use an incrementing SQLite revision, checked inside each
+transaction. The browser serializes vault operations per tab; concurrent tabs
+or delayed requests with an outdated revision receive HTTP `409` and must
+explicitly reload before retrying. A removal advances the revision even when
+the slot is empty, so a delayed pre-removal Save cannot silently revive an
+entry. It does not prevent a *new, explicitly authorized* Save made against
+the subsequent revision, and does not constitute forensic erasure.
+For sensitive data, independent Windows ACL and authenticated ownership
+qualification remain deployment prerequisites. This local code has not been installed over the
+currently running Lappy process.
 
 The model gate currently serializes generation (one in-flight request), limits
 input messages to 12/16,000 characters, and uses a 90-second socket timeout

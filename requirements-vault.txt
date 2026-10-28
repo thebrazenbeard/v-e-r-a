@@ -1,0 +1,4 @@
+# Optional dependencies required ONLY when --memory-db is configured.
+# A missing dependency refuses vault activation; response-only interface is independent.
+cryptography>=42
+pywin32>=306; sys_platform == "win32"

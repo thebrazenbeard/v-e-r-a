@@ -6,6 +6,7 @@
   <meta name="color-scheme" content="dark">
   <title>Vera · Local Interface</title>
   <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/vault.css">
   <script src="/app.js" defer></script>
 </head>
 <body>
@@ -66,6 +67,22 @@
           </section>
           <section class="system-card notice"><span class="notice-icon">◇</span><div><div class="card-title">CONTROLLED BY DESIGN</div>
             <p>No scheduling, file access, execution, or external effects are exposed to chat. Future action adapters require explicit admission and verified receipts.</p></div></section>
+          <section class="system-card" aria-label="Opt-in local transcript vault">
+            <div class="card-title">LOCAL TRANSCRIPT VAULT <span class="tag">OPT-IN</span></div>
+            <p>Save or restore up to 12 recent messages explicitly. The vault encrypts active data at rest; historical backups and decrypted copies outside the vault remain your responsibility. This is user-controlled chat text—not independently verified memory.</p>
+            <label class="field-label" for="vault-key">Operator vault key</label>
+            <input id="vault-key" type="password" autocomplete="off" spellcheck="false" placeholder="Enter private vault key" aria-label="Operator transcript vault key">
+            <div class="vault-controls">
+              <button id="vault-save" type="button" disabled>Save recent</button>
+              <button id="vault-restore" type="button" disabled>Restore</button>
+              <button id="vault-delete" type="button" disabled>Remove active saved entry</button>
+            </div>
+            <label class="vault-recall-control" for="vault-recall">
+              <input id="vault-recall" type="checkbox" disabled>
+              <span>Explicitly use saved context on Send. Only the saved transcript and new question go to the model; unsaved tab history is excluded.</span>
+            </label>
+            <p id="vault-status" role="status">Checking optional vault…</p>
+          </section>
           <button class="new-chat" id="clear" type="button">＋ New conversation</button>
           <div class="panel-footer">V-E-R-A / LOCAL CONSOLE <span>01</span></div>
         </aside>

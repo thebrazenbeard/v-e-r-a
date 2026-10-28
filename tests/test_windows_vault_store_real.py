@@ -10,11 +10,13 @@ from contextlib import contextmanager
 import os
 from pathlib import Path
 import sqlite3
-import tempfile
 import unittest
 
 from interface.local_transcript import TranscriptStore
 from interface.vault_acl import require_private_regular_file, require_protected_parent_directory
+from tests.windows_acl_fixture import (
+    describe_windows_acl_chain, private_profile_temporary_directory,
+)
 
 
 @contextmanager
@@ -24,7 +26,7 @@ def _windows_private_directory():
     import win32con
     import win32security
 
-    with tempfile.TemporaryDirectory() as folder:
+    with private_profile_temporary_directory() as folder:
         target = Path(folder)
         token = win32security.OpenProcessToken(win32api.GetCurrentProcess(),
                                                win32con.TOKEN_QUERY)
@@ -38,7 +40,7 @@ def _windows_private_directory():
             win32security.ConvertStringSidToSid("S-1-5-32-544"),
         ):
             private.AddAccessAllowedAceEx(win32security.ACL_REVISION,
-                                          inheritable, win32con.FILE_ALL_ACCESS, sid)
+                                          inheritable, win32con.GENERIC_ALL, sid)
         win32security.SetNamedSecurityInfo(
             str(target), win32security.SE_FILE_OBJECT,
             win32security.DACL_SECURITY_INFORMATION |
@@ -89,7 +91,11 @@ class NativeWindowsEncryptedVaultTests(unittest.TestCase):
         key = "test-native-win-vault-secret-0123456789"
         with _windows_private_directory() as private:
             db_path = private / "private.sqlite3"
-            first = TranscriptStore(db_path, key)
+            try:
+                first = TranscriptStore(db_path, key)
+            except ValueError as exc:
+                self.fail(f"{exc}; actual ACL chain: " +
+                          describe_windows_acl_chain(db_path.parent))
             self.assertEqual(first.read()["revision"], 0)
             self.assertEqual(first.save([{"role": "user", "content": marker}], 0)["revision"], 1)
 
@@ -121,7 +127,7 @@ class NativeWindowsEncryptedVaultTests(unittest.TestCase):
             dacl = security.GetSecurityDescriptorDacl()
             world = win32security.ConvertStringSidToSid("S-1-1-0")
             dacl.AddAccessAllowedAceEx(win32security.ACL_REVISION, 0,
-                win32con.FILE_GENERIC_READ, world)
+                win32con.GENERIC_READ, world)
             win32security.SetNamedSecurityInfo(str(db_path),
                 win32security.SE_FILE_OBJECT,
                 win32security.DACL_SECURITY_INFORMATION |

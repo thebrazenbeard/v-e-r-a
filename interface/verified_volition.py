@@ -82,7 +82,7 @@ def _windows_private_handle(path: Path, *, directory: bool = False, read: bool =
         access = win32con.READ_CONTROL | ntsecuritycon.FILE_READ_ATTRIBUTES
         if read:
             access |= ntsecuritycon.FILE_READ_DATA
-        flags = win32con.FILE_FLAG_OPEN_REPARSE_POINT
+        flags = win32file.FILE_FLAG_OPEN_REPARSE_POINT
         if directory:
             flags |= win32con.FILE_FLAG_BACKUP_SEMANTICS
         handle = win32file.CreateFile(str(path), access, share, None,

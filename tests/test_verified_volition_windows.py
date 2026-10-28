@@ -9,12 +9,14 @@ from hashlib import sha256
 import json
 import os
 from pathlib import Path
-import tempfile
 import unittest
 
 from interface.goal_view import GoalViewError
 from interface.verified_volition import (
     VerifiedVolitionGoalProvider, fingerprint_installed_volition, seal_host_state,
+)
+from tests.windows_acl_fixture import (
+    describe_windows_acl_chain, private_profile_temporary_directory,
 )
 
 
@@ -27,7 +29,7 @@ class WindowsVolitionCustodyTests(unittest.TestCase):
         from volition import (DriveKind, ModelWantProposal, ObservationClaim,
                               ObservationVerifier, OperationalMotivation)
 
-        private_root = tempfile.TemporaryDirectory()
+        private_root = private_profile_temporary_directory()
         self.addCleanup(private_root.cleanup)
         self.sandbox = Path(private_root.name)
         self.private = self.sandbox / "volition-custody"
@@ -91,8 +93,12 @@ class WindowsVolitionCustodyTests(unittest.TestCase):
             expected_runtime_sha256=self.runtime_sha)
 
     def test_private_native_dacl_allows_read_only_projection_and_rejects_rollback(self):
-        provider = self._provider()
-        result = provider.read_projection(now=self.now)
+        try:
+            provider = self._provider()
+            result = provider.read_projection(now=self.now)
+        except GoalViewError as exc:
+            self.fail(f"{exc}; actual ACL chain: " +
+                      describe_windows_acl_chain(self.private))
         self.assertEqual(result["status"], "PROPOSED_REVIEW")
         self.assertFalse(result["effect_authority"])
         self._write(2)

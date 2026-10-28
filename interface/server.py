@@ -236,10 +236,10 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434")
 
         def _send(self, code: int, payload: dict):
             raw = json.dumps(payload, ensure_ascii=False).encode("utf-8")
-            self._headers(code, "application/json; charset=utf-8", len(raw))
             try:
+                self._headers(code, "application/json; charset=utf-8", len(raw))
                 self.wfile.write(raw)
-            except (BrokenPipeError, ConnectionResetError):
+            except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
                 # A local client can disconnect while a bounded error is sent.
                 self.close_connection = True
 
@@ -279,7 +279,7 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434")
                 self._headers(200, mime, len(raw))
                 try:
                     self.wfile.write(raw)
-                except (BrokenPipeError, ConnectionResetError):
+                except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
                     self.close_connection = True
             elif path.path == "/api/session":
                 self._send(200, {"token": self.server.session_token, "mode": "response_only"})

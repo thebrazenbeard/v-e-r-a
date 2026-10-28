@@ -117,6 +117,41 @@ def _windows_verify_directory_chain(parent: Path, *, label: str) -> None:
         current = ancestor
 
 
+def _posix_verify_directory_chain(parent: Path, *, label: str) -> None:
+    """Check each lexical ancestor before trusting a private vault parent.
+
+    A writable, non-sticky grandparent can replace an otherwise private child
+    directory. A *higher* sticky directory (such as /tmp) is acceptable only
+    when each child in the path is owned by this process or root: the sticky
+    rule then prevents a different user from removing that child's entry.
+    The immediate parent stays owner-private, even when it is sticky.
+
+    This is a path-state check, not a claim of race-free directory-handle
+    pinning or protection from the same UID / privileged adversaries.
+    """
+    if ".." in parent.parts:
+        raise ValueError(f"{label} ancestor traversal refused")
+    absolute_parent = parent.absolute()
+    trusted_owners = {0, os.geteuid()}
+    for directory in (*reversed(absolute_parent.parents), absolute_parent):
+        try:
+            metadata = directory.lstat()
+        except OSError as exc:
+            raise ValueError(f"{label} ancestor directory unavailable") from exc
+        mode = metadata.st_mode
+        if stat.S_ISLNK(mode):
+            raise ValueError(f"{label} ancestor symlink refused")
+        if not stat.S_ISDIR(mode):
+            raise ValueError(f"{label} ancestor must be a directory")
+        if metadata.st_uid not in trusted_owners:
+            raise ValueError(f"{label} ancestor owned by another identity")
+        if mode & 0o022:
+            if directory == absolute_parent:
+                raise ValueError(f"{label} parent must not be group/world writable")
+            if not mode & stat.S_ISVTX:
+                raise ValueError(f"{label} ancestor must not be non-sticky writable")
+
+
 def require_private_regular_file(path: str | Path, *, label: str) -> Path:
     """Require a regular, non-symlink owner-private file; never change its ACL."""
     supplied = Path(path).expanduser()
@@ -166,5 +201,5 @@ def require_protected_parent_directory(path: str | Path, *, label: str) -> None:
         _windows_verify_directory_chain(parent, label=label)
         if resolved != parent:
             _windows_verify_directory_chain(resolved, label=label)
-    elif mode & 0o022:
-        raise ValueError(f"{label} parent must not be group/world writable")
+    else:
+        _posix_verify_directory_chain(parent, label=label)

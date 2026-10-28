@@ -105,8 +105,48 @@ def _read_json_from_model(url: str, *, payload: dict | None = None,
     raw_body = None if payload is None else json.dumps(payload, ensure_ascii=False).encode("utf-8")
     req = Request(url, data=raw_body, headers={"Content-Type": "application/json"}
                   if raw_body is not None else {}, method="POST" if raw_body else "GET")
+    deadline = time.monotonic() + timeout
     with _LOCAL_OPENER.open(req, timeout=timeout) as response:
-        raw = response.read(limit + 1)
+        # Validate the bounded local HTTP socket before interpreting framing.
+        # Unsupported response implementations must fail closed.
+        sock = getattr(getattr(getattr(response, "fp", None), "raw", None), "_sock", None)
+        if response.fp is not None and sock is None:
+            raise GatewayError("model response socket unavailable")
+        declared_lengths = response.headers.get_all("Content-Length", [])
+        if len(declared_lengths) > 1:
+            raise GatewayError("ambiguous model response length")
+        declared_length = None
+        if declared_lengths:
+            value = declared_lengths[0].strip()
+            if not value.isdecimal():
+                raise GatewayError("invalid model response length")
+            declared_length = int(value)
+        if declared_length is not None and response.headers.get("Transfer-Encoding"):
+            raise GatewayError("ambiguous model response framing")
+        chunks = []
+        remaining = limit + 1
+        while remaining:
+            if response.fp is None:
+                break
+            budget = deadline - time.monotonic()
+            if budget <= 0:
+                raise TimeoutError("local model response deadline exceeded")
+            # urlopen's timeout is per socket operation. A model that drips
+            # bytes can otherwise hold the worker indefinitely. HTTPResponse
+            # read1 returns available data without filling the requested size.
+            # This adapter accepts only local HTTP; fail closed if a Python
+            # response implementation does not expose its socket timeout.
+            sock.settimeout(budget)
+            chunk = response.read1(min(remaining, 4096))
+            if time.monotonic() >= deadline:
+                raise TimeoutError("local model response deadline exceeded")
+            if not chunk:
+                break
+            chunks.append(chunk)
+            remaining -= len(chunk)
+        raw = b"".join(chunks)
+        if declared_length is not None and len(raw) != declared_length:
+            raise GatewayError("truncated model response")
     if len(raw) > limit:
         raise GatewayError("model response exceeded limit")
     try:

@@ -162,13 +162,13 @@ class InterfaceTests(unittest.TestCase):
             while time.monotonic() - started < 0.45:
                 try:
                     client.sendall(b" ")
-                except (BrokenPipeError, ConnectionResetError):
+                except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
                     break
                 time.sleep(0.04)
             try:
                 response = client.recv(1024)
                 self.assertIn(b" 408 ", response)
-            except ConnectionResetError:
+            except (ConnectionResetError, ConnectionAbortedError):
                 pass
         self.assertEqual(self.chat()[0], 200)
 

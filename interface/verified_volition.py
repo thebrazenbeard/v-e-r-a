@@ -8,6 +8,7 @@ through Volition's real OperationalMotivation class. None grants effects.
 
 from __future__ import annotations
 
+from contextlib import closing
 from datetime import datetime, timezone
 import hashlib
 import hmac
@@ -331,11 +332,12 @@ class VerifiedVolitionGoalProvider:
             flags = os.O_CREAT | os.O_EXCL | os.O_RDWR | getattr(os, "O_NOFOLLOW", 0)
             fd = os.open(self.ledger_path, flags, 0o600)
             os.close(fd)
-        with sqlite3.connect(self.ledger_path) as db:
-            db.execute("CREATE TABLE IF NOT EXISTS seen ("
-                       "owner TEXT NOT NULL, source TEXT NOT NULL, "
-                       "publication INTEGER NOT NULL, digest TEXT NOT NULL, "
-                       "PRIMARY KEY(owner,source))")
+        with closing(sqlite3.connect(self.ledger_path)) as db:
+            with db:
+                db.execute("CREATE TABLE IF NOT EXISTS seen ("
+                           "owner TEXT NOT NULL, source TEXT NOT NULL, "
+                           "publication INTEGER NOT NULL, digest TEXT NOT NULL, "
+                           "PRIMARY KEY(owner,source))")
 
     def read_projection(self, *, now: datetime | None = None) -> dict[str, Any]:
         now = datetime.now(timezone.utc) if now is None else now
@@ -393,16 +395,17 @@ class VerifiedVolitionGoalProvider:
         # older sealed publication after a later one is rejected even inside TTL.
         with self._lock:
             _private_regular(self.ledger_path)
-            with sqlite3.connect(self.ledger_path, timeout=5) as db:
-                db.execute("BEGIN IMMEDIATE")
-                old = db.execute("SELECT publication,digest FROM seen WHERE owner=? AND source=?",
-                                 (self._owner, self._source)).fetchone()
-                if old is not None and (publication < old[0]
-                                        or (publication == old[0] and digest != old[1])):
-                    raise GoalViewError("host publication rolled back or equivocated")
-                if old is None or publication > old[0]:
-                    db.execute("INSERT INTO seen(owner,source,publication,digest) VALUES(?,?,?,?) "
-                               "ON CONFLICT(owner,source) DO UPDATE SET "
-                               "publication=excluded.publication,digest=excluded.digest",
-                               (self._owner, self._source, publication, digest))
+            with closing(sqlite3.connect(self.ledger_path, timeout=5)) as db:
+                with db:
+                    db.execute("BEGIN IMMEDIATE")
+                    old = db.execute("SELECT publication,digest FROM seen WHERE owner=? AND source=?",
+                                     (self._owner, self._source)).fetchone()
+                    if old is not None and (publication < old[0]
+                                            or (publication == old[0] and digest != old[1])):
+                        raise GoalViewError("host publication rolled back or equivocated")
+                    if old is None or publication > old[0]:
+                        db.execute("INSERT INTO seen(owner,source,publication,digest) VALUES(?,?,?,?) "
+                                   "ON CONFLICT(owner,source) DO UPDATE SET "
+                                   "publication=excluded.publication,digest=excluded.digest",
+                                   (self._owner, self._source, publication, digest))
         return projection

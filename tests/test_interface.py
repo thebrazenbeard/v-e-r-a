@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import socket
 import threading
+from threading import BoundedSemaphore
+import time
 import unittest
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.error import HTTPError
@@ -125,6 +128,77 @@ class InterfaceTests(unittest.TestCase):
         self.assertEqual(self.request("/api/models")[0], 403)
         self.assertEqual(self.request("/api/status")[0], 403)
         self.assertEqual(LocalModel.get_paths, [])
+
+    def test_stalled_post_body_has_bounded_read_time(self):
+        # A valid local session must not pin an unbounded HTTP request thread.
+        self.app.read_timeout_seconds = 0.2
+        with socket.create_connection(("127.0.0.1", self.app.server_port), timeout=2) as client:
+            client.settimeout(2)
+            partial = (
+                f"POST /api/chat HTTP/1.1\r\nHost: 127.0.0.1:{self.app.server_port}\r\n"
+                f"Origin: {self.base}\r\n"
+                f"X-Vera-Session: {self.app.session_token}\r\n"
+                "Content-Type: application/json\r\n"
+                "Content-Length: 96\r\n\r\n{"
+            ).encode("ascii")
+            client.sendall(partial)
+            self.assertIn(b" 408 ", client.recv(1024))
+        self.assertEqual(self.chat()[0], 200)
+
+    def test_slow_drip_post_body_cannot_extend_absolute_deadline(self):
+        self.app.read_timeout_seconds = 1
+        self.app.body_deadline_seconds = 0.3
+        with socket.create_connection(("127.0.0.1", self.app.server_port), timeout=2) as client:
+            client.settimeout(2)
+            header = (
+                f"POST /api/chat HTTP/1.1\r\nHost: 127.0.0.1:{self.app.server_port}\r\n"
+                f"Origin: {self.base}\r\n"
+                f"X-Vera-Session: {self.app.session_token}\r\n"
+                "Content-Type: application/json\r\n"
+                "Content-Length: 100\r\n\r\n"
+            ).encode("ascii")
+            client.sendall(header + b"{")
+            started = time.monotonic()
+            while time.monotonic() - started < 0.45:
+                try:
+                    client.sendall(b" ")
+                except (BrokenPipeError, ConnectionResetError):
+                    break
+                time.sleep(0.04)
+            try:
+                response = client.recv(1024)
+                self.assertIn(b" 408 ", response)
+            except ConnectionResetError:
+                pass
+        self.assertEqual(self.chat()[0], 200)
+
+    def test_request_thread_limit_recovers_after_stalled_clients_exit(self):
+        self.app.request_slots = BoundedSemaphore(2)
+        holders = []
+        try:
+            for _ in range(2):
+                sock = socket.create_connection(("127.0.0.1", self.app.server_port), timeout=2)
+                holders.append(sock)
+                sock.sendall(b"GET / HTTP/1.1\r\nHost: 127.0.0.1:")
+            until = time.monotonic() + 2
+            while self.app.request_slots._value and time.monotonic() < until:
+                time.sleep(0.01)
+            self.assertEqual(self.app.request_slots._value, 0)
+            with socket.create_connection(("127.0.0.1", self.app.server_port), timeout=2) as refused:
+                refused.settimeout(2)
+                try:
+                    refused.sendall(b"GET / HTTP/1.1\r\n\r\n")
+                    self.assertEqual(refused.recv(256), b"")
+                except ConnectionResetError:
+                    pass  # Either close or reset is a fail-closed admission refusal.
+        finally:
+            for sock in holders:
+                sock.close()
+        until = time.monotonic() + 2
+        while self.app.request_slots._value < 2 and time.monotonic() < until:
+            time.sleep(0.01)
+        self.assertEqual(self.app.request_slots._value, 2)
+        self.assertEqual(self.request("/")[0], 200)
         self.assertEqual(self.request("/api/models", headers={
             "X-Vera-Session": self.app.session_token, "Sec-Fetch-Site": "cross-site"
         })[0], 403)

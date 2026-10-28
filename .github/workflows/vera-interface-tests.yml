@@ -1,0 +1,43 @@
+name: Vera interface qualification
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  interface:
+    name: Interface contracts (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: thebrazenbeard/volition
+          ref: f622e564bf257b0ffc0b3c05130b62db1c201d3d
+          path: volition-src
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install private-vault test dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements-vault.txt
+      - name: Python interface and pinned Volition contracts
+        env:
+          PYTHONPATH: ${{ github.workspace }}/volition-src/src
+        run: python -m unittest discover -s tests -q
+      - name: Browser revocation regression
+        run: node --test tests/test_vault_ui_state.mjs
+      - name: Static compilation and syntax
+        run: python -m compileall -q interface tests
+      - name: JavaScript syntax
+        run: node --check interface/static/app.js

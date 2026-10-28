@@ -137,7 +137,7 @@ class WindowsVolitionCustodyTests(unittest.TestCase):
             self.record.symlink_to(other)
         except (OSError, NotImplementedError) as exc:
             self.skipTest(f"runner cannot create Windows symlink: {exc}")
-        with self.assertRaisesRegex(GoalViewError, "non-reparse"):
+        with self.assertRaisesRegex(GoalViewError, "symlink/reparse"):
             self._provider()
 
     def test_missing_ledger_broken_symlink_is_not_treated_as_vacant(self):

@@ -3,6 +3,14 @@ name: Vera interface qualification
 on:
   pull_request:
   workflow_dispatch:
+  push:
+    branches:
+      - fix/secure-continuity-volition-20261027
+    paths:
+      - '.github/workflows/vera-interface-tests.yml'
+      - 'interface/**'
+      - 'tests/**'
+      - 'requirements-vault.txt'
 
 permissions:
   contents: read
@@ -32,9 +40,9 @@ jobs:
       - name: Install private-vault test dependencies
         run: python -m pip install --disable-pip-version-check -r requirements-vault.txt
       # Linux exercises the full integration suite, including POSIX custody
-      # and the pinned real Volition source. The Windows host-source adapter
-      # deliberately refuses qualification until real source/key ACL support
-      # exists; default Windows temp dirs are not private-vault fixtures.
+      # and the pinned real Volition source. Windows executes native pywin32
+      # private-vault/source/ledger DACL checks in protected disposable fixtures.
+      # Neither platform suite alone qualifies Lappy's live host ACLs.
       - name: Linux full interface and pinned Volition contracts
         if: runner.os == 'Linux'
         env:

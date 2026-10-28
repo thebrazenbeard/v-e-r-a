@@ -47,6 +47,51 @@ class VaultAclTests(unittest.TestCase):
                 require_private_regular_file(path, label="vault key")
 
     @unittest.skipIf(os.name == "nt", "Unix-specific mode assertions")
+    def test_writable_grandparent_without_sticky_bit_is_refused(self):
+        with tempfile.TemporaryDirectory() as folder:
+            outer = Path(folder) / "untrusted"
+            private = outer / "vault"
+            private.mkdir(parents=True, mode=0o700)
+            secret = private / "secret.txt"
+            secret.write_text("test secret")
+            secret.chmod(0o600)
+            outer.chmod(0o777)
+            with self.assertRaisesRegex(ValueError, "ancestor.*writable"):
+                require_private_regular_file(secret, label="vault key")
+
+    @unittest.skipIf(os.name == "nt", "Unix-specific mode assertions")
+    def test_trusted_private_child_of_sticky_writable_ancestor_is_allowed(self):
+        with tempfile.TemporaryDirectory() as folder:
+            shared = Path(folder) / "shared"
+            shared.mkdir(mode=0o700)
+            shared.chmod(0o1777)
+            private = shared / "vault"
+            private.mkdir(mode=0o700)
+            secret = private / "secret.txt"
+            secret.write_text("test secret")
+            secret.chmod(0o600)
+            self.assertEqual(require_private_regular_file(secret, label="vault key"),
+                             secret.resolve())
+
+    @unittest.skipIf(os.name == "nt", "Unix-specific mode assertions")
+    def test_symlink_grandparent_is_refused_even_if_target_private(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            target = root / "target"
+            private = target / "vault"
+            private.mkdir(parents=True, mode=0o700)
+            secret = private / "secret.txt"
+            secret.write_text("test secret")
+            secret.chmod(0o600)
+            link = root / "alias"
+            try:
+                link.symlink_to(target, target_is_directory=True)
+            except OSError:
+                self.skipTest("no symlink permission on this filesystem")
+            with self.assertRaisesRegex(ValueError, "ancestor symlink"):
+                require_private_regular_file(link / "vault" / "secret.txt", label="vault key")
+
+    @unittest.skipIf(os.name == "nt", "Unix-specific mode assertions")
     def test_cli_refuses_secret_file_readable_by_another_user(self):
         with tempfile.TemporaryDirectory() as folder:
             secret = Path(folder) / "private-key"

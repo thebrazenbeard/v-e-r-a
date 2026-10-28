@@ -1,0 +1,1 @@
+The full regression suite requires the Volition checkout at f622e564bf257b0ffc0b3c05130b62db1c201d3d. Set PYTHONPATH to its src directory before running the Windows tests. Reject a different checkout.

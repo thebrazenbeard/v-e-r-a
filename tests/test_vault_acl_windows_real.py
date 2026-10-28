@@ -8,12 +8,14 @@ temp directory, user profile, and production vault are never modified.
 
 from pathlib import Path
 import os
-import tempfile
 import unittest
 
 from interface.vault_acl import (
     require_private_regular_file,
     require_protected_parent_directory,
+)
+from tests.windows_acl_fixture import (
+    describe_windows_acl_chain, private_profile_temporary_directory,
 )
 
 
@@ -33,7 +35,7 @@ class WindowsVaultAclIntegrationTests(unittest.TestCase):
             token, win32security.TokenUser
         )[0]
         self.other_sid = win32security.ConvertStringSidToSid("S-1-5-11")
-        self.scratch = tempfile.TemporaryDirectory()
+        self.scratch = private_profile_temporary_directory()
         self.addCleanup(self.scratch.cleanup)
         self.private_dir = Path(self.scratch.name) / "owner-private"
         self.private_dir.mkdir()
@@ -65,11 +67,15 @@ class WindowsVaultAclIntegrationTests(unittest.TestCase):
 
     def test_explicit_owner_only_dacl_allows_private_file(self):
         secret = self._secret("private.txt")
-        require_protected_parent_directory(secret, label="test key")
-        self.assertEqual(
-            require_private_regular_file(secret, label="test key"),
-            secret.resolve(),
-        )
+        try:
+            require_protected_parent_directory(secret, label="test key")
+            self.assertEqual(
+                require_private_regular_file(secret, label="test key"),
+                secret.resolve(),
+            )
+        except ValueError as exc:
+            self.fail(f"{exc}; actual ACL chain: " +
+                      describe_windows_acl_chain(secret.parent))
 
     def test_authenticated_users_read_grant_on_file_fails_closed(self):
         secret = self._secret("broad-read.txt")

@@ -4,7 +4,7 @@ Keep the distinction explicit: these verify deny/allow decisions given pywin32
 return values. They cannot establish filesystem custody on Lappy.
 """
 
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 import sys
 import tempfile
 from types import SimpleNamespace
@@ -20,6 +20,8 @@ from interface.vault_acl import (
 CURRENT = "S-1-5-21-12345-67890-13579-1001"
 OTHER = "S-1-5-21-12345-67890-13579-1002"
 SYSTEM = "S-1-5-18"
+TRUSTED_INSTALLER = "S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464"
+OWNER_RIGHTS = "S-1-3-4"
 
 
 class _Dacl:
@@ -48,7 +50,7 @@ class _SecurityDescriptor:
 
 class WindowsAclEmulationTests(unittest.TestCase):
     def _inspect(self, *, aces, owner=CURRENT, directory=False, ancestor=False,
-                 has_dacl=True):
+                 has_dacl=True, path=None):
         sd = _SecurityDescriptor(aces, owner=owner, has_dacl=has_dacl)
         security = SimpleNamespace(
             OWNER_SECURITY_INFORMATION=1, DACL_SECURITY_INFORMATION=4,
@@ -66,8 +68,49 @@ class WindowsAclEmulationTests(unittest.TestCase):
             "win32api": win32api,
             "win32con": win32con,
         }):
-            _windows_private_dacl(Path("X:/private/vault"), directory=directory,
+            _windows_private_dacl(path or Path("X:/private/vault"), directory=directory,
                                   ancestor=ancestor)
+
+    def test_trustedinstaller_owner_allowed_only_at_local_volume_root(self):
+        own = ((0, 0), 0x001F01FF, SYSTEM)
+        ordinary_reader = ((0, 0), 0x001200A9, OTHER)
+        sibling_creator = ((0, 0), 0x00000004, OTHER)
+        volume = PureWindowsPath("X:/")
+        self._inspect(path=volume, directory=True, ancestor=True,
+                      owner=TRUSTED_INSTALLER,
+                      aces=[own, ordinary_reader, sibling_creator])
+        for path, ancestor in (
+            (PureWindowsPath("X:/private"), True),
+            (volume, False),
+            (PureWindowsPath("X:relative"), True),
+            (PureWindowsPath("//server/share/"), True),
+        ):
+            with self.subTest(path=str(path), ancestor=ancestor):
+                with self.assertRaisesRegex(ValueError, "owned by another"):
+                    self._inspect(path=path, directory=True, ancestor=ancestor,
+                                  owner=TRUSTED_INSTALLER, aces=[own])
+        with self.assertRaisesRegex(ValueError, "owned by another"):
+            self._inspect(path=volume, directory=True, ancestor=True,
+                          owner="S-1-5-80-123456", aces=[own])
+
+    def test_trustedinstaller_root_does_not_hide_foreign_destructive_ace(self):
+        volume = PureWindowsPath("X:/")
+        for mask in (0x2, 0x40, 0x10000, 0x40000, 0x80000, 0x10000000):
+            with self.subTest(mask=hex(mask)):
+                with self.assertRaisesRegex(ValueError, "grants access"):
+                    self._inspect(path=volume, directory=True, ancestor=True,
+                                  owner=TRUSTED_INSTALLER,
+                                  aces=[((0, 0), 0x001F01FF, SYSTEM),
+                                        ((0, 0), mask, OTHER)])
+
+    def test_owner_rights_ace_follows_trusted_owner_only(self):
+        self._inspect(directory=True, ancestor=True,
+                      aces=[((0, 0), 0x001F01FF, OWNER_RIGHTS),
+                            ((0, 0), 0x001F01FF, CURRENT)])
+        with self.assertRaisesRegex(ValueError, "owned by another"):
+            self._inspect(directory=True, ancestor=True, owner=OTHER,
+                          aces=[((0, 0), 0x001F01FF, OWNER_RIGHTS),
+                                ((0, 0), 0x001F01FF, CURRENT)])
 
     def test_current_user_and_system_file_access_accepted(self):
         self._inspect(aces=[((0, 0), 0x001F01FF, CURRENT),

@@ -201,8 +201,8 @@ class InterfaceTests(unittest.TestCase):
                 try:
                     refused.sendall(b"GET / HTTP/1.1\r\n\r\n")
                     self.assertEqual(refused.recv(256), b"")
-                except ConnectionResetError:
-                    pass  # Either close or reset is a fail-closed admission refusal.
+                except (ConnectionResetError, ConnectionAbortedError):
+                    pass  # Close, reset, or Windows abort are fail-closed refusals.
         finally:
             for sock in holders:
                 sock.close()
@@ -383,7 +383,9 @@ class InterfaceTests(unittest.TestCase):
             finally:
                 restarted.shutdown()
                 restarted.server_close()
-            with sqlite3.connect(db) as database:
+            # sqlite3.Connection's context manager commits/rolls back but does
+            # not close the handle. Windows refuses to unlink an open DB file.
+            with closing(sqlite3.connect(db)) as database:
                 actions = database.execute("SELECT action FROM audit ORDER BY seq").fetchall()
             self.assertEqual(actions, [("operator_save",), ("operator_delete",)])
 
@@ -479,7 +481,7 @@ class InterfaceTests(unittest.TestCase):
 
     def test_ui_does_not_claim_forensic_erasure(self):
         ui = (Path(__file__).parents[1] / "interface" / "static" / "app.js").read_text()
-        html = (Path(__file__).parents[1] / "interface" / "static" / "index.html").read_text()
+        html = (Path(__file__).parents[1] / "interface" / "static" / "index.html").read_text(encoding="utf-8")
         self.assertIn("NOT forensic erasure", ui)
         self.assertIn("withVaultLock", ui)
         self.assertIn("expected_revision: snapshot.revision", ui)

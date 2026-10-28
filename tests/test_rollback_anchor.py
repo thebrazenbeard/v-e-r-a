@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+from contextlib import closing
 import hashlib
 import hmac
 import json
@@ -52,7 +53,7 @@ class RollbackAnchorTests(unittest.TestCase):
 
     def test_witness_mac_uses_scrypt_material_not_fast_raw_secret(self):
         self._open()
-        with sqlite3.connect(self.db) as db:
+        with closing(sqlite3.connect(self.db)) as db:
             salt = db.execute("SELECT salt FROM vault_crypto WHERE slot=1").fetchone()[0]
         material = hashlib.scrypt(self.key.encode("ascii"), salt=salt,
                                   n=2 ** 14, r=8, p=1, dklen=32)

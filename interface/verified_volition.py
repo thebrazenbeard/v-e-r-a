@@ -56,6 +56,7 @@ def _windows_private_handle(path: Path, *, directory: bool = False, read: bool =
     not a pathname that could be replaced between inspection and the read.
     """
     try:
+        import ntsecuritycon
         import win32api
         import win32con
         import win32file
@@ -78,9 +79,9 @@ def _windows_private_handle(path: Path, *, directory: bool = False, read: bool =
         except ValueError as exc:
             raise GoalViewError("Windows host evidence ancestor custody refused") from exc
         share = (win32con.FILE_SHARE_READ | win32con.FILE_SHARE_WRITE) if directory else 0
-        access = win32con.READ_CONTROL | win32con.FILE_READ_ATTRIBUTES
+        access = win32con.READ_CONTROL | ntsecuritycon.FILE_READ_ATTRIBUTES
         if read:
-            access |= win32con.FILE_READ_DATA
+            access |= ntsecuritycon.FILE_READ_DATA
         flags = win32con.FILE_FLAG_OPEN_REPARSE_POINT
         if directory:
             flags |= win32con.FILE_FLAG_BACKUP_SEMANTICS

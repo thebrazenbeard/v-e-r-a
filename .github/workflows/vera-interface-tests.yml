@@ -75,6 +75,17 @@ jobs:
           tests.test_goal_view.GoalViewTests.test_model_class_without_model_origin_claim_holds
           tests.test_goal_view.GoalViewTests.test_no_active_goal_does_not_invent_one
           -q
+      # The model HTTP deadline is implemented with CPython socket internals.
+      # Exercise the exact regression on native Windows, not Linux alone.
+      - name: Windows local model deadline regressions
+        if: runner.os == 'Windows'
+        run: >-
+          python -m unittest
+          tests.test_interface.InterfaceTests.test_model_response_trickle_cannot_extend_absolute_deadline
+          tests.test_interface.InterfaceTests.test_model_response_without_bounded_socket_fails_closed
+          tests.test_interface.InterfaceTests.test_truncated_model_content_length_is_rejected
+          tests.test_interface.InterfaceTests.test_valid_model_json_with_whitespace_in_supported_framings
+          -q
       - name: Browser revocation regression
         run: node --test tests/test_vault_ui_state.mjs
       - name: Static compilation and syntax

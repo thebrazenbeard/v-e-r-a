@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "No external plugins or filesystem/network privileges granted to webview",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}

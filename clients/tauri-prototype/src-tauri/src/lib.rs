@@ -1,3 +1,4 @@
+mod v2;
 use serde_json::{json,Value};
 use std::{fs,path::PathBuf,time::Duration};
 
@@ -78,6 +79,6 @@ fn chat(model:String,session_id:String,request_id:String,content:String)
 
 #[cfg_attr(mobile,tauri::mobile_entry_point)]
 pub fn run() {
-    tauri::Builder::default().invoke_handler(tauri::generate_handler![models,chat])
+    tauri::Builder::default().invoke_handler(tauri::generate_handler![models,chat,v2::v2_enrolled,v2::v2_models,v2::v2_create_session,v2::v2_list_sessions,v2::v2_history,v2::v2_chat])
         .run(tauri::generate_context!()).expect("Vera desktop launcher failed");
 }

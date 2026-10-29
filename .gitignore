@@ -5,3 +5,10 @@ __pycache__/
 branch_structure.json
 temp_auto_push.bat
 temp_interactive_push.bat
+
+# Local .NET compilation and native Windows prototype output
+clients/**/bin/
+clients/**/obj/
+clients/**/.vs/
+*.user
+*.suo

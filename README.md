@@ -57,7 +57,7 @@ python scripts/materialize.py verify --only portal
 
 `check-origin` and `materialize` contact the repository's remote Git origin. Materialization creates a **detached worktree at the recorded snapshot commit**, verifies that the branch did not move, and refuses an existing destination. `verify` checks commit and clean-state invariants after materialization. It does not compare that snapshot to a newer upstream `main` or test upstream runtime behavior.
 
-For sanitized branches, a tracked `MIRROR_SOURCE_PROVENANCE.json` records omitted material; they are **not** byte-identical upstream mirrors. The provider snapshot contains schema/code definitions, not a restorable live service or customer records. The source repositories themselves remain authoritative for code changes, reviews, licenses, and deployments. Do not treat a mirror branch as a permission grant or as a substitute for its upstream security review.
+For sanitized branches, a tracked `MIRROR_SOURCE_PROVENANCE.json` records omitted material; they are **not** byte-identical upstream mirrors. The registry **labels** the provider snapshot as source definitions and says that live rows, credentials, and managed service state are excluded. That is a provenance classification, **not** an independent sensitive-content audit or proof that the snapshot contains no customer records. The source repositories themselves remain authoritative for code changes, reviews, licenses, and deployments. Do not treat a mirror branch as a permission grant or as a substitute for its upstream security review.
 
 ## Interfaces and trust boundaries
 

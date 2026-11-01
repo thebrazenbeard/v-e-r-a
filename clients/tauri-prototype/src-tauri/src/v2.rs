@@ -3,14 +3,17 @@
 //! Never expose the bearer or owner ID through JavaScript IPC.
 
 use serde_json::{json, Value};
-use std::{env, fs, path::PathBuf, time::Duration};
+use std::{env, fs, fs::OpenOptions, io::{ErrorKind, Write}, path::{Path, PathBuf}, time::Duration};
 
 const V2_ROOT: &str = "http://127.0.0.1:18781";
+const ENROLLED_MARKER_CONTENT: &[u8] = b"v2-enrolled-v1\n";
 
-fn credential() -> Result<String, String> {
+fn credential_path() -> Result<PathBuf, String> {
     let local = env::var("LOCALAPPDATA").map_err(|_| "Local profile unavailable")?;
-    let path = PathBuf::from(local)
-        .join("VeraDesktop").join("device-v2-token.txt");
+    Ok(PathBuf::from(local).join("VeraDesktop").join("device-v2-token.txt"))
+}
+
+fn credential_from(path: &Path) -> Result<String, String> {
     let raw = fs::read_to_string(path).map_err(|_| "Device pairing required for V2")?;
     let token = raw.trim();
     if !(32..=128).contains(&token.len()) || !token.bytes().all(|b|
@@ -18,6 +21,71 @@ fn credential() -> Result<String, String> {
         return Err("Invalid local device credential".into());
     }
     Ok(token.into())
+}
+
+fn credential() -> Result<String, String> {
+    credential_from(&credential_path()?)
+}
+
+fn enrollment_marker(path: &Path) -> PathBuf {
+    path.with_file_name("device-v2-enrolled.marker")
+}
+
+fn marker_exists_and_valid(path: &Path) -> Result<bool, String> {
+    match fs::symlink_metadata(path) {
+        Err(error) if error.kind() == ErrorKind::NotFound => Ok(false),
+        Err(_) => Err(fail("Device enrollment marker status unavailable")),
+        Ok(metadata) if !metadata.file_type().is_file()
+            || metadata.len() != ENROLLED_MARKER_CONTENT.len() as u64 => {
+                Err(fail("Damaged V2 enrollment marker"))
+            }
+        Ok(_) => {
+            let content = fs::read(path).map_err(|_| fail("Unreadable V2 enrollment marker"))?;
+            if content != ENROLLED_MARKER_CONTENT {
+                return Err(fail("Damaged V2 enrollment marker"));
+            }
+            Ok(true)
+        }
+    }
+}
+
+fn remember_enrollment(path: &Path) -> Result<(), String> {
+    // An existing marker cannot be overwritten or silently repaired. Failed
+    // creation leaves a closed V2 gate, even if the marker is incomplete.
+    let mut file = match OpenOptions::new().write(true).create_new(true).open(path) {
+        Ok(file) => file,
+        Err(error) if error.kind() == ErrorKind::AlreadyExists => {
+            if marker_exists_and_valid(path)? { return Ok(()); }
+            return Err(fail("V2 enrollment marker was not committed"));
+        }
+        Err(_) => return Err(fail("Cannot persist V2 enrollment marker")),
+    };
+    file.write_all(ENROLLED_MARKER_CONTENT)
+        .and_then(|_| file.sync_all())
+        .map_err(|_| fail("Cannot persist V2 enrollment marker"))
+}
+
+fn enrolled_at(path: &Path) -> Result<bool, String> {
+    // A truly never-enrolled device may use V1. Once a valid V2 credential
+    // was seen, a durable marker ensures deleting *only* the token fails
+    // closed. This is not an owner-enforced guarantee against removal of both
+    // files; that requires independent owner-controlled enrollment state.
+    let marker = enrollment_marker(path);
+    let ever_enrolled = marker_exists_and_valid(&marker)?;
+    match fs::symlink_metadata(path) {
+        Err(error) if error.kind() == ErrorKind::NotFound && !ever_enrolled => return Ok(false),
+        Err(error) if error.kind() == ErrorKind::NotFound => {
+            return Err(fail("Previously enrolled V2 device credential missing"));
+        }
+        Err(_) => Err(fail("Device enrollment status unavailable")),
+        Ok(metadata) if !metadata.file_type().is_file() =>
+            Err(fail("Invalid device credential file")),
+        Ok(_) => {
+            credential_from(path)?;
+            if !ever_enrolled { remember_enrollment(&marker)?; }
+            Ok(true)
+        }
+    }
 }
 
 fn agent() -> ureq::Agent {
@@ -73,8 +141,8 @@ fn verify_mode(v: &Value) -> Result<(), String> {
 }
 
 #[tauri::command]
-pub fn v2_enrolled() -> bool {
-    credential().is_ok()
+pub fn v2_enrolled() -> Result<bool, String> {
+    enrolled_at(&credential_path()?)
 }
 
 #[tauri::command]
@@ -165,5 +233,60 @@ mod tests {
     #[test] fn response_authority_required() {
         assert!(verify_mode(&json!({"node":"local","mode":"response_only"})).is_ok());
         assert!(verify_mode(&json!({"node":"remote","mode":"response_only"})).is_err());
+    }
+
+    #[test] fn missing_enrollment_is_explicitly_unenrolled() {
+        let path = std::env::temp_dir().join(format!("vera-v2-not-present-{}", std::process::id()))
+            .join("device-v2-token.txt");
+        assert_eq!(enrolled_at(&path), Ok(false));
+    }
+
+    #[test] fn invalid_existing_credential_cannot_downgrade_to_v1() {
+        let directory = std::env::temp_dir().join(format!(
+            "vera-v2-credential-test-{}-{}", std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH)
+                .unwrap().as_nanos()));
+        fs::create_dir(&directory).unwrap();
+        let path = directory.join("device-v2-token.txt");
+        let marker = enrollment_marker(&path);
+
+        fs::write(&path, "damaged").unwrap();
+        assert!(enrolled_at(&path).is_err());
+        assert!(!marker.exists());
+        fs::write(&path, "a".repeat(40)).unwrap();
+        assert_eq!(enrolled_at(&path), Ok(true));
+        assert_eq!(fs::read(&marker).unwrap().as_slice(), ENROLLED_MARKER_CONTENT);
+        fs::remove_file(&path).unwrap();
+
+        // Deleting the old bearer is NOT permission to fall back to V1.
+        assert!(enrolled_at(&path).is_err());
+
+        fs::create_dir(&path).unwrap();
+        assert!(enrolled_at(&path).is_err());
+        fs::remove_dir(&path).unwrap();
+        fs::write(&path, "b".repeat(40)).unwrap();
+        assert_eq!(enrolled_at(&path), Ok(true));
+        fs::write(&marker, "corrupt").unwrap();
+        assert!(enrolled_at(&path).is_err());
+        fs::remove_file(&path).unwrap();
+        assert!(enrolled_at(&path).is_err());
+        fs::remove_file(&marker).unwrap();
+        fs::remove_dir(&directory).unwrap();
+    }
+
+    #[test] fn marker_creation_failure_never_downgrades() {
+        let directory = std::env::temp_dir().join(format!(
+            "vera-v2-marker-test-{}-{}", std::process::id(),
+            std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH)
+                .unwrap().as_nanos()));
+        fs::create_dir(&directory).unwrap();
+        let path = directory.join("device-v2-token.txt");
+        let marker = enrollment_marker(&path);
+        fs::write(&path, "z".repeat(40)).unwrap();
+        fs::create_dir(&marker).unwrap();
+        assert!(enrolled_at(&path).is_err());
+        fs::remove_dir(&marker).unwrap();
+        fs::remove_file(&path).unwrap();
+        fs::remove_dir(&directory).unwrap();
     }
 }

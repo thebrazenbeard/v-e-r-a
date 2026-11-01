@@ -14,11 +14,16 @@ let busy = false;
 let connected = false;
 let secureMode = false;
 let activeSession = null;
+// Keep an uncertain V2 request ID for an explicit retry of precisely the same
+// owner/session/model/content. Never replay automatically: the gateway's
+// in-process dedupe is not a durable exactly-once guarantee after a restart.
+let uncertainV2Request = null;
 const legacySession = crypto.randomUUID().replaceAll("-", "");
 
 function state(message) {
   status.textContent = message;
   send.disabled = !connected || busy;
+  modelSelect.disabled = !connected || busy;
   connect.disabled = busy;
   newSession.disabled = busy;
   sessionSelect.disabled = busy;
@@ -59,6 +64,26 @@ function displayModels(names) {
   modelSelect.value = names.includes(prior) ? prior :
     names.includes("vera-local:latest") ? "vera-local:latest" : names[0];
 }
+function unavailableModels() {
+  modelSelect.replaceChildren();
+  const option = document.createElement("option");
+  option.value = "";
+  option.textContent = "Unavailable — reconnect";
+  modelSelect.add(option);
+}
+function discoveryFailure(error) {
+  // Bounded non-sensitive categories only: never display raw IPC errors.
+  const reason = String(error ?? "");
+  if (/Tauri IPC unavailable/i.test(reason)) return "Desktop bridge unavailable. Reopen the desktop preview.";
+  if (/Local profile unavailable|Local Vera is not paired|Invalid local pairing credential/i.test(reason))
+    return "Local pairing missing or invalid for this Windows account.";
+  if (/No installed local models/i.test(reason)) return "No installed local models were reported.";
+  if (/Unexpected gateway authority|Invalid models JSON|Invalid inventory|Inventory too large|Invalid model name/i.test(reason))
+    return "Incompatible gateway inventory response.";
+  if (/Vera gateway unavailable|Gateway refused models/i.test(reason))
+    return "Gateway request failed; check the local service and pairing.";
+  return "Model discovery failed. Reconnect after checking the local gateway.";
+}
 function sessionOption(sid) {
   const item = document.createElement("option");
   item.value = sid;
@@ -68,9 +93,23 @@ function sessionOption(sid) {
 async function loadHistory(sid) {
   if (!secureMode || !sid) return;
   const turns = await invoke("v2_history",{sessionId:sid});
+  // Only a persisted result with the SAME server request ID, owner session,
+  // model, and submitted text resolves an uncertain send. Similar text alone
+  // is not evidence of delivery. Missing results in bounded recent history
+  // do not prove non-delivery either.
+  const confirmedPending = uncertainV2Request
+    && uncertainV2Request.sessionId === sid
+    && turns.some(item => item.request_id === uncertainV2Request.requestId
+      && item.user === uncertainV2Request.content
+      && item.model === uncertainV2Request.model
+      && typeof item.assistant === "string" && item.assistant.length > 0);
+  if (confirmedPending) {
+    if (prompt.value === uncertainV2Request.content) prompt.value = "";
+    uncertainV2Request = null;
+  }
   clearBubbles();
   if (turns.length === 0) {
-    bubble("VERA", "New private conversation. Your history is encrypted on Lappy.");
+    bubble("VERA", "New private conversation. History is protected by the owner-scoped gateway.");
   } else {
     for (const item of turns) {
       bubble("YOU", item.user, "you");
@@ -78,15 +117,20 @@ async function loadHistory(sid) {
     }
   }
   activeSession = sid;
-  state("V2 device verified - " + turns.length + " saved exchanges retrieved");
+  state(uncertainV2Request?.sessionId === sid
+    ? "V2 history retrieved; uncertain delivery not confirmed. Review before manual retry."
+    : "V2 device verified - " + turns.length + " saved exchanges retrieved");
 }
 async function load() {
   if (busy) return;
   busy = true;
   connected = false;
+  let enrollmentChecked = false;
+  unavailableModels();
   state("Checking private device authentication…");
   try {
     const enrolled = await invoke("v2_enrolled");
+    enrollmentChecked = true;
     secureMode = enrolled;
     if (enrolled) {
       // There is intentionally no legacy fallback after device enrollment.
@@ -106,25 +150,29 @@ async function load() {
       sessionSelect.value = id;
       await loadHistory(id);
       connected = true;
-      state("Secure V2 connected - encrypted owner-scoped history available");
+      state(uncertainV2Request?.sessionId === id
+        ? "Secure V2 connected; uncertain delivery not confirmed in recent history. Review before retry."
+        : "Secure V2 connected - encrypted owner-scoped history available");
     } else {
       secureMode = false;
       activeSession = null;
       showSessions(false);
-      clearBubbles();
       const names = await invoke("models");
       if (!names.length) throw new Error("No installed local models");
       displayModels(names);
+      // Preserve the visible conversation when model discovery fails.
+      clearBubbles();
       bubble("VERA","Legacy V1 preview. Shared conversation retrieval is not available without V2 enrollment.");
       connected = true;
       state("Legacy preview only - enroll device to enable secured history");
     }
-  } catch (_) {
+  } catch (error) {
     connected = false;
+    unavailableModels();
     // Deliberately fail closed when enrolled device cannot reach V2.
-    state(secureMode
+    state(!enrollmentChecked ? "Device enrollment check failed. Legacy fallback not attempted. " + discoveryFailure(error) : secureMode
       ? "Secure V2 unavailable. Legacy fallback prohibited."
-      : "Gateway unavailable or pairing required.");
+      : discoveryFailure(error));
   } finally {
     busy = false; state(status.textContent);
   }
@@ -162,23 +210,37 @@ form.addEventListener("submit", async event => {
   const text = prompt.value.trim();
   if (!text || text.length > 4096) return;
   const model = modelSelect.value;
-  const requestId = crypto.randomUUID().replaceAll("-", "");
   const sessionId = secureMode ? activeSession : legacySession;
   if (!sessionId) return;
+  const sameUncertainV2Request = secureMode && uncertainV2Request
+    && uncertainV2Request.model === model
+    && uncertainV2Request.sessionId === sessionId
+    && uncertainV2Request.content === text;
+  const requestId = sameUncertainV2Request
+    ? uncertainV2Request.requestId : crypto.randomUUID().replaceAll("-", "");
+  if (!sameUncertainV2Request) uncertainV2Request = null;
   prompt.value = "";
-  bubble("YOU", text, "you");
+  if (!sameUncertainV2Request) bubble("YOU", text, "you");
+  else bubble("SYSTEM", "Explicit retry of an uncertain V2 request; checking history first is recommended.");
   busy = true;
   state("Generating locally on " + model + "…");
   try {
     const reply = secureMode
       ? await invoke("v2_chat",{model,sessionId,requestId,content:text})
       : await invoke("chat",{model,sessionId,requestId,content:text});
+    if (secureMode) uncertainV2Request = null;
     bubble("VERA / " + model, reply);
     state((secureMode ? "Secure V2" : "Legacy V1") + " connected - " + model);
   } catch (_) {
+    if (secureMode) uncertainV2Request = {model,sessionId,content:text,requestId};
     if (!prompt.value) prompt.value = text;
-    bubble("SYSTEM","Delivery uncertain. Draft restored; verify history before resending.");
-    state("Inference not confirmed. Check connection and history.");
+    if (secureMode) {
+      bubble("SYSTEM","Delivery uncertain. Draft restored. Reconnect and verify V2 history before any explicit retry; gateway restarts may defeat in-process deduplication.");
+      state("Delivery uncertain. Verify owner history before manually retrying.");
+    } else {
+      bubble("SYSTEM","Legacy delivery uncertain. Draft restored; the V1 preview cannot retrieve shared history.");
+      state("Legacy inference not confirmed. Inspect any visible reply before retrying.");
+    }
   } finally {
     busy = false; state(status.textContent);
   }

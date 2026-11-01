@@ -81,3 +81,11 @@ jobs:
         run: python -m compileall -q interface tests
       - name: JavaScript syntax
         run: node --check interface/static/app.js
+      # The V2 desktop patch is outside interface/** and tests/**. A green
+      # interface suite alone must not be mistaken for Tauri V2 qualification.
+      - name: V2 desktop read-only probe contract
+        run: python -m unittest discover -s clients/tauri-prototype/tests -p test_v2_readonly_probe.py -q
+      - name: Install V2 desktop UI test dependencies
+        run: npm ci --prefix clients/tauri-prototype --ignore-scripts --omit=optional --no-audit --no-fund
+      - name: V2 desktop UI regression
+        run: npm test --prefix clients/tauri-prototype

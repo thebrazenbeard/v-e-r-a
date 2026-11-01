@@ -1,9 +1,11 @@
 # Vera Desktop V2: Windows delivery and read-only acceptance gate
 
-Source candidate: `thebrazenbeard/v-e-r-a` Draft PR #19 at
-`51bdcdee50df7c220f03aa0e7dff3d0c61daa770`. Companion gateway:
+Source base: `thebrazenbeard/v-e-r-a` Draft PR #19 at
+`51bdcdee50df7c220f03aa0e7dff3d0c61daa770`, plus source-hardening Draft
+PR #21 at `e7784c60f0acb304e1c0af484a331a3e03555681`. Companion gateway:
 `thebrazenbeard/vera-apk` Draft PR #12 at
-`9bbcd3f78508200557146bd7adddb74a072ea3aa`.
+`9bbcd3f78508200557146bd7adddb74a072ea3aa`, with source-hardening Draft
+PR #15 at `ddf3de07cb08ced73c36412226fec973961350d1`.
 
 **This is a source-only qualification aid, not an installation receipt.** The
 Tauri config still identifies the app as `Vera Desktop Preview`, version
@@ -23,6 +25,32 @@ py -3 tests\v2_readonly_probe.py
 The second command is **dry-run**: no credential read, no network or model
 inference. Tests use in-process fake HTTP responses, synthetic IDs and tokens,
 and perform no socket binding or host access.
+
+### Optional read-only Windows process/shortcut inventory
+
+`v2_windows_inventory.ps1` is inert by default. Its `-Inspect` mode is a
+local, read-only inventory; it neither provisions a device nor touches the
+V1 service, scheduled tasks, files or desktop shortcuts. Run it only in a
+separately authorized Windows session:
+
+```powershell
+powershell.exe -NoProfile -File .\tests\v2_windows_inventory.ps1
+powershell.exe -NoProfile -File .\tests\v2_windows_inventory.ps1 -Inspect -ExpectedClientExe '<reviewed installed Vera exe path>' -ExpectedClientSha256 '<reviewed 64-character installer-extracted exe hash>'
+```
+
+The result reports the existence of the authoritative `D:\VERA` root, a
+supplied exact executable hash/running-process match, Vera-named desktop
+shortcut names, and observed listening addresses for V1 `:18777` and V2
+`:18781`. It deliberately **never** reports `releaseQualified=true`: a PID,
+binary hash and loopback socket cannot authenticate a V2 gateway service,
+establish owner enrollment/consent, verify file ACLs, or prove encrypted
+history and interactive GUI work. A missing expected exe/hash also never
+passes. It does not read pairing tokens or model/conversation data. The
+host-independent contract test checks only source safety properties; a
+PowerShell runtime/Windows qualification is still required. Before using
+`-Inspect`, parse-check the script with Windows PowerShell's
+`System.Management.Automation.Language.Parser.ParseFile` API and run its
+default dry-run under the target operating-system version.
 
 ## Optional owner-controlled gateway probe (future, separate authorization)
 
@@ -86,10 +114,10 @@ Patrick's existing real bearer. Never commit test credentials.
 
 - PR #19 and companion V2 gateway PR #12 remain draft/source-only; no evidence
   of a V2 installer installed or durable V2 gateway on Lappy.
-- Existing Tauri `v2_enrolled()` returns false when the token file is lost,
-  conflating previously enrolled credential loss with never-paired legacy
-  preview; this can undermine the no-silent-downgrade claim. Must be fixed
-  and adversarially tested before deployment.
+- The PR #21 local marker fix prevents fallback when a previously enrolled
+  device loses **only** its token. Both bearer and marker remain in the same
+  user-controlled profile: deletion of **both** can still permit legacy
+  preview selection. Owner-enforced enrollment provenance remains missing.
 - WinForms and Tauri preview share obvious product identity (`0.1.1`/preview
   name), making version/title-only field verification unreliable.
 - The screenshot showing `Legacy V1 preview` is positive evidence of the

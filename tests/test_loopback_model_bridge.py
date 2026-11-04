@@ -1,7 +1,9 @@
 """Mock-protocol tests only: never claim a physical GGUF inference run."""
 
 import json
+import http.client
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+import socket
 from threading import Thread
 import time
 import unittest
@@ -41,8 +43,10 @@ class MockModel(BaseHTTPRequestHandler):
         type(self).chat_calls += 1
         length = int(self.headers["Content-Length"])
         request = json.loads(self.rfile.read(length))
+        reason = "length" if type(self).mode == "truncated" else "stop"
         self._send({"model": type(self).model_id, "choices": [{"message": {
-            "role": "assistant", "content": "mock reply: " + request["messages"][-1]["content"]}}]})
+            "role": "assistant", "content": "mock reply: " + request["messages"][-1]["content"]},
+            "finish_reason": reason}]})
 
     def log_message(self, *_args):
         pass
@@ -60,7 +64,7 @@ class LoopbackModelBridgeTests(unittest.TestCase):
         port = self.upstream.server_address[1]
         self.bridge = LoopbackModelBridge(f"http://127.0.0.1:{port}",
                                           "mock-vera-gguf-v1", timeout=0.05)
-        self.server = create_server(self.bridge, port=0)
+        self.server = create_server(self.bridge, port=0, body_deadline=0.3)
         self.thread = Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()
         self.url = f"http://127.0.0.1:{self.server.server_address[1]}"
@@ -104,6 +108,53 @@ class LoopbackModelBridgeTests(unittest.TestCase):
             self.post(body)
         self.assertEqual(failure.exception.code, 400)
         self.assertEqual(MockModel.chat_calls, 0)
+
+    def test_preserves_upstream_length_finish_reason(self):
+        MockModel.mode = "truncated"
+        _, chat = self.post(self.request_body())
+        self.assertEqual(chat["choices"][0]["finish_reason"], "length")
+
+    def test_rejects_dns_rebinding_host_and_cross_origin(self):
+        port = self.server.server_address[1]
+        for host, origin in (("evil.example", None),
+                             (f"127.0.0.1:{port}", "http://evil.example")):
+            connection = http.client.HTTPConnection("127.0.0.1", port, timeout=2)
+            try:
+                connection.putrequest("GET", "/health", skip_host=True)
+                connection.putheader("Host", host)
+                if origin:
+                    connection.putheader("Origin", origin)
+                connection.endheaders()
+                response = connection.getresponse()
+                self.assertEqual(response.status, 403)
+                response.read()
+            finally:
+                connection.close()
+        self.assertEqual(MockModel.chat_calls, 0)
+
+    def test_slow_partial_bodies_release_workers_and_preserve_health(self):
+        port = self.server.server_address[1]
+        sockets = []
+        try:
+            for _ in range(16):
+                client = socket.create_connection(("127.0.0.1", port), timeout=2)
+                client.sendall((f"POST /v1/chat/completions HTTP/1.1\r\n"
+                                f"Host: 127.0.0.1:{port}\r\n"
+                                "Content-Length: 1000\r\n\r\n{").encode())
+                sockets.append(client)
+                time.sleep(0.01)
+            # Real deadline is 12 s; test injects 0.3 s to verify the same path.
+            time.sleep(0.55)
+            _, health = self.get("/health")
+            self.assertEqual(health["status"], "ok")
+            self.assertEqual(MockModel.chat_calls, 0)
+        finally:
+            for client in sockets:
+                client.close()
+
+    def test_timeout_cap_is_shorter_than_ui_gateway_timeout(self):
+        with self.assertRaises(ValueError):
+            LoopbackModelBridge(self.bridge.upstream, "mock-vera-gguf-v1", timeout=90)
 
     def test_live_upstream_identity_mismatch_fails_closed(self):
         MockModel.model_id = "swapped-model"

@@ -9,13 +9,18 @@ from __future__ import annotations
 import argparse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
-from threading import BoundedSemaphore
+from threading import BoundedSemaphore, Timer
+import socket
+import time
 from urllib.error import HTTPError, URLError
 
 from .server import GatewayError, _BoundedHTTPServer, _decode_json, _model_root, _read_json_from_model
 
 MAX_BODY = 24 * 1024
 MAX_REPLY = 1024 * 1024
+CLIENT_IO_TIMEOUT_SECONDS = 8
+CLIENT_BODY_DEADLINE_SECONDS = 12
+MAX_UPSTREAM_TIMEOUT_SECONDS = 75  # UI gateway gives the whole exchange 90s.
 
 
 class LoopbackModelBridge:
@@ -24,8 +29,8 @@ class LoopbackModelBridge:
         if (type(model_id) is not str or not model_id.strip() or len(model_id) > 128
                 or model_id != model_id.strip()):
             raise ValueError("a nonempty, exact model ID is required")
-        if timeout <= 0 or timeout > 120:
-            raise ValueError("timeout must be between 0 and 120 seconds")
+        if timeout <= 0 or timeout > MAX_UPSTREAM_TIMEOUT_SECONDS:
+            raise ValueError("timeout must be between 0 and 75 seconds")
         self.model_id = model_id
         self.timeout = timeout
 
@@ -76,26 +81,90 @@ class LoopbackModelBridge:
             raise GatewayError("invalid upstream chat response") from exc
         if type(answer) is not str or len(answer) > 16000:
             raise GatewayError("invalid upstream chat text")
+        finish_reason = choice.get("finish_reason", "stop")
+        if finish_reason not in ("stop", "length", "content_filter"):
+            raise GatewayError("invalid or unsupported finish reason")
         # Do not pass through upstream metadata, tools, extensions, or server hints.
         return {"model": self.model_id, "choices": [{"index": 0, "message": {
-            "role": "assistant", "content": answer}, "finish_reason": "stop"}]}
+            "role": "assistant", "content": answer}, "finish_reason": finish_reason}]}
 
 
-def create_server(bridge: LoopbackModelBridge, port: int = 11439) -> ThreadingHTTPServer:
+def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
+                  body_deadline: float = CLIENT_BODY_DEADLINE_SECONDS) -> ThreadingHTTPServer:
     if type(port) is not int or not 0 <= port <= 65535:
         raise ValueError("invalid local listening port")
+    if not 0 < body_deadline <= CLIENT_BODY_DEADLINE_SECONDS:
+        raise ValueError("invalid client deadline")
 
     class Handler(BaseHTTPRequestHandler):
+        def setup(self) -> None:
+            super().setup()
+            self.connection.settimeout(CLIENT_IO_TIMEOUT_SECONDS)
+            self._body_deadline = time.monotonic() + body_deadline
+            # Covers request-line/header parsing, before do_GET/do_POST run.
+            self._read_timer = Timer(body_deadline, self._expire_connection)
+            self._read_timer.daemon = True
+            self._read_timer.start()
+
+        def _expire_connection(self) -> None:
+            try:
+                self.connection.shutdown(socket.SHUT_RDWR)
+            except OSError:
+                pass
+
+        def finish(self) -> None:
+            self._read_timer.cancel()
+            try:
+                super().finish()
+            except (BrokenPipeError, ConnectionResetError, OSError):
+                pass  # A cancelled client cannot be given a reply.
+
+        def _check_origin(self) -> bool:
+            host = self.headers.get_all("Host", [])
+            expected = f"127.0.0.1:{self.server.server_address[1]}"
+            if len(host) != 1 or host[0] != expected:
+                self._json(403, {"error": "invalid Host"})
+                return False
+            origins = self.headers.get_all("Origin", [])
+            if (len(origins) > 1 or (origins and origins[0] != f"http://{expected}")
+                    or self.headers.get("Sec-Fetch-Site", "same-origin")
+                    not in ("same-origin", "none")):
+                self._json(403, {"error": "cross-origin request forbidden"})
+                return False
+            return True
+
+        def _read_body(self, size: int) -> bytes:
+            chunks = []
+            remaining = size
+            while remaining:
+                wait = self._body_deadline - time.monotonic()
+                if wait <= 0:
+                    raise TimeoutError("request body deadline exceeded")
+                self.connection.settimeout(min(CLIENT_IO_TIMEOUT_SECONDS, wait))
+                block = self.rfile.read1(min(4096, remaining))
+                if not block:
+                    raise ValueError("incomplete request body")
+                chunks.append(block)
+                remaining -= len(block)
+            self._read_timer.cancel()
+            return b"".join(chunks)
+
         def _json(self, code: int, value: dict) -> None:
             raw = json.dumps(value, ensure_ascii=False).encode("utf-8")
-            self.send_response(code)
-            self.send_header("Content-Type", "application/json; charset=utf-8")
-            self.send_header("Content-Length", str(len(raw)))
-            self.send_header("Cache-Control", "no-store")
-            self.end_headers()
-            self.wfile.write(raw)
+            try:
+                self.send_response(code)
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.send_header("Content-Length", str(len(raw)))
+                self.send_header("Cache-Control", "no-store")
+                self.end_headers()
+                self.wfile.write(raw)
+            except (BrokenPipeError, ConnectionResetError, OSError):
+                pass  # Cancellation is best effort; never retry side effects.
 
         def do_GET(self) -> None:
+            self._read_timer.cancel()
+            if not self._check_origin():
+                return
             if self.path not in ("/health", "/api/tags"):
                 self._json(404, {"error": "unknown route"})
                 return
@@ -111,19 +180,26 @@ def create_server(bridge: LoopbackModelBridge, port: int = 11439) -> ThreadingHT
                 self._json(200, {"models": [{"name": bridge.model_id}]})
 
         def do_POST(self) -> None:
+            if not self._check_origin():
+                return
             if self.path != "/v1/chat/completions":
+                self._read_timer.cancel()
                 self._json(404, {"error": "unknown route"})
                 return
             try:
+                if self.headers.get("Transfer-Encoding"):
+                    raise ValueError("transfer encoding prohibited")
                 size = int(self.headers.get("Content-Length", "-1"))
                 if not 0 < size <= MAX_BODY:
                     raise ValueError("invalid body length")
-                body = _decode_json(self.rfile.read(size))
+                body = _decode_json(self._read_body(size))
                 answer = bridge.completion(body)
             except (ValueError, UnicodeError) as exc:
+                self._read_timer.cancel()
                 self._json(400, {"error": str(exc)})
                 return
             except (GatewayError, HTTPError, URLError, TimeoutError, OSError) as exc:
+                self._read_timer.cancel()
                 self._json(503, {"error": "upstream unavailable", "category": type(exc).__name__})
                 return
             self._json(200, answer)

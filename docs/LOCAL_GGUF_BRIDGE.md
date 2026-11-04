@@ -26,6 +26,13 @@ discovery and chat request; a missing/swapped model, timeout, redirect, or
 malformed reply fails closed. It accepts only bounded non-streaming text chat;
 no tools, remote hosts, arbitrary HTTP routes, or upstream metadata are
 forwarded. It binds `127.0.0.1` only, with a bounded request concurrency limit.
+It requires a literal localhost Host header, denies cross-origin requests,
+and expires slow request headers or partial bodies within 12 seconds even if
+the client trickles data. Upstream timeout is capped at 75 seconds, leaving
+time inside the existing UI gateway's 90-second limit. A disconnected client
+will not be retried, although a chat already submitted upstream cannot be
+guaranteed cancelled without a runtime-specific cancellation API. The bridge
+preserves verified `stop`, `length`, or `content_filter` completion reasons.
 
 **Identity limitation:** the live model ID is *self-reported by the upstream*.
 This check does not authenticate the physical GGUF file, hash, version, or

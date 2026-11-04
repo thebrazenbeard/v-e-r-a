@@ -33,6 +33,11 @@ time inside the existing UI gateway's 90-second limit. A disconnected client
 will not be retried, although a chat already submitted upstream cannot be
 guaranteed cancelled without a runtime-specific cancellation API. The bridge
 preserves verified `stop`, `length`, or `content_filter` completion reasons.
+All upstream transactions now use a monotonic **total wall-clock** deadline
+over connection, response headers, and response body, plus bounded response
+bytes. This also closes the upstream socket if a model server trickles bytes
+faster than a normal idle-read timeout would expire. Separate mock regressions
+exercise 16 simultaneous body-drip chats and trickling response headers.
 
 **Identity limitation:** the live model ID is *self-reported by the upstream*.
 This check does not authenticate the physical GGUF file, hash, version, or

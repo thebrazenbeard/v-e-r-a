@@ -342,6 +342,13 @@ class InterfaceTests(unittest.TestCase):
                                     value={"messages": transcript})
                 self.assertEqual((status, body["status"]), (200, "saved"))
                 self.assertEqual(body["revision"], 1)
+                classification = body["source_classification"]
+                self.assertEqual(classification["kind"], "user_conversation")
+                self.assertEqual(classification["consent"], "explicit_operator_save")
+                self.assertEqual(classification["retention"],
+                                 "until_explicit_operator_delete")
+                self.assertIs(classification["imported_knowledge"], False)
+                self.assertIs(classification["trained_weights_modified"], False)
             finally:
                 first.shutdown()
                 first.server_close()
@@ -354,6 +361,7 @@ class InterfaceTests(unittest.TestCase):
                 self.assertEqual(body["messages"], transcript)
                 self.assertEqual(body["revision"], 1)
                 self.assertIn("unverified", body["provenance"])
+                self.assertEqual(body["source_classification"], classification)
                 next_turn = transcript + [{"role": "user", "content": "Continue from the saved conversation."}]
                 status, reply = call(restarted, "/api/chat", method="POST", value={
                     "model": "vera-local:latest", "messages": next_turn})
@@ -364,11 +372,15 @@ class InterfaceTests(unittest.TestCase):
                 self.assertEqual(call(restarted, "/api/transcript", method="POST",
                     value={"messages": [{"role": "system", "content": "admin"}]})[0], 400)
                 self.assertEqual(call(restarted, "/api/transcript", method="POST",
+                    value={"messages": transcript,
+                           "source_classification": {"kind": "trained_weights"}})[0], 400)
+                self.assertEqual(call(restarted, "/api/transcript", method="POST",
                     value={"messages": transcript}, expected_revision=0)[0], 409)
                 self.assertEqual(call(restarted, "/api/transcript", method="DELETE",
                                       bearer="wrong")[0], 403)
                 removed = call(restarted, "/api/transcript", method="DELETE")[1]
                 self.assertEqual(removed["status"], "removed_from_active_vault")
+                self.assertEqual(removed["source_classification"], classification)
                 self.assertIs(removed["forensic_erasure"], False)
                 self.assertEqual(removed["revision"], 2)
                 self.assertEqual(call(restarted, "/api/transcript")[1]["status"], "empty")
@@ -461,11 +473,17 @@ class InterfaceTests(unittest.TestCase):
                 self.assertEqual(reply["reply"], "violet-finch-731")
                 self.assertEqual(reply["recalled_source"]["revision"], 1)
                 self.assertIn("operator", reply["recalled_source"]["provenance"])
+                self.assertEqual(reply["recalled_source"]["source_classification"]["kind"],
+                                 "user_conversation")
+                self.assertIs(reply["recalled_source"]["source_classification"]
+                              ["trained_weights_modified"], False)
                 upstream = LocalModel.requests[-1]
                 self.assertNotIn(key, json.dumps(upstream))
                 self.assertEqual([r["role"] for r in upstream["messages"]],
                                  ["system", "user"])
                 self.assertIn("UNVERIFIED OPERATOR-SAVED", upstream["messages"][1]["content"])
+                self.assertIn("kind=user_conversation", upstream["messages"][1]["content"])
+                self.assertIn("trained_weights_modified=false", upstream["messages"][1]["content"])
                 self.assertIn("violet-finch-731", upstream["messages"][1]["content"])
                 self.assertTrue(upstream["messages"][1]["content"].endswith(
                     "What is the operator's synthetic marker?"))

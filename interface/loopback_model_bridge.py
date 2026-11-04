@@ -7,20 +7,83 @@ Its advertised model is verified against the upstream's live /v1/models list.
 from __future__ import annotations
 
 import argparse
+import http.client
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 from threading import BoundedSemaphore, Timer
 import socket
 import time
 from urllib.error import HTTPError, URLError
+from urllib.parse import urlsplit
 
-from .server import GatewayError, _BoundedHTTPServer, _decode_json, _model_root, _read_json_from_model
+from .server import GatewayError, _BoundedHTTPServer, _decode_json, _model_root
 
 MAX_BODY = 24 * 1024
 MAX_REPLY = 1024 * 1024
 CLIENT_IO_TIMEOUT_SECONDS = 8
 CLIENT_BODY_DEADLINE_SECONDS = 12
 MAX_UPSTREAM_TIMEOUT_SECONDS = 75  # UI gateway gives the whole exchange 90s.
+
+
+def _bounded_upstream_json(root: str, path: str, *, payload: dict | None = None,
+                           limit: int, timeout: float) -> object:
+    """Aggregate wall-clock bound, including a trickling HTTP status/body.
+
+    A socket's read timeout alone measures only idle time: a peer sending one
+    byte every few milliseconds can otherwise occupy all bridge workers.
+    A monotonic deadline and a forced socket shutdown bound the whole exchange.
+    """
+    deadline = time.monotonic() + timeout
+    port = urlsplit(root).port  # root was validated by _model_root at init.
+    connection = http.client.HTTPConnection("127.0.0.1", port, timeout=timeout)
+    expired = False
+    guard_socket: socket.socket | None = None
+
+    def abort() -> None:
+        nonlocal expired
+        expired = True
+        sock = guard_socket or connection.sock
+        if sock is not None:
+            try:
+                sock.shutdown(socket.SHUT_RDWR)
+            except OSError:
+                pass
+
+    timer = Timer(timeout, abort)
+    timer.daemon = True
+    timer.start()
+    try:
+        raw_body = None if payload is None else json.dumps(
+            payload, ensure_ascii=False).encode("utf-8")
+        connection.request("POST" if raw_body is not None else "GET", path,
+                           body=raw_body,
+                           headers={"Content-Type": "application/json", "Connection": "close"}
+                           if raw_body is not None else {"Connection": "close"})
+        # http.client can detach/close connection.sock on Connection: close
+        # while its HTTPResponse file still owns the readable socket. Keep an
+        # independent handle so the timer can shut down that same TCP stream.
+        guard_socket = connection.sock.dup() if connection.sock is not None else None
+        response = connection.getresponse()
+        if response.status != 200:
+            raise GatewayError("upstream returned an error status")
+        raw = response.read(limit + 1)
+        if expired or time.monotonic() >= deadline:
+            raise TimeoutError("upstream aggregate deadline exceeded")
+        if len(raw) > limit:
+            raise GatewayError("upstream response exceeded byte limit")
+        try:
+            return _decode_json(raw)
+        except (ValueError, UnicodeError) as exc:
+            raise GatewayError("upstream returned malformed JSON") from exc
+    except (OSError, http.client.HTTPException) as exc:
+        if expired or time.monotonic() >= deadline:
+            raise TimeoutError("upstream aggregate deadline exceeded") from exc
+        raise GatewayError("upstream transport failed") from exc
+    finally:
+        timer.cancel()
+        connection.close()
+        if guard_socket is not None:
+            guard_socket.close()
 
 
 class LoopbackModelBridge:
@@ -35,12 +98,12 @@ class LoopbackModelBridge:
         self.timeout = timeout
 
     def ready(self) -> None:
-        health = _read_json_from_model(self.upstream + "/health", limit=4096,
-                                       timeout=min(self.timeout, 3))
+        health = _bounded_upstream_json(self.upstream, "/health", limit=4096,
+                                        timeout=min(self.timeout, 3))
         if not isinstance(health, dict) or health.get("status") not in ("ok", "ready"):
             raise GatewayError("upstream is not ready")
-        inventory = _read_json_from_model(self.upstream + "/v1/models", limit=256 * 1024,
-                                          timeout=min(self.timeout, 3))
+        inventory = _bounded_upstream_json(self.upstream, "/v1/models",
+                                           limit=256 * 1024, timeout=min(self.timeout, 3))
         rows = inventory.get("data") if isinstance(inventory, dict) else None
         if type(rows) is not list or not any(
                 type(row) is dict and row.get("id") == self.model_id for row in rows[:128]):
@@ -67,8 +130,8 @@ class LoopbackModelBridge:
         if total > 20000 or messages[-1]["role"] != "user":
             raise ValueError("invalid conversation")
         self.ready()  # Fail closed if an upstream has changed models since discovery.
-        response = _read_json_from_model(self.upstream + "/v1/chat/completions",
-                                         payload=body, limit=MAX_REPLY, timeout=self.timeout)
+        response = _bounded_upstream_json(self.upstream, "/v1/chat/completions",
+                                          payload=body, limit=MAX_REPLY, timeout=self.timeout)
         try:
             choice = response["choices"][0]
             message = choice["message"]

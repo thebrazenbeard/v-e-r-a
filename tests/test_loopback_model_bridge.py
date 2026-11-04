@@ -18,15 +18,21 @@ class MockModel(BaseHTTPRequestHandler):
     mode = "ok"
     chat_calls = 0
 
-    def _send(self, value, code=200):
+    def _send(self, value, code=200, *, drip=False):
         data = json.dumps(value).encode("utf-8")
         self.send_response(code)
         self.send_header("Content-Type", "application/json")
         self.send_header("Content-Length", str(len(data)))
         self.end_headers()
         try:
-            self.wfile.write(data)
-        except BrokenPipeError:
+            if drip:
+                for byte in data:
+                    self.wfile.write(bytes([byte]))
+                    self.wfile.flush()
+                    time.sleep(0.02)  # Faster than 0.05s idle timeout; >2s total.
+            else:
+                self.wfile.write(data)
+        except (BrokenPipeError, ConnectionResetError, OSError):
             pass
 
     def do_GET(self):
@@ -43,10 +49,19 @@ class MockModel(BaseHTTPRequestHandler):
         type(self).chat_calls += 1
         length = int(self.headers["Content-Length"])
         request = json.loads(self.rfile.read(length))
+        if type(self).mode == "header_drip":
+            try:
+                for byte in b"HTTP/1.0 200 OK\r\nContent-Type: application/json\r\n\r\n":
+                    self.wfile.write(bytes([byte]))
+                    self.wfile.flush()
+                    time.sleep(0.02)
+            except (BrokenPipeError, ConnectionResetError, OSError):
+                pass
+            return
         reason = "length" if type(self).mode == "truncated" else "stop"
         self._send({"model": type(self).model_id, "choices": [{"message": {
             "role": "assistant", "content": "mock reply: " + request["messages"][-1]["content"]},
-            "finish_reason": reason}]})
+            "finish_reason": reason}]}, drip=(type(self).mode == "drip"))
 
     def log_message(self, *_args):
         pass
@@ -151,6 +166,44 @@ class LoopbackModelBridgeTests(unittest.TestCase):
         finally:
             for client in sockets:
                 client.close()
+
+    def test_sixteen_upstream_trickle_responses_expire_and_health_recovers(self):
+        MockModel.mode = "drip"
+        results = []
+        started = time.monotonic()
+
+        def request_chat():
+            try:
+                self.post(self.request_body())
+                results.append("unexpected 200")
+            except HTTPError as exc:
+                results.append(exc.code)
+            except OSError as exc:
+                results.append(type(exc).__name__)
+
+        clients = [Thread(target=request_chat, daemon=True) for _ in range(16)]
+        for client in clients:
+            client.start()
+        # One shared deadline, not 16 separate two-second waits.
+        join_deadline = started + 2.5
+        for client in clients:
+            client.join(timeout=max(0, join_deadline - time.monotonic()))
+        self.assertFalse(any(client.is_alive() for client in clients),
+                         "dripping responses held clients beyond aggregate deadline")
+        self.assertLess(time.monotonic() - started, 2.5)
+        self.assertNotIn("unexpected 200", results)
+        self.assertGreater(MockModel.chat_calls, 0)
+        MockModel.mode = "ok"
+        status, health = self.get("/health")
+        self.assertEqual((status, health["status"]), (200, "ok"))
+
+    def test_upstream_trickling_response_headers_hit_aggregate_deadline(self):
+        MockModel.mode = "header_drip"
+        started = time.monotonic()
+        with self.assertRaises(HTTPError) as failure:
+            self.post(self.request_body())
+        self.assertEqual(failure.exception.code, 503)
+        self.assertLess(time.monotonic() - started, 0.6)
 
     def test_timeout_cap_is_shorter_than_ui_gateway_timeout(self):
         with self.assertRaises(ValueError):

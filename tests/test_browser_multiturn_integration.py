@@ -9,7 +9,6 @@ from __future__ import annotations
 import hashlib
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
-import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -19,7 +18,7 @@ import unittest
 from unittest.mock import patch
 from urllib.request import Request, urlopen
 
-from interface import persona_profile
+from interface import persona_profile, server as server_module
 from interface.loopback_model_bridge import LoopbackModelBridge, create_server
 from interface.server import make_server
 from tests.test_persona_profile import _synthetic_profile
@@ -72,8 +71,9 @@ class ScriptedModel(BaseHTTPRequestHandler):
             text = "Nova." if found else "UNKNOWN"
         else:
             text = "Synthetic reply only."
+        completion = "length" if last == "Trigger incomplete initial turn." else type(self).mode
         self._json({"model": MODEL_ID, "choices": [{"message": {
-            "role": "assistant", "content": text}, "finish_reason": type(self).mode}]})
+            "role": "assistant", "content": text}, "finish_reason": completion}]})
 
 
 @unittest.skipUnless(shutil.which("node"), "Node.js required to execute actual app.js DOM double")
@@ -105,8 +105,10 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
             path = Path(folder) / "synthetic.json"
             raw = json.dumps(_synthetic_profile(), sort_keys=True).encode()
             path.write_bytes(raw)
+            presentation = Path(folder) / "synthetic-test-only.md"
+            presentation.write_text("TEST-ONLY source substitute", encoding="utf-8")
             with patch.object(persona_profile, "SOURCE_SHA256", hashlib.sha256(raw).hexdigest()), \
-                 patch.dict(os.environ, {"VERA_MODEL_CHAT_MAX_TOKENS": str(token_limit)}):
+                 patch.object(server_module, "verify_presentation_file"):
                 vault_options = {}
                 if with_vault:
                     private_folder = Path(self.enterContext(private_test_temporary_directory()))
@@ -115,7 +117,9 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
                 gateway = make_server(port=0,
                     ollama_url=f"http://127.0.0.1:{bridge.server_port}",
                     persona_profile_path=path if pinned_seed else None,
-                    **vault_options)
+                    require_persona=pinned_seed,
+                    persona_presentation_path=presentation if pinned_seed else None,
+                    max_response_tokens=token_limit, **vault_options)
         return self._run(gateway)
 
     def _seed_odd_vault(self, gateway):
@@ -150,7 +154,7 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
         self.assertTrue(all(b["roleLabel"] in ("YOU", "MODEL OUTPUT / UNVERIFIED")
                             for b in result["bubbles"]))
         self.assertIn("UNVERIFIED", result["connection"])
-        self.assertIn("provenance unverified", result["modelDetail"])
+        self.assertIn("weights not attested", result["modelDetail"])
         self.assertEqual(result["status"]["persona_prompt"], "pinned_owner_profile")
         self.assertIs(result["status"]["model_identity_attested"], False)
         self.assertEqual(result["status"]["durable_memory"], "not_connected")
@@ -165,6 +169,17 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
             self.assertIn("not authentication", request["messages"][0]["content"])
             self.assertNotIn("tools", request)
             self.assertNotIn("vault", json.dumps(request).lower())
+
+    def test_truncated_reply_is_visible_but_not_committed_as_completed_assistant(self):
+        ScriptedModel.mode = "length"
+        result = self._browser(self._start(), "truncated")
+        self.assertEqual(result["messages"], [{
+            "role": "user", "content": "Tell me what to do about the correction."}])
+        self.assertEqual(result["promptRecovered"], "")
+        self.assertEqual([b["roleLabel"] for b in result["bubbles"]],
+                         ["YOU", "LOCAL MODEL / UNVERIFIED PARTIAL"])
+        self.assertIn("cut off", result["bubbles"][-1]["content"].lower())
+        self.assertEqual(ScriptedModel.requests[0]["max_tokens"], 64)
 
     def test_public_smoke_transport_at_64_96_128_with_and_without_prompt_seed(self):
         # These are protocol observations from the real app.js plus an explicit
@@ -186,7 +201,11 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
                                              for m in request["messages"]), 1)
                         prompt_note = request["messages"][0]["content"]
                         self.assertEqual("Dry and observational" in prompt_note, seeded)
+                        self.assertIn("model identity and loaded weights are not attested",
+                                      prompt_note)
                         self.assertIn("no live observations", prompt_note)
+                        if seeded:
+                            self.assertIn("not authentication", prompt_note)
 
     def test_seventh_and_eighth_turn_drop_complete_pairs_not_orphan_assistant(self):
         # Once 12 tab messages are exceeded, model context must still begin
@@ -230,18 +249,41 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
                          {"prompt": "", "messages": 0, "bubbles": 0})
         self.assertIs(result["status"]["model_identity_attested"], False)
 
-    def test_truncated_reply_stays_system_error_and_prompt_is_recoverable(self):
+    def test_partial_then_eight_turns_save_only_coherent_completed_history(self):
+        gateway = self._start(with_vault=True)
+        result = self._browser(gateway, "partial_then_eight_save")
+        self.assertEqual(len(ScriptedModel.requests), 9)
+        self.assertEqual([row["role"] for row in result["messages"]],
+                         ["user", "assistant"] * 8)
+        self.assertEqual(result["messages"][-1]["content"], "Nova.")
+        self.assertEqual(result["bubbles"][1]["roleLabel"],
+                         "LOCAL MODEL / UNVERIFIED PARTIAL")
+        final = ScriptedModel.requests[-1]["messages"]
+        self.assertEqual([row["role"] for row in final],
+                         ["system", *(["user", "assistant"] * 5), "user"])
+        self.assertNotIn("Trigger incomplete initial turn.",
+                         [row["content"] for row in final])
+        self.assertIn("Correction: call me Nova.", [row["content"] for row in final])
+        saved = result["savedVault"]
+        self.assertEqual(saved["status"], "saved")
+        self.assertEqual(len(saved["messages"]), 12)
+        self.assertEqual([row["role"] for row in saved["messages"]],
+                         ["user", "assistant"] * 6)
+        self.assertNotIn("Trigger incomplete initial turn.",
+                         [row["content"] for row in saved["messages"]])
+
+    def test_truncated_reply_uses_unverified_partial_without_assistant_history(self):
         ScriptedModel.mode = "length"
         for cap in (64, 96, 128):
             with self.subTest(max_tokens=cap):
                 ScriptedModel.requests = []
                 result = self._browser(self._start(token_limit=cap), "truncated")
-                self.assertEqual(result["messages"], [])
-                self.assertEqual(result["promptRecovered"],
-                                 "Tell me what to do about the correction.")
+                self.assertEqual(result["messages"], [{"role": "user",
+                    "content": "Tell me what to do about the correction."}])
+                self.assertEqual(result["promptRecovered"], "")
                 self.assertEqual([b["roleLabel"] for b in result["bubbles"]],
-                                 ["YOU", "INTERFACE / ERROR"])
-                self.assertIn("truncated", result["bubbles"][-1]["content"].lower())
+                                 ["YOU", "LOCAL MODEL / UNVERIFIED PARTIAL"])
+                self.assertIn("cut off", result["bubbles"][-1]["content"].lower())
                 self.assertEqual(ScriptedModel.requests[0]["max_tokens"], cap)
 
     def test_busy_gateway_returns_429_without_assistant_turn_or_upstream_call(self):

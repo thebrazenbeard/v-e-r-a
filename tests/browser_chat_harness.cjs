@@ -5,10 +5,11 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
+const { TextEncoder } = require("node:util");
 
 const base = process.argv[2];
 const mode = process.argv[3];
-if (!base || !["three_turns", "seven_turns", "eight_turns", "restore_odd", "truncated", "busy", "one_turn"].includes(mode)) {
+if (!base || !["three_turns", "seven_turns", "eight_turns", "partial_then_eight_save", "restore_odd", "truncated", "busy", "one_turn"].includes(mode)) {
   throw Error("test harness requires local gateway URL and test mode");
 }
 
@@ -66,7 +67,7 @@ const context = vm.createContext({
   document, window: { confirm: () => true }, fetch: localFetch,
   AbortController, Option: class extends Element {
     constructor(text, value) { super("option"); this.textContent = text; this.value = value; }
-  }, console,
+  }, console, TextEncoder,
 });
 
 const source = fs.readFileSync(path.resolve(__dirname, "../interface/static/app.js"), "utf8");
@@ -92,6 +93,7 @@ async function main() {
   let restoredHistoryBeforeSubmit = null;
   let restoredVaultStatus = null;
   let afterKeyRotation = null;
+  let savedVault = null;
   if (mode === "three_turns") {
     await submit("I prefer the name Iris.");
     await submit("Correction: call me Nova.");
@@ -113,6 +115,31 @@ async function main() {
     await submit("Do you have durable memory?");
     await submit("What is one honest uncertainty?");
     await submit("What name should you use?");
+  } else if (mode === "partial_then_eight_save") {
+    await submit("Trigger incomplete initial turn.");
+    await submit("I prefer the name Iris.");
+    await submit("What would a dry reply sound like?");
+    await submit("What do you know about our context?");
+    await submit("Correction: call me Nova.");
+    await submit("Explain one limitation in a sentence.");
+    await submit("Do you have durable memory?");
+    await submit("What is one honest uncertainty?");
+    await submit("What name should you use?");
+    const until = Date.now() + 2500;
+    while (!element("vault-status").textContent.includes("Available locally") && Date.now() < until) {
+      await new Promise((done) => setTimeout(done, 10));
+    }
+    if (!element("vault-status").textContent.includes("Available locally")) {
+      throw Error("Vault configuration did not become available");
+    }
+    element("vault-key").value = "synthetic-owner-vault-key-0123456789";
+    element("vault-key").listeners.get("input")();
+    await element("vault-save").listeners.get("click")();
+    const vaultResponse = await localFetch("/api/transcript", {
+      headers: { "X-Vera-Session": vm.runInContext("sessionToken", context),
+        "X-Vera-Vault-Key": element("vault-key").value },
+    });
+    savedVault = await vaultResponse.json();
   } else if (mode === "restore_odd") {
     const until = Date.now() + 2500;
     // The real button remains disabled until a key is entered; this DOM
@@ -160,7 +187,7 @@ async function main() {
   });
   const status = await statusResult.json();
   process.stdout.write(JSON.stringify({ mode, messages, bubbles,
-    restoredDraft, restoredHistoryBeforeSubmit, restoredVaultStatus, afterKeyRotation,
+    restoredDraft, restoredHistoryBeforeSubmit, restoredVaultStatus, afterKeyRotation, savedVault,
     promptRecovered: element("prompt").value, status,
     connection: element("connection").textContent,
     modelDetail: element("model-detail").textContent,

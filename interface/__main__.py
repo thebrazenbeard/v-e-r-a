@@ -12,9 +12,17 @@ def main():
     parser = argparse.ArgumentParser(description="Vera local response-only interface")
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--ollama-url", default="http://127.0.0.1:11434")
+    parser.add_argument("--max-response-tokens", type=int, default=192,
+                        help="Local reply budget: 32..256 tokens (default 192); "
+                             "reduces CPU timeout risk but cannot guarantee latency")
+    parser.add_argument("--bridge-client-api-key-file",
+                        help="Owner-private bridge client key; sent only from UI server to local bridge")
     parser.add_argument("--persona-profile-file",
-                        help="Explicit owner-provisioned pinned Vera behavior JSON file; "
-                             "prompt guidance only, NOT trained-model authentication")
+                        help="Optional owner-provisioned pinned Vera behavior JSON (never bundled)")
+    parser.add_argument("--persona-presentation-file",
+                        help="Optional owner-provisioned, hash-pinned nonverbal status-bar Markdown")
+    parser.add_argument("--require-persona", action="store_true",
+                        help="Governed Vera UI: fail closed unless the pinned owner source is supplied")
     parser.add_argument("--memory-db", help="Optional local SQLite file; disabled if omitted")
     parser.add_argument("--memory-secret-file", help="Private operator-controlled vault bearer secret")
     parser.add_argument("--memory-rollback-anchor",
@@ -40,9 +48,13 @@ def main():
     try:
         server = make_server(port=args.port, ollama_url=args.ollama_url,
                              persona_profile_path=args.persona_profile_file,
+                             persona_presentation_path=args.persona_presentation_file,
+                             require_persona=args.require_persona,
+                             max_response_tokens=args.max_response_tokens,
                              memory_db_path=args.memory_db, memory_secret=secret,
                              memory_rollback_anchor_path=args.memory_rollback_anchor,
-                             acknowledge_plaintext_vault_risk=args.acknowledge_plaintext_vault_risk)
+                             acknowledge_plaintext_vault_risk=args.acknowledge_plaintext_vault_risk,
+                             bridge_client_api_key_file=args.bridge_client_api_key_file)
     except (OSError, ValueError) as exc:
         parser.error(f"interface config refused: {exc}")
     if args.memory_db:

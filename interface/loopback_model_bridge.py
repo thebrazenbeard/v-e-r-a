@@ -7,6 +7,7 @@ Its advertised model is verified against the upstream's live /v1/models list.
 from __future__ import annotations
 
 import argparse
+import hmac
 import http.client
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
@@ -16,6 +17,7 @@ import time
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
 
+from .local_bearer import load_private_bearer_file
 from .server import GatewayError, _BoundedHTTPServer, _decode_json, _model_root
 
 MAX_BODY = 24 * 1024
@@ -23,12 +25,11 @@ MAX_REPLY = 1024 * 1024
 CLIENT_IO_TIMEOUT_SECONDS = 8
 CLIENT_BODY_DEADLINE_SECONDS = 12
 MAX_UPSTREAM_TIMEOUT_SECONDS = 75  # UI gateway gives the whole exchange 90s.
-DEFAULT_CHAT_MAX_TOKENS = 64  # CPU prototype; owner can raise only after qualification.
-MAX_CHAT_MAX_TOKENS = 512
 
 
 def _bounded_upstream_json(root: str, path: str, *, payload: dict | None = None,
-                           limit: int, timeout: float) -> object:
+                           limit: int, timeout: float,
+                           api_key: str | None = None) -> object:
     """Aggregate wall-clock bound, including a trickling HTTP status/body.
 
     A socket's read timeout alone measures only idle time: a peer sending one
@@ -57,10 +58,13 @@ def _bounded_upstream_json(root: str, path: str, *, payload: dict | None = None,
     try:
         raw_body = None if payload is None else json.dumps(
             payload, ensure_ascii=False).encode("utf-8")
+        headers = {"Connection": "close"}
+        if raw_body is not None:
+            headers["Content-Type"] = "application/json"
+        if api_key is not None:
+            headers["Authorization"] = f"Bearer {api_key}"
         connection.request("POST" if raw_body is not None else "GET", path,
-                           body=raw_body,
-                           headers={"Content-Type": "application/json", "Connection": "close"}
-                           if raw_body is not None else {"Connection": "close"})
+                           body=raw_body, headers=headers)
         # http.client can detach/close connection.sock on Connection: close
         # while its HTTPResponse file still owns the readable socket. Keep an
         # independent handle so the timer can shut down that same TCP stream.
@@ -90,27 +94,46 @@ def _bounded_upstream_json(root: str, path: str, *, payload: dict | None = None,
 
 class LoopbackModelBridge:
     def __init__(self, upstream: str, model_id: str, *, timeout: float = 30.0,
-                 max_chat_tokens: int = DEFAULT_CHAT_MAX_TOKENS):
+                 max_chat_tokens: int = 256,
+                 upstream_api_key_file: str | None = None,
+                 client_api_key_file: str | None = None,
+                 require_upstream_auth: bool = False):
         self.upstream = _model_root(upstream)
         if (type(model_id) is not str or not model_id.strip() or len(model_id) > 128
                 or model_id != model_id.strip()):
             raise ValueError("a nonempty, exact model ID is required")
         if timeout <= 0 or timeout > MAX_UPSTREAM_TIMEOUT_SECONDS:
             raise ValueError("timeout must be between 0 and 75 seconds")
-        if (type(max_chat_tokens) is not int
-                or not 1 <= max_chat_tokens <= MAX_CHAT_MAX_TOKENS):
-            raise ValueError("invalid owner chat-token budget")
+        if type(max_chat_tokens) is not int or not 1 <= max_chat_tokens <= 512:
+            raise ValueError("invalid bridge reply-token budget")
+        if type(require_upstream_auth) is not bool:
+            raise ValueError("require_upstream_auth must be explicit boolean")
+        if (upstream_api_key_file is None) != (client_api_key_file is None):
+            raise ValueError("upstream and bridge-client key files must be paired")
+        if require_upstream_auth and (not upstream_api_key_file or not client_api_key_file):
+            raise ValueError("protected upstream mode requires two private key files")
+        self._upstream_api_key = (load_private_bearer_file(
+            upstream_api_key_file, label="upstream bearer key")
+            if upstream_api_key_file is not None else None)
+        self._client_api_key = (load_private_bearer_file(
+            client_api_key_file, label="bridge client bearer key")
+            if client_api_key_file is not None else None)
+        if (self._upstream_api_key is not None and self._client_api_key is not None
+                and hmac.compare_digest(self._upstream_api_key, self._client_api_key)):
+            raise ValueError("upstream and bridge-client keys must differ")
         self.model_id = model_id
         self.timeout = timeout
         self.max_chat_tokens = max_chat_tokens
 
     def ready(self) -> None:
         health = _bounded_upstream_json(self.upstream, "/health", limit=4096,
-                                        timeout=min(self.timeout, 3))
+                                        timeout=min(self.timeout, 3),
+                                        api_key=self._upstream_api_key)
         if not isinstance(health, dict) or health.get("status") not in ("ok", "ready"):
             raise GatewayError("upstream is not ready")
         inventory = _bounded_upstream_json(self.upstream, "/v1/models",
-                                           limit=256 * 1024, timeout=min(self.timeout, 3))
+                                           limit=256 * 1024, timeout=min(self.timeout, 3),
+                                           api_key=self._upstream_api_key)
         rows = inventory.get("data") if isinstance(inventory, dict) else None
         if type(rows) is not list or not any(
                 type(row) is dict and row.get("id") == self.model_id for row in rows[:128]):
@@ -138,14 +161,14 @@ class LoopbackModelBridge:
             raise ValueError("invalid conversation")
         self.ready()  # Fail closed if an upstream has changed models since discovery.
         response = _bounded_upstream_json(self.upstream, "/v1/chat/completions",
-                                          payload=body, limit=MAX_REPLY, timeout=self.timeout)
+                                          payload=body, limit=MAX_REPLY, timeout=self.timeout,
+                                          api_key=self._upstream_api_key)
         try:
             choice = response["choices"][0]
             message = choice["message"]
             if type(message) is not dict or message.get("role") != "assistant":
-                raise GatewayError("upstream did not return an assistant message")
+                raise GatewayError("upstream returned a non-assistant message")
             answer = message["content"]
-            finish_reason = choice["finish_reason"]
             if ("tool_calls" in message or "function_call" in message
                     or choice.get("finish_reason") == "tool_calls"
                     or ("model" in response and response["model"] != self.model_id)):
@@ -154,11 +177,16 @@ class LoopbackModelBridge:
             raise GatewayError("invalid upstream chat response") from exc
         if type(answer) is not str or not 0 < len(answer) <= 16000:
             raise GatewayError("invalid upstream chat text")
-        if finish_reason not in ("stop", "length", "content_filter"):
+        finish_reason = choice.get("finish_reason")
+        if finish_reason not in (None, "stop", "length", "content_filter"):
             raise GatewayError("invalid or unsupported finish reason")
         # Do not pass through upstream metadata, tools, extensions, or server hints.
-        return {"model": self.model_id, "choices": [{"index": 0, "message": {
-            "role": "assistant", "content": answer}, "finish_reason": finish_reason}]}
+        forwarded = {"index": 0, "message": {"role": "assistant", "content": answer}}
+        # An absent finish reason cannot be promoted into evidence of a
+        # completed reply. The downstream Vera interface reports UNKNOWN.
+        if "finish_reason" in choice:
+            forwarded["finish_reason"] = finish_reason
+        return {"model": self.model_id, "choices": [forwarded]}
 
 
 def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
@@ -205,6 +233,17 @@ def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
                 return False
             return True
 
+        def _check_client_key(self) -> bool:
+            if bridge._client_api_key is None:
+                return True  # Legacy synthetic mode; never an owner-exclusive claim.
+            supplied = self.headers.get_all("X-Vera-Bridge-Key", [])
+            if (len(supplied) != 1 or not hmac.compare_digest(
+                    supplied[0], bridge._client_api_key)):
+                self._read_timer.cancel()
+                self._json(401, {"error": "bridge client authentication required"})
+                return False
+            return True
+
         def _read_body(self, size: int) -> bytes:
             chunks = []
             remaining = size
@@ -235,7 +274,7 @@ def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
 
         def do_GET(self) -> None:
             self._read_timer.cancel()
-            if not self._check_origin():
+            if not self._check_origin() or not self._check_client_key():
                 return
             if self.path not in ("/health", "/api/tags"):
                 self._json(404, {"error": "unknown route"})
@@ -252,12 +291,13 @@ def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
                 self._json(200, {"models": [{"name": bridge.model_id}]})
 
         def do_POST(self) -> None:
-            if not self._check_origin():
+            if not self._check_origin() or not self._check_client_key():
                 return
             if self.path != "/v1/chat/completions":
                 self._read_timer.cancel()
                 self._json(404, {"error": "unknown route"})
                 return
+            acquired_model_slot = False
             try:
                 if self.headers.get("Transfer-Encoding"):
                     raise ValueError("transfer encoding prohibited")
@@ -265,13 +305,15 @@ def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
                 if not 0 < size <= MAX_BODY:
                     raise ValueError("invalid body length")
                 body = _decode_json(self._read_body(size))
+                # A direct localhost caller can reach this bridge without
+                # passing through the UI gateway's separate model slot.
+                # Never let that bypass launch-time CPU/RAM admission by
+                # starting parallel generations against one GGUF instance.
                 if not self.server.model_slots.acquire(blocking=False):
-                    self._json(429, {"error": "model worker busy"})
+                    self._json(429, {"error": "local model worker busy"})
                     return
-                try:
-                    answer = bridge.completion(body)
-                finally:
-                    self.server.model_slots.release()
+                acquired_model_slot = True
+                answer = bridge.completion(body)
             except (ValueError, UnicodeError) as exc:
                 self._read_timer.cancel()
                 self._json(400, {"error": str(exc)})
@@ -280,6 +322,9 @@ def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
                 self._read_timer.cancel()
                 self._json(503, {"error": "upstream unavailable", "category": type(exc).__name__})
                 return
+            finally:
+                if acquired_model_slot:
+                    self.server.model_slots.release()
             self._json(200, answer)
 
         def log_message(self, *_args) -> None:
@@ -298,11 +343,20 @@ def main() -> None:
     parser.add_argument("--model-id", required=True, help="exact upstream /v1/models ID")
     parser.add_argument("--port", type=int, default=11439)
     parser.add_argument("--timeout", type=float, default=30.0)
-    parser.add_argument("--max-chat-tokens", type=int, default=DEFAULT_CHAT_MAX_TOKENS,
-        help="must match gateway VERA_MODEL_CHAT_MAX_TOKENS (both default to 64)")
+    parser.add_argument("--max-chat-tokens", type=int, default=256,
+                        help="Upper bound per upstream reply (1..512); match UI cap")
+    parser.add_argument("--upstream-api-key-file",
+                        help="Owner-private key file passed only in upstream Authorization header")
+    parser.add_argument("--client-api-key-file",
+                        help="Distinct owner-private key required from local UI on bridge requests")
+    parser.add_argument("--require-upstream-auth", action="store_true",
+                        help="Fail closed unless both owner-private key files are configured")
     args = parser.parse_args()
     bridge = LoopbackModelBridge(args.upstream, args.model_id, timeout=args.timeout,
-                                 max_chat_tokens=args.max_chat_tokens)
+                                 max_chat_tokens=args.max_chat_tokens,
+                                 upstream_api_key_file=args.upstream_api_key_file,
+                                 client_api_key_file=args.client_api_key_file,
+                                 require_upstream_auth=args.require_upstream_auth)
     with create_server(bridge, port=args.port) as server:
         print(f"Vera local model bridge listening on 127.0.0.1:{server.server_address[1]}", flush=True)
         server.serve_forever()

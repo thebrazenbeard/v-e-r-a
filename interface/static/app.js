@@ -256,6 +256,12 @@ async function sendMessage(event) {
   event.preventDefault();
   const content = prompt.value.trim();
   if (!content || busy || vaultBusy || !model.value || !sessionToken) return;
+  const codepoints = Array.from(content).length;
+  if (codepoints > 4000) {
+    contextNotice.textContent = `This draft has ${codepoints.toLocaleString()} characters; the local gateway accepts at most 4,000 per message. Nothing was sent or truncated. Shorten or split it first.`;
+    prompt.focus();
+    return;
+  }
   prompt.value = "";
   messages.push({ role: "user", content });
   syncVaultControls();

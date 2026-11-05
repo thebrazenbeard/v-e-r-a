@@ -215,4 +215,14 @@ test('Delete clears transcript tainted by explicit recall before a normal Send',
   byId('vault-key').listeners.get('input')();
   assert.equal(byId('prompt').value, '');
   assert.equal(vm.runInContext('messages.length', context), 0);
+
+  // Never silently truncate a long pasted draft or submit a request the
+  // server would reject. Keep the exact draft editable for Patrick.
+  const beforeOversized = forwardedChats.length;
+  const oversizedDraft = 'Long pasted draft ' + 'q'.repeat(4001);
+  byId('prompt').value = oversizedDraft;
+  await vm.runInContext('sendMessage({ preventDefault() {} })', context);
+  assert.equal(forwardedChats.length, beforeOversized);
+  assert.equal(byId('prompt').value, oversizedDraft);
+  assert.match(byId('context-notice').textContent, /4,000/);
 });

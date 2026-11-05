@@ -529,6 +529,9 @@ class InterfaceTests(unittest.TestCase):
         self.assertIn("expected_revision: snapshot.revision", ui)
         self.assertNotIn("Permanently delete the saved transcript", ui)
         self.assertIn('id="vault-recall"', html)
+        self.assertIn('id="context-notice"', html)
+        self.assertNotIn('maxlength="4000"', html,
+                         "silently truncating a long pasted prompt hides user content")
         self.assertIn('if (!restoredFromVault && !recalledFromVault) return false;', ui)
         self.assertIn('recalledFromVault = true;', ui)
         self.assertIn('forgetVaultDerivedTab();', ui)

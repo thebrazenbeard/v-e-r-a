@@ -1,8 +1,8 @@
 """Negative integration contract: a Vera browser tab is not VeraOS authority.
 
-Pinned source review: v-e-r-a Draft PR #30 at
-7f8346b1328e8b4e3f172d1c1e10ad5738cb7d89 and VeraOS Draft #74 at
-048da7c59d72dbbbe718b48d1bda91460e0fda8b.
+Pinned source review: v-e-r-a Draft PR #31 at
+1e73447d2f8dad13db2678d40505c6b23de705a1 and VeraOS Draft #74 at
+ae82817427dc32946452f95a73474cc93fc0561d. Accepted main is separate.
 
 The tests launch only a disposable localhost HTTP interface. No real model,
 Windows named pipe, WSL service, or external device is contacted.
@@ -13,6 +13,9 @@ from __future__ import annotations
 import json
 import threading
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
@@ -32,14 +35,17 @@ class VeraOSAdmissionBoundaryTests(unittest.TestCase):
         self.addCleanup(self.app.shutdown)
 
     def request(self, path: str, *, method: str = "GET", body: dict | None = None,
-                asserted_headers: dict[str, str] | None = None) -> tuple[int, dict]:
-        headers = {"X-Vera-Session": self.app.session_token}
+                asserted_headers: dict[str, str] | None = None,
+                app=None) -> tuple[int, dict]:
+        app = self.app if app is None else app
+        base = f"http://127.0.0.1:{app.server_port}"
+        headers = {"X-Vera-Session": app.session_token}
         if method != "GET":
-            headers.update({"Origin": self.base, "Content-Type": "application/json"})
+            headers.update({"Origin": base, "Content-Type": "application/json"})
         if asserted_headers:
             headers.update(asserted_headers)
         raw = None if body is None else json.dumps(body).encode("utf-8")
-        req = Request(self.base + path, method=method, data=raw, headers=headers)
+        req = Request(base + path, method=method, data=raw, headers=headers)
         try:
             with urlopen(req, timeout=5) as response:
                 return response.status, json.loads(response.read())
@@ -164,6 +170,110 @@ class VeraOSAdmissionBoundaryTests(unittest.TestCase):
         })
         self.assertEqual(status, 403)
         self.assertNotIn("goals", private)
+
+    def test_windows_shaped_headers_cannot_read_write_or_delete_private_vault(self):
+        # An opted-in local vault is a separate capability class. Plausible
+        # Windows claims plus a browser session cannot substitute for its key.
+        with TemporaryDirectory() as root:
+            vault = make_server(port=0, ollama_url="http://127.0.0.1:1",
+                memory_db_path=Path(root) / "vault.sqlite3",
+                memory_secret="v" * 48)
+            thread = threading.Thread(target=vault.serve_forever, daemon=True)
+            thread.start()
+            self.addCleanup(thread.join, 3)
+            self.addCleanup(vault.server_close)
+            self.addCleanup(vault.shutdown)
+            claims = {
+                "X-VeraOS-Windows-SID": "S-1-5-21-100-200-300-400",
+                "X-VeraOS-Logon-LUID": "0000000000000123",
+                "X-VeraOS-Verified": "true",
+                "X-VeraOS-Issuer": "host-owned-LAPPY",
+                "X-VeraOS-Consent": "granted",
+                "X-VeraOS-Signature": "a" * 128,
+                "X-Vera-Vault-Key": "not-the-vault-key",
+            }
+            for method, body in (
+                ("GET", None),
+                ("POST", {"messages": [{"role": "user", "content": "private"}],
+                          "expected_revision": 0}),
+                ("DELETE", None),
+            ):
+                with self.subTest(method=method):
+                    code, response = self.request("/api/transcript", app=vault,
+                        method=method, body=body, asserted_headers={
+                            **claims, "X-Vera-Vault-Revision": "0"})
+                    self.assertEqual(code, 403)
+                    self.assertNotIn("messages", response)
+                    self.assertNotIn("revision", response)
+            self.assertEqual(vault.transcript_store.read()["status"], "empty")
+
+    def test_claimed_consented_stm_archive_has_no_browser_ingest_route(self):
+        claims = {
+            "X-VeraOS-Windows-SID": "S-1-5-21-100-200-300-400",
+            "X-VeraOS-Issuer": "LAPPY",
+            "X-VeraOS-Consent": "archive-granted",
+            "X-VeraOS-Nonce": "nonce-12345",
+            "X-VeraOS-Signature": "b" * 128,
+        }
+        for method, path, body in (
+            ("GET", "/api/conversation", None),
+            ("GET", "/api/conversation/history", None),
+            ("POST", "/api/conversation", {"messages": [
+                {"role": "user", "content": "private chat"}], "consent": True}),
+            ("POST", "/api/conversation/history", {"archive": True}),
+            ("POST", "/api/stm/admit", {"consent": True, "owner": "patrick"}),
+        ):
+            with self.subTest(method=method, path=path):
+                code, response = self.request(path, method=method, body=body,
+                    asserted_headers=claims)
+                self.assertEqual(code, 404)
+                self.assertNotIn("receipt", response)
+                self.assertNotIn("messages", response)
+
+    def test_lookalike_routes_and_proxy_headers_do_not_rewrite_authority(self):
+        # The server must not rewrite forwarded host/path or percent-encoded
+        # lookalikes into a privileged route.
+        claimed = {
+            "X-Forwarded-Host": "127.0.0.1:8765",
+            "X-Forwarded-Proto": "https",
+            "X-Original-URL": "/api/veraos/effects",
+            "X-Rewrite-URL": "/api/veraos/tasks",
+            "X-VeraOS-Grant": "c" * 128,
+        }
+        for path in ("/api/veraos/status?nonce=trusted",
+                     "/api/%76eraos/status", "/api/veraos/status%2f",
+                     "/api/veraos/tasks/../effects", "/api/veraos/effects"):
+            with self.subTest(path=path):
+                code, response = self.request(path, asserted_headers=claimed)
+                self.assertEqual(code, 404)
+                self.assertNotIn("allowed", response)
+        for method, path, body in (
+            ("POST", "/api/veraos/tasks?consent=true", {"task": "run"}),
+            ("POST", "/api/%76eraos/effects", {"effect": "protected.merge"}),
+        ):
+            with self.subTest(path=path):
+                code, response = self.request(path, method=method, body=body,
+                    asserted_headers=claimed)
+                self.assertEqual(code, 404)
+                self.assertNotIn("allowed", response)
+
+    def test_claim_headers_do_not_trigger_existing_model_backend(self):
+        # Unknown task/effect/memory routes reject before even inspecting the
+        # local model endpoint. No false claim of real host-side isolation.
+        claims = {"X-VeraOS-Windows-SID": "S-1-5-21-100-200-300-400",
+                  "X-VeraOS-Verified": "true", "X-VeraOS-Grant": "d" * 128}
+        with patch("interface.server._chat") as chat, \
+             patch("interface.server._models") as models:
+            for method, path, body in (
+                ("POST", "/api/veraos/tasks", {"task": "execute"}),
+                ("POST", "/api/veraos/effects", {"effect": "protected.merge"}),
+                ("POST", "/api/stm/admit", {"memory": "sensitive"}),
+            ):
+                code, _ = self.request(path, method=method, body=body,
+                    asserted_headers=claims)
+                self.assertEqual(code, 404)
+            chat.assert_not_called()
+            models.assert_not_called()
 
 
 if __name__ == "__main__":

@@ -25,6 +25,7 @@ class LocalModel(BaseHTTPRequestHandler):
     requests: list[dict] = []
     redirect_to: str | None = None
     tool_response = False
+    finish_reason: str | None = None
     get_paths: list[str] = []
 
     def log_message(self, *_args):
@@ -58,7 +59,10 @@ class LocalModel(BaseHTTPRequestHandler):
         if type(self).tool_response:
             self._reply({"choices": [{"message": {"content": "", "tool_calls": [{"id": "forged"}]}}]})
             return
-        self._reply({"choices": [{"message": {"role": "assistant", "content": "<script>untrusted</script>"}}]})
+        choice = {"message": {"role": "assistant", "content": "<script>untrusted</script>"}}
+        if type(self).finish_reason is not None:
+            choice["finish_reason"] = type(self).finish_reason
+        self._reply({"choices": [choice]})
 
     def _reply(self, payload):
         body = json.dumps(payload).encode()
@@ -74,6 +78,7 @@ class InterfaceTests(unittest.TestCase):
         LocalModel.requests = []
         LocalModel.redirect_to = None
         LocalModel.tool_response = False
+        LocalModel.finish_reason = None
         LocalModel.get_paths = []
         self.model = ThreadingHTTPServer(("127.0.0.1", 0), LocalModel)
         self.model_thread = threading.Thread(target=self.model.serve_forever, daemon=True)
@@ -114,14 +119,72 @@ class InterfaceTests(unittest.TestCase):
         self.assertEqual(body["reply"], "<script>untrusted</script>")
         self.assertEqual(body["model"], "vera-local:latest")
         self.assertEqual(body["mode"], "response_only")
+        self.assertEqual(body["response_completion_status"], "unknown")
+        self.assertIsNone(body["response_incomplete"])
+        self.assertIsNone(body["response_truncated"])
         self.assertEqual(len(LocalModel.requests), 1)
         self.assertNotIn("tools", LocalModel.requests[0])
-        self.assertEqual(LocalModel.requests[0]["max_tokens"], 512)
+        self.assertEqual(LocalModel.requests[0]["max_tokens"], 192)
         self.assertEqual(LocalModel.requests[0]["messages"][-1]["role"], "user")
         system_note = LocalModel.requests[0]["messages"][0]["content"]
         self.assertIn("opt-in persistent memory", system_note)
         self.assertIn("technically possible", system_note)
         self.assertIn("none are connected here", system_note)
+
+    def test_truncated_model_reply_is_explicit_in_visible_text_and_receipt(self):
+        LocalModel.finish_reason = "length"
+        status, _headers, raw = self.chat()
+        self.assertEqual(status, 200)
+        result = json.loads(raw)
+        self.assertTrue(result["response_truncated"])
+        self.assertTrue(result["response_incomplete"])
+        self.assertEqual(result["response_completion_status"], "length_limited")
+        self.assertEqual(result["response_token_limit"], 192)
+        self.assertTrue(result["reply"].startswith("<script>untrusted</script>"))
+        self.assertIn("was cut off before completion", result["reply"])
+        self.assertIn("Ask me to continue", result["reply"])
+        self.assertEqual(LocalModel.requests[-1]["max_tokens"], 192)
+
+    def test_filtered_upstream_reply_is_disclosed_and_not_complete(self):
+        LocalModel.finish_reason = "content_filter"
+        status, _headers, raw = self.chat()
+        self.assertEqual(status, 200)
+        result = json.loads(raw)
+        self.assertEqual(result["response_completion_status"], "filtered")
+        self.assertTrue(result["response_incomplete"])
+        self.assertFalse(result["response_truncated"])
+        self.assertIn("upstream content filter", result["reply"])
+
+    def test_stopped_reply_is_complete_and_invalid_finish_reason_fails_closed(self):
+        LocalModel.finish_reason = "stop"
+        status, _headers, raw = self.chat()
+        self.assertEqual(status, 200)
+        result = json.loads(raw)
+        self.assertEqual(result["response_completion_status"], "complete")
+        self.assertFalse(result["response_incomplete"])
+        self.assertFalse(result["response_truncated"])
+        LocalModel.finish_reason = "totally-finished-trust-me"
+        self.assertEqual(self.chat()[0], 503)
+
+    def test_response_token_budget_is_operator_bounded_and_configurable(self):
+        for invalid in (True, 0, -1, 31, 257, "192", 192.0):
+            with self.subTest(invalid=invalid):
+                with self.assertRaisesRegex(ValueError, "response token"):
+                    make_server(port=0,
+                                ollama_url=f"http://127.0.0.1:{self.model.server_port}",
+                                max_response_tokens=invalid)
+        for allowed in (32, 128, 192, 256):
+            with self.subTest(allowed=allowed):
+                service = make_server(
+                    port=0, ollama_url=f"http://127.0.0.1:{self.model.server_port}",
+                    max_response_tokens=allowed)
+                try:
+                    self.assertEqual(service.max_response_tokens, allowed)
+                finally:
+                    service.server_close()
+        self.app.max_response_tokens = 128
+        self.assertEqual(self.chat()[0], 200)
+        self.assertEqual(LocalModel.requests[-1]["max_tokens"], 128)
 
     def test_browser_session_and_local_status(self):
         status, _, raw = self.request("/api/session")

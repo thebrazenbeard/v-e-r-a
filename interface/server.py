@@ -19,6 +19,8 @@ from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
 from .local_transcript import TranscriptConflict, TranscriptStore
+from .persona_seed import (load_pinned_profile, persona_source_receipt,
+                           render_persona_seed)
 from .verified_volition import VerifiedVolitionGoalProvider
 
 
@@ -221,7 +223,8 @@ def _explicit_recall_messages(saved: dict, current: list[dict[str, str]]) -> lis
 
 
 def _chat(model_root: str, model: str, messages: list[dict[str, str]],
-          *, transcript_enabled: bool = False) -> str:
+          *, transcript_enabled: bool = False, recall_included: bool = False,
+          persona_profile: dict) -> str:
     request = {
         "model": model,
         "stream": False,
@@ -230,22 +233,18 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]],
         # accepts this response-token cap; it grants no additional authority.
         "max_tokens": 512,
         "messages": [{"role": "system", "content": (
-            "You are responding through Vera's local model interface. "
-            "This particular session has no live "
-            "observations, tools, identity attestation, or external effects. "
-            + ("An operator may explicitly restore or authorize recall of locally "
-               "saved browser conversation text, which is unverified user-controlled "
-               "history, not independent evidence of memory or identity. " if transcript_enabled else
-               "There is no connected durable memory. ")
-            +
-            "Do not confuse an unaugmented model's limits with what an AI "
-            "system can be engineered to do: opt-in persistent memory, "
-            "source-attributed retrieval, sensors, and authorized real-world "
-            "actions are technically possible through separately verified "
-            "adapters, but none are connected here. Distinguish what is "
-            "possible from what is installed and currently verified. "
-            "Do not claim to have remembered or observed something or "
-            "executed a change without evidence."
+            render_persona_seed(persona_profile, recall_included=recall_included)
+            + " Runtime boundary: this local session has no live observations, "
+            "tools, identity attestation, or external action authority. "
+            + ("The local transcript vault is opt-in: only an authenticated, "
+               "explicit recall may expose unverified operator-saved text. "
+               if transcript_enabled else "There is no connected durable memory. ")
+            + "Capabilities like opt-in persistent memory, evidence-attributed "
+            "retrieval and authorized actions are technically possible; none "
+            "are connected here except the separately authorized transcript "
+            "recall described above. Do not claim an unseen memory, "
+            "observation, or executed change. Do not turn this boundary "
+            "into a lecture unless the user asks how the system works."
         )}, *messages],
     }
     payload = _read_json_from_model(model_root + "/v1/chat/completions",
@@ -299,6 +298,9 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
             or len(memory_secret) > 256 or not memory_secret.isascii()
             or not memory_secret.isprintable()):
         raise ValueError("transcript secret must be 32..256 printable ASCII characters")
+    # Fail closed on a tampered, absent, or mismatched local persona source.
+    # An HTTP request must never supply or replace the system persona.
+    persona_profile = load_pinned_profile()
     memory = (TranscriptStore(memory_db_path, memory_secret,
                               rollback_anchor_path=memory_rollback_anchor_path)
               if memory_db_path is not None else None)
@@ -404,6 +406,7 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                     return self._reject(403, "local session rejected")
                 self._send(200, {
                     "interface": "online", "model_node": "local",
+                    "persona_source": persona_source_receipt(),
                     "portal": "not_connected", "pre_active": "not_connected",
                     "empathy": "not_connected", "authority": "response_only",
                     "durable_memory": ("opt_in_local_transcript"
@@ -513,9 +516,12 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                 if model not in _models(self.server.model_root):
                     return self._reject(400, "model not installed locally")
                 reply = _chat(self.server.model_root, model, messages,
-                              transcript_enabled=self.server.transcript_store is not None)
+                              transcript_enabled=self.server.transcript_store is not None,
+                              recall_included=recall,
+                              persona_profile=self.server.persona_profile)
                 result = {"reply": reply, "model": model,
-                          "node": "local", "mode": "response_only"}
+                          "node": "local", "mode": "response_only",
+                          "persona_source": persona_source_receipt()}
                 if source is not None:
                     result["recalled_source"] = source
                 self._send(200, result)
@@ -559,4 +565,5 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
     server.goal_access_token = goal_access_token
     server.transcript_store = memory
     server.transcript_secret = memory_secret or ""
+    server.persona_profile = persona_profile
     return server

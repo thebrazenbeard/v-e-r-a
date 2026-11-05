@@ -11,6 +11,7 @@ import argparse
 import datetime as dt
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -49,6 +50,36 @@ def _utc(value: object, label: str) -> dt.datetime:
     if parsed.tzinfo is None or parsed.utcoffset() != dt.timedelta(0):
         raise ValueError(f"{label} must be UTC")
     return parsed.astimezone(dt.timezone.utc)
+
+
+def _checkout_head(path: Path) -> str:
+    """Bind to an actual checked-out Git HEAD, not a self-declared JSON field."""
+    try:
+        run = subprocess.run(
+            ["git", "-C", str(path), "rev-parse", "--verify", "HEAD"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=True,
+        )
+    except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
+        raise ValueError("snapshot checkout Git HEAD unavailable") from exc
+    head = run.stdout.strip()
+    if not HEX40.fullmatch(head):
+        raise ValueError("snapshot checkout Git HEAD malformed")
+    try:
+        status = subprocess.run(
+            ["git", "-C", str(path), "status", "--porcelain", "--untracked-files=all"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+            check=True,
+        )
+    except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
+        raise ValueError("snapshot checkout status unavailable") from exc
+    if status.stdout.strip():
+        raise ValueError("snapshot checkout has uncommitted or untracked source")
+    return head
 
 
 def _migrations(value: object) -> tuple[tuple[str, str], ...]:
@@ -97,6 +128,7 @@ def compare(
     snapshot_root: Path,
     live_receipt_path: Path,
     *,
+    expected_snapshot_head: str,
     now: dt.datetime | None = None,
     max_age_hours: int = 24,
 ) -> dict[str, object]:
@@ -116,10 +148,11 @@ def compare(
             raise ValueError("project identity missing")
         if snapshot.get("definition_snapshot_only") is not True:
             raise ValueError("snapshot definition-only boundary missing")
-        source_head = snapshot.get("snapshot_source_head")
-        if not isinstance(source_head, str) or not HEX40.fullmatch(source_head):
-            raise ValueError("snapshot source head is unbound")
-        if live.get("snapshot_source_head") != source_head:
+        if not HEX40.fullmatch(expected_snapshot_head):
+            raise ValueError("expected snapshot head is not a full Git SHA")
+        if _checkout_head(snapshot_root) != expected_snapshot_head:
+            raise ValueError("actual checkout does not match pinned source head")
+        if live.get("snapshot_source_head") != expected_snapshot_head:
             raise ValueError("snapshot source head mismatch")
         observed_at = _utc(live.get("observed_at"), "provider observation")
         captured_at = _utc(snapshot.get("observed_at"), "snapshot capture")
@@ -157,10 +190,11 @@ def compare(
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--snapshot-root", required=True, type=Path)
+    parser.add_argument("--expected-snapshot-head", required=True)
     parser.add_argument("--live-metadata", required=True, type=Path)
     parser.add_argument("--max-age-hours", type=int, default=24)
     args = parser.parse_args(argv)
-    result = compare(args.snapshot_root, args.live_metadata, max_age_hours=args.max_age_hours)
+    result = compare(args.snapshot_root, args.live_metadata, expected_snapshot_head=args.expected_snapshot_head, max_age_hours=args.max_age_hours)
     print(json.dumps(result, sort_keys=True))
     return 0 if result["status"] == "SOURCE_METADATA_MATCH_UNATTESTED" else 2
 

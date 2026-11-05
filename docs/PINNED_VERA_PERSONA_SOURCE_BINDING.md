@@ -32,6 +32,13 @@ The hybrid interface checks this second file at startup before attaching
 sources remain **outside** the public `v-e-r-a` repository. An ordinary
 generic local UI launch remains functional with no persona configured;
 `--require-persona` rejects launch unless both checked owner files exist.
+**Important distinction:** checking the presentation blob's exact bytes
+establishes an admitted source reference only. The interface does not read
+its prose into the system prompt or enact its nonverbal cue rules. The
+`presentation_blob_sha` receipt is not a claim that an actual GGUF generated
+those cues, adopted a body, or implemented the status-bar behavior.
+The typed receipt explicitly marks
+`presentation_implementation=ADMITTED_SOURCE_REFERENCE_ONLY`.
 
 ## Bounded manual check (Windows or Linux)
 
@@ -52,28 +59,44 @@ pin, not an unreviewed fallback or silently upgraded alias.
 An owner starting the loopback prototype may add
 `--persona-profile-file /ABSOLUTE/PATH/TO/PROVISIONED_PROFILE.json` to
 `python -m interface`, or call `make_server(persona_profile_path=...)`.
+The governed APK-compatible variant additionally needs
+`--persona-presentation-file /ABSOLUTE/PATH/TO/NONVERBAL.md` and
+`--require-persona`. Both pinned owner files must validate before startup;
+the generic interface works without either. A generic endpoint is deliberately
+rejected by the APK's governed backend profile check.
 The path must refer to exactly the pinned bytes above. Invalid/missing files
 fail closed **before opening the interface listener**. No path or profile JSON
 is sent to the browser. The verified, bounded text is read once at startup
 and appended to the existing server-owned system note for `/api/chat`; browser
-payloads still accept only bounded `user`/`assistant` messages. The status API
-states `persona_prompt=pinned_owner_profile`, but also explicitly states
-`model_identity_attested=false`.
+payloads still accept only bounded, alternating user-led `user`/`assistant`
+messages ending with a user turn. The status API returns
+`persona_prompt=pinned_owner_profile` plus the typed
+`persona_source` receipt with `qualification=SOURCE_ONLY`,
+`prompt_layer=server_owned_system`, canonical source hashes, and
+`model_identity_attested=false` / `identity_attested=false`.
+Unconfigured launches return `persona_source.qualification=NOT_CONFIGURED`.
 
 This is *source and mocked integration*, not a deployed model. The operator
 must separately determine that its endpoint accepts the resulting chat
 template and system prompt, verify context/token budgets, and perform real
-multiturn assessment. The 64-token prototype response cap can reject long
+multiturn assessment. The interface's default reply cap is **192 tokens**,
+operator-adjustable from 32 to 256; a separately configured bridge cap must
+be at least as high. These caps constrain CPU time but can cut off long
 answers. Never accept system text or the claimed source pin from the browser,
 model, or self-reported `/v1/models`/`/api/tags` name. Retain the UI's
 `MODEL OUTPUT / UNVERIFIED` label until independent host-model attestation.
 
-The local gateway and its loopback bridge reject completion payloads that
-omit a `finish_reason`, claim a non-assistant message role, or supply an empty
-reply. Both also reject unsupported finish reasons and tool calls. A reply
-explicitly stopped by a length limit remains a recoverable non-answer, not a
-stored partial assistant turn. These are protocol checks only; none proves the
-claimed model identifier or actual weights are authentic.
+The local gateway and its loopback bridge reject a non-assistant message
+role, empty reply, unsupported finish reason, or tool call. An omitted or
+null `finish_reason` is reported as typed `unknown`, not fabricated `stop`.
+Explicit `length` and `content_filter` become `length_limited` and
+`filtered`; only `stop` becomes `complete`. The browser can display these
+fragments with an **UNVERIFIED PARTIAL** label but does not add them to ordinary
+assistant history, subsequent prompts, or explicit saved completed turns.
+This reconciles the truthful typed completion API needed by the phone with
+the no-incomplete-history rule; it is not a claim that the model finished.
+These are protocol checks only; none proves the model identifier or actual
+weights are authentic.
 
 The seed aims for recognizable candor, specific pushback, dry humor and
 natural first-person language; **it is not evidence that a physical model

@@ -86,6 +86,11 @@ actual HTTP. It terminates its own processes. The synthetic upstream is a
 protocol test double; no GGUF inference or host-substrate qualification occurs.
 Separate in-process admission tests use a synthetic owner source under a
 test-only digest override; no private canonical JSON is redistributed.
+The owner-file/API-to-APK interoperability evidence is **SOURCE_SCHEMA_ONLY**:
+the governed `/api/status` and `/api/chat` receipts are exercised through
+HTTP with synthetic owner-file admission under controlled test patches. No
+full three-process test contains the actual copyrighted owner profile and
+nonverbal document; no phone/device or physical model has been bound.
 
 **Stack integration HOLD (2026-11-05):** GitHub Draft PR #24 advanced to
 `79a8ab6f9edfabd3c7edaa71667fc7194c619dd7` after Draft PR #25

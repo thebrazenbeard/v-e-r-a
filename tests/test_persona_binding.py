@@ -130,6 +130,8 @@ class PersonaBindingTests(unittest.TestCase):
             self.assertEqual(status["persona_prompt"], "pinned_owner_profile")
             self.assertEqual(receipt["profile_blob_sha"], "0c79625b993a559bd22a6fbe68279450fc736eb2")
             self.assertEqual(receipt["presentation_blob_sha"], "887bfe1d6862d23550b224a00a60e32d197e8c1f")
+            self.assertEqual(receipt["presentation_implementation"],
+                             "ADMITTED_SOURCE_REFERENCE_ONLY")
             self.assertEqual(receipt["qualification"], "SOURCE_ONLY")
             self.assertEqual(receipt["prompt_layer"], "server_owned_system")
             self.assertFalse(receipt["identity_attested"])
@@ -142,6 +144,11 @@ class PersonaBindingTests(unittest.TestCase):
             self.assertEqual(status["persona_source"], receipt)
             self.assertIn(status["response_completion_status"],
                           ("complete", "length_limited", "filtered", "unknown"))
+            # Admission of the pinned presentation source does not silently
+            # inject its raw prose or claim those cues were implemented.
+            system_note = LocalModel.requests[-1]["messages"][0]["content"]
+            self.assertNotIn("TEST-ONLY checked owner source substitute", system_note)
+            self.assertNotIn("presentation_blob_sha", system_note)
 
     def test_presentation_hash_verifier_refuses_mutation_and_accepts_test_pin(self):
         with tempfile.TemporaryDirectory() as folder:

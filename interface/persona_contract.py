@@ -61,4 +61,5 @@ def persona_source_receipt(seed: PersonaSeed | None,
     }
     if presentation_verified:
         receipt["presentation_blob_sha"] = PRESENTATION_GIT_BLOB_SHA
+        receipt["presentation_implementation"] = "ADMITTED_SOURCE_REFERENCE_ONLY"
     return receipt

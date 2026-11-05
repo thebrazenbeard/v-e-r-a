@@ -51,8 +51,11 @@ context, but never current goal authority; `pre-active` owns scheduling and
 effect admission in its own trust boundary.
 
 **Windows/Lappy is NOT qualified**: POSIX mode checks do not establish Windows
-ACL or key custody; this provider fails closed on Windows. A Windows-specific
-adapter needs independent ACL/identity verification, race-safe file handles,
+ACL or key custody. The current source includes an optional pywin32 path for
+file-handle, owner, and DACL checks, and fails closed when that evidence is
+unavailable or refused. Those source checks have **not** been independently
+qualified as Windows identity or secret custody. A Windows adapter still needs
+independent ACL/identity verification, race-safe file-handle tests,
 trusted secret storage, and live host observation tests before deployment.
 There is no host signer/provisioning service in this change. No evidence of
 live restored Volition state, model-owned wants, or learning is claimed.

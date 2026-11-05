@@ -15,6 +15,8 @@ def main():
     parser.add_argument("--max-response-tokens", type=int, default=192,
                         help="Local reply budget: 32..256 tokens (default 192); "
                              "reduces CPU timeout risk but cannot guarantee latency")
+    parser.add_argument("--bridge-client-api-key-file",
+                        help="Owner-private bridge client key; sent only from UI server to local bridge")
     parser.add_argument("--persona-profile-file",
                         help="Optional owner-provisioned pinned Vera behavior JSON (never bundled)")
     parser.add_argument("--persona-presentation-file",
@@ -51,7 +53,8 @@ def main():
                              max_response_tokens=args.max_response_tokens,
                              memory_db_path=args.memory_db, memory_secret=secret,
                              memory_rollback_anchor_path=args.memory_rollback_anchor,
-                             acknowledge_plaintext_vault_risk=args.acknowledge_plaintext_vault_risk)
+                             acknowledge_plaintext_vault_risk=args.acknowledge_plaintext_vault_risk,
+                             bridge_client_api_key_file=args.bridge_client_api_key_file)
     except (OSError, ValueError) as exc:
         parser.error(f"interface config refused: {exc}")
     if args.memory_db:

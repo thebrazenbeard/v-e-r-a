@@ -40,6 +40,40 @@ The bridge **and** UI gateway separately reject an upstream message whose
 `role` is not exactly `assistant`, or whose response content is empty. An
 upstream `role=system` text with `finish_reason=stop` therefore cannot be
 relabelled as Vera's completed assistant speech by the bridge.
+
+### Owner-provisioned two-key transport (source-only, opt-in)
+
+The default unauthenticated loopback mode remains for legacy synthetic
+testing. It **does not** establish an owner-exclusive inference endpoint.
+For a future owner-attended physical trial, provision **two distinct**
+owner-private ASCII keys of 32..256 non-whitespace printable bytes (one key
+per file, optional final LF). Never pass a key as a command-line value,
+commit it, or put it in a browser response, status receipt or model message.
+
+1. The owner-controlled llama.cpp process must independently be started with
+   `--api-key-file OWNER_UPSTREAM_KEY_FILE --parallel 1` plus host-owned
+   JobObject, exclusive port and resource constraints. This is a future
+   qualified-launch requirement, not a launch performed by this source.
+2. Start the bridge with `--upstream-api-key-file OWNER_UPSTREAM_KEY_FILE
+   --client-api-key-file OWNER_BRIDGE_CLIENT_KEY_FILE --require-upstream-auth`.
+   The first secret goes only in upstream HTTP `Authorization: Bearer ...`
+   headers on `/health`, `/v1/models` and `/v1/chat/completions`. The second
+   gates the bridge's `/health`, `/api/tags` and chat endpoints via
+   `X-Vera-Bridge-Key`; unauthorized callers receive HTTP 401.
+3. Start the UI gateway with
+   `--bridge-client-api-key-file OWNER_BRIDGE_CLIENT_KEY_FILE`. The UI sends
+   the header only to its configured literal `127.0.0.1` model endpoint;
+   browsers and Android never receive either key.
+
+Both key files use the existing private-vault custody verifier: regular
+non-symlink files, protected parent chains, native Windows DACL validation
+when pywin32 is available, owner-only POSIX permissions, and no automatic
+ACL modifications. Invalid files or missing keys refuse protected startup.
+These checks do **not** isolate against another process running as the same
+owner, an administrator, or the kernel; path-to-file checks are not race-free.
+The authenticated UI also remains an authorized user-facing model entrypoint.
+Host leases, process containment, and real model behavior are independent
+qualification requirements. Protected source mode is not a physical GO.
 It requires a literal localhost Host header, denies cross-origin requests,
 and expires slow request headers or partial bodies within 12 seconds even if
 the client trickles data. Upstream timeout is capped at 75 seconds, leaving

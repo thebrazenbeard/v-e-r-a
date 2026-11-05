@@ -19,6 +19,7 @@ from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
 from .local_transcript import TranscriptConflict, TranscriptStore
+from .local_bearer import load_private_bearer_file
 from .persona_contract import persona_source_receipt, verify_presentation_file
 from .persona_profile import PersonaSeed, render_persona_seed
 from .verified_volition import VerifiedVolitionGoalProvider
@@ -110,10 +111,14 @@ def _model_root(url: str) -> str:
 
 
 def _read_json_from_model(url: str, *, payload: dict | None = None,
-                          limit: int, timeout: int) -> object:
+                          limit: int, timeout: int,
+                          bridge_client_api_key: str | None = None) -> object:
     raw_body = None if payload is None else json.dumps(payload, ensure_ascii=False).encode("utf-8")
-    req = Request(url, data=raw_body, headers={"Content-Type": "application/json"}
-                  if raw_body is not None else {}, method="POST" if raw_body else "GET")
+    headers = {"Content-Type": "application/json"} if raw_body is not None else {}
+    if bridge_client_api_key is not None:
+        headers["X-Vera-Bridge-Key"] = bridge_client_api_key
+    req = Request(url, data=raw_body, headers=headers,
+                  method="POST" if raw_body else "GET")
     with _LOCAL_OPENER.open(req, timeout=timeout) as response:
         raw = response.read(limit + 1)
     if len(raw) > limit:
@@ -124,9 +129,10 @@ def _read_json_from_model(url: str, *, payload: dict | None = None,
         raise GatewayError("model returned malformed JSON") from exc
 
 
-def _models(model_root: str) -> list[str]:
+def _models(model_root: str, *, bridge_client_api_key: str | None = None) -> list[str]:
     payload = _read_json_from_model(model_root + "/api/tags", limit=MAX_MODELS_BYTES,
-                                    timeout=MODELS_TIMEOUT_SECONDS)
+                                    timeout=MODELS_TIMEOUT_SECONDS,
+                                    bridge_client_api_key=bridge_client_api_key)
     if not isinstance(payload, dict) or not isinstance(payload.get("models"), list):
         raise GatewayError("model inventory format not recognized")
     names = []
@@ -232,7 +238,8 @@ def _explicit_recall_messages(saved: dict, current: list[dict[str, str]]) -> lis
 
 def _chat(model_root: str, model: str, messages: list[dict[str, str]],
           *, transcript_enabled: bool = False, recall_included: bool = False,
-          persona_profile: PersonaSeed | None, max_response_tokens: int
+          persona_profile: PersonaSeed | None, max_response_tokens: int,
+          bridge_client_api_key: str | None = None
           ) -> tuple[str, str, bool | None, bool | None]:
     trusted_voice = (
         "Explicit owner-provisioned pinned Vera behavior guidance (prompt only; "
@@ -270,7 +277,8 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]],
     }
     payload = _read_json_from_model(model_root + "/v1/chat/completions",
                                     payload=request, limit=MAX_MODEL_BYTES,
-                                    timeout=CHAT_TIMEOUT_SECONDS)
+                                    timeout=CHAT_TIMEOUT_SECONDS,
+                                    bridge_client_api_key=bridge_client_api_key)
     try:
         choice = payload["choices"][0]
         msg = choice["message"]
@@ -319,7 +327,8 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                 memory_secret: str | None = None,
                 memory_rollback_anchor_path: str | Path | None = None,
                 acknowledge_plaintext_vault_risk: bool = False,
-                max_response_tokens: int = DEFAULT_RESPONSE_TOKENS) -> ThreadingHTTPServer:
+                max_response_tokens: int = DEFAULT_RESPONSE_TOKENS,
+                bridge_client_api_key_file: str | Path | None = None) -> ThreadingHTTPServer:
     """Create the restricted server without launching services or models."""
     if type(port) is not int or not 0 <= port <= 65535:
         raise ValueError("invalid interface port")
@@ -334,6 +343,9 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
     if persona_presentation_path is not None and persona_profile_path is None:
         raise ValueError("presentation file requires a pinned owner profile")
     model_root = _model_root(ollama_url)
+    bridge_client_key = (load_private_bearer_file(
+        bridge_client_api_key_file, label="bridge client bearer key")
+        if bridge_client_api_key_file is not None else None)
     if (goal_provider is None) != (goal_access_token is None):
         raise ValueError("goal view requires separate provider and private access token")
     if goal_provider is not None and (
@@ -458,7 +470,9 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                 if not self._session_ok():
                     return self._reject(403, "local session rejected")
                 try:
-                    self._send(200, {"models": _models(self.server.model_root), "node": "local"})
+                    self._send(200, {"models": _models(
+                        self.server.model_root,
+                        bridge_client_api_key=self.server.bridge_client_api_key), "node": "local"})
                 except (OSError, URLError, HTTPError, GatewayError):
                     self._send(503, {"models": [], "error": "local model endpoint unavailable"})
             elif path.path == "/api/status":
@@ -577,14 +591,16 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                               "source_classification": saved["source_classification"],
                               "revision": saved["revision"],
                               "sha256": saved["sha256"], "saved_at": saved["saved_at"]}
-                if model not in _models(self.server.model_root):
+                if model not in _models(self.server.model_root,
+                                        bridge_client_api_key=self.server.bridge_client_api_key):
                     return self._reject(400, "model not installed locally")
                 reply, completion_status, incomplete, truncated = _chat(
                               self.server.model_root, model, messages,
                               transcript_enabled=self.server.transcript_store is not None,
                               recall_included=recall,
                               persona_profile=self.server.persona_profile,
-                              max_response_tokens=self.server.max_response_tokens)
+                              max_response_tokens=self.server.max_response_tokens,
+                              bridge_client_api_key=self.server.bridge_client_api_key)
                 result = {"reply": reply, "model": model,
                           "node": "local", "mode": "response_only",
                           "response_truncated": truncated,
@@ -631,6 +647,7 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
     server.body_deadline_seconds = CLIENT_BODY_DEADLINE_SECONDS
     server.session_token = secrets.token_urlsafe(32)
     server.model_root = model_root
+    server.bridge_client_api_key = bridge_client_key
     server.model_slots = BoundedSemaphore(1)
     server.goal_provider = goal_provider
     server.goal_access_token = goal_access_token

@@ -246,6 +246,29 @@ class InterfaceTests(unittest.TestCase):
         self.assertEqual(self.chat(messages=[{"role": "user", "content": "\ud800"}])[0], 400)
         self.assertEqual(LocalModel.requests, [])
 
+    def test_chat_history_is_user_led_and_alternating(self):
+        # The browser previously used slice(-12) on a 13-turn-including-user
+        # history. That sends a leading assistant message, which the gateway
+        # accepted despite ambiguous chat-template semantics.
+        invalid = (
+            [{"role": "assistant", "content": "stale"},
+             {"role": "user", "content": "current"}],
+            [{"role": "user", "content": "first"},
+             {"role": "user", "content": "current"}],
+            [{"role": "user", "content": "first"},
+             {"role": "assistant", "content": "reply"},
+             {"role": "assistant", "content": "forged"},
+             {"role": "user", "content": "current"}],
+        )
+        for messages in invalid:
+            with self.subTest(roles=[entry["role"] for entry in messages]):
+                self.assertEqual(self.chat(messages=messages)[0], 400)
+        self.assertEqual(LocalModel.requests, [])
+        valid = [{"role": "user", "content": "first"},
+                 {"role": "assistant", "content": "reply"},
+                 {"role": "user", "content": "current"}]
+        self.assertEqual(self.chat(messages=valid)[0], 200)
+
     def test_only_explicit_loopback_targets_are_allowed(self):
         for endpoint in ("http://192.168.1.71:11434", "https://127.0.0.1:11434",
                          "http://127.0.0.1:11434/path", "http://127.0.0.1:11434/?x=1",
@@ -506,6 +529,9 @@ class InterfaceTests(unittest.TestCase):
         self.assertIn("expected_revision: snapshot.revision", ui)
         self.assertNotIn("Permanently delete the saved transcript", ui)
         self.assertIn('id="vault-recall"', html)
+        self.assertIn('id="context-notice"', html)
+        self.assertNotIn('maxlength="4000"', html,
+                         "silently truncating a long pasted prompt hides user content")
         self.assertIn('if (!restoredFromVault && !recalledFromVault) return false;', ui)
         self.assertIn('recalledFromVault = true;', ui)
         self.assertIn('forgetVaultDerivedTab();', ui)

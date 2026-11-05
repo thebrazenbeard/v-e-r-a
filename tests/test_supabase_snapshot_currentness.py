@@ -82,6 +82,18 @@ class CurrentnessTest(unittest.TestCase):
         self._save()
         return guard.compare(self.snapshot, self.root / "live.json", expected_snapshot_head=self.head, now=NOW)
 
+    def _commit_source(self) -> None:
+        """Make source mutations an actual clean-HEAD fixture, not a dirty-tree hold."""
+        self._save()
+        subprocess.run(["git", "-C", str(self.snapshot), "add", "supabase"], check=True, capture_output=True)
+        subprocess.run(
+            ["git", "-C", str(self.snapshot), "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid", "commit", "-q", "-m", "alter synthetic source"],
+            check=True, capture_output=True,
+        )
+        self.head = subprocess.run(["git", "-C", str(self.snapshot), "rev-parse", "HEAD"], capture_output=True, check=True, text=True).stdout.strip()
+        self.live["snapshot_source_head"] = self.head
+        self._write("live.json", self.live)
+
     def assert_hold(self) -> None:
         result = self._check()
         self.assertEqual("HOLD_STALE_OR_UNBOUND", result["status"])
@@ -96,6 +108,7 @@ class CurrentnessTest(unittest.TestCase):
 
     def test_snapshot_currentness_missing(self) -> None:
         del self.project["observed_at"]
+        self._commit_source()
         self.assert_hold()
 
     def test_mismatched_source_head(self) -> None:
@@ -141,6 +154,7 @@ class CurrentnessTest(unittest.TestCase):
 
     def test_stale_snapshot_rejected(self) -> None:
         self.project["observed_at"] = "2026-11-01T19:00:00Z"
+        self._commit_source()
         self.assert_hold()
 
     def test_future_provider_observation_rejected(self) -> None:
@@ -154,8 +168,10 @@ class CurrentnessTest(unittest.TestCase):
         self.assertEqual("HOLD_STALE_OR_UNBOUND", result["status"])
 
     def test_malformed_head_rejected(self) -> None:
-        self.project["snapshot_source_head"] = "not-a-git-head"
-        self.assert_hold()
+        self._save()
+        result = guard.compare(self.snapshot, self.root / "live.json", expected_snapshot_head="not-a-git-head", now=NOW)
+        self.assertEqual("HOLD_STALE_OR_UNBOUND", result["status"])
+        self.assertIn("full Git SHA", result["reason"])
 
     def test_boolean_edge_version_rejected(self) -> None:
         self.live["functions"][0]["version"] = True
@@ -163,7 +179,53 @@ class CurrentnessTest(unittest.TestCase):
 
     def test_migration_count_forgery_rejected(self) -> None:
         self.history["count"] = 3
+        self._commit_source()
         self.assert_hold()
+
+    def test_git_excluded_ghost_binding_rejected_with_clean_checkout(self) -> None:
+        """Adversarial review: ignored files remain invisible to git status."""
+        (self.snapshot / ".git" / "info" / "exclude").write_text(
+            "supabase/functions/ghost/binding.json\n", encoding="utf-8"
+        )
+        ghost = {**self.binding, "slug": "ghost"}
+        self._write("source/supabase/functions/ghost/binding.json", ghost)
+        self.live["functions"].append(ghost)
+        self._write("live.json", self.live)
+        status = subprocess.run(
+            ["git", "-C", str(self.snapshot), "status", "--porcelain", "--untracked-files=all"],
+            capture_output=True, check=True, text=True,
+        )
+        self.assertFalse(status.stdout.strip(), "fixture must actually bypass git status")
+        result = guard.compare(self.snapshot, self.root / "live.json", expected_snapshot_head=self.head, now=NOW)
+        self.assertEqual("HOLD_STALE_OR_UNBOUND", result["status"])
+        self.assertIn("untracked, missing, or ignored", result["reason"])
+
+    def test_committed_edge_binding_symlink_rejected(self) -> None:
+        outside = self.root / "external-binding.json"
+        outside.write_text(json.dumps(self.binding), encoding="utf-8")
+        binding = self.snapshot / "supabase" / "functions" / "synthetic-edge" / "binding.json"
+        binding.unlink()
+        binding.symlink_to(outside)
+        self._commit_source()
+        result = guard.compare(self.snapshot, self.root / "live.json", expected_snapshot_head=self.head, now=NOW)
+        self.assertEqual("HOLD_STALE_OR_UNBOUND", result["status"])
+        self.assertIn("symlinked source", result["reason"])
+
+    def test_untracked_migration_index_rejected(self) -> None:
+        subprocess.run(
+            ["git", "-C", str(self.snapshot), "rm", "-q", "supabase/migration-index.json"],
+            check=True, capture_output=True,
+        )
+        subprocess.run(
+            ["git", "-C", str(self.snapshot), "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid", "commit", "-q", "-m", "remove tracked migration index"],
+            check=True, capture_output=True,
+        )
+        self.head = subprocess.run(["git", "-C", str(self.snapshot), "rev-parse", "HEAD"], capture_output=True, check=True, text=True).stdout.strip()
+        (self.snapshot / ".git" / "info" / "exclude").write_text("supabase/migration-index.json\n", encoding="utf-8")
+        self.live["snapshot_source_head"] = self.head
+        result = self._check()
+        self.assertEqual("HOLD_STALE_OR_UNBOUND", result["status"])
+        self.assertIn("untracked source project", result["reason"])
 
 
 if __name__ == "__main__":

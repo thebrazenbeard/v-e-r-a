@@ -5,6 +5,7 @@ from __future__ import annotations
 import datetime as dt
 import importlib.util
 import json
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -16,7 +17,6 @@ assert SPEC and SPEC.loader
 guard = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(guard)
 NOW = dt.datetime(2026, 11, 5, 20, tzinfo=dt.timezone.utc)
-HEAD = "a" * 40
 DIGEST = "b" * 64
 
 
@@ -28,7 +28,6 @@ class CurrentnessTest(unittest.TestCase):
         self.snapshot = self.root / "source"
         self.project = {
             "project_ref": "synthetic-project",
-            "snapshot_source_head": HEAD,
             "observed_at": "2026-11-05T18:00:00Z",
             "definition_snapshot_only": True,
             "source_state": "SOURCE_DEFINITION_SNAPSHOT_ONLY",
@@ -52,11 +51,20 @@ class CurrentnessTest(unittest.TestCase):
         self.live = {
             "schema": "SUPABASE_METADATA_OBSERVATION_V1",
             "project_ref": "synthetic-project",
-            "snapshot_source_head": HEAD,
+            "snapshot_source_head": "0" * 40,
             "observed_at": "2026-11-05T19:00:00Z",
             "migrations": self.history["migrations"].copy(),
             "functions": [self.binding.copy()],
         }
+        self._save()
+        subprocess.run(["git", "init", "-q", str(self.snapshot)], check=True, capture_output=True)
+        subprocess.run(["git", "-C", str(self.snapshot), "add", "supabase"], check=True, capture_output=True)
+        subprocess.run(
+            ["git", "-C", str(self.snapshot), "-c", "user.name=Fixture", "-c", "user.email=fixture@example.invalid", "commit", "-q", "-m", "synthetic source"],
+            check=True, capture_output=True,
+        )
+        self.head = subprocess.run(["git", "-C", str(self.snapshot), "rev-parse", "HEAD"], capture_output=True, check=True, text=True).stdout.strip()
+        self.live["snapshot_source_head"] = self.head
         self._save()
 
     def _write(self, relative: str, contents: object) -> None:
@@ -72,7 +80,7 @@ class CurrentnessTest(unittest.TestCase):
 
     def _check(self) -> dict[str, object]:
         self._save()
-        return guard.compare(self.snapshot, self.root / "live.json", now=NOW)
+        return guard.compare(self.snapshot, self.root / "live.json", expected_snapshot_head=self.head, now=NOW)
 
     def assert_hold(self) -> None:
         result = self._check()
@@ -90,13 +98,14 @@ class CurrentnessTest(unittest.TestCase):
         del self.project["observed_at"]
         self.assert_hold()
 
-    def test_snapshot_source_head_missing(self) -> None:
-        del self.project["snapshot_source_head"]
-        self.assert_hold()
-
     def test_mismatched_source_head(self) -> None:
         self.live["snapshot_source_head"] = "c" * 40
         self.assert_hold()
+
+    def test_wrong_git_checkout_head_rejected(self) -> None:
+        self._save()
+        result = guard.compare(self.snapshot, self.root / "live.json", expected_snapshot_head="a" * 40, now=NOW)
+        self.assertEqual("HOLD_STALE_OR_UNBOUND", result["status"])
 
     def test_live_edge_version_drift_even_with_same_migration_count(self) -> None:
         self.live["functions"][0]["version"] = 7
@@ -141,7 +150,7 @@ class CurrentnessTest(unittest.TestCase):
     def test_duplicate_json_keys_rejected(self) -> None:
         self._save()
         (self.root / "live.json").write_text('{"schema":"x","schema":"SUPABASE_METADATA_OBSERVATION_V1"}')
-        result = guard.compare(self.snapshot, self.root / "live.json", now=NOW)
+        result = guard.compare(self.snapshot, self.root / "live.json", expected_snapshot_head=self.head, now=NOW)
         self.assertEqual("HOLD_STALE_OR_UNBOUND", result["status"])
 
     def test_malformed_head_rejected(self) -> None:

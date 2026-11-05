@@ -23,6 +23,8 @@ MAX_REPLY = 1024 * 1024
 CLIENT_IO_TIMEOUT_SECONDS = 8
 CLIENT_BODY_DEADLINE_SECONDS = 12
 MAX_UPSTREAM_TIMEOUT_SECONDS = 75  # UI gateway gives the whole exchange 90s.
+DEFAULT_CHAT_MAX_TOKENS = 64  # CPU prototype; owner can raise only after qualification.
+MAX_CHAT_MAX_TOKENS = 512
 
 
 def _bounded_upstream_json(root: str, path: str, *, payload: dict | None = None,
@@ -87,15 +89,20 @@ def _bounded_upstream_json(root: str, path: str, *, payload: dict | None = None,
 
 
 class LoopbackModelBridge:
-    def __init__(self, upstream: str, model_id: str, *, timeout: float = 30.0):
+    def __init__(self, upstream: str, model_id: str, *, timeout: float = 30.0,
+                 max_chat_tokens: int = DEFAULT_CHAT_MAX_TOKENS):
         self.upstream = _model_root(upstream)
         if (type(model_id) is not str or not model_id.strip() or len(model_id) > 128
                 or model_id != model_id.strip()):
             raise ValueError("a nonempty, exact model ID is required")
         if timeout <= 0 or timeout > MAX_UPSTREAM_TIMEOUT_SECONDS:
             raise ValueError("timeout must be between 0 and 75 seconds")
+        if (type(max_chat_tokens) is not int
+                or not 1 <= max_chat_tokens <= MAX_CHAT_MAX_TOKENS):
+            raise ValueError("invalid owner chat-token budget")
         self.model_id = model_id
         self.timeout = timeout
+        self.max_chat_tokens = max_chat_tokens
 
     def ready(self) -> None:
         health = _bounded_upstream_json(self.upstream, "/health", limit=4096,
@@ -115,7 +122,7 @@ class LoopbackModelBridge:
         if body["model"] != self.model_id or body["stream"] is not False:
             raise ValueError("model mismatch or streaming prohibited")
         tokens, messages = body["max_tokens"], body["messages"]
-        if type(tokens) is not int or not 1 <= tokens <= 512:
+        if type(tokens) is not int or not 1 <= tokens <= self.max_chat_tokens:
             raise ValueError("invalid token bound")
         if type(messages) is not list or not 1 <= len(messages) <= 13:
             raise ValueError("invalid message count")
@@ -256,7 +263,13 @@ def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
                 if not 0 < size <= MAX_BODY:
                     raise ValueError("invalid body length")
                 body = _decode_json(self._read_body(size))
-                answer = bridge.completion(body)
+                if not self.server.model_slots.acquire(blocking=False):
+                    self._json(429, {"error": "model worker busy"})
+                    return
+                try:
+                    answer = bridge.completion(body)
+                finally:
+                    self.server.model_slots.release()
             except (ValueError, UnicodeError) as exc:
                 self._read_timer.cancel()
                 self._json(400, {"error": str(exc)})
@@ -272,6 +285,7 @@ def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
 
     server = _BoundedHTTPServer(("127.0.0.1", port), Handler)
     server.request_slots = BoundedSemaphore(16)
+    server.model_slots = BoundedSemaphore(1)
     server.daemon_threads = True
     return server
 
@@ -282,8 +296,11 @@ def main() -> None:
     parser.add_argument("--model-id", required=True, help="exact upstream /v1/models ID")
     parser.add_argument("--port", type=int, default=11439)
     parser.add_argument("--timeout", type=float, default=30.0)
+    parser.add_argument("--max-chat-tokens", type=int, default=DEFAULT_CHAT_MAX_TOKENS,
+        help="must match gateway VERA_MODEL_CHAT_MAX_TOKENS (both default to 64)")
     args = parser.parse_args()
-    bridge = LoopbackModelBridge(args.upstream, args.model_id, timeout=args.timeout)
+    bridge = LoopbackModelBridge(args.upstream, args.model_id, timeout=args.timeout,
+                                 max_chat_tokens=args.max_chat_tokens)
     with create_server(bridge, port=args.port) as server:
         print(f"Vera local model bridge listening on 127.0.0.1:{server.server_address[1]}", flush=True)
         server.serve_forever()

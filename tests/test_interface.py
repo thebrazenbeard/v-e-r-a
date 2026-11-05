@@ -12,6 +12,7 @@ import threading
 from threading import BoundedSemaphore
 import time
 import unittest
+from unittest.mock import patch
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
@@ -25,6 +26,7 @@ class LocalModel(BaseHTTPRequestHandler):
     requests: list[dict] = []
     redirect_to: str | None = None
     tool_response = False
+    finish_reason = "stop"
     get_paths: list[str] = []
 
     def log_message(self, *_args):
@@ -58,7 +60,8 @@ class LocalModel(BaseHTTPRequestHandler):
         if type(self).tool_response:
             self._reply({"choices": [{"message": {"content": "", "tool_calls": [{"id": "forged"}]}}]})
             return
-        self._reply({"choices": [{"message": {"role": "assistant", "content": "<script>untrusted</script>"}}]})
+        self._reply({"choices": [{"message": {"role": "assistant", "content": "<script>untrusted</script>"},
+                                  "finish_reason": type(self).finish_reason}]})
 
     def _reply(self, payload):
         body = json.dumps(payload).encode()
@@ -74,6 +77,7 @@ class InterfaceTests(unittest.TestCase):
         LocalModel.requests = []
         LocalModel.redirect_to = None
         LocalModel.tool_response = False
+        LocalModel.finish_reason = "stop"
         LocalModel.get_paths = []
         self.model = ThreadingHTTPServer(("127.0.0.1", 0), LocalModel)
         self.model_thread = threading.Thread(target=self.model.serve_forever, daemon=True)
@@ -114,14 +118,63 @@ class InterfaceTests(unittest.TestCase):
         self.assertEqual(body["reply"], "<script>untrusted</script>")
         self.assertEqual(body["model"], "vera-local:latest")
         self.assertEqual(body["mode"], "response_only")
+        self.assertIs(body["truncated"], False)
         self.assertEqual(len(LocalModel.requests), 1)
         self.assertNotIn("tools", LocalModel.requests[0])
-        self.assertEqual(LocalModel.requests[0]["max_tokens"], 512)
+        self.assertEqual(LocalModel.requests[0]["max_tokens"], 64)
         self.assertEqual(LocalModel.requests[0]["messages"][-1]["role"], "user")
         system_note = LocalModel.requests[0]["messages"][0]["content"]
         self.assertIn("opt-in persistent memory", system_note)
         self.assertIn("technically possible", system_note)
         self.assertIn("none are connected here", system_note)
+
+    def test_length_limited_reply_is_visibly_incomplete(self):
+        LocalModel.finish_reason = "length"
+        status, _, raw = self.chat()
+        self.assertEqual(status, 422)
+        body = json.loads(raw)
+        self.assertIs(body["truncated"], True)
+        self.assertIn("truncated", body["error"].lower())
+        self.assertNotIn("reply", body)
+        self.assertNotIn("<script>untrusted</script>", json.dumps(body))
+        # A later successful response is model-authored text only, without any
+        # synthetic gateway warning attached as prior assistant history.
+        LocalModel.finish_reason = "stop"
+        status, _, raw = self.chat()
+        self.assertEqual(status, 200)
+        self.assertEqual(json.loads(raw)["reply"], "<script>untrusted</script>")
+        self.assertEqual([m["role"] for m in LocalModel.requests[-1]["messages"]],
+                         ["system", "user"])
+
+    def test_owner_can_explicitly_raise_bounded_reply_budget(self):
+        with patch.dict("os.environ", {"VERA_MODEL_CHAT_MAX_TOKENS": "96"}):
+            service = make_server(
+                port=0, ollama_url=f"http://127.0.0.1:{self.model.server_port}")
+        thread = threading.Thread(target=service.serve_forever, daemon=True)
+        thread.start()
+        try:
+            url = f"http://127.0.0.1:{service.server_port}"
+            request = Request(url + "/api/chat",
+                              data=json.dumps({"model": "vera-local:latest",
+                                  "messages": [{"role": "user", "content": "Hello"}]}).encode(),
+                              headers={"Origin": url,
+                                       "X-Vera-Session": service.session_token,
+                                       "Content-Type": "application/json"},
+                              method="POST")
+            with urlopen(request, timeout=3) as response:
+                self.assertEqual(response.status, 200)
+            self.assertEqual(LocalModel.requests[-1]["max_tokens"], 96)
+        finally:
+            service.shutdown()
+            service.server_close()
+            thread.join(timeout=1)
+
+    def test_invalid_owner_reply_budget_fails_before_listener(self):
+        for invalid in ("0", "513", "unbounded", "1000000", "-1", "1.5"):
+            with patch.dict("os.environ", {"VERA_MODEL_CHAT_MAX_TOKENS": invalid}):
+                with self.assertRaises(ValueError):
+                    make_server(port=0,
+                                ollama_url=f"http://127.0.0.1:{self.model.server_port}")
 
     def test_browser_session_and_local_status(self):
         status, _, raw = self.request("/api/session")

@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 from threading import Thread
 import unittest
+from unittest.mock import patch
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
@@ -24,6 +25,7 @@ MARKER = "mock-continuity-marker-274"
 
 class MockOpenAIModel(BaseHTTPRequestHandler):
     requests = []
+    finish_reason = "stop"
 
     def log_message(self, *_args):
         pass
@@ -53,12 +55,71 @@ class MockOpenAIModel(BaseHTTPRequestHandler):
         last = body["messages"][-1]["content"]
         answer = MARKER if MARKER in last else "UNKNOWN"
         self._reply({"model": MODEL_ID, "choices": [{"message": {
-            "role": "assistant", "content": answer}, "finish_reason": "stop"}]})
+            "role": "assistant", "content": answer},
+            "finish_reason": type(self).finish_reason}]})
 
 
 class BridgeContinuityIntegrationTests(unittest.TestCase):
+    def test_gateway_and_bridge_token_caps_must_be_aligned(self):
+        """A larger gateway allowance must not silently bypass a smaller bridge cap."""
+        MockOpenAIModel.requests = []
+        MockOpenAIModel.finish_reason = "stop"
+        services = []
+
+        def run(server):
+            thread = Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            services.append((server, thread))
+            return server
+
+        def chat(server):
+            base = f"http://127.0.0.1:{server.server_port}"
+            req = Request(base + "/api/chat", method="POST",
+                data=json.dumps({"model": MODEL_ID,
+                                 "messages": [{"role": "user", "content": "Hello"}]}).encode(),
+                headers={"Content-Type": "application/json", "Origin": base,
+                         "X-Vera-Session": server.session_token})
+            try:
+                with urlopen(req, timeout=3) as response:
+                    return response.status, json.load(response)
+            except HTTPError as exc:
+                return exc.code, json.load(exc)
+
+        try:
+            upstream = run(ThreadingHTTPServer(("127.0.0.1", 0), MockOpenAIModel))
+            upstream_url = f"http://127.0.0.1:{upstream.server_port}"
+            with patch.dict("os.environ", {"VERA_MODEL_CHAT_MAX_TOKENS": "96"}):
+                # A misconfigured 64-token bridge rejects the 96-token gateway request.
+                bridge64 = run(create_server(LoopbackModelBridge(
+                    upstream_url, MODEL_ID, timeout=1, max_chat_tokens=64), port=0))
+                gateway96 = run(make_server(port=0, ollama_url=
+                    f"http://127.0.0.1:{bridge64.server_port}"))
+                self.assertEqual(chat(gateway96)[0], 503)
+                self.assertEqual(MockOpenAIModel.requests, [])
+
+                # Matching explicit owner values pass a bounded request unchanged.
+                bridge96 = run(create_server(LoopbackModelBridge(
+                    upstream_url, MODEL_ID, timeout=1, max_chat_tokens=96), port=0))
+                matched = run(make_server(port=0, ollama_url=
+                    f"http://127.0.0.1:{bridge96.server_port}"))
+                code, response = chat(matched)
+                self.assertEqual((code, response["truncated"]), (200, False))
+                self.assertEqual(MockOpenAIModel.requests[-1]["max_tokens"], 96)
+                MockOpenAIModel.finish_reason = "length"
+                code, truncated = chat(matched)
+                self.assertEqual((code, truncated["truncated"]), (422, True))
+                self.assertIn("truncated", truncated["error"].lower())
+                self.assertNotIn("reply", truncated)
+        finally:
+            MockOpenAIModel.finish_reason = "stop"
+            for server, thread in reversed(services):
+                server.shutdown()
+                server.server_close()
+                thread.join(timeout=2)
+
     def test_mock_chat_explicit_save_restart_recall_and_hostile_requests(self):
         MockOpenAIModel.requests = []
+        MockOpenAIModel.finish_reason = "stop"
         services = []
 
         def run(server):

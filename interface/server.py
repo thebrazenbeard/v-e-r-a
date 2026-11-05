@@ -7,6 +7,7 @@ remote-node capability. Those require authenticated adapters and receipts.
 from __future__ import annotations
 
 import hmac
+import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 from pathlib import Path
@@ -27,6 +28,26 @@ MAX_REQUEST = 24 * 1024
 MAX_MODEL_BYTES = 1024 * 1024
 MAX_MODELS_BYTES = 256 * 1024
 CHAT_TIMEOUT_SECONDS = 90
+DEFAULT_CHAT_MAX_TOKENS = 64  # Bounded local CPU prototype; not a final UX target.
+MAX_CHAT_MAX_TOKENS = 512
+
+
+def _owner_chat_token_limit() -> int:
+    """Validate owner limit; match the bridge's --max-chat-tokens for real use.
+
+    The default 64-token budget is for bounded prototype testing, not the
+    eventual rich-conversation UX. Raising it needs measured host capacity.
+    A higher gateway cap than bridge cap fails closed as upstream unavailable.
+    """
+    raw = os.environ.get("VERA_MODEL_CHAT_MAX_TOKENS",
+                         str(DEFAULT_CHAT_MAX_TOKENS))
+    if (type(raw) is not str or not 1 <= len(raw) <= 3
+            or not raw.isascii() or not raw.isdecimal()):
+        raise ValueError("invalid VERA_MODEL_CHAT_MAX_TOKENS")
+    value = int(raw)
+    if not 1 <= value <= MAX_CHAT_MAX_TOKENS:
+        raise ValueError("model reply-token budget out of range")
+    return value
 MODELS_TIMEOUT_SECONDS = 6
 CLIENT_READ_TIMEOUT_SECONDS = 8
 CLIENT_BODY_DEADLINE_SECONDS = 12
@@ -41,6 +62,10 @@ _ASSETS = {
 
 class GatewayError(Exception):
     """A model service or protocol response was unsuitable for display."""
+
+
+class IncompleteModelReply(GatewayError):
+    """A partial model response must not become authoritative chat history."""
 
 
 class _NoRedirect(HTTPRedirectHandler):
@@ -221,14 +246,15 @@ def _explicit_recall_messages(saved: dict, current: list[dict[str, str]]) -> lis
 
 
 def _chat(model_root: str, model: str, messages: list[dict[str, str]],
-          *, transcript_enabled: bool = False) -> str:
+          *, transcript_enabled: bool = False,
+          max_chat_tokens: int = DEFAULT_CHAT_MAX_TOKENS) -> str:
     request = {
         "model": model,
         "stream": False,
         # A small local CPU/GPU can otherwise spend the entire HTTP deadline
         # generating an unbounded reply. Ollama's OpenAI-compatible endpoint
         # accepts this response-token cap; it grants no additional authority.
-        "max_tokens": 512,
+        "max_tokens": max_chat_tokens,
         "messages": [{"role": "system", "content": (
             "You are responding through Vera's local model interface. "
             "This particular session has no live "
@@ -257,6 +283,9 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]],
         if ("tool_calls" in msg or "function_call" in msg
                 or choice.get("finish_reason") == "tool_calls"):
             raise GatewayError("model attempted a tool response")
+        finish_reason = choice.get("finish_reason", "stop")
+        if finish_reason not in ("stop", "length"):
+            raise GatewayError("model did not complete a text response")
         answer = msg["content"]
     except (TypeError, KeyError, IndexError) as exc:
         raise GatewayError("invalid model response") from exc
@@ -266,6 +295,14 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]],
         answer.encode("utf-8")
     except UnicodeError as exc:
         raise GatewayError("invalid model text encoding") from exc
+    if finish_reason == "length":
+        # Browser app.js puts every successful `reply` in assistant history.
+        # Reject incomplete outputs as a separate, recoverable system event;
+        # never fabricate suffix text or save the partial answer as model text.
+        raise IncompleteModelReply(f"Reply truncated at {max_chat_tokens} tokens; "
+                                   "no assistant response was added to chat history. "
+                                   "Try a shorter question or "
+                                   "ask the owner to qualify a higher reply limit.")
     return answer
 
 
@@ -279,6 +316,7 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
     """Create the restricted server without launching services or models."""
     if type(port) is not int or not 0 <= port <= 65535:
         raise ValueError("invalid interface port")
+    chat_token_limit = _owner_chat_token_limit()
     model_root = _model_root(ollama_url)
     if (goal_provider is None) != (goal_access_token is None):
         raise ValueError("goal view requires separate provider and private access token")
@@ -513,12 +551,16 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                 if model not in _models(self.server.model_root):
                     return self._reject(400, "model not installed locally")
                 reply = _chat(self.server.model_root, model, messages,
-                              transcript_enabled=self.server.transcript_store is not None)
+                              transcript_enabled=self.server.transcript_store is not None,
+                              max_chat_tokens=self.server.chat_token_limit)
                 result = {"reply": reply, "model": model,
-                          "node": "local", "mode": "response_only"}
+                          "node": "local", "mode": "response_only",
+                          "truncated": False}
                 if source is not None:
                     result["recalled_source"] = source
                 self._send(200, result)
+            except IncompleteModelReply as exc:
+                self._send(422, {"error": str(exc), "truncated": True})
             except (OSError, sqlite3.Error, URLError, HTTPError, GatewayError, ValueError):
                 self._reject(503, "local model inference unavailable")
             finally:
@@ -555,6 +597,7 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
     server.session_token = secrets.token_urlsafe(32)
     server.model_root = model_root
     server.model_slots = BoundedSemaphore(1)
+    server.chat_token_limit = chat_token_limit
     server.goal_provider = goal_provider
     server.goal_access_token = goal_access_token
     server.transcript_store = memory

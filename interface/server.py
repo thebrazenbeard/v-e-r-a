@@ -35,6 +35,7 @@ MAX_RESPONSE_TOKENS = 256
 TRUNCATION_NOTICE = (
     "\n\n(Response stopped at the local reply limit. Ask me to continue.)"
 )
+FILTER_NOTICE = "\n\n(Response stopped by the upstream content filter.)"
 MODELS_TIMEOUT_SECONDS = 6
 CLIENT_READ_TIMEOUT_SECONDS = 8
 CLIENT_BODY_DEADLINE_SECONDS = 12
@@ -231,7 +232,8 @@ def _explicit_recall_messages(saved: dict, current: list[dict[str, str]]) -> lis
 
 def _chat(model_root: str, model: str, messages: list[dict[str, str]],
           *, transcript_enabled: bool = False, recall_included: bool = False,
-          persona_profile: dict, max_response_tokens: int) -> tuple[str, bool]:
+          persona_profile: dict, max_response_tokens: int
+          ) -> tuple[str, str, bool | None, bool | None]:
     request = {
         "model": model,
         "stream": False,
@@ -265,10 +267,10 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]],
                 or choice.get("finish_reason") == "tool_calls"):
             raise GatewayError("model attempted a tool response")
         answer = msg["content"]
-        finish_reason = choice.get("finish_reason", "stop")
+        finish_reason = choice.get("finish_reason")
     except (TypeError, KeyError, IndexError) as exc:
         raise GatewayError("invalid model response") from exc
-    if finish_reason not in ("stop", "length", "content_filter"):
+    if finish_reason not in (None, "stop", "length", "content_filter"):
         raise GatewayError("unrecognized model finish reason")
     if type(answer) is not str or len(answer) > 16000:
         raise GatewayError("invalid model text")
@@ -276,12 +278,22 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]],
         answer.encode("utf-8")
     except UnicodeError as exc:
         raise GatewayError("invalid model text encoding") from exc
-    truncated = finish_reason == "length"
-    if truncated:
+    completion_status = {
+        None: "unknown", "stop": "complete", "length": "length_limited",
+        "content_filter": "filtered",
+    }[finish_reason]
+    incomplete = None if finish_reason is None else finish_reason != "stop"
+    truncated = None if finish_reason is None else finish_reason == "length"
+    if finish_reason == "length":
         # The UI currently displays reply text, not arbitrary response fields.
         # Do not silently display a clipped generation as a complete answer.
         answer += TRUNCATION_NOTICE
-    return answer, truncated
+    elif finish_reason == "content_filter":
+        answer += FILTER_NOTICE
+    # Older Ollama-compatible endpoints can omit finish_reason entirely.
+    # UNKNOWN is safer than fabricating a clean stop; the raw reply remains
+    # usable and clients can distinguish unverified completion from success.
+    return answer, completion_status, incomplete, truncated
 
 
 def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
@@ -535,7 +547,8 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                               "sha256": saved["sha256"], "saved_at": saved["saved_at"]}
                 if model not in _models(self.server.model_root):
                     return self._reject(400, "model not installed locally")
-                reply, truncated = _chat(self.server.model_root, model, messages,
+                reply, completion_status, incomplete, truncated = _chat(
+                              self.server.model_root, model, messages,
                               transcript_enabled=self.server.transcript_store is not None,
                               recall_included=recall,
                               persona_profile=self.server.persona_profile,
@@ -543,6 +556,8 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                 result = {"reply": reply, "model": model,
                           "node": "local", "mode": "response_only",
                           "response_truncated": truncated,
+                          "response_incomplete": incomplete,
+                          "response_completion_status": completion_status,
                           "response_token_limit": self.server.max_response_tokens,
                           "persona_source": persona_source_receipt()}
                 if source is not None:

@@ -35,6 +35,74 @@ person identity. Do not bind the server to a non-loopback address or expose it
 via a public reverse proxy. Model-serving logs remain outside this app's
 privacy guarantee. UI conversation exists in current tab memory only.
 
+## Pinned conversational identity — source-only candidate (W40)
+
+The local gateway now loads two **byte-identical source snapshots** when the
+server starts:
+
+- `interface/vera_behavior_profile_v1.json`, copied from canonical
+  `thebrazenbeard/vera/architecture/identity/VERA_BEHAVIOR_PROFILE_V1.json`
+  (`1.0.1`, Git blob `0c79625b993a559bd22a6fbe68279450fc736eb2`).
+- `interface/nonverbal_status_bar_v1.md`, copied from canonical
+  `thebrazenbeard/vera/docs/NONVERBAL_STATUS_BAR_V1.md`
+  (Git blob `887bfe1d6862d23550b224a00a60e32d197e8c1f`).
+
+The companion identity contract is
+`thebrazenbeard/vera/docs/PROJECT_IDENTITY_V1.md` (`1.0.2`, Git blob
+`74253c51b8bd252bb26aef6db7e4273e9523a35a`). It defines Vera as a
+configured, governed project identity, not a verified continuous private
+subject. Changing any loaded snapshot byte fails the gateway at startup
+until a governed source revision explicitly updates the pins. No online Git
+request, new database, paid dependency, or operator-provided persona path is
+needed at runtime.
+
+`interface/persona_seed.py` renders a deliberately short, conversational
+system-role prompt from this pinned source. It gives the model the configured
+name **Vera**, dry humor, natural warmth, immediate correction uptake, and a
+ban on user-targeted ridicule, fabricated familiarity, and hidden-work claims.
+The standing square-bracketed *representational* body-language status line is
+also specified; it is not a literal embodiment claim. It is suppressed only
+under the source contract's explicit conditions. The server creates this
+trusted system role; browser clients can provide only bounded `user`/`assistant`
+text. A user-supplied `system`/`tool` role, prompt/profile field, or memory
+authority field is rejected rather than promoted to a trusted instruction.
+
+`/api/status` and `/api/chat` return a `persona_source` receipt with typed
+`source_classification.kind=behavior_configuration` and
+`qualification=SOURCE_ONLY`, source hashes and explicit
+`trained_weights_modified=false` and `identity_attested=false`. The status
+endpoint establishes only that the pinned source was loaded; a successful
+chat response establishes that the configured prompt was submitted to the
+upstream endpoint. Neither proves that a GGUF obeyed it, that private model
+weights are Vera's, or that an identity persisted across a model/process
+restart. Those require actual model
+inference evaluations against a physically verified checkpoint.
+
+Conversation is still ephemeral unless explicitly saved. **Server-side vault
+recall/injection** requires both `recall_saved:true` and the private vault
+capability; it supplies a separately sourced, quoted `user` message, never
+the persona system role. The operator can also explicitly **Restore** text
+into the browser UI; if then sent as ordinary chat history, those restored
+turns have no server-side vault recall receipt, and should not be misread as
+verified memories. **Visible message history in a request remains usable
+transient context**; the model must not feign amnesia about preceding supplied turns.
+Unrecalled *earlier sessions* must not be presented as personal memory;
+a quoted user conversation is not imported knowledge or a weight
+update. Deleting the saved transcript blocks further recall at the gateway.
+This does not erase a still-open browser's conversation, model-server logs,
+snapshots, or backups. These are API/security properties validated with mocks,
+not guarantees that an arbitrary model is immune to prompt injection embedded
+in quotations.
+
+**Exploratory physical-model note (parallel VN2 tester report, not reproduced
+by these source tests):** a four-turn same-process session using the W40 seed
+distinguished current-chat coffee corrections from unavailable pre-restart
+memory. It also generated three status cues in one reply instead of one,
+invented an unsupported extra coffee, and remained stilted. The seed was
+subsequently tightened to forbid extra cues and invented story details, but
+that revision is **not behavior-qualified** on a physical checkpoint. Model
+identity, provenance, and long-term tone consistency remain unproven.
+
 ## Memory and real-world scope are integration capabilities, not impossibilities
 
 An unaugmented model does not independently retain chat history or acquire

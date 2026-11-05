@@ -21,6 +21,7 @@ let activeController = null;
 let vaultConfigured = false;
 let vaultBusy = false;
 let restoredFromVault = false;
+let restoredDraftFromVault = false;
 let recalledFromVault = false;
 let lastVaultKeyValue = vaultKey.value;
 
@@ -32,7 +33,11 @@ function forgetVaultDerivedTab() {
   messages.length = 0;
   transcript.replaceChildren();
   intro.hidden = false;
+  // An unanswered saved user turn may have been lifted into the composer.
+  // Credential rotation/deletion must revoke that plaintext too.
+  if (restoredDraftFromVault) prompt.value = "";
   restoredFromVault = false;
+  restoredDraftFromVault = false;
   recalledFromVault = false;
   // Changing a key can abort an in-flight request. Do not leave the tab
   // permanently locked behind its now-obsolete request epoch.
@@ -117,7 +122,8 @@ async function saveRecentTranscript() {
 }
 
 async function restoreTranscript() {
-  if (messages.length && !window.confirm("Replace this tab's unsaved conversation with the saved copy?")) return;
+  if ((messages.length || prompt.value.trim()) &&
+      !window.confirm("Replace this tab's unsaved conversation or draft with the saved copy?")) return;
   await withVaultLock(async () => {
     try {
       const data = await vaultRequest("GET");
@@ -132,6 +138,11 @@ async function restoreTranscript() {
         }
         return { role: row.role, content: row.content };
       });
+      // A valid saved history can end with an unanswered user turn. Move it
+      // into an editable draft, preserving its bytes without forging a model
+      // answer or sending two consecutive user roles on the next request.
+      const pending = restored.at(-1)?.role === "user" ? restored.pop().content : "";
+      if (pending.length > 4000) throw new Error("Saved draft exceeds prompt limit");
       conversationEpoch += 1;
       messages.length = 0;
       transcript.replaceChildren();
@@ -141,7 +152,11 @@ async function restoreTranscript() {
         messageBubble(row.role, row.content);
       }
       restoredFromVault = true;
-      vaultStatus.textContent = `Restored ${messages.length} operator-saved messages (unverified).`;
+      restoredDraftFromVault = !!pending;
+      prompt.value = pending;
+      vaultStatus.textContent = pending
+        ? `Restored ${messages.length} completed message(s); last unanswered user turn is an editable draft. Nothing was sent.`
+        : `Restored ${messages.length} operator-saved messages (unverified).`;
       syncVaultControls();
     } catch (error) {
       vaultStatus.textContent = `Restore not completed: ${error.message}`;
@@ -253,6 +268,7 @@ async function sendMessage(event) {
     if (epoch !== conversationEpoch) return;
     if (!response.ok) throw new Error(data.error || "Local inference failed");
     messages.push({ role: "assistant", content: data.reply });
+    restoredDraftFromVault = false;
     syncVaultControls();
     messageBubble("assistant", data.reply);
     if (data.recalled_source) {
@@ -304,6 +320,7 @@ document.getElementById("clear").addEventListener("click", () => {
   setBusy(false);
   messages.length = 0;
   restoredFromVault = false;
+  restoredDraftFromVault = false;
   recalledFromVault = false;
   syncVaultControls();
   transcript.replaceChildren();

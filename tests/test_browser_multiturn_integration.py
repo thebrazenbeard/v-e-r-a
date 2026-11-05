@@ -17,14 +17,17 @@ import tempfile
 from threading import Thread
 import unittest
 from unittest.mock import patch
+from urllib.request import Request, urlopen
 
 from interface import persona_profile
 from interface.loopback_model_bridge import LoopbackModelBridge, create_server
 from interface.server import make_server
 from tests.test_persona_profile import _synthetic_profile
+from tests.windows_acl_fixture import private_test_temporary_directory
 
 
 MODEL_ID = "synthetic-nonvera-dialogue-double"
+VAULT_KEY = "synthetic-owner-vault-key-0123456789"
 HARNESS = Path(__file__).with_name("browser_chat_harness.cjs")
 
 
@@ -95,7 +98,7 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
         self.services.append((server, thread))
         return server
 
-    def _start(self, *, token_limit=64, pinned_seed=True):
+    def _start(self, *, token_limit=64, pinned_seed=True, with_vault=False):
         bridge = self._run(create_server(LoopbackModelBridge(
             self.base_upstream, MODEL_ID, timeout=2, max_chat_tokens=token_limit), port=0))
         with tempfile.TemporaryDirectory() as folder:
@@ -104,10 +107,31 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
             path.write_bytes(raw)
             with patch.object(persona_profile, "SOURCE_SHA256", hashlib.sha256(raw).hexdigest()), \
                  patch.dict(os.environ, {"VERA_MODEL_CHAT_MAX_TOKENS": str(token_limit)}):
+                vault_options = {}
+                if with_vault:
+                    private_folder = Path(self.enterContext(private_test_temporary_directory()))
+                    vault_options = {"memory_db_path": private_folder / "synthetic-vault.sqlite3",
+                                     "memory_secret": VAULT_KEY}
                 gateway = make_server(port=0,
                     ollama_url=f"http://127.0.0.1:{bridge.server_port}",
-                    persona_profile_path=path if pinned_seed else None)
+                    persona_profile_path=path if pinned_seed else None,
+                    **vault_options)
         return self._run(gateway)
+
+    def _seed_odd_vault(self, gateway):
+        base = f"http://127.0.0.1:{gateway.server_port}"
+        saved = [
+            {"role": "user", "content": "Call me Iris."},
+            {"role": "assistant", "content": "Iris noted."},
+            {"role": "user", "content": "Correction: call me Nova."},
+        ]
+        req = Request(base + "/api/transcript", method="POST",
+                      data=json.dumps({"messages": saved, "expected_revision": 0}).encode(),
+                      headers={"Content-Type": "application/json", "Origin": base,
+                               "X-Vera-Session": gateway.session_token,
+                               "X-Vera-Vault-Key": VAULT_KEY})
+        with urlopen(req, timeout=5) as response:
+            self.assertEqual(response.status, 200)
 
     def _browser(self, gateway, mode):
         base = f"http://127.0.0.1:{gateway.server_port}"
@@ -187,6 +211,24 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
                 self.assertIn("Correction: call me Nova.",
                               [m["content"] for m in final])
                 self.assertEqual(final[-1]["content"], "What name should you use?")
+
+    def test_odd_saved_user_turn_restores_as_editable_draft_and_key_rotation_revokes_it(self):
+        gateway = self._start(with_vault=True)
+        self._seed_odd_vault(gateway)
+        result = self._browser(gateway, "restore_odd")
+        self.assertEqual(result["restoredDraft"], "Correction: call me Nova.")
+        self.assertEqual(result["restoredHistoryBeforeSubmit"], [
+            {"role": "user", "content": "Call me Iris."},
+            {"role": "assistant", "content": "Iris noted."}])
+        self.assertIn("editable draft", result["restoredVaultStatus"])
+        self.assertEqual(len(ScriptedModel.requests), 1)
+        self.assertEqual([m["role"] for m in ScriptedModel.requests[-1]["messages"]],
+                         ["system", "user", "assistant", "user"])
+        self.assertEqual(ScriptedModel.requests[-1]["messages"][-1]["content"],
+                         "Correction: call me Nova.")
+        self.assertEqual(result["afterKeyRotation"],
+                         {"prompt": "", "messages": 0, "bubbles": 0})
+        self.assertIs(result["status"]["model_identity_attested"], False)
 
     def test_truncated_reply_stays_system_error_and_prompt_is_recoverable(self):
         ScriptedModel.mode = "length"

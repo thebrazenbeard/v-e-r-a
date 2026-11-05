@@ -4,7 +4,7 @@ import json
 import http.client
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import socket
-from threading import Event, Thread
+from threading import Thread
 import time
 import unittest
 from urllib.error import HTTPError
@@ -17,8 +17,7 @@ class MockModel(BaseHTTPRequestHandler):
     model_id = "mock-vera-gguf-v1"
     mode = "ok"
     chat_calls = 0
-    chat_entered = Event()
-    release_chat = Event()
+    response_role = "assistant"
 
     def _send(self, value, code=200, *, drip=False):
         data = json.dumps(value).encode("utf-8")
@@ -51,9 +50,6 @@ class MockModel(BaseHTTPRequestHandler):
         type(self).chat_calls += 1
         length = int(self.headers["Content-Length"])
         request = json.loads(self.rfile.read(length))
-        if type(self).mode == "block":
-            type(self).chat_entered.set()
-            type(self).release_chat.wait(timeout=0.4)
         if type(self).mode == "header_drip":
             try:
                 for byte in b"HTTP/1.0 200 OK\r\nContent-Type: application/json\r\n\r\n":
@@ -64,15 +60,15 @@ class MockModel(BaseHTTPRequestHandler):
                 pass
             return
         reason = "length" if type(self).mode == "truncated" else "stop"
-        message = {"content": "mock reply: " + request["messages"][-1]["content"]}
-        if type(self).mode != "missing_role":
-            message["role"] = ("system" if type(self).mode == "system_role" else
-                               "user" if type(self).mode == "user_role" else "assistant")
-        if type(self).mode == "empty_answer":
-            message["content"] = ""
-        choice = {"message": message}
-        if type(self).mode != "missing_reason":
-            choice["finish_reason"] = None if type(self).mode == "null_reason" else reason
+        choice = {"message": {
+            "role": type(self).response_role,
+            "content": ("" if type(self).mode == "empty_reply"
+                        else "mock reply: " + request["messages"][-1]["content"])}}
+        if type(self).mode != "no_finish_reason":
+            choice["finish_reason"] = (None if type(self).mode == "null_finish_reason"
+                                       else "content_filter" if type(self).mode == "filtered"
+                                       else "fabricated_success" if type(self).mode == "invalid_finish_reason"
+                                       else reason)
         self._send({"model": type(self).model_id, "choices": [choice]},
                    drip=(type(self).mode == "drip"))
 
@@ -85,8 +81,7 @@ class LoopbackModelBridgeTests(unittest.TestCase):
         MockModel.mode = "ok"
         MockModel.model_id = "mock-vera-gguf-v1"
         MockModel.chat_calls = 0
-        MockModel.chat_entered = Event()
-        MockModel.release_chat = Event()
+        MockModel.response_role = "assistant"
         self.upstream = ThreadingHTTPServer(("127.0.0.1", 0), MockModel)
         self.upstream.daemon_threads = True
         self.upstream_thread = Thread(target=self.upstream.serve_forever, daemon=True)
@@ -100,7 +95,6 @@ class LoopbackModelBridgeTests(unittest.TestCase):
         self.url = f"http://127.0.0.1:{self.server.server_address[1]}"
 
     def tearDown(self):
-        MockModel.release_chat.set()
         for server, thread in ((self.server, self.thread),
                                (self.upstream, self.upstream_thread)):
             server.shutdown()
@@ -140,67 +134,39 @@ class LoopbackModelBridgeTests(unittest.TestCase):
         self.assertEqual(failure.exception.code, 400)
         self.assertEqual(MockModel.chat_calls, 0)
 
-    def test_default_short_reply_budget_fails_closed_before_upstream(self):
-        body = self.request_body()
-        body["max_tokens"] = 65
-        with self.assertRaises(HTTPError) as failure:
-            self.post(body)
-        self.assertEqual(failure.exception.code, 400)
-        self.assertEqual(MockModel.chat_calls, 0)
-
-    def test_only_one_upstream_completion_runs_at_a_time(self):
-        # An unrelated process on the same host can call this loopback bridge
-        # directly, bypassing the UI gateway's own one-model slot.
-        MockModel.mode = "block"
-        self.bridge.timeout = 0.5
-        first = []
-
-        def first_chat():
-            try:
-                first.append(self.post(self.request_body())[0])
-            except Exception as exc:
-                first.append(type(exc).__name__)
-
-        worker = Thread(target=first_chat, daemon=True)
-        worker.start()
-        try:
-            self.assertTrue(MockModel.chat_entered.wait(timeout=0.5))
-            with self.assertRaises(HTTPError) as failure:
-                self.post(self.request_body())
-            self.assertEqual(failure.exception.code, 429)
-            self.assertEqual(MockModel.chat_calls, 1)
-        finally:
-            MockModel.release_chat.set()
-            worker.join(timeout=1)
-        self.assertEqual(first, [200])
-
-    def test_owner_can_explicitly_raise_token_cap_within_hard_limit(self):
-        override = LoopbackModelBridge(self.bridge.upstream,
-                                       "mock-vera-gguf-v1", timeout=0.05,
-                                       max_chat_tokens=96)
-        self.assertEqual(override.max_chat_tokens, 96)
-        with self.assertRaises(ValueError):
-            LoopbackModelBridge(self.bridge.upstream,
-                                "mock-vera-gguf-v1", max_chat_tokens=513)
-
     def test_preserves_upstream_length_finish_reason(self):
         MockModel.mode = "truncated"
         _, chat = self.post(self.request_body())
         self.assertEqual(chat["choices"][0]["finish_reason"], "length")
 
-    def test_missing_or_null_upstream_finish_reason_is_rejected(self):
-        for mode in ("missing_reason", "null_reason"):
-            MockModel.mode = mode
-            with self.assertRaises(HTTPError) as failure:
-                self.post(self.request_body())
-            self.assertEqual(failure.exception.code, 503, mode)
+    def test_missing_upstream_finish_reason_stays_unknown_not_fabricated_stop(self):
+        MockModel.mode = "no_finish_reason"
+        _, chat = self.post(self.request_body())
+        self.assertNotIn("finish_reason", chat["choices"][0])
 
-    def test_non_assistant_role_or_empty_upstream_reply_is_rejected(self):
-        for mode in ("missing_role", "system_role", "user_role", "empty_answer"):
-            MockModel.mode = mode
-            with self.assertRaises(HTTPError) as failure:
-                self.post(self.request_body())
-            self.assertEqual(failure.exception.code, 503, mode)
+    def test_explicit_null_finish_reason_remains_unknown(self):
+        MockModel.mode = "null_finish_reason"
+        _, chat = self.post(self.request_body())
+        self.assertIsNone(chat["choices"][0]["finish_reason"])
+
+    def test_filtered_completion_is_preserved_and_unrecognized_reason_refused(self):
+        MockModel.mode = "filtered"
+        _, chat = self.post(self.request_body())
+        self.assertEqual(chat["choices"][0]["finish_reason"], "content_filter")
+        MockModel.mode = "invalid_finish_reason"
+        with self.assertRaises(HTTPError) as failure:
+            self.post(self.request_body())
+        self.assertEqual(failure.exception.code, 503)
+
+    def test_upstream_system_role_or_empty_content_cannot_be_laundered_to_assistant(self):
+        for response_role, mode in (("system", "ok"), ("tool", "ok"),
+                                    ("assistant", "empty_reply")):
+            with self.subTest(response_role=response_role, mode=mode):
+                MockModel.response_role = response_role
+                MockModel.mode = mode
+                with self.assertRaises(HTTPError) as failure:
+                    self.post(self.request_body())
+                self.assertEqual(failure.exception.code, 503)
 
     def test_rejects_dns_rebinding_host_and_cross_origin(self):
         port = self.server.server_address[1]

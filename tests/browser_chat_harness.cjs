@@ -5,6 +5,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
+const { TextEncoder } = require("node:util");
 
 const base = process.argv[2];
 const mode = process.argv[3];
@@ -66,7 +67,7 @@ const context = vm.createContext({
   document, window: { confirm: () => true }, fetch: localFetch,
   AbortController, Option: class extends Element {
     constructor(text, value) { super("option"); this.textContent = text; this.value = value; }
-  }, console,
+  }, console, TextEncoder,
 });
 
 const source = fs.readFileSync(path.resolve(__dirname, "../interface/static/app.js"), "utf8");

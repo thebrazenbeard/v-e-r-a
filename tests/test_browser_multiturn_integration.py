@@ -18,7 +18,7 @@ from threading import Thread
 import unittest
 from unittest.mock import patch
 
-from interface import persona_profile
+from interface import persona_profile, server as server_module
 from interface.loopback_model_bridge import LoopbackModelBridge, create_server
 from interface.server import make_server
 from tests.test_persona_profile import _synthetic_profile
@@ -102,11 +102,15 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
             path = Path(folder) / "synthetic.json"
             raw = json.dumps(_synthetic_profile(), sort_keys=True).encode()
             path.write_bytes(raw)
+            presentation = Path(folder) / "synthetic-test-only.md"
+            presentation.write_text("TEST-ONLY source substitute", encoding="utf-8")
             with patch.object(persona_profile, "SOURCE_SHA256", hashlib.sha256(raw).hexdigest()), \
-                 patch.dict(os.environ, {"VERA_MODEL_CHAT_MAX_TOKENS": str(token_limit)}):
+                 patch.object(server_module, "verify_presentation_file"):
                 gateway = make_server(port=0,
                     ollama_url=f"http://127.0.0.1:{bridge.server_port}",
-                    persona_profile_path=path)
+                    persona_profile_path=path, require_persona=True,
+                    persona_presentation_path=presentation,
+                    max_response_tokens=token_limit)
         return self._run(gateway)
 
     def _browser(self, gateway, mode):
@@ -126,7 +130,7 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
         self.assertTrue(all(b["roleLabel"] in ("YOU", "MODEL OUTPUT / UNVERIFIED")
                             for b in result["bubbles"]))
         self.assertIn("UNVERIFIED", result["connection"])
-        self.assertIn("provenance unverified", result["modelDetail"])
+        self.assertIn("weights not attested", result["modelDetail"])
         self.assertEqual(result["status"]["persona_prompt"], "pinned_owner_profile")
         self.assertIs(result["status"]["model_identity_attested"], False)
         self.assertEqual(result["status"]["durable_memory"], "not_connected")
@@ -142,14 +146,15 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
             self.assertNotIn("tools", request)
             self.assertNotIn("vault", json.dumps(request).lower())
 
-    def test_truncated_reply_stays_system_error_and_prompt_is_recoverable(self):
+    def test_truncated_reply_is_visible_but_not_committed_as_completed_assistant(self):
         ScriptedModel.mode = "length"
         result = self._browser(self._start(), "truncated")
-        self.assertEqual(result["messages"], [])
-        self.assertEqual(result["promptRecovered"], "Tell me what to do about the correction.")
+        self.assertEqual(result["messages"], [{
+            "role": "user", "content": "Tell me what to do about the correction."}])
+        self.assertEqual(result["promptRecovered"], "")
         self.assertEqual([b["roleLabel"] for b in result["bubbles"]],
-                         ["YOU", "INTERFACE / ERROR"])
-        self.assertIn("truncated", result["bubbles"][-1]["content"].lower())
+                         ["YOU", "LOCAL MODEL / UNVERIFIED PARTIAL"])
+        self.assertIn("cut off", result["bubbles"][-1]["content"].lower())
         self.assertEqual(ScriptedModel.requests[0]["max_tokens"], 64)
 
     def test_busy_gateway_returns_429_without_assistant_turn_or_upstream_call(self):

@@ -7,6 +7,8 @@ const model = document.getElementById("model");
 const send = document.getElementById("send");
 const connection = document.getElementById("connection");
 const modelDetail = document.getElementById("model-detail");
+const contextNotice = document.getElementById("context-notice");
+const memoryBoundary = document.getElementById("memory-boundary");
 const vaultKey = document.getElementById("vault-key");
 const vaultSave = document.getElementById("vault-save");
 const vaultRestore = document.getElementById("vault-restore");
@@ -24,6 +26,29 @@ let restoredFromVault = false;
 let recalledFromVault = false;
 let lastVaultKeyValue = vaultKey.value;
 
+// Bound each model request to a contiguous, user-led conversational suffix.
+// A naive slice(-12) starts with an assistant message on the seventh user turn.
+// It can also exceed the gateway's 16k-character / 24KiB request limits while
+// older, no-longer-sent turns still remain visible in the browser transcript.
+function recentCoherentHistory(history) {
+  // A restored, valid partial transcript can end on a user turn that was
+  // never answered. If a new user question follows, omit that unanswered
+  // saved turn from this request; never invent an assistant answer to fill it.
+  const clean = history.length > 1 && history.at(-1).role === "user" && history.at(-2).role === "user"
+    ? [...history.slice(0, -2), history.at(-1)] : history;
+  let start = Math.max(0, clean.length - 12);
+  if (clean[start]?.role !== "user") start += 1;
+  let recent = clean.slice(start);
+  const encoder = new TextEncoder();
+  while (recent.length > 1) {
+    const characters = recent.reduce((sum, item) => sum + item.content.length, 0);
+    const jsonBytes = encoder.encode(JSON.stringify({ messages: recent })).length;
+    if (characters <= 16000 && jsonBytes <= 20000) break;
+    recent = recent.slice(2);
+  }
+  return recent;
+}
+
 function forgetVaultDerivedTab() {
   if (!restoredFromVault && !recalledFromVault) return false;
   conversationEpoch += 1;
@@ -32,6 +57,7 @@ function forgetVaultDerivedTab() {
   messages.length = 0;
   transcript.replaceChildren();
   intro.hidden = false;
+  prompt.value = "";
   restoredFromVault = false;
   recalledFromVault = false;
   // Changing a key can abort an in-flight request. Do not leave the tab
@@ -61,11 +87,13 @@ async function refreshStatus() {
     if (!response.ok) throw new Error("Status unavailable");
     const status = await response.json();
     vaultConfigured = status.durable_memory === "opt_in_local_transcript";
+    memoryBoundary.textContent = vaultConfigured ? "Opt-in transcript only" : "Not connected";
     vaultStatus.textContent = vaultConfigured
       ? "Available locally, AES-GCM encrypted on disk. Enter operator key; nothing saves automatically."
       : "Not configured on this interface process. No chat is saved.";
   } catch (_) {
     vaultConfigured = false;
+    memoryBoundary.textContent = "Unknown / unavailable";
     vaultStatus.textContent = "Vault status unavailable; saving disabled.";
   }
   syncVaultControls();
@@ -102,8 +130,7 @@ async function withVaultLock(work) {
 }
 
 async function saveRecentTranscript() {
-  const recent = messages.slice(-12);
-  if (recent.length && recent[0].role !== "user") recent.shift();
+  const recent = recentCoherentHistory(messages);
   if (!recent.length) return;
   await withVaultLock(async () => {
     try {
@@ -132,6 +159,10 @@ async function restoreTranscript() {
         }
         return { role: row.role, content: row.content };
       });
+      // A saved transcript may legitimately end with an unanswered user turn.
+      // Put it back into the editable composer; do not fabricate a preceding
+      // assistant turn or forward two consecutive users to the model.
+      const unanswered = restored.at(-1)?.role === "user" ? restored.pop() : null;
       conversationEpoch += 1;
       messages.length = 0;
       transcript.replaceChildren();
@@ -140,8 +171,12 @@ async function restoreTranscript() {
         messages.push({ role: row.role, content: row.content });
         messageBubble(row.role, row.content);
       }
+      prompt.value = unanswered?.content ?? "";
       restoredFromVault = true;
-      vaultStatus.textContent = `Restored ${messages.length} operator-saved messages (unverified).`;
+      vaultStatus.textContent = `Restored ${messages.length + (unanswered ? 1 : 0)} operator-saved messages (unverified).${unanswered ? " The last unanswered message is in the composer to edit or send." : ""}`;
+      contextNotice.textContent = unanswered
+        ? "An unanswered saved user message is ready in the composer; nothing has been sent."
+        : "Restored text is operator-saved context, not independently verified memory.";
       syncVaultControls();
     } catch (error) {
       vaultStatus.textContent = `Restore not completed: ${error.message}`;
@@ -171,7 +206,10 @@ function messageBubble(role, content) {
   wrapper.className = `message ${role}`;
   const name = document.createElement("span");
   name.className = "message-role";
-  name.textContent = role === "user" ? "YOU" : role === "system" ? "INTERFACE / ERROR" : "MODEL OUTPUT / UNVERIFIED";
+  name.textContent = role === "user" ? "YOU"
+    : role === "system" ? "INTERFACE / ERROR"
+    : role === "incomplete" ? "LOCAL MODEL / UNVERIFIED PARTIAL"
+    : "MODEL OUTPUT / UNVERIFIED";
   const body = document.createElement("p");
   body.textContent = content; // Never interpret model/user content as HTML.
   wrapper.append(name, body);
@@ -198,13 +236,14 @@ async function refreshModels() {
       model.append(option);
     }
     if (data.models.includes(previouslySelected)) model.value = previouslySelected;
-    connection.textContent = data.models.length ? "ENDPOINT RESPONDING / UNVERIFIED" : "NO MODEL IDS ADVERTISED";
-    modelDetail.textContent = `${data.models.length} advertised model ID${data.models.length === 1 ? "" : "s"} · provenance unverified`;
+    connection.textContent = data.models.length
+      ? "ENDPOINT RESPONDING / UNVERIFIED" : "NO MODEL IDS ADVERTISED";
+    modelDetail.textContent = `${data.models.length} endpoint-advertised model ID${data.models.length === 1 ? "" : "s"} · weights not attested`;
     model.disabled = !data.models.length;
   } catch (_) {
     model.replaceChildren(new Option("Model endpoint unavailable", ""));
-    connection.textContent = "ENDPOINT NOT RESPONDING";
-    modelDetail.textContent = "Check the configured local model endpoint or bridge, then refresh.";
+    connection.textContent = "LOCAL MODEL OFFLINE";
+    modelDetail.textContent = "Check the local loopback endpoint and refresh; no weights are attested.";
   }
 }
 
@@ -221,6 +260,18 @@ async function sendMessage(event) {
   event.preventDefault();
   const content = prompt.value.trim();
   if (!content || busy || vaultBusy || !model.value || !sessionToken) return;
+  const codepoints = Array.from(content).length;
+  if (codepoints > 4000) {
+    contextNotice.textContent = `This draft has ${codepoints.toLocaleString()} characters; the local gateway accepts at most 4,000 per message. Nothing was sent or truncated. Shorten or split it first.`;
+    prompt.focus();
+    return;
+  }
+  // After an incomplete/filter/unknown reply there is deliberately no
+  // assistant turn. Retire that unanswered question from model history *now*
+  // before the next question; trimming only the outgoing request would leave
+  // a hidden double-user turn that breaks the third request and vault Save.
+  const retiredUnanswered = messages.at(-1)?.role === "user";
+  if (retiredUnanswered) messages.pop();
   prompt.value = "";
   messages.push({ role: "user", content });
   syncVaultControls();
@@ -235,7 +286,17 @@ async function sendMessage(event) {
   if (useSaved) recalledFromVault = true;
   const requestBody = useSaved
     ? { model: model.value, messages: [{ role: "user", content }], recall_saved: true }
-    : { model: model.value, messages: messages.slice(-12) };
+    : { model: model.value, messages: recentCoherentHistory(messages) };
+  if (useSaved) {
+    contextNotice.textContent = "This reply uses your explicitly saved transcript and current question, not earlier unsaved tab messages.";
+  } else {
+    const omitted = messages.length - requestBody.messages.length;
+    contextNotice.textContent = (retiredUnanswered
+      ? "The earlier incomplete question stays visible but is no longer model or saved-chat context. "
+      : "") + (omitted
+      ? `${omitted} older visible message${omitted === 1 ? " is" : "s are"} outside this reply's model context. Nothing was saved automatically.`
+      : "Current visible conversation is included in this request; nothing is saved automatically.");
+  }
   const requestHeaders = { "Content-Type": "application/json", "X-Vera-Session": sessionToken };
   if (useSaved) requestHeaders["X-Vera-Vault-Key"] = vaultKey.value;
   setBusy(true);
@@ -249,9 +310,25 @@ async function sendMessage(event) {
     const data = await response.json();
     if (epoch !== conversationEpoch) return;
     if (!response.ok) throw new Error(data.error || "Local inference failed");
-    messages.push({ role: "assistant", content: data.reply });
+    // An upstream length cut-off, filter, or missing completion reason must
+    // never become an ordinary assistant turn in future model context or
+    // a trusted transcript Save. Show the raw text as an unverified fragment,
+    // and let the next user question replace the unfinished user-led turn.
+    const completion = data.response_completion_status ?? "unknown";
+    if (completion === "complete") {
+      messages.push({ role: "assistant", content: data.reply });
+      messageBubble("assistant", data.reply);
+    } else {
+      messageBubble("incomplete", data.reply);
+      const reasons = {
+        length_limited: "The upstream reported a length-limited reply.",
+        filtered: "The upstream reported a filtered reply.",
+        unknown: "Model completion was not reported by the upstream.",
+      };
+      contextNotice.textContent += " " + (reasons[completion] || "Completion was unverified.")
+        + " This fragment will not be included as a completed assistant turn in future context or saved transcript.";
+    }
     syncVaultControls();
-    messageBubble("assistant", data.reply);
     if (data.recalled_source) {
       recalledFromVault = true;
       vaultStatus.textContent = `Explicit saved-context recall used at revision ${data.recalled_source.revision}; operator-saved text is unverified.`;
@@ -306,6 +383,7 @@ document.getElementById("clear").addEventListener("click", () => {
   transcript.replaceChildren();
   intro.hidden = false;
   prompt.value = "";
+  contextNotice.textContent = "The model sees recent messages, not necessarily every older turn visible in this tab.";
   prompt.focus();
 });
 for (const suggestion of document.querySelectorAll(".suggestion")) {

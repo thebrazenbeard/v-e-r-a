@@ -35,6 +35,65 @@ person identity. Do not bind the server to a non-loopback address or expose it
 via a public reverse proxy. Model-serving logs remain outside this app's
 privacy guarantee. UI conversation exists in current tab memory only.
 
+## Optional owner-pinned conversational behavior — source-only
+
+The canonical Vera behavior JSON is **not redistributed in this repository**.
+It belongs to the owner-governed, source-available `thebrazenbeard/vera`
+repository. A generic launch has no pinned persona and reports
+`persona_source.qualification=NOT_CONFIGURED`. The owner can explicitly
+provide the exact checked and licensed JSON through
+`--persona-profile-file /ABSOLUTE/OWNER/PROFILE.json`; see
+`docs/PINNED_VERA_PERSONA_SOURCE_BINDING.md`. The startup path checks its
+SHA-256 against the pinned canonical digest before creating a listener.
+`--require-persona` is the explicit governed interface mode. It also
+requires separately owner-provisioned, Git-blob-hash-verified
+`--persona-presentation-file /ABSOLUTE/OWNER/NONVERBAL.md`, and **fails
+closed** if either source is absent or changed. This does not make a
+model's weight identity attested.
+
+Once accepted, `interface/persona_profile.py` constructs a bounded
+server-owned voice specification. The caller cannot change the system role,
+and `/api/status`/`/api/chat` return a typed
+`persona_source.qualification=SOURCE_ONLY` receipt including canonical
+profile hash, verified presentation blob hash, and `identity_attested=false`.
+The governed APK requires this exact two-source receipt and rejects generic
+`NOT_CONFIGURED` mode without claiming an external model failure.
+It tells the model to speak naturally
+in first person through Vera's configured interface, while distinguishing
+that behavior from proof of authenticated Vera weights. An unverified local
+model must not claim a continuously lived or trained Vera identity.
+
+The gateway accepts only bounded, strictly alternating user-led
+`user/assistant` turns ending in `user`. Both the upstream bridge and
+gateway reject non-assistant upstream messages and empty replies.
+`response_completion_status` reports `complete`, `length_limited`,
+`filtered` or `unknown` without forging an upstream stop. Only `complete`
+is admitted into the browser's ordinary assistant history; incomplete or
+unverified fragments are displayed separately and cannot be replayed into
+later context or explicitly saved as finished assistant turns.
+
+Conversation is still ephemeral unless explicitly saved. **Server-side vault
+recall/injection** requires both `recall_saved:true` and the private vault
+capability; it supplies a separately sourced, quoted `user` message, never
+the persona system role. The operator can also explicitly **Restore** text
+into the browser UI; if then sent as ordinary chat history, those restored
+turns have no server-side vault recall receipt, and should not be misread as
+verified memories. **Visible message history in a request remains usable
+transient context**; the model must not feign amnesia about preceding supplied turns.
+Unrecalled *earlier sessions* must not be presented as personal memory;
+a quoted user conversation is not imported knowledge or a weight
+update. Deleting the saved transcript blocks further recall at the gateway.
+This does not erase a still-open browser's conversation, model-server logs,
+snapshots, or backups. These are API/security properties validated with mocks,
+not guarantees that an arbitrary model is immune to prompt injection embedded
+in quotations.
+
+**Physical-model boundary:** Earlier reports of local conversation quality
+belong to different seed/host checkpoints. This owner-file integration has
+only deterministic mock tests until a separately leased and physically
+verified GGUF is assessed. Source pins, self-reported model IDs and tests do
+not establish voice quality, identity continuity, or model provenance.
+
 ## Memory and real-world scope are integration capabilities, not impossibilities
 
 An unaugmented model does not independently retain chat history or acquire

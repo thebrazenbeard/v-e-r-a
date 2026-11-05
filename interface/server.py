@@ -7,7 +7,6 @@ remote-node capability. Those require authenticated adapters and receipts.
 from __future__ import annotations
 
 import hmac
-import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 from pathlib import Path
@@ -20,6 +19,7 @@ from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
 from .local_transcript import TranscriptConflict, TranscriptStore
+from .persona_contract import persona_source_receipt, verify_presentation_file
 from .persona_profile import PersonaSeed, render_persona_seed
 from .verified_volition import VerifiedVolitionGoalProvider
 
@@ -29,26 +29,13 @@ MAX_REQUEST = 24 * 1024
 MAX_MODEL_BYTES = 1024 * 1024
 MAX_MODELS_BYTES = 256 * 1024
 CHAT_TIMEOUT_SECONDS = 90
-DEFAULT_CHAT_MAX_TOKENS = 64  # Bounded local CPU prototype; not a final UX target.
-MAX_CHAT_MAX_TOKENS = 512
-
-
-def _owner_chat_token_limit() -> int:
-    """Validate owner limit; match the bridge's --max-chat-tokens for real use.
-
-    The default 64-token budget is for bounded prototype testing, not the
-    eventual rich-conversation UX. Raising it needs measured host capacity.
-    A higher gateway cap than bridge cap fails closed as upstream unavailable.
-    """
-    raw = os.environ.get("VERA_MODEL_CHAT_MAX_TOKENS",
-                         str(DEFAULT_CHAT_MAX_TOKENS))
-    if (type(raw) is not str or not 1 <= len(raw) <= 3
-            or not raw.isascii() or not raw.isdecimal()):
-        raise ValueError("invalid VERA_MODEL_CHAT_MAX_TOKENS")
-    value = int(raw)
-    if not 1 <= value <= MAX_CHAT_MAX_TOKENS:
-        raise ValueError("model reply-token budget out of range")
-    return value
+DEFAULT_RESPONSE_TOKENS = 192
+MIN_RESPONSE_TOKENS = 32
+MAX_RESPONSE_TOKENS = 256
+TRUNCATION_NOTICE = (
+    "\n\n(My response was cut off before completion. Ask me to continue.)"
+)
+FILTER_NOTICE = "\n\n(Response stopped by the upstream content filter.)"
 MODELS_TIMEOUT_SECONDS = 6
 CLIENT_READ_TIMEOUT_SECONDS = 8
 CLIENT_BODY_DEADLINE_SECONDS = 12
@@ -63,10 +50,6 @@ _ASSETS = {
 
 class GatewayError(Exception):
     """A model service or protocol response was unsuitable for display."""
-
-
-class IncompleteModelReply(GatewayError):
-    """A partial model response must not become authoritative chat history."""
 
 
 class _NoRedirect(HTTPRedirectHandler):
@@ -169,12 +152,13 @@ def _valid_chat(payload: object) -> tuple[str, list[dict[str, str]]]:
         raise ValueError("invalid message count")
     messages = []
     total = 0
-    for item in entries:
+    for index, item in enumerate(entries):
+        required_role = "user" if index % 2 == 0 else "assistant"
         if (type(item) is not dict or set(item) != {"role", "content"}
-                or item.get("role") not in ("user", "assistant")
+                or item.get("role") != required_role
                 or type(item.get("content")) is not str
                 or not 0 < len(item["content"]) <= 4000):
-            raise ValueError("only bounded user and assistant text is permitted")
+            raise ValueError("only alternating, user-led conversation text is permitted")
         total += len(item["content"])
         try:
             item["content"].encode("utf-8")
@@ -247,42 +231,42 @@ def _explicit_recall_messages(saved: dict, current: list[dict[str, str]]) -> lis
 
 
 def _chat(model_root: str, model: str, messages: list[dict[str, str]],
-          *, transcript_enabled: bool = False,
-          max_chat_tokens: int = DEFAULT_CHAT_MAX_TOKENS,
-          persona_seed: PersonaSeed | None = None) -> str:
-    system_note = (
-        "You are responding through Vera's local model interface. "
-        "This particular session has no live "
-        "observations, tools, identity attestation, or external effects. "
-        + ("An operator may explicitly restore or authorize recall of locally "
-           "saved browser conversation text, which is unverified user-controlled "
-           "history, not independent evidence of memory or identity. " if transcript_enabled else
-           "There is no connected durable memory. ")
-        +
-        "Do not confuse an unaugmented model's limits with what an AI "
-        "system can be engineered to do: opt-in persistent memory, "
-        "source-attributed retrieval, sensors, and authorized real-world "
-        "actions are technically possible through separately verified "
-        "adapters, but none are connected here. Distinguish what is "
-        "possible from what is installed and currently verified. "
-        "Do not claim to have remembered or observed something or "
-        "executed a change without evidence."
+          *, transcript_enabled: bool = False, recall_included: bool = False,
+          persona_profile: PersonaSeed | None, max_response_tokens: int
+          ) -> tuple[str, str, bool | None, bool | None]:
+    trusted_voice = (
+        "Explicit owner-provisioned pinned Vera behavior guidance (prompt only; "
+        "not model identity authentication):\n"
+        + persona_profile.system_message + "\n\n"
+        if persona_profile is not None else ""
     )
-    if persona_seed is not None:
-        # The owner-pinned profile is a style specification, not evidence of
-        # which weights/adapter a model endpoint loaded. Never give browsers
-        # authority to supply or override this privileged system prompt.
-        system_note += ("\n\nPinned owner-provided behavior guidance (prompt only, "
-                        "not identity or model attestation):\n"
-                        + persona_seed.system_message)
     request = {
         "model": model,
         "stream": False,
-        # A small local CPU/GPU can otherwise spend the entire HTTP deadline
-        # generating an unbounded reply. Ollama's OpenAI-compatible endpoint
-        # accepts this response-token cap; it grants no additional authority.
-        "max_tokens": max_chat_tokens,
-        "messages": [{"role": "system", "content": system_note}, *messages],
+        # The optional loopback bridge enforces a 75s aggregate deadline.
+        # An earlier 512-token request could consume ~68s at an observed
+        # 7.5 tokens/s even before prefill. A smaller operator-bounded cap
+        # reduces that risk but does not establish a latency guarantee.
+        "max_tokens": max_response_tokens,
+        "messages": [{"role": "system", "content": (
+            trusted_voice
+            + "Runtime boundary: You respond through Vera's local interface, "
+            "but your model identity and loaded weights are not attested. "
+            "This local session has no live observations, "
+            "tools, identity attestation, or external action authority. "
+            + ("The local transcript vault is opt-in: only an authenticated, "
+               "explicit recall may expose unverified operator-saved text. "
+               if transcript_enabled else "There is no connected durable memory. ")
+            + ("This request includes explicitly recalled, quoted, unverified "
+               "operator-saved conversation context, not witnessed memory. "
+               if recall_included else "No earlier saved conversation is recalled. ")
+            + "Capabilities like opt-in persistent memory, evidence-attributed "
+            "retrieval and authorized actions are technically possible; none "
+            "are connected here except the separately authorized transcript "
+            "recall described above. Do not claim an unseen memory, "
+            "observation, or executed change. Do not turn this boundary "
+            "into a lecture unless the user asks how the system works."
+        )}, *messages],
     }
     payload = _read_json_from_model(model_root + "/v1/chat/completions",
                                     payload=request, limit=MAX_MODEL_BYTES,
@@ -291,52 +275,65 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]],
         choice = payload["choices"][0]
         msg = choice["message"]
         if type(msg) is not dict or msg.get("role") != "assistant":
-            raise GatewayError("model did not return an assistant message")
+            raise GatewayError("model returned a non-assistant message")
         if ("tool_calls" in msg or "function_call" in msg
                 or choice.get("finish_reason") == "tool_calls"):
             raise GatewayError("model attempted a tool response")
-        # Missing finish_reason is NOT evidence that the completion finished.
-        # An upstream protocol defect could otherwise admit truncated text.
-        finish_reason = choice["finish_reason"]
-        if finish_reason not in ("stop", "length"):
-            raise GatewayError("model did not complete a text response")
         answer = msg["content"]
+        finish_reason = choice.get("finish_reason")
     except (TypeError, KeyError, IndexError) as exc:
         raise GatewayError("invalid model response") from exc
+    if finish_reason not in (None, "stop", "length", "content_filter"):
+        raise GatewayError("unrecognized model finish reason")
     if type(answer) is not str or not 0 < len(answer) <= 16000:
         raise GatewayError("invalid model text")
     try:
         answer.encode("utf-8")
     except UnicodeError as exc:
         raise GatewayError("invalid model text encoding") from exc
+    completion_status = {
+        None: "unknown", "stop": "complete", "length": "length_limited",
+        "content_filter": "filtered",
+    }[finish_reason]
+    incomplete = None if finish_reason is None else finish_reason != "stop"
+    truncated = None if finish_reason is None else finish_reason == "length"
     if finish_reason == "length":
-        # Browser app.js puts every successful `reply` in assistant history.
-        # Reject incomplete outputs as a separate, recoverable system event;
-        # never fabricate suffix text or save the partial answer as model text.
-        raise IncompleteModelReply(f"Reply truncated at {max_chat_tokens} tokens; "
-                                   "no assistant response was added to chat history. "
-                                   "Try a shorter question or "
-                                   "ask the owner to qualify a higher reply limit.")
-    return answer
+        # The UI currently displays reply text, not arbitrary response fields.
+        # Do not silently display a clipped generation as a complete answer.
+        answer += TRUNCATION_NOTICE
+    elif finish_reason == "content_filter":
+        answer += FILTER_NOTICE
+    # Older Ollama-compatible endpoints can omit finish_reason entirely.
+    # UNKNOWN is safer than fabricating a clean stop; the raw reply remains
+    # usable and clients can distinguish unverified completion from success.
+    return answer, completion_status, incomplete, truncated
 
 
 def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                 goal_provider: VerifiedVolitionGoalProvider | None = None,
                 goal_access_token: str | None = None,
                 persona_profile_path: str | Path | None = None,
+                persona_presentation_path: str | Path | None = None,
+                require_persona: bool = False,
                 memory_db_path: str | Path | None = None,
                 memory_secret: str | None = None,
                 memory_rollback_anchor_path: str | Path | None = None,
-                acknowledge_plaintext_vault_risk: bool = False) -> ThreadingHTTPServer:
+                acknowledge_plaintext_vault_risk: bool = False,
+                max_response_tokens: int = DEFAULT_RESPONSE_TOKENS) -> ThreadingHTTPServer:
     """Create the restricted server without launching services or models."""
     if type(port) is not int or not 0 <= port <= 65535:
         raise ValueError("invalid interface port")
-    chat_token_limit = _owner_chat_token_limit()
+    if (type(max_response_tokens) is not int
+            or not MIN_RESPONSE_TOKENS <= max_response_tokens <= MAX_RESPONSE_TOKENS):
+        raise ValueError("response token limit must be 32..256")
+    if type(require_persona) is not bool:
+        raise ValueError("governed persona mode must be explicit boolean")
+    if require_persona and (persona_profile_path is None
+                            or persona_presentation_path is None):
+        raise ValueError("governed mode requires pinned owner profile and presentation files")
+    if persona_presentation_path is not None and persona_profile_path is None:
+        raise ValueError("presentation file requires a pinned owner profile")
     model_root = _model_root(ollama_url)
-    # Explicit opt-in only. Fail closed before opening a listener if the
-    # owner file is missing, altered or no longer matches the pinned version.
-    persona_seed = (render_persona_seed(Path(persona_profile_path))
-                    if persona_profile_path is not None else None)
     if (goal_provider is None) != (goal_access_token is None):
         raise ValueError("goal view requires separate provider and private access token")
     if goal_provider is not None and (
@@ -356,6 +353,14 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
             or len(memory_secret) > 256 or not memory_secret.isascii()
             or not memory_secret.isprintable()):
         raise ValueError("transcript secret must be 32..256 printable ASCII characters")
+    # Generic local-model mode has no Vera voice pin. Governed mode requires
+    # explicit local owner-file admission before a listener can open. The
+    # browser cannot supply or replace the trusted system-prompt role.
+    persona_profile = (render_persona_seed(Path(persona_profile_path))
+                       if persona_profile_path is not None else None)
+    if persona_presentation_path is not None:
+        verify_presentation_file(persona_presentation_path)
+    presentation_verified = persona_presentation_path is not None
     memory = (TranscriptStore(memory_db_path, memory_secret,
                               rollback_anchor_path=memory_rollback_anchor_path)
               if memory_db_path is not None else None)
@@ -461,13 +466,15 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                     return self._reject(403, "local session rejected")
                 self._send(200, {
                     "interface": "online", "model_node": "local",
+                    "persona_source": persona_source_receipt(
+                        self.server.persona_profile, self.server.presentation_verified),
+                    "persona_prompt": ("pinned_owner_profile"
+                                       if self.server.persona_profile else "not_connected"),
+                    "model_identity_attested": False,
                     "portal": "not_connected", "pre_active": "not_connected",
                     "empathy": "not_connected", "authority": "response_only",
                     "durable_memory": ("opt_in_local_transcript"
                                        if self.server.transcript_store else "not_connected"),
-                    "persona_prompt": ("pinned_owner_profile" if self.server.persona_seed
-                                       else "not_connected"),
-                    "model_identity_attested": False,
                     "live_observations": "not_connected",
                     "external_actions": "not_connected",
                 })
@@ -571,19 +578,24 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                               "revision": saved["revision"],
                               "sha256": saved["sha256"], "saved_at": saved["saved_at"]}
                 if model not in _models(self.server.model_root):
-                    return self._reject(400, "model not advertised by configured endpoint")
-                reply = _chat(self.server.model_root, model, messages,
+                    return self._reject(400, "model not installed locally")
+                reply, completion_status, incomplete, truncated = _chat(
+                              self.server.model_root, model, messages,
                               transcript_enabled=self.server.transcript_store is not None,
-                              max_chat_tokens=self.server.chat_token_limit,
-                              persona_seed=self.server.persona_seed)
+                              recall_included=recall,
+                              persona_profile=self.server.persona_profile,
+                              max_response_tokens=self.server.max_response_tokens)
                 result = {"reply": reply, "model": model,
                           "node": "local", "mode": "response_only",
-                          "truncated": False}
+                          "response_truncated": truncated,
+                          "response_incomplete": incomplete,
+                          "response_completion_status": completion_status,
+                          "response_token_limit": self.server.max_response_tokens,
+                          "persona_source": persona_source_receipt(
+                              self.server.persona_profile, self.server.presentation_verified)}
                 if source is not None:
                     result["recalled_source"] = source
                 self._send(200, result)
-            except IncompleteModelReply as exc:
-                self._send(422, {"error": str(exc), "truncated": True})
             except (OSError, sqlite3.Error, URLError, HTTPError, GatewayError, ValueError):
                 self._reject(503, "local model inference unavailable")
             finally:
@@ -620,10 +632,11 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
     server.session_token = secrets.token_urlsafe(32)
     server.model_root = model_root
     server.model_slots = BoundedSemaphore(1)
-    server.chat_token_limit = chat_token_limit
-    server.persona_seed = persona_seed
     server.goal_provider = goal_provider
     server.goal_access_token = goal_access_token
     server.transcript_store = memory
     server.transcript_secret = memory_secret or ""
+    server.persona_profile = persona_profile
+    server.presentation_verified = presentation_verified
+    server.max_response_tokens = max_response_tokens
     return server

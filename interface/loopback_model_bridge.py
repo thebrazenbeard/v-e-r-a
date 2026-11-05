@@ -23,8 +23,6 @@ MAX_REPLY = 1024 * 1024
 CLIENT_IO_TIMEOUT_SECONDS = 8
 CLIENT_BODY_DEADLINE_SECONDS = 12
 MAX_UPSTREAM_TIMEOUT_SECONDS = 75  # UI gateway gives the whole exchange 90s.
-DEFAULT_CHAT_MAX_TOKENS = 64  # CPU prototype; owner can raise only after qualification.
-MAX_CHAT_MAX_TOKENS = 512
 
 
 def _bounded_upstream_json(root: str, path: str, *, payload: dict | None = None,
@@ -90,16 +88,15 @@ def _bounded_upstream_json(root: str, path: str, *, payload: dict | None = None,
 
 class LoopbackModelBridge:
     def __init__(self, upstream: str, model_id: str, *, timeout: float = 30.0,
-                 max_chat_tokens: int = DEFAULT_CHAT_MAX_TOKENS):
+                 max_chat_tokens: int = 256):
         self.upstream = _model_root(upstream)
         if (type(model_id) is not str or not model_id.strip() or len(model_id) > 128
                 or model_id != model_id.strip()):
             raise ValueError("a nonempty, exact model ID is required")
         if timeout <= 0 or timeout > MAX_UPSTREAM_TIMEOUT_SECONDS:
             raise ValueError("timeout must be between 0 and 75 seconds")
-        if (type(max_chat_tokens) is not int
-                or not 1 <= max_chat_tokens <= MAX_CHAT_MAX_TOKENS):
-            raise ValueError("invalid owner chat-token budget")
+        if type(max_chat_tokens) is not int or not 1 <= max_chat_tokens <= 512:
+            raise ValueError("invalid bridge reply-token budget")
         self.model_id = model_id
         self.timeout = timeout
         self.max_chat_tokens = max_chat_tokens
@@ -143,9 +140,8 @@ class LoopbackModelBridge:
             choice = response["choices"][0]
             message = choice["message"]
             if type(message) is not dict or message.get("role") != "assistant":
-                raise GatewayError("upstream did not return an assistant message")
+                raise GatewayError("upstream returned a non-assistant message")
             answer = message["content"]
-            finish_reason = choice["finish_reason"]
             if ("tool_calls" in message or "function_call" in message
                     or choice.get("finish_reason") == "tool_calls"
                     or ("model" in response and response["model"] != self.model_id)):
@@ -154,11 +150,16 @@ class LoopbackModelBridge:
             raise GatewayError("invalid upstream chat response") from exc
         if type(answer) is not str or not 0 < len(answer) <= 16000:
             raise GatewayError("invalid upstream chat text")
-        if finish_reason not in ("stop", "length", "content_filter"):
+        finish_reason = choice.get("finish_reason")
+        if finish_reason not in (None, "stop", "length", "content_filter"):
             raise GatewayError("invalid or unsupported finish reason")
         # Do not pass through upstream metadata, tools, extensions, or server hints.
-        return {"model": self.model_id, "choices": [{"index": 0, "message": {
-            "role": "assistant", "content": answer}, "finish_reason": finish_reason}]}
+        forwarded = {"index": 0, "message": {"role": "assistant", "content": answer}}
+        # An absent finish reason cannot be promoted into evidence of a
+        # completed reply. The downstream Vera interface reports UNKNOWN.
+        if "finish_reason" in choice:
+            forwarded["finish_reason"] = finish_reason
+        return {"model": self.model_id, "choices": [forwarded]}
 
 
 def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
@@ -265,13 +266,7 @@ def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
                 if not 0 < size <= MAX_BODY:
                     raise ValueError("invalid body length")
                 body = _decode_json(self._read_body(size))
-                if not self.server.model_slots.acquire(blocking=False):
-                    self._json(429, {"error": "model worker busy"})
-                    return
-                try:
-                    answer = bridge.completion(body)
-                finally:
-                    self.server.model_slots.release()
+                answer = bridge.completion(body)
             except (ValueError, UnicodeError) as exc:
                 self._read_timer.cancel()
                 self._json(400, {"error": str(exc)})
@@ -287,7 +282,6 @@ def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
 
     server = _BoundedHTTPServer(("127.0.0.1", port), Handler)
     server.request_slots = BoundedSemaphore(16)
-    server.model_slots = BoundedSemaphore(1)
     server.daemon_threads = True
     return server
 
@@ -298,8 +292,8 @@ def main() -> None:
     parser.add_argument("--model-id", required=True, help="exact upstream /v1/models ID")
     parser.add_argument("--port", type=int, default=11439)
     parser.add_argument("--timeout", type=float, default=30.0)
-    parser.add_argument("--max-chat-tokens", type=int, default=DEFAULT_CHAT_MAX_TOKENS,
-        help="must match gateway VERA_MODEL_CHAT_MAX_TOKENS (both default to 64)")
+    parser.add_argument("--max-chat-tokens", type=int, default=256,
+                        help="Upper bound per upstream reply (1..512); match UI cap")
     args = parser.parse_args()
     bridge = LoopbackModelBridge(args.upstream, args.model_id, timeout=args.timeout,
                                  max_chat_tokens=args.max_chat_tokens)

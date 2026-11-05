@@ -24,6 +24,15 @@ the exact file locally, subject to the source rights and privacy scope.
 No personal chat exports, autobiographical notes, model responses or W40
 transcript fragments are included here as persona source.
 
+For the optional Android-governed interface mode, the owner must also provide
+the separately pinned canonical `docs/NONVERBAL_STATUS_BAR_V1.md` from Vera
+(Git blob `887bfe1d6862d23550b224a00a60e32d197e8c1f`).
+The hybrid interface checks this second file at startup before attaching
+`presentation_blob_sha` to the typed persona receipt. Both copyrighted
+sources remain **outside** the public `v-e-r-a` repository. An ordinary
+generic local UI launch remains functional with no persona configured;
+`--require-persona` rejects launch unless both checked owner files exist.
+
 ## Bounded manual check (Windows or Linux)
 
 With a legally provisioned profile at a known local path, the operator can

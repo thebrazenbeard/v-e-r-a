@@ -144,12 +144,16 @@ class LoopbackModelBridge:
             raise GatewayError("invalid upstream chat response") from exc
         if type(answer) is not str or len(answer) > 16000:
             raise GatewayError("invalid upstream chat text")
-        finish_reason = choice.get("finish_reason", "stop")
-        if finish_reason not in ("stop", "length", "content_filter"):
+        finish_reason = choice.get("finish_reason")
+        if finish_reason not in (None, "stop", "length", "content_filter"):
             raise GatewayError("invalid or unsupported finish reason")
         # Do not pass through upstream metadata, tools, extensions, or server hints.
-        return {"model": self.model_id, "choices": [{"index": 0, "message": {
-            "role": "assistant", "content": answer}, "finish_reason": finish_reason}]}
+        forwarded = {"index": 0, "message": {"role": "assistant", "content": answer}}
+        # An absent finish reason cannot be promoted into evidence of a
+        # completed reply. The downstream Vera interface reports UNKNOWN.
+        if "finish_reason" in choice:
+            forwarded["finish_reason"] = finish_reason
+        return {"model": self.model_id, "choices": [forwarded]}
 
 
 def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,

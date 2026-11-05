@@ -24,6 +24,7 @@ MARKER = "mock-continuity-marker-274"
 
 class MockOpenAIModel(BaseHTTPRequestHandler):
     requests = []
+    finish_reason = "stop"
 
     def log_message(self, *_args):
         pass
@@ -52,13 +53,16 @@ class MockOpenAIModel(BaseHTTPRequestHandler):
         type(self).requests.append(body)
         last = body["messages"][-1]["content"]
         answer = MARKER if MARKER in last else "UNKNOWN"
-        self._reply({"model": MODEL_ID, "choices": [{"message": {
-            "role": "assistant", "content": answer}, "finish_reason": "stop"}]})
+        choice = {"message": {"role": "assistant", "content": answer}}
+        if type(self).finish_reason is not None:
+            choice["finish_reason"] = type(self).finish_reason
+        self._reply({"model": MODEL_ID, "choices": [choice]})
 
 
 class BridgeContinuityIntegrationTests(unittest.TestCase):
     def test_mock_chat_explicit_save_restart_recall_and_hostile_requests(self):
         MockOpenAIModel.requests = []
+        MockOpenAIModel.finish_reason = "stop"
         services = []
 
         def run(server):
@@ -239,6 +243,43 @@ class BridgeContinuityIntegrationTests(unittest.TestCase):
                     server.shutdown()
                     server.server_close()
                     thread.join(timeout=2)
+
+    def test_missing_upstream_finish_reason_stays_unknown_through_both_bridges(self):
+        MockOpenAIModel.requests = []
+        MockOpenAIModel.finish_reason = None
+        services = []
+
+        def run(server):
+            thread = Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            services.append((server, thread))
+            return server
+
+        try:
+            upstream = run(ThreadingHTTPServer(("127.0.0.1", 0), MockOpenAIModel))
+            bridge = run(create_server(LoopbackModelBridge(
+                f"http://127.0.0.1:{upstream.server_port}", MODEL_ID, timeout=1), port=0))
+            ui = run(make_server(port=0,
+                                 ollama_url=f"http://127.0.0.1:{bridge.server_port}"))
+            base = f"http://127.0.0.1:{ui.server_port}"
+            prompt = {"model": MODEL_ID, "messages": [{"role": "user", "content": "hello"}]}
+            req = Request(base + "/api/chat", data=json.dumps(prompt).encode(),
+                          method="POST", headers={"Origin": base,
+                          "X-Vera-Session": ui.session_token,
+                          "Content-Type": "application/json"})
+            with urlopen(req, timeout=3) as response:
+                body = json.load(response)
+            self.assertEqual(body["reply"], "UNKNOWN")
+            self.assertEqual(body["response_completion_status"], "unknown")
+            self.assertIsNone(body["response_incomplete"])
+            self.assertIsNone(body["response_truncated"])
+            self.assertEqual(len(MockOpenAIModel.requests), 1)
+        finally:
+            MockOpenAIModel.finish_reason = "stop"
+            for server, thread in reversed(services):
+                server.shutdown()
+                server.server_close()
+                thread.join(timeout=2)
 
 
 if __name__ == "__main__":

@@ -59,9 +59,15 @@ class MockModel(BaseHTTPRequestHandler):
                 pass
             return
         reason = "length" if type(self).mode == "truncated" else "stop"
-        self._send({"model": type(self).model_id, "choices": [{"message": {
-            "role": "assistant", "content": "mock reply: " + request["messages"][-1]["content"]},
-            "finish_reason": reason}]}, drip=(type(self).mode == "drip"))
+        choice = {"message": {
+            "role": "assistant", "content": "mock reply: " + request["messages"][-1]["content"]}}
+        if type(self).mode != "no_finish_reason":
+            choice["finish_reason"] = (None if type(self).mode == "null_finish_reason"
+                                       else "content_filter" if type(self).mode == "filtered"
+                                       else "fabricated_success" if type(self).mode == "invalid_finish_reason"
+                                       else reason)
+        self._send({"model": type(self).model_id, "choices": [choice]},
+                   drip=(type(self).mode == "drip"))
 
     def log_message(self, *_args):
         pass
@@ -128,6 +134,25 @@ class LoopbackModelBridgeTests(unittest.TestCase):
         MockModel.mode = "truncated"
         _, chat = self.post(self.request_body())
         self.assertEqual(chat["choices"][0]["finish_reason"], "length")
+
+    def test_missing_upstream_finish_reason_stays_unknown_not_fabricated_stop(self):
+        MockModel.mode = "no_finish_reason"
+        _, chat = self.post(self.request_body())
+        self.assertNotIn("finish_reason", chat["choices"][0])
+
+    def test_explicit_null_finish_reason_remains_unknown(self):
+        MockModel.mode = "null_finish_reason"
+        _, chat = self.post(self.request_body())
+        self.assertIsNone(chat["choices"][0]["finish_reason"])
+
+    def test_filtered_completion_is_preserved_and_unrecognized_reason_refused(self):
+        MockModel.mode = "filtered"
+        _, chat = self.post(self.request_body())
+        self.assertEqual(chat["choices"][0]["finish_reason"], "content_filter")
+        MockModel.mode = "invalid_finish_reason"
+        with self.assertRaises(HTTPError) as failure:
+            self.post(self.request_body())
+        self.assertEqual(failure.exception.code, 503)
 
     def test_rejects_dns_rebinding_host_and_cross_origin(self):
         port = self.server.server_address[1]

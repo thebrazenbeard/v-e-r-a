@@ -301,6 +301,12 @@ async function sendMessage(event) {
     messages.push({ role: "assistant", content: data.reply });
     syncVaultControls();
     messageBubble("assistant", data.reply);
+    // A compatible upstream may omit finish_reason. The server deliberately
+    // reports UNKNOWN; don't let the browser silently present that as a
+    // verified complete answer. Length/filter notices are already in reply.
+    if (data.response_completion_status === "unknown") {
+      contextNotice.textContent += " Model completion was not reported by the upstream.";
+    }
     if (data.recalled_source) {
       recalledFromVault = true;
       vaultStatus.textContent = `Explicit saved-context recall used at revision ${data.recalled_source.revision}; operator-saved text is unverified.`;

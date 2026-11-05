@@ -19,6 +19,7 @@ from pathlib import Path
 MAX_JSON_BYTES = 4 * 1024 * 1024
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+FUNCTION_BINDING = re.compile(r"^supabase/functions/[^/]+/binding\.json$")
 
 
 def _unique_pairs(pairs: list[tuple[str, object]]) -> dict[str, object]:
@@ -80,6 +81,53 @@ def _checkout_head(path: Path) -> str:
     if status.stdout.strip():
         raise ValueError("snapshot checkout has uncommitted or untracked source")
     return head
+
+
+def _tracked_bindings(snapshot_root: Path) -> list[Path]:
+    """Compare ONLY source files owned by the exact Git commit.
+
+    `git status` does not reveal ignored or excluded files, so globbing without
+    comparing the index can accidentally admit an untracked provider binding.
+    """
+    try:
+        root = subprocess.run(
+            ["git", "-C", str(snapshot_root), "rev-parse", "--show-toplevel"],
+            capture_output=True, text=True, timeout=5, check=True,
+        ).stdout.strip()
+        if snapshot_root.resolve() != Path(root).resolve():
+            raise ValueError("snapshot must be the Git repository root")
+        tracked = subprocess.run(
+            ["git", "-C", str(snapshot_root), "ls-files", "--cached", "-z", "--", "supabase"],
+            capture_output=True, timeout=5, check=True,
+        ).stdout.decode("utf-8").split("\x00")
+    except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired, UnicodeError) as exc:
+        raise ValueError("tracked source-file inventory unavailable") from exc
+
+    tracked_names = {item for item in tracked if item}
+    required = {"supabase/project.json", "supabase/migration-index.json"}
+    if not required.issubset(tracked_names):
+        raise ValueError("untracked source project or migration index")
+
+    tracked_binding_names = {item for item in tracked_names if FUNCTION_BINDING.fullmatch(item)}
+    source_functions = snapshot_root / "supabase" / "functions"
+    observed_binding_names = {
+        path.relative_to(snapshot_root).as_posix()
+        for path in source_functions.glob("*/binding.json")
+    }
+    if tracked_binding_names != observed_binding_names or not tracked_binding_names:
+        raise ValueError("untracked, missing, or ignored source Edge function binding")
+
+    selected = sorted(required | tracked_binding_names)
+    for relative in selected:
+        current = snapshot_root
+        for component in Path(relative).parts:
+            current = current / component
+            if current.is_symlink():
+                raise ValueError("symlinked source metadata or Edge function binding")
+        if not current.is_file() or not current.resolve().is_relative_to(snapshot_root.resolve()):
+            raise ValueError("source metadata is missing or outside Git checkout")
+
+    return [snapshot_root / item for item in sorted(tracked_binding_names)]
 
 
 def _migrations(value: object) -> tuple[tuple[str, str], ...]:
@@ -168,9 +216,7 @@ def compare(
         if original_migrations != _migrations(live.get("migrations")):
             raise ValueError("migration identity/version drift")
 
-        bindings = sorted((snapshot_root / "supabase" / "functions").glob("*/binding.json"))
-        if not bindings:
-            raise ValueError("no source-bound Edge functions")
+        bindings = _tracked_bindings(snapshot_root)
         source_functions = _functions([_read_json(path) for path in bindings], snapshot["project_ref"])
         current_functions = _functions(live.get("functions"), snapshot["project_ref"])
         if source_functions != current_functions:

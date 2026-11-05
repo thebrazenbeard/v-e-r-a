@@ -12,6 +12,9 @@ def main():
     parser = argparse.ArgumentParser(description="Vera local response-only interface")
     parser.add_argument("--port", type=int, default=8765)
     parser.add_argument("--ollama-url", default="http://127.0.0.1:11434")
+    parser.add_argument("--max-response-tokens", type=int, default=192,
+                        help="Local reply budget: 32..256 tokens (default 192); "
+                             "reduces CPU timeout risk but cannot guarantee latency")
     parser.add_argument("--memory-db", help="Optional local SQLite file; disabled if omitted")
     parser.add_argument("--memory-secret-file", help="Private operator-controlled vault bearer secret")
     parser.add_argument("--memory-rollback-anchor",
@@ -36,6 +39,7 @@ def main():
             parser.error(f"invalid vault secret file: {type(exc).__name__}")
     try:
         server = make_server(port=args.port, ollama_url=args.ollama_url,
+                             max_response_tokens=args.max_response_tokens,
                              memory_db_path=args.memory_db, memory_secret=secret,
                              memory_rollback_anchor_path=args.memory_rollback_anchor,
                              acknowledge_plaintext_vault_risk=args.acknowledge_plaintext_vault_risk)

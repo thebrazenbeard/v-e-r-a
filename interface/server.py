@@ -29,6 +29,12 @@ MAX_REQUEST = 24 * 1024
 MAX_MODEL_BYTES = 1024 * 1024
 MAX_MODELS_BYTES = 256 * 1024
 CHAT_TIMEOUT_SECONDS = 90
+DEFAULT_RESPONSE_TOKENS = 192
+MIN_RESPONSE_TOKENS = 32
+MAX_RESPONSE_TOKENS = 256
+TRUNCATION_NOTICE = (
+    "\n\n(Response stopped at the local reply limit. Ask me to continue.)"
+)
 MODELS_TIMEOUT_SECONDS = 6
 CLIENT_READ_TIMEOUT_SECONDS = 8
 CLIENT_BODY_DEADLINE_SECONDS = 12
@@ -225,14 +231,15 @@ def _explicit_recall_messages(saved: dict, current: list[dict[str, str]]) -> lis
 
 def _chat(model_root: str, model: str, messages: list[dict[str, str]],
           *, transcript_enabled: bool = False, recall_included: bool = False,
-          persona_profile: dict) -> str:
+          persona_profile: dict, max_response_tokens: int) -> tuple[str, bool]:
     request = {
         "model": model,
         "stream": False,
-        # A small local CPU/GPU can otherwise spend the entire HTTP deadline
-        # generating an unbounded reply. Ollama's OpenAI-compatible endpoint
-        # accepts this response-token cap; it grants no additional authority.
-        "max_tokens": 512,
+        # The optional loopback bridge enforces a 75s aggregate deadline.
+        # An earlier 512-token request could consume ~68s at an observed
+        # 7.5 tokens/s even before prefill. A smaller operator-bounded cap
+        # reduces that risk but does not establish a latency guarantee.
+        "max_tokens": max_response_tokens,
         "messages": [{"role": "system", "content": (
             render_persona_seed(persona_profile, recall_included=recall_included)
             + " Runtime boundary: this local session has no live observations, "
@@ -258,15 +265,23 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]],
                 or choice.get("finish_reason") == "tool_calls"):
             raise GatewayError("model attempted a tool response")
         answer = msg["content"]
+        finish_reason = choice.get("finish_reason", "stop")
     except (TypeError, KeyError, IndexError) as exc:
         raise GatewayError("invalid model response") from exc
+    if finish_reason not in ("stop", "length", "content_filter"):
+        raise GatewayError("unrecognized model finish reason")
     if type(answer) is not str or len(answer) > 16000:
         raise GatewayError("invalid model text")
     try:
         answer.encode("utf-8")
     except UnicodeError as exc:
         raise GatewayError("invalid model text encoding") from exc
-    return answer
+    truncated = finish_reason == "length"
+    if truncated:
+        # The UI currently displays reply text, not arbitrary response fields.
+        # Do not silently display a clipped generation as a complete answer.
+        answer += TRUNCATION_NOTICE
+    return answer, truncated
 
 
 def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
@@ -275,10 +290,14 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                 memory_db_path: str | Path | None = None,
                 memory_secret: str | None = None,
                 memory_rollback_anchor_path: str | Path | None = None,
-                acknowledge_plaintext_vault_risk: bool = False) -> ThreadingHTTPServer:
+                acknowledge_plaintext_vault_risk: bool = False,
+                max_response_tokens: int = DEFAULT_RESPONSE_TOKENS) -> ThreadingHTTPServer:
     """Create the restricted server without launching services or models."""
     if type(port) is not int or not 0 <= port <= 65535:
         raise ValueError("invalid interface port")
+    if (type(max_response_tokens) is not int
+            or not MIN_RESPONSE_TOKENS <= max_response_tokens <= MAX_RESPONSE_TOKENS):
+        raise ValueError("response token limit must be 32..256")
     model_root = _model_root(ollama_url)
     if (goal_provider is None) != (goal_access_token is None):
         raise ValueError("goal view requires separate provider and private access token")
@@ -516,12 +535,15 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                               "sha256": saved["sha256"], "saved_at": saved["saved_at"]}
                 if model not in _models(self.server.model_root):
                     return self._reject(400, "model not installed locally")
-                reply = _chat(self.server.model_root, model, messages,
+                reply, truncated = _chat(self.server.model_root, model, messages,
                               transcript_enabled=self.server.transcript_store is not None,
                               recall_included=recall,
-                              persona_profile=self.server.persona_profile)
+                              persona_profile=self.server.persona_profile,
+                              max_response_tokens=self.server.max_response_tokens)
                 result = {"reply": reply, "model": model,
                           "node": "local", "mode": "response_only",
+                          "response_truncated": truncated,
+                          "response_token_limit": self.server.max_response_tokens,
                           "persona_source": persona_source_receipt()}
                 if source is not None:
                     result["recalled_source"] = source
@@ -567,4 +589,5 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
     server.transcript_store = memory
     server.transcript_secret = memory_secret or ""
     server.persona_profile = persona_profile
+    server.max_response_tokens = max_response_tokens
     return server

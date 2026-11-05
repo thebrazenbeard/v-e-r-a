@@ -101,6 +101,70 @@ class VeraOSAdmissionBoundaryTests(unittest.TestCase):
         self.assertEqual(code, 403)
         self.assertNotIn("goals", response)
 
+    def test_forged_native_ping_claims_cannot_promote_status(self):
+        # These are attacker-controlled HTTP strings, NOT the observed
+        # Windows client token from a host-owned named-pipe endpoint.
+        claimed = {
+            "X-VeraOS-Verified": "true",
+            "X-VeraOS-Windows-SID": "S-1-5-21-100-200-300-400",
+            "X-VeraOS-Logon-LUID": "0000000000000123",
+            "X-VeraOS-Issuer": "LAPPY",
+            "X-VeraOS-Signature": "a" * 128,
+        }
+        code, status = self.request("/api/status", asserted_headers=claimed)
+        self.assertEqual(code, 200)
+        self.assertEqual(status["authority"], "response_only")
+        self.assertEqual(status["portal"], "not_connected")
+        self.assertEqual(status["external_actions"], "not_connected")
+        for forbidden in ("windows_sid", "logon_luid", "verified_principal",
+                          "veraos_status", "trusted_issuer", "effect_authority"):
+            self.assertNotIn(forbidden, status)
+
+    def test_expiry_replay_and_consent_headers_do_not_create_runtime_routes(self):
+        # A browser session can replay arbitrary strings but cannot mint a
+        # VeraOS projection, even when claims look timely and consented.
+        claimed = {
+            "X-VeraOS-Nonce": "replayed-browser-nonce",
+            "X-VeraOS-Issued-At": "2026-11-05T00:00:00Z",
+            "X-VeraOS-Expires-At": "2026-11-05T00:00:01Z",
+            "X-VeraOS-Consent": "granted",
+            "X-VeraOS-Signature": "b" * 128,
+        }
+        for _ in range(2):
+            with self.subTest(replay=_):
+                status, payload = self.request("/api/veraos/status",
+                                               asserted_headers=claimed)
+                self.assertEqual(status, 404)
+                self.assertNotIn("production_authority", payload)
+                self.assertNotIn("principal", payload)
+                status, payload = self.request("/api/veraos/tasks", method="POST",
+                    body={"task": "status-only"}, asserted_headers=claimed)
+                self.assertEqual(status, 404)
+                self.assertNotIn("task_id", payload)
+
+    def test_signed_looking_task_body_and_goal_header_do_not_mint_authority(self):
+        claimed = {
+            "verified": True,
+            "windows_sid": "S-1-5-21-100-200-300-400",
+            "logon_luid": "0000000000000123",
+            "consent": "granted",
+            "issuer": "LAPPY",
+            "signature": "c" * 128,
+        }
+        status, payload = self.request("/api/veraos/effects", method="POST",
+            body={"effect": "protected.merge", **claimed},
+            asserted_headers={"X-VeraOS-Verified": "true"})
+        self.assertEqual(status, 404)
+        self.assertNotIn("receipt", payload)
+        self.assertNotIn("allowed", payload)
+
+        status, private = self.request("/api/goals/current", asserted_headers={
+            "X-VeraOS-Verified": "true", "X-VeraOS-Signature": "c" * 128,
+            "X-Vera-Goal-Access": "claimed-consent-not-a-capability",
+        })
+        self.assertEqual(status, 403)
+        self.assertNotIn("goals", private)
+
 
 if __name__ == "__main__":
     unittest.main()

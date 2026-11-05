@@ -6,10 +6,19 @@
 - `v-e-r-a` Draft PR #30 `7f8346b1328e8b4e3f172d1c1e10ad5738cb7d89`
   (stacked on unfinished local GGUF/persona/continuity proposals).
 - Accepted `vera-os` main `31b66b6ff317eb981c4bd8fcc4ae6e5db1d21adf`.
-- `vera-os` Draft PR #74 `048da7c59d72dbbbe718b48d1bda91460e0fda8b`
-  (WSL test surface; no installed host bridge).
+- `vera-os` Draft PR #74 `019969a21b3c8c763926f1af504cd8b4b43086ae`
+  (WSL development/test source and Windows named-pipe prototype; no installed
+  host bridge).
 
-These are source observations, not claims of currently installed services.
+These are source observations, not claims of currently installed services. A
+separate **REAL_SYSTEM_PROBE** on Lappy (2026-11-05, Blotter #543) used that
+exact Draft source for one explicitly authorized, foreground Windows Python
+3.14.5, single-use named-pipe `PING`/`PONG` exchange. The server successfully
+read the client message, called Win32 `ImpersonateNamedPipeClient`, observed
+the kernel client token, matched user SID and authentication LUID to its own
+process token, reverted impersonation, and closed the disposable endpoint;
+the probe exited 0 in 0.67 seconds. It was an in-memory test harness, not a
+service, deployed broker, stored grant, installed client, or independent audit.
 
 ## Present boundary
 
@@ -28,8 +37,11 @@ and unrelated privileged runtimes `not_connected`.
 VeraOS Draft #74's WSL IPC response is a same-Linux-UID local development
 result (bounded task/event counts, `production_authority=false`). Its `SO_PEERCRED`
 observation is not a Windows logon SID or authenticated bridge. The Windows
-named-pipe source prototype has no qualified real read/impersonation or trusted
-issuer; its request shape and 128-hex fields prove no authorization. A browser
+named-pipe prototype now has one successful, same-logon **native observation**
+probe, but no authenticated application protocol, trusted server/issuer custody,
+consented owner mapping, replay prevention, independently enforced worker
+isolation, or protected-effect grant. Its request shape and 128-hex fields still
+prove no authorization. A browser
 must not shell out to `wsl.exe`, call that Unix socket or infer identity from
 localhost merely because the interface runs on the same Windows machine.
 
@@ -65,8 +77,14 @@ loopback HTTP interface without a model endpoint and tests:
 3. `/api/chat` rejects injected task/effect/principal keys before model I/O.
 4. Private goal reads still need their separate capability; session alone is
    rejected.
+5. Forged `verified=true`, SID/LUID, issuer, and signature-looking headers do
+   not promote response-only status to VeraOS authority.
+6. Replayed browser-session requests with nonce, expiry and consent claims do
+   not create VeraOS status or task endpoints.
+7. Caller-provided apparent authorization in a task body or private-read header
+   does not create an effect route or bypass private goal capability.
 
 This is an honest integration **HOLD** and regression fence, not a live
-VeraOS status panel or an API implementation. Merge/deploy, native named-pipe
-execution, Windows ACL/service changes, model loading or private-memory
+VeraOS status panel or an API implementation. Merge/deploy, any additional
+native named-pipe host execution, Windows ACL/service changes, model loading or private-memory
 ingestion remain outside this scope and require separate authorization.

@@ -171,7 +171,7 @@ function messageBubble(role, content) {
   wrapper.className = `message ${role}`;
   const name = document.createElement("span");
   name.className = "message-role";
-  name.textContent = role === "user" ? "YOU" : role === "system" ? "INTERFACE / ERROR" : "VERA / LOCAL MODEL";
+  name.textContent = role === "user" ? "YOU" : role === "system" ? "INTERFACE / ERROR" : "MODEL OUTPUT / UNVERIFIED";
   const body = document.createElement("p");
   body.textContent = content; // Never interpret model/user content as HTML.
   wrapper.append(name, body);
@@ -198,13 +198,13 @@ async function refreshModels() {
       model.append(option);
     }
     if (data.models.includes(previouslySelected)) model.value = previouslySelected;
-    connection.textContent = data.models.length ? "LOCAL MODEL AVAILABLE" : "NO MODELS INSTALLED";
-    modelDetail.textContent = `${data.models.length} installed model${data.models.length === 1 ? "" : "s"} · This device`;
+    connection.textContent = data.models.length ? "ENDPOINT RESPONDING / UNVERIFIED" : "NO MODEL IDS ADVERTISED";
+    modelDetail.textContent = `${data.models.length} advertised model ID${data.models.length === 1 ? "" : "s"} · provenance unverified`;
     model.disabled = !data.models.length;
   } catch (_) {
     model.replaceChildren(new Option("Model endpoint unavailable", ""));
-    connection.textContent = "LOCAL MODEL OFFLINE";
-    modelDetail.textContent = "Start your local Ollama service, then refresh.";
+    connection.textContent = "ENDPOINT NOT RESPONDING";
+    modelDetail.textContent = "Check the configured local model endpoint or bridge, then refresh.";
   }
 }
 

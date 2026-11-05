@@ -290,6 +290,30 @@ class InterfaceTests(unittest.TestCase):
         self.assertIn(b"activeController?.abort()", js)
         self.assertFalse((Path(__file__).parents[1] / "interface" / "static" / "app.js").read_text().count("localStorage"))
 
+    def test_unverified_endpoint_is_not_presented_as_installed_vera(self):
+        """A /api/tags model ID is an assertion, not local-weight provenance."""
+        status, _, html = self.request("/")
+        self.assertEqual(status, 200)
+        status, _, js = self.request("/app.js")
+        self.assertEqual(status, 200)
+        for misleading in (
+            b"VERA / LOCAL MODEL", b"LOCAL MODEL AVAILABLE",
+            b"NO MODELS INSTALLED", b"installed model", b"LOCAL MODEL OFFLINE",
+            b"Start your local Ollama service",
+        ):
+            self.assertNotIn(misleading, js)
+        for misleading in (
+            b"Discovering installed models", b"Only installed models on this device",
+            b"connected to models on this device", b"INFERENCE NODE",
+            b"Checking local model", b"LOCAL INTELLIGENCE",
+        ):
+            self.assertNotIn(misleading, html)
+        self.assertIn(b"MODEL OUTPUT / UNVERIFIED", js)
+        self.assertIn(b"ENDPOINT RESPONDING / UNVERIFIED", js)
+        self.assertIn(b"advertised model ID", js)
+        self.assertIn(b"identity unverified", html)
+        self.assertIn(b"Checking model endpoint", html)
+
     def test_opt_in_vault_persists_only_explicit_user_transcript_after_restart(self):
         key = "operator-test-secret-0123456789abcdef"
         with private_test_temporary_directory() as root:

@@ -94,8 +94,11 @@ class LoopbackModelBridgeTests(unittest.TestCase):
         self.upstream_thread = Thread(target=self.upstream.serve_forever, daemon=True)
         self.upstream_thread.start()
         port = self.upstream.server_address[1]
+        # Routine synthetic HTTP exchanges need scheduling margin when the
+        # entire suite also starts subprocesses. Timeout-specific tests below
+        # explicitly lower this cap to exercise fail-closed deadline behavior.
         self.bridge = LoopbackModelBridge(f"http://127.0.0.1:{port}",
-                                          "mock-vera-gguf-v1", timeout=0.05)
+                                          "mock-vera-gguf-v1", timeout=0.3)
         self.server = create_server(self.bridge, port=0, body_deadline=0.3)
         self.thread = Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()
@@ -299,6 +302,7 @@ class LoopbackModelBridgeTests(unittest.TestCase):
         self.assertEqual(MockModel.chat_calls, 0)
 
     def test_timeout_fails_closed(self):
+        self.bridge.timeout = 0.05
         MockModel.mode = "timeout"
         with self.assertRaises(HTTPError) as failure:
             self.get("/health")

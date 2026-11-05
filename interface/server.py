@@ -169,12 +169,12 @@ def _valid_chat(payload: object) -> tuple[str, list[dict[str, str]]]:
         raise ValueError("invalid message count")
     messages = []
     total = 0
-    for item in entries:
+    for index, item in enumerate(entries):
         if (type(item) is not dict or set(item) != {"role", "content"}
-                or item.get("role") not in ("user", "assistant")
+                or item.get("role") != ("user" if index % 2 == 0 else "assistant")
                 or type(item.get("content")) is not str
                 or not 0 < len(item["content"]) <= 4000):
-            raise ValueError("only bounded user and assistant text is permitted")
+            raise ValueError("only alternating, bounded user and assistant text is permitted")
         total += len(item["content"])
         try:
             item["content"].encode("utf-8")

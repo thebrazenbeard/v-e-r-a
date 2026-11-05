@@ -235,7 +235,10 @@ async function sendMessage(event) {
   if (useSaved) recalledFromVault = true;
   const requestBody = useSaved
     ? { model: model.value, messages: [{ role: "user", content }], recall_saved: true }
-    : { model: model.value, messages: messages.slice(-12) };
+    // A request ends with the new user turn, so keep at most five complete
+    // preceding user/assistant pairs. A 12-message slice would begin with an
+    // orphan assistant once the seventh user turn is sent.
+    : { model: model.value, messages: messages.slice(-11) };
   const requestHeaders = { "Content-Type": "application/json", "X-Vera-Session": sessionToken };
   if (useSaved) requestHeaders["X-Vera-Vault-Key"] = vaultKey.value;
   setBusy(true);

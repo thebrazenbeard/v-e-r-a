@@ -326,6 +326,26 @@ class InterfaceTests(unittest.TestCase):
         self.assertEqual(self.chat(messages=[{"role": "user", "content": "\ud800"}])[0], 400)
         self.assertEqual(LocalModel.requests, [])
 
+    def test_orphan_assistant_or_non_alternating_history_rejected_before_inference(self):
+        bad_sequences = (
+            ("assistant", "user"),
+            ("user", "user"),
+            ("user", "assistant", "assistant", "user"),
+            ("assistant", "user", "assistant", "user"),
+        )
+        for roles in bad_sequences:
+            with self.subTest(roles=roles):
+                entries = [{"role": role, "content": f"turn {index}"}
+                           for index, role in enumerate(roles)]
+                self.assertEqual(self.chat(messages=entries)[0], 400)
+        self.assertEqual(LocalModel.requests, [])
+
+        valid = [{"role": role, "content": f"turn {index}"}
+                 for index, role in enumerate(("user", "assistant", "user"))]
+        self.assertEqual(self.chat(messages=valid)[0], 200)
+        self.assertEqual([m["role"] for m in LocalModel.requests[-1]["messages"]],
+                         ["system", "user", "assistant", "user"])
+
     def test_only_explicit_loopback_targets_are_allowed(self):
         for endpoint in ("http://192.168.1.71:11434", "https://127.0.0.1:11434",
                          "http://127.0.0.1:11434/path", "http://127.0.0.1:11434/?x=1",

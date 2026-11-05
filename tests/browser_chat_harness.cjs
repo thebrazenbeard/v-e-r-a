@@ -8,7 +8,7 @@ const vm = require("node:vm");
 
 const base = process.argv[2];
 const mode = process.argv[3];
-if (!base || !["three_turns", "truncated", "busy", "one_turn"].includes(mode)) {
+if (!base || !["three_turns", "seven_turns", "eight_turns", "truncated", "busy", "one_turn"].includes(mode)) {
   throw Error("test harness requires local gateway URL and test mode");
 }
 
@@ -91,6 +91,23 @@ async function main() {
   if (mode === "three_turns") {
     await submit("I prefer the name Iris.");
     await submit("Correction: call me Nova.");
+    await submit("What name should you use?");
+  } else if (mode === "seven_turns") {
+    await submit("I prefer the name Iris.");
+    await submit("Correction: call me Nova.");
+    await submit("What name should you use?");
+    await submit("What would a dry reply sound like?");
+    await submit("Tell me the limits of your memory.");
+    await submit("What is one honest uncertainty?");
+    await submit("What name should you use?");
+  } else if (mode === "eight_turns") {
+    await submit("I prefer the name Iris.");
+    await submit("What would a dry reply sound like?");
+    await submit("What do you know about our context?");
+    await submit("Correction: call me Nova.");
+    await submit("Explain one limitation in a sentence.");
+    await submit("Do you have durable memory?");
+    await submit("What is one honest uncertainty?");
     await submit("What name should you use?");
   } else if (mode === "truncated") {
     await submit("Tell me what to do about the correction.");

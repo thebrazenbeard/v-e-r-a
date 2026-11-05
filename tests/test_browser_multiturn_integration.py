@@ -164,6 +164,30 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
                         self.assertEqual("Dry and observational" in prompt_note, seeded)
                         self.assertIn("no live observations", prompt_note)
 
+    def test_seventh_and_eighth_turn_drop_complete_pairs_not_orphan_assistant(self):
+        # Once 12 tab messages are exceeded, model context must still begin
+        # with a real user instruction. An orphan assistant can violate local
+        # template role alternation and confuse correction tracking.
+        for mode, turns, first_history in (
+                ("seven_turns", 7, "Correction: call me Nova."),
+                ("eight_turns", 8, "What do you know about our context?")):
+            with self.subTest(mode=mode):
+                ScriptedModel.requests = []
+                result = self._browser(self._start(), mode)
+                self.assertEqual(result["messages"][-1]["content"], "Nova.")
+                self.assertIs(result["status"]["model_identity_attested"], False)
+                self.assertEqual(len(ScriptedModel.requests), turns)
+                final = ScriptedModel.requests[-1]["messages"]
+                self.assertEqual(len(final), 12)  # one system + five pairs + latest user
+                self.assertEqual([m["role"] for m in final],
+                                 ["system", "user", "assistant", "user", "assistant",
+                                  "user", "assistant", "user", "assistant", "user",
+                                  "assistant", "user"])
+                self.assertEqual(final[1]["content"], first_history)
+                self.assertIn("Correction: call me Nova.",
+                              [m["content"] for m in final])
+                self.assertEqual(final[-1]["content"], "What name should you use?")
+
     def test_truncated_reply_stays_system_error_and_prompt_is_recoverable(self):
         ScriptedModel.mode = "length"
         for cap in (64, 96, 128):

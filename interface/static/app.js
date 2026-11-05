@@ -206,7 +206,10 @@ function messageBubble(role, content) {
   wrapper.className = `message ${role}`;
   const name = document.createElement("span");
   name.className = "message-role";
-  name.textContent = role === "user" ? "YOU" : role === "system" ? "INTERFACE / ERROR" : "VERA / LOCAL MODEL";
+  name.textContent = role === "user" ? "YOU"
+    : role === "system" ? "INTERFACE / ERROR"
+    : role === "incomplete" ? "LOCAL MODEL / UNVERIFIED PARTIAL"
+    : "VERA / LOCAL MODEL";
   const body = document.createElement("p");
   body.textContent = content; // Never interpret model/user content as HTML.
   wrapper.append(name, body);
@@ -262,6 +265,12 @@ async function sendMessage(event) {
     prompt.focus();
     return;
   }
+  // After an incomplete/filter/unknown reply there is deliberately no
+  // assistant turn. Retire that unanswered question from model history *now*
+  // before the next question; trimming only the outgoing request would leave
+  // a hidden double-user turn that breaks the third request and vault Save.
+  const retiredUnanswered = messages.at(-1)?.role === "user";
+  if (retiredUnanswered) messages.pop();
   prompt.value = "";
   messages.push({ role: "user", content });
   syncVaultControls();
@@ -281,9 +290,11 @@ async function sendMessage(event) {
     contextNotice.textContent = "This reply uses your explicitly saved transcript and current question, not earlier unsaved tab messages.";
   } else {
     const omitted = messages.length - requestBody.messages.length;
-    contextNotice.textContent = omitted
+    contextNotice.textContent = (retiredUnanswered
+      ? "The earlier incomplete question stays visible but is no longer model or saved-chat context. "
+      : "") + (omitted
       ? `${omitted} older visible message${omitted === 1 ? " is" : "s are"} outside this reply's model context. Nothing was saved automatically.`
-      : "Current visible conversation is included in this request; nothing is saved automatically.";
+      : "Current visible conversation is included in this request; nothing is saved automatically.");
   }
   const requestHeaders = { "Content-Type": "application/json", "X-Vera-Session": sessionToken };
   if (useSaved) requestHeaders["X-Vera-Vault-Key"] = vaultKey.value;
@@ -298,15 +309,25 @@ async function sendMessage(event) {
     const data = await response.json();
     if (epoch !== conversationEpoch) return;
     if (!response.ok) throw new Error(data.error || "Local inference failed");
-    messages.push({ role: "assistant", content: data.reply });
-    syncVaultControls();
-    messageBubble("assistant", data.reply);
-    // A compatible upstream may omit finish_reason. The server deliberately
-    // reports UNKNOWN; don't let the browser silently present that as a
-    // verified complete answer. Length/filter notices are already in reply.
-    if (data.response_completion_status === "unknown") {
-      contextNotice.textContent += " Model completion was not reported by the upstream.";
+    // An upstream length cut-off, filter, or missing completion reason must
+    // never become an ordinary assistant turn in future model context or
+    // a trusted transcript Save. Show the raw text as an unverified fragment,
+    // and let the next user question replace the unfinished user-led turn.
+    const completion = data.response_completion_status ?? "unknown";
+    if (completion === "complete") {
+      messages.push({ role: "assistant", content: data.reply });
+      messageBubble("assistant", data.reply);
+    } else {
+      messageBubble("incomplete", data.reply);
+      const reasons = {
+        length_limited: "The upstream reported a length-limited reply.",
+        filtered: "The upstream reported a filtered reply.",
+        unknown: "Model completion was not reported by the upstream.",
+      };
+      contextNotice.textContent += " " + (reasons[completion] || "Completion was unverified.")
+        + " This fragment will not be included as a completed assistant turn in future context or saved transcript.";
     }
+    syncVaultControls();
     if (data.recalled_source) {
       recalledFromVault = true;
       vaultStatus.textContent = `Explicit saved-context recall used at revision ${data.recalled_source.revision}; operator-saved text is unverified.`;

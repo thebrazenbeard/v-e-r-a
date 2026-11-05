@@ -17,6 +17,7 @@ class MockModel(BaseHTTPRequestHandler):
     model_id = "mock-vera-gguf-v1"
     mode = "ok"
     chat_calls = 0
+    response_role = "assistant"
 
     def _send(self, value, code=200, *, drip=False):
         data = json.dumps(value).encode("utf-8")
@@ -60,7 +61,9 @@ class MockModel(BaseHTTPRequestHandler):
             return
         reason = "length" if type(self).mode == "truncated" else "stop"
         choice = {"message": {
-            "role": "assistant", "content": "mock reply: " + request["messages"][-1]["content"]}}
+            "role": type(self).response_role,
+            "content": ("" if type(self).mode == "empty_reply"
+                        else "mock reply: " + request["messages"][-1]["content"])}}
         if type(self).mode != "no_finish_reason":
             choice["finish_reason"] = (None if type(self).mode == "null_finish_reason"
                                        else "content_filter" if type(self).mode == "filtered"
@@ -78,6 +81,7 @@ class LoopbackModelBridgeTests(unittest.TestCase):
         MockModel.mode = "ok"
         MockModel.model_id = "mock-vera-gguf-v1"
         MockModel.chat_calls = 0
+        MockModel.response_role = "assistant"
         self.upstream = ThreadingHTTPServer(("127.0.0.1", 0), MockModel)
         self.upstream.daemon_threads = True
         self.upstream_thread = Thread(target=self.upstream.serve_forever, daemon=True)
@@ -153,6 +157,16 @@ class LoopbackModelBridgeTests(unittest.TestCase):
         with self.assertRaises(HTTPError) as failure:
             self.post(self.request_body())
         self.assertEqual(failure.exception.code, 503)
+
+    def test_upstream_system_role_or_empty_content_cannot_be_laundered_to_assistant(self):
+        for response_role, mode in (("system", "ok"), ("tool", "ok"),
+                                    ("assistant", "empty_reply")):
+            with self.subTest(response_role=response_role, mode=mode):
+                MockModel.response_role = response_role
+                MockModel.mode = mode
+                with self.assertRaises(HTTPError) as failure:
+                    self.post(self.request_body())
+                self.assertEqual(failure.exception.code, 503)
 
     def test_rejects_dns_rebinding_host_and_cross_origin(self):
         port = self.server.server_address[1]

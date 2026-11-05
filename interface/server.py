@@ -33,7 +33,7 @@ DEFAULT_RESPONSE_TOKENS = 192
 MIN_RESPONSE_TOKENS = 32
 MAX_RESPONSE_TOKENS = 256
 TRUNCATION_NOTICE = (
-    "\n\n(Response stopped at the local reply limit. Ask me to continue.)"
+    "\n\n(My response was cut off before completion. Ask me to continue.)"
 )
 FILTER_NOTICE = "\n\n(Response stopped by the upstream content filter.)"
 MODELS_TIMEOUT_SECONDS = 6

@@ -141,7 +141,7 @@ class InterfaceTests(unittest.TestCase):
         self.assertEqual(result["response_completion_status"], "length_limited")
         self.assertEqual(result["response_token_limit"], 192)
         self.assertTrue(result["reply"].startswith("<script>untrusted</script>"))
-        self.assertIn("local reply limit", result["reply"])
+        self.assertIn("was cut off before completion", result["reply"])
         self.assertIn("Ask me to continue", result["reply"])
         self.assertEqual(LocalModel.requests[-1]["max_tokens"], 192)
 

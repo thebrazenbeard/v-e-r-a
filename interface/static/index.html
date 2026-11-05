@@ -20,14 +20,14 @@
       <header class="topbar">
         <div class="brand"><span class="overline">VIRTUAL ENVIRONMENT FOR RECIPROCAL AGENCY</span>
           <h1>Vera <span class="muted">/ Interface</span></h1></div>
-        <div class="live-indicator"><span class="pulse"></span><span id="connection">Checking local model</span></div>
+        <div class="live-indicator"><span class="pulse"></span><span id="connection">Checking model endpoint</span></div>
       </header>
       <div class="content">
         <main class="main">
           <div class="intro" id="intro">
-            <div class="eyebrow">LOCAL INTELLIGENCE · RESPONSE MODE</div>
+            <div class="eyebrow">LOCAL INTERFACE · RESPONSE MODE</div>
             <h2>One place to<br><em>think things through.</em></h2>
-            <p>A first interface for Vera, connected to models on this device. Memory, live observations, and actions can be added as verified capabilities; none are connected in this session.</p>
+            <p>A first interface for Vera, connecting to reachable model endpoints. A responding endpoint does not verify model identity or weights. Live observations and actions are not connected in this session.</p>
             <div class="prompt-grid" aria-label="Suggested prompts">
               <button class="suggestion" data-prompt="Help me reason through a difficult engineering decision."><span>01 / ANALYZE</span>Think through a decision <b>↗</b></button>
               <button class="suggestion" data-prompt="Challenge the assumptions in my current plan."><span>02 / CHALLENGE</span>Find the weak assumptions <b>↗</b></button>
@@ -49,10 +49,10 @@
         <aside class="panel" aria-label="System connections">
           <div class="panel-heading"><span>SYSTEM / STATUS</span><button id="refresh" class="refresh" type="button">↻ Refresh</button></div>
           <section class="system-card">
-            <div class="card-title">INFERENCE NODE <span class="tag">LOCAL</span></div>
-            <label class="field-label" for="model">Active model</label>
-            <select id="model" aria-label="Local model"><option value="">Discovering installed models…</option></select>
-            <p id="model-detail">Only installed models on this device appear here.</p>
+            <div class="card-title">MODEL ENDPOINT <span class="tag">LOOPBACK</span></div>
+            <label class="field-label" for="model">Advertised model ID</label>
+            <select id="model" aria-label="Model endpoint"><option value="">Discovering advertised model IDs…</option></select>
+            <p id="model-detail">Only advertised IDs appear here; model identity unverified.</p>
           </section>
           <section class="system-card boundaries">
             <div class="card-title">RUNTIME BOUNDARIES</div>

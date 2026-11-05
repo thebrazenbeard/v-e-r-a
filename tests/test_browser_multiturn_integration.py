@@ -95,7 +95,7 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
         self.services.append((server, thread))
         return server
 
-    def _start(self, *, token_limit=64):
+    def _start(self, *, token_limit=64, pinned_seed=True):
         bridge = self._run(create_server(LoopbackModelBridge(
             self.base_upstream, MODEL_ID, timeout=2, max_chat_tokens=token_limit), port=0))
         with tempfile.TemporaryDirectory() as folder:
@@ -106,7 +106,7 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
                  patch.dict(os.environ, {"VERA_MODEL_CHAT_MAX_TOKENS": str(token_limit)}):
                 gateway = make_server(port=0,
                     ollama_url=f"http://127.0.0.1:{bridge.server_port}",
-                    persona_profile_path=path)
+                    persona_profile_path=path if pinned_seed else None)
         return self._run(gateway)
 
     def _browser(self, gateway, mode):
@@ -142,15 +142,41 @@ class BrowserMultiTurnIntegrationTests(unittest.TestCase):
             self.assertNotIn("tools", request)
             self.assertNotIn("vault", json.dumps(request).lower())
 
+    def test_public_smoke_transport_at_64_96_128_with_and_without_prompt_seed(self):
+        # These are protocol observations from the real app.js plus an explicit
+        # scripted double, not baseline, seeded or R16 model-quality results.
+        for cap in (64, 96, 128):
+            for seeded in (False, True):
+                with self.subTest(max_tokens=cap, seeded=seeded):
+                    ScriptedModel.requests = []
+                    result = self._browser(self._start(token_limit=cap,
+                                                       pinned_seed=seeded), "three_turns")
+                    self.assertEqual(result["messages"][-1]["content"], "Nova.")
+                    self.assertIs(result["status"]["model_identity_attested"], False)
+                    self.assertEqual(result["status"]["persona_prompt"],
+                                     "pinned_owner_profile" if seeded else "not_connected")
+                    self.assertEqual(len(ScriptedModel.requests), 3)
+                    for request in ScriptedModel.requests:
+                        self.assertEqual(request["max_tokens"], cap)
+                        self.assertEqual(sum(m["role"] == "system"
+                                             for m in request["messages"]), 1)
+                        prompt_note = request["messages"][0]["content"]
+                        self.assertEqual("Dry and observational" in prompt_note, seeded)
+                        self.assertIn("no live observations", prompt_note)
+
     def test_truncated_reply_stays_system_error_and_prompt_is_recoverable(self):
         ScriptedModel.mode = "length"
-        result = self._browser(self._start(), "truncated")
-        self.assertEqual(result["messages"], [])
-        self.assertEqual(result["promptRecovered"], "Tell me what to do about the correction.")
-        self.assertEqual([b["roleLabel"] for b in result["bubbles"]],
-                         ["YOU", "INTERFACE / ERROR"])
-        self.assertIn("truncated", result["bubbles"][-1]["content"].lower())
-        self.assertEqual(ScriptedModel.requests[0]["max_tokens"], 64)
+        for cap in (64, 96, 128):
+            with self.subTest(max_tokens=cap):
+                ScriptedModel.requests = []
+                result = self._browser(self._start(token_limit=cap), "truncated")
+                self.assertEqual(result["messages"], [])
+                self.assertEqual(result["promptRecovered"],
+                                 "Tell me what to do about the correction.")
+                self.assertEqual([b["roleLabel"] for b in result["bubbles"]],
+                                 ["YOU", "INTERFACE / ERROR"])
+                self.assertIn("truncated", result["bubbles"][-1]["content"].lower())
+                self.assertEqual(ScriptedModel.requests[0]["max_tokens"], cap)
 
     def test_busy_gateway_returns_429_without_assistant_turn_or_upstream_call(self):
         gateway = self._start()

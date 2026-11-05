@@ -83,6 +83,16 @@ loopback HTTP interface without a model endpoint and tests:
    not create VeraOS status or task endpoints.
 7. Caller-provided apparent authorization in a task body or private-read header
    does not create an effect route or bypass private goal capability.
+8. With an explicitly configured disposable local transcript vault, plausible
+   Windows SID/LUID/issuer/signature/consent headers plus the ordinary browser
+   session cannot read, write, or delete records without the distinct vault key;
+   the vault remains empty after denied attempts.
+9. Browser-originated `conversation/history` and `stm/admit` requests bearing
+   consent-looking headers do not create an STM archive-admission endpoint.
+10. Percent-encoded, query-extended and proxy-rewrite-shaped VeraOS paths do
+    not turn absent task/effect routes into privileged actions.
+11. Denied task/effect/STM paths do not invoke the existing local-model list or
+    chat backend, as asserted with source-only mocks.
 
 This is an honest integration **HOLD** and regression fence, not a live
 VeraOS status panel or an API implementation. Merge/deploy, any additional

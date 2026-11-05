@@ -1,0 +1,19 @@
+{
+  "schema": "VERA_INTEGRATION_SOURCE_BINDINGS_V1",
+  "components": {
+    "vera_mono": {
+      "repository": "thebrazenbeard/vera-mono",
+      "draft_pr": 76,
+      "exact_head": "dec5c029e51c4fd436435cbda7e02e501822ee85"
+    },
+    "portal": {
+      "repository": "thebrazenbeard/portal",
+      "draft_pr": 51,
+      "exact_head": "36fa04da4e5eb383fecf463c72a43b94ca47d7e5"
+    }
+  },
+  "shared_wire_fixture_sha256": "9741cef5888b9e9f4b86aeeedec1bb689d821af7c35373a2556dc7b748ddd3a5",
+  "qualified_effects": [],
+  "route_currentness_attested": false,
+  "production_installed": false
+}

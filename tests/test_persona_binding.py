@@ -163,6 +163,49 @@ class PersonaBindingTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "pinned canonical source"):
                     persona_contract.verify_presentation_file(path)
 
+    def test_governed_ephemeral_http_admits_two_real_hash_checked_synthetic_files(self):
+        # Real listener + real HTTP requests + real sha256/Git-blob checks.
+        # Test-only digests substitute for copyrighted owner bytes; this does
+        # NOT qualify the canonical APK profile or enact nonverbal behavior.
+        with tempfile.TemporaryDirectory() as folder:
+            profile = Path(folder) / "synthetic.json"
+            json_raw = json.dumps(_synthetic_profile(), sort_keys=True).encode()
+            profile.write_bytes(json_raw)
+            presentation = Path(folder) / "synthetic-status.md"
+            md_raw = b"TEST-ONLY synthetic nonverbal source; no behavioral proof\n"
+            presentation.write_bytes(md_raw)
+            git_blob = b"blob " + str(len(md_raw)).encode() + b"\0" + md_raw
+            md_digest = hashlib.sha1(git_blob).hexdigest()
+            with patch.object(persona_profile, "SOURCE_SHA256", hashlib.sha256(json_raw).hexdigest()), \
+                 patch.object(persona_contract, "PRESENTATION_GIT_BLOB_SHA", md_digest):
+                # Missing either source is rejected before a governed listener
+                # can be returned. Generic mode remains explicitly available.
+                with self.assertRaisesRegex(ValueError, "profile and presentation"):
+                    self._start(profile, governed=True)
+                with self.assertRaisesRegex(ValueError, "profile and presentation"):
+                    self._start(presentation=presentation, governed=True)
+                app = self._start(profile, presentation, governed=True)
+                receipt = self._query(app, "/api/status")["persona_source"]
+                self.assertEqual(receipt["presentation_blob_sha"], md_digest)
+                self.assertEqual(receipt["qualification"], "SOURCE_ONLY")
+                self.assertEqual(receipt["presentation_implementation"],
+                                 "ADMITTED_SOURCE_REFERENCE_ONLY")
+                self.assertFalse(receipt["identity_attested"])
+                answer = self._query(app, "/api/chat", {"model": "vera-local:latest",
+                    "messages": [{"role": "user", "content": "synthetic"}]})
+                self.assertEqual(answer["persona_source"], receipt)
+                self.assertEqual(answer["response_token_limit"], 192)
+                self.assertNotIn(md_raw.decode().strip(),
+                                 LocalModel.requests[-1]["messages"][0]["content"])
+                self.assertNotIn(str(presentation), json.dumps(answer))
+                presentation.write_bytes(md_raw + b"altered")
+                with self.assertRaisesRegex(ValueError, "canonical source"):
+                    self._start(profile, presentation, governed=True)
+                presentation.write_bytes(md_raw)
+                profile.write_bytes(json_raw + b" ")
+                with self.assertRaises(persona_profile.ProfileAdmissionError):
+                    self._start(profile, presentation, governed=True)
+
 
 if __name__ == "__main__":
     unittest.main()

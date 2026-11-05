@@ -67,7 +67,7 @@ test('Delete clears transcript tainted by explicit recall before a normal Send',
         }
         return reply({ reply: 'violet-finch-731', recalled_source: { revision: 1 } });
       }
-      return reply({ reply: 'UNKNOWN' });
+      return reply({ reply: 'UNKNOWN', response_completion_status: 'unknown' });
     }
     throw new Error(`Unexpected fetch path: ${path}`);
   };
@@ -104,6 +104,7 @@ test('Delete clears transcript tainted by explicit recall before a normal Send',
   byId('prompt').value = 'A fresh question after deletion';
   await vm.runInContext('sendMessage({ preventDefault() {} })', context);
   assert.equal(forwardedChats.length, 2);
+  assert.match(byId('context-notice').textContent, /Model completion was not reported/);
   assert.equal(forwardedChats[1].recall_saved, undefined);
   assert.deepEqual(JSON.parse(JSON.stringify(forwardedChats[1].messages)),
                    [{ role: 'user', content: 'A fresh question after deletion' }]);

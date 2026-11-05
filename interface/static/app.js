@@ -23,6 +23,7 @@ let activeController = null;
 let vaultConfigured = false;
 let vaultBusy = false;
 let restoredFromVault = false;
+let restoredDraftFromVault = false;
 let recalledFromVault = false;
 let lastVaultKeyValue = vaultKey.value;
 
@@ -57,8 +58,11 @@ function forgetVaultDerivedTab() {
   messages.length = 0;
   transcript.replaceChildren();
   intro.hidden = false;
-  prompt.value = "";
+  // An unanswered saved user turn may have been lifted into the composer.
+  // Credential rotation/deletion must revoke that plaintext too.
+  if (restoredDraftFromVault) prompt.value = "";
   restoredFromVault = false;
+  restoredDraftFromVault = false;
   recalledFromVault = false;
   // Changing a key can abort an in-flight request. Do not leave the tab
   // permanently locked behind its now-obsolete request epoch.
@@ -144,7 +148,8 @@ async function saveRecentTranscript() {
 }
 
 async function restoreTranscript() {
-  if (messages.length && !window.confirm("Replace this tab's unsaved conversation with the saved copy?")) return;
+  if ((messages.length || prompt.value.trim()) &&
+      !window.confirm("Replace this tab's unsaved conversation or draft with the saved copy?")) return;
   await withVaultLock(async () => {
     try {
       const data = await vaultRequest("GET");
@@ -159,10 +164,11 @@ async function restoreTranscript() {
         }
         return { role: row.role, content: row.content };
       });
-      // A saved transcript may legitimately end with an unanswered user turn.
-      // Put it back into the editable composer; do not fabricate a preceding
-      // assistant turn or forward two consecutive users to the model.
-      const unanswered = restored.at(-1)?.role === "user" ? restored.pop() : null;
+      // A valid saved history can end with an unanswered user turn. Move it
+      // into an editable draft, preserving its bytes without forging a model
+      // answer or sending two consecutive user roles on the next request.
+      const pending = restored.at(-1)?.role === "user" ? restored.pop().content : "";
+      if (pending.length > 4000) throw new Error("Saved draft exceeds prompt limit");
       conversationEpoch += 1;
       messages.length = 0;
       transcript.replaceChildren();
@@ -171,10 +177,13 @@ async function restoreTranscript() {
         messages.push({ role: row.role, content: row.content });
         messageBubble(row.role, row.content);
       }
-      prompt.value = unanswered?.content ?? "";
       restoredFromVault = true;
-      vaultStatus.textContent = `Restored ${messages.length + (unanswered ? 1 : 0)} operator-saved messages (unverified).${unanswered ? " The last unanswered message is in the composer to edit or send." : ""}`;
-      contextNotice.textContent = unanswered
+      restoredDraftFromVault = !!pending;
+      prompt.value = pending;
+      vaultStatus.textContent = pending
+        ? `Restored ${messages.length} completed message(s); last unanswered user turn is an editable draft. The unanswered message is in the composer to edit or send. Nothing was sent.`
+        : `Restored ${messages.length} operator-saved messages (unverified).`;
+      contextNotice.textContent = pending
         ? "An unanswered saved user message is ready in the composer; nothing has been sent."
         : "Restored text is operator-saved context, not independently verified memory.";
       syncVaultControls();
@@ -328,6 +337,10 @@ async function sendMessage(event) {
       contextNotice.textContent += " " + (reasons[completion] || "Completion was unverified.")
         + " This fragment will not be included as a completed assistant turn in future context or saved transcript.";
     }
+    // Once this draft has been sent, its former vault-derived composer value
+    // is no longer pending. The restored history remains tainted and is still
+    // revoked by forgetVaultDerivedTab when a key changes.
+    restoredDraftFromVault = false;
     syncVaultControls();
     if (data.recalled_source) {
       recalledFromVault = true;
@@ -378,6 +391,7 @@ document.getElementById("clear").addEventListener("click", () => {
   setBusy(false);
   messages.length = 0;
   restoredFromVault = false;
+  restoredDraftFromVault = false;
   recalledFromVault = false;
   syncVaultControls();
   transcript.replaceChildren();

@@ -191,6 +191,14 @@ class ProtectedBridgeAuthTests(unittest.TestCase):
             LoopbackModelBridge(self.model_url, MODEL,
                                 upstream_api_key_file=self.upstream_file,
                                 require_upstream_auth=True)
+        # Even without the explicit protected flag, a partial setup would
+        # otherwise turn a key-protected raw model into an open local proxy.
+        with self.assertRaises(ValueError):
+            LoopbackModelBridge(self.model_url, MODEL,
+                                upstream_api_key_file=self.upstream_file)
+        with self.assertRaises(ValueError):
+            LoopbackModelBridge(self.model_url, MODEL,
+                                client_api_key_file=self.bridge_file)
         with self.assertRaises(ValueError):
             LoopbackModelBridge(self.model_url, MODEL,
                                 upstream_api_key_file=self.upstream_file,

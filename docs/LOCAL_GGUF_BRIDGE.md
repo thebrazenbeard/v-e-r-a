@@ -16,8 +16,10 @@ python -m interface.loopback_model_bridge \
   --port 11439
 ```
 
-The command above is an **example**, not a claim that port 11435 or any
-particular Vera model is installed or compatible. Point the existing Vera UI
+The unauthenticated command above is a **legacy/synthetic-only example**, not
+a safe physical launch recipe or a claim that port 11435 or any particular
+Vera model is installed or compatible. For physical admission use the two-key
+source contract below plus an owner-only runtime process lease. Point the UI
 gateway's model URL to `http://127.0.0.1:11439`. It discovers the model through
 `GET /api/tags` and sends chat to `POST /v1/chat/completions`.
 
@@ -162,18 +164,22 @@ with `0.0.0.0` to make the prototype work.
 1. Start an already installed, separately verified GGUF inference engine
    (llama.cpp or KoboldCPP) with its **OpenAI-compatible HTTP endpoint** bound
    to `127.0.0.1:11435`, a model source independently verified by hash, a
-   bounded context, and no other shared service displaced. Engine-specific
+   bounded context, owner-private `--api-key-file` and `--parallel 1`, and no
+   other shared service displaced. Engine-specific
    flags vary; this repository does not launch the engine or attest its
-   model weights. Verify `GET http://127.0.0.1:11435/health` and
-   `GET http://127.0.0.1:11435/v1/models` first.
-2. Take the **exact** `data[].id` from that live models response. Then, in a
+   model weights. Verify authenticated `/health` and `/v1/models` responses
+   from an owner-only client without placing a Bearer value in shell history.
+2. Take the **exact** `data[].id` from that authenticated models response. Then, in a
    separate terminal in this repository:
 
    ```sh
    python -m interface.loopback_model_bridge \
      --upstream http://127.0.0.1:11435 \
      --model-id EXACT_ID_FROM_UPSTREAM \
-     --port 11439
+     --port 11439 \
+     --upstream-api-key-file OWNER_UPSTREAM_KEY_FILE \
+     --client-api-key-file OWNER_BRIDGE_CLIENT_KEY_FILE \
+     --require-upstream-auth
    ```
 
 3. In another terminal, start the generic local UI gateway with no configured
@@ -183,6 +189,7 @@ with `0.0.0.0` to make the prototype work.
    python -m interface \
      --port 8765 \
      --ollama-url http://127.0.0.1:11439 \
+     --bridge-client-api-key-file OWNER_BRIDGE_CLIENT_KEY_FILE \
      --max-response-tokens 192
    ```
 

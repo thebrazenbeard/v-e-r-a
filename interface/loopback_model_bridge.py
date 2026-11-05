@@ -108,6 +108,8 @@ class LoopbackModelBridge:
             raise ValueError("invalid bridge reply-token budget")
         if type(require_upstream_auth) is not bool:
             raise ValueError("require_upstream_auth must be explicit boolean")
+        if (upstream_api_key_file is None) != (client_api_key_file is None):
+            raise ValueError("upstream and bridge-client key files must be paired")
         if require_upstream_auth and (not upstream_api_key_file or not client_api_key_file):
             raise ValueError("protected upstream mode requires two private key files")
         self._upstream_api_key = (load_private_bearer_file(

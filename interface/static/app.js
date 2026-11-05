@@ -265,6 +265,12 @@ async function sendMessage(event) {
     prompt.focus();
     return;
   }
+  // After an incomplete/filter/unknown reply there is deliberately no
+  // assistant turn. Retire that unanswered question from model history *now*
+  // before the next question; trimming only the outgoing request would leave
+  // a hidden double-user turn that breaks the third request and vault Save.
+  const retiredUnanswered = messages.at(-1)?.role === "user";
+  if (retiredUnanswered) messages.pop();
   prompt.value = "";
   messages.push({ role: "user", content });
   syncVaultControls();
@@ -284,9 +290,11 @@ async function sendMessage(event) {
     contextNotice.textContent = "This reply uses your explicitly saved transcript and current question, not earlier unsaved tab messages.";
   } else {
     const omitted = messages.length - requestBody.messages.length;
-    contextNotice.textContent = omitted
+    contextNotice.textContent = (retiredUnanswered
+      ? "The earlier incomplete question stays visible but is no longer model or saved-chat context. "
+      : "") + (omitted
       ? `${omitted} older visible message${omitted === 1 ? " is" : "s are"} outside this reply's model context. Nothing was saved automatically.`
-      : "Current visible conversation is included in this request; nothing is saved automatically.";
+      : "Current visible conversation is included in this request; nothing is saved automatically.");
   }
   const requestHeaders = { "Content-Type": "application/json", "X-Vera-Session": sessionToken };
   if (useSaved) requestHeaders["X-Vera-Vault-Key"] = vaultKey.value;

@@ -253,6 +253,14 @@ test('Delete clears transcript tainted by explicit recall before a normal Send',
     assert.deepEqual(JSON.parse(JSON.stringify(sent)), [
       { role: 'user', content: 'Corrected follow-up ' + kind },
     ]);
-    assert.equal(vm.runInContext('messages.length', context), 3);
+    assert.equal(vm.runInContext('messages.length', context), 2,
+                 'the unanswered old user turn cannot remain in stored chat history');
+    byId('prompt').value = 'Third question ' + kind;
+    await vm.runInContext('sendMessage({ preventDefault() {} })', context);
+    assert.deepEqual(JSON.parse(JSON.stringify(forwardedChats.at(-1).messages)), [
+      { role: 'user', content: 'Corrected follow-up ' + kind },
+      { role: 'assistant', content: 'UNKNOWN' },
+      { role: 'user', content: 'Third question ' + kind },
+    ]);
   }
 });

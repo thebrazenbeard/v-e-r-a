@@ -26,6 +26,16 @@ discovery and chat request; a missing/swapped model, timeout, redirect, or
 malformed reply fails closed. It accepts only bounded non-streaming text chat;
 no tools, remote hosts, arbitrary HTTP routes, or upstream metadata are
 forwarded. It binds `127.0.0.1` only, with a bounded request concurrency limit.
+It independently permits **one in-flight upstream chat** at a time. A second
+direct request to the bridge port receives HTTP 429 without reaching inference;
+this protection is separate from the UI gateway's own single-model slot.
+Lightweight health and model-inventory requests remain available. The slot is
+released after success, upstream error, or timeout; it does not attest a host
+resource lease, prevent competing inference engines on other ports, or make
+an otherwise overloaded model safe to launch. In particular, a caller with
+direct access to an unprotected upstream llama-server port can bypass both
+bridge and UI semaphores. The physical-run gate still requires independent
+upstream access isolation or model-server authentication, not just this patch.
 The bridge **and** UI gateway separately reject an upstream message whose
 `role` is not exactly `assistant`, or whose response content is empty. An
 upstream `role=system` text with `finish_reason=stop` therefore cannot be

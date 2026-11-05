@@ -259,6 +259,7 @@ def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
                 self._read_timer.cancel()
                 self._json(404, {"error": "unknown route"})
                 return
+            acquired_model_slot = False
             try:
                 if self.headers.get("Transfer-Encoding"):
                     raise ValueError("transfer encoding prohibited")
@@ -266,6 +267,14 @@ def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
                 if not 0 < size <= MAX_BODY:
                     raise ValueError("invalid body length")
                 body = _decode_json(self._read_body(size))
+                # A direct localhost caller can reach this bridge without
+                # passing through the UI gateway's separate model slot.
+                # Never let that bypass launch-time CPU/RAM admission by
+                # starting parallel generations against one GGUF instance.
+                if not self.server.model_slots.acquire(blocking=False):
+                    self._json(429, {"error": "local model worker busy"})
+                    return
+                acquired_model_slot = True
                 answer = bridge.completion(body)
             except (ValueError, UnicodeError) as exc:
                 self._read_timer.cancel()
@@ -275,6 +284,9 @@ def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
                 self._read_timer.cancel()
                 self._json(503, {"error": "upstream unavailable", "category": type(exc).__name__})
                 return
+            finally:
+                if acquired_model_slot:
+                    self.server.model_slots.release()
             self._json(200, answer)
 
         def log_message(self, *_args) -> None:
@@ -282,6 +294,7 @@ def create_server(bridge: LoopbackModelBridge, port: int = 11439, *,
 
     server = _BoundedHTTPServer(("127.0.0.1", port), Handler)
     server.request_slots = BoundedSemaphore(16)
+    server.model_slots = BoundedSemaphore(1)
     server.daemon_threads = True
     return server
 

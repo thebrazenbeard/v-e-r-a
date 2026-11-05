@@ -4,7 +4,7 @@ import json
 import http.client
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import socket
-from threading import Thread
+from threading import Event, Thread
 import time
 import unittest
 from urllib.error import HTTPError
@@ -18,6 +18,8 @@ class MockModel(BaseHTTPRequestHandler):
     mode = "ok"
     chat_calls = 0
     response_role = "assistant"
+    first_chat_entered: Event | None = None
+    release_first_chat: Event | None = None
 
     def _send(self, value, code=200, *, drip=False):
         data = json.dumps(value).encode("utf-8")
@@ -50,6 +52,9 @@ class MockModel(BaseHTTPRequestHandler):
         type(self).chat_calls += 1
         length = int(self.headers["Content-Length"])
         request = json.loads(self.rfile.read(length))
+        if type(self).chat_calls == 1 and type(self).release_first_chat is not None:
+            type(self).first_chat_entered.set()
+            type(self).release_first_chat.wait(timeout=2)
         if type(self).mode == "header_drip":
             try:
                 for byte in b"HTTP/1.0 200 OK\r\nContent-Type: application/json\r\n\r\n":
@@ -82,6 +87,8 @@ class LoopbackModelBridgeTests(unittest.TestCase):
         MockModel.model_id = "mock-vera-gguf-v1"
         MockModel.chat_calls = 0
         MockModel.response_role = "assistant"
+        MockModel.first_chat_entered = None
+        MockModel.release_first_chat = None
         self.upstream = ThreadingHTTPServer(("127.0.0.1", 0), MockModel)
         self.upstream.daemon_threads = True
         self.upstream_thread = Thread(target=self.upstream.serve_forever, daemon=True)
@@ -126,6 +133,39 @@ class LoopbackModelBridgeTests(unittest.TestCase):
         self.assertEqual(chat["choices"][0]["message"]["content"], "mock reply: hello")
         self.assertEqual(MockModel.chat_calls, 1)
 
+    def test_direct_bridge_rejects_concurrent_inference_and_recovers(self):
+        """Direct callers cannot bypass the UI's separate single-model slot."""
+        MockModel.first_chat_entered = Event()
+        MockModel.release_first_chat = Event()
+        self.bridge.timeout = 3
+        completed = []
+
+        def first_chat():
+            try:
+                completed.append(self.post(self.request_body()))
+            except Exception as exc:
+                completed.append(exc)
+
+        worker = Thread(target=first_chat, daemon=True)
+        worker.start()
+        try:
+            self.assertTrue(MockModel.first_chat_entered.wait(timeout=1.5),
+                            "first chat never occupied upstream model worker")
+            with self.assertRaises(HTTPError) as failure:
+                self.post(self.request_body())
+            self.assertEqual(failure.exception.code, 429)
+            self.assertEqual(MockModel.chat_calls, 1,
+                             "second direct bridge request reached upstream model")
+            # Health and inventory remain available while inference is busy.
+            self.assertEqual(self.get("/health")[0], 200)
+        finally:
+            MockModel.release_first_chat.set()
+            worker.join(timeout=3)
+        self.assertFalse(worker.is_alive())
+        self.assertEqual(completed[0][0], 200)
+        self.assertEqual(self.post(self.request_body())[0], 200)
+        self.assertEqual(MockModel.chat_calls, 2)
+
     def test_wrong_model_prevents_forwarding(self):
         body = self.request_body()
         body["model"] = "other-model"
@@ -157,6 +197,9 @@ class LoopbackModelBridgeTests(unittest.TestCase):
         with self.assertRaises(HTTPError) as failure:
             self.post(self.request_body())
         self.assertEqual(failure.exception.code, 503)
+        MockModel.mode = "ok"
+        self.assertEqual(self.post(self.request_body())[0], 200,
+                         "a rejected completion must release the model slot")
 
     def test_upstream_system_role_or_empty_content_cannot_be_laundered_to_assistant(self):
         for response_role, mode in (("system", "ok"), ("tool", "ok"),

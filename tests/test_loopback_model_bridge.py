@@ -64,9 +64,17 @@ class MockModel(BaseHTTPRequestHandler):
                 pass
             return
         reason = "length" if type(self).mode == "truncated" else "stop"
-        self._send({"model": type(self).model_id, "choices": [{"message": {
-            "role": "assistant", "content": "mock reply: " + request["messages"][-1]["content"]},
-            "finish_reason": reason}]}, drip=(type(self).mode == "drip"))
+        message = {"content": "mock reply: " + request["messages"][-1]["content"]}
+        if type(self).mode != "missing_role":
+            message["role"] = ("system" if type(self).mode == "system_role" else
+                               "user" if type(self).mode == "user_role" else "assistant")
+        if type(self).mode == "empty_answer":
+            message["content"] = ""
+        choice = {"message": message}
+        if type(self).mode != "missing_reason":
+            choice["finish_reason"] = None if type(self).mode == "null_reason" else reason
+        self._send({"model": type(self).model_id, "choices": [choice]},
+                   drip=(type(self).mode == "drip"))
 
     def log_message(self, *_args):
         pass
@@ -179,6 +187,20 @@ class LoopbackModelBridgeTests(unittest.TestCase):
         MockModel.mode = "truncated"
         _, chat = self.post(self.request_body())
         self.assertEqual(chat["choices"][0]["finish_reason"], "length")
+
+    def test_missing_or_null_upstream_finish_reason_is_rejected(self):
+        for mode in ("missing_reason", "null_reason"):
+            MockModel.mode = mode
+            with self.assertRaises(HTTPError) as failure:
+                self.post(self.request_body())
+            self.assertEqual(failure.exception.code, 503, mode)
+
+    def test_non_assistant_role_or_empty_upstream_reply_is_rejected(self):
+        for mode in ("missing_role", "system_role", "user_role", "empty_answer"):
+            MockModel.mode = mode
+            with self.assertRaises(HTTPError) as failure:
+                self.post(self.request_body())
+            self.assertEqual(failure.exception.code, 503, mode)
 
     def test_rejects_dns_rebinding_host_and_cross_origin(self):
         port = self.server.server_address[1]

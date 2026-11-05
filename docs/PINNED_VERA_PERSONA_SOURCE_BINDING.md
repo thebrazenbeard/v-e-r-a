@@ -1,9 +1,10 @@
-# Pinned Vera voice source (component only; no installed binding)
+# Pinned Vera voice source (opt-in, prompt-only binding)
 
 This repository now has an **opt-in, offline source adapter** at
-`interface/persona_profile.py`. It does not run during ordinary PR #24 chat
-requests. It does not provide authenticated model identity, memory, recovery,
-tool access, or a verified conversational result.
+`interface/persona_profile.py`. The interface can now bind it to the restricted
+system-prompt slot **only when the owner explicitly supplies a verified file**.
+Ordinary launches remain unchanged. This does not provide authenticated model
+identity, memory, recovery, tool access, or a verified conversational result.
 
 ## Owner-governed source
 
@@ -37,16 +38,33 @@ longer marked `CURRENT`, admission raises `ProfileAdmissionError`. A newer
 governed behavior profile requires source re-orientation, review and a new
 pin, not an unreviewed fallback or silently upgraded alias.
 
-## Future conversation integration — not implemented here
+## Source-only conversation binding (opt-in)
 
-`interface/server.py::_chat` currently creates its own generic system
-message and has not been changed by this component. A separately reviewed
-integrator can pass the verified `PersonaSeed.system_message` in a bounded
-server-owned system slot, preserving existing tool/effect and recall
-boundaries. Never accept system text or the claimed source pin from the browser,
-the model, or a self-reported `/v1/models`/`/api/tags` name. Retain the UI's
-`MODEL OUTPUT / UNVERIFIED` label until independent host-model attestation
-is established.
+An owner starting the loopback prototype may add
+`--persona-profile-file /ABSOLUTE/PATH/TO/PROVISIONED_PROFILE.json` to
+`python -m interface`, or call `make_server(persona_profile_path=...)`.
+The path must refer to exactly the pinned bytes above. Invalid/missing files
+fail closed **before opening the interface listener**. No path or profile JSON
+is sent to the browser. The verified, bounded text is read once at startup
+and appended to the existing server-owned system note for `/api/chat`; browser
+payloads still accept only bounded `user`/`assistant` messages. The status API
+states `persona_prompt=pinned_owner_profile`, but also explicitly states
+`model_identity_attested=false`.
+
+This is *source and mocked integration*, not a deployed model. The operator
+must separately determine that its endpoint accepts the resulting chat
+template and system prompt, verify context/token budgets, and perform real
+multiturn assessment. The 64-token prototype response cap can reject long
+answers. Never accept system text or the claimed source pin from the browser,
+model, or self-reported `/v1/models`/`/api/tags` name. Retain the UI's
+`MODEL OUTPUT / UNVERIFIED` label until independent host-model attestation.
+
+The local gateway and its loopback bridge reject completion payloads that
+omit a `finish_reason`, claim a non-assistant message role, or supply an empty
+reply. Both also reject unsupported finish reasons and tool calls. A reply
+explicitly stopped by a length limit remains a recoverable non-answer, not a
+stored partial assistant turn. These are protocol checks only; none proves the
+claimed model identifier or actual weights are authentic.
 
 The seed aims for recognizable candor, specific pushback, dry humor and
 natural first-person language; **it is not evidence that a physical model

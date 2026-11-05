@@ -142,16 +142,18 @@ class LoopbackModelBridge:
         try:
             choice = response["choices"][0]
             message = choice["message"]
+            if type(message) is not dict or message.get("role") != "assistant":
+                raise GatewayError("upstream did not return an assistant message")
             answer = message["content"]
+            finish_reason = choice["finish_reason"]
             if ("tool_calls" in message or "function_call" in message
                     or choice.get("finish_reason") == "tool_calls"
                     or ("model" in response and response["model"] != self.model_id)):
                 raise GatewayError("upstream attempted a tool response or changed identity")
         except (KeyError, IndexError, TypeError) as exc:
             raise GatewayError("invalid upstream chat response") from exc
-        if type(answer) is not str or len(answer) > 16000:
+        if type(answer) is not str or not 0 < len(answer) <= 16000:
             raise GatewayError("invalid upstream chat text")
-        finish_reason = choice.get("finish_reason", "stop")
         if finish_reason not in ("stop", "length", "content_filter"):
             raise GatewayError("invalid or unsupported finish reason")
         # Do not pass through upstream metadata, tools, extensions, or server hints.

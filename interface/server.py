@@ -20,6 +20,7 @@ from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
 from .local_transcript import TranscriptConflict, TranscriptStore
+from .persona_profile import PersonaSeed, render_persona_seed
 from .verified_volition import VerifiedVolitionGoalProvider
 
 
@@ -247,7 +248,33 @@ def _explicit_recall_messages(saved: dict, current: list[dict[str, str]]) -> lis
 
 def _chat(model_root: str, model: str, messages: list[dict[str, str]],
           *, transcript_enabled: bool = False,
-          max_chat_tokens: int = DEFAULT_CHAT_MAX_TOKENS) -> str:
+          max_chat_tokens: int = DEFAULT_CHAT_MAX_TOKENS,
+          persona_seed: PersonaSeed | None = None) -> str:
+    system_note = (
+        "You are responding through Vera's local model interface. "
+        "This particular session has no live "
+        "observations, tools, identity attestation, or external effects. "
+        + ("An operator may explicitly restore or authorize recall of locally "
+           "saved browser conversation text, which is unverified user-controlled "
+           "history, not independent evidence of memory or identity. " if transcript_enabled else
+           "There is no connected durable memory. ")
+        +
+        "Do not confuse an unaugmented model's limits with what an AI "
+        "system can be engineered to do: opt-in persistent memory, "
+        "source-attributed retrieval, sensors, and authorized real-world "
+        "actions are technically possible through separately verified "
+        "adapters, but none are connected here. Distinguish what is "
+        "possible from what is installed and currently verified. "
+        "Do not claim to have remembered or observed something or "
+        "executed a change without evidence."
+    )
+    if persona_seed is not None:
+        # The owner-pinned profile is a style specification, not evidence of
+        # which weights/adapter a model endpoint loaded. Never give browsers
+        # authority to supply or override this privileged system prompt.
+        system_note += ("\n\nPinned owner-provided behavior guidance (prompt only, "
+                        "not identity or model attestation):\n"
+                        + persona_seed.system_message)
     request = {
         "model": model,
         "stream": False,
@@ -255,24 +282,7 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]],
         # generating an unbounded reply. Ollama's OpenAI-compatible endpoint
         # accepts this response-token cap; it grants no additional authority.
         "max_tokens": max_chat_tokens,
-        "messages": [{"role": "system", "content": (
-            "You are responding through Vera's local model interface. "
-            "This particular session has no live "
-            "observations, tools, identity attestation, or external effects. "
-            + ("An operator may explicitly restore or authorize recall of locally "
-               "saved browser conversation text, which is unverified user-controlled "
-               "history, not independent evidence of memory or identity. " if transcript_enabled else
-               "There is no connected durable memory. ")
-            +
-            "Do not confuse an unaugmented model's limits with what an AI "
-            "system can be engineered to do: opt-in persistent memory, "
-            "source-attributed retrieval, sensors, and authorized real-world "
-            "actions are technically possible through separately verified "
-            "adapters, but none are connected here. Distinguish what is "
-            "possible from what is installed and currently verified. "
-            "Do not claim to have remembered or observed something or "
-            "executed a change without evidence."
-        )}, *messages],
+        "messages": [{"role": "system", "content": system_note}, *messages],
     }
     payload = _read_json_from_model(model_root + "/v1/chat/completions",
                                     payload=request, limit=MAX_MODEL_BYTES,
@@ -280,16 +290,20 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]],
     try:
         choice = payload["choices"][0]
         msg = choice["message"]
+        if type(msg) is not dict or msg.get("role") != "assistant":
+            raise GatewayError("model did not return an assistant message")
         if ("tool_calls" in msg or "function_call" in msg
                 or choice.get("finish_reason") == "tool_calls"):
             raise GatewayError("model attempted a tool response")
-        finish_reason = choice.get("finish_reason", "stop")
+        # Missing finish_reason is NOT evidence that the completion finished.
+        # An upstream protocol defect could otherwise admit truncated text.
+        finish_reason = choice["finish_reason"]
         if finish_reason not in ("stop", "length"):
             raise GatewayError("model did not complete a text response")
         answer = msg["content"]
     except (TypeError, KeyError, IndexError) as exc:
         raise GatewayError("invalid model response") from exc
-    if type(answer) is not str or len(answer) > 16000:
+    if type(answer) is not str or not 0 < len(answer) <= 16000:
         raise GatewayError("invalid model text")
     try:
         answer.encode("utf-8")
@@ -309,6 +323,7 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]],
 def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                 goal_provider: VerifiedVolitionGoalProvider | None = None,
                 goal_access_token: str | None = None,
+                persona_profile_path: str | Path | None = None,
                 memory_db_path: str | Path | None = None,
                 memory_secret: str | None = None,
                 memory_rollback_anchor_path: str | Path | None = None,
@@ -318,6 +333,10 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
         raise ValueError("invalid interface port")
     chat_token_limit = _owner_chat_token_limit()
     model_root = _model_root(ollama_url)
+    # Explicit opt-in only. Fail closed before opening a listener if the
+    # owner file is missing, altered or no longer matches the pinned version.
+    persona_seed = (render_persona_seed(Path(persona_profile_path))
+                    if persona_profile_path is not None else None)
     if (goal_provider is None) != (goal_access_token is None):
         raise ValueError("goal view requires separate provider and private access token")
     if goal_provider is not None and (
@@ -446,6 +465,9 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                     "empathy": "not_connected", "authority": "response_only",
                     "durable_memory": ("opt_in_local_transcript"
                                        if self.server.transcript_store else "not_connected"),
+                    "persona_prompt": ("pinned_owner_profile" if self.server.persona_seed
+                                       else "not_connected"),
+                    "model_identity_attested": False,
                     "live_observations": "not_connected",
                     "external_actions": "not_connected",
                 })
@@ -549,10 +571,11 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
                               "revision": saved["revision"],
                               "sha256": saved["sha256"], "saved_at": saved["saved_at"]}
                 if model not in _models(self.server.model_root):
-                    return self._reject(400, "model not installed locally")
+                    return self._reject(400, "model not advertised by configured endpoint")
                 reply = _chat(self.server.model_root, model, messages,
                               transcript_enabled=self.server.transcript_store is not None,
-                              max_chat_tokens=self.server.chat_token_limit)
+                              max_chat_tokens=self.server.chat_token_limit,
+                              persona_seed=self.server.persona_seed)
                 result = {"reply": reply, "model": model,
                           "node": "local", "mode": "response_only",
                           "truncated": False}
@@ -598,6 +621,7 @@ def make_server(*, port: int = 8765, ollama_url: str = "http://127.0.0.1:11434",
     server.model_root = model_root
     server.model_slots = BoundedSemaphore(1)
     server.chat_token_limit = chat_token_limit
+    server.persona_seed = persona_seed
     server.goal_provider = goal_provider
     server.goal_access_token = goal_access_token
     server.transcript_store = memory

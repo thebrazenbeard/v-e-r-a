@@ -27,6 +27,8 @@ class LocalModel(BaseHTTPRequestHandler):
     redirect_to: str | None = None
     tool_response = False
     finish_reason = "stop"
+    response_role = "assistant"
+    response_content = "<script>untrusted</script>"
     get_paths: list[str] = []
 
     def log_message(self, *_args):
@@ -55,13 +57,20 @@ class LocalModel(BaseHTTPRequestHandler):
             # A real pretrained model must be assessed separately.
             recalled = "violet-finch-731" in payload["messages"][-1]["content"]
             self._reply({"choices": [{"message": {"role": "assistant",
-                "content": "violet-finch-731" if recalled else "UNKNOWN"}}]})
+                "content": "violet-finch-731" if recalled else "UNKNOWN"},
+                "finish_reason": "stop"}]})
             return
         if type(self).tool_response:
             self._reply({"choices": [{"message": {"content": "", "tool_calls": [{"id": "forged"}]}}]})
             return
-        self._reply({"choices": [{"message": {"role": "assistant", "content": "<script>untrusted</script>"},
-                                  "finish_reason": type(self).finish_reason}]})
+        message = {"content": type(self).response_content}
+        if type(self).response_role != "missing":
+            message["role"] = type(self).response_role
+        choice = {"message": message}
+        if type(self).finish_reason != "missing":
+            choice["finish_reason"] = (None if type(self).finish_reason == "null"
+                                       else type(self).finish_reason)
+        self._reply({"choices": [choice]})
 
     def _reply(self, payload):
         body = json.dumps(payload).encode()
@@ -78,6 +87,8 @@ class InterfaceTests(unittest.TestCase):
         LocalModel.redirect_to = None
         LocalModel.tool_response = False
         LocalModel.finish_reason = "stop"
+        LocalModel.response_role = "assistant"
+        LocalModel.response_content = "<script>untrusted</script>"
         LocalModel.get_paths = []
         self.model = ThreadingHTTPServer(("127.0.0.1", 0), LocalModel)
         self.model_thread = threading.Thread(target=self.model.serve_forever, daemon=True)
@@ -145,6 +156,22 @@ class InterfaceTests(unittest.TestCase):
         self.assertEqual(json.loads(raw)["reply"], "<script>untrusted</script>")
         self.assertEqual([m["role"] for m in LocalModel.requests[-1]["messages"]],
                          ["system", "user"])
+
+    def test_missing_or_null_finish_reason_never_enters_chat_history(self):
+        for reason in ("missing", "null"):
+            LocalModel.finish_reason = reason
+            status, _, raw = self.chat()
+            self.assertEqual(status, 503, reason)
+            self.assertNotIn("reply", json.loads(raw))
+
+    def test_invalid_upstream_role_or_empty_answer_cannot_become_assistant_turn(self):
+        for role, answer in (("missing", "normal"), ("system", "normal"),
+                             ("user", "normal"), ("assistant", "")):
+            LocalModel.response_role = role
+            LocalModel.response_content = answer
+            status, _, raw = self.chat()
+            self.assertEqual(status, 503, (role, answer))
+            self.assertNotIn("reply", json.loads(raw))
 
     def test_owner_can_explicitly_raise_bounded_reply_budget(self):
         with patch.dict("os.environ", {"VERA_MODEL_CHAT_MAX_TOKENS": "96"}):

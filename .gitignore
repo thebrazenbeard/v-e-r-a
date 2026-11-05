@@ -5,3 +5,44 @@ __pycache__/
 branch_structure.json
 temp_auto_push.bat
 temp_interactive_push.bat
+
+# Disposable local Python, browser, and packaging state.
+*.py[cod]
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+venv/
+/build/
+/dist/
+*.egg-info/
+
+# Never accidentally stage operator credentials or local transcript databases.
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.*.example
+!.env.*.sample
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.db
+*.db-wal
+*.db-shm
+
+# Local model binaries and VM image outputs belong in artifact custody, not Git.
+*.gguf
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.vhdx
+*.qcow2
+*.vdi
+*.vmdk
+*.ext2
+*.iso

@@ -12,6 +12,7 @@ import threading
 from threading import BoundedSemaphore
 import time
 import unittest
+from unittest.mock import patch
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
@@ -25,6 +26,9 @@ class LocalModel(BaseHTTPRequestHandler):
     requests: list[dict] = []
     redirect_to: str | None = None
     tool_response = False
+    finish_reason = "stop"
+    response_role = "assistant"
+    response_content = "<script>untrusted</script>"
     get_paths: list[str] = []
 
     def log_message(self, *_args):
@@ -53,12 +57,20 @@ class LocalModel(BaseHTTPRequestHandler):
             # A real pretrained model must be assessed separately.
             recalled = "violet-finch-731" in payload["messages"][-1]["content"]
             self._reply({"choices": [{"message": {"role": "assistant",
-                "content": "violet-finch-731" if recalled else "UNKNOWN"}}]})
+                "content": "violet-finch-731" if recalled else "UNKNOWN"},
+                "finish_reason": "stop"}]})
             return
         if type(self).tool_response:
             self._reply({"choices": [{"message": {"content": "", "tool_calls": [{"id": "forged"}]}}]})
             return
-        self._reply({"choices": [{"message": {"role": "assistant", "content": "<script>untrusted</script>"}}]})
+        message = {"content": type(self).response_content}
+        if type(self).response_role != "missing":
+            message["role"] = type(self).response_role
+        choice = {"message": message}
+        if type(self).finish_reason != "missing":
+            choice["finish_reason"] = (None if type(self).finish_reason == "null"
+                                       else type(self).finish_reason)
+        self._reply({"choices": [choice]})
 
     def _reply(self, payload):
         body = json.dumps(payload).encode()
@@ -74,6 +86,9 @@ class InterfaceTests(unittest.TestCase):
         LocalModel.requests = []
         LocalModel.redirect_to = None
         LocalModel.tool_response = False
+        LocalModel.finish_reason = "stop"
+        LocalModel.response_role = "assistant"
+        LocalModel.response_content = "<script>untrusted</script>"
         LocalModel.get_paths = []
         self.model = ThreadingHTTPServer(("127.0.0.1", 0), LocalModel)
         self.model_thread = threading.Thread(target=self.model.serve_forever, daemon=True)
@@ -114,14 +129,79 @@ class InterfaceTests(unittest.TestCase):
         self.assertEqual(body["reply"], "<script>untrusted</script>")
         self.assertEqual(body["model"], "vera-local:latest")
         self.assertEqual(body["mode"], "response_only")
+        self.assertIs(body["truncated"], False)
         self.assertEqual(len(LocalModel.requests), 1)
         self.assertNotIn("tools", LocalModel.requests[0])
-        self.assertEqual(LocalModel.requests[0]["max_tokens"], 512)
+        self.assertEqual(LocalModel.requests[0]["max_tokens"], 64)
         self.assertEqual(LocalModel.requests[0]["messages"][-1]["role"], "user")
         system_note = LocalModel.requests[0]["messages"][0]["content"]
         self.assertIn("opt-in persistent memory", system_note)
         self.assertIn("technically possible", system_note)
         self.assertIn("none are connected here", system_note)
+
+    def test_length_limited_reply_is_visibly_incomplete(self):
+        LocalModel.finish_reason = "length"
+        status, _, raw = self.chat()
+        self.assertEqual(status, 422)
+        body = json.loads(raw)
+        self.assertIs(body["truncated"], True)
+        self.assertIn("truncated", body["error"].lower())
+        self.assertNotIn("reply", body)
+        self.assertNotIn("<script>untrusted</script>", json.dumps(body))
+        # A later successful response is model-authored text only, without any
+        # synthetic gateway warning attached as prior assistant history.
+        LocalModel.finish_reason = "stop"
+        status, _, raw = self.chat()
+        self.assertEqual(status, 200)
+        self.assertEqual(json.loads(raw)["reply"], "<script>untrusted</script>")
+        self.assertEqual([m["role"] for m in LocalModel.requests[-1]["messages"]],
+                         ["system", "user"])
+
+    def test_missing_or_null_finish_reason_never_enters_chat_history(self):
+        for reason in ("missing", "null"):
+            LocalModel.finish_reason = reason
+            status, _, raw = self.chat()
+            self.assertEqual(status, 503, reason)
+            self.assertNotIn("reply", json.loads(raw))
+
+    def test_invalid_upstream_role_or_empty_answer_cannot_become_assistant_turn(self):
+        for role, answer in (("missing", "normal"), ("system", "normal"),
+                             ("user", "normal"), ("assistant", "")):
+            LocalModel.response_role = role
+            LocalModel.response_content = answer
+            status, _, raw = self.chat()
+            self.assertEqual(status, 503, (role, answer))
+            self.assertNotIn("reply", json.loads(raw))
+
+    def test_owner_can_explicitly_raise_bounded_reply_budget(self):
+        with patch.dict("os.environ", {"VERA_MODEL_CHAT_MAX_TOKENS": "96"}):
+            service = make_server(
+                port=0, ollama_url=f"http://127.0.0.1:{self.model.server_port}")
+        thread = threading.Thread(target=service.serve_forever, daemon=True)
+        thread.start()
+        try:
+            url = f"http://127.0.0.1:{service.server_port}"
+            request = Request(url + "/api/chat",
+                              data=json.dumps({"model": "vera-local:latest",
+                                  "messages": [{"role": "user", "content": "Hello"}]}).encode(),
+                              headers={"Origin": url,
+                                       "X-Vera-Session": service.session_token,
+                                       "Content-Type": "application/json"},
+                              method="POST")
+            with urlopen(request, timeout=3) as response:
+                self.assertEqual(response.status, 200)
+            self.assertEqual(LocalModel.requests[-1]["max_tokens"], 96)
+        finally:
+            service.shutdown()
+            service.server_close()
+            thread.join(timeout=1)
+
+    def test_invalid_owner_reply_budget_fails_before_listener(self):
+        for invalid in ("0", "513", "unbounded", "1000000", "-1", "1.5"):
+            with patch.dict("os.environ", {"VERA_MODEL_CHAT_MAX_TOKENS": invalid}):
+                with self.assertRaises(ValueError):
+                    make_server(port=0,
+                                ollama_url=f"http://127.0.0.1:{self.model.server_port}")
 
     def test_browser_session_and_local_status(self):
         status, _, raw = self.request("/api/session")
@@ -246,6 +326,26 @@ class InterfaceTests(unittest.TestCase):
         self.assertEqual(self.chat(messages=[{"role": "user", "content": "\ud800"}])[0], 400)
         self.assertEqual(LocalModel.requests, [])
 
+    def test_orphan_assistant_or_non_alternating_history_rejected_before_inference(self):
+        bad_sequences = (
+            ("assistant", "user"),
+            ("user", "user"),
+            ("user", "assistant", "assistant", "user"),
+            ("assistant", "user", "assistant", "user"),
+        )
+        for roles in bad_sequences:
+            with self.subTest(roles=roles):
+                entries = [{"role": role, "content": f"turn {index}"}
+                           for index, role in enumerate(roles)]
+                self.assertEqual(self.chat(messages=entries)[0], 400)
+        self.assertEqual(LocalModel.requests, [])
+
+        valid = [{"role": role, "content": f"turn {index}"}
+                 for index, role in enumerate(("user", "assistant", "user"))]
+        self.assertEqual(self.chat(messages=valid)[0], 200)
+        self.assertEqual([m["role"] for m in LocalModel.requests[-1]["messages"]],
+                         ["system", "user", "assistant", "user"])
+
     def test_only_explicit_loopback_targets_are_allowed(self):
         for endpoint in ("http://192.168.1.71:11434", "https://127.0.0.1:11434",
                          "http://127.0.0.1:11434/path", "http://127.0.0.1:11434/?x=1",
@@ -289,6 +389,30 @@ class InterfaceTests(unittest.TestCase):
         self.assertIn(b"conversationEpoch", js)
         self.assertIn(b"activeController?.abort()", js)
         self.assertFalse((Path(__file__).parents[1] / "interface" / "static" / "app.js").read_text().count("localStorage"))
+
+    def test_unverified_endpoint_is_not_presented_as_installed_vera(self):
+        """A /api/tags model ID is an assertion, not local-weight provenance."""
+        status, _, html = self.request("/")
+        self.assertEqual(status, 200)
+        status, _, js = self.request("/app.js")
+        self.assertEqual(status, 200)
+        for misleading in (
+            b"VERA / LOCAL MODEL", b"LOCAL MODEL AVAILABLE",
+            b"NO MODELS INSTALLED", b"installed model", b"LOCAL MODEL OFFLINE",
+            b"Start your local Ollama service",
+        ):
+            self.assertNotIn(misleading, js)
+        for misleading in (
+            b"Discovering installed models", b"Only installed models on this device",
+            b"connected to models on this device", b"INFERENCE NODE",
+            b"Checking local model", b"LOCAL INTELLIGENCE",
+        ):
+            self.assertNotIn(misleading, html)
+        self.assertIn(b"MODEL OUTPUT / UNVERIFIED", js)
+        self.assertIn(b"ENDPOINT RESPONDING / UNVERIFIED", js)
+        self.assertIn(b"advertised model ID", js)
+        self.assertIn(b"identity unverified", html)
+        self.assertIn(b"Checking model endpoint", html)
 
     def test_opt_in_vault_persists_only_explicit_user_transcript_after_restart(self):
         key = "operator-test-secret-0123456789abcdef"
@@ -342,6 +466,13 @@ class InterfaceTests(unittest.TestCase):
                                     value={"messages": transcript})
                 self.assertEqual((status, body["status"]), (200, "saved"))
                 self.assertEqual(body["revision"], 1)
+                classification = body["source_classification"]
+                self.assertEqual(classification["kind"], "user_conversation")
+                self.assertEqual(classification["consent"], "explicit_operator_save")
+                self.assertEqual(classification["retention"],
+                                 "until_explicit_operator_delete")
+                self.assertIs(classification["imported_knowledge"], False)
+                self.assertIs(classification["trained_weights_modified"], False)
             finally:
                 first.shutdown()
                 first.server_close()
@@ -354,6 +485,7 @@ class InterfaceTests(unittest.TestCase):
                 self.assertEqual(body["messages"], transcript)
                 self.assertEqual(body["revision"], 1)
                 self.assertIn("unverified", body["provenance"])
+                self.assertEqual(body["source_classification"], classification)
                 next_turn = transcript + [{"role": "user", "content": "Continue from the saved conversation."}]
                 status, reply = call(restarted, "/api/chat", method="POST", value={
                     "model": "vera-local:latest", "messages": next_turn})
@@ -364,11 +496,15 @@ class InterfaceTests(unittest.TestCase):
                 self.assertEqual(call(restarted, "/api/transcript", method="POST",
                     value={"messages": [{"role": "system", "content": "admin"}]})[0], 400)
                 self.assertEqual(call(restarted, "/api/transcript", method="POST",
+                    value={"messages": transcript,
+                           "source_classification": {"kind": "trained_weights"}})[0], 400)
+                self.assertEqual(call(restarted, "/api/transcript", method="POST",
                     value={"messages": transcript}, expected_revision=0)[0], 409)
                 self.assertEqual(call(restarted, "/api/transcript", method="DELETE",
                                       bearer="wrong")[0], 403)
                 removed = call(restarted, "/api/transcript", method="DELETE")[1]
                 self.assertEqual(removed["status"], "removed_from_active_vault")
+                self.assertEqual(removed["source_classification"], classification)
                 self.assertIs(removed["forensic_erasure"], False)
                 self.assertEqual(removed["revision"], 2)
                 self.assertEqual(call(restarted, "/api/transcript")[1]["status"], "empty")
@@ -461,11 +597,17 @@ class InterfaceTests(unittest.TestCase):
                 self.assertEqual(reply["reply"], "violet-finch-731")
                 self.assertEqual(reply["recalled_source"]["revision"], 1)
                 self.assertIn("operator", reply["recalled_source"]["provenance"])
+                self.assertEqual(reply["recalled_source"]["source_classification"]["kind"],
+                                 "user_conversation")
+                self.assertIs(reply["recalled_source"]["source_classification"]
+                              ["trained_weights_modified"], False)
                 upstream = LocalModel.requests[-1]
                 self.assertNotIn(key, json.dumps(upstream))
                 self.assertEqual([r["role"] for r in upstream["messages"]],
                                  ["system", "user"])
                 self.assertIn("UNVERIFIED OPERATOR-SAVED", upstream["messages"][1]["content"])
+                self.assertIn("kind=user_conversation", upstream["messages"][1]["content"])
+                self.assertIn("trained_weights_modified=false", upstream["messages"][1]["content"])
                 self.assertIn("violet-finch-731", upstream["messages"][1]["content"])
                 self.assertTrue(upstream["messages"][1]["content"].endswith(
                     "What is the operator's synthetic marker?"))

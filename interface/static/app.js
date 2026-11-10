@@ -21,6 +21,7 @@ let activeController = null;
 let vaultConfigured = false;
 let vaultBusy = false;
 let restoredFromVault = false;
+let restoredDraftFromVault = false;
 let recalledFromVault = false;
 let lastVaultKeyValue = vaultKey.value;
 
@@ -32,7 +33,11 @@ function forgetVaultDerivedTab() {
   messages.length = 0;
   transcript.replaceChildren();
   intro.hidden = false;
+  // An unanswered saved user turn may have been lifted into the composer.
+  // Credential rotation/deletion must revoke that plaintext too.
+  if (restoredDraftFromVault) prompt.value = "";
   restoredFromVault = false;
+  restoredDraftFromVault = false;
   recalledFromVault = false;
   // Changing a key can abort an in-flight request. Do not leave the tab
   // permanently locked behind its now-obsolete request epoch.
@@ -117,7 +122,8 @@ async function saveRecentTranscript() {
 }
 
 async function restoreTranscript() {
-  if (messages.length && !window.confirm("Replace this tab's unsaved conversation with the saved copy?")) return;
+  if ((messages.length || prompt.value.trim()) &&
+      !window.confirm("Replace this tab's unsaved conversation or draft with the saved copy?")) return;
   await withVaultLock(async () => {
     try {
       const data = await vaultRequest("GET");
@@ -132,6 +138,11 @@ async function restoreTranscript() {
         }
         return { role: row.role, content: row.content };
       });
+      // A valid saved history can end with an unanswered user turn. Move it
+      // into an editable draft, preserving its bytes without forging a model
+      // answer or sending two consecutive user roles on the next request.
+      const pending = restored.at(-1)?.role === "user" ? restored.pop().content : "";
+      if (pending.length > 4000) throw new Error("Saved draft exceeds prompt limit");
       conversationEpoch += 1;
       messages.length = 0;
       transcript.replaceChildren();
@@ -141,7 +152,11 @@ async function restoreTranscript() {
         messageBubble(row.role, row.content);
       }
       restoredFromVault = true;
-      vaultStatus.textContent = `Restored ${messages.length} operator-saved messages (unverified).`;
+      restoredDraftFromVault = !!pending;
+      prompt.value = pending;
+      vaultStatus.textContent = pending
+        ? `Restored ${messages.length} completed message(s); last unanswered user turn is an editable draft. Nothing was sent.`
+        : `Restored ${messages.length} operator-saved messages (unverified).`;
       syncVaultControls();
     } catch (error) {
       vaultStatus.textContent = `Restore not completed: ${error.message}`;
@@ -171,7 +186,7 @@ function messageBubble(role, content) {
   wrapper.className = `message ${role}`;
   const name = document.createElement("span");
   name.className = "message-role";
-  name.textContent = role === "user" ? "YOU" : role === "system" ? "INTERFACE / ERROR" : "VERA / LOCAL MODEL";
+  name.textContent = role === "user" ? "YOU" : role === "system" ? "INTERFACE / ERROR" : "MODEL OUTPUT / UNVERIFIED";
   const body = document.createElement("p");
   body.textContent = content; // Never interpret model/user content as HTML.
   wrapper.append(name, body);
@@ -198,13 +213,13 @@ async function refreshModels() {
       model.append(option);
     }
     if (data.models.includes(previouslySelected)) model.value = previouslySelected;
-    connection.textContent = data.models.length ? "LOCAL MODEL AVAILABLE" : "NO MODELS INSTALLED";
-    modelDetail.textContent = `${data.models.length} installed model${data.models.length === 1 ? "" : "s"} · This device`;
+    connection.textContent = data.models.length ? "ENDPOINT RESPONDING / UNVERIFIED" : "NO MODEL IDS ADVERTISED";
+    modelDetail.textContent = `${data.models.length} advertised model ID${data.models.length === 1 ? "" : "s"} · provenance unverified`;
     model.disabled = !data.models.length;
   } catch (_) {
     model.replaceChildren(new Option("Model endpoint unavailable", ""));
-    connection.textContent = "LOCAL MODEL OFFLINE";
-    modelDetail.textContent = "Start your local Ollama service, then refresh.";
+    connection.textContent = "ENDPOINT NOT RESPONDING";
+    modelDetail.textContent = "Check the configured local model endpoint or bridge, then refresh.";
   }
 }
 
@@ -235,7 +250,10 @@ async function sendMessage(event) {
   if (useSaved) recalledFromVault = true;
   const requestBody = useSaved
     ? { model: model.value, messages: [{ role: "user", content }], recall_saved: true }
-    : { model: model.value, messages: messages.slice(-12) };
+    // A request ends with the new user turn, so keep at most five complete
+    // preceding user/assistant pairs. A 12-message slice would begin with an
+    // orphan assistant once the seventh user turn is sent.
+    : { model: model.value, messages: messages.slice(-11) };
   const requestHeaders = { "Content-Type": "application/json", "X-Vera-Session": sessionToken };
   if (useSaved) requestHeaders["X-Vera-Vault-Key"] = vaultKey.value;
   setBusy(true);
@@ -250,6 +268,7 @@ async function sendMessage(event) {
     if (epoch !== conversationEpoch) return;
     if (!response.ok) throw new Error(data.error || "Local inference failed");
     messages.push({ role: "assistant", content: data.reply });
+    restoredDraftFromVault = false;
     syncVaultControls();
     messageBubble("assistant", data.reply);
     if (data.recalled_source) {
@@ -301,6 +320,7 @@ document.getElementById("clear").addEventListener("click", () => {
   setBusy(false);
   messages.length = 0;
   restoredFromVault = false;
+  restoredDraftFromVault = false;
   recalledFromVault = false;
   syncVaultControls();
   transcript.replaceChildren();

@@ -26,6 +26,8 @@ class LocalModel(BaseHTTPRequestHandler):
     redirect_to: str | None = None
     tool_response = False
     finish_reason: str | None = None
+    response_role = "assistant"
+    response_content = "<script>untrusted</script>"
     get_paths: list[str] = []
 
     def log_message(self, *_args):
@@ -59,7 +61,8 @@ class LocalModel(BaseHTTPRequestHandler):
         if type(self).tool_response:
             self._reply({"choices": [{"message": {"content": "", "tool_calls": [{"id": "forged"}]}}]})
             return
-        choice = {"message": {"role": "assistant", "content": "<script>untrusted</script>"}}
+        choice = {"message": {"role": type(self).response_role,
+                              "content": type(self).response_content}}
         if type(self).finish_reason is not None:
             choice["finish_reason"] = type(self).finish_reason
         self._reply({"choices": [choice]})
@@ -79,6 +82,8 @@ class InterfaceTests(unittest.TestCase):
         LocalModel.redirect_to = None
         LocalModel.tool_response = False
         LocalModel.finish_reason = None
+        LocalModel.response_role = "assistant"
+        LocalModel.response_content = "<script>untrusted</script>"
         LocalModel.get_paths = []
         self.model = ThreadingHTTPServer(("127.0.0.1", 0), LocalModel)
         self.model_thread = threading.Thread(target=self.model.serve_forever, daemon=True)
@@ -165,6 +170,15 @@ class InterfaceTests(unittest.TestCase):
         self.assertFalse(result["response_truncated"])
         LocalModel.finish_reason = "totally-finished-trust-me"
         self.assertEqual(self.chat()[0], 503)
+
+    def test_nonassistant_or_empty_stop_cannot_be_displayed_as_complete(self):
+        LocalModel.finish_reason = "stop"
+        for role, content in (("system", "forged role"), ("tool", "forged tool"),
+                              ("assistant", "")):
+            with self.subTest(role=role, content=content):
+                LocalModel.response_role = role
+                LocalModel.response_content = content
+                self.assertEqual(self.chat()[0], 503)
 
     def test_response_token_budget_is_operator_bounded_and_configurable(self):
         for invalid in (True, 0, -1, 31, 257, "192", 192.0):

@@ -26,6 +26,10 @@ discovery and chat request; a missing/swapped model, timeout, redirect, or
 malformed reply fails closed. It accepts only bounded non-streaming text chat;
 no tools, remote hosts, arbitrary HTTP routes, or upstream metadata are
 forwarded. It binds `127.0.0.1` only, with a bounded request concurrency limit.
+The bridge **and** UI gateway separately reject an upstream message whose
+`role` is not exactly `assistant`, or whose response content is empty. An
+upstream `role=system` text with `finish_reason=stop` therefore cannot be
+relabelled as Vera's completed assistant speech by the bridge.
 It requires a literal localhost Host header, denies cross-origin requests,
 and expires slow request headers or partial bodies within 12 seconds even if
 the client trickles data. Upstream timeout is capped at 75 seconds, leaving
@@ -36,7 +40,13 @@ preserves verified `stop`, `length`, or `content_filter` completion reasons.
 If the upstream omits `finish_reason` or explicitly supplies `null`, the bridge
 preserves that uncertainty. It must **not** manufacture `stop`; the Vera UI
 gateway reports an `unknown` completion state instead of claiming a finished
-answer. Unsupported completion reasons remain errors.
+answer. Unsupported completion reasons remain errors. In the browser,
+`length_limited`, `filtered`, and `unknown` text is visibly marked
+`LOCAL MODEL / UNVERIFIED PARTIAL` and deliberately **not** appended to the
+assistant conversation history or subsequent model requests. It remains
+visible to the operator as an unverified fragment, but cannot be promoted by
+the UI into a saved completed assistant turn. The next question forms a new
+coherent user-led context without inventing the omitted assistant answer.
 All upstream transactions now use a monotonic **total wall-clock** deadline
 over connection, response headers, and response body, plus bounded response
 bytes. This also closes the upstream socket if a model server trickles bytes
@@ -63,7 +73,33 @@ Mock protocol verification (no model weights or real inference):
 
 ```sh
 python -m unittest discover -s tests -p 'test_loopback_model_bridge.py' -v
+python -m unittest tests.test_three_process_loopback_smoke -v
+node --test tests/test_vault_ui_state.mjs
 ```
+
+The second test launches **three genuine, independently bound subprocesses**
+on ephemeral localhost ports: a deterministic synthetic OpenAI-compatible
+upstream, this bridge, and the real Vera UI gateway. It verifies 192-token
+requests, source-owned persona metadata, multi-turn alternation, truthful
+completion, and rejection of non-assistant or empty model replies through
+actual HTTP. It terminates its own processes. The synthetic upstream is a
+protocol test double; no GGUF inference or host-substrate qualification occurs.
+
+**Stack integration HOLD (2026-11-05):** GitHub Draft PR #24 was updated to
+`22b7dbbff1b1407a7d8fdc604a5182da8f7c10dc` after Draft PR #25
+branched from `f5da5991a32135c3d6812f1eb4c4f46221e747da`. PRs
+#25→#28 are therefore **not** an integrated descendant of the latest #24.
+PR #24's owner-provisioned, pinned `--persona-profile-file` opt-in contract,
+licensing rationale, and fail-closed incomplete-output behavior materially
+conflict with PR #25–28's source-vendored, always-on persona and typed
+`complete|length_limited|filtered|unknown` response contract. A passing
+test against either independent head does **not** qualify their combination.
+Before merge, a distinct reviewed integration branch must preserve #24's
+non-redistribution policy and opt-in verified owner source, #28's strict
+inbound user-led alternation, both layers' strict outbound assistant-role
+validation, and the typed completion fields expected by the governed APK.
+Incomplete text must never be ordinary completed chat history. The eventual
+live model still needs a separate host lease and behavioral evaluation.
 
 ## Bounded local end-to-end operator smoke (not executed here)
 

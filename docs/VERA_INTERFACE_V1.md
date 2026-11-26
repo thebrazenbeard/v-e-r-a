@@ -128,6 +128,20 @@ of page-level remnants; it does not make removal forensic erasure or control
 other retained copies.
 The server records save/remove event types without transcript text.
 
+**Typed provenance receipt:** Save, authenticated read, explicit model-time
+recall, and removal expose a `source_classification` receipt with
+`kind=user_conversation`, `origin=operator_saved_browser_transcript`,
+`consent=explicit_operator_save`, and
+`retention=until_explicit_operator_delete`. Its two negative flags state
+`imported_knowledge=false` and `trained_weights_modified=false`. These are
+claims about this narrow local operation, not attestations of person or model
+identity. Imported knowledge and neural weight updates are distinct source
+categories and **have no write path in this vault**. The existing audit
+`operator_save`/`operator_delete` transaction and ciphertext storage remain the
+single owner; this receipt creates no second ledger. No time-based expiration
+is implemented: the active row remains until deliberate operator deletion,
+subject to the documented backup/forensic-erasure limits.
+
 Restoration is a conscious operator action. Restored messages are unverified
 text and may be included by that operator in a later model request as ordinary
 conversation history; they are not new model weights, consciousness evidence,

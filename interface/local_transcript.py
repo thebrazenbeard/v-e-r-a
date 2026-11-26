@@ -24,6 +24,18 @@ from .rollback_anchor import RollbackAnchor
 _ENCRYPTED_PREFIX = "v1.aes256gcm."
 _ENCRYPTION_AAD = b"vera.local-transcript.slot-1.v1.revision."
 
+# These are three distinct data categories, not interchangeable forms of
+# memory. This vault accepts ONLY user-conversation text. Imported knowledge
+# and trained-weight changes require separately qualified owners and consent.
+_TRANSCRIPT_SOURCE = {
+    "kind": "user_conversation",
+    "origin": "operator_saved_browser_transcript",
+    "consent": "explicit_operator_save",
+    "retention": "until_explicit_operator_delete",
+    "imported_knowledge": False,
+    "trained_weights_modified": False,
+}
+
 
 class TranscriptConflict(Exception):
     """A write was based on a superseded vault revision."""
@@ -224,7 +236,8 @@ class TranscriptStore:
             db.execute("INSERT INTO audit (action, occurred_at) VALUES "
                        "('operator_save',strftime('%Y-%m-%dT%H:%M:%fZ','now'))")
             self._advance_anchor(db, revision)
-        return {"sha256": digest, "status": "saved", "revision": revision}
+        return {"sha256": digest, "status": "saved", "revision": revision,
+                "source_classification": dict(_TRANSCRIPT_SOURCE)}
 
     def read(self) -> dict:
         with self._lock, closing(self._connect()) as db:
@@ -240,7 +253,8 @@ class TranscriptStore:
         decoded = self._decrypt(body, revision).decode("utf-8")
         return {"status": "saved", "messages": json.loads(decoded), "revision": revision,
                 "sha256": digest, "saved_at": saved_at,
-                "provenance": "operator_saved_browser_transcript; unverified content"}
+                "provenance": "operator_saved_browser_transcript; unverified content",
+                "source_classification": dict(_TRANSCRIPT_SOURCE)}
 
     def delete(self, expected_revision: int) -> dict:
         with self._lock, closing(self._connect()) as db, db:
@@ -255,4 +269,4 @@ class TranscriptStore:
         # This removes the active row. SQLite freelists, journals/WAL, snapshots,
         # filesystem history, and backups may still retain bytes. NOT secure erase.
         return {"status": "removed_from_active_vault", "forensic_erasure": False,
-                "revision": revision}
+                "revision": revision, "source_classification": dict(_TRANSCRIPT_SOURCE)}

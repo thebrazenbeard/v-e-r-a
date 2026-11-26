@@ -263,6 +263,8 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]],
     try:
         choice = payload["choices"][0]
         msg = choice["message"]
+        if type(msg) is not dict or msg.get("role") != "assistant":
+            raise GatewayError("model returned a non-assistant message")
         if ("tool_calls" in msg or "function_call" in msg
                 or choice.get("finish_reason") == "tool_calls"):
             raise GatewayError("model attempted a tool response")
@@ -272,7 +274,7 @@ def _chat(model_root: str, model: str, messages: list[dict[str, str]],
         raise GatewayError("invalid model response") from exc
     if finish_reason not in (None, "stop", "length", "content_filter"):
         raise GatewayError("unrecognized model finish reason")
-    if type(answer) is not str or len(answer) > 16000:
+    if type(answer) is not str or not 0 < len(answer) <= 16000:
         raise GatewayError("invalid model text")
     try:
         answer.encode("utf-8")

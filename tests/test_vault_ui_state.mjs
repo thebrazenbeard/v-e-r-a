@@ -41,6 +41,7 @@ test('Delete clears transcript tainted by explicit recall before a normal Send',
   let savedTranscript = null;
   let holdRecall = false;
   let completeHeldRecall = null;
+  let completionStatus = "complete";
   const reply = (body) => ({ ok: true, json: async () => body });
   const fetch = async (path, options = {}) => {
     if (path === '/api/session') return reply({ token: 'session-test' });
@@ -61,13 +62,16 @@ test('Delete clears transcript tainted by explicit recall before a normal Send',
         if (holdRecall) {
           return new Promise((resolve) => {
             completeHeldRecall = () => resolve(reply({
-              reply: 'violet-finch-731', recalled_source: { revision: 1 },
+              reply: 'violet-finch-731', response_completion_status: 'complete',
+              recalled_source: { revision: 1 },
             }));
           });
         }
-        return reply({ reply: 'violet-finch-731', recalled_source: { revision: 1 } });
+        return reply({ reply: 'violet-finch-731',
+                       response_completion_status: 'complete',
+                       recalled_source: { revision: 1 } });
       }
-      return reply({ reply: 'UNKNOWN', response_completion_status: 'unknown' });
+      return reply({ reply: 'UNKNOWN', response_completion_status: completionStatus });
     }
     throw new Error(`Unexpected fetch path: ${path}`);
   };
@@ -102,12 +106,15 @@ test('Delete clears transcript tainted by explicit recall before a normal Send',
   assert.equal(byId('vault-recall').checked, false);
 
   byId('prompt').value = 'A fresh question after deletion';
+  completionStatus = "unknown";
   await vm.runInContext('sendMessage({ preventDefault() {} })', context);
   assert.equal(forwardedChats.length, 2);
   assert.match(byId('context-notice').textContent, /Model completion was not reported/);
+  assert.equal(vm.runInContext('messages.length', context), 1);
   assert.equal(forwardedChats[1].recall_saved, undefined);
   assert.deepEqual(JSON.parse(JSON.stringify(forwardedChats[1].messages)),
                    [{ role: 'user', content: 'A fresh question after deletion' }]);
+  completionStatus = "complete";
 
   // Recreate a saved entry and recall it to test nonempty-to-nonempty key
   // rotation independently of the deletion path above.
@@ -121,6 +128,7 @@ test('Delete clears transcript tainted by explicit recall before a normal Send',
   byId('vault-key').value = 'a-different-still-nonempty-key';
   byId('vault-key').listeners.get('input')();
   assert.equal(vm.runInContext('messages.length', context), 0);
+
   assert.equal(vm.runInContext('busy', context), false);
   assert.equal(vm.runInContext('recalledFromVault', context), false);
 
@@ -226,4 +234,33 @@ test('Delete clears transcript tainted by explicit recall before a normal Send',
   assert.equal(forwardedChats.length, beforeOversized);
   assert.equal(byId('prompt').value, oversizedDraft);
   assert.match(byId('context-notice').textContent, /4,000/);
+
+  // An incomplete or filtered response may be visible, but is never
+  // appended as ordinary assistant history nor included on a future Send.
+  for (const kind of ['length_limited', 'filtered', 'unknown']) {
+    byId('clear').listeners.get('click')();
+    completionStatus = kind;
+    byId('prompt').value = 'Question before ' + kind;
+    await vm.runInContext('sendMessage({ preventDefault() {} })', context);
+    assert.equal(vm.runInContext('messages.length', context), 1);
+    assert.equal(byId('transcript').children.at(-1).children[0].textContent,
+                 'LOCAL MODEL / UNVERIFIED PARTIAL');
+    assert.match(byId('context-notice').textContent, /fragment will not be included/);
+    completionStatus = "complete";
+    byId('prompt').value = 'Corrected follow-up ' + kind;
+    await vm.runInContext('sendMessage({ preventDefault() {} })', context);
+    const sent = forwardedChats.at(-1).messages;
+    assert.deepEqual(JSON.parse(JSON.stringify(sent)), [
+      { role: 'user', content: 'Corrected follow-up ' + kind },
+    ]);
+    assert.equal(vm.runInContext('messages.length', context), 2,
+                 'the unanswered old user turn cannot remain in stored chat history');
+    byId('prompt').value = 'Third question ' + kind;
+    await vm.runInContext('sendMessage({ preventDefault() {} })', context);
+    assert.deepEqual(JSON.parse(JSON.stringify(forwardedChats.at(-1).messages)), [
+      { role: 'user', content: 'Corrected follow-up ' + kind },
+      { role: 'assistant', content: 'UNKNOWN' },
+      { role: 'user', content: 'Third question ' + kind },
+    ]);
+  }
 });
